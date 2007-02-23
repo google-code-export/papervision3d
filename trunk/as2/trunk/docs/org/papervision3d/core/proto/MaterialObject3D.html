@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.papervision3d.core.proto.MaterialObject3D - Papervision3D AS2</title><link href="../../../../style.css" rel="stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.papervision3d.core.proto" rel="up"/><link href="../../../../org/papervision3d/core/proto/SceneObject3D.html" title="Class org.papervision3d.core.proto.SceneObject3D" rel="prev"/><link href="../../../../org/papervision3d/core/proto/DisplayObject3D.html" title="Class org.papervision3d.core.proto.DisplayObject3D" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/><meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type"/></head><body><ul class="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of Papervision3D AS2">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.papervision3d.core.proto">Package</a></li><li><span class="nav_current">Class</span></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members">Index</a></li></ul><h1>Class org.papervision3d.core.proto.MaterialObject3D</h1><pre class="type_hierachy"><strong>org.papervision3d.core.proto.MaterialObject3D</strong></pre><div class="type_description"><h2>Description</h2><p>
+ The MaterialObject3D class collects data about how objects appear when rendered.
+
+ A material is data that you assign to objects or faces, so that they appear a certain way when rendered. Materials affect the line and fill colors.
+
+ Materials create greater realism in a scene. A material describes how an object reflects or transmits light. You assign materials to individual objects or a selection of faces; a single object can contain different materials.
+
+</p></div><div class="field_index"><h2>Field Index</h2><a href="#animated" title="public animated:Boolean">animated</a>, <a href="#bitmap" title="public bitmap:BitmapData">bitmap</a>, <a href="#DEFAULT" title="static public DEFAULT:MaterialObject3D">DEFAULT</a>, <a href="#DEFAULT_COLOR" title="static public DEFAULT_COLOR:Number">DEFAULT_COLOR</a>, <a href="#fillAlpha" title="public fillAlpha:Number">fillAlpha</a>, <a href="#fillColor" title="public fillColor:Number">fillColor</a>, <a href="#invisible" title="public invisible:Boolean">invisible</a>, <a href="#lineAlpha" title="public lineAlpha:Number">lineAlpha</a>, <a href="#lineColor" title="public lineColor:Number">lineColor</a>, <a href="#oneSide" title="public oneSide:Boolean">oneSide</a>, <a href="#scene" title="public scene:SceneObject3D">scene</a>, <a href="#smooth" title="public smooth:Boolean">smooth</a></div><div class="method_index"><h2>Method Index</h2><p><code>new <a href="#method_MaterialObject3D" title="public function MaterialObject3D(initObject:Object)">MaterialObject3D()</a></code></p><a href="#method_toString" title="public function toString():String">toString()</a>, <a href="#method_updateBitmap" title="public function updateBitmap()">updateBitmap()</a></div><div class="constructor_detail_list"><h2>Constructor Detail</h2><div class="method_details"><a name="method_MaterialObject3D"></a><h3>MaterialObject3D</h3><code class="method_synopsis">public function <strong class="method_name">MaterialObject3D</strong>(initObject:<span class="unresolved_type_name">Object</span>)</code><div class="method_info"><p>
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""></table></div></div></div><div class="field_detail_list"><h2>Field Detail</h2><a name="bitmap"></a><h3>bitmap</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">bitmap</strong>:<span class="unresolved_type_name">BitmapData</span></code><div class="field_info">
+ A transparent or opaque BitmapData texture.
+	</div></div><a name="animated"></a><h3>animated</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">animated</strong>:<span class="unresolved_type_name">Boolean</span></code><div class="field_info">
+ A Boolean value that determines whether the texture is animated.
+
+ If set, the material must be push()ed into the scene so the BitmapData texture can be updated when rendering. The default value is false, which is sligtly faster.
+	</div></div><a name="smooth"></a><h3>smooth</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">smooth</strong>:<span class="unresolved_type_name">Boolean</span></code><div class="field_info">
+ A Boolean value that determines whether the BitmapData texture is smoothed when rendered.
+	</div></div><a name="lineColor"></a><h3>lineColor</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">lineColor</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ A RGB color value to draw the triangle's outline.
+	</div></div><a name="lineAlpha"></a><h3>lineAlpha</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">lineAlpha</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ An 8-bit alpha value for the triangle's outline. If zero, no outline is drawn.
+	</div></div><a name="fillColor"></a><h3>fillColor</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">fillColor</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ A RGB color value to fill the triangle with. Only used if no texture is provided.
+	</div></div><a name="fillAlpha"></a><h3>fillAlpha</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">fillAlpha</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ An 8-bit alpha value fill the triangle with. If this value is zero and no texture is provided or is undefined, a fill is not created.
+	</div></div><a name="oneSide"></a><h3>oneSide</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">oneSide</strong>:<span class="unresolved_type_name">Boolean</span></code><div class="field_info">
+ A Boolean value that indicates whether the triangle is single sided.
+	</div></div><a name="invisible"></a><h3>invisible</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">invisible</strong>:<span class="unresolved_type_name">Boolean</span></code><div class="field_info">
+ A Boolean value that indicates whether the triangle is invisible (not drawn).
+	</div></div><a name="scene"></a><h3>scene</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">scene</strong>:<a href="../../../../org/papervision3d/core/proto/SceneObject3D.html" class="class_name" title="Class org.papervision3d.core.proto.SceneObject3D">SceneObject3D</a></code><div class="field_info">
+ The scene where the object belongs.
+	</div></div><a name="DEFAULT_COLOR"></a><h3>DEFAULT_COLOR</h3><div class="field_details"><code class="field_synopsis">static public <strong class="field_name">DEFAULT_COLOR</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ Default color used for debug.
+	</div></div><a name="DEFAULT"></a><h3>DEFAULT</h3><div class="field_details"><code class="field_synopsis">static public <strong class="field_name">DEFAULT</strong>:<a href="../../../../org/papervision3d/core/proto/MaterialObject3D.html" class="class_name" title="Class org.papervision3d.core.proto.MaterialObject3D">MaterialObject3D</a> <em class="read_write_only">[Read Only]</em></code><div class="field_info">
+ Returns a MaterialObject3D object with the default magenta wireframe values.
+
+ </div></div></div><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="method_updateBitmap"></a><h3>updateBitmap</h3><code class="method_synopsis">public function <strong class="method_name">updateBitmap</strong>()</code><div class="method_info"><p>
+ Updates animated MovieClip bitmap.
+
+ Draws the current MovieClip image onto bitmap.
+	</p></div></div><div class="method_details"><a name="method_toString"></a><h3>toString</h3><code class="method_synopsis">public function <strong class="method_name">toString</strong>():<span class="unresolved_type_name">String</span></code><div class="method_info"><p>
+ Returns a string value representing the material properties in the specified Material3D object.
+
+ </p><h4>Return</h4><p class="extra_info">	A string.
+	</p></div></div></div><div class="footer"><span>Generated by </span><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a><span> FlashDevelop edition.</span></div></body></html>

@@ -1,0 +1,9 @@
+org.papervision3d.core
+org.papervision3d.materials
+org.papervision3d.core.proto
+org.papervision3d.objects
+org.papervision3d
+org.papervision3d.core.geom
+org.papervision3d.scenes
+org.papervision3d.cameras
+org.papervision3d.core.utils
