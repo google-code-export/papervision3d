@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.papervision3d.core.proto.SceneObject3D - Papervision3D AS2</title><link href="../../../../style.css" rel="stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.papervision3d.core.proto" rel="up"/><link href="../../../../org/papervision3d/core/utils/AssetLibrary.html" title="Class org.papervision3d.core.utils.AssetLibrary" rel="prev"/><link href="../../../../org/papervision3d/core/proto/MaterialObject3D.html" title="Class org.papervision3d.core.proto.MaterialObject3D" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/><meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type"/></head><body><ul class="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of Papervision3D AS2">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.papervision3d.core.proto">Package</a></li><li><span class="nav_current">Class</span></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members">Index</a></li></ul><h1>Class org.papervision3d.core.proto.SceneObject3D</h1><pre class="type_hierachy"><strong>org.papervision3d.core.proto.SceneObject3D</strong></pre><div class="type_description"><h2>Description</h2><p>
+ Scene3D
+ The Scene3D class lets you create, manipulate and display 3D objects.
+
+</p></div><div class="field_index"><h2>Field Index</h2><a href="#container" title="public container:MovieClip">container</a>, <a href="#materials" title="public materials:Array">materials</a>, <a href="#objects" title="public objects:Array">objects</a>, <a href="#stats" title="public stats:Object">stats</a></div><div class="method_index"><h2>Method Index</h2><p><code>new <a href="#method_SceneObject3D" title="public function SceneObject3D(container:MovieClip)">SceneObject3D()</a></code></p><a href="#method_push" title="public function push(sceneElement)">push()</a>, <a href="#method_renderCamera" title="public function renderCamera(camera:CameraObject3D)">renderCamera()</a></div><div class="constructor_detail_list"><h2>Constructor Detail</h2><div class="method_details"><a name="method_SceneObject3D"></a><h3>SceneObject3D</h3><code class="method_synopsis">public function <strong class="method_name">SceneObject3D</strong>(container:<span class="unresolved_type_name">MovieClip</span>)</code><div class="method_info"><p>
+ The Papervision3D class lets you create, manipulate and display 3D objects.
+
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>container</code></td><td>The MovieClip that you draw into when rendering. If not defined, each object must have it's own private container.
+
+	</td></tr></table></div></div></div><div class="field_detail_list"><h2>Field Detail</h2><a name="container"></a><h3>container</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">container</strong>:<span class="unresolved_type_name">MovieClip</span></code><div class="field_info">
+ The MovieClip that you draw into when rendering.
+	</div></div><a name="stats"></a><h3>stats</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">stats</strong>:<span class="unresolved_type_name">Object</span></code><div class="field_info">
+ An object that contains total and current statistics.
+ <ul>
+ <li>points</li>
+ <li>polys</li>
+ <li>triangles</li>
+ <li>performance<li>
+ <li>rendered<li>
+ </ul>
+	</div></div><a name="objects"></a><h3>objects</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">objects</strong>:<span class="unresolved_type_name">Array</span></code><div class="field_info">
+ It contains a list of DisplayObject3D objects in a scene.
+	</div></div><a name="materials"></a><h3>materials</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">materials</strong>:<span class="unresolved_type_name">Array</span></code><div class="field_info">
+ It contains a list of Material3D materials in a scene.
+	</div></div></div><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="method_push"></a><h3>push</h3><code class="method_synopsis">public function <strong class="method_name">push</strong>(sceneElement)</code><div class="method_info"><p>
+ Includes an DisplayObject3D or a Material3D element in the scene.
+
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>sceneElement</code></td><td>Element to add.
+	</td></tr></table></div></div><div class="method_details"><a name="method_renderCamera"></a><h3>renderCamera</h3><code class="method_synopsis">public function <strong class="method_name">renderCamera</strong>(camera:<a href="../../../../org/papervision3d/core/proto/CameraObject3D.html" class="class_name" title="Class org.papervision3d.core.proto.CameraObject3D">CameraObject3D</a>)</code><div class="method_info"><p>
+ Generates an image from the camera's point of view and the active models of the scene.
+
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>camera</code></td><td>Camera3D object to render from.
+	</td></tr></table></div></div></div><div class="footer"><span>Generated by </span><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a><span> FlashDevelop edition.</span></div></body></html>

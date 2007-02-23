@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>org.papervision3d.core.proto.DisplayObject3D - Papervision3D AS2</title><link href="../../../../style.css" rel="stylesheet" type="text/css"/><link href="../../../../overview-summary.html" title="Overview" rel="top"/><link href="package-summary.html" title="Package org.papervision3d.core.proto" rel="up"/><link href="../../../../org/papervision3d/core/proto/MaterialObject3D.html" title="Class org.papervision3d.core.proto.MaterialObject3D" rel="prev"/><link href="../../../../org/papervision3d/core/proto/CameraObject3D.html" title="Class org.papervision3d.core.proto.CameraObject3D" rel="next"/><meta name="generator" content="http://www.badgers-in-foil.co.uk/projects/as2api/"/><meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type"/></head><body><ul class="main_nav"><li><a href="../../../../overview-summary.html" title="Overview of Papervision3D AS2">Overview</a></li><li><a href="package-summary.html" title="Overview of package org.papervision3d.core.proto">Package</a></li><li><span class="nav_current">Class</span></li><li><a href="../../../../index-files/index.html" title="Alpabetical index of types and members">Index</a></li></ul><h1>Class org.papervision3d.core.proto.DisplayObject3D</h1><pre class="type_hierachy"><strong>org.papervision3d.core.proto.DisplayObject3D</strong></pre><div class="type_description"><h2>Description</h2><p>
+ The DisplayObject3D class is at the root of the Papervision3D object class hierarchy.
+ <p/>
+ The DisplayObject3D class is the base class for all objects, not only those that can be rendered, but also the camera and its target. The Papervision3D class manages all objects displayed.
+ <p/>
+ The DisplayObject3D class supports basic functionality like the x, y and z position of an object, as well as rotationX, rotationY, rotationZ. It also supports more advanced properties of the object such as visible, and scaleX, scaleY and scaleZ. [TODO: transformation matrix.]
+ <p/>
+ DisplayObject3D is not an abstract base class; therefore, you can call DisplayObject3D directly. Invoking new DisplayObject() creates a new empty object in 3D space, like when you createEmptyMovieClip(). All 3D display objects inherit from the DisplayObject class. You can create a custom subclass of the DisplayObject class, or also extend a subclass of the DisplayObject class.
+ <p/>
+ Some properties previously used in the ActionScript 1.0 and 2.0 MovieClip classes (such as _x, _y, _xscale, _yscale and others) have equivalents in the DisplayObject3D class that are renamed as in ActionScript 3.0, so that they no longer begin with the underscore (_) character.
+ <p/>
+ It serves as the prototype for classes that extend the DisplayObject3D class. These classes are in org.papervision3D.objects package.
+
+</p></div><div class="field_index"><h2>Field Index</h2><a href="#container" title="public container:MovieClip">container</a>, <a href="#DEGREES" title="static public DEGREES:Boolean">DEGREES</a>, <a href="#extra" title="public extra:Object">extra</a>, <a href="#PERCENT" title="static public PERCENT:Boolean">PERCENT</a>, <a href="#rotationX" title="public rotationX:Number">rotationX</a>, <a href="#rotationY" title="public rotationY:Number">rotationY</a>, <a href="#rotationZ" title="public rotationZ:Number">rotationZ</a>, <a href="#scaleX" title="public scaleX:Number">scaleX</a>, <a href="#scaleY" title="public scaleY:Number">scaleY</a>, <a href="#scaleZ" title="public scaleZ:Number">scaleZ</a>, <a href="#scene" title="public scene:SceneObject3D">scene</a>, <a href="#screenZ" title="public screenZ:Number">screenZ</a>, <a href="#visible" title="public visible:Boolean">visible</a>, <a href="#x" title="public x:Number">x</a>, <a href="#y" title="public y:Number">y</a>, <a href="#z" title="public z:Number">z</a>, <a href="#ZERO" title="static public ZERO:DisplayObject3D">ZERO</a></div><div class="method_index"><h2>Method Index</h2><p><code>new <a href="#method_DisplayObject3D" title="public function DisplayObject3D(initObject:Object)">DisplayObject3D()</a></code></p><a href="#method_project" title="public function project(camera:CameraObject3D)">project()</a>, <a href="#method_render" title="public function render(scene:SceneObject3D)">render()</a>, <a href="#method_toString" title="public function toString():String">toString()</a></div><div class="constructor_detail_list"><h2>Constructor Detail</h2><div class="method_details"><a name="method_DisplayObject3D"></a><h3>DisplayObject3D</h3><code class="method_synopsis">public function <strong class="method_name">DisplayObject3D</strong>(initObject:<span class="unresolved_type_name">Object</span>)</code><div class="method_info"><p>
+ The DisplayObject3D constructor lets you create generic 3D objects.
+
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>initObject</code></td><td>[optional] - An object that contains user defined properties with which to populate the newly created DisplayObject3D.
+
+ <ul>
+ <li><b>x</b></b>: An Number that sets the X coordinate of a object relative to the scene coordinate system.</li>
+ <p/>
+ <li><b>y</b>: An Number that sets the Y coordinate of a object relative to the scene coordinate system.</li>
+ <p/>
+ <li><b>z</b>: An Number that sets the Z coordinate of a object relative to the scene coordinate system.</li>
+ <p/>
+ <li><b>rotationX</b>: Specifies the rotation around the X axis from its original orientation.</li>
+ <p/>
+ <li><b>rotationY</b>: Specifies the rotation around the Y axis from its original orientation.</li>
+ <p/>
+ <li><b>rotationZ</b>: Specifies the rotation around the Z axis from its original orientation.</li>
+ <p/>
+ <li><b>scaleX</b>: Sets the scale along the local X axis as applied from the registration point of the object.</li>
+ <p/>
+ <li><b>scaleY</b>: Sets the scale along the local Y axis as applied from the registration point of the object.</li>
+ <p/>
+ <li><b>scaleZ</b>: Sets the scale along the local Z axis as applied from the registration point of the object.</li>
+ <p/>
+ <li><b>visible</b>: Whether or not the display object is visible.
+ <p/>
+ A Boolean value that indicates whether the object is projected, transformed and rendered. A value of false will effectively ignore the object. The default value is true.</li>
+ <p/>
+ <li><b>extra</b>: An object that contains user defined properties.
+ <p/>
+ All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.</li>
+ </ul>
+	</td></tr></table></div></div></div><div class="field_detail_list"><h2>Field Detail</h2><a name="DEGREES"></a><h3>DEGREES</h3><div class="field_details"><code class="field_synopsis">static public <strong class="field_name">DEGREES</strong>:<span class="unresolved_type_name">Boolean</span></code><div class="field_info">
+ Indicates if the angles are expressed in degrees (true) or radians (false). The default value is true, degrees.
+	</div></div><a name="PERCENT"></a><h3>PERCENT</h3><div class="field_details"><code class="field_synopsis">static public <strong class="field_name">PERCENT</strong>:<span class="unresolved_type_name">Boolean</span></code><div class="field_info">
+ Indicates if the scales are expressed in percent (true) or from zero to one (false). The default value is false, i.e. units.
+	</div></div><a name="x"></a><h3>x</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">x</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ An Number that sets the X coordinate of a object relative to the scene coordinate system.
+	</div></div><a name="y"></a><h3>y</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">y</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ An Number that sets the Y coordinate of a object relative to the scene coordinates.
+	</div></div><a name="z"></a><h3>z</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">z</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ An Number that sets the Z coordinate of a object relative to the scene coordinates.
+	</div></div><a name="rotationX"></a><h3>rotationX</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">rotationX</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ Specifies the rotation around the X axis from its original orientation.
+	</div></div><a name="rotationY"></a><h3>rotationY</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">rotationY</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ Specifies the rotation around the Y axis from its original orientation.
+	</div></div><a name="rotationZ"></a><h3>rotationZ</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">rotationZ</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ Specifies the rotation around the Z axis from its original orientation.
+	</div></div><a name="scaleX"></a><h3>scaleX</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">scaleX</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ Sets the scale along the local X axis as applied from the registration point of the object.
+	</div></div><a name="scaleY"></a><h3>scaleY</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">scaleY</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ Sets the scale along the local Y axis as applied from the registration point of the object.
+	</div></div><a name="scaleZ"></a><h3>scaleZ</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">scaleZ</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ Sets the scale along the local Z axis as applied from the registration point of the object.
+	</div></div><a name="visible"></a><h3>visible</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">visible</strong>:<span class="unresolved_type_name">Boolean</span></code><div class="field_info">
+ Whether or not the display object is visible.
+ <p/>
+ A Boolean value that indicates whether the object is projected, transformed and rendered. A value of false will effectively ignore the object. The default value is true.
+	</div></div><a name="extra"></a><h3>extra</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">extra</strong>:<span class="unresolved_type_name">Object</span></code><div class="field_info">
+ An object that contains user defined properties.
+ <p/>
+ All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
+	</div></div><a name="container"></a><h3>container</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">container</strong>:<span class="unresolved_type_name">MovieClip</span></code><div class="field_info">
+ The MovieClip that you draw into when rendering. Use only when the object is rendered in its own unique MovieClip.
+	</div></div><a name="scene"></a><h3>scene</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">scene</strong>:<a href="../../../../org/papervision3d/core/proto/SceneObject3D.html" class="class_name" title="Class org.papervision3d.core.proto.SceneObject3D">SceneObject3D</a></code><div class="field_info">
+ The scene where the object belongs.
+	</div></div><a name="ZERO"></a><h3>ZERO</h3><div class="field_details"><code class="field_synopsis">static public <strong class="field_name">ZERO</strong>:<a href="../../../../org/papervision3d/core/proto/DisplayObject3D.html" class="class_name" title="Class org.papervision3d.core.proto.DisplayObject3D">DisplayObject3D</a> <em class="read_write_only">[Read Only]</em></code><div class="field_info">
+ Returns a DiplayObject3D object positioned in the center of the 3D coordinate system (0, 0 ,0).
+	</div></div><a name="screenZ"></a><h3>screenZ</h3><div class="field_details"><code class="field_synopsis">public <strong class="field_name">screenZ</strong>:<span class="unresolved_type_name">Number</span></code><div class="field_info">
+ [internal-use] The depth (z coordinate) of the transformed object's center. Also known as the distance from the camera. Used internally for z-sorting.
+	</div></div></div><div class="method_detail_list"><h2>Method Detail</h2><div class="method_details alt_row"><a name="method_project"></a><h3>project</h3><code class="method_synopsis">public function <strong class="method_name">project</strong>(camera:<a href="../../../../org/papervision3d/core/proto/CameraObject3D.html" class="class_name" title="Class org.papervision3d.core.proto.CameraObject3D">CameraObject3D</a>)</code><div class="method_info"><p>
+ Projects three dimensional coordinates onto a two dimensional plane to simulate the relationship of the camera to subject.
+ <p/>
+ This is the first step in the process of representing three dimensional shapes two dimensionally.
+
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>camera</code></td><td>Camera3D object to render from.
+	</td></tr></table></div></div><div class="method_details"><a name="method_render"></a><h3>render</h3><code class="method_synopsis">public function <strong class="method_name">render</strong>(scene:<a href="../../../../org/papervision3d/core/proto/SceneObject3D.html" class="class_name" title="Class org.papervision3d.core.proto.SceneObject3D">SceneObject3D</a>)</code><div class="method_info"><p>
+ Draws the object into the MovieClip container.
+
+ </p><h4>Parameters</h4><table class="arguments extra_info" summary=""><tr><td><code>scene</code></td><td>A Papervision3D object that contains the current scene.
+	</td></tr></table></div></div><div class="method_details alt_row"><a name="method_toString"></a><h3>toString</h3><code class="method_synopsis">public function <strong class="method_name">toString</strong>():<span class="unresolved_type_name">String</span></code><div class="method_info"><p>
+ Returns a string value representing the three-dimensional values in the specified Number3D object.
+
+ </p><h4>Return</h4><p class="extra_info">	A string.
+	</p></div></div></div><div class="footer"><span>Generated by </span><a href="http://www.badgers-in-foil.co.uk/projects/as2api/" title="ActionScript 2 API Documentation Generator">as2api</a><span> FlashDevelop edition.</span></div></body></html>
