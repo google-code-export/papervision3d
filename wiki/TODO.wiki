@@ -1,37 +1,45 @@
 #summary The list of things that need to be done.
 
-== Scenes ==
-* Layers.
-
-* Containers on children.
-
-== Objects ==
-* 3DS and MD2 object formats.
-
-* Polygon support and non bitmap rendering.
-
-* Texture interaction.
-
-* Tessellation.
-
-* Extrude, revolution.
-
-== Materials ==
-* renderTriangle and renderPoly in materials.
-
-* Ralph materials.
-
-== COLLADA ==
-* Integrate Tim's classes.
-
-== Tween animation ==
-* Test Tweener.
-
-* Check out Jim's 3D splines.
-
-* Parse COLLADA tweens.
-
 == RC1 ==
-* Scale.
+=== Bugs ===
+ * *Scale.* Fix private scale values. constrainedScale read only property, to maintain aspect ratio. Keep scaling on lookAt.
+ * *Animated materials.* Currently ignored. Create get/set animated methods. Add reference to the scene.
 
-* animated materials.
+=== Review ===
+ * *License.* Off the header and into a separate file. Update copyright info.
+ * *Javadocs.* Review also comments.
+
+== Post release ==
+=== Scenes ===
+ * *Layers.* Numbered layers that are rendered in separate containers. Scene.container should contain layers, and inside of those the individual object containers.
+ * *Containers on children.* 
+ * *Post processing loop.* Executed after the render loop. Used for effects such as depth shading, depth of field blur and near plane alpha.
+ * *Face culling.* Based on its normal.
+
+=== Cameras ===
+ * *Field of view.* Property to adjust zoom and focus at once.
+ * *Viewport.* With fustrum clipping at object and face level.
+ * *Optical conversion.* To translate common camera settings.
+
+=== Objects ===
+ * *Tim's COLLADA* Integrate his classes.
+ * *Phil's object formats* 3DS and MD2. Check MD2 for animation.1
+ * *Polygon support* For non bitmap rendering.
+ * *Face and vertex normals.* And UV sets.
+ * *Texture interaction.* Covert screen to texture coordinates. Translate object events.
+ * *Tessellation.* Review Alexander's work and incorporate into the engine.
+ * *Extrude, revolution.* Check Joa and Sole's work.
+
+=== Materials ===
+ * *renderTriangle and renderPoly* Rendering now inside the materials to prepare for Ralph's materials.
+ * *Ralph materials.* Flat, phong, bump mapping, environment mapping...
+
+=== Tween animation ===
+ * *Test Tweener.* In real production.
+ * *Jim's 3D splines.* Check out his work.
+ * *Parse COLLADA tweens.* From Tim's classes.
+
+=== Skeleton animation ===
+ * *Check out Tim and Jim's work.*
+
+
