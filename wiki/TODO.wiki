@@ -6,9 +6,13 @@
 
 == Objects ==
 * 3DS and MD2 object formats.
+
 * Polygon support and non bitmap rendering.
+
 * Texture interaction.
+
 * Tessellation.
+
 * Extrude, revolution.
 
 == Materials ==
