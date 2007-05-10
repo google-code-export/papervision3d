@@ -1,28 +1,28 @@
 #summary The list of things that need to be done.
 
 == Scenes ==
-Layers.
-Containers on children.
+* Layers.
+* Containers on children.
 
 == Objects ==
-3DS and MD2 object formats.
-Polygons.
-Texture interaction.
-Tessellation.
-Extrude, revolution.
+* 3DS and MD2 object formats.
+* Polygon support and non bitmap rendering.
+* Texture interaction.
+* Tessellation.
+* Extrude, revolution.
 
 == Materials ==
-renderTriangle and renderPoly in materials.
-Ralph materials.
+* renderTriangle and renderPoly in materials.
+* Ralph materials.
 
 == COLLADA ==
-Integrate Tim's classes.
+* Integrate Tim's classes.
 
 == Tween animation ==
-Test Tweener.
-Check out Jim's 3D splines.
-Parse COLLADA tweens.
+* Test Tweener.
+* Check out Jim's 3D splines.
+* Parse COLLADA tweens.
 
 == RC1 ==
-Scale.
-animated materials.
+* Scale.
+* animated materials.
