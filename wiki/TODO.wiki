@@ -1,11 +1,28 @@
 #summary The list of things that need to be done.
 
-= Ralph =
-New materials.
-
-= R&D =
+== Scenes ==
+Layers.
 Containers on children.
+
+== Objects ==
+3DS and MD2 object formats.
+Polygons.
 Texture interaction.
 Tessellation.
+Extrude, revolution.
 
-= RC1 =
+== Materials ==
+renderTriangle and renderPoly in materials.
+Ralph materials.
+
+== COLLADA ==
+Integrate Tim's classes.
+
+== Tween animation ==
+Test Tweener.
+Check out Jim's 3D splines.
+Parse COLLADA tweens.
+
+== RC1 ==
+Scale.
+animated materials.
