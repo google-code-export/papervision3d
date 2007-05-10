@@ -2,6 +2,7 @@
 
 == Scenes ==
 * Layers.
+
 * Containers on children.
 
 == Objects ==
@@ -17,6 +18,7 @@
 
 == Materials ==
 * renderTriangle and renderPoly in materials.
+
 * Ralph materials.
 
 == COLLADA ==
@@ -24,9 +26,12 @@
 
 == Tween animation ==
 * Test Tweener.
+
 * Check out Jim's 3D splines.
+
 * Parse COLLADA tweens.
 
 == RC1 ==
 * Scale.
+
 * animated materials.
