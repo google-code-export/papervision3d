@@ -3,7 +3,6 @@
 == RC1 ==
 === Bugs ===
  * *Scale.* Fix private scale values. constrainedScale read only property, to maintain aspect ratio. Keep scaling on lookAt.
- * *Animated materials.* Currently ignored. Create get/set animated methods. Add reference to the scene.
 
 === Review ===
  * *License.* Off the header and into a separate file. Update copyright info.
@@ -41,5 +40,4 @@
 
 === Skeleton animation ===
  * *Check out Tim and Jim's work.*
-
 
