@@ -8,6 +8,9 @@
  * *License.* Off the header and into a separate file. Update copyright info.
  * *Javadocs.* Review also comments.
 
+=== Review contributions ===
+ * *Phil's object formats* 3DS and MD2. Check MD2 for animation.
+
 == Post release ==
 === Scenes ===
  * *Layers.* Numbered layers that are rendered in separate containers. Scene.container should contain layers, and inside of those the individual object containers.
@@ -22,7 +25,6 @@
 
 === Objects ===
  * *Tim's COLLADA* Integrate his classes.
- * *Phil's object formats* 3DS and MD2. Check MD2 for animation.1
  * *Polygon support* For non bitmap rendering.
  * *Face and vertex normals.* And UV sets.
  * *Texture interaction.* Covert screen to texture coordinates. Translate object events.
