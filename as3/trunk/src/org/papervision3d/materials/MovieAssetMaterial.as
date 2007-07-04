@@ -40,7 +40,7 @@ package org.papervision3d.materials
 import flash.display.MovieClip;
 import flash.display.BitmapData;
 import flash.utils.getDefinitionByName;
-import flash.utils.Dictionary;
+//import flash.utils.Dictionary;
 
 
 /**
@@ -76,7 +76,6 @@ public class MovieAssetMaterial extends MovieMaterial
 	protected override function createBitmap( asset:* ):BitmapData
 	{
 		// Remove previous bitmap
-
 		if( this._texture != asset )
 		{
 			_count[this._texture]--;
@@ -84,7 +83,7 @@ public class MovieAssetMaterial extends MovieMaterial
 			var prevMovie:MovieClip = _library[this._texture];
 
 			if( prevMovie && _count[this._texture] == 0 )
-				prevMovie.removeMovieClip();
+				_library[this._texture] = null;
 		}
 
 		// Retrieve from library or...
@@ -107,7 +106,7 @@ public class MovieAssetMaterial extends MovieMaterial
 		return super.createBitmap( movie );
 	}
 
-	static private var _library :Dictionary = new Dictionary();
-	static private var _count   :Dictionary = new Dictionary();
+	static private var _library :Object = new Object();
+	static private var _count   :Object = new Object();
 }
 }

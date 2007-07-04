@@ -54,6 +54,7 @@ import com.blitzagency.xray.logger.XrayLog;
 
 import flash.display.Sprite;
 import flash.utils.Dictionary;
+import flash.geom.Matrix;
 
 /**
 * The DisplayObject class represents instances of 3D objects that are contained in the scene.
@@ -307,8 +308,27 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	* [read-only] Indicates the DisplayObjectContainer3D object that contains this display object.
 	*/
 	public var parent :DisplayObjectContainer3D;
-
-
+	
+	/**
+	* tells Mesh3D's render() method to sort by measuring from the center of a triangle
+	*/	
+	public static const MESH_SORT_CENTER:String = "meshSortCenter";
+	
+	/**
+	* tells Mesh3D's render() method to sort by measuring from the farthest point of a triangle
+	*/	
+	public static const MESH_SORT_FAR:String = "meshSortFar";
+	
+	/**
+	* tells Mesh3D's render() method to sort by measuring from the closest point of a triangle
+	*/	
+	public static const MESH_SORT_CLOSE:String = "meshSortClose";
+	
+	/**
+	* tells Mesh3D's render() method to compare the measurement choice of the user for a triangle's sorting
+	*/	
+	public var meshSort:String = MESH_SORT_CENTER;
+	
 	/**
 	* Returns an empty DiplayObject3D object positioned in the center of the 3D coordinate system (0, 0 ,0).
 	*/
@@ -520,7 +540,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	* @return	true if the display objects intersect; false if not.
 	*/
 	// TODO: Use group boundingSphere
-	public function hitTestObject( obj:DisplayObject3D ):Boolean
+	public function hitTestObject( obj:DisplayObject3D, multiplier:Number=1 ):Boolean
 	{
 		var dx :Number = this.x - obj.x;
 		var dy :Number = this.y - obj.y;
@@ -530,6 +550,8 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 		var sA :Number = this.geometry? this.geometry.boundingSphere2 : 0;
 		var sB :Number = obj.geometry?  obj.geometry.boundingSphere2  : 0;
+		
+		sA = sA * multiplier;
 
 		return sA + sB > d2;
 	}
@@ -549,7 +571,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	public function getMaterialByName( name:String ):MaterialObject3D
 	{
 		var material:MaterialObject3D = this.materials.getMaterialByName( name );
-
+		
 		if( material )
 			return material;
 		else
@@ -609,15 +631,18 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 		if( this._transformDirty ) updateTransform();
 
-		this.view = Matrix3D.multiply( parent.view, this.transform ); // TODO: OPTIMIZE (MED) Inline this
+		this.view.calculateMultiply( parent.view, this.transform ); // TODO: OPTIMIZE (MED) Inline this
 
 		var screenZs :Number = 0;
 		var children :Number = 0;
 
 		for each( var child:DisplayObject3D in this._childrenByName )
 		{
-			screenZs += child.project( this, camera, sorted );
-			children++;
+			if( child.visible )
+			{
+				screenZs += child.project( this, camera, sorted );
+				children++;
+			}
 		}
 
 		return this.screenZ = screenZs / children;
@@ -749,7 +774,8 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		Matrix3D.rotateAxis( transform, vector );
 		var m:Matrix3D = Matrix3D.rotationMatrix( vector.x, vector.y, vector.z, angle );
 
-		this.transform.copy3x3( Matrix3D.multiply3x3( m ,transform ) );
+//		this.transform.copy3x3( Matrix3D.multiply3x3( m ,transform ) );
+		this.transform.calculateMultiply3x3( m ,transform );
 
 		this._rotationDirty = true;
 	}
@@ -771,7 +797,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		Matrix3D.rotateAxis( transform, vector );
 		var m:Matrix3D = Matrix3D.rotationMatrix( vector.x, vector.y, vector.z, angle );
 
-		this.transform.copy3x3( Matrix3D.multiply3x3( m ,transform ) );
+		this.transform.calculateMultiply3x3( m ,transform );
 
 		this._rotationDirty = true;
 	}
@@ -793,7 +819,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		Matrix3D.rotateAxis( transform, vector );
 		var m:Matrix3D = Matrix3D.rotationMatrix( vector.x, vector.y, vector.z, angle );
 
-		this.transform.copy3x3( Matrix3D.multiply3x3( m ,transform ) );
+		this.transform.calculateMultiply3x3( m ,transform );
 
 		this._rotationDirty = true;
 	}
@@ -917,7 +943,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		scaleM.n22 = this._scaleY;
 		scaleM.n33 = this._scaleZ;
 
-		this.transform = Matrix3D.multiply( transform, scaleM );
+		this.transform.calculateMultiply( transform, scaleM );
 
 		this._transformDirty = false;
 	}

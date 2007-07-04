@@ -82,7 +82,7 @@ class org.papervision3d.core.geom.Face3D
 	/**
 	* [read-only] A Boolean value that indicates that the face is visible, i.e. it's vertices are in front of the camera.
 	*/
-	public var visible :Boolean;
+	public var isVisible :Boolean;
 
 
 	/**
@@ -244,7 +244,7 @@ class org.papervision3d.core.geom.Face3D
 			matrix.tx = tx1*a2 + ty1*c2 + x0;
 			matrix.ty = tx1*b2 + ty1*d2 + y0;
 
-			container.beginBitmapFill( texture, matrix, false, material.smooth );
+			container.beginBitmapFill( texture, matrix, true, material.smooth );
 		}
 		else if( fillAlpha )
 		{

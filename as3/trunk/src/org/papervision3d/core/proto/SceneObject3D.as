@@ -45,6 +45,7 @@ import flash.utils.Dictionary;
 import org.papervision3d.Papervision3D;
 import org.papervision3d.core.proto.*;
 import org.papervision3d.materials.MaterialsList;
+import org.papervision3d.materials.MovieMaterial;
 
 import org.papervision3d.objects.DisplayObject3D;
 
@@ -125,6 +126,8 @@ public class SceneObject3D extends DisplayObjectContainer3D
 		this.stats.triangles = 0;
 		this.stats.performance = 0;
 		this.stats.rendered = 0;
+		
+		this.root = this;
 	}
 
 	// ___________________________________________________________________ A D D C H I L D
@@ -202,12 +205,7 @@ public class SceneObject3D extends DisplayObjectContainer3D
 		stats.performance = getTimer();
 
 		// Materials
-		for each( var m:MaterialObject3D in this.materials )
-		{
-			trace( "SceneObject3D:materials " + m );
-			if( m.animated )
-				m.updateBitmap();
-		}
+		MovieMaterial.updateAnimatedBitmaps();
 
 		// 3D projection
 		if( camera )

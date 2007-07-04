@@ -40,6 +40,7 @@ package org.papervision3d.materials
 import flash.geom.Matrix;
 import flash.display.MovieClip;
 import flash.display.BitmapData;
+import flash.utils.Dictionary;
 
 /**
 * The MovieMaterial class creates a texture from an existing MovieClip instance.
@@ -66,6 +67,23 @@ public class MovieMaterial extends BitmapMaterial
 	public var movieTransparent :Boolean;
 
 
+	// ______________________________________________________________________ ANIMATED
+
+	/**
+	* A Boolean value that determines whether the texture is animated.
+	*
+	* If set, the material must be included into the scene so the BitmapData texture can be updated when rendering. For performance reasons, the default value is false.
+	*/
+	public function get animated():Boolean
+	{
+		return animatedMaterials[ this ];
+	}
+
+	public function set animated( status:Boolean ):void
+	{
+		animatedMaterials[ this ] = status;
+	}
+
 	// ______________________________________________________________________ NEW
 
 	/**
@@ -78,6 +96,8 @@ public class MovieMaterial extends BitmapMaterial
 	public function MovieMaterial( asset:*, transparent:Boolean=false, initObject:Object=null )
 	{
 		super( initBitmap( asset, transparent ), initObject );
+		
+		animatedMaterials[ this ] = false;
 	}
 
 
@@ -99,6 +119,8 @@ public class MovieMaterial extends BitmapMaterial
 		mtx.scale( mov.scaleX, mov.scaleY );
 
 		tex.draw( mov, mtx, mov.transform.colorTransform );
+		
+		extendBitmapEdges( tex, mov.width, mov.height );
 	}
 
 
@@ -110,7 +132,7 @@ public class MovieMaterial extends BitmapMaterial
 		if( this.bitmap ) this.bitmap.dispose();
 
 		// Create new bitmap
-		this.bitmap = new BitmapData( asset.width, asset.height, this.movieTransparent );
+		this.bitmap = correctBitmap( new BitmapData( asset.width, asset.height, this.movieTransparent ), true );
 
 		// Draw bitmap
 		this.movie = asset;
@@ -119,6 +141,21 @@ public class MovieMaterial extends BitmapMaterial
 		return this.bitmap;
 	}
 
+	// ______________________________________________________________________ CREATE BITMAP
+
+	/**
+	* Updates bitmap on all animated MovieMaterial instances.
+	*/
+	static public function updateAnimatedBitmaps():void
+	{
+		for( var material:Object in animatedMaterials )
+		{
+			if( animatedMaterials[ material ] )
+			{
+				material.updateBitmap();
+			}
+		}
+	}
 
 	// ______________________________________________________________________ PRIVATE
 
@@ -128,5 +165,7 @@ public class MovieMaterial extends BitmapMaterial
 
 		return asset;
 	}
+	
+	static private var animatedMaterials :Dictionary = new Dictionary( false );
 }
 }

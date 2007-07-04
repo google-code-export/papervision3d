@@ -39,6 +39,7 @@
 import org.papervision3d.core.geom.Face3D;
 import org.papervision3d.core.geom.Vertex3D;
 import org.papervision3d.core.NumberUV;
+import org.papervision3d.core.Number3D;
 import org.papervision3d.core.proto.CameraObject3D;
 import org.papervision3d.core.proto.MaterialObject3D;
 import org.papervision3d.core.proto.SceneObject3D;
@@ -49,11 +50,6 @@ import org.papervision3d.objects.Points;
 */
 class org.papervision3d.objects.Mesh extends Points
 {
-	/**
-	* A Material3D object that contains the material properties of the triangle.
-	*/
-//	public var material   :MaterialObject3D;
-
 	public function get material():MaterialObject3D
 	{
 		return this._material;
@@ -144,30 +140,63 @@ class org.papervision3d.objects.Mesh extends Points
 		super.project( camera );
 
 		// Faces
-		var faces        :Array = this.faces;
+		var faces        :Array  = this.faces;
 		var screenZs     :Number = 0;
 		var visibleFaces :Number = 0;
 
+		var viewTop    :Number  = camera.viewport.top;
+		var viewBottom :Number  = camera.viewport.bottom;
+		var viewRight  :Number  = camera.viewport.right;
+		var viewLeft   :Number  = camera.viewport.left;
+
+		var vertex0 :Vertex3D, vertex1 :Vertex3D, vertex2 :Vertex3D, vis :Boolean;
+		var screen0 :Number3D, screen1 :Number3D, screen2 :Number3D;
+	
 		var face:Object;
-		for( var i=0; face = faces[i]; i++ )
+		
+		for( var i:Number = 0; face = faces[i]; i++ )
 		{
-			var vertex0 :Vertex3D = face.vertices[0];
-			var vertex1 :Vertex3D = face.vertices[1];
-			var vertex2 :Vertex3D = face.vertices[2];
+			vertex0 = face.vertices[0];
+			vertex1 = face.vertices[1];
+			vertex2 = face.vertices[2];
 
-			var visibles = Number(vertex0.visible) + Number(vertex1.visible) + Number(vertex2.visible);
-			face.visible = ( visibles == 3 );
+			vis = ( Number(vertex0.visible) + Number(vertex1.visible) + Number(vertex2.visible) ) == 3;
 
-			if( face.visible )
+			screen0 = vertex0.screen;
+			screen1 = vertex1.screen;
+			screen2 = vertex2.screen;
+
+			// Top
+			if( vis && viewTop )
+				vis = (screen0.y > viewTop || screen1.y > viewTop || screen2.y > viewTop);
+
+			// Bottom
+			if( vis && viewBottom )
+				vis = (screen0.y < viewBottom || screen1.y < viewBottom || screen2.y < viewBottom);
+			
+			// Right
+			if( vis && viewRight )
+				vis = (screen0.x < viewRight || screen1.x < viewRight || screen2.x < viewRight);
+
+			// Left
+			if( vis && viewLeft )
+				vis = (screen0.x > viewLeft || screen1.x > viewLeft || screen2.x > viewLeft);
+
+			face.isVisible = vis;
+
+			if( vis )
 			{
-				screenZs += face.screenZ = ( vertex0.screen.z + vertex1.screen.z + vertex2.screen.z ) /3;
+				screenZs += face.screenZ = ( screen0.z + screen1.z + screen2.z ) /3;
 				visibleFaces++;
 			}
 		}
+
 		this._visibleNow = ( visibleFaces > 0 );
 
 		if( this._visibleNow )
 			this.screenZ = screenZs / visibleFaces;
+		else
+			this.screenZ = 0;
 	}
 
 	// ___________________________________________________________________________________________________
@@ -203,7 +232,7 @@ class org.papervision3d.objects.Mesh extends Points
 
 			for( var i:Number = 0; face = faces[i]; i++ )
 			{
-				if( face.visible )
+				if( face.isVisible )
 					rendered += face.render( container, objectMaterial, showFaces );
 			}
 

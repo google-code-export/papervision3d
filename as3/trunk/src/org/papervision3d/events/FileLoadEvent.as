@@ -44,6 +44,7 @@ package org.papervision3d.events
 	{
 		public static var LOAD_COMPLETE :String = "loadComplete";
 		public static var LOAD_ERROR    :String = "loadError";
+		public static var COLLADA_MATERIALS_DONE:String = "colladaMaterialsDone";
 
 		public var file:String;
 

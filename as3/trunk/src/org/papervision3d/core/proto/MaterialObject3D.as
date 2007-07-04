@@ -39,6 +39,8 @@ package org.papervision3d.core.proto
 {
 import flash.geom.Matrix;
 import flash.display.BitmapData;
+import flash.events.EventDispatcher;
+
 
 /**
 * The MaterialObject3D class is the base class for all materials.
@@ -53,19 +55,12 @@ import flash.display.BitmapData;
 * <p/>
 * MaterialObject3D is an abstract base class; therefore, you cannot call MaterialObject3D directly.
 */
-public class MaterialObject3D
+public class MaterialObject3D extends EventDispatcher
 {
 	/**
 	* A transparent or opaque BitmapData texture.
 	*/
 	public var bitmap :BitmapData;
-
-	/**
-	* A Boolean value that determines whether the texture is animated.
-	*
-	* If set, the material must be included into the scene so the BitmapData texture can be updated when rendering. For performance reasons, the default value is false.
-	*/
-	public var animated :Boolean;
 
 	/**
 	* A Boolean value that determines whether the BitmapData texture is smoothed when rendered.
@@ -129,9 +124,14 @@ public class MaterialObject3D
 	public var scene :SceneObject3D;
 
 	/**
-	* Default color used for debug.
+	* Color used for DEFAULT material.
 	*/
-	static public var DEFAULT_COLOR :Number = 0xFF00FF;
+	static public var DEFAULT_COLOR :int = 0x000000;
+
+	/**
+	* Color used for DEBUG material.
+	*/
+	static public var DEBUG_COLOR :int = 0xFF00FF;
 
 	/**
 	* The name of the material.
@@ -142,6 +142,20 @@ public class MaterialObject3D
 	* [internal-use] [read-only] Unique id of this instance.
 	*/
 	public var id :Number;
+
+
+	/**
+	 * Internal use
+	 */
+	public var maxU :Number;
+
+	/**
+	 * Internal use
+	 */
+	public var maxV :Number;
+
+
+//	public var extra :Object;
 
 	/**
 	* Creates a new MaterialObject3D object.
@@ -158,8 +172,6 @@ public class MaterialObject3D
 
 		this.fillColor = initObject? initObject.fillColor || DEFAULT_COLOR : DEFAULT_COLOR;
 		this.fillAlpha = initObject? initObject.fillAlpha || 0 : 0;
-
-		this.animated  = initObject? initObject.animated || false : false;
 
 		// Defaults
 		this.invisible = initObject? initObject.invisible || false : false;
@@ -181,15 +193,27 @@ public class MaterialObject3D
 	{
 		var defMaterial :MaterialObject3D = new MaterialObject3D();
 
-		defMaterial.lineColor   = DEFAULT_COLOR;
-		defMaterial.lineAlpha   = 100;
+		defMaterial.lineColor   = 0xFFFFFF * Math.random();
+		defMaterial.lineAlpha   = 1;
 		defMaterial.fillColor   = DEFAULT_COLOR;
-		defMaterial.fillAlpha   = 10;
-		defMaterial.doubleSided = true;
+		defMaterial.fillAlpha   = 1;
+		defMaterial.doubleSided = false;
 
 		return defMaterial;
 	}
 
+	static public function get DEBUG():MaterialObject3D
+	{
+		var defMaterial :MaterialObject3D = new MaterialObject3D();
+
+		defMaterial.lineColor   = 0xFFFFFF * Math.random();
+		defMaterial.lineAlpha   = 1;
+		defMaterial.fillColor   = DEBUG_COLOR;
+		defMaterial.fillAlpha   = 0.37;
+		defMaterial.doubleSided = true;
+
+		return defMaterial;
+	}
 
 	/**
 	* Updates the BitmapData bitmap from the given texture.
@@ -207,7 +231,7 @@ public class MaterialObject3D
 	public function copy( material :MaterialObject3D ):void
 	{
 		this.bitmap    = material.bitmap;
-		this.animated  = material.animated;
+//		this.animated  = material.animated;
 		this.smooth    = material.smooth;
 
 		this.lineColor = material.lineColor;
@@ -233,7 +257,7 @@ public class MaterialObject3D
 		var cloned:MaterialObject3D = new MaterialObject3D();
 
 		cloned.bitmap    = this.bitmap;
-		cloned.animated  = this.animated;
+//		cloned.animated  = this.animated;
 		cloned.smooth    = this.smooth;
 
 		cloned.lineColor = this.lineColor;
@@ -256,7 +280,7 @@ public class MaterialObject3D
 	*
 	* @return	A string.
 	*/
-	public function toString():String
+	override public function toString():String
 	{
 		return '[MaterialObject3D] bitmap:' + this.bitmap + ' lineColor:' + this.lineColor + ' fillColor:' + fillColor;
 	}

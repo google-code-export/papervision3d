@@ -140,7 +140,21 @@ public class Mesh3D extends Vertices3D
 
 			if( iFace.visible )
 			{
-				screenZs += iFace.screenZ = ( vertex0.z + vertex1.z + vertex2.z ) /3;
+				switch(meshSort)
+				{
+					case DisplayObject3D.MESH_SORT_CENTER:
+						screenZs += iFace.screenZ = ( vertex0.z + vertex1.z + vertex2.z ) *.333;
+						break;
+					
+					case DisplayObject3D.MESH_SORT_FAR:
+						screenZs += iFace.screenZ = Math.max(vertex0.z,vertex1.z,vertex2.z);
+						break;
+						
+					case DisplayObject3D.MESH_SORT_CLOSE:
+						screenZs += iFace.screenZ = Math.min(vertex0.z,vertex1.z,vertex2.z);
+						break;
+				}
+					
 				visibleFaces++;
 
 				if( sorted ) sorted.push( iFace );

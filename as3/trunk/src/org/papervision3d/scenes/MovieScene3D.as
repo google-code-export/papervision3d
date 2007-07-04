@@ -44,6 +44,7 @@ import org.papervision3d.scenes.*;
 import org.papervision3d.core.proto.*;
 
 import org.papervision3d.objects.DisplayObject3D;
+import flash.utils.Dictionary;
 
 /**
 * The MovieScene3D class lets you create a scene where each object is rendered in its own container.
@@ -72,6 +73,7 @@ public class MovieScene3D extends Scene3D
 		super( container );
 
 		this.containerList = new Array();
+		spriteList = new Dictionary();
 	}
 
 
@@ -101,8 +103,13 @@ public class MovieScene3D extends Scene3D
 		child.container = new Sprite();
 		container.addChild( child.container );
 		this.containerList.push( child.container );
-
+		spriteList[child] = child.container;
 		return child;
+	}
+	
+	public function getSprite(child:DisplayObject3D):Sprite
+	{
+		return spriteList[child];
 	}
 
 
@@ -163,6 +170,7 @@ public class MovieScene3D extends Scene3D
 		stats.performance = getTimer() - stats.performance;
 	}
 
-	private var containerList :Array;
+	private var containerList : Array;
+	private var spriteList : Dictionary;
 }
 }

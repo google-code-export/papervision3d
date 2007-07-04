@@ -60,6 +60,11 @@ import flash.net.URLLoader;
 public class Ase extends Mesh3D
 {
 	/**
+	* Whether or not the scene has been loaded.
+	*/
+	public var loaded :Boolean;
+
+	/**
 	* Default scaling value for constructor.
 	*/
 	static public var DEFAULT_SCALING  :Number = 1;
@@ -100,6 +105,8 @@ public class Ase extends Mesh3D
 
 		this._scaleAse = scale;
 		this._filename = filename;
+
+		this.loaded = false;
 
 		loadAse( filename );
 	}
@@ -275,6 +282,8 @@ public class Ase extends Mesh3D
 		// dispatch event
 		var fileEvent:FileLoadEvent = new FileLoadEvent( FileLoadEvent.LOAD_COMPLETE, _filename );
 		dispatchEvent( fileEvent );
+
+		this.loaded = true;
 
 		Papervision3D.log( "Parsed ASE: " + this._filename + " [vertices:" + vertices.length + " faces:" + faces.length + "]" );
 	}
