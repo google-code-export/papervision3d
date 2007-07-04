@@ -16,12 +16,11 @@ import flash.display.*;
 import flash.events.*;
 import flash.ui.Keyboard;
 
-// Import Papervision3D
-import org.papervision3d.scenes.*;
-import org.papervision3d.objects.*;
 import org.papervision3d.cameras.*;
-import org.papervision3d.materials.*;
 import org.papervision3d.events.*;
+import org.papervision3d.materials.*;
+import org.papervision3d.objects.*;
+import org.papervision3d.scenes.*;
 
 
 public class main extends Sprite
@@ -33,12 +32,6 @@ public class main extends Sprite
 	private var camera    :Camera3D;
 
 	private var rootNode  :DisplayObject3D;
-
-	private var focusMaterials:Object =
-	{
-		materialBody:  new BitmapAssetMaterial( "FocusBody.png" ),
-		materialWheel: new BitmapAssetMaterial( "Wheel.png" )
-	};
 
 	// ___________________________________________________________________ Car vars
 
@@ -92,10 +85,7 @@ public class main extends Sprite
 		camera.focus = 100;
 
 		// Add an empty object "rootNode" to the scene
-		rootNode = scene.addChild( new DisplayObject3D( "rootNode" ) );
-
-		// Load Collada scene into rootNode
-		rootNode.addCollada( "Focus.dae", new MaterialsList( focusMaterials ) );
+		rootNode = scene.addChild( new Collada( "meshes/Focus.dae" ), "rootNode" );
 
 		// Add a plane to rootNode
 		// We divide the plane in segments to use smaller triangles and avoid sorting artifacts.
@@ -104,7 +94,6 @@ public class main extends Sprite
 		// Position the plane
 		plane.rotationX = -90;
 		plane.y = -25; // We separate the plane from the car to avoid triangle sorting artifacts.
-
 	}
 
 

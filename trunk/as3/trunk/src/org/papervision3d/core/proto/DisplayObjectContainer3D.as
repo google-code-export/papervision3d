@@ -40,7 +40,6 @@ package org.papervision3d.core.proto
 import org.papervision3d.Papervision3D;
 import org.papervision3d.objects.DisplayObject3D;
 import org.papervision3d.materials.MaterialsList;
-import org.papervision3d.core.utils.Collada;
 
 import flash.events.EventDispatcher;
 import flash.utils.Dictionary;
@@ -53,11 +52,36 @@ import flash.utils.Dictionary;
 public class DisplayObjectContainer3D extends EventDispatcher
 {
 	/**
+	* [read-only] [read-only] The scene, which is the top-most displayObjectContainer3D in the tree structure.
+	*/
+	public var root :DisplayObjectContainer3D;
+
+	// ___________________________________________________________________ C O L L A D A
+
+	/**
+	* This method has been deprecated.
+	*/
+	public function addCollada( filename :String, materials :MaterialsList=null, scale :Number=1 ):void
+	{
+		Papervision3D.log( "The addCollada() method has been deprecated. Use addChildren( new Collada( filename ) )" );
+	}
+
+
+
+	/**
 	* Returns the number of children of this object.
 	*/
 	public function get numChildren():int
 	{
 		return this._childrenTotal;
+	}
+
+	/**
+	* Returns the children object.
+	*/
+	public function get children():Object
+	{
+		return this._childrenByName;
 	}
 
 	// ___________________________________________________________________ N E W
@@ -99,8 +123,31 @@ public class DisplayObjectContainer3D extends EventDispatcher
 		this._childrenByName[ name ] = child;
 		this._childrenTotal++;
 
+		child.parent = this;
+		child.root = this.root;
+
 		return child;
 	}
+
+
+	/**
+	* Adds all the children of a DisplayObject3D instance to this DisplayObjectContainer instance.
+	*
+	* @param	child	The DisplayObjectContainer3D instance that contains the children to add.
+	* @return	The DisplayObject3D instance that you have added or created.
+	*/
+
+	public function addChildren( parent :DisplayObject3D ):DisplayObjectContainer3D
+	{
+		for each( var child:DisplayObject3D in parent.children )
+		{
+			parent.removeChild( child );
+			this.addChild( child );
+		}
+
+		return this;
+	}
+
 
 
 	/**
@@ -117,6 +164,9 @@ public class DisplayObjectContainer3D extends EventDispatcher
 	{
 		delete this._childrenByName[ this._children[ child ] ];
 		delete this._children[ child ];
+
+		child.parent = null;
+		child.root = null;
 
 		return child;
 	}
@@ -153,39 +203,6 @@ public class DisplayObjectContainer3D extends EventDispatcher
 		return removeChild( getChildByName( name ) );
 	}
 
-
-	// ___________________________________________________________________ C O L L A D A
-
-	/**
-	* Loads a Collada scene and adds it as a child DisplayObject3D instance to this DisplayObjectContainer instance.
-	* <p/>
-	* Recommended DCC Settings:
-	* <ul><li><b>Maya</b>:
-	* <ul><li>General Export Options
-	* <ul><li>Relative Paths, Triangulate.</li></ul>
-	* <li>Filter Export
-	* <ul><li>Polygon meshes, Normals, Texture Coordinates.</li></ul>
-	* </li></ul>
-	* <li><b>3DS Max</b>:
-	* <ul><li>Standard Options
-	* <ul><li>Relative Paths.</li></ul>
-	* <li>Geometry
-	* <ul><li>Normals, Triangulate.</li></ul>
-	* </li></ul>
-	* <p/>
-	* @param	filename	The url of the scene to be loaded.
-	* @param	materials	A MaterialsList object.
-	* @param	scale		A scaling factor to apply to the scene.
-	* @return	The DisplayObject3D instance that was created.
-	*/
-	public function addCollada( filename :String, materials :MaterialsList=null, scale :Number=1 ):void //DisplayObject
-	{
-		var collada:Collada = new Collada( this, filename, materials, scale );
-
-		//collada.addEventListener( FileLoadEvent.LOAD_COMPLETE, onLoadCompleteHandler );
-
-		//return this;
-	}
 
 
 	// ___________________________________________________________________ D E B U G
@@ -227,7 +244,7 @@ public class DisplayObjectContainer3D extends EventDispatcher
 	/**
 	* [internal-use] Children indexed by name.
 	*/
-	protected var _childrenByName :Dictionary;
+	protected var _childrenByName :Object;
 
 
 	// ___________________________________________________________________ P R I V A T E

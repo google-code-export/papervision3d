@@ -71,12 +71,12 @@ public class Papervision3D
 	/**
 	* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
 	*/
-	static public var DATE     :String = '01.02.07';
+	static public var DATE     :String = '18.06.07';
 
 	/**
 	* Enables copyright information to be retrieved at runtime or when reviewing a decompiled swf.
 	*/
-	static public var AUTHOR   :String = '(c) 2006-2007 Copyright by Carlos Ulloa | papervision3d.org | C4RL054321@gmail.com';
+	static public var AUTHOR   :String = '(c) 2006-2007 Copyright by Carlos Ulloa | papervision3d.org | carlos@papervision3d.org';
 
 	/**
 	* Determines whether debug printout is enabled. It also prints version information at startup.

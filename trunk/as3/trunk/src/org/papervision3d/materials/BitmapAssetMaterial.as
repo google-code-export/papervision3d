@@ -5,7 +5,7 @@
  *  ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
  *  RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
  *  ______________________________________________________________________
- *  papervision3d.org • blog.papervision3d.org • osflash.org/papervision3d
+ *  papervision3d.org ï¿½ blog.papervision3d.org ï¿½ osflash.org/papervision3d
  */
 
 /*
@@ -40,7 +40,7 @@ package org.papervision3d.materials
 import flash.display.BitmapData;
 
 import flash.utils.getDefinitionByName;
-import flash.utils.Dictionary;
+//import flash.utils.Dictionary;
 import flash.utils.describeType;
 
 
@@ -100,9 +100,9 @@ public class BitmapAssetMaterial extends BitmapMaterial
 
 			// Check if Flash 9 Alpha
 			if( description..constructor.length() == 0 )
-				bitmap = new BitmapAsset();
+				bitmap = new BitmapAsset() as BitmapData;
 			else
-				bitmap = new BitmapAsset( 0, 0 );
+				bitmap = new BitmapAsset( 0, 0 ) as BitmapData;
 
 			_library[asset] = bitmap;
 			_count[asset] = 0;
@@ -112,10 +112,12 @@ public class BitmapAssetMaterial extends BitmapMaterial
 			_count[asset]++;
 		}
 
-		return bitmap;
+//		return bitmap;
+
+		return correctBitmap( bitmap, true );
 	}
 
-	static private var _library :Dictionary = new Dictionary();
-	static private var _count   :Dictionary = new Dictionary();
+	static private var _library :Object = new Object();
+	static private var _count   :Object = new Object();
 }
 }

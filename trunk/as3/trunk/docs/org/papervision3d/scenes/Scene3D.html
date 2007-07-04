@@ -68,6 +68,11 @@ A scene is the place where objects are placed, it contains the 3D environment.
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/DisplayObjectContainer3D.html#children">children</a> : Object<div class="summaryTableDescription">
+ Returns the children object.</div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/SceneObject3D.html#container">container</a> : Sprite<div class="summaryTableDescription">
  The Sprite that you draw into when rendering.</div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/SceneObject3D.html">SceneObject3D</a></td>
@@ -87,6 +92,12 @@ A scene is the place where objects are placed, it contains the 3D environment.
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/SceneObject3D.html#objects">objects</a> : Array<div class="summaryTableDescription">
  It contains a list of DisplayObject3D objects in the scene.</div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/SceneObject3D.html">SceneObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/DisplayObjectContainer3D.html#root">root</a> : <a href="../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a>
+<div class="summaryTableDescription">
+ [read-only] [read-only] The scene, which is the top-most displayObjectContainer3D in the tree structure.</div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/SceneObject3D.html#stats">stats</a> : Object<div class="summaryTableDescription">
@@ -116,7 +127,7 @@ A scene is the place where objects are placed, it contains the 3D environment.
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/DisplayObjectContainer3D.html#_childrenByName">_childrenByName</a> : Dictionary<div class="summaryTableDescription">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/DisplayObjectContainer3D.html#_childrenByName">_childrenByName</a> : Object<div class="summaryTableDescription">
  [internal-use] Children indexed by name.</div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
@@ -157,9 +168,18 @@ A scene is the place where objects are placed, it contains the 3D environment.
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
+<a class="signatureLink" href="../core/proto/DisplayObjectContainer3D.html#addChildren()">addChildren</a>(parent:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a>):<a href="../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a>
+</div>
+<div class="summaryTableDescription">
+ Adds all the children of a DisplayObject3D instance to this DisplayObjectContainer instance.</div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
 <a class="signatureLink" href="../core/proto/DisplayObjectContainer3D.html#addCollada()">addCollada</a>(filename:String, materials:<a href="../materials/MaterialsList.html">MaterialsList</a> = null, scale:Number = 1):void</div>
 <div class="summaryTableDescription">
- Loads a Collada scene and adds it as a child DisplayObject3D instance to this DisplayObjectContainer instance.</div>
+ This method has been deprecated.</div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -280,9 +300,9 @@ showHideInherited();
 <hr>
 <br>
 <p></p>
-<center class="copyright"> 
-</center>
+<center class="copyright">
+<br>Wed Mar 28 2007, 5:46 PM GMT+01:00 </center>
 </div>
 </body>
 </html>
-<!-- -->
+<!--Wed Mar 28 2007, 5:46 PM GMT+01:00 -->

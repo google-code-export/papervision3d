@@ -38,16 +38,14 @@
 
 package org.papervision3d.core.geom
 {
+import flash.display.*;
+import flash.geom.Matrix;
+import flash.utils.Dictionary;
+
 import org.papervision3d.Papervision3D;
 import org.papervision3d.core.*;
 import org.papervision3d.core.proto.*;
-import org.papervision3d.core.geom.*;
-
 import org.papervision3d.objects.DisplayObject3D;
-
-import flash.geom.Matrix;
-import flash.display.*;
-import flash.utils.Dictionary;
 
 /**
 * The Face3D class lets you render linear textured triangles. It also supports solid colour fill and hairline outlines.
@@ -65,21 +63,7 @@ public class Face3D
 	* A material id TODO
 	*/
 	public var materialName :String;
-/*
-	private var _materialName :String;
 
-	public function get materialName():String
-	{
-		return this._materialName;
-	}
-
-	public function set materialName( name:String ):void
-	{
-		this._materialName = name;
-		this._material     =
-		this._transformed = true;
-	}
-*/
 
 	/**
 	* A MaterialObject3D object that contains the material properties of the back of a single sided triangle.
@@ -115,7 +99,13 @@ public class Face3D
 	* [read-only] Unique id of this instance.
 	*/
 	public var id :Number;
-
+	
+	/**
+	 * [internal-use] Used to store references to the vertices.
+	 */
+	private var v0:Vertex3D;
+	private var v1:Vertex3D;
+	private var v2:Vertex3D;
 
 	/**
 	* The Face3D constructor lets you create linear textured or solid colour triangles.
@@ -130,23 +120,24 @@ public class Face3D
 
 		// Vertices
 		this.vertices = vertices;
-
+		v0 = vertices[0];
+		v1 = vertices[1];
+		v2 = vertices[2];
+		
 		// Material
 		this.materialName = materialName;
 		this.uv = uv;
 
-//		if( uv && material && material.bitmap ) transformUV();
-
 		this.id = _totalFaces++;
 
-		if( ! _bitmapMatrix ) _bitmapMatrix = new Matrix();
+		//if( ! _bitmapMatrix ) _bitmapMatrix = new Matrix();
 	}
-
+	
 	/**
 	* Applies the updated UV texture mapping values to the triangle. This is required to speed up rendering.
 	*
 	*/
-	public function transformUV( instance:DisplayObject3D=null ):Object
+	public function transformUV( instance:DisplayObject3D=null ):Matrix
 	{
 		var material :MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
 
@@ -158,8 +149,8 @@ public class Face3D
 		{
 			var uv :Array  = this.uv;
 
-			var w  :Number = material.bitmap.width;
-			var h  :Number = material.bitmap.height;
+			var w  :Number = material.bitmap.width * material.maxU;
+			var h  :Number = material.bitmap.height * material.maxV;
 
 			var u0 :Number = w * uv[0].u;
 			var v0 :Number = h * ( 1 - uv[0].v );
@@ -181,7 +172,7 @@ public class Face3D
 				v2 -= (v2 > 0.06)? 0.06 : -0.06;
 			}
 
-			// Precalculate matrix
+			// Precalculate matrix & correct for mip mapping
 			var at :Number = ( u1 - u0 );
 			var bt :Number = ( v1 - v0 );
 			var ct :Number = ( u2 - u0 );
@@ -190,13 +181,13 @@ public class Face3D
 			var m :Matrix = new Matrix( at, bt, ct, dt, u0, v0 );
 			m.invert();
 
-			var mapping:Object = instance.projected[ this ] || (instance.projected[ this ] = new Object() );
-			mapping._a  = m.a;
-			mapping._b  = m.b;
-			mapping._c  = m.c;
-			mapping._d  = m.d;
-			mapping._tx = m.tx;
-			mapping._ty = m.ty;
+			var mapping:Matrix = instance.projected[ this ] || (instance.projected[ this ] = m.clone() );
+			mapping.a  = m.a;
+			mapping.b  = m.b;
+			mapping.c  = m.c;
+			mapping.d  = m.d;
+			mapping.tx = m.tx;
+			mapping.ty = m.ty;
 		}
 		else Papervision3D.log( "Face3D: transformUV() material.bitmap not found!" );
 
@@ -222,25 +213,23 @@ public class Face3D
 	*/
 	public function render( instance:DisplayObject3D, container:Sprite ): Number
 	{
-		var vertices  :Array      = this.vertices;
 		var projected :Dictionary = instance.projected;
-
-		var s0 :Vertex2D = projected[ vertices[0] ];
-		var s1 :Vertex2D = projected[ vertices[1] ];
-		var s2 :Vertex2D = projected[ vertices[2] ];
-
-		var x0 :Number = s0.x;
-		var y0 :Number = s0.y;
-		var x1 :Number = s1.x;
-		var y1 :Number = s1.y;
-		var x2 :Number = s2.x;
-		var y2 :Number = s2.y;
-
+		var s0:Vertex2D = projected[v0];
+		var s1:Vertex2D = projected[v1];
+		var s2:Vertex2D = projected[v2];
+		
+		var x0:Number = s0.x;
+		var y0:Number = s0.y;
+		var x1:Number = s1.x;
+		var y1:Number = s1.y;
+		var x2:Number = s2.x;
+		var y2:Number = s2.y;
+	
 		var material :MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
 
 		// Invisible?
 		if( material.invisible ) return 0;
-
+		
 		// Double sided?
 		if( material.oneSide )
 		{
@@ -250,9 +239,7 @@ public class Face3D
 				{
 					return 0;
 				}
-			}
-			else
-			{
+			}else{
 				if( ( x2 - x0 ) * ( y1 - y0 ) - ( y2 - y0 ) * ( x1 - x0 ) < 0 )
 				{
 					return 0;
@@ -263,72 +250,56 @@ public class Face3D
 		var texture   :BitmapData  = material.bitmap;
 		var fillAlpha :Number      = material.fillAlpha;
 		var lineAlpha :Number      = material.lineAlpha;
-
 		var graphics  :Graphics    = container.graphics;
 
 		if( texture )
 		{
-			var map :Object = instance.projected[ this ] || transformUV( instance );
-
-			var a1  :Number = map._a;
-			var b1  :Number = map._b;
-			var c1  :Number = map._c;
-			var d1  :Number = map._d;
-			var tx1 :Number = map._tx;
-			var ty1 :Number = map._ty;
-
-			var a2  :Number = x1 - x0;
-			var b2  :Number = y1 - y0;
-			var c2  :Number = x2 - x0;
-			var d2  :Number = y2 - y0;
-
-			var matrix :Matrix = _bitmapMatrix;
-			matrix.a = a1*a2 + b1*c2;
-			matrix.b = a1*b2 + b1*d2;
-			matrix.c = c1*a2 + d1*c2;
-			matrix.d = c1*b2 + d1*d2;
-			matrix.tx = tx1*a2 + ty1*c2 + x0;
-			matrix.ty = tx1*b2 + ty1*d2 + y0;
-
-			graphics.beginBitmapFill( texture, matrix, false, material.smooth );
-		}
-		else if( fillAlpha )
-		{
+			var map :Matrix = instance.projected[ this ] || transformUV( instance );
+			_triMatrix.a = x1 - x0;
+			_triMatrix.b = y1 - y0;
+			_triMatrix.c = x2 - x0;
+			_triMatrix.d = y2 - y0;
+			_triMatrix.tx = x0;
+			_triMatrix.ty = y0;
+			_localMatrix.a = map.a;
+			_localMatrix.b = map.b;
+			_localMatrix.c = map.c;
+			_localMatrix.d = map.d;
+			_localMatrix.tx = map.tx;
+			_localMatrix.ty = map.ty;
+			_localMatrix.concat(_triMatrix);
+			graphics.beginBitmapFill( texture, _localMatrix, true, material.smooth);
+		}else if( fillAlpha ){
 			graphics.beginFill( material.fillColor, fillAlpha );
 		}
 
 		// Line color
-		if( lineAlpha )
+		if( lineAlpha ){
 			graphics.lineStyle( 0, material.lineColor, lineAlpha );
-		else
+		}else{
 			graphics.lineStyle();
-
+		}
+		
 		// Draw triangle
 		graphics.moveTo( x0, y0 );
 		graphics.lineTo( x1, y1 );
 		graphics.lineTo( x2, y2 );
 
-		if( lineAlpha )
+		if( lineAlpha ){
 			graphics.lineTo( x0, y0 );
-
-		if( texture || fillAlpha )
+		}
+		if( texture || fillAlpha ){
 			graphics.endFill();
-
+		}
+		
 		return 1;
 	}
 
 	// ______________________________________________________________________________
 	//                                                                        PRIVATE
 
-	static private var _totalFaces   :Number = 0;
-
-	static private var _bitmapMatrix :Matrix;
-
-	//private var _a  :Number;
-	//private var _b  :Number;
-	//private var _c  :Number;
-	//private var _d  :Number;
-	//private var _tx :Number;
-	//private var _ty :Number;
+	private static var _totalFaces:Number = 0;
+	private static var _triMatrix:Matrix = new Matrix()
+	private static var _localMatrix:Matrix = new Matrix();
 }
 }

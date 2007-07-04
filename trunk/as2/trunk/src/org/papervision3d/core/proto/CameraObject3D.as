@@ -37,6 +37,7 @@
 //                                              DisplayObject3D: Camera3D
 
 import org.papervision3d.core.Number3D;
+import org.papervision3d.core.geom.Viewport;
 import org.papervision3d.core.proto.DisplayObject3D;
 
 /**
@@ -70,6 +71,11 @@ class org.papervision3d.core.proto.CameraObject3D extends DisplayObject3D
 	public var sort :Boolean;
 
 
+	/**
+	* A Viewport object that when crop is active, contains the region of the screen to crop to.
+	*/
+	public var viewport :Viewport;
+	
 	/**
 	* A {@link Number3D} object that specifies the desired position of the camera in 3D space. Only used when calling update().
 	*/
@@ -148,6 +154,8 @@ class org.papervision3d.core.proto.CameraObject3D extends DisplayObject3D
 
 		this.sin = new Number3D();
 		this.cos = new Number3D();
+		
+		viewport = new Viewport();
 	}
 
 	// ___________________________________________________________________________________________________

@@ -54,7 +54,6 @@ import flash.geom.Matrix;
 */
 class org.papervision3d.materials.MovieMaterial extends BitmapMaterial
 {
-
 	// ______________________________________________________________________ PUBLIC
 
 	/**
@@ -66,7 +65,6 @@ class org.papervision3d.materials.MovieMaterial extends BitmapMaterial
 	* A Boolean value that determines whether the MovieClip is transparent. The default value is false, which is much faster.
 	*/
 	public var movieTransparent :Boolean;
-
 
 	// ______________________________________________________________________ NEW
 
@@ -113,6 +111,8 @@ class org.papervision3d.materials.MovieMaterial extends BitmapMaterial
 
 		// Create new bitmap
 		this.bitmap = new BitmapData( asset._width, asset._height, this.movieTransparent );
+		
+		__bitmapList.push( this.bitmap );
 
 		// Draw bitmap
 		this.movie = asset;
@@ -121,6 +121,14 @@ class org.papervision3d.materials.MovieMaterial extends BitmapMaterial
 		return this.bitmap;
 	}
 
+	static public function disposeBitmaps():Void
+	{
+		while( __bitmapList.length > 0 )
+		{
+			var bitmap :BitmapData = __bitmapList.pop();
+			bitmap.dispose();
+		}
+	}
 
 	// ______________________________________________________________________ PRIVATE
 
@@ -130,4 +138,6 @@ class org.papervision3d.materials.MovieMaterial extends BitmapMaterial
 
 		return asset;
 	}
+
+	static private var __bitmapList :Object = new Array();
 }

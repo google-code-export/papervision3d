@@ -117,7 +117,7 @@ public class Vertices3D extends DisplayObject3D
 		var i        :int    = vertices.length;
 
 		var focus    :Number = camera.focus;
-		var zoom     :Number = camera.zoom;
+		var fz       :Number = focus * camera.zoom;
 		var vertex   :Vertex3D, screen :Vertex2D, persp :Number;
 
 		while( vertex = vertices[--i] )
@@ -135,7 +135,7 @@ public class Vertices3D extends DisplayObject3D
 
 			if( screen.visible = ( s_z > 0 ) )
 			{
-				persp  = focus / (focus + s_z) * zoom;
+				persp = fz / (focus + s_z);
 
 				screen.x = s_x * persp;
 				screen.y = s_y * persp;

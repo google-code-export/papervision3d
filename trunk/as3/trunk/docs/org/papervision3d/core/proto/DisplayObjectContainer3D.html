@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
-<meta content="DisplayObjectContainer3D,org.papervision3d.core.proto.DisplayObjectContainer3D,_children,_childrenByName,numChildren,addChild,removeChild,getChildByName,removeChildByName,addCollada,toString,childrenList" name="keywords">
+<meta content="DisplayObjectContainer3D,org.papervision3d.core.proto.DisplayObjectContainer3D,root,_children,_childrenByName,numChildren,children,addCollada,addChild,addChildren,removeChild,getChildByName,removeChildByName,toString,childrenList" name="keywords">
 <title>org.papervision3d.core.proto.DisplayObjectContainer3D</title>
 </head>
 <body>
@@ -60,8 +60,19 @@ Each DisplayObjectContainer3D object has its own child list.
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
 </tr>
 <tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#children">children</a> : Object<div class="summaryTableDescription">[read-only]
+ Returns the children object.</div>
+</td><td class="summaryTableOwnerCol">DisplayObjectContainer3D</td>
+</tr>
+<tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#numChildren">numChildren</a> : int<div class="summaryTableDescription">[read-only]
  Returns the number of children of this object.</div>
+</td><td class="summaryTableOwnerCol">DisplayObjectContainer3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#root">root</a> : <a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a>
+<div class="summaryTableDescription">
+ [read-only] [read-only] The scene, which is the top-most displayObjectContainer3D in the tree structure.</div>
 </td><td class="summaryTableOwnerCol">DisplayObjectContainer3D</td>
 </tr>
 </table>
@@ -79,7 +90,7 @@ Each DisplayObjectContainer3D object has its own child list.
 </td><td class="summaryTableOwnerCol">DisplayObjectContainer3D</td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_childrenByName">_childrenByName</a> : Dictionary<div class="summaryTableDescription">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_childrenByName">_childrenByName</a> : Object<div class="summaryTableDescription">
  [internal-use] Children indexed by name.</div>
 </td><td class="summaryTableOwnerCol">DisplayObjectContainer3D</td>
 </tr>
@@ -112,9 +123,18 @@ Each DisplayObjectContainer3D object has its own child list.
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
+<a class="signatureLink" href="#addChildren()">addChildren</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>):<a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a>
+</div>
+<div class="summaryTableDescription">
+ Adds all the children of a DisplayObject3D instance to this DisplayObjectContainer instance.</div>
+</td><td class="summaryTableOwnerCol">DisplayObjectContainer3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
 <a class="signatureLink" href="#addCollada()">addCollada</a>(filename:String, materials:<a href="../../materials/MaterialsList.html">MaterialsList</a> = null, scale:Number = 1):void</div>
 <div class="summaryTableDescription">
- Loads a Collada scene and adds it as a child DisplayObject3D instance to this DisplayObjectContainer instance.</div>
+ This method has been deprecated.</div>
 </td><td class="summaryTableOwnerCol">DisplayObjectContainer3D</td>
 </tr>
 <tr class="">
@@ -179,6 +199,20 @@ showHideInherited();
 <code>protected var _children:Dictionary</code><p>
  [internal-use] Names indexed by children.
  </p></div>
+<a name="children"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">children</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>children:Object</code>&nbsp;&nbsp;[read-only]<p>
+ Returns the children object.
+ </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get children():Object</code>
+<br>
+</div>
 <a name="_childrenByName"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -186,7 +220,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>protected var _childrenByName:Dictionary</code><p>
+<code>protected var _childrenByName:Object</code><p>
  [internal-use] Children indexed by name.
  </p></div>
 <a name="numChildren"></a>
@@ -203,6 +237,16 @@ showHideInherited();
 <code>&nbsp;&nbsp;&nbsp;&nbsp;public function get numChildren():int</code>
 <br>
 </div>
+<a name="root"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">root</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var root:<a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></code><p>
+ [read-only] [read-only] The scene, which is the top-most displayObjectContainer3D in the tree structure.
+ </p></div>
 <a name="constructorDetail"></a>
 <div class="detailSectionHeader">Constructor detail</div>
 <a name="DisplayObjectContainer3D()"></a>
@@ -253,6 +297,34 @@ showHideInherited();
 </tr>
 </table>
 </div>
+<a name="addChildren()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">addChildren</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function addChildren(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>):<a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></code><p>
+ Adds all the children of a DisplayObject3D instance to this DisplayObjectContainer instance.
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">parent</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code> &mdash; The DisplayObjectContainer3D instance that contains the children to add.
+ </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></code> &mdash; 
+                        The DisplayObject3D instance that you have added or created.
+ 
+                        
+                     </td>
+</tr>
+</table>
+</div>
 <a name="addCollada()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -261,41 +333,23 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public function addCollada(filename:String, materials:<a href="../../materials/MaterialsList.html">MaterialsList</a> = null, scale:Number = 1):void</code><p>
- Loads a Collada scene and adds it as a child DisplayObject3D instance to this DisplayObjectContainer instance.
- <p/>
- Recommended DCC Settings:
- <ul><li><b>Maya</b>:
- <ul><li>General Export Options
- <ul><li>Relative Paths, Triangulate.</li></ul>
- <li>Filter Export
- <ul><li>Polygon meshes, Normals, Texture Coordinates.</li></ul>
- </li></ul>
- <li><b>3DS Max</b>:
- <ul><li>Standard Options
- <ul><li>Relative Paths.</li></ul>
- <li>Geometry
- <ul><li>Normals, Triangulate.</li></ul>
- </li></ul>
- <p/>
+ This method has been deprecated.
  </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">filename</span>:String</code> &mdash; The url of the scene to be loaded.
- </td>
+<td width="20px"></td><td><code><span class="label">filename</span>:String</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">materials</span>:<a href="../../materials/MaterialsList.html">MaterialsList</a></code> (default = <code>null</code>)<code></code> &mdash; A MaterialsList object.
- </td>
+<td width="20px"></td><td><code><span class="label">materials</span>:<a href="../../materials/MaterialsList.html">MaterialsList</a></code> (default = <code>null</code>)<code></code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">scale</span>:Number</code> (default = <code>1</code>)<code></code> &mdash;  A scaling factor to apply to the scene.
- </td>
+<td width="20px"></td><td><code><span class="label">scale</span>:Number</code> (default = <code>1</code>)<code></code></td>
 </tr>
 </table>
 </div>
@@ -439,9 +493,9 @@ showHideInherited();
 <hr>
 <br>
 <p></p>
-<center class="copyright"> 
-</center>
+<center class="copyright">
+<br>Wed Mar 28 2007, 5:46 PM GMT+01:00 </center>
 </div>
 </body>
 </html>
-<!-- -->
+<!--Wed Mar 28 2007, 5:46 PM GMT+01:00 -->

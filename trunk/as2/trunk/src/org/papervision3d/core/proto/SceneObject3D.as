@@ -103,7 +103,7 @@ class org.papervision3d.core.proto.SceneObject3D
 		this.objects = new Array();
 		this.materials = new Array();
 
-		Papervision3D.log( Papervision3D.NAME + " " + Papervision3D.VERSION + "\nRevision " + Papervision3D.REVISION + " (" + Papervision3D.DATE + ")\n" );
+		Papervision3D.log( Papervision3D.NAME + " " + Papervision3D.VERSION + " (" + Papervision3D.DATE + ")\n" );
 
 		stats = new Object( { points:0, polys:0, triangles:0, performance:0, rendered:0 } );
 	}

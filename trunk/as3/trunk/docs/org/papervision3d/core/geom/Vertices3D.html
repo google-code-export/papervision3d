@@ -41,7 +41,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">Vertices3D <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> <a href="../../objects/DisplayObject3D.html">DisplayObject3D</a> <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> <a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a> <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> flash.events.EventDispatcher</td>
 </tr>
 <tr>
-<td class="classHeaderTableLabel">Subclasses</td><td><a href="../geom/Mesh3D.html">Mesh3D</a></td>
+<td class="classHeaderTableLabel">Subclasses</td><td><a href="../geom/Mesh3D.html">Mesh3D</a>, <a href="../../objects/Stars.html">Stars</a></td>
 </tr>
 </table>
 <p></p>
@@ -64,6 +64,11 @@ The Vertices3D class lets you create and manipulate groups of vertices.
 <table id="summaryTableProperty" class="summaryTable hideInheritedProperty" cellpadding="3" cellspacing="0">
 <tr>
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../proto/DisplayObjectContainer3D.html#children">children</a> : Object<div class="summaryTableDescription">
+ Returns the children object.</div>
+</td><td class="summaryTableOwnerCol"><a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#container">container</a> : Sprite<div class="summaryTableDescription">
@@ -125,6 +130,12 @@ The Vertices3D class lets you create and manipulate groups of vertices.
  [internal-use]
  </div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../proto/DisplayObjectContainer3D.html#root">root</a> : <a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a>
+<div class="summaryTableDescription">
+ [read-only] [read-only] The scene, which is the top-most displayObjectContainer3D in the tree structure.</div>
+</td><td class="summaryTableOwnerCol"><a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#rotationX">rotationX</a> : Number<div class="summaryTableDescription">
@@ -233,7 +244,7 @@ The Vertices3D class lets you create and manipulate groups of vertices.
 </td><td class="summaryTableOwnerCol"><a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../proto/DisplayObjectContainer3D.html#_childrenByName">_childrenByName</a> : Dictionary<div class="summaryTableDescription">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../proto/DisplayObjectContainer3D.html#_childrenByName">_childrenByName</a> : Object<div class="summaryTableDescription">
  [internal-use] Children indexed by name.</div>
 </td><td class="summaryTableOwnerCol"><a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
@@ -284,9 +295,18 @@ The Vertices3D class lets you create and manipulate groups of vertices.
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
+<a class="signatureLink" href="../proto/DisplayObjectContainer3D.html#addChildren()">addChildren</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>):<a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a>
+</div>
+<div class="summaryTableDescription">
+ Adds all the children of a DisplayObject3D instance to this DisplayObjectContainer instance.</div>
+</td><td class="summaryTableOwnerCol"><a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
 <a class="signatureLink" href="../proto/DisplayObjectContainer3D.html#addCollada()">addCollada</a>(filename:String, materials:<a href="../../materials/MaterialsList.html">MaterialsList</a> = null, scale:Number = 1):void</div>
 <div class="summaryTableDescription">
- Loads a Collada scene and adds it as a child DisplayObject3D instance to this DisplayObjectContainer instance.</div>
+ This method has been deprecated.</div>
 </td><td class="summaryTableOwnerCol"><a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -358,7 +378,7 @@ The Vertices3D class lets you create and manipulate groups of vertices.
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="../../objects/DisplayObject3D.html#hitTestObject()">hitTestObject</a>(obj:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>):Boolean</div>
+<a class="signatureLink" href="../../objects/DisplayObject3D.html#hitTestObject()">hitTestObject</a>(obj:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, multiplier:Number = 1):Boolean</div>
 <div class="summaryTableDescription">
  Evaluates the display object to see if it overlaps or intersects with the obj display object.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
@@ -440,7 +460,7 @@ The Vertices3D class lets you create and manipulate groups of vertices.
 <div class="summarySignature">
 <a class="signatureLink" href="../../objects/DisplayObject3D.html#pitch()">pitch</a>(angle:Number):void</div>
 <div class="summaryTableDescription">
- Rotate the display object around its lateral or transverse axis —an axis running from the pilot's left to right in piloted aircraft, and parallel to the wings of a winged aircraft; thus the nose pitches up and the tail down, or vice-versa.</div>
+ Rotate the display object around its lateral or transverse axis an axis running from the pilot's left to right in piloted aircraft, and parallel to the wings of a winged aircraft; thus the nose pitches up and the tail down, or vice-versa.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="">
@@ -482,7 +502,7 @@ The Vertices3D class lets you create and manipulate groups of vertices.
 <div class="summarySignature">
 <a class="signatureLink" href="../../objects/DisplayObject3D.html#roll()">roll</a>(angle:Number):void</div>
 <div class="summaryTableDescription">
- Rotate the display object around the longitudinal axis —an axis drawn through the body of the vehicle from tail to nose in the normal direction of flight, or the direction the object is facing.</div>
+ Rotate the display object around the longitudinal axis an axis drawn through the body of the vehicle from tail to nose in the normal direction of flight, or the direction the object is facing.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -513,7 +533,7 @@ The Vertices3D class lets you create and manipulate groups of vertices.
 <div class="summarySignature">
 <a class="signatureLink" href="../../objects/DisplayObject3D.html#yaw()">yaw</a>(angle:Number):void</div>
 <div class="summaryTableDescription">
- Rotate the display object around about the vertical axis —an axis drawn from top to bottom.</div>
+ Rotate the display object around about the vertical axis an axis drawn from top to bottom.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 </table>
@@ -662,9 +682,9 @@ showHideInherited();
 <hr>
 <br>
 <p></p>
-<center class="copyright"> 
-</center>
+<center class="copyright">
+<br>Wed Mar 28 2007, 5:46 PM GMT+01:00 </center>
 </div>
 </body>
 </html>
-<!-- -->
+<!--Wed Mar 28 2007, 5:46 PM GMT+01:00 -->

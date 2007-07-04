@@ -47,9 +47,8 @@ class org.papervision3d.Papervision3D
 
 	static public var NAME     :String = 'Papervision3D';
 	static public var VERSION  :String = 'Beta RC0';
-	static public var REVISION :String = '10';
-	static public var DATE     :String = '17.12.06';
-	static public var AUTHOR   :String = '(c) 2006 Copyright by Carlos Ulloa | papervision3d.org | C4RL054321@gmail.com';
+	static public var DATE     :String = '24.05.07';
+	static public var AUTHOR   :String = '(c) 2006-2007 Copyright by Carlos Ulloa | papervision3d.org | carlos@papervision3d.org';
 
 	static public var VERBOSE  :Boolean = true;
 
