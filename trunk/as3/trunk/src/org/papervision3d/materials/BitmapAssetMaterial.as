@@ -89,7 +89,8 @@ public class BitmapAssetMaterial extends BitmapMaterial
 		}
 
 		// Retrieve from library or...
-		var bitmap:BitmapData = _library[asset];
+		var bitmapOk :BitmapData;
+		var bitmap   :BitmapData = _library[asset];
 
 		// ...loadBitmap
 		if( ! bitmap )
@@ -104,17 +105,18 @@ public class BitmapAssetMaterial extends BitmapMaterial
 			else
 				bitmap = new BitmapAsset( 0, 0 ) as BitmapData;
 
-			_library[asset] = bitmap;
+			bitmapOk = correctBitmap( bitmap, true );
+
+			_library[asset] = bitmapOk;
 			_count[asset] = 0;
 		}
 		else
 		{
+			bitmapOk = bitmap;
 			_count[asset]++;
 		}
 
-//		return bitmap;
-
-		return correctBitmap( bitmap, true );
+		return bitmapOk;
 	}
 
 	static private var _library :Object = new Object();
