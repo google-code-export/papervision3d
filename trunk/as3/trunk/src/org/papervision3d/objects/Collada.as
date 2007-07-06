@@ -437,7 +437,7 @@ public class Collada extends DisplayObject3D
 
 	private function addMaterial( instance:DisplayObject3D, name:String, bindMaterial:Object ):void
 	{
-		trace( "Collada: addMaterial: " + instance.name + " > " + name ); // DEBUG
+		//trace( "Collada: addMaterial: " + instance.name + " > " + name ); // DEBUG
 		var material:MaterialObject3D;
 		
 		if( this._materials )

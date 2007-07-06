@@ -43,6 +43,7 @@ import flash.geom.Point;
 import flash.geom.Matrix;
 
 import org.papervision3d.core.proto.MaterialObject3D;
+import org.papervision3d.Papervision3D;
 
 /**
 * The BitmapMaterial class creates a texture from a BitmapData object.
@@ -123,12 +124,29 @@ public class BitmapMaterial extends MaterialObject3D
 		var okBitmap :BitmapData;
 
 		var levels :Number = 1 << MIP_MAP_DEPTH;
+		var width  :Number = levels * Math.ceil( bitmap.width  / levels );
+		var height :Number = levels * Math.ceil( bitmap.height / levels );
+
+		// Check for BitmapData maximum size
+		var ok:Boolean = true;
+
+		if( width  > 2880 )
+		{
+			width  = bitmap.width;
+			ok = false;
+		}
+
+		if( height > 2880 )
+		{
+			height = bitmap.height;
+			ok = false;
+		}
+		
+		if( ! ok ) Papervision3D.log( "Material " + this.name + ": Texture too big for mip mapping. Resizing recommended for better performance and quality." );
 
 		// Create new bitmap?
 		if( AUTO_MIP_MAPPING && bitmap && ( bitmap.width % levels !=0  ||  bitmap.height % levels != 0 ) )
 		{
-			var width  :Number = levels * Math.ceil( bitmap.width  / levels );
-			var height :Number = levels * Math.ceil( bitmap.height / levels );
 
 			this.maxU = bitmap.width / width;
 			this.maxV = bitmap.height / height;
@@ -154,12 +172,13 @@ public class BitmapMaterial extends MaterialObject3D
 
 	protected function extendBitmapEdges( bmp:BitmapData, originalWidth:Number, originalHeight:Number )
 	{
-		// Check if needed
-		if( bmp.width > originalWidth || bmp.height > originalHeight )
-		{
-			var srcRect  :Rectangle = new Rectangle();
-			var dstPoint :Point = new Point();
+		var srcRect  :Rectangle = new Rectangle();
+		var dstPoint :Point = new Point();
+		var i        :int;
 
+		// Check width
+		if( bmp.width > originalWidth )
+		{
 			// Extend width
 			srcRect.x      = originalWidth-1;
 			srcRect.y      = 0;
@@ -167,12 +186,16 @@ public class BitmapMaterial extends MaterialObject3D
 			srcRect.height = originalHeight;
 			dstPoint.y     = 0;
 			
-			for( var i:int = originalWidth; i < bmp.width; i++ )
+			for( i = originalWidth; i < bmp.width; i++ )
 			{
 				dstPoint.x = i;
 				bmp.copyPixels( bmp, srcRect, dstPoint );
 			}
+		}
 
+		// Check height
+		if( bmp.height > originalHeight )
+		{
 			// Extend height
 			srcRect.x      = 0;
 			srcRect.y      = originalHeight-1;
