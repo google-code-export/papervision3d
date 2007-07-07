@@ -182,13 +182,13 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	* Sets the 3D scale as applied from the registration point of the object.
 	*/
-	//public function get scale():Number
-	//{
-		//if( this._scaleX == this._scaleY && this._scaleX == this._scaleZ )
-			//if( Papervision3D.usePERCENT ) return this._scaleX * 100;
-			//else return this._scaleX;
-		//else return NaN;
-	//}
+	public function get scale():Number
+	{
+		if( this._scaleX == this._scaleY && this._scaleX == this._scaleZ )
+			if( Papervision3D.usePERCENT ) return this._scaleX * 100;
+			else return this._scaleX;
+		else return NaN;
+	}
 
 	public function set scale( scale:Number ):void
 	{
@@ -203,11 +203,11 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	* Sets the scale along the local X axis as applied from the registration point of the object.
 	*/
-	//public function get scaleX():Number
-	//{
-		//if( Papervision3D.usePERCENT ) return this._scaleX * 100;
-		//else return this._scaleX;
-	//}
+	public function get scaleX():Number
+	{
+		if( Papervision3D.usePERCENT ) return this._scaleX * 100;
+		else return this._scaleX;
+	}
 
 	public function set scaleX( scale:Number ):void
 	{
@@ -220,11 +220,11 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	* Sets the scale along the local Y axis as applied from the registration point of the object.
 	*/
-	//public function get scaleY():Number
-	//{
-		//if( Papervision3D.usePERCENT ) return this._scaleY * 100;
-		//else return this._scaleY;
-	//}
+	public function get scaleY():Number
+	{
+		if( Papervision3D.usePERCENT ) return this._scaleY * 100;
+		else return this._scaleY;
+	}
 
 	public function set scaleY( scale:Number ):void
 	{
@@ -237,11 +237,11 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	* Sets the scale along the local Z axis as applied from the registration point of the object.
 	*/
-	//public function get scaleZ():Number
-	//{
-		//if( Papervision3D.usePERCENT ) return this._scaleZ * 100;
-		//else return this._scaleZ;
-	//}
+	public function get scaleZ():Number
+	{
+		if( Papervision3D.usePERCENT ) return this._scaleZ * 100;
+		else return this._scaleZ;
+	}
 
 	public function set scaleZ( scale:Number ):void
 	{
