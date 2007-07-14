@@ -54,7 +54,7 @@ public class ColorMaterial extends MaterialObject3D
 	* @param	asset				A BitmapData object.
 	* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 	*/
-	public function ColorMaterial( color:Number=0xFF00FF, alpha:Number = 100, initObject:Object=null )
+	public function ColorMaterial( color:Number=0xFF00FF, alpha:Number = 1, initObject:Object=null )
 	{
 		super( initObject );
 
