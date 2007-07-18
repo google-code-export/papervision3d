@@ -292,6 +292,9 @@ public class Face3D
 			graphics.endFill();
 		}
 		
+		//rev 31: John Grden - draw the tri in the InteractiveSceneManager
+		if(instance.interactiveSceneManager != null) instance.interactiveSceneManager.drawFace(instance, x0, x1, x2, y0, y1, y2);
+		
 		return 1;
 	}
 
