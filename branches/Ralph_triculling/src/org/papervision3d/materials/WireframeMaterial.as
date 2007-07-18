@@ -38,13 +38,17 @@
 package org.papervision3d.materials
 {
 import org.papervision3d.core.proto.MaterialObject3D;
+import org.papervision3d.core.draw.IFaceDrawer;
+import org.papervision3d.core.geom.Face3D;
+import flash.display.Graphics;
+import org.papervision3d.core.geom.Vertex2D;
 
 /**
 * The WireframeMaterial class creates a wireframe material, where only the outlines of the faces are drawn.
 * <p/>
 * Materials collects data about how objects appear when rendered.
 */
-public class WireframeMaterial extends MaterialObject3D
+public class WireframeMaterial extends MaterialObject3D implements IFaceDrawer
 {
 	// ______________________________________________________________________ NEW
 
@@ -61,9 +65,30 @@ public class WireframeMaterial extends MaterialObject3D
 		this.lineColor   = color;
 		this.lineAlpha   = alpha;
 
-		this.doubleSided = true;
+		this.doubleSided = false;
 	}
-
+	
+	/**
+	 *  drawFace3D
+	 */
+	override public function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+	{
+		var x0:Number = v0.x;
+		var y0:Number = v0.y;
+		var x1:Number = v1.x;
+		var y1:Number = v1.y;
+		var x2:Number = v2.x;
+		var y2:Number = v2.y;
+		
+		graphics.lineStyle( 0, lineColor, lineAlpha );
+		graphics.moveTo( x0, y0 );
+		graphics.lineTo( x1, y1 );
+		graphics.lineTo( x2, y2 );
+		graphics.lineTo( x0, y0 );
+		graphics.lineStyle();
+		
+		return 1;
+	}
 
 	// ______________________________________________________________________ TO STRING
 

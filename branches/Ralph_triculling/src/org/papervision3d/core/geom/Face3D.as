@@ -101,7 +101,7 @@ public class Face3D
 	public var id :Number;
 	
 	/**
-	 * [internal-use] Used to store references to the vertices.
+	 * Used to store references to the vertices.
 	 */
 	public var v0:Vertex3D;
 	public var v1:Vertex3D;
@@ -226,11 +226,11 @@ public class Face3D
 		var y2:Number = s2.y;
 	
 		var material :MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
-
-		// Invisible?
+		
+		// Invisible? - Move this to earlier in the pipeline
 		if( material.invisible ) return 0;
 		
-		// Double sided?
+		// Back face culling ? Move this to earlier in the pipeline
 		if( material.oneSide )
 		{
 			if( material.opposite )
@@ -247,52 +247,7 @@ public class Face3D
 			}
 		}
 
-		var texture   :BitmapData  = material.bitmap;
-		var fillAlpha :Number      = material.fillAlpha;
-		var lineAlpha :Number      = material.lineAlpha;
-		var graphics  :Graphics    = container.graphics;
-
-		if( texture )
-		{
-			var map :Matrix = instance.projected[ this ] || transformUV( instance );
-			_triMatrix.a = x1 - x0;
-			_triMatrix.b = y1 - y0;
-			_triMatrix.c = x2 - x0;
-			_triMatrix.d = y2 - y0;
-			_triMatrix.tx = x0;
-			_triMatrix.ty = y0;
-			_localMatrix.a = map.a;
-			_localMatrix.b = map.b;
-			_localMatrix.c = map.c;
-			_localMatrix.d = map.d;
-			_localMatrix.tx = map.tx;
-			_localMatrix.ty = map.ty;
-			_localMatrix.concat(_triMatrix);
-			graphics.beginBitmapFill( texture, _localMatrix, true, material.smooth);
-		}else if( fillAlpha ){
-			graphics.beginFill( material.fillColor, fillAlpha );
-		}
-
-		// Line color
-		if( lineAlpha ){
-			graphics.lineStyle( 0, material.lineColor, lineAlpha );
-		}else{
-			graphics.lineStyle();
-		}
-		
-		// Draw triangle
-		graphics.moveTo( x0, y0 );
-		graphics.lineTo( x1, y1 );
-		graphics.lineTo( x2, y2 );
-
-		if( lineAlpha ){
-			graphics.lineTo( x0, y0 );
-		}
-		if( texture || fillAlpha ){
-			graphics.endFill();
-		}
-		
-		return 1;
+		return material.drawFace3D(this, container.graphics, s0, s1, s2,(instance.projected[ this ] || transformUV( instance )));
 	}
 
 	// ______________________________________________________________________________
