@@ -19,8 +19,7 @@ package org.papervision3d.core.culling
 		{
 			
 		}
-		
-		
+	
 		public function testFace(displayObject3D:DisplayObject3D, faceInstance:Face3DInstance, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
 		{
 			//Material checks & backface culling
