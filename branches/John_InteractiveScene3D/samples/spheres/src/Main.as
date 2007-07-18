@@ -26,6 +26,7 @@ package
 	import org.papervision3d.scenes.InteractiveScene3D;
 	import org.papervision3d.scenes.MovieScene3D;
 	import flash.filters.BlurFilter;
+	import flash.utils.setTimeout;
 
 	public class Main extends Sprite
 	{
@@ -48,11 +49,12 @@ package
 			stage.align=StageAlign.TOP_LEFT;
 			stage.addEventListener(Event.RESIZE, resetStage);
 			stage.quality = "medium";
-			init();
+			setTimeout(init, 250);
 		}
 		
 		public function init():void
 		{	
+			log.debug("init called");
 			/*
 			Create canvas and center it
 			*/
@@ -62,15 +64,18 @@ package
 
 			// create scene and camera
 			scene3d = new InteractiveScene3D(canvas);
+			scene3d.interactiveSceneManager.debug = true;
 			camera = new FreeCamera3D();
-
+			
 			var matsList:MaterialsList = new MaterialsList();
 
-			var bam:BitmapFileMaterial = new BitmapFileMaterial("images/sphereMaterial.png");
+			var bam:BitmapFileMaterial = new BitmapFileMaterial("http://www.rockonflash.com/demos/pv3d/InteractiveScene3D/images/sphereMaterial.png");
 			matsList.addMaterial(bam, "sphereMaterial");
 
-			collada = new Collada("spheres.DAE", matsList, .043);
+			collada = new Collada("http://www.rockonflash.com/demos/pv3d/InteractiveScene3D/spheres.DAE", matsList, .043);
 			collada.addEventListener(FileLoadEvent.LOAD_COMPLETE, handleLoadComplete);
+			collada.addEventListener(FileLoadEvent.LOAD_ERROR, handleLoadError);
+			collada.addEventListener(FileLoadEvent.SECURITY_LOAD_ERROR, handleSecurityLoadError);
 			collada.name="myCollada";
 
 			camera.focus=300;
@@ -80,6 +85,7 @@ package
 		
 		public function resetStage(...rest):void
 		{
+			log.debug("resetStage called");
 			canvas.x = stage.stageWidth*.5;
 			canvas.y = stage.stageHeight*.5;
 			graphics.beginFill(0x000000,1);
@@ -89,6 +95,7 @@ package
 		
 		private function handleLoadComplete(e:FileLoadEvent):void
 		{
+			log.debug("handleLoadComplete called");
 			scene3d.addChild(collada);
 			
 			scene3d.interactiveSceneManager.addEventListener(InteractiveScene3DEvent.OBJECT_PRESS, handleMousePress);
@@ -99,6 +106,16 @@ package
 			scene3d.interactiveSceneManager.addEventListener(InteractiveScene3DEvent.OBJECT_MOVE, handleMouseMove);
 			
 			stage.addEventListener(Event.ENTER_FRAME, handleEnterFrame);
+		}
+		
+		private function handleLoadError(e:FileLoadEvent):void
+		{
+			log.error("collada file failed to load", e.file);
+		}
+		
+		private function handleSecurityLoadError(e:FileLoadEvent):void
+		{
+			log.error("collada file security error", e.file);
 		}
 		
 		private function handleMousePress(e:InteractiveScene3DEvent):void
@@ -123,19 +140,19 @@ package
 		
 		private function handleMouseOver(e:InteractiveScene3DEvent):void
 		{
-			log.debug("over");
+			log.debug("over", e.displayObject3D.name);
 			e.sprite.filters = [new GlowFilter(0x20ADCD, .75, 20,20,2,1)];
 		}
 		
 		private function handleMouseOut(e:InteractiveScene3DEvent):void
 		{
-			log.debug("out");
+			log.debug("out", e.displayObject3D.name);
 			e.sprite.filters = [];
 		}
 		
 		private function handleMouseMove(e:InteractiveScene3DEvent):void
 		{
-			log.debug("move");
+			log.debug("move", e.displayObject3D.name);
 		}
 
 		private function handleEnterFrame(e:Event):void
