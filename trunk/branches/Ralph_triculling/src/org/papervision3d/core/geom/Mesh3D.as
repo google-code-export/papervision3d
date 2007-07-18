@@ -110,7 +110,6 @@ public class Mesh3D extends Vertices3D
 	*/
 	public override function project( parent :DisplayObject3D, camera :CameraObject3D, sorted :Array=null ):Number
 	{
-		trace(this);
 		// Vertices
 		super.project( parent, camera, sorted );
 

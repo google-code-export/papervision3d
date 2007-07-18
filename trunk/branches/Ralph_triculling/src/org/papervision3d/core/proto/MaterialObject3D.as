@@ -44,6 +44,7 @@ import org.papervision3d.core.geom.Face3D;
 import flash.display.Graphics;
 import org.papervision3d.core.geom.Vertex2D;
 import org.papervision3d.core.draw.IFaceDrawer;
+import org.papervision3d.objects.DisplayObject3D;
 
 
 /**
@@ -224,7 +225,7 @@ public class MaterialObject3D extends EventDispatcher implements IFaceDrawer
 	 * Draws the triangle to screen.
 	 * 
 	 */
-	public function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D, map:Matrix=null):int
+	public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
 	{
 		return 0;
 	}

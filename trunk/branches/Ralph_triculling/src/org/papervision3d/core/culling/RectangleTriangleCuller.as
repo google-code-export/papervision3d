@@ -38,7 +38,6 @@ package org.papervision3d.core.culling
 				hitRect.height = Math.max(vertex2.y, Math.max(vertex1.y, vertex0.y)) + Math.abs(hitRect.y);
 				return cullingRectangle.intersects(hitRect);	
 			}
-			
 			return false;
 		}
 		
