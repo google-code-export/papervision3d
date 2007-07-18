@@ -70,7 +70,7 @@ public class Papervision3D
 	/**
 	* Enables version to be retrieved at runtime or when reviewing a decompiled swf.
 	*/
-	static public var VERSION  :String = 'Beta RC1';
+	static public var VERSION  :String = 'Beta RC1 _ TRI';
 
 	/**
 	* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.

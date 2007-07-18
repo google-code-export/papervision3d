@@ -47,7 +47,7 @@ package org.papervision3d.test
 			
 			material.addMaterial(new BitmapMaterial(bitmapData));
 			material.addMaterial(new WireframeMaterial(0xFF0000,100));
-			material.doubleSided = true;
+			material.doubleSided = false;
 			obj = new Cube(material,1000,1000,1000,8,8,8);
 			
 			scene3D.addChild(obj);
