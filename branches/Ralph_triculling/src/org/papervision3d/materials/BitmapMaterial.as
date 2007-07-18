@@ -170,7 +170,7 @@ public class BitmapMaterial extends MaterialObject3D
 		return okBitmap;
 	}
 
-	protected function extendBitmapEdges( bmp:BitmapData, originalWidth:Number, originalHeight:Number )
+	protected function extendBitmapEdges( bmp:BitmapData, originalWidth:Number, originalHeight:Number ):void
 	{
 		var srcRect  :Rectangle = new Rectangle();
 		var dstPoint :Point = new Point();
