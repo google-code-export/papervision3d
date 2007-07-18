@@ -219,6 +219,7 @@ public class SceneObject3D extends DisplayObjectContainer3D
 			var i       :Number = objects.length;
 
 			while( p = objects[--i] )
+			
 				if( p.visible )
 					p.project( camera, camera );
 		}

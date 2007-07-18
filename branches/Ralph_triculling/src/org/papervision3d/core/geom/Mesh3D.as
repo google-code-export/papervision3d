@@ -110,6 +110,7 @@ public class Mesh3D extends Vertices3D
 	*/
 	public override function project( parent :DisplayObject3D, camera :CameraObject3D, sorted :Array=null ):Number
 	{
+		trace(this);
 		// Vertices
 		super.project( parent, camera, sorted );
 
@@ -132,13 +133,11 @@ public class Mesh3D extends Vertices3D
 			iFace.face = face;
 			iFace.instance = this;
 
-			vertex0 = projected[face.vertices[0]];
-			vertex1 = projected[face.vertices[1]];
-			vertex2 = projected[face.vertices[2]];
-			
-			iFace.visible = triCuller.testFace(iFace, vertex0, vertex1, vertex2);
-			
-			if( iFace.visible )
+			vertex0 = projected[face.v0];
+			vertex1 = projected[face.v1];
+			vertex2 = projected[face.v2];
+		
+			if( (iFace.visible = triCuller.testFace(iFace, vertex0, vertex1, vertex2)) )
 			{
 				switch(meshSort)
 				{
@@ -154,9 +153,7 @@ public class Mesh3D extends Vertices3D
 						screenZs += iFace.screenZ = Math.min(vertex0.z,vertex1.z,vertex2.z);
 						break;
 				}
-					
 				visibleFaces++;
-
 				if( sorted ) sorted.push( iFace );
 			}
 		}

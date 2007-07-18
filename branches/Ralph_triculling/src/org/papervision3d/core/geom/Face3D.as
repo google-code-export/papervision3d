@@ -103,9 +103,9 @@ public class Face3D
 	/**
 	 * [internal-use] Used to store references to the vertices.
 	 */
-	private var v0:Vertex3D;
-	private var v1:Vertex3D;
-	private var v2:Vertex3D;
+	public var v0:Vertex3D;
+	public var v1:Vertex3D;
+	public var v2:Vertex3D;
 
 	/**
 	* The Face3D constructor lets you create linear textured or solid colour triangles.

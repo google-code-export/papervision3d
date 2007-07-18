@@ -6,24 +6,34 @@ package org.papervision3d.core.culling
 	public class CompositeTriangleCuller implements ITriangleCuller
 	{
 		
-		private static var cullers:Array = new Array();
+		private var cullers:Array;
 		
-		static public function addCuller(culler:ITriangleCuller):void
+		public function CompositeTriangleCuller()
 		{
-			cullers.push(culler);
+			init();
 		}
 		
-		static public function removeCuller(culler:ITriangleCuller):void
-		{
-				
-		}
-		
-		public static function clearCullers():void
+		private function init():void
 		{
 			cullers = new Array();
 		}
 		
-		static public function testFace(faceInstance:Face3D, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
+		public function addCuller(culler:ITriangleCuller):void
+		{
+			cullers.push(culler);
+		}
+		
+		public function removeCuller(culler:ITriangleCuller):void
+		{
+				
+		}
+		
+		public function clearCullers():void
+		{
+			cullers = new Array();
+		}
+		
+		public function testFace(faceInstance:Object, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
 		{
 			for each(var culler:ITriangleCuller in cullers){
 				
