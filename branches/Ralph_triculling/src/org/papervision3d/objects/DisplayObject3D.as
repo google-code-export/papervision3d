@@ -308,6 +308,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	* The scene where the object belongs.
 	*/
 	protected var _scene :SceneObject3D;
+	
 	public function set scene(p_scene:SceneObject3D):void
 	{
 		// set scene property

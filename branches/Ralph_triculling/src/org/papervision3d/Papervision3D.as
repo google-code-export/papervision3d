@@ -87,8 +87,6 @@ public class Papervision3D
 	*/
 	static public var VERBOSE  :Boolean = true;
 	
-	static public var triangleCuller:ITriangleCuller = new DefaultTriangleCuller();
-	
 	// ___________________________________________________________________ LOG
 
 	/**

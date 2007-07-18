@@ -31,6 +31,7 @@ package org.papervision3d.core.culling
 				var x2:Number = vertex2.x;
 				var y2:Number = vertex2.y;
 				
+				
 				if( material.oneSide ){
 					if( material.opposite ){
 						if( ( x2 - x0 ) * ( y1 - y0 ) - ( y2 - y0 ) * ( x1 - x0 ) > 0 )
