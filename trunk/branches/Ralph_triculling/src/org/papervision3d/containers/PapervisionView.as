@@ -12,7 +12,7 @@ package org.papervision3d.containers
 		
 		private var isRendering:Boolean;
 		
-		protected var scene3D:Scene3D;
+		public var scene3D:Scene3D;
 		protected var papervisionSprite:Sprite;
 		protected var camera3D:Camera3D;
 		protected var clipSprite:Sprite;

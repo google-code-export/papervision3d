@@ -37,26 +37,24 @@
 
 package org.papervision3d.objects
 {
+import com.blitzagency.xray.logger.XrayLog;
+
+import flash.display.Sprite;
+import flash.geom.Matrix;
+import flash.utils.Dictionary;
+
 import org.papervision3d.Papervision3D;
-
-import org.papervision3d.core.Number3D;
 import org.papervision3d.core.Matrix3D;
-
+import org.papervision3d.core.Number3D;
 import org.papervision3d.core.proto.CameraObject3D;
 import org.papervision3d.core.proto.DisplayObjectContainer3D;
 import org.papervision3d.core.proto.GeometryObject3D;
 import org.papervision3d.core.proto.MaterialObject3D;
 import org.papervision3d.core.proto.SceneObject3D;
-
 import org.papervision3d.materials.MaterialsList;
-
-import com.blitzagency.xray.logger.XrayLog;
-
-import flash.display.Sprite;
-import flash.utils.Dictionary;
-import flash.geom.Matrix;
-import org.papervision3d.utils.InteractiveSceneManager;
 import org.papervision3d.scenes.InteractiveScene3D;
+import org.papervision3d.utils.InteractiveSceneManager;
+import org.papervision3d.core.geom.Face3DInstance;
 
 /**
 * The DisplayObject class represents instances of 3D objects that are contained in the scene.
@@ -309,7 +307,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	* The scene where the object belongs.
 	*/
-	private var _scene :SceneObject3D;
+	protected var _scene :SceneObject3D;
 	public function set scene(p_scene:SceneObject3D):void
 	{
 		// set scene property
@@ -695,7 +693,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		// Render
 		var container :Sprite = this.container || scene.container;
 		var rendered  :Number = 0;
-		var iFace     :Object;
+		var iFace     :Face3DInstance;
 
 		for( var i:int = 0; iFace = iFaces[i]; i++ )
 		{

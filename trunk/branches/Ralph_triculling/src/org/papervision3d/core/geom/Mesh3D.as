@@ -43,11 +43,10 @@ import flash.utils.Dictionary;
 
 import org.papervision3d.Papervision3D;
 import org.papervision3d.core.*;
-import org.papervision3d.core.proto.*;
-import org.papervision3d.core.geom.*;
-
-import org.papervision3d.objects.DisplayObject3D;
 import org.papervision3d.core.culling.ITriangleCuller;
+import org.papervision3d.core.proto.*;
+import org.papervision3d.objects.DisplayObject3D;
+import org.papervision3d.scenes.Scene3D;
 
 
 /**
@@ -124,19 +123,19 @@ public class Mesh3D extends Vertices3D
 		var screenZs     :Number = 0;
 		var visibleFaces :Number = 0;
 		var triCuller:ITriangleCuller = Papervision3D.triangleCuller;
-		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, visibles:Number, iFace:Object, face:Face3D;
-
+		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, visibles:Number, iFace:Face3DInstance, face:Face3D;
+	
 		for( var i:int=0; face = faces[i]; i++ )
 		{
-			iFace = iFaces[i] || (iFaces[i] = {});
+			iFace = iFaces[i] || (iFaces[i] = new Face3DInstance());
 			iFace.face = face;
 			iFace.instance = this;
 
 			vertex0 = projected[face.v0];
 			vertex1 = projected[face.v1];
 			vertex2 = projected[face.v2];
-		
-			if( (iFace.visible = triCuller.testFace(iFace, vertex0, vertex1, vertex2)) )
+			
+			if( (iFace.visible = triCuller.testFace(this, iFace, vertex0, vertex1, vertex2)))
 			{
 				switch(meshSort)
 				{
