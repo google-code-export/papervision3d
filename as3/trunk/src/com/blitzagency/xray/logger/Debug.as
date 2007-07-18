@@ -47,7 +47,7 @@
 			catch (e:Error)
 			{
 				err = new LogError("log");
-				xrayLC.close();
+				//xrayLC.close();
 				setTimeout(makeConnection, 1000);
 			}
 			finally
@@ -95,7 +95,8 @@
 			{
 				try
 				{
-					xrayLC.send("_xray_view_conn", "setTrace", pMsg, pLevel, pPackage);
+					var msg:String = String(pMsg).length >= 39995 ? String(pMsg).substr(0, 39995) + "..." : String(pMsg);
+					xrayLC.send("_xray_view_conn", "setTrace", msg, pLevel, pPackage);
 				}catch (e:LogError)
 				{
 					LogError("No Xray Interface running");

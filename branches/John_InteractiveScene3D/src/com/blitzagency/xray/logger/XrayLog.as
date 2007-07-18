@@ -12,29 +12,55 @@
 			logger = XrayLogger.getInstance();
 		}
 		
-		public function debug(message:String, dump:*=""):void
+		//public function debug(message:String, dump:*=""):void
+		public function debug(message:String, ...rest):void
 		{
-			logger.debug(new Log(message, dump, XrayLogger.DEBUG));
+			if(rest.length == 0) logger.debug(new Log(message, null, XrayLogger.DEBUG));
+			for(var i:Number=0;i<rest.length;i++)
+			{
+				if(i > 0) message = "";
+				logger.debug(new Log(message, rest[i], XrayLogger.DEBUG));
+			}
 		}
 		
-		public function info(message:String, dump:*=""):void
+		public function info(message:String, ...rest):void
 		{
-			logger.info(new Log(message, dump, XrayLogger.INFO));
+			if(rest.length == 0) logger.info(new Log(message, null, XrayLogger.INFO));
+			for(var i:Number=0;i<rest.length;i++)
+			{
+				if(i > 0) message = "";
+				logger.info(new Log(message, rest[i], XrayLogger.INFO));
+			}
 		}
 		
-		public function warn(message:String, dump:*=""):void
+		public function warn(message:String, ...rest):void
 		{
-			logger.warn(new Log(message, dump, XrayLogger.WARN));
+			if(rest.length == 0) logger.warn(new Log(message, null, XrayLogger.WARN));
+			for(var i:Number=0;i<rest.length;i++)
+			{
+				if(i > 0) message = "";
+				logger.warn(new Log(message, rest[i], XrayLogger.WARN));
+			}
 		}
 		
-		public function error(message:String, dump:*=""):void
+		public function error(message:String, ...rest):void
 		{
-			logger.error(new Log(message, dump, XrayLogger.ERROR));
+			if(rest.length == 0) logger.error(new Log(message, null, XrayLogger.ERROR));
+			for(var i:Number=0;i<rest.length;i++)
+			{
+				if(i > 0) message = "";
+				logger.error(new Log(message, rest[i], XrayLogger.ERROR));
+			}
 		}
 		
-		public function fatal(message:String, dump:*=""):void
+		public function fatal(message:String, ...rest):void
 		{
-			logger.fatal(new Log(message, dump, XrayLogger.FATAL));
+			if(rest.length == 0) logger.fatal(new Log(message, null, XrayLogger.FATAL));
+			for(var i:Number=0;i<rest.length;i++)
+			{
+				if(i > 0) message = "";
+				logger.fatal(new Log(message, rest[i], XrayLogger.FATAL));
+			}
 		}
 	}
 }

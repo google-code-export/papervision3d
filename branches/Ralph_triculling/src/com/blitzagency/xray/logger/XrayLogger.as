@@ -103,7 +103,7 @@
 		{
 			if(obj.getLevel() == level) 
 			{
-				log(obj.getMessage(), obj.getDump(), obj.getCaller(), obj.getClassPackage(), 0);
+				log(obj.getMessage(), obj.getCaller(), obj.getClassPackage(), 0, obj.getDump());
 			}
 		}
 		
@@ -111,7 +111,7 @@
 		{
 			if(obj.getLevel() >= level) 
 			{
-				log(obj.getMessage(), obj.getDump(), obj.getCaller(), obj.getClassPackage(), 1);
+				log(obj.getMessage(), obj.getCaller(), obj.getClassPackage(), 1, obj.getDump());
 			}
 		}
 		
@@ -119,7 +119,7 @@
 		{
 			if(obj.getLevel() >= level) 
 			{
-				log(obj.getMessage(), obj.getDump(), obj.getCaller(), obj.getClassPackage(), 2);
+				log(obj.getMessage(), obj.getCaller(), obj.getClassPackage(), 2, obj.getDump());
 			}
 		}
 		
@@ -127,7 +127,7 @@
 		{
 			if(obj.getLevel() >= level) 
 			{
-				log(obj.getMessage(), obj.getDump(), obj.getCaller(), obj.getClassPackage(), 3);
+				log(obj.getMessage(), obj.getCaller(), obj.getClassPackage(), 3, obj.getDump());
 			}
 		}
 		
@@ -135,7 +135,7 @@
 		{
 			if(obj.getLevel() >= level) 
 			{
-				log(obj.getMessage(), obj.getDump(), obj.getCaller(), obj.getClassPackage(), 4);
+				log(obj.getMessage(), obj.getCaller(), obj.getClassPackage(), 4, obj.getDump());
 			}
 		}
 		
@@ -148,7 +148,7 @@
 		 *
 		 * @param message the message to log
 		 */
-		public function log(message:String, dump:Object, caller:String, classPackage:String, level:Number):void 
+		public function log(message:String, caller:String, classPackage:String, level:Number, dump:Object=null):void 
 		{		
 			
 			// add time stamp
@@ -156,7 +156,9 @@
 			if(classPackage.length > 0) traceMessage += caller + "\n";
 			traceMessage += message;
 
-			Debug.trace(traceMessage, classPackage, level);
+			if(message.length > 0) Debug.trace(traceMessage, classPackage, level);
+			
+			if(dump == null) return;
 			
 			// check to see if dump is an object or not
 			var type:String = typeof(dump);

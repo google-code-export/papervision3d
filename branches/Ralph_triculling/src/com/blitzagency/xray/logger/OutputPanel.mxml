@@ -30,7 +30,7 @@
 			import mx.managers.PopUpManager;
 			
 			
-			public var originalHeight:Number = 450;
+			public var originalHeight:Number = 300;
 			private var scroll:Boolean = false;
 			private var updateSI:Number;
 			
@@ -72,8 +72,6 @@
 				var logLevel:Object = LSOUserPreferences.getPreference("logLevel");
 				this["debug_" + Number(logLevel)].selected = true;
 				XrayLogger.getInstance().setLevel(Number(logLevel));
-				
-				show();
 			}
 			
 			public function trace(msg:String):void

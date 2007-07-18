@@ -1,11 +1,15 @@
 ﻿package com.blitzagency.xray.logger.util
 {
 	import flash.utils.*;
+	import com.blitzagency.xray.logger.XrayLog;
+	
 	public class ObjectTools
 	{
+		private static var log:XrayLog = new XrayLog();
+		
 		public static function getFullClassPath(obj:Object):String
 		{
-			//var xmlDoc:XML = describeType(obj);
+			var xmlDoc:XML = describeType(obj);
 			var ary:Array = [];
 			
 			
@@ -14,7 +18,7 @@
 			className = className.indexOf("::") > -1 ? className.split("::").join(".") : className;
 			
 			ary.push(className);
-			/*
+			
 			// loop the extendsClass nodes
 			for each(var item:XML in xmlDoc.extendsClass)
 			{
@@ -23,7 +27,7 @@
 			}
 			
 			// return the full path as dot separated
-			*/
+			
 			return ary.join(".");
 		}
 		
