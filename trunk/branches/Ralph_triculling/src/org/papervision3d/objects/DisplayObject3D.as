@@ -55,6 +55,8 @@ import com.blitzagency.xray.logger.XrayLog;
 import flash.display.Sprite;
 import flash.utils.Dictionary;
 import flash.geom.Matrix;
+import org.papervision3d.utils.InteractiveSceneManager;
+import org.papervision3d.scenes.InteractiveScene3D;
 
 /**
 * The DisplayObject class represents instances of 3D objects that are contained in the scene.
@@ -300,9 +302,31 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 
 	/**
+	* If an InteractiveScene3D is used, this will DisplayObject3D will be registered with the InteractiveSceneManager
+	*/	
+	public var interactiveSceneManager:InteractiveSceneManager;
+
+	/**
 	* The scene where the object belongs.
 	*/
-	public var scene :SceneObject3D;
+	private var _scene :SceneObject3D;
+	public function set scene(p_scene:SceneObject3D):void
+	{
+		// set scene property
+		_scene = p_scene;
+		
+		for each( var child:DisplayObject3D in this._childrenByName )
+		{
+			child.scene = _scene;
+		}
+		
+		// if this is NOT an interactiveScene3D, just return
+		if(_scene is InteractiveScene3D == false) return;
+		
+		// if we have an InteractiveScene3D, register this and the children to add them to the InteractiveSceneManager
+		interactiveSceneManager = InteractiveScene3D(_scene).interactiveSceneManager;
+		interactiveSceneManager.addDisplayObject(this);
+	}
 
 	/**
 	* [read-only] Indicates the DisplayObjectContainer3D object that contains this display object.

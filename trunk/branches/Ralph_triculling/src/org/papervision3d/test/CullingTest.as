@@ -14,6 +14,7 @@ package org.papervision3d.test
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.materials.WireframeMaterial;
 	import org.papervision3d.materials.ColorMaterial;
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.materials.CompositeMaterial;
 
 	public class CullingTest extends PapervisionView
