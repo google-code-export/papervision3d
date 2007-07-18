@@ -77,6 +77,16 @@ package org.papervision3d.utils
 			drawingContainer.container.graphics.endFill();
 		}
 		
+		public function getSprite(container3d:DisplayObject3D):Sprite
+		{
+			return InteractiveContainerData(faceDictionary[container3d]).container;
+		}
+		
+		public function getDisplayObject3D(sprite:Sprite):DisplayObject3D
+		{
+			return DisplayObject3D(containerDictionary[sprite]);
+		}
+		
 		public function resetFaces():void
 		{			
 			// clear all triangles/faces that have been drawn
