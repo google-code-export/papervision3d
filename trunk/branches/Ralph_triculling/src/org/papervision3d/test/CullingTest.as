@@ -11,11 +11,14 @@ package org.papervision3d.test
 	import flash.display.DisplayObject;
 	import org.papervision3d.core.geom.Mesh3D;
 	import flash.events.Event;
+	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.materials.WireframeMaterial;
+	import org.papervision3d.materials.ColorMaterial;
 
 	public class CullingTest extends PapervisionView
 	{
 		
-		private var material:BitmapMaterial;
+		private var material:MaterialObject3D;
 		private var bitmapData:BitmapData;
 		private var obj:Mesh3D;
 		
@@ -36,6 +39,7 @@ package org.papervision3d.test
 			bitmapData = new BitmapData(255,255,false,0xFFFFFF);
 			bitmapData.perlinNoise(64,64,4,123456,false,true,7);
 			material = new BitmapMaterial(bitmapData);
+			//material = new ColorMaterial(0xFF0000,1);
 			material.doubleSided = false;
 			obj = new Cube(material,1000,1000,1000,8,8,8);
 			

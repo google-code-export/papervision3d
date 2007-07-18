@@ -40,7 +40,6 @@ package org.papervision3d.materials
 import flash.display.BitmapData;
 
 import flash.utils.getDefinitionByName;
-//import flash.utils.Dictionary;
 import flash.utils.describeType;
 
 

@@ -40,6 +40,10 @@ package org.papervision3d.core.proto
 import flash.geom.Matrix;
 import flash.display.BitmapData;
 import flash.events.EventDispatcher;
+import org.papervision3d.core.geom.Face3D;
+import flash.display.Graphics;
+import org.papervision3d.core.geom.Vertex2D;
+import org.papervision3d.core.draw.IFaceDrawer;
 
 
 /**
@@ -55,7 +59,7 @@ import flash.events.EventDispatcher;
 * <p/>
 * MaterialObject3D is an abstract base class; therefore, you cannot call MaterialObject3D directly.
 */
-public class MaterialObject3D extends EventDispatcher
+public class MaterialObject3D extends EventDispatcher implements IFaceDrawer
 {
 	/**
 	* A transparent or opaque BitmapData texture.
@@ -67,7 +71,6 @@ public class MaterialObject3D extends EventDispatcher
 	*/
 	public var smooth :Boolean;
 
-
 	/**
 	* A RGB color value to draw the faces outline.
 	*/
@@ -77,7 +80,6 @@ public class MaterialObject3D extends EventDispatcher
 	* An 8-bit alpha value for the faces outline. If zero, no outline is drawn.
 	*/
 	public var lineAlpha :Number;
-
 
 	/**
 	* A RGB color value to fill the faces with. Only used if no texture is provided.
@@ -214,7 +216,19 @@ public class MaterialObject3D extends EventDispatcher
 
 		return defMaterial;
 	}
-
+	
+	
+	/**
+	 *	drawFace3D();
+	 * 	
+	 * Draws the triangle to screen.
+	 * 
+	 */
+	public function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D, map:Matrix=null):int
+	{
+		return 0;
+	}
+	
 	/**
 	* Updates the BitmapData bitmap from the given texture.
 	*
@@ -255,23 +269,7 @@ public class MaterialObject3D extends EventDispatcher
 	public function clone():MaterialObject3D
 	{
 		var cloned:MaterialObject3D = new MaterialObject3D();
-
-		cloned.bitmap    = this.bitmap;
-//		cloned.animated  = this.animated;
-		cloned.smooth    = this.smooth;
-
-		cloned.lineColor = this.lineColor;
-		cloned.lineAlpha = this.lineAlpha;
-		cloned.fillColor = this.fillColor;
-		cloned.fillAlpha = this.fillAlpha;
-
-		cloned.oneSide   = this.oneSide;
-		cloned.opposite  = this.opposite;
-
-		cloned.invisible = this.invisible;
-		cloned.scene     = this.scene;
-		cloned.name      = this.name;
-
+		cloned.copy(this);
 		return cloned;
 	}
 
