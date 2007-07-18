@@ -12,9 +12,9 @@ package org.papervision3d.core.culling
 		private static const DEFAULT_RECT_H:Number = 240;
 		
 		private static var hitRect:Rectangle = new Rectangle();
-		public static var cullingRectangle:Rectangle = new Rectangle(DEFAULT_RECT_X, DEFAULT_RECT_Y, DEFAULT_RECT_W, DEFAULT_RECT_W);
 		
-		
+		public var cullingRectangle:Rectangle = new Rectangle(DEFAULT_RECT_X, DEFAULT_RECT_Y, DEFAULT_RECT_W, DEFAULT_RECT_W);
+	
 		/**
 		 * @Author Ralph Hauwert
 		 *
@@ -22,9 +22,11 @@ package org.papervision3d.core.culling
 		 * 
 		 * This Triangle Culler culls faces based upon the visibility of it vertices and their visibility in a defined rectangle.
 		 */
-		public function RectangleTriangleCuller():void
+		public function RectangleTriangleCuller(cullingRectangle:Rectangle = null):void
 		{
-			
+			if(cullingRectangle){
+				this.cullingRectangle = cullingRectangle;	
+			}
 		}
 		
 		public function testFace(faceInstance:Object, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
