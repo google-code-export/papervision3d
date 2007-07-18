@@ -12,7 +12,7 @@ package com.blitzagency.xray.logger
 		function warn(obj:Log):void;
 		function error(obj:Log):void;
 		function fatal(obj:Log):void;
-		function log(message:String, dump:Object, caller:String, classPackage:String, level:Number):void;
+		function log(message:String, caller:String, classPackage:String, level:Number, dump:Object=null):void;
 		
 	}
 }
