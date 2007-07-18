@@ -43,11 +43,13 @@ package org.papervision3d.test
 			//var material:BitmapMaterial = new BitmapMaterial(bitmapData);
 			
 			//var material:ColorMaterial = new ColorMaterial(0xFF0000,1);
-			var material:CompositeMaterial = new CompositeMaterial();
+			//var material:CompositeMaterial = new CompositeMaterial();
 			
-			material.addMaterial(new BitmapMaterial(bitmapData));
-			material.addMaterial(new WireframeMaterial(0xFF0000,100));
-			material.doubleSided = false;
+			//material.addMaterial(new BitmapMaterial(bitmapData));
+			//material.addMaterial(new WireframeMaterial(0xFF0000,100));
+			//material.doubleSided = false;
+			
+			var material:BitmapFileMaterial = new BitmapFileMaterial("assets/512512.jpg");
 			obj = new Cube(material,1000,1000,1000,8,8,8);
 			
 			scene3D.addChild(obj);

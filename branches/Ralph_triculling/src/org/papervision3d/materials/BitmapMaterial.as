@@ -139,7 +139,7 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 			_localMatrix.ty = map.ty;
 			_localMatrix.concat(_triMatrix);
 			
-			graphics.beginBitmapFill( texture, _localMatrix, true, smooth);
+			graphics.beginBitmapFill( bitmap, _localMatrix, true, smooth);
 			graphics.moveTo( x0, y0 );
 			graphics.lineTo( x1, y1 );
 			graphics.lineTo( x2, y2 );
