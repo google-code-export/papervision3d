@@ -152,6 +152,10 @@ public class SceneObject3D extends DisplayObjectContainer3D
 	public override function addChild( child:DisplayObject3D, name:String=null ):DisplayObject3D
 	{
 		var newChild:DisplayObject3D =	super.addChild( child, name );
+		
+		// Added by John Grden for New culling code 7.18.2007
+		// setting the scene will spread to the child displayobject3d's
+		child.scene = this;
 
 		this.objects.push( newChild );
 
