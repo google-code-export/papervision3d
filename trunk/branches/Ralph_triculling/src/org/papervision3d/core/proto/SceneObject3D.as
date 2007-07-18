@@ -48,6 +48,8 @@ import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.materials.MovieMaterial;
 
 import org.papervision3d.objects.DisplayObject3D;
+import org.papervision3d.core.culling.ITriangleCuller;
+import org.papervision3d.core.culling.DefaultTriangleCuller;
 
 /**
 * The SceneObject3D class is the base class for all scenes.
@@ -236,7 +238,9 @@ public class SceneObject3D extends DisplayObjectContainer3D
 		renderObjects( camera.sort );
 	}
 
-
+	public var triangleCuller:ITriangleCuller = new DefaultTriangleCuller();
+	
+	
 	/**
 	* [internal-use]
 	*

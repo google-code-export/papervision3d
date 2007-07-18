@@ -41,11 +41,13 @@ package org.papervision3d.test
 			bitmapData = new BitmapData(255,255,false,0xFFFFFF);
 			bitmapData.perlinNoise(64,64,4,123456,false,true,7);
 			//var material:BitmapMaterial = new BitmapMaterial(bitmapData);
+			
 			//var material:ColorMaterial = new ColorMaterial(0xFF0000,1);
 			var material:CompositeMaterial = new CompositeMaterial();
+			
 			material.addMaterial(new BitmapMaterial(bitmapData));
 			material.addMaterial(new WireframeMaterial(0xFF0000,100));
-			material.doubleSided = false;
+			material.doubleSided = true;
 			obj = new Cube(material,1000,1000,1000,8,8,8);
 			
 			scene3D.addChild(obj);
