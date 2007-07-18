@@ -41,6 +41,7 @@ import org.papervision3d.core.draw.IFaceDrawer;
 import org.papervision3d.core.geom.Face3D;
 import flash.display.Graphics;
 import org.papervision3d.core.geom.Vertex2D;
+import flash.geom.Matrix;
 
 /**
 * The ColorMaterial class creates a solid color material.

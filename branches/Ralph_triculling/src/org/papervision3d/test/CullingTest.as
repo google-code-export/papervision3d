@@ -14,11 +14,12 @@ package org.papervision3d.test
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.materials.WireframeMaterial;
 	import org.papervision3d.materials.ColorMaterial;
+	import org.papervision3d.materials.CompositeMaterial;
 
 	public class CullingTest extends PapervisionView
 	{
 		
-		private var material:MaterialObject3D;
+		private var material:CompositeMaterial;
 		private var bitmapData:BitmapData;
 		private var obj:Mesh3D;
 		
@@ -38,8 +39,11 @@ package org.papervision3d.test
 			
 			bitmapData = new BitmapData(255,255,false,0xFFFFFF);
 			bitmapData.perlinNoise(64,64,4,123456,false,true,7);
-			material = new BitmapMaterial(bitmapData);
-			//material = new ColorMaterial(0xFF0000,1);
+			//var material:BitmapMaterial = new BitmapMaterial(bitmapData);
+			//var material:ColorMaterial = new ColorMaterial(0xFF0000,1);
+			var material:CompositeMaterial = new CompositeMaterial();
+			material.addMaterial(new BitmapMaterial(bitmapData));
+			material.addMaterial(new WireframeMaterial(0xFF0000,100));
 			material.doubleSided = false;
 			obj = new Cube(material,1000,1000,1000,8,8,8);
 			

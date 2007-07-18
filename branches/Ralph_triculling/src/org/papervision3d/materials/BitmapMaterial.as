@@ -49,6 +49,7 @@ import org.papervision3d.core.geom.Face3D;
 import flash.display.Graphics;
 import org.papervision3d.core.geom.Vertex2D;
 import flash.utils.Dictionary;
+import org.papervision3d.objects.DisplayObject3D;
 
 /**
 * The BitmapMaterial class creates a texture from a BitmapData object.
@@ -111,8 +112,10 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 	/**
 	 *  drawFace3D
 	 */
-	override public function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D, map:Matrix=null):int
+	override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
 	{
+		var map:Matrix = (uvMatrices[face3D] || transformUV(face3D, instance));
+		
 		var x0:Number = v0.x;
 		var y0:Number = v0.y;
 		var x1:Number = v1.x;
@@ -144,7 +147,66 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 		
 		return 1;
 	}
+	
+	/**
+	* Applies the updated UV texture mapping values to the triangle. This is required to speed up rendering.
+	*
+	*/
+	public function transformUV(face3D:Face3D, instance:DisplayObject3D=null):Matrix
+	{
+		if( ! face3D.uv )
+		{
+			Papervision3D.log( "MaterialObject3D: transformUV() uv not found!" );
+		}
+		else if( bitmap )
+		{
+			var uv :Array  = face3D.uv;
 
+			var w  :Number = bitmap.width * maxU;
+			var h  :Number = bitmap.height * maxV;
+
+			var u0 :Number = w * uv[0].u;
+			var v0 :Number = h * ( 1 - uv[0].v );
+			var u1 :Number = w * uv[1].u;
+			var v1 :Number = h * ( 1 - uv[1].v );
+			var u2 :Number = w * uv[2].u;
+			var v2 :Number = h * ( 1 - uv[2].v );
+
+			// Fix perpendicular projections
+			if( (u0 == u1 && v0 == v1) || (u0 == u2 && v0 == v2) )
+			{
+				u0 -= (u0 > 0.05)? 0.05 : -0.05;
+				v0 -= (v0 > 0.07)? 0.07 : -0.07;
+			}
+
+			if( u2 == u1 && v2 == v1 )
+			{
+				u2 -= (u2 > 0.05)? 0.04 : -0.04;
+				v2 -= (v2 > 0.06)? 0.06 : -0.06;
+			}
+
+			// Precalculate matrix & correct for mip mapping
+			var at :Number = ( u1 - u0 );
+			var bt :Number = ( v1 - v0 );
+			var ct :Number = ( u2 - u0 );
+			var dt :Number = ( v2 - v0 );
+
+			var m :Matrix = new Matrix( at, bt, ct, dt, u0, v0 );
+			m.invert();
+
+			var mapping:Matrix = uvMatrices[face3D] || (uvMatrices[face3D] = m.clone() );
+			mapping.a  = m.a;
+			mapping.b  = m.b;
+			mapping.c  = m.c;
+			mapping.d  = m.d;
+			mapping.tx = m.tx;
+			mapping.ty = m.ty;
+		}
+		else Papervision3D.log( "MaterialObject3D: transformUV() material.bitmap not found!" );
+
+		return mapping;
+	}
+	
 	// ______________________________________________________________________ TO STRING
 
 	/**

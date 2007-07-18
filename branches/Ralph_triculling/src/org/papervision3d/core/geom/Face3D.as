@@ -133,66 +133,7 @@ public class Face3D
 		//if( ! _bitmapMatrix ) _bitmapMatrix = new Matrix();
 	}
 	
-	/**
-	* Applies the updated UV texture mapping values to the triangle. This is required to speed up rendering.
-	*
-	*/
-	public function transformUV( instance:DisplayObject3D=null ):Matrix
-	{
-		var material :MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
-
-		if( ! this.uv )
-		{
-			Papervision3D.log( "Face3D: transformUV() uv not found!" );
-		}
-		else if( material && material.bitmap )
-		{
-			var uv :Array  = this.uv;
-
-			var w  :Number = material.bitmap.width * material.maxU;
-			var h  :Number = material.bitmap.height * material.maxV;
-
-			var u0 :Number = w * uv[0].u;
-			var v0 :Number = h * ( 1 - uv[0].v );
-			var u1 :Number = w * uv[1].u;
-			var v1 :Number = h * ( 1 - uv[1].v );
-			var u2 :Number = w * uv[2].u;
-			var v2 :Number = h * ( 1 - uv[2].v );
-
-			// Fix perpendicular projections
-			if( (u0 == u1 && v0 == v1) || (u0 == u2 && v0 == v2) )
-			{
-				u0 -= (u0 > 0.05)? 0.05 : -0.05;
-				v0 -= (v0 > 0.07)? 0.07 : -0.07;
-			}
-
-			if( u2 == u1 && v2 == v1 )
-			{
-				u2 -= (u2 > 0.05)? 0.04 : -0.04;
-				v2 -= (v2 > 0.06)? 0.06 : -0.06;
-			}
-
-			// Precalculate matrix & correct for mip mapping
-			var at :Number = ( u1 - u0 );
-			var bt :Number = ( v1 - v0 );
-			var ct :Number = ( u2 - u0 );
-			var dt :Number = ( v2 - v0 );
-
-			var m :Matrix = new Matrix( at, bt, ct, dt, u0, v0 );
-			m.invert();
-
-			var mapping:Matrix = instance.projected[ this ] || (instance.projected[ this ] = m.clone() );
-			mapping.a  = m.a;
-			mapping.b  = m.b;
-			mapping.c  = m.c;
-			mapping.d  = m.d;
-			mapping.tx = m.tx;
-			mapping.ty = m.ty;
-		}
-		else Papervision3D.log( "Face3D: transformUV() material.bitmap not found!" );
-
-		return mapping;
-	}
+	
 
 
 	// ______________________________________________________________________________
@@ -213,7 +154,8 @@ public class Face3D
 	*/
 	public function render( instance:DisplayObject3D, container:Sprite ): Number
 	{
-		var projected :Dictionary = instance.projected;
+		var projected:Dictionary = instance.projected;
+		
 		var s0:Vertex2D = projected[v0];
 		var s1:Vertex2D = projected[v1];
 		var s2:Vertex2D = projected[v2];
@@ -225,7 +167,7 @@ public class Face3D
 		var x2:Number = s2.x;
 		var y2:Number = s2.y;
 	
-		var material :MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
+		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
 		
 		// Invisible? - Move this to earlier in the pipeline
 		if( material.invisible ) return 0;
@@ -246,8 +188,8 @@ public class Face3D
 				}
 			}
 		}
-
-		return material.drawFace3D(this, container.graphics, s0, s1, s2,(instance.projected[ this ] || transformUV( instance )));
+		
+		return material.drawFace3D(instance, this, container.graphics, s0, s1, s2);
 	}
 
 	// ______________________________________________________________________________
