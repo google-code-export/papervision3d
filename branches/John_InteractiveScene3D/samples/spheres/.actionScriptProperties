@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionScriptProperties version="1" mainApplicationPath="Main.as">
+  <compiler additionalCompilerArguments="-locale en_US -use-network=false -optimize=true -default-frame-rate=30" copyDependentFiles="false" generateAccessible="false" strict="true" warn="true" htmlGenerate="true" htmlPlayerVersionCheck="true" htmlPlayerVersion="9.0.0" htmlExpressInstall="true" htmlHistoryManagement="true" outputFolderPath="deploy" sourceFolderPath="src">
+    <compilerSourcePath>
+      <compilerSourcePathEntry kind="1" path="C:\Documents and Settings\John\My Documents\Acmewebworks\Papervision3D\_repositories\googlecode\branches\John_InteractiveScene3D\src" linkType="1"/>
+    </compilerSourcePath>
+    <libraryPath>
+      <libraryPathEntry kind="3" path="${FRAMEWORKS}/libs/playerglobal.swc" linkType="2"/>
+      <libraryPathEntry kind="3" path="${FRAMEWORKS}/libs/utilities.swc" linkType="1"/>
+      <libraryPathEntry kind="3" path="${FRAMEWORKS}/libs/flex.swc" linkType="1" sourcepath="${FRAMEWORKS}/source"/>
+      <libraryPathEntry kind="3" path="${DOCUMENTS}\InteractiveScene3D\lib\Xray_Flex2_Library.swc" linkType="1"/>
+    </libraryPath>
+    <sourceAttachmentPath>
+      <sourceAttachmentPathEntry kind="3" path="${FRAMEWORKS}/libs/flex.swc" linkType="1" sourcepath="${FRAMEWORKS}/source"/>
+    </sourceAttachmentPath>
+  </compiler>
+  <applications>
+    <application path="Main.as"/>
+  </applications>
+  <buildCSSFiles/>
+</actionScriptProperties>
