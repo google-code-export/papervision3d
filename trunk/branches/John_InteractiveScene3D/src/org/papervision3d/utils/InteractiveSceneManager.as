@@ -28,7 +28,7 @@ package org.papervision3d.utils
 		public var container										:Sprite = new Sprite();
 		public var scene											:SceneObject3D;
 		
-		public var debug											:Boolean = true;
+		public var debug											:Boolean = false;
 		
 		protected var dummy											:DisplayObject3D = DisplayObject3D.ZERO;
 		
@@ -70,7 +70,9 @@ package org.papervision3d.utils
 			// it's not a check for container, it's a check for whether or not an interactiveContainerData object was created
 			if(drawingContainer == null) return;
 			
-			drawingContainer.container.graphics.beginFill(drawingContainer.color, .3);
+			var alp:Number = debug ? .3 : .0051;
+			
+			drawingContainer.container.graphics.beginFill(drawingContainer.color, alp);
 			drawingContainer.container.graphics.moveTo( x0, y0 );
 			drawingContainer.container.graphics.lineTo( x1, y1 );
 			drawingContainer.container.graphics.lineTo( x2, y2 );
