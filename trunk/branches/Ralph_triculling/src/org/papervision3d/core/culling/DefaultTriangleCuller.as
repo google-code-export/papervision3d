@@ -8,6 +8,13 @@ package org.papervision3d.core.culling
 	public class DefaultTriangleCuller implements ITriangleCuller
 	{
 		
+		private static var x0:Number;
+		private static var y0:Number;
+		private static var x1:Number;
+		private static var y1:Number;
+		private static var x2:Number;
+		private static var y2:Number;
+		
 		public function DefaultTriangleCuller()
 		{
 			
@@ -24,13 +31,12 @@ package org.papervision3d.core.culling
 					return false
 				};
 				
-				var x0:Number = vertex0.x;
-				var y0:Number = vertex0.y;
-				var x1:Number = vertex1.x;
-				var y1:Number = vertex1.y;
-				var x2:Number = vertex2.x;
-				var y2:Number = vertex2.y;
-				
+				x0 = vertex0.x;
+				y0 = vertex0.y;
+				x1 = vertex1.x;
+				y1 = vertex1.y;
+				x2 = vertex2.x;
+				y2 = vertex2.y;
 				
 				if( material.oneSide ){
 					if( material.opposite ){
