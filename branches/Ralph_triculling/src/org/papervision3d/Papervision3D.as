@@ -37,8 +37,9 @@
 
 package org.papervision3d
 {
+	import org.papervision3d.core.culling.DefaultTriangleCuller;
 	import org.papervision3d.core.culling.ITriangleCuller;
-	import org.papervision3d.core.culling.VertexTriangleCuller;
+
 	
 
 /**
@@ -85,11 +86,9 @@ public class Papervision3D
 	* Determines whether debug printout is enabled. It also prints version information at startup.
 	*/
 	static public var VERBOSE  :Boolean = true;
-
-	/**
-	 * Sets the proper culler for triangles. Defaults
-	 */
-	 public static var triangleCuller:ITriangleCuller = new VertexTriangleCuller();
+	
+	static public var triangleCuller:ITriangleCuller = new DefaultTriangleCuller();
+	
 	// ___________________________________________________________________ LOG
 
 	/**

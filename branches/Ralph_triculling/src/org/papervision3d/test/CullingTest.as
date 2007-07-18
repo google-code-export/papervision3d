@@ -1,21 +1,21 @@
 package org.papervision3d.test
 {
+	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.events.Event;
 	
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.containers.PapervisionView;
-	import org.papervision3d.objects.Sphere;
+	import org.papervision3d.core.geom.Mesh3D;
+	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.materials.BitmapFileMaterial;
 	import org.papervision3d.materials.BitmapMaterial;
-	import flash.display.BitmapData;
-	import org.papervision3d.objects.Cube;
-	import flash.display.DisplayObject;
-	import org.papervision3d.core.geom.Mesh3D;
-	import flash.events.Event;
-	import org.papervision3d.core.proto.MaterialObject3D;
-	import org.papervision3d.materials.WireframeMaterial;
 	import org.papervision3d.materials.ColorMaterial;
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.materials.CompositeMaterial;
+	import org.papervision3d.materials.WireframeMaterial;
+	import org.papervision3d.objects.Cube;
+	import org.papervision3d.objects.Sphere;
 
 	public class CullingTest extends PapervisionView
 	{

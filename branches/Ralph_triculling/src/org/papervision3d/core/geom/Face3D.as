@@ -160,35 +160,7 @@ public class Face3D
 		var s1:Vertex2D = projected[v1];
 		var s2:Vertex2D = projected[v2];
 		
-		var x0:Number = s0.x;
-		var y0:Number = s0.y;
-		var x1:Number = s1.x;
-		var y1:Number = s1.y;
-		var x2:Number = s2.x;
-		var y2:Number = s2.y;
-	
 		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
-		
-		// Invisible? - Move this to earlier in the pipeline
-		if( material.invisible ) return 0;
-		
-		// Back face culling ? Move this to earlier in the pipeline
-		if( material.oneSide )
-		{
-			if( material.opposite )
-			{
-				if( ( x2 - x0 ) * ( y1 - y0 ) - ( y2 - y0 ) * ( x1 - x0 ) > 0 )
-				{
-					return 0;
-				}
-			}else{
-				if( ( x2 - x0 ) * ( y1 - y0 ) - ( y2 - y0 ) * ( x1 - x0 ) < 0 )
-				{
-					return 0;
-				}
-			}
-		}
-		
 		return material.drawFace3D(instance, this, container.graphics, s0, s1, s2);
 	}
 
