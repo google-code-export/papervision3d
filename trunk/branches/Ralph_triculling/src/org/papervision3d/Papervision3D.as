@@ -37,6 +37,9 @@
 
 package org.papervision3d
 {
+	import org.papervision3d.core.culling.ITriangleCuller;
+	import org.papervision3d.core.culling.VertexTriangleCuller;
+	
 
 /**
 * The Papervision3D class contains global properties and settings.
@@ -83,7 +86,10 @@ public class Papervision3D
 	*/
 	static public var VERBOSE  :Boolean = true;
 
-
+	/**
+	 * Sets the proper culler for triangles. Defaults
+	 */
+	 public static var triangleCuller:ITriangleCuller = new VertexTriangleCuller();
 	// ___________________________________________________________________ LOG
 
 	/**

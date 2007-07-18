@@ -47,6 +47,7 @@ import org.papervision3d.core.proto.*;
 import org.papervision3d.core.geom.*;
 
 import org.papervision3d.objects.DisplayObject3D;
+import org.papervision3d.core.culling.ITriangleCuller;
 
 
 /**
@@ -122,7 +123,7 @@ public class Mesh3D extends Vertices3D
 		var iFaces       :Array  = this.faces;
 		var screenZs     :Number = 0;
 		var visibleFaces :Number = 0;
-
+		var triCuller:ITriangleCuller = Papervision3D.triangleCuller;
 		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, visibles:Number, iFace:Object, face:Face3D;
 
 		for( var i:int=0; face = faces[i]; i++ )
@@ -131,13 +132,12 @@ public class Mesh3D extends Vertices3D
 			iFace.face = face;
 			iFace.instance = this;
 
-			vertex0 = projected[ face.vertices[0] ];
-			vertex1 = projected[ face.vertices[1] ];
-			vertex2 = projected[ face.vertices[2] ];
-
-			visibles = Number(vertex0.visible) + Number(vertex1.visible) + Number(vertex2.visible);
-			iFace.visible = ( visibles == 3 );
-
+			vertex0 = projected[face.vertices[0]];
+			vertex1 = projected[face.vertices[1]];
+			vertex2 = projected[face.vertices[2]];
+			
+			iFace.visible = triCuller.testFace(iFace, vertex0, vertex1, vertex2);
+			
 			if( iFace.visible )
 			{
 				switch(meshSort)
