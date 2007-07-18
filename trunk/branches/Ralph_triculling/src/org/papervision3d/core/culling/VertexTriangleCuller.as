@@ -5,7 +5,13 @@ package org.papervision3d.core.culling
 
 	public class VertexTriangleCuller implements ITriangleCuller
 	{
-		
+		/**
+		 * @Author Ralph Hauwert
+		 *
+		 * VertexTriangleCuller
+		 * 
+		 * This Triangle Culler culls faces based upon the visibility of it vertices.
+		 */
 		public function VertexTriangleCuller()
 		{
 			
@@ -13,10 +19,7 @@ package org.papervision3d.core.culling
 		
 		public function testFace(faceInstance:Object, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
 		{
-			if(faceInstance.visible == true){
-				return vertex0.visible && vertex1.visible && vertex2.visible;
-			}
-			return false;	
+			return vertex0.visible && vertex1.visible && vertex2.visible;	
 		}
 		
 	}
