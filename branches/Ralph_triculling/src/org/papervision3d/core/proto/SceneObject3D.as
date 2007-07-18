@@ -48,8 +48,6 @@ import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.materials.MovieMaterial;
 
 import org.papervision3d.objects.DisplayObject3D;
-import org.papervision3d.core.culling.ITriangleCuller;
-import org.papervision3d.core.culling.DefaultTriangleCuller;
 
 /**
 * The SceneObject3D class is the base class for all scenes.
@@ -96,10 +94,6 @@ public class SceneObject3D extends DisplayObjectContainer3D
 	* It contains a list of materials in the scene.
 	*/
 	public var materials :MaterialsList;
-	
-	/**
-	 * 
-	 */
 
 	// ___________________________________________________________________ N E W
 	//
@@ -158,6 +152,10 @@ public class SceneObject3D extends DisplayObjectContainer3D
 	public override function addChild( child:DisplayObject3D, name:String=null ):DisplayObject3D
 	{
 		var newChild:DisplayObject3D =	super.addChild( child, name );
+		
+		// Added by John Grden for New culling code 7.18.2007
+		// setting the scene will spread to the child displayobject3d's
+		child.scene = this;
 
 		this.objects.push( newChild );
 
@@ -225,7 +223,6 @@ public class SceneObject3D extends DisplayObjectContainer3D
 			var i       :Number = objects.length;
 
 			while( p = objects[--i] )
-			
 				if( p.visible )
 					p.project( camera, camera );
 		}
@@ -238,14 +235,8 @@ public class SceneObject3D extends DisplayObjectContainer3D
 		stats.rendered = 0;
 		renderObjects( camera.sort );
 	}
-	
-	/**
-	 * triangleCuller
-	 * 
-	 * Defines the triangle culler to be used.
-	 */
-	public var triangleCuller:ITriangleCuller = new DefaultTriangleCuller();
-	
+
+
 	/**
 	* [internal-use]
 	*
