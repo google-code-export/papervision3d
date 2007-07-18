@@ -55,6 +55,8 @@ import org.papervision3d.events.FileLoadEvent;
 import org.papervision3d.objects.DisplayObject3D;
 import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.materials.BitmapFileMaterial;
+import flash.events.IOErrorEvent;
+import com.blitzagency.xray.logger.XrayLog;
 
 /**
 * The Collada class lets you load and parse Collada scenes.
@@ -150,9 +152,15 @@ public class Collada extends DisplayObject3D
 	{
 		this._loader = new URLLoader();
 		this._loader.addEventListener( Event.COMPLETE, onComplete );
+		this._loader.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
 		this._loader.load( new URLRequest( this._filename ) );
 	}
 
+	private function handleIOError(e:IOErrorEvent):void
+	{
+		trace("COLLADA file load error", e.text);
+		dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_ERROR,this._filename));
+	}
 
 	private function onComplete(evt:Event):void
 	{
