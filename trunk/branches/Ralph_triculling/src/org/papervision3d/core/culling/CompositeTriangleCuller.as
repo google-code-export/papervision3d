@@ -25,7 +25,7 @@ package org.papervision3d.core.culling
 		
 		public function removeCuller(culler:ITriangleCuller):void
 		{
-				
+			cullers.splice(cullers.indexOf(culler),1);
 		}
 		
 		public function clearCullers():void
@@ -38,7 +38,7 @@ package org.papervision3d.core.culling
 			for each(var culler:ITriangleCuller in cullers){
 				
 			}
-			return false;
+			return true;
 		}
 		
 	}
