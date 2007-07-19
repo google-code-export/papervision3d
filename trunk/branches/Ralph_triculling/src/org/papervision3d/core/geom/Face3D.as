@@ -110,12 +110,14 @@ public class Face3D
 	/**
 	 * The face normal
 	 */
-	protected var faceNormal:Number3D;
+	public var faceNormal:Number3D;
 	
 	/**
 	 * The transformed Face3DInstance
 	 */
 	public var face3DInstance:Face3DInstance;
+	
+	
 	
 	/**
 	* The Face3D constructor lets you create linear textured or solid colour triangles.

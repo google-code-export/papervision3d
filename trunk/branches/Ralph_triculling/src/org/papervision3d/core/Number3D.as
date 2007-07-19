@@ -86,6 +86,17 @@ public class Number3D
 	{
 		return new Number3D( this.x, this.y, this.z );
 	}
+	
+	/**
+	 * Copies the values of this number3d to the passed number3d.
+	 * 
+	 */
+	public function copyTo(n:Number3D):void
+	{
+		n.x = x;
+		n.y = y;
+		n.z = z;
+	}
 
 
 

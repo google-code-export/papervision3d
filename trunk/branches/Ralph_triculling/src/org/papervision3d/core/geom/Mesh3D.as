@@ -131,6 +131,10 @@ public class Mesh3D extends Vertices3D
 			
 			if( (iFace.visible = triCuller.testFace(this, iFace, vertex0, vertex1, vertex2)))
 			{
+				if(material.needsFaceNormals){
+					face.faceNormal.copyTo(iFace.faceNormal);
+					Matrix3D.multiplyVector3x3( this.view, iFace.faceNormal );
+				}
 				//Note to self ;-) Get the switch out of here.
 				switch(meshSort)
 				{
