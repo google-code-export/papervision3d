@@ -156,7 +156,11 @@ public class MaterialObject3D extends EventDispatcher implements IFaceDrawer
 	 * Internal use
 	 */
 	public var maxV :Number;
-
+	
+	/**
+	 * Defines if face normals need to be rotated for this material.
+	 */
+	 public var needsFaceNormals:Boolean = false;
 
 //	public var extra :Object;
 
