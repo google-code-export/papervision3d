@@ -336,22 +336,22 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	* tells Mesh3D's render() method to sort by measuring from the center of a triangle
 	*/	
-	public static const MESH_SORT_CENTER:String = "meshSortCenter";
+	public static const MESH_SORT_CENTER:uint = 1;
 	
 	/**
 	* tells Mesh3D's render() method to sort by measuring from the farthest point of a triangle
 	*/	
-	public static const MESH_SORT_FAR:String = "meshSortFar";
+	public static const MESH_SORT_FAR:uint = 2;
 	
 	/**
 	* tells Mesh3D's render() method to sort by measuring from the closest point of a triangle
 	*/	
-	public static const MESH_SORT_CLOSE:String = "meshSortClose";
+	public static const MESH_SORT_CLOSE:uint = 3;
 	
 	/**
 	* tells Mesh3D's render() method to compare the measurement choice of the user for a triangle's sorting
 	*/	
-	public var meshSort:String = MESH_SORT_CENTER;
+	public var meshSort:uint = MESH_SORT_CENTER;
 	
 	/**
 	* Returns an empty DiplayObject3D object positioned in the center of the 3D coordinate system (0, 0 ,0).
