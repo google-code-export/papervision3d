@@ -314,9 +314,6 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		// set scene property
 		_scene = p_scene;
 		
-		// if objects were not added in order, then we need to tell the parent what up
-		if(parent != null && parent is DisplayObject3D && DisplayObject3D(parent).scene == null) DisplayObject3D(parent).scene = _scene;
-		
 		for each( var child:DisplayObject3D in this._childrenByName )
 		{
 			if(child.scene == null) child.scene = _scene;
@@ -494,7 +491,25 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 	// ___________________________________________________________________________________________________
 	//                                                                                           U T I L S
+	
+	/**
+	* Adds a child DisplayObject3D instance to this DisplayObjectContainer instance.
+	*
+	* [TODO: If you add a child object that already has a different display object container as a parent, the object is removed from the child list of the other display object container.]
+	*
+	* @param	child	The DisplayObject3D instance to add as a child of this DisplayObjectContainer3D instance.
+	* @param	name	An optional name of the child to add or create. If no name is provided, the child name will be used.
+	* @return	The DisplayObject3D instance that you have added or created.
+	*/
+	public override function addChild( child :DisplayObject3D, name:String=null ):DisplayObject3D
+	{
+		child = super.addChild( child, name );
+		
+		if( child.scene == null ) child.scene = scene;
 
+		return child;
+	}
+	
 	/**
 	* Adds a geometry definition to the instance.
 	*
