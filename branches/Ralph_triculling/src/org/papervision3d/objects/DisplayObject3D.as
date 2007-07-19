@@ -307,16 +307,19 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	* The scene where the object belongs.
 	*/
-	protected var _scene :SceneObject3D;
+	protected var _scene :SceneObject3D = null;
 	
 	public function set scene(p_scene:SceneObject3D):void
 	{
 		// set scene property
 		_scene = p_scene;
 		
+		// if objects were not added in order, then we need to tell the parent what up
+		if(parent != null && parent is DisplayObject3D && DisplayObject3D(parent).scene == null) DisplayObject3D(parent).scene = _scene;
+		
 		for each( var child:DisplayObject3D in this._childrenByName )
 		{
-			child.scene = _scene;
+			if(child.scene == null) child.scene = _scene;
 		}
 		
 		// if this is NOT an interactiveScene3D, just return
@@ -326,6 +329,8 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		interactiveSceneManager = InteractiveScene3D(_scene).interactiveSceneManager;
 		//interactiveSceneManager.addDisplayObject(this);
 	}
+	
+	public function get scene():SceneObject3D { return _scene; }
 
 	/**
 	* [read-only] Indicates the DisplayObjectContainer3D object that contains this display object.
