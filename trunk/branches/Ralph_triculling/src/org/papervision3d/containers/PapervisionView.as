@@ -89,7 +89,8 @@ package org.papervision3d.containers
 		
 		protected function onEnterFrame(event:Event):void
 		{
-			renderScene();	
+			renderScene();
+			trace(scene3D.stats);
 		}
 		
 	}

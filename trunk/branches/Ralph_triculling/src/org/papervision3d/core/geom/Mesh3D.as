@@ -120,8 +120,7 @@ public class Mesh3D extends Vertices3D
 		var triCuller:ITriangleCuller = _scene.triangleCuller;
 		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, iFace:Face3DInstance, face:Face3D;
 		
-		for each(face in faces)
-		{
+		for each(face in faces){
 			iFace = face.face3DInstance;
 			iFace.instance = this;
 			
@@ -147,7 +146,7 @@ public class Mesh3D extends Vertices3D
 						break;
 				}
 				visibleFaces++;
-				sorted.push( iFace );
+				sorted.push(iFace);
 			}
 		}
 

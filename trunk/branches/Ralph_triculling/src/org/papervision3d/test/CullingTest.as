@@ -62,9 +62,9 @@ package org.papervision3d.test
 			
 			//material.doubleSided = true;
 			//material.smooth = true;
-			material.opposite = false;
-			//obj = new Cube(material,5000,5000,5000,8,8,8);
-			obj = new Sphere(material, 500,32,32);
+			material.opposite = true;
+			obj = new Cube(material,5000,5000,5000,15,15,15);
+			//obj = new Sphere(material, 500,60,60);
 			
 			scene3D.addChild(obj);
 			
