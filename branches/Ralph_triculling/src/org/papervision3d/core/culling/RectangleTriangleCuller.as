@@ -9,8 +9,8 @@ package org.papervision3d.core.culling
 	public class RectangleTriangleCuller extends DefaultTriangleCuller implements ITriangleCuller
 	{
 		
-		private static const DEFAULT_RECT_W:Number = 320;
-		private static const DEFAULT_RECT_H:Number = 240;
+		private static const DEFAULT_RECT_W:Number = 640;
+		private static const DEFAULT_RECT_H:Number = 480;
 		private static const DEFAULT_RECT_X:Number = -(DEFAULT_RECT_W/2);
 		private static const DEFAULT_RECT_Y:Number = -(DEFAULT_RECT_H/2);
 		
