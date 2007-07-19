@@ -15,7 +15,7 @@ package org.papervision3d.core.culling
 		
 		private static var hitRect:Rectangle = new Rectangle();
 		
-		public var cullingRectangle:Rectangle = new Rectangle(DEFAULT_RECT_X, DEFAULT_RECT_Y, DEFAULT_RECT_W, DEFAULT_RECT_W);
+		public var cullingRectangle:Rectangle = new Rectangle(DEFAULT_RECT_X, DEFAULT_RECT_Y, DEFAULT_RECT_W, DEFAULT_RECT_H);
 	
 		/**
 		 * @Author Ralph Hauwert
