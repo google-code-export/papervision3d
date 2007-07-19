@@ -159,9 +159,8 @@ public class Face3D
 	*/
 	public function render( instance:DisplayObject3D, container:Sprite ): Number
 	{
-		var projected:Dictionary = instance.projected;
 		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
-		return material.drawFace3D(instance, this, container.graphics, Vertex2D(projected[v0]), Vertex2D(projected[v1]), Vertex2D(projected[v2]));
+		return material.drawFace3D(instance, this, container.graphics, v0.vertex2DInstance, v1.vertex2DInstance, v2.vertex2DInstance);
 	}
 	
 	protected function createNormal():void

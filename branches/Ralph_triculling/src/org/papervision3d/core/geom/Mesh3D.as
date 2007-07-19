@@ -118,7 +118,6 @@ public class Mesh3D extends Vertices3D
 		var screenZs     :Number = 0;
 		var visibleFaces :Number = 0;
 		
-		//scene = scene == null ? parent.scene : scene;
 		var triCuller:ITriangleCuller = scene.triangleCuller;
 		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, iFace:Face3DInstance, face:Face3D;
 		
@@ -126,13 +125,13 @@ public class Mesh3D extends Vertices3D
 			iFace = face.face3DInstance;
 			iFace.instance = this;
 			
-			vertex0 = projected[face.v0];
-			vertex1 = projected[face.v1];
-			vertex2 = projected[face.v2];
+			vertex0 = face.v0.vertex2DInstance;
+			vertex1 = face.v1.vertex2DInstance;
+			vertex2 = face.v2.vertex2DInstance;
 			
 			if( (iFace.visible = triCuller.testFace(this, iFace, vertex0, vertex1, vertex2)))
 			{
-				//Get the switch out of here.
+				//Note to self ;-) Get the switch out of here.
 				switch(meshSort)
 				{
 					case DisplayObject3D.MESH_SORT_CENTER:

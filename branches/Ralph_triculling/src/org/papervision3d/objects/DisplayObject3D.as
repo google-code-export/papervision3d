@@ -382,10 +382,6 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	*/
 	public var view      :Matrix3D;
 
-	/**
-	* [internal-use]
-	*/
-	public var projected :Dictionary;
 
 	/**
 	* [internal-use]
@@ -529,7 +525,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		if( geometry.materials )
 			this.materials = geometry.materials.clone();
 */
-		this.projected = new Dictionary();
+
 	}
 
 	// ___________________________________________________________________________________________________
