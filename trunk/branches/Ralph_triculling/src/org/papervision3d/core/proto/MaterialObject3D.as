@@ -81,6 +81,11 @@ public class MaterialObject3D extends EventDispatcher implements IFaceDrawer
 	* An 8-bit alpha value for the faces outline. If zero, no outline is drawn.
 	*/
 	public var lineAlpha :Number;
+	
+	/**
+	* An value for the thickness of the faces line.
+	*/
+	public var lineThickness:Number = 1;
 
 	/**
 	* A RGB color value to fill the faces with. Only used if no texture is provided.

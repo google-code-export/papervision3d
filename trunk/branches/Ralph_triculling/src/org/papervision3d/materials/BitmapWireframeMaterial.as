@@ -17,12 +17,13 @@ package org.papervision3d.materials
 		
 		private var uvMatrix:Matrix;
 		
-		public function BitmapWireframeMaterial(color:Number=0xFF00FF, alpha:Number=1)
+		public function BitmapWireframeMaterial(color:Number=0xFF00FF, alpha:Number=1, thickness:Number=3)
 		{
 			super(new BitmapData(2,2,true));
 			bitmap = new BitmapData(BITMAP_WIDTH,BITMAP_HEIGHT,true,0x00000000);
 			lineColor = color;
-			lineAlpha = alpha;	
+			lineAlpha = alpha;
+			lineThickness = thickness;
 			init();
 		}
 		
@@ -74,7 +75,7 @@ package org.papervision3d.materials
 			var graphics:Graphics = sprite.graphics;
 			
 			
-			graphics.lineStyle(3,lineColor,lineAlpha);
+			graphics.lineStyle(lineThickness,lineColor,lineAlpha);
 			graphics.moveTo( 1, 1 );
 			graphics.lineTo( BITMAP_WIDTH-1,1 );
 			graphics.lineTo( BITMAP_WIDTH-1,BITMAP_HEIGHT-1);
