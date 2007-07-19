@@ -51,7 +51,6 @@ package org.papervision3d.utils
 		{
 			if(faceDictionary[container3d] == null) 
 			{
-				//var icd:InteractiveContainerData = faceDictionary[container3d] = new InteractiveContainerData(container3d, Math.random()*0xFFFFFF);
 				var icd:InteractiveContainerData = faceDictionary[container3d] = new InteractiveContainerData(container3d);
 				
 				// for reverse lookup when you have the sprite container
@@ -74,7 +73,7 @@ package org.papervision3d.utils
 			if(faceDictionary[container3d] == null) addDisplayObject(container3d);
 			var drawingContainer:InteractiveContainerData = faceDictionary[container3d];
 			
-			drawingContainer.container.graphics.beginFill(drawingContainer.color, DEFAULT_FILL_ALPHA);
+			drawingContainer.container.graphics.beginFill(drawingContainer.color, drawingContainer.fillAlpha);
 			drawingContainer.container.graphics.moveTo( x0, y0 );
 			drawingContainer.container.graphics.lineTo( x1, y1 );
 			drawingContainer.container.graphics.lineTo( x2, y2 );
@@ -155,13 +154,13 @@ package org.papervision3d.utils
 		
 		protected function handleMouseMove(e:MouseEvent):void
 		{	
-			//if(debug) log.debug("Move", DisplayObject3D(containerDictionary[e.target]).name);
+			if(debug) log.debug("Move", DisplayObject3D(containerDictionary[e.target]).name);
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_MOVE, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 		}
 		
 		protected function handleReleaseOutside(e:MouseEvent):void
 		{	
-			//if(debug) log.debug("Move", DisplayObject3D(containerDictionary[e.target]).name);
+			if(debug) log.debug("releaseOutside");
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_RELEASE_OUTSIDE));
 		}
 		
