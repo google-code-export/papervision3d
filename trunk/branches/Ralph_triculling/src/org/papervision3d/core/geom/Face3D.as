@@ -116,8 +116,6 @@ public class Face3D
 	*/
 	public function Face3D( vertices:Array, materialName:String=null, uv:Array=null )
 	{
-//		this.object = object;
-
 		// Vertices
 		this.vertices = vertices;
 		v0 = vertices[0];
@@ -129,8 +127,6 @@ public class Face3D
 		this.uv = uv;
 
 		this.id = _totalFaces++;
-
-		//if( ! _bitmapMatrix ) _bitmapMatrix = new Matrix();
 	}
 	
 	
@@ -168,7 +164,6 @@ public class Face3D
 	//                                                                        PRIVATE
 
 	private static var _totalFaces:Number = 0;
-	private static var _triMatrix:Matrix = new Matrix()
-	private static var _localMatrix:Matrix = new Matrix();
+	
 }
 }

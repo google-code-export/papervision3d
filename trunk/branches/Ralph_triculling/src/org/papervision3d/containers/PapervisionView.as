@@ -68,7 +68,6 @@ package org.papervision3d.containers
 		public function renderScene():void
 		{
 			scene3D.renderCamera(camera3D);
-			trace(scene3D.stats.rendered);
 		}
 		
 		public function startRendering():void

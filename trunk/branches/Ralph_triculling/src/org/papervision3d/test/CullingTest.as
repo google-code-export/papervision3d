@@ -16,6 +16,10 @@ package org.papervision3d.test
 	import org.papervision3d.materials.WireframeMaterial;
 	import org.papervision3d.objects.Cube;
 	import org.papervision3d.objects.Sphere;
+	import flash.geom.Point;
+	import flash.display.BitmapDataChannel;
+	import org.papervision3d.materials.BitmapColorMaterial;
+	import org.papervision3d.materials.BitmapWireframeMaterial;
 
 	public class CullingTest extends PapervisionView
 	{
@@ -34,23 +38,28 @@ package org.papervision3d.test
 		
 		override protected function setupScene():void
 		{
-			clipSprite.graphics.beginFill(0,.3);
-			clipSprite.graphics.drawRect(-160,-120,320,240);
-			clipSprite.graphics.endFill();
+			//clipSprite.graphics.beginFill(0,.3);
+			//clipSprite.graphics.drawRect(-160,-120,320,240);
+			//clipSprite.graphics.endFill();
 			
-			bitmapData = new BitmapData(255,255,false,0xFFFFFF);
-			bitmapData.perlinNoise(64,64,4,123456,false,true,7);
+			bitmapData = new BitmapData(255,255,true,0xFFFFFF);
+			bitmapData.perlinNoise(64,64,4,123456,false,true,7,true);
 			//var material:BitmapMaterial = new BitmapMaterial(bitmapData);
-			
+			//bitmapData.copyChannel(bitmapData, bitmapData.rect, new Point(), BitmapDataChannel.BLUE,BitmapDataChannel.ALPHA);
 			//var material:ColorMaterial = new ColorMaterial(0xFF0000,1);
-			//var material:CompositeMaterial = new CompositeMaterial();
+			/* var material:CompositeMaterial = new CompositeMaterial();
+			material.addMaterial(new WireframeMaterial(0xFF0000,100));
+			material.addMaterial(new BitmapFileMaterial("assets/512512.jpg"));
+			material.addMaterial(new BitmapMaterial(bitmapData)); */
+		
+			//var material:BitmapFileMaterial = new BitmapFileMaterial("assets/512512.jpg");
 			
-			//material.addMaterial(new BitmapMaterial(bitmapData));
-			//material.addMaterial(new WireframeMaterial(0xFF0000,100));
-			//material.doubleSided = false;
+			//obj = new Cube(material,1000,1000,1000,8,8,8);
 			
-			var material:BitmapFileMaterial = new BitmapFileMaterial("assets/512512.jpg");
-			obj = new Cube(material,1000,1000,1000,8,8,8);
+			//var material:BitmapColorMaterial = new BitmapColorMaterial(0xFF0000,1);
+			var material:BitmapWireframeMaterial = new BitmapWireframeMaterial(0xFF0000,1);
+			material.doubleSided = true;
+			obj = new Sphere(material, 500,32,32);
 			
 			scene3D.addChild(obj);
 			
