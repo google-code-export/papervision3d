@@ -118,7 +118,7 @@ public class Mesh3D extends Vertices3D
 		var screenZs     :Number = 0;
 		var visibleFaces :Number = 0;
 		
-		scene = scene == null ? parent.scene : scene;
+		//scene = scene == null ? parent.scene : scene;
 		var triCuller:ITriangleCuller = scene.triangleCuller;
 		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, iFace:Face3DInstance, face:Face3D;
 		
