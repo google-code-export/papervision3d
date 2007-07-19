@@ -60,15 +60,14 @@ package org.papervision3d.utils
 				icd.container.addEventListener(MouseEvent.MOUSE_OUT, handleMouseOut);
 				icd.container.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
 				
-				if(debug) log.debug("addDisplayObject id", container3d.id, container3d.name, container3d.distanceTo(dummy));
+				if(debug) log.debug("addDisplayObject id", container3d.id, container3d.name);
 			}
 		}
 		
 		public function drawFace(container3d:DisplayObject3D, x0:Number, x1:Number, x2:Number, y0:Number, y1:Number, y2:Number ):void
 		{
+			if(faceDictionary[container3d] == null) addDisplayObject(container3d);
 			var drawingContainer:InteractiveContainerData = faceDictionary[container3d];
-			// it's not a check for container, it's a check for whether or not an interactiveContainerData object was created
-			if(drawingContainer == null) return;
 			
 			var alp:Number = debug ? .3 : .0051;
 			
@@ -77,6 +76,7 @@ package org.papervision3d.utils
 			drawingContainer.container.graphics.lineTo( x1, y1 );
 			drawingContainer.container.graphics.lineTo( x2, y2 );
 			drawingContainer.container.graphics.endFill();
+			drawingContainer.isDrawn = true;
 		}
 		
 		public function getSprite(container3d:DisplayObject3D):Sprite
@@ -94,7 +94,10 @@ package org.papervision3d.utils
 			// clear all triangles/faces that have been drawn
 			for each( var item:InteractiveContainerData in faceDictionary)
 			{
+				
 				item.container.graphics.clear();
+				item.sort = item.isDrawn;
+				item.isDrawn = false;
 			}
 			
 			// sort the sprite containers
@@ -107,6 +110,7 @@ package org.papervision3d.utils
 			
 			for each( var item:InteractiveContainerData in faceDictionary)
 			{
+				if(!item.sort) continue;
 				var distance:Number = item.displayObject3D.screenZ;
 				sort.push({container:item.container, distance:distance});
 			}
