@@ -111,32 +111,27 @@ public class Mesh3D extends Vertices3D
 	{
 		// Vertices
 		super.project( parent, camera, sorted );
-
 		if( ! sorted ) sorted = this._sorted;
-
-		var projected:Dictionary = this.projected;
-		var view:Matrix3D = this.view;
-
+		
 		// Faces
 		var faces        :Array  = this.geometry.faces;
-		var iFaces       :Array  = this.faces;
 		var screenZs     :Number = 0;
 		var visibleFaces :Number = 0;
 		var triCuller:ITriangleCuller = _scene.triangleCuller;
 		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, visibles:Number, iFace:Face3DInstance, face:Face3D;
-	
-		for( var i:int=0; face = faces[i]; i++ )
+		
+		for each(face in faces)
 		{
-			iFace = iFaces[i] || (iFaces[i] = new Face3DInstance());
-			iFace.face = face;
+			iFace = face.face3DInstance;
 			iFace.instance = this;
-
+			
 			vertex0 = projected[face.v0];
 			vertex1 = projected[face.v1];
 			vertex2 = projected[face.v2];
 			
 			if( (iFace.visible = triCuller.testFace(this, iFace, vertex0, vertex1, vertex2)))
 			{
+				//Get the switch out of here.
 				switch(meshSort)
 				{
 					case DisplayObject3D.MESH_SORT_CENTER:

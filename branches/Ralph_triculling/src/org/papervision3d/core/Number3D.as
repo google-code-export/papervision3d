@@ -138,12 +138,7 @@ public class Number3D
 	 */
 	public static function cross( v:Number3D, w:Number3D ):Number3D
 	{
-		return new Number3D
-		(
-			(w.y * v.z) - (w.z * v.y),
-			(w.z * v.x) - (w.x * v.z),
-			(w.x * v.y) - (w.y * v.x)
-		);
+		return new Number3D((w.y * v.z) - (w.z * v.y), (w.z * v.x) - (w.x * v.z), (w.x * v.y) - (w.y * v.x));
 	}
 
 	/**
