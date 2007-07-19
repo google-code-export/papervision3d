@@ -106,7 +106,17 @@ public class Face3D
 	public var v0:Vertex3D;
 	public var v1:Vertex3D;
 	public var v2:Vertex3D;
-
+	
+	/**
+	 * The face normal
+	 */
+	protected var faceNormal:Number3D;
+	
+	/**
+	 * The transformed Face3DInstance
+	 */
+	public var face3DInstance:Face3DInstance;
+	
 	/**
 	* The Face3D constructor lets you create linear textured or solid colour triangles.
 	*
@@ -122,11 +132,13 @@ public class Face3D
 		v1 = vertices[1];
 		v2 = vertices[2];
 		
+		
 		// Material
 		this.materialName = materialName;
 		this.uv = uv;
-
 		this.id = _totalFaces++;
+		face3DInstance = new Face3DInstance(this);
+		//createNormal();
 	}
 	
 	// ______________________________________________________________________________
@@ -151,7 +163,19 @@ public class Face3D
 		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
 		return material.drawFace3D(instance, this, container.graphics, Vertex2D(projected[v0]), Vertex2D(projected[v1]), Vertex2D(projected[v2]));
 	}
-
+	
+	protected function createNormal():void
+	{
+		var vn0:Number3D = v0.toNumber3D();
+		var vn1:Number3D = v1.toNumber3D();
+		var vn2:Number3D = v2.toNumber3D();
+		var vt1:Number3D = Number3D.sub(vn1,vn0);
+		var vt2:Number3D = Number3D.sub(vn2,vn0);
+		
+		faceNormal = Number3D.cross(vt2,vt1);
+		faceNormal.normalize();
+	}
+	
 	// ______________________________________________________________________________
 	//                                                                        PRIVATE
 

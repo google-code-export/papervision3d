@@ -46,6 +46,7 @@ import flash.utils.Dictionary;
 import org.papervision3d.Papervision3D;
 import org.papervision3d.core.Matrix3D;
 import org.papervision3d.core.Number3D;
+import org.papervision3d.core.geom.Face3DInstance;
 import org.papervision3d.core.proto.CameraObject3D;
 import org.papervision3d.core.proto.DisplayObjectContainer3D;
 import org.papervision3d.core.proto.GeometryObject3D;
@@ -54,7 +55,6 @@ import org.papervision3d.core.proto.SceneObject3D;
 import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.scenes.InteractiveScene3D;
 import org.papervision3d.utils.InteractiveSceneManager;
-import org.papervision3d.core.geom.Face3DInstance;
 
 /**
 * The DisplayObject class represents instances of 3D objects that are contained in the scene.
