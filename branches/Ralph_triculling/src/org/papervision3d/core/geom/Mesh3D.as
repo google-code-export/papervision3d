@@ -147,7 +147,7 @@ public class Mesh3D extends Vertices3D
 						break;
 				}
 				visibleFaces++;
-				if( sorted ) sorted.push( iFace );
+				sorted.push( iFace );
 			}
 		}
 
