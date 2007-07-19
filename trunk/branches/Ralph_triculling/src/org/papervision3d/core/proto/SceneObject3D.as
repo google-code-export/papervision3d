@@ -207,6 +207,7 @@ public class SceneObject3D extends DisplayObjectContainer3D
 	*/
 	public function renderCamera( camera :CameraObject3D ):void
 	{
+		stats.clear();
 		// Render performance stats
 		stats.performance = getTimer();
 
@@ -232,9 +233,7 @@ public class SceneObject3D extends DisplayObjectContainer3D
 		// Z sort
 		if( camera.sort )
 			this.objects.sortOn( 'screenZ', Array.NUMERIC );
-
-		// Render objects
-		stats.rendered = 0;
+				
 		renderObjects( camera.sort );
 	}
 
