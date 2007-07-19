@@ -10,7 +10,7 @@ package org.papervision3d.utils
 	{
 		public var displayObject3D							:DisplayObject3D = null;
 		public var container								:Sprite = new Sprite();
-		public var color									:Number = 0x000000;
+		public var color									:Number = InteractiveSceneManager.DEFAULT_FILL_COLOR;
 		public var isDrawn									:Boolean = false;
 		public var sort										:Boolean = false;
 		
@@ -19,6 +19,8 @@ package org.papervision3d.utils
 			super(target);
 			displayObject3D = container3d;
 			color = p_color;
+			
+			container.alpha = InteractiveSceneManager.DEFAULT_SPRITE_ALPHA;
 		}		
 	}
 }
