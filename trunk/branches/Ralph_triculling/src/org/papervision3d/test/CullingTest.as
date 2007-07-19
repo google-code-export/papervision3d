@@ -58,7 +58,10 @@ package org.papervision3d.test
 			
 			//var material:BitmapColorMaterial = new BitmapColorMaterial(0xFF0000,1);
 			var material:BitmapWireframeMaterial = new BitmapWireframeMaterial(0xFF0000,1);
-			material.doubleSided = true;
+			//var material:WireframeMaterial = new WireframeMaterial(0xFF0000,1);
+			
+			material.doubleSided = false;
+			//material.smooth = true;
 			obj = new Sphere(material, 500,32,32);
 			
 			scene3D.addChild(obj);
