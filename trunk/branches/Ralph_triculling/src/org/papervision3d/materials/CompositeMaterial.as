@@ -1,11 +1,12 @@
 package org.papervision3d.materials
 {
-	import org.papervision3d.core.draw.IFaceDrawer;
-	import org.papervision3d.core.proto.MaterialObject3D;
-	import org.papervision3d.core.geom.Vertex2D;
-	import org.papervision3d.core.geom.Face3D;
-	import flash.geom.Matrix;
 	import flash.display.Graphics;
+	import flash.geom.Matrix;
+	
+	import org.papervision3d.core.draw.IFaceDrawer;
+	import org.papervision3d.core.geom.Face3D;
+	import org.papervision3d.core.geom.Vertex2D;
+	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.objects.DisplayObject3D;
 
 	public class CompositeMaterial extends MaterialObject3D implements IFaceDrawer
