@@ -90,12 +90,12 @@ package org.papervision3d.materials
 			var w  :Number = BITMAP_WIDTH;
 			var h  :Number = BITMAP_HEIGHT;
 
-			var u0 :Number = w * 1;
-			var v0 :Number = h * ( 0 );
-			var u1 :Number = w * 0;
-			var v1 :Number = h * ( 0  );
-			var u2 :Number = w * 1;
-			var v2 :Number = h * ( 1 );
+			var u0 :Number = w;
+			var v0 :Number = 0;
+			var u1 :Number = 0;
+			var v1 :Number = 0;
+			var u2 :Number = w;
+			var v2 :Number = h;
 			
 			// Precalculate matrix & correct for mip mapping
 			var at :Number = ( u1 - u0 );

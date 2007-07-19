@@ -23,7 +23,7 @@ package
 		private function init():void
 		{
 			cullingTest = new CullingTest();
-			cullingTest.scene3D.triangleCuller = new RectangleTriangleCuller();
+			//cullingTest.scene3D.triangleCuller = new RectangleTriangleCuller();
 			addChild(cullingTest);
 			cullingTest.startRendering();	
 		}
