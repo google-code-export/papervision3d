@@ -324,7 +324,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		
 		// if we have an InteractiveScene3D, register this and the children to add them to the InteractiveSceneManager
 		interactiveSceneManager = InteractiveScene3D(_scene).interactiveSceneManager;
-		interactiveSceneManager.addDisplayObject(this);
+		//interactiveSceneManager.addDisplayObject(this);
 	}
 
 	/**
