@@ -129,9 +129,6 @@ public class Face3D
 		this.id = _totalFaces++;
 	}
 	
-	
-
-
 	// ______________________________________________________________________________
 	//                                                                         RENDER
 	// RRRRR  EEEEEE NN  NN DDDDD  EEEEEE RRRRR
@@ -151,13 +148,8 @@ public class Face3D
 	public function render( instance:DisplayObject3D, container:Sprite ): Number
 	{
 		var projected:Dictionary = instance.projected;
-		
-		var s0:Vertex2D = projected[v0];
-		var s1:Vertex2D = projected[v1];
-		var s2:Vertex2D = projected[v2];
-		
 		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
-		return material.drawFace3D(instance, this, container.graphics, s0, s1, s2);
+		return material.drawFace3D(instance, this, container.graphics, Vertex2D(projected[v0]), Vertex2D(projected[v1]), Vertex2D(projected[v2]));
 	}
 
 	// ______________________________________________________________________________
