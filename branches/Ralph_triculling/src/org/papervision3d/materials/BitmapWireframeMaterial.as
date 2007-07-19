@@ -1,13 +1,14 @@
 package org.papervision3d.materials
 {
-	import org.papervision3d.core.draw.IFaceDrawer;
-	import org.papervision3d.core.geom.Vertex2D;
-	import org.papervision3d.core.geom.Face3D;
-	import flash.display.Graphics;
-	import org.papervision3d.objects.DisplayObject3D;
-	import flash.display.Sprite;
 	import flash.display.BitmapData;
+	import flash.display.Graphics;
+	import flash.display.Sprite;
 	import flash.geom.Matrix;
+	
+	import org.papervision3d.core.draw.IFaceDrawer;
+	import org.papervision3d.core.geom.Face3D;
+	import org.papervision3d.core.geom.Vertex2D;
+	import org.papervision3d.objects.DisplayObject3D;
 
 	public class BitmapWireframeMaterial extends BitmapMaterial implements IFaceDrawer
 	{
