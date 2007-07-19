@@ -73,7 +73,7 @@ package org.papervision3d.materials
 			var graphics:Graphics = sprite.graphics;
 			
 			
-			graphics.lineStyle(2,0xFFFFFF,1);
+			graphics.lineStyle(3,lineColor,lineAlpha);
 			graphics.moveTo( 1, 1 );
 			graphics.lineTo( BITMAP_WIDTH-1,1 );
 			graphics.lineTo( BITMAP_WIDTH-1,BITMAP_HEIGHT-1);
