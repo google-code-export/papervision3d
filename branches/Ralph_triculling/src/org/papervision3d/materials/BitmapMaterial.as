@@ -356,7 +356,7 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 	// ______________________________________________________________________ PRIVATE VAR
 
 	protected var _texture :*;
-	private static var _triMatrix:Matrix = new Matrix()
-	private static var _localMatrix:Matrix = new Matrix();
+	protected static var _triMatrix:Matrix = new Matrix()
+	protected static var _localMatrix:Matrix = new Matrix();
 }
 }

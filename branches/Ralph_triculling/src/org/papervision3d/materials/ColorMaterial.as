@@ -36,12 +36,13 @@
 // __________________________________________________________________________ COLOR MATERIAL
 package org.papervision3d.materials
 {
-import org.papervision3d.core.proto.MaterialObject3D;
+iimport flash.display.Graphics;
+import flash.geom.Matrix;
+
 import org.papervision3d.core.draw.IFaceDrawer;
 import org.papervision3d.core.geom.Face3D;
-import flash.display.Graphics;
 import org.papervision3d.core.geom.Vertex2D;
-import flash.geom.Matrix;
+import org.papervision3d.core.proto.MaterialObject3D;
 
 /**
 * The ColorMaterial class creates a solid color material.
