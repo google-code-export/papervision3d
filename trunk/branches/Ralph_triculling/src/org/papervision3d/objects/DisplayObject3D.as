@@ -388,7 +388,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	* [internal-use]
 	*/
-	//public var projected :Dictionary;
+	public var projected :Dictionary;
 
 	/**
 	* [internal-use]
