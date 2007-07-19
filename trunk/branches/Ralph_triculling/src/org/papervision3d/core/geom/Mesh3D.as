@@ -117,7 +117,9 @@ public class Mesh3D extends Vertices3D
 		var faces        :Array  = this.geometry.faces;
 		var screenZs     :Number = 0;
 		var visibleFaces :Number = 0;
-		var triCuller:ITriangleCuller = _scene.triangleCuller;
+		
+		scene = scene == null ? parent.scene : scene;
+		var triCuller:ITriangleCuller = scene.triangleCuller;
 		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, iFace:Face3DInstance, face:Face3D;
 		
 		for each(face in faces){
