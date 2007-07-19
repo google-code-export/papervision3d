@@ -99,7 +99,6 @@ public class Vertices3D extends DisplayObject3D
 		//var screenZ:Number =
 		super.project( parent, camera, sorted );
 
-		var projected:Dictionary = this.projected;
 		var view:Matrix3D = this.view;
 
 		// Camera
@@ -133,17 +132,17 @@ public class Vertices3D extends DisplayObject3D
 			vx = vertex.x;
 			vy = vertex.y;
 			vz = vertex.z;
-
-			s_x = vx * m11 + vy * m12 + vz * m13 + view.n14;
-			s_y = vx * m21 + vy * m22 + vz * m23 + view.n24;
+			
 			s_z = vx * m31 + vy * m32 + vz * m33 + view.n34;
-
-			screen = projected[vertex] || (projected[vertex] = new Vertex2D());
-
+			
+			screen = vertex.vertex2DInstance;
+	
 			if( screen.visible = ( s_z > 0 ) )
 			{
+				s_x = vx * m11 + vy * m12 + vz * m13 + view.n14;
+				s_y = vx * m21 + vy * m22 + vz * m23 + view.n24;
+				
 				persp = fz / (focus + s_z);
-
 				screen.x = s_x * persp;
 				screen.y = s_y * persp;
 				screen.z = s_z;
