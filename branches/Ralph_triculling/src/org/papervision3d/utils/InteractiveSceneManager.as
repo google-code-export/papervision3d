@@ -41,6 +41,7 @@ package org.papervision3d.utils
 			container.x = scene.container.x;
 			container.y = scene.container.y;
 			container.stage.addEventListener(Event.RESIZE, handleResize);
+			container.stage.addEventListener(MouseEvent.MOUSE_UP, handleReleaseOutside);
 		}
 		
 		public function addDisplayObject(container3d:DisplayObject3D):void
@@ -154,6 +155,12 @@ package org.papervision3d.utils
 		{	
 			//if(debug) log.debug("Move", DisplayObject3D(containerDictionary[e.target]).name);
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_MOVE, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
+		}
+		
+		protected function handleReleaseOutside(e:MouseEvent):void
+		{	
+			//if(debug) log.debug("Move", DisplayObject3D(containerDictionary[e.target]).name);
+			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_RELEASE_OUTSIDE));
 		}
 		
 		protected function handleResize(e:Event):void

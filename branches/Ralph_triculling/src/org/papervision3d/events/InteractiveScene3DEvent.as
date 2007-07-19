@@ -12,11 +12,12 @@ package org.papervision3d.events
 		public static var OBJECT_MOVE:String = "mouseMove";
 		public static var OBJECT_PRESS:String = "mousePress";
 		public static var OBJECT_RELEASE:String = "mouseRelease";
+		public static var OBJECT_RELEASE_OUTSIDE:String = "mouseReleaseOutside";
 		
 		public var displayObject3D				:DisplayObject3D = null;
 		public var sprite						:Sprite = null;
 		
-		public function InteractiveScene3DEvent(type:String, container3d:DisplayObject3D, spriteContainer:Sprite=null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function InteractiveScene3DEvent(type:String, container3d:DisplayObject3D=null, spriteContainer:Sprite=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 			displayObject3D = container3d;
