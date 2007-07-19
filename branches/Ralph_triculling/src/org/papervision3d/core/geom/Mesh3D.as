@@ -123,7 +123,7 @@ public class Mesh3D extends Vertices3D
 		
 		for each(face in faces){
 			iFace = face.face3DInstance;
-			iFace.instance = this;
+			iFace.instance = this;// We must be able to do something about this, right ? 
 			
 			vertex0 = face.v0.vertex2DInstance;
 			vertex1 = face.v1.vertex2DInstance;
@@ -148,6 +148,8 @@ public class Mesh3D extends Vertices3D
 				}
 				visibleFaces++;
 				sorted.push(iFace);
+			}else{
+				scene.stats.culledTriangles++;
 			}
 		}
 
