@@ -22,7 +22,10 @@ package org.papervision3d.utils
 
 	public class InteractiveSceneManager extends EventDispatcher
 	{
-		public static var currentManager							:InteractiveSceneManager;
+		public static var DEFAULT_SPRITE_ALPHA						:Number = .0051;
+		public static var DEFAULT_FILL_ALPHA						:Number = .0051;
+		public static var DEFAULT_FILL_COLOR						:Number = 0xFFFFFF;
+		
 		public var faceDictionary									:Dictionary = new Dictionary();
 		public var containerDictionary								:Dictionary = new Dictionary();
 		public var container										:Sprite = new Sprite();
@@ -50,6 +53,7 @@ package org.papervision3d.utils
 			{
 				//var icd:InteractiveContainerData = faceDictionary[container3d] = new InteractiveContainerData(container3d, Math.random()*0xFFFFFF);
 				var icd:InteractiveContainerData = faceDictionary[container3d] = new InteractiveContainerData(container3d);
+				
 				// for reverse lookup when you have the sprite container
 				containerDictionary[icd.container] = container3d;
 				
@@ -61,7 +65,7 @@ package org.papervision3d.utils
 				icd.container.addEventListener(MouseEvent.MOUSE_OUT, handleMouseOut);
 				icd.container.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
 				
-				if(debug) log.debug("addDisplayObject id", container3d.id, container3d.name);
+				if(debug) log.debug("addDisplayObject id", container3d.id, container3d.name, DEFAULT_SPRITE_ALPHA);
 			}
 		}
 		
@@ -70,9 +74,7 @@ package org.papervision3d.utils
 			if(faceDictionary[container3d] == null) addDisplayObject(container3d);
 			var drawingContainer:InteractiveContainerData = faceDictionary[container3d];
 			
-			var alp:Number = debug ? .3 : .0051;
-			
-			drawingContainer.container.graphics.beginFill(drawingContainer.color, alp);
+			drawingContainer.container.graphics.beginFill(drawingContainer.color, DEFAULT_FILL_ALPHA);
 			drawingContainer.container.graphics.moveTo( x0, y0 );
 			drawingContainer.container.graphics.lineTo( x1, y1 );
 			drawingContainer.container.graphics.lineTo( x2, y2 );
