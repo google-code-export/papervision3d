@@ -37,21 +37,20 @@
 
 package org.papervision3d.materials
 {
-import org.papervision3d.Papervision3D;
-import org.papervision3d.core.proto.MaterialObject3D;
-import org.papervision3d.events.FileLoadEvent;
-
-import flash.events.*;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
-import flash.display.Loader;
-import flash.net.URLRequest;
-import flash.events.Event;
-import flash.utils.Dictionary;
-import org.papervision3d.objects.DisplayObject3D;
-import org.papervision3d.core.geom.Face3D;
 import flash.display.Graphics;
+import flash.display.Loader;
+import flash.events.*;
+import flash.net.URLRequest;
+import flash.utils.Dictionary;
+
+import org.papervision3d.Papervision3D;
+import org.papervision3d.core.geom.Face3D;
 import org.papervision3d.core.geom.Vertex2D;
+import org.papervision3d.core.proto.MaterialObject3D;
+import org.papervision3d.events.FileLoadEvent;
+import org.papervision3d.objects.DisplayObject3D;
 
 /**
 * The BitmapFileMaterial class creates a texture by loading a bitmap from an external file.
@@ -166,7 +165,8 @@ public class BitmapFileMaterial extends BitmapMaterial
 
 		var request:URLRequest = new URLRequest( file );
 		var bitmapLoader:Loader = new Loader();
-
+		
+		bitmapLoader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, loadBitmapProgressHandler );
 		bitmapLoader.contentLoaderInfo.addEventListener( Event.COMPLETE, loadBitmapCompleteHandler );
 
 		try
@@ -192,6 +192,14 @@ public class BitmapFileMaterial extends BitmapMaterial
 
 			Papervision3D.log( "[ERROR] BitmapFileMaterial: Unable to load file " + error.message );
 		}
+	}
+	
+	// ___________________________________________________________________ LOAD BITMAP PROGRESS HANDLER
+
+	private function loadBitmapProgressHandler( e:ProgressEvent ):void
+	{
+		var progressEvent:FileLoadEvent = new FileLoadEvent( FileLoadEvent.LOAD_PROGRESS, url, e.bytesLoaded, e.bytesTotal);
+		dispatchEvent( progressEvent );
 	}
 
 	// ___________________________________________________________________ LOAD BITMAP COMPLETE HANDLER
@@ -255,6 +263,7 @@ public class BitmapFileMaterial extends BitmapMaterial
 	 */
 	override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
 	{
+		if(bitmap == null) return 1;
 		bitmap.lock();
 		var i:int = super.drawFace3D(instance, face3D, graphics, v0, v1, v2);
 		bitmap.unlock();
