@@ -91,6 +91,12 @@ package org.papervision3d.utils
 			return DisplayObject3D(containerDictionary[sprite]);
 		}
 		
+		public function resizeStage():void
+		{
+			container.x = scene.container.x;
+			container.y = scene.container.y;
+		}
+		
 		public function resetFaces():void
 		{			
 			// clear all triangles/faces that have been drawn
@@ -166,8 +172,7 @@ package org.papervision3d.utils
 		
 		protected function handleResize(e:Event):void
 		{
-			container.x = scene.container.x;
-			container.y = scene.container.y;
+			resizeStage();
 		}
 	}
 }
