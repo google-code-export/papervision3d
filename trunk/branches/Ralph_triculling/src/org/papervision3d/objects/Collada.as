@@ -38,26 +38,27 @@
 
 package org.papervision3d.objects
 {
+import com.blitzagency.xray.logger.XrayLog;
+
+import flash.events.Event;
+import flash.events.IOErrorEvent;
+import flash.events.ProgressEvent;
+import flash.events.SecurityErrorEvent;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
-import flash.events.Event;
 
 import org.papervision3d.Papervision3D;
 import org.papervision3d.core.Matrix3D;
 import org.papervision3d.core.NumberUV;
-import org.papervision3d.core.proto.DisplayObjectContainer3D;
-import org.papervision3d.core.proto.MaterialObject3D;
-import org.papervision3d.core.proto.GeometryObject3D;
-import org.papervision3d.core.geom.Vertex3D;
 import org.papervision3d.core.geom.Face3D;
 import org.papervision3d.core.geom.Mesh3D;
+import org.papervision3d.core.geom.Vertex3D;
+import org.papervision3d.core.proto.DisplayObjectContainer3D;
+import org.papervision3d.core.proto.GeometryObject3D;
+import org.papervision3d.core.proto.MaterialObject3D;
 import org.papervision3d.events.FileLoadEvent;
-import org.papervision3d.objects.DisplayObject3D;
-import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.materials.BitmapFileMaterial;
-import flash.events.IOErrorEvent;
-import com.blitzagency.xray.logger.XrayLog;
-import flash.events.SecurityErrorEvent;
+import org.papervision3d.materials.MaterialsList;
 
 /**
 * The Collada class lets you load and parse Collada scenes.
@@ -155,9 +156,16 @@ public class Collada extends DisplayObject3D
 		this._loader.addEventListener( Event.COMPLETE, onComplete );
 		this._loader.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
 		this._loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleSecurityLoadError);
+		this._loader.addEventListener( ProgressEvent.PROGRESS, handleLoadProgress );
 		this._loader.load( new URLRequest( this._filename ) );
 	}
-
+	
+	private function handleLoadProgress( e:ProgressEvent ):void
+	{
+		var progressEvent:FileLoadEvent = new FileLoadEvent( FileLoadEvent.LOAD_PROGRESS, this._filename, e.bytesLoaded, e.bytesTotal);
+		dispatchEvent( progressEvent );
+	}
+	
 	private function handleIOError(e:IOErrorEvent):void
 	{
 		trace("COLLADA file load error", e.text);
