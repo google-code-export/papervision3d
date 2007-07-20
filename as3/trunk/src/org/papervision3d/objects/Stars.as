@@ -207,15 +207,18 @@ package org.papervision3d.objects
 				bd.fillRect( bd.rect, 0x000000);
 				//log.debug("1", bd.width);
 				// Paint stars
-				var vertices:Dictionary = this.projected;
+				
 				var pixels :Number = 0;
 
 				//log.debug("2");
 
 				var color:int = material.fillColor || 0xFFFFFF;
 				//log.debug("3");
-				for each( var v:Vertex2D in vertices )
+				var v3d:Vertex3D;
+				var v2d:Vertex2D;
+				for each(v3d in geometry.vertices)
 				{
+					v2d = v3d.vertex2DInstance; 
 					//log.debug("4", v.visible);
 					if( v.visible )
 					{

@@ -37,6 +37,10 @@
 
 package org.papervision3d
 {
+	import org.papervision3d.core.culling.DefaultTriangleCuller;
+	import org.papervision3d.core.culling.ITriangleCuller;
+
+	
 
 /**
 * The Papervision3D class contains global properties and settings.
@@ -66,7 +70,7 @@ public class Papervision3D
 	/**
 	* Enables version to be retrieved at runtime or when reviewing a decompiled swf.
 	*/
-	static public var VERSION  :String = 'Beta RC1';
+	static public var VERSION  :String = 'Beta RC1.1';
 
 	/**
 	* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
@@ -82,8 +86,7 @@ public class Papervision3D
 	* Determines whether debug printout is enabled. It also prints version information at startup.
 	*/
 	static public var VERBOSE  :Boolean = true;
-
-
+	
 	// ___________________________________________________________________ LOG
 
 	/**

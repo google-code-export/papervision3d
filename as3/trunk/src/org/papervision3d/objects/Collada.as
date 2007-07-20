@@ -57,6 +57,7 @@ import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.materials.BitmapFileMaterial;
 import flash.events.IOErrorEvent;
 import com.blitzagency.xray.logger.XrayLog;
+import flash.events.SecurityErrorEvent;
 
 /**
 * The Collada class lets you load and parse Collada scenes.
@@ -153,6 +154,7 @@ public class Collada extends DisplayObject3D
 		this._loader = new URLLoader();
 		this._loader.addEventListener( Event.COMPLETE, onComplete );
 		this._loader.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
+		this._loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleSecurityLoadError);
 		this._loader.load( new URLRequest( this._filename ) );
 	}
 
@@ -161,7 +163,13 @@ public class Collada extends DisplayObject3D
 		trace("COLLADA file load error", e.text);
 		dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_ERROR,this._filename));
 	}
-
+	
+	private function handleSecurityLoadError(e:SecurityErrorEvent):void
+	{
+		trace("COLLADA file security load error", e.text);
+		dispatchEvent(new FileLoadEvent(FileLoadEvent.SECURITY_LOAD_ERROR,this._filename));
+	}
+	
 	private function onComplete(evt:Event):void
 	{
 		this.COLLADA = new XML( this._loader.data );

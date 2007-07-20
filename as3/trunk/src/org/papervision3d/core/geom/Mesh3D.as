@@ -43,10 +43,10 @@ import flash.utils.Dictionary;
 
 import org.papervision3d.Papervision3D;
 import org.papervision3d.core.*;
+import org.papervision3d.core.culling.ITriangleCuller;
 import org.papervision3d.core.proto.*;
-import org.papervision3d.core.geom.*;
-
 import org.papervision3d.objects.DisplayObject3D;
+import org.papervision3d.scenes.Scene3D;
 
 
 /**
@@ -111,35 +111,31 @@ public class Mesh3D extends Vertices3D
 	{
 		// Vertices
 		super.project( parent, camera, sorted );
-
 		if( ! sorted ) sorted = this._sorted;
-
-		var projected:Dictionary = this.projected;
-		var view:Matrix3D = this.view;
-
+		
 		// Faces
 		var faces        :Array  = this.geometry.faces;
-		var iFaces       :Array  = this.faces;
 		var screenZs     :Number = 0;
 		var visibleFaces :Number = 0;
-
-		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, visibles:Number, iFace:Object, face:Face3D;
-
-		for( var i:int=0; face = faces[i]; i++ )
-		{
-			iFace = iFaces[i] || (iFaces[i] = {});
-			iFace.face = face;
-			iFace.instance = this;
-
-			vertex0 = projected[ face.vertices[0] ];
-			vertex1 = projected[ face.vertices[1] ];
-			vertex2 = projected[ face.vertices[2] ];
-
-			visibles = Number(vertex0.visible) + Number(vertex1.visible) + Number(vertex2.visible);
-			iFace.visible = ( visibles == 3 );
-
-			if( iFace.visible )
+		
+		var triCuller:ITriangleCuller = scene.triangleCuller;
+		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, iFace:Face3DInstance, face:Face3D;
+		
+		for each(face in faces){
+			iFace = face.face3DInstance;
+			iFace.instance = this;// We must be able to do something about this, right ? 
+			
+			vertex0 = face.v0.vertex2DInstance;
+			vertex1 = face.v1.vertex2DInstance;
+			vertex2 = face.v2.vertex2DInstance;
+			
+			if( (iFace.visible = triCuller.testFace(this, iFace, vertex0, vertex1, vertex2)))
 			{
+				if(material && material.needsFaceNormals){
+					face.faceNormal.copyTo(iFace.faceNormal);
+					Matrix3D.multiplyVector3x3( this.view, iFace.faceNormal );
+				}
+				//Note to self ;-) Get the switch out of here.
 				switch(meshSort)
 				{
 					case DisplayObject3D.MESH_SORT_CENTER:
@@ -154,10 +150,10 @@ public class Mesh3D extends Vertices3D
 						screenZs += iFace.screenZ = Math.min(vertex0.z,vertex1.z,vertex2.z);
 						break;
 				}
-					
 				visibleFaces++;
-
-				if( sorted ) sorted.push( iFace );
+				sorted.push(iFace);
+			}else{
+				scene.stats.culledTriangles++;
 			}
 		}
 

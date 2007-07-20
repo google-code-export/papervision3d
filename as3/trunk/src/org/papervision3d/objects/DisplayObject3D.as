@@ -37,24 +37,24 @@
 
 package org.papervision3d.objects
 {
+import com.blitzagency.xray.logger.XrayLog;
+
+import flash.display.Sprite;
+import flash.geom.Matrix;
+import flash.utils.Dictionary;
+
 import org.papervision3d.Papervision3D;
-
-import org.papervision3d.core.Number3D;
 import org.papervision3d.core.Matrix3D;
-
+import org.papervision3d.core.Number3D;
+import org.papervision3d.core.geom.Face3DInstance;
 import org.papervision3d.core.proto.CameraObject3D;
 import org.papervision3d.core.proto.DisplayObjectContainer3D;
 import org.papervision3d.core.proto.GeometryObject3D;
 import org.papervision3d.core.proto.MaterialObject3D;
 import org.papervision3d.core.proto.SceneObject3D;
-
 import org.papervision3d.materials.MaterialsList;
-
-import com.blitzagency.xray.logger.XrayLog;
-
-import flash.display.Sprite;
-import flash.utils.Dictionary;
-import flash.geom.Matrix;
+import org.papervision3d.scenes.InteractiveScene3D;
+import org.papervision3d.utils.InteractiveSceneManager;
 
 /**
 * The DisplayObject class represents instances of 3D objects that are contained in the scene.
@@ -300,9 +300,33 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 
 	/**
+	* If an InteractiveScene3D is used, this will DisplayObject3D will be registered with the InteractiveSceneManager
+	*/	
+	public var interactiveSceneManager:InteractiveSceneManager;
+
+	/**
 	* The scene where the object belongs.
 	*/
-	public var scene :SceneObject3D;
+	protected var _scene :SceneObject3D = null;
+	
+	public function set scene(p_scene:SceneObject3D):void
+	{
+		// set scene property
+		_scene = p_scene;
+		
+		for each( var child:DisplayObject3D in this._childrenByName )
+		{
+			if(child.scene == null) child.scene = _scene;
+		}
+		
+		// if this is NOT an interactiveScene3D, just return
+		if(_scene is InteractiveScene3D == false) return;
+		
+		// if we have an InteractiveScene3D, register this and the children to add them to the InteractiveSceneManager
+		interactiveSceneManager = InteractiveScene3D(_scene).interactiveSceneManager;
+	}
+	
+	public function get scene():SceneObject3D { return _scene; }
 
 	/**
 	* [read-only] Indicates the DisplayObjectContainer3D object that contains this display object.
@@ -312,22 +336,22 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	* tells Mesh3D's render() method to sort by measuring from the center of a triangle
 	*/	
-	public static const MESH_SORT_CENTER:String = "meshSortCenter";
+	public static const MESH_SORT_CENTER:uint = 1;
 	
 	/**
 	* tells Mesh3D's render() method to sort by measuring from the farthest point of a triangle
 	*/	
-	public static const MESH_SORT_FAR:String = "meshSortFar";
+	public static const MESH_SORT_FAR:uint = 2;
 	
 	/**
 	* tells Mesh3D's render() method to sort by measuring from the closest point of a triangle
 	*/	
-	public static const MESH_SORT_CLOSE:String = "meshSortClose";
+	public static const MESH_SORT_CLOSE:uint = 3;
 	
 	/**
 	* tells Mesh3D's render() method to compare the measurement choice of the user for a triangle's sorting
 	*/	
-	public var meshSort:String = MESH_SORT_CENTER;
+	public var meshSort:uint = MESH_SORT_CENTER;
 	
 	/**
 	* Returns an empty DiplayObject3D object positioned in the center of the 3D coordinate system (0, 0 ,0).
@@ -358,10 +382,6 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	*/
 	public var view      :Matrix3D;
 
-	/**
-	* [internal-use]
-	*/
-	public var projected :Dictionary;
 
 	/**
 	* [internal-use]
@@ -467,7 +487,25 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 	// ___________________________________________________________________________________________________
 	//                                                                                           U T I L S
+	
+	/**
+	* Adds a child DisplayObject3D instance to this DisplayObjectContainer instance.
+	*
+	* [TODO: If you add a child object that already has a different display object container as a parent, the object is removed from the child list of the other display object container.]
+	*
+	* @param	child	The DisplayObject3D instance to add as a child of this DisplayObjectContainer3D instance.
+	* @param	name	An optional name of the child to add or create. If no name is provided, the child name will be used.
+	* @return	The DisplayObject3D instance that you have added or created.
+	*/
+	public override function addChild( child :DisplayObject3D, name:String=null ):DisplayObject3D
+	{
+		child = super.addChild( child, name );
+		
+		if( child.scene == null ) child.scene = scene;
 
+		return child;
+	}
+	
 	/**
 	* Adds a geometry definition to the instance.
 	*
@@ -487,7 +525,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		if( geometry.materials )
 			this.materials = geometry.materials.clone();
 */
-		this.projected = new Dictionary();
+
 	}
 
 	// ___________________________________________________________________________________________________
@@ -671,7 +709,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		// Render
 		var container :Sprite = this.container || scene.container;
 		var rendered  :Number = 0;
-		var iFace     :Object;
+		var iFace     :Face3DInstance;
 
 		for( var i:int = 0; iFace = iFaces[i]; i++ )
 		{

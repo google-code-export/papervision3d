@@ -48,6 +48,9 @@ import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.materials.MovieMaterial;
 
 import org.papervision3d.objects.DisplayObject3D;
+import org.papervision3d.core.culling.ITriangleCuller;
+import org.papervision3d.core.culling.DefaultTriangleCuller;
+import org.papervision3d.core.stat.RenderStatistics;
 
 /**
 * The SceneObject3D class is the base class for all scenes.
@@ -83,7 +86,7 @@ public class SceneObject3D extends DisplayObjectContainer3D
 	* <li>rendered<li>
 	* </ul>
 	*/
-	public var stats :Object;
+	public var stats :RenderStatistics;
 
 	/**
 	* It contains a list of DisplayObject3D objects in the scene.
@@ -120,7 +123,7 @@ public class SceneObject3D extends DisplayObjectContainer3D
 
 		Papervision3D.log( Papervision3D.NAME + " " + Papervision3D.VERSION + " (" + Papervision3D.DATE + ")\n" );
 
-		this.stats = new Object();
+		this.stats = new RenderStatistics();
 		this.stats.points = 0;
 		this.stats.polys = 0;
 		this.stats.triangles = 0;
@@ -152,6 +155,10 @@ public class SceneObject3D extends DisplayObjectContainer3D
 	public override function addChild( child:DisplayObject3D, name:String=null ):DisplayObject3D
 	{
 		var newChild:DisplayObject3D =	super.addChild( child, name );
+		
+		// Added by John Grden for New culling code 7.18.2007
+		// setting the scene will spread to the child displayobject3d's
+		child.scene = this;
 
 		this.objects.push( newChild );
 
@@ -200,8 +207,8 @@ public class SceneObject3D extends DisplayObjectContainer3D
 	*/
 	public function renderCamera( camera :CameraObject3D ):void
 	{
+		stats.clear();
 		// Render performance stats
-		var stats:Object  = this.stats;
 		stats.performance = getTimer();
 
 		// Materials
@@ -226,13 +233,13 @@ public class SceneObject3D extends DisplayObjectContainer3D
 		// Z sort
 		if( camera.sort )
 			this.objects.sortOn( 'screenZ', Array.NUMERIC );
-
-		// Render objects
-		stats.rendered = 0;
+				
 		renderObjects( camera.sort );
 	}
 
-
+	public var triangleCuller:ITriangleCuller = new DefaultTriangleCuller();
+	
+	
 	/**
 	* [internal-use]
 	*

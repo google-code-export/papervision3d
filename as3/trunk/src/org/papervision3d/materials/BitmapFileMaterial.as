@@ -48,6 +48,10 @@ import flash.display.Loader;
 import flash.net.URLRequest;
 import flash.events.Event;
 import flash.utils.Dictionary;
+import org.papervision3d.objects.DisplayObject3D;
+import org.papervision3d.core.geom.Face3D;
+import flash.display.Graphics;
+import org.papervision3d.core.geom.Vertex2D;
 
 /**
 * The BitmapFileMaterial class creates a texture by loading a bitmap from an external file.
@@ -244,6 +248,17 @@ public class BitmapFileMaterial extends BitmapMaterial
 		// Dispatch event
 		var fileEvent:FileLoadEvent = new FileLoadEvent( FileLoadEvent.LOAD_COMPLETE, this.url );
 		this.dispatchEvent( fileEvent );
+	}
+	
+	/**
+	 *  drawFace3D
+	 */
+	override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+	{
+		bitmap.lock();
+		var i:int = super.drawFace3D(instance, face3D, graphics, v0, v1, v2);
+		bitmap.unlock();
+		return i;		
 	}
 
 	// ___________________________________________________________________ PRIVATE
