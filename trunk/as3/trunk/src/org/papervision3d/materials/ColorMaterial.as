@@ -36,7 +36,14 @@
 // __________________________________________________________________________ COLOR MATERIAL
 package org.papervision3d.materials
 {
+import flash.display.Graphics;
+import flash.geom.Matrix;
+
+import org.papervision3d.core.draw.IFaceDrawer;
+import org.papervision3d.core.geom.Face3D;
+import org.papervision3d.core.geom.Vertex2D;
 import org.papervision3d.core.proto.MaterialObject3D;
+import org.papervision3d.objects.DisplayObject3D;
 
 /**
 * The ColorMaterial class creates a solid color material.
@@ -44,7 +51,7 @@ import org.papervision3d.core.proto.MaterialObject3D;
 * Materials collects data about how objects appear when rendered.
 *
 */
-public class ColorMaterial extends MaterialObject3D
+public class ColorMaterial extends MaterialObject3D implements IFaceDrawer
 {
 	// ______________________________________________________________________ NEW
 
@@ -61,8 +68,29 @@ public class ColorMaterial extends MaterialObject3D
 		this.fillColor = color;
 		this.fillAlpha = alpha;
 	}
-
-
+	
+	/**
+	 *  drawFace3D
+	 */
+	override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+	{
+		var x0:Number = v0.x;
+		var y0:Number = v0.y;
+		var x1:Number = v1.x;
+		var y1:Number = v1.y;
+		var x2:Number = v2.x;
+		var y2:Number = v2.y;
+		
+		graphics.beginFill( fillColor, fillAlpha );
+		graphics.moveTo( x0, y0 );
+		graphics.lineTo( x1, y1 );
+		graphics.lineTo( x2, y2 );
+		graphics.lineTo( x0, y0 );
+		graphics.endFill();
+		
+		return 1;
+	}
+	
 	// ______________________________________________________________________ TO STRING
 
 	/**

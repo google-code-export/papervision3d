@@ -99,7 +99,6 @@ public class Vertices3D extends DisplayObject3D
 		//var screenZ:Number =
 		super.project( parent, camera, sorted );
 
-		var projected:Dictionary = this.projected;
 		var view:Matrix3D = this.view;
 
 		// Camera
@@ -119,24 +118,31 @@ public class Vertices3D extends DisplayObject3D
 		var focus    :Number = camera.focus;
 		var fz       :Number = focus * camera.zoom;
 		var vertex   :Vertex3D, screen :Vertex2D, persp :Number;
-
+		
+		var vx:Number;
+		var vy:Number;
+		var vz:Number;
+		var s_x:Number;
+		var s_y:Number;
+		var s_z:Number;
+		
 		while( vertex = vertices[--i] )
 		{
 			// Center position
-			var vx :Number =  vertex.x;
-			var vy :Number =  vertex.y;
-			var vz :Number =  vertex.z;
-
-			var s_x :Number = vx * m11 + vy * m12 + vz * m13 + view.n14;
-			var s_y :Number = vx * m21 + vy * m22 + vz * m23 + view.n24;
-			var s_z :Number = vx * m31 + vy * m32 + vz * m33 + view.n34;
-
-			screen = projected[vertex] || (projected[vertex] = new Vertex2D());
-
+			vx = vertex.x;
+			vy = vertex.y;
+			vz = vertex.z;
+			
+			s_z = vx * m31 + vy * m32 + vz * m33 + view.n34;
+			
+			screen = vertex.vertex2DInstance;
+	
 			if( screen.visible = ( s_z > 0 ) )
 			{
+				s_x = vx * m11 + vy * m12 + vz * m13 + view.n14;
+				s_y = vx * m21 + vy * m22 + vz * m23 + view.n24;
+				
 				persp = fz / (focus + s_z);
-
 				screen.x = s_x * persp;
 				screen.y = s_y * persp;
 				screen.z = s_z;

@@ -37,6 +37,8 @@
 //                                                               Vertex3D
 package org.papervision3d.core.geom
 {
+	import org.papervision3d.core.Number3D;
+	
 
 /**
 * The Vertex3D constructor lets you create 3D vertices.
@@ -62,7 +64,11 @@ public class Vertex3D
 	* An object that contains user defined properties.
 	*/
 	public var extra :Object;
-
+	
+	/**
+	 * Vertex2D instance 
+	 */
+	 public var vertex2DInstance:Vertex2D;
 
 	/**
 	* Creates a new Vertex3D object whose three-dimensional values are specified by the x, y and z parameters.
@@ -77,6 +83,13 @@ public class Vertex3D
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		
+		this.vertex2DInstance = new Vertex2D();
+	}
+	
+	public function toNumber3D():Number3D
+	{
+		return new Number3D(x,y,z);
 	}
 }
 }

@@ -101,12 +101,24 @@ public class Face3D
 	public var id :Number;
 	
 	/**
-	 * [internal-use] Used to store references to the vertices.
+	 * Used to store references to the vertices.
 	 */
-	private var v0:Vertex3D;
-	private var v1:Vertex3D;
-	private var v2:Vertex3D;
-
+	public var v0:Vertex3D;
+	public var v1:Vertex3D;
+	public var v2:Vertex3D;
+	
+	/**
+	 * The face normal
+	 */
+	public var faceNormal:Number3D;
+	
+	/**
+	 * The transformed Face3DInstance
+	 */
+	public var face3DInstance:Face3DInstance;
+	
+	
+	
 	/**
 	* The Face3D constructor lets you create linear textured or solid colour triangles.
 	*
@@ -116,85 +128,21 @@ public class Face3D
 	*/
 	public function Face3D( vertices:Array, materialName:String=null, uv:Array=null )
 	{
-//		this.object = object;
-
 		// Vertices
 		this.vertices = vertices;
 		v0 = vertices[0];
 		v1 = vertices[1];
 		v2 = vertices[2];
 		
+		
 		// Material
 		this.materialName = materialName;
 		this.uv = uv;
-
 		this.id = _totalFaces++;
-
-		//if( ! _bitmapMatrix ) _bitmapMatrix = new Matrix();
+		face3DInstance = new Face3DInstance(this);
+		//createNormal();
 	}
 	
-	/**
-	* Applies the updated UV texture mapping values to the triangle. This is required to speed up rendering.
-	*
-	*/
-	public function transformUV( instance:DisplayObject3D=null ):Matrix
-	{
-		var material :MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
-
-		if( ! this.uv )
-		{
-			Papervision3D.log( "Face3D: transformUV() uv not found!" );
-		}
-		else if( material && material.bitmap )
-		{
-			var uv :Array  = this.uv;
-
-			var w  :Number = material.bitmap.width * material.maxU;
-			var h  :Number = material.bitmap.height * material.maxV;
-
-			var u0 :Number = w * uv[0].u;
-			var v0 :Number = h * ( 1 - uv[0].v );
-			var u1 :Number = w * uv[1].u;
-			var v1 :Number = h * ( 1 - uv[1].v );
-			var u2 :Number = w * uv[2].u;
-			var v2 :Number = h * ( 1 - uv[2].v );
-
-			// Fix perpendicular projections
-			if( (u0 == u1 && v0 == v1) || (u0 == u2 && v0 == v2) )
-			{
-				u0 -= (u0 > 0.05)? 0.05 : -0.05;
-				v0 -= (v0 > 0.07)? 0.07 : -0.07;
-			}
-
-			if( u2 == u1 && v2 == v1 )
-			{
-				u2 -= (u2 > 0.05)? 0.04 : -0.04;
-				v2 -= (v2 > 0.06)? 0.06 : -0.06;
-			}
-
-			// Precalculate matrix & correct for mip mapping
-			var at :Number = ( u1 - u0 );
-			var bt :Number = ( v1 - v0 );
-			var ct :Number = ( u2 - u0 );
-			var dt :Number = ( v2 - v0 );
-
-			var m :Matrix = new Matrix( at, bt, ct, dt, u0, v0 );
-			m.invert();
-
-			var mapping:Matrix = instance.projected[ this ] || (instance.projected[ this ] = m.clone() );
-			mapping.a  = m.a;
-			mapping.b  = m.b;
-			mapping.c  = m.c;
-			mapping.d  = m.d;
-			mapping.tx = m.tx;
-			mapping.ty = m.ty;
-		}
-		else Papervision3D.log( "Face3D: transformUV() material.bitmap not found!" );
-
-		return mapping;
-	}
-
-
 	// ______________________________________________________________________________
 	//                                                                         RENDER
 	// RRRRR  EEEEEE NN  NN DDDDD  EEEEEE RRRRR
@@ -213,93 +161,26 @@ public class Face3D
 	*/
 	public function render( instance:DisplayObject3D, container:Sprite ): Number
 	{
-		var projected :Dictionary = instance.projected;
-		var s0:Vertex2D = projected[v0];
-		var s1:Vertex2D = projected[v1];
-		var s2:Vertex2D = projected[v2];
-		
-		var x0:Number = s0.x;
-		var y0:Number = s0.y;
-		var x1:Number = s1.x;
-		var y1:Number = s1.y;
-		var x2:Number = s2.x;
-		var y2:Number = s2.y;
-	
-		var material :MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
-
-		// Invisible?
-		if( material.invisible ) return 0;
-		
-		// Double sided?
-		if( material.oneSide )
-		{
-			if( material.opposite )
-			{
-				if( ( x2 - x0 ) * ( y1 - y0 ) - ( y2 - y0 ) * ( x1 - x0 ) > 0 )
-				{
-					return 0;
-				}
-			}else{
-				if( ( x2 - x0 ) * ( y1 - y0 ) - ( y2 - y0 ) * ( x1 - x0 ) < 0 )
-				{
-					return 0;
-				}
-			}
-		}
-
-		var texture   :BitmapData  = material.bitmap;
-		var fillAlpha :Number      = material.fillAlpha;
-		var lineAlpha :Number      = material.lineAlpha;
-		var graphics  :Graphics    = container.graphics;
-
-		if( texture )
-		{
-			var map :Matrix = instance.projected[ this ] || transformUV( instance );
-			_triMatrix.a = x1 - x0;
-			_triMatrix.b = y1 - y0;
-			_triMatrix.c = x2 - x0;
-			_triMatrix.d = y2 - y0;
-			_triMatrix.tx = x0;
-			_triMatrix.ty = y0;
-			_localMatrix.a = map.a;
-			_localMatrix.b = map.b;
-			_localMatrix.c = map.c;
-			_localMatrix.d = map.d;
-			_localMatrix.tx = map.tx;
-			_localMatrix.ty = map.ty;
-			_localMatrix.concat(_triMatrix);
-			graphics.beginBitmapFill( texture, _localMatrix, true, material.smooth);
-		}else if( fillAlpha ){
-			graphics.beginFill( material.fillColor, fillAlpha );
-		}
-
-		// Line color
-		if( lineAlpha ){
-			graphics.lineStyle( 0, material.lineColor, lineAlpha );
-		}else{
-			graphics.lineStyle();
-		}
-		
-		// Draw triangle
-		graphics.moveTo( x0, y0 );
-		graphics.lineTo( x1, y1 );
-		graphics.lineTo( x2, y2 );
-
-		if( lineAlpha ){
-			graphics.lineTo( x0, y0 );
-		}
-		if( texture || fillAlpha ){
-			graphics.endFill();
-		}
-		
-		return 1;
+		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
+		return material.drawFace3D(instance, this, container.graphics, v0.vertex2DInstance, v1.vertex2DInstance, v2.vertex2DInstance);
 	}
-
+	
+	protected function createNormal():void
+	{
+		var vn0:Number3D = v0.toNumber3D();
+		var vn1:Number3D = v1.toNumber3D();
+		var vn2:Number3D = v2.toNumber3D();
+		var vt1:Number3D = Number3D.sub(vn1,vn0);
+		var vt2:Number3D = Number3D.sub(vn2,vn0);
+		
+		faceNormal = Number3D.cross(vt2,vt1);
+		faceNormal.normalize();
+	}
+	
 	// ______________________________________________________________________________
 	//                                                                        PRIVATE
 
 	private static var _totalFaces:Number = 0;
-	private static var _triMatrix:Matrix = new Matrix()
-	private static var _localMatrix:Matrix = new Matrix();
+	
 }
 }
