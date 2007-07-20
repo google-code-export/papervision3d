@@ -42,18 +42,24 @@ package org.papervision3d.events
 	*/
 	public class FileLoadEvent extends Event
 	{
-		public static var LOAD_COMPLETE :String = "loadComplete";
-		public static var LOAD_ERROR    :String = "loadError";
-		public static var SECURITY_LOAD_ERROR:String = "securityLoadError";
-		public static var COLLADA_MATERIALS_DONE:String = "colladaMaterialsDone";
+		public static var LOAD_COMPLETE 				:String = "loadComplete";
+		public static var LOAD_ERROR    				:String = "loadError";
+		public static var SECURITY_LOAD_ERROR			:String = "securityLoadError";
+		public static var COLLADA_MATERIALS_DONE		:String = "colladaMaterialsDone";
+		public static var LOAD_PROGRESS 				:String = "loadProgress";
+		
+		public var file:String = "";
+		public var bytesLoaded:Number = -1;
+		public var bytesTotal:Number = -1;		
+		public var dataObj:Object = null;
 
-		public var file:String;
-
-		public function FileLoadEvent( type:String, p_file:String="", bubbles:Boolean=false, cancelable:Boolean=false )
+		public function FileLoadEvent( type:String, file:String="", bytesLoaded:Number=-1, bytesTotal:Number=-1, dataObj:Object = null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super( type, bubbles, cancelable );
-			file = p_file;
+			this.file = file;
+			this.bytesLoaded = bytesLoaded;
+			this.bytesTotal = bytesTotal;
+			this.dataObj = dataObj;
 		}
-
 	}
 }
