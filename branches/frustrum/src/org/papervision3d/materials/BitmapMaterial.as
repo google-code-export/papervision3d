@@ -259,15 +259,15 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 		// Create new bitmap?
 		if( AUTO_MIP_MAPPING && bitmap && ( bitmap.width % levels !=0  ||  bitmap.height % levels != 0 ) )
 		{
-
-			this.maxU = bitmap.width / width;
-			this.maxV = bitmap.height / height;
-
 			okBitmap = new BitmapData( width, height, bitmap.transparent, 0x00000000 );
 
 			okBitmap.draw( bitmap );
 			
-			extendBitmapEdges( okBitmap, bitmap.width, bitmap.height );
+			this.maxU = bitmap.width / width;
+			this.maxV = bitmap.height / height;
+			
+			// John Grden - with the 2 lines above moved below the draw() call, we don't need to extend edges.
+			//extendBitmapEdges( okBitmap, bitmap.width, bitmap.height );
 			
 			// Dispose bitmap if needed
 			if( dispose ) bitmap.dispose();
