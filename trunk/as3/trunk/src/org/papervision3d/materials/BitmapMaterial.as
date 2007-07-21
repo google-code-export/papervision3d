@@ -266,6 +266,7 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 			this.maxU = bitmap.width / width;
 			this.maxV = bitmap.height / height;
 			
+			// John Grden - with the 2 lines above moved below the draw() call, we don't need to extend edges.
 			//extendBitmapEdges( okBitmap, bitmap.width, bitmap.height );
 			
 			// Dispose bitmap if needed
