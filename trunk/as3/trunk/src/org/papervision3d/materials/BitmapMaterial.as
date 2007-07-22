@@ -62,7 +62,7 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 	/**
 	 * Indicates if mip mapping is forced.
 	 */
-	static public var AUTO_MIP_MAPPING :Boolean = true;
+	static public var AUTO_MIP_MAPPING :Boolean = false;
 
 	/**
 	 * Levels of mip mapping to force.
@@ -261,14 +261,14 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 		{
 			okBitmap = new BitmapData( width, height, bitmap.transparent, 0x00000000 );
 
-			okBitmap.draw( bitmap );
-			
 			this.maxU = bitmap.width / width;
 			this.maxV = bitmap.height / height;
-			
-			// John Grden - with the 2 lines above moved below the draw() call, we don't need to extend edges.
-			//extendBitmapEdges( okBitmap, bitmap.width, bitmap.height );
-			
+
+			okBitmap.draw( bitmap );
+
+			// PLEASE DO NOT REMOVE
+			extendBitmapEdges( okBitmap, bitmap.width, bitmap.height );
+
 			// Dispose bitmap if needed
 			if( dispose ) bitmap.dispose();
 		}
