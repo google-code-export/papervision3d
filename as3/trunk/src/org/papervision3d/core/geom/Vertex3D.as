@@ -91,5 +91,14 @@ public class Vertex3D
 	{
 		return new Number3D(x,y,z);
 	}
+	
+	public function clone():Vertex3D
+	{
+		var clone:Vertex3D = new Vertex3D(x,y,z);
+		clone.extra = extra;
+		clone.vertex2DInstance = vertex2DInstance.clone();
+		return clone;
+	}
+	
 }
 }
