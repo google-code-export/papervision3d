@@ -71,6 +71,9 @@ package org.papervision3d.components.as3.collections
 		*/		
 		public var transparent				:Boolean = true;
 		
+		[Inspectable (name="interactive", defaultValue=false, type="Boolean")]
+		public var interactive				:Boolean = false;
+		
 		//[Inspectable (name="smooth", defaultValue=false, type="Boolean")]
 		//public var smooth				:Boolean = false;
 	}

@@ -23,6 +23,10 @@ package org.papervision3d.components.as3.flash9
 	import org.papervision3d.materials.MovieAssetMaterial;
 	import org.papervision3d.objects.Collada;
 	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.materials.InteractiveBitmapFileMaterial;
+	import org.papervision3d.materials.InteractiveMovieAssetMaterial;
+	import org.papervision3d.materials.InteractiveBitmapAssetMaterial;
+	import org.papervision3d.components.as3.utils.ObjectController;
 	
 	/**
 	* Dispatched when the collada file and materials have been completely parsed and loaded.
@@ -175,6 +179,12 @@ package org.papervision3d.components.as3.flash9
 		{
 			return _propertyInspectorSetting;
 		}
+		
+		[Inspectable (name="Scene Rotation", defaultValue=false, type="Boolean")]
+		/**
+		* Boolean flag indicating whether or not the material should be redrawn in the render loop
+		*/		
+		public var sceneRotation					:Boolean = true;
 			
 		[Inspectable (type="String", defaultValue="", name="Local Directory") ]
 		/**
@@ -329,7 +339,7 @@ package org.papervision3d.components.as3.flash9
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
-								var bam:BitmapAssetMaterial = new BitmapAssetMaterial(materialsListItem.materialLinkageID);
+								var bam:BitmapAssetMaterial = materialsListItem.interactive ? new InteractiveBitmapAssetMaterial(materialsListItem.materialLinkageID) : new BitmapAssetMaterial(materialsListItem.materialLinkageID);;
 								loadCollada = true;
 								bam.oneSide = materialsListItem.singleSided;
 								//bam.smooth = materialsListItem.smooth;
@@ -342,7 +352,7 @@ package org.papervision3d.components.as3.flash9
 							var fileLocation:String = isLivePreview ? _localPath + materialsListItem.materialFileLocation : materialsListItem.materialFileLocation;
 							fileLocation = fileLocation.split("\\").join("/");
 							if(debug) log.debug("File to load", fileLocation);
-							var bm:BitmapFileMaterial = new BitmapFileMaterial("");
+							var bm:BitmapFileMaterial = materialsListItem.interactive ? new InteractiveBitmapFileMaterial("") : new BitmapFileMaterial("");
 							bm.addEventListener(FileLoadEvent.LOAD_COMPLETE, handleBitmapFileLoadComplete);
 							materialsQue[bm] = false;
 							// setting the texture property actually causes the load of the file
@@ -361,7 +371,7 @@ package org.papervision3d.components.as3.flash9
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
-								var mov:MovieAssetMaterial = new MovieAssetMaterial(materialsListItem.materialLinkageID, materialsListItem.transparent);
+								var mov:MovieAssetMaterial = materialsListItem.interactive ? new InteractiveMovieAssetMaterial(materialsListItem.materialLinkageID, materialsListItem.transparent) : new MovieAssetMaterial(materialsListItem.materialLinkageID, materialsListItem.transparent);
 								if(materialsListItem.animated) mov.animated = true;
 								mov.oneSide = materialsListItem.singleSided;
 								//mov.smooth = materialsListItem.smooth;
@@ -444,7 +454,7 @@ package org.papervision3d.components.as3.flash9
 		{
 			if(colladaFile.length == 0) return;
 			
-			if(debug) log.debug("createColladaScene", colladaFile);
+			if(debug) log.debug("createColladaScene", colladaFile, scene == null);
 			
 			if(collada != null) scene.removeChild(collada);
 			
@@ -489,6 +499,12 @@ package org.papervision3d.components.as3.flash9
 			
 			// set to false so no unnecessary redraws occur
 			rebuildCollada = false;
+			
+			if(sceneRotation && !isLivePreview)
+			{
+				ObjectController.getInstance().registerStage(this.stage);
+				ObjectController.getInstance().registerControlObject(collada);
+			}
 			
 			// for debugging
 			if(debug) showChildren();

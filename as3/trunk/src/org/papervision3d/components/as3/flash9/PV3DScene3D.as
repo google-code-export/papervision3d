@@ -23,6 +23,7 @@ package org.papervision3d.components.as3.flash9
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.scenes.MovieScene3D;
 	import org.papervision3d.scenes.Scene3D;
+	import org.papervision3d.scenes.InteractiveScene3D;
 	
 	/**
 	* Dispatched when the Scene3D has been created along with the camera.
@@ -146,10 +147,20 @@ package org.papervision3d.components.as3.flash9
 		
 		// scenes
 	    /**
+		* @private
+		*/
+	    protected var _scene     				:InteractiveScene3D = null;
+	    /**
 		* The MovieScene3D used by the component
 		*/
-	    public var scene     				:MovieScene3D;
-	    
+	    public function set scene(scene3d:InteractiveScene3D):void
+	    {
+	    	_scene = scene3d;
+	    }
+	    public function get scene():InteractiveScene3D
+	    {			
+			return _scene;
+	    }
 	    /**
 	     * The camera used by the component.  FreeCamer3D by default
 	     * @return 
@@ -280,9 +291,14 @@ package org.papervision3d.components.as3.flash9
 	 	*/
 		protected function init3D():void
 		{
-			// Scene - we use MovieScene3D by default and we assume this for them since they're in the IDE
-			scene = new MovieScene3D( mainCanvas );
+			// Scene - we use InteractiveScene3D by default and we assume this for them since they're in the IDE
+			createScene();
 			dispatchEvent(new Event(SCENE_INIT));
+		}
+		
+		protected function createScene():void
+		{
+			scene = new InteractiveScene3D( mainCanvas );
 		}
 		
 		/**

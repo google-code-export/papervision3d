@@ -35,6 +35,7 @@ package org.papervision3d.scenes
 		{
 			interactiveSceneManager.resetFaces();
 			super.renderCamera( camera );
+			interactiveSceneManager.sortObjects();
 		}		
 	}
 }
