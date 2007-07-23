@@ -193,9 +193,45 @@ public class Mesh3D extends Vertices3D
 			var uvC :NumberUV = new NumberUV( (c[u] - minX) / sizeX, (c[v] - minY) / sizeY );
 
 			myFace.uv = [ uvA, uvB, uvC ];
+		}
+	}
 
-//			if( objectMaterial && objectMaterial.bitmap )
-//				myFace.transformUV( null, objectMaterial );
+	/**
+	* Merges duplicated vertices.
+	*/
+	public function mergeVertices():void
+	{
+		var uniqueDic  :Dictionary = new Dictionary();
+		var uniqueList :Array = new Array();
+
+		// Find unique vertices
+		for each( var v:Vertex3D in this.geometry.vertices )
+		{
+			for each( var vu:Vertex3D in uniqueDic )
+			{
+				if( v.x == vu.x && v.y == vu.y && v.z == vu.z )
+				{
+					uniqueDic[ v ] = vu;
+					break;
+				}
+			}
+			
+			if( ! uniqueDic[ v ] )
+			{
+				uniqueDic[ v ] = v;
+				uniqueList.push( v );
+			}
+		}
+
+		// Use unique vertices list
+		this.geometry.vertices = uniqueList;
+
+		// Update faces
+		for each( var f:Face3D in this.geometry.faces )
+		{
+			f.v0 = uniqueDic[ f.v0 ];
+			f.v1 = uniqueDic[ f.v1 ];
+			f.v2 = uniqueDic[ f.v2 ];
 		}
 	}
 }
