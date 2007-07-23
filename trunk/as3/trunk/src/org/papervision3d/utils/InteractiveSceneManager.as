@@ -108,12 +108,13 @@ package org.papervision3d.utils
 				item.isDrawn = false;
 			}
 			
-			// sort the sprite containers
-			sortObjects();
+			// make sure the sprite is aligned with the scene's canvas
+			resizeStage();
 		}
 		
-		protected function sortObjects():void
+		public function sortObjects():void
 		{
+			// called from the scene after the render loop is completed
 			var sort:Array = [];
 			
 			for each( var item:InteractiveContainerData in faceDictionary)
