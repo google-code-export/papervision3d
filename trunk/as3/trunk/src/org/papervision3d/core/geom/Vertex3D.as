@@ -38,6 +38,7 @@
 package org.papervision3d.core.geom
 {
 	import org.papervision3d.core.Number3D;
+	import com.blitzagency.xray.logger.util.ObjectTools;
 	
 
 /**

@@ -95,6 +95,7 @@ public class Vertex2D
 		var clone:Vertex2D = new Vertex2D(x,y,z);
 		clone.visible = visible;
 		clone.extra = extra; //TODO : FIX CLONING OF THE EXTRA OBJECT.
+		return clone;
 	}
 	
 }
