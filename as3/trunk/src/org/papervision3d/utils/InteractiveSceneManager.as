@@ -132,36 +132,48 @@ package org.papervision3d.utils
 		protected function handleMousePress(e:MouseEvent):void
 		{
 			if(debug) log.debug("press", DisplayObject3D(containerDictionary[e.target]).name);
+			var do3d:DisplayObject3D = DisplayObject3D(containerDictionary[e.target]);
+			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_PRESS, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_PRESS, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 		}
 		
 		protected function handleMouseRelease(e:MouseEvent):void
 		{
 			if(debug) log.debug("release", DisplayObject3D(containerDictionary[e.target]).name);
+			var do3d:DisplayObject3D = DisplayObject3D(containerDictionary[e.target]);
+			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_RELEASE, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_RELEASE, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 		}
 		
 		protected function handleMouseClick(e:MouseEvent):void
 		{
 			if(debug) log.debug("click", DisplayObject3D(containerDictionary[e.target]).name);
+			var do3d:DisplayObject3D = DisplayObject3D(containerDictionary[e.target]);
+			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_CLICK, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_CLICK, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 		}
 		
 		protected function handleMouseOver(e:MouseEvent):void
 		{
 			if(debug) log.debug("Over", DisplayObject3D(containerDictionary[e.target]).name);
+			var do3d:DisplayObject3D = DisplayObject3D(containerDictionary[e.target]);
+			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_OVER, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_OVER, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 		}
 		
 		protected function handleMouseOut(e:MouseEvent):void
 		{
 			if(debug) log.debug("Out", DisplayObject3D(containerDictionary[e.target]).name);
+			var do3d:DisplayObject3D = DisplayObject3D(containerDictionary[e.target]);
+			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_OUT, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_OUT, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 		}
 		
 		protected function handleMouseMove(e:MouseEvent):void
 		{	
 			if(debug) log.debug("Move", DisplayObject3D(containerDictionary[e.target]).name);
+			var do3d:DisplayObject3D = DisplayObject3D(containerDictionary[e.target]);
+			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_MOVE, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_MOVE, containerDictionary[e.currentTarget], Sprite(e.currentTarget)));
 		}
 		
