@@ -140,7 +140,7 @@ public class Face3D
 		this.uv = uv;
 		this.id = _totalFaces++;
 		face3DInstance = new Face3DInstance(this);
-		//createNormal();
+		createNormal();
 	}
 	
 	// ______________________________________________________________________________
