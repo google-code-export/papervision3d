@@ -220,9 +220,9 @@ package org.papervision3d.objects
 				{
 					v2d = v3d.vertex2DInstance; 
 					//log.debug("4", v.visible);
-					if( v.visible )
+					if( v2d.visible )
 					{
-						_bdCanvas.setPixel( sW2 + v.x, sH2 + v.y, color );
+						_bdCanvas.setPixel( sW2 + v2d.x, sH2 + v2d.y, color );
 						pixels++;
 					}
 				}
