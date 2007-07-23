@@ -81,15 +81,20 @@ public class WireframeMaterial extends MaterialObject3D implements IFaceDrawer
 		var y1:Number = v1.y;
 		var x2:Number = v2.x;
 		var y2:Number = v2.y;
-		
-		graphics.lineStyle( 0, lineColor, lineAlpha );
-		graphics.moveTo( x0, y0 );
-		graphics.lineTo( x1, y1 );
-		graphics.lineTo( x2, y2 );
-		graphics.lineTo( x0, y0 );
-		graphics.lineStyle();
-		
-		return 1;
+
+		if( lineAlpha )
+		{
+			graphics.lineStyle( 0, lineColor, lineAlpha );
+			graphics.moveTo( x0, y0 );
+			graphics.lineTo( x1, y1 );
+			graphics.lineTo( x2, y2 );
+			graphics.lineTo( x0, y0 );
+			graphics.lineStyle();
+
+			return 1;
+		}
+		else
+			return 0;
 	}
 
 	// ______________________________________________________________________ TO STRING
