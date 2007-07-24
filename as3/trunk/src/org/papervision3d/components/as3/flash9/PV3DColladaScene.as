@@ -36,17 +36,22 @@ package org.papervision3d.components.as3.flash9
 	[Event(name="sceneComplete", type="flash.events.Event")]
 	
 	/**
-	* Dispatched while the collada file is loading.  Event carries 2 properties:
-	 * 1.  bytesLoaded
-	 * 2.  bytesTotal
-	* 
+	* Dispatched while the collada file is loading.  
+	 * <p>Event carries 2 properties:
+	 * <ul>
+	 * <li>1.  bytesLoaded
+	 * <li>2.  bytesTotal
+	* </ul>
+	 * </p>
 	* @eventType org.papervision3d.components.as3.flash9.PV3DColladaScene.SCENE_LOAD_PROGRESS
 	*/
 	[Event(name="sceneLoadProgress", type="flash.events.Event")]
 	
 	/**
 	* Dispatched when the collada object cannot load the file specified either because of security or non-existance
-	* 
+	* <p>
+	 * provides a property called "message" which is the actual load error initially received.
+	 * </p>
 	* @eventType org.papervision3d.components.as3.flash9.PV3DColladaScene.SCENE_LOAD_ERROR
 	*/
 	[Event(name="sceneLoadError", type="flash.events.Event")]
@@ -208,7 +213,8 @@ package org.papervision3d.components.as3.flash9
 		
 		[Inspectable (name="Scene Rotation", defaultValue=false, type="Boolean")]
 		/**
-		* Boolean flag indicating whether or not the material should be redrawn in the render loop
+		* Boolean flag indicating whether or not to add mouse drag/rotation abilities to the collada container.  Clicking 
+		 * yes will allow you to use simple dragging to rotate the scene.
 		*/		
 		public var sceneRotation					:Boolean = true;
 			

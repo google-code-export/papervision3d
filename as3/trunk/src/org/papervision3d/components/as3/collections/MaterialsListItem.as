@@ -72,6 +72,10 @@ package org.papervision3d.components.as3.collections
 		public var transparent				:Boolean = true;
 		
 		[Inspectable (name="interactive", defaultValue=false, type="Boolean")]
+		/**
+		* Boolean flag indicating whether or not the material is Interactive.  If set to true, the DisplayObject3D this material
+		 * is assigned to will dispatch mouse events.
+		*/	
 		public var interactive				:Boolean = false;
 		
 		//[Inspectable (name="smooth", defaultValue=false, type="Boolean")]
