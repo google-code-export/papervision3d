@@ -887,6 +887,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 			var look  :Matrix3D = this.transform;
 
+			/*
 			look.n11 = xAxis.x;
 			look.n21 = xAxis.y;
 			look.n31 = xAxis.z;
@@ -898,6 +899,20 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 			look.n13 = zAxis.x;
 			look.n23 = zAxis.y;
 			look.n33 = zAxis.z;
+			*/
+			
+			// scale fix for lookAt()
+			look.n11 =  xAxis.x * _scaleX;
+			look.n21 =  xAxis.y * _scaleX;
+			look.n31 =  xAxis.z * _scaleX;
+			
+			look.n12 = -yAxis.x * _scaleY;
+			look.n22 = -yAxis.y * _scaleY;
+			look.n32 = -yAxis.z * _scaleY;
+			
+			look.n13 =  zAxis.x * _scaleZ;
+			look.n23 =  zAxis.y * _scaleZ;
+			look.n33 =  zAxis.z * _scaleZ;
 
 			this._transformDirty = false;
 			this._rotationDirty = true;

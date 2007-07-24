@@ -151,7 +151,7 @@ package org.papervision3d.components.as3.flash9
 		*/
 	    protected var _scene     				:InteractiveScene3D = null;
 	    /**
-		* The MovieScene3D used by the component
+		* The InteractiveScene3D used by the component
 		*/
 	    public function set scene(scene3d:InteractiveScene3D):void
 	    {
