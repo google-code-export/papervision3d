@@ -36,6 +36,22 @@ package org.papervision3d.components.as3.flash9
 	[Event(name="sceneComplete", type="flash.events.Event")]
 	
 	/**
+	* Dispatched while the collada file is loading.  Event carries 2 properties:
+	 * 1.  bytesLoaded
+	 * 2.  bytesTotal
+	* 
+	* @eventType org.papervision3d.components.as3.flash9.PV3DColladaScene.SCENE_LOAD_PROGRESS
+	*/
+	[Event(name="sceneLoadProgress", type="flash.events.Event")]
+	
+	/**
+	* Dispatched when the collada object cannot load the file specified either because of security or non-existance
+	* 
+	* @eventType org.papervision3d.components.as3.flash9.PV3DColladaScene.SCENE_LOAD_ERROR
+	*/
+	[Event(name="sceneLoadError", type="flash.events.Event")]
+	
+	/**
 	 * PV3DColladaScene is the main class for the Flash CS3 COLLADA component.
 	 * </p>
 	 * <p>It's main purpose is to provide the developer/designer with drag and drop functionality to render a COLLADA scene with a camera and Scene3D.  Full access to a materials list and objects
@@ -72,6 +88,16 @@ package org.papervision3d.components.as3.flash9
 		* @eventType sceneComplete
 		*/		
 		public static const SCENE_COMPLETE	:String = "sceneComplete";
+		
+		/**
+		* @eventType sceneLoadProgress
+		*/		
+		public static const SCENE_LOAD_PROGRESS	:String = "sceneLoadProgress";
+		
+		/**
+		* @eventType sceneLoadError
+		*/		
+		public static const SCENE_LOAD_ERROR	:String = "sceneLoadError";
 		
 		/**
 		* A boolean flag letting the component know whether or not to show trace output
@@ -466,7 +492,9 @@ package org.papervision3d.components.as3.flash9
 			scene.addChild(collada);
 			collada.addEventListener(FileLoadEvent.LOAD_COMPLETE, handleLoadComplete);
 			//collada.addEventListener(FileLoadEvent.COLLADA_MATERIALS_DONE, handleLoadComplete);
+			collada.addEventListener(FileLoadEvent.LOAD_PROGRESS, handleLoadProgress);
 			collada.addEventListener(FileLoadEvent.LOAD_ERROR, handleLoadError);
+			collada.addEventListener(FileLoadEvent.SECURITY_LOAD_ERROR, handleLoadError);
 		}
 		
 		/**
@@ -478,9 +506,29 @@ package org.papervision3d.components.as3.flash9
 			if(debug) log.debug("handleLoadComplete - Collada", e.file);
 			// remove listeners
 			collada.removeEventListener(FileLoadEvent.LOAD_COMPLETE, handleLoadComplete);
+			collada.removeEventListener(FileLoadEvent.LOAD_PROGRESS, handleLoadProgress);
 			collada.removeEventListener(FileLoadEvent.LOAD_ERROR, handleLoadError);
+			collada.removeEventListener(FileLoadEvent.SECURITY_LOAD_ERROR, handleLoadError);
 			
 			finalizeColladaLoad();
+		}
+		
+		/**
+		 * @private
+		 * Called when Collada progress event is dispatched
+		 */	
+		protected function handleLoadProgress(e:FileLoadEvent):void
+		{
+			dispatchEvent(new FileLoadEvent(SCENE_LOAD_PROGRESS, e.file, e.bytesLoaded, e.bytesTotal));
+		}
+		
+		/**
+		 * @private
+		 * Called when Collada has an error with loading the DAE file specified
+		 */	
+		protected function handleLoadError(e:FileLoadEvent):void
+		{
+			dispatchEvent(new FileLoadEvent(SCENE_LOAD_ERROR, e.file, 0, 0, e.message));
 		}
 		
 		/**
@@ -495,7 +543,7 @@ package org.papervision3d.components.as3.flash9
 			
 			updateScene();
 			
-			dispatchEvent(new Event(SCENE_COMPLETE));
+			dispatchEvent(new FileLoadEvent(SCENE_COMPLETE));
 			
 			// set to false so no unnecessary redraws occur
 			rebuildCollada = false;
@@ -517,14 +565,6 @@ package org.papervision3d.components.as3.flash9
 		private function showChildren():void
 		{
 			for each(var item in collada.children) if(debug) trace("collada children: ", item.name);
-		}
-		
-		/**
-		 * @private
-		 */		
-		protected function handleLoadError(e:FileLoadEvent):void
-		{
-			log.error("Collada failed to load scene", colladaFile);
 		}
 		
 		/**
