@@ -50,15 +50,17 @@ package org.papervision3d.events
 		
 		public var file:String = "";
 		public var bytesLoaded:Number = -1;
-		public var bytesTotal:Number = -1;		
+		public var bytesTotal:Number = -1;	
+		public var message:String = "";	
 		public var dataObj:Object = null;
 
-		public function FileLoadEvent( type:String, file:String="", bytesLoaded:Number=-1, bytesTotal:Number=-1, dataObj:Object = null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function FileLoadEvent( type:String, file:String="", bytesLoaded:Number=-1, bytesTotal:Number=-1, message:String="", dataObj:Object = null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super( type, bubbles, cancelable );
 			this.file = file;
 			this.bytesLoaded = bytesLoaded;
 			this.bytesTotal = bytesTotal;
+			this.message = message;
 			this.dataObj = dataObj;
 		}
 	}

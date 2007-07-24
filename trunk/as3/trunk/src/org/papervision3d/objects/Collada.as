@@ -169,13 +169,13 @@ public class Collada extends DisplayObject3D
 	private function handleIOError(e:IOErrorEvent):void
 	{
 		trace("COLLADA file load error", e.text);
-		dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_ERROR,this._filename));
+		dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_ERROR,this._filename,0,0,e.text));
 	}
 	
 	private function handleSecurityLoadError(e:SecurityErrorEvent):void
 	{
 		trace("COLLADA file security load error", e.text);
-		dispatchEvent(new FileLoadEvent(FileLoadEvent.SECURITY_LOAD_ERROR,this._filename));
+		dispatchEvent(new FileLoadEvent(FileLoadEvent.SECURITY_LOAD_ERROR,this._filename, 0, 0, e.text));
 	}
 	
 	private function onComplete(evt:Event):void
