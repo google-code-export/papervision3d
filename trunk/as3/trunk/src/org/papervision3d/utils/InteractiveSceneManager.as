@@ -15,7 +15,7 @@ package org.papervision3d.utils
 	
 	import org.papervision3d.core.geom.Mesh3D;
 	import org.papervision3d.core.proto.CameraObject3D;
-	import org.papervision3d.core.proto.SceneObject3D;
+	import org.papervision3d.scenes.InteractiveScene3D;
 	import org.papervision3d.events.InteractiveScene3DEvent;
 	import org.papervision3d.objects.DisplayObject3D;
 	import flash.events.Event;
@@ -29,15 +29,13 @@ package org.papervision3d.utils
 		public var faceDictionary									:Dictionary = new Dictionary();
 		public var containerDictionary								:Dictionary = new Dictionary();
 		public var container										:Sprite = new Sprite();
-		public var scene											:SceneObject3D;
+		public var scene											:InteractiveScene3D;
 		
 		public var debug											:Boolean = false;
 		
-		protected var dummy											:DisplayObject3D = DisplayObject3D.ZERO;
-		
 		protected var log											:XrayLog = new XrayLog();
 		
-		public function InteractiveSceneManager(p_scene:SceneObject3D):void
+		public function InteractiveSceneManager(p_scene:InteractiveScene3D):void
 		{
 			scene = p_scene;
 			scene.container.parent.addChild(container);
