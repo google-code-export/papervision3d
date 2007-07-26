@@ -236,7 +236,16 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 
 	protected function createBitmap( asset:* ):BitmapData
 	{
-		return correctBitmap( asset, false );
+		if( AUTO_MIP_MAPPING )
+		{
+			return correctBitmap( asset, false );
+		}
+		else
+		{
+			this.maxU = this.maxV = 1;
+
+			return BitmapData( asset );
+		}
 	}
 
 
@@ -268,7 +277,7 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 		if( ! ok ) Papervision3D.log( "Material " + this.name + ": Texture too big for mip mapping. Resizing recommended for better performance and quality." );
 
 		// Create new bitmap?
-		if( AUTO_MIP_MAPPING && bitmap && ( bitmap.width % levels !=0  ||  bitmap.height % levels != 0 ) )
+		if( bitmap && ( bitmap.width % levels !=0  ||  bitmap.height % levels != 0 ) )
 		{
 			okBitmap = new BitmapData( width, height, bitmap.transparent, 0x00000000 );
 

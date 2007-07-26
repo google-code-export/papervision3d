@@ -269,6 +269,9 @@ public class MaterialObject3D extends EventDispatcher implements IFaceDrawer
 		this.invisible = material.invisible;
 		this.scene     = material.scene;
 		this.name      = material.name;
+		
+		this.maxU      = material.maxU;
+		this.maxV      = material.maxV;
 	}
 
 	/**
