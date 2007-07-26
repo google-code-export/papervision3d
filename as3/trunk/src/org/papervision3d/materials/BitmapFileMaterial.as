@@ -121,6 +121,9 @@ public class BitmapFileMaterial extends BitmapMaterial
 		else if( _loadedBitmaps[ asset ] )
 		{
 			var bitmap:BitmapData = _loadedBitmaps[ asset ];
+			
+			// John Testing
+			bitmap = correctBitmap( bitmap, false );
 
 			this.loadComplete();
 
