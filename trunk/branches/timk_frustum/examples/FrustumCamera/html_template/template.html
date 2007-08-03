@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>@basefilename@</title>
+		<script type="text/javascript" src="swfobject.js"></script>
+		<style type="text/css">
+			body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				background-color: #@color@;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="flashcontent">
+			This text is replaced by the Flash movie.
+		</div>
+		<script type="text/javascript">
+		   var so = new SWFObject("@basefilename@.swf", "@basefilename@", "@width@", "@height@", "9", "#@color@");
+		   so.write("flashcontent");
+		</script>
+	</body>
+</html>
