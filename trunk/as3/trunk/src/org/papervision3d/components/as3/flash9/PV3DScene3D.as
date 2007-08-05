@@ -23,7 +23,7 @@ package org.papervision3d.components.as3.flash9
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.scenes.MovieScene3D;
 	import org.papervision3d.scenes.Scene3D;
-	import org.papervision3d.scenes.InteractiveScene3D;
+	import org.papervision3d.scenes.InteractiveScene3D;	
 	
 	/**
 	* Dispatched when the Scene3D has been created along with the camera.
