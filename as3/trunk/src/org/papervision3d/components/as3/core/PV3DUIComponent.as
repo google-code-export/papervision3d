@@ -17,6 +17,12 @@ package org.papervision3d.components.as3.core
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.setTimeout;
 	
+	// include all types of objects users might use
+	import org.papervision3d.materials.*;
+	import org.papervision3d.objects.*;
+	import org.papervision3d.cameras.*;
+	import org.papervision3d.utils.InteractiveSceneManager;
+	
 	/**
 	* Dispatched when the component has been initialized.  This does not include when the scene3d is created or a subsequent collada file is completed
 	* 
