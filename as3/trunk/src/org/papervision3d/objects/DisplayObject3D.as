@@ -72,7 +72,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	// ___________________________________________________________________ P O S I T I O N
 
 	/**
-	* An Number that sets the X coordinate of a object relative to the scene coordinate system.
+	* An Number that sets the X coordinate of a object relative to the origin of its parent.
 	*/
 	public function get x():Number
 	{
@@ -86,7 +86,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 
 	/**
-	* An Number that sets the Y coordinate of a object relative to the scene coordinates.
+	* An Number that sets the Y coordinate of a object relative to the origin of its parent.
 	*/
 	public function get y():Number
 	{
@@ -100,7 +100,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 
 	/**
-	* An Number that sets the Z coordinate of a object relative to the scene coordinates.
+	* An Number that sets the Z coordinate of a object relative to the origin of its parent.
 	*/
 	public function get z():Number
 	{
@@ -251,6 +251,41 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		this._transformDirty = true;
 	}
 
+	
+	// ___________________________________________________________________ W O R L D
+
+	/**
+	* The X coordinate of a object relative to the scene coordinate system.
+	*/
+	public function get sceneX():Number
+	{
+		return this.world.n14;
+	}
+
+	/**
+	* The Y coordinate of a object relative to the scene coordinate system.
+	*/
+	public function get sceneY():Number
+	{
+		return this.world.n24;
+	}
+
+	/**
+	* The Z coordinate of a object relative to the scene coordinate system.
+	*/
+	public function get sceneZ():Number
+	{
+		return this.world.n34;
+	}
+
+	// ___________________________________________________________________ S C R E E N
+
+	/**
+	* [read-only] The coordinate of the object on screen.
+	*/
+	public var screen :Number3D = new Number3D();
+
+	// ___________________________________________________________________ P R O P E R T I E S
 
 	/**
 	* Whether or not the display object is visible.
@@ -382,6 +417,10 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	*/
 	public var view      :Matrix3D;
 
+	/**
+	* World transformation.
+	*/
+	public var world     :Matrix3D;
 
 	/**
 	* [internal-use]
@@ -400,7 +439,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	public var geometry :GeometryObject3D;
 
 	/**
-	* [internal-use] The depth (z coordinate) of the transformed object's center. Also known as the distance from the camera. Used internally for z-sorting.
+	* [internal-use] The average depth of the object faces center. Used internally for z-sorting.
 	*/
 	public var screenZ :Number;
 
@@ -458,6 +497,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		Papervision3D.log( "DisplayObject3D: " + name );
 
 		this.transform = Matrix3D.IDENTITY;
+		this.world     = Matrix3D.IDENTITY;
 		this.view      = Matrix3D.IDENTITY;
 
 		// TODO if( initObject )...
@@ -665,14 +705,17 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	*/
 	public function project( parent :DisplayObject3D, camera :CameraObject3D, sorted :Array=null ):Number
 	{
-		if( ! sorted ) this._sorted = sorted = new Array();
-
 		if( this._transformDirty ) updateTransform();
 
-		this.view.calculateMultiply( parent.view, this.transform ); // TODO: OPTIMIZE (MED) Inline this
+		this.view.calculateMultiply( parent.view, this.transform );
+		this.world.calculateMultiply( parent.world, this.transform );
+
+		calculateScreenCoords( camera );
 
 		var screenZs :Number = 0;
 		var children :Number = 0;
+
+		if( ! sorted ) this._sorted = sorted = new Array();
 
 		for each( var child:DisplayObject3D in this._childrenByName )
 		{
@@ -686,7 +729,14 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		return this.screenZ = screenZs / children;
 	}
 
-
+	private function calculateScreenCoords( camera :CameraObject3D ):void
+	{
+		var persp = (camera.focus * camera.zoom) / (camera.focus + view.n34);
+		screen.x = view.n14 * persp;
+		screen.y = view.n24 * persp;
+		screen.z = view.n34;
+	}	
+	
 	// ___________________________________________________________________________________________________
 	//                                                                                         R E N D E R
 	// RRRRR  EEEEEE NN  NN DDDDD  EEEEEE RRRRR
