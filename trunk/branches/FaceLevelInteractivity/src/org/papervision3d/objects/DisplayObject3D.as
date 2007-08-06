@@ -55,7 +55,7 @@ import org.papervision3d.core.proto.SceneObject3D;
 import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.scenes.InteractiveScene3D;
 import org.papervision3d.utils.InteractiveSceneManager;
-
+import org.papervision3d.events.InteractiveSprite;
 /**
 * The DisplayObject class represents instances of 3D objects that are contained in the scene.
 * <p/>
@@ -285,7 +285,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	*
 	* You can use the container like any other Sprite. For example, you can add events to it, apply filters or change the blend mode.
 	*/
-	public var container   :Sprite;
+	public var container   :InteractiveSprite;
 
 
 	/**
@@ -387,7 +387,10 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	* [internal-use]
 	*/
 	public var faces     :Array = new Array();
-
+	
+	//De'Angelo Added this to allow this objects faces to have containers
+	public var faceLevelMode  :Boolean;
+	
 	/**
 	* The GeometryObject3D object that contains the 3D definition of this instance.
 	* <p/>
@@ -707,14 +710,24 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		iFaces.sortOn( 'screenZ', Array.DESCENDING | Array.NUMERIC );
 
 		// Render
-		var container :Sprite = this.container || scene.container;
+		var container :InteractiveSprite = this.container || scene.container;
 		var rendered  :Number = 0;
 		var iFace     :Face3DInstance;
 
 		for( var i:int = 0; iFace = iFaces[i]; i++ )
 		{
+			if( faceLevelMode ){
+				if(!iFace.face.container){
+					iFace.face.container = new InteractiveSprite(iFace);
+					interactiveSceneManager.addDisplayObject(iFace);
+				}else{
+					iFace.face.container.graphics.clear();
+					scene.container.addChild(iFace.face.container);
+				}
+			}
+			
 			if( iFace.visible )
-				rendered += iFace.face.render( iFace.instance, container );
+				rendered += (iFace.face.container)? iFace.face.render( iFace.instance,  iFace.face.container): iFace.face.render( iFace.instance, container );
 		}
 
 		// Update stats
@@ -913,7 +926,6 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 			look.n13 =  zAxis.x * _scaleZ;
 			look.n23 =  zAxis.y * _scaleZ;
 			look.n33 =  zAxis.z * _scaleZ;
-
 			this._transformDirty = false;
 			this._rotationDirty = true;
 			// TODO: Implement scale
