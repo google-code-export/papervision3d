@@ -38,6 +38,7 @@
 package org.papervision3d.objects
 {
 import com.blitzagency.xray.logger.XrayLog;
+	import org.papervision3d.utils.InteractiveSprite;
 
 import flash.display.Sprite;
 import flash.geom.Matrix;
@@ -285,7 +286,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	*
 	* You can use the container like any other Sprite. For example, you can add events to it, apply filters or change the blend mode.
 	*/
-	public var container   :InteractiveSprite;
+	public var container   :Sprite;
 
 
 	/**
@@ -388,7 +389,9 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	*/
 	public var faces     :Array = new Array();
 	
-	//De'Angelo Added this to allow this objects faces to have containers
+	/**
+	* This allows objects faces to have their own containers.
+	*/
 	public var faceLevelMode  :Boolean;
 	
 	/**
@@ -710,24 +713,32 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		iFaces.sortOn( 'screenZ', Array.DESCENDING | Array.NUMERIC );
 
 		// Render
-		var container :InteractiveSprite = this.container || scene.container;
+		var container :Sprite = this.container || scene.container;
 		var rendered  :Number = 0;
 		var iFace     :Face3DInstance;
 
 		for( var i:int = 0; iFace = iFaces[i]; i++ )
 		{
-			if( faceLevelMode ){
-				if(!iFace.face.container){
-					iFace.face.container = new InteractiveSprite(iFace);
-					interactiveSceneManager.addDisplayObject(iFace);
-				}else{
-					iFace.face.container.graphics.clear();
-					scene.container.addChild(iFace.face.container);
+			if( faceLevelMode )
+			{
+				if( !iFace.container )
+				{
+					iFace.container = new InteractiveSprite(this);
+					scene.container.addChild(iFace.container);
 				}
-			}
-			
-			if( iFace.visible )
-				rendered += (iFace.face.container)? iFace.face.render( iFace.instance,  iFace.face.container): iFace.face.render( iFace.instance, container );
+				else
+				{
+					iFace.container.graphics.clear();
+				}
+				
+				if( iFace.visible )
+					rendered += iFace.face.render( iFace.instance,  iFace.container)
+			}else
+			{
+				// if we're not in faceLevelMode, then it's render as usual - no extra checks in the render loop
+				if( iFace.visible )
+					rendered += iFace.face.render( iFace.instance, container );
+			}			
 		}
 
 		// Update stats
