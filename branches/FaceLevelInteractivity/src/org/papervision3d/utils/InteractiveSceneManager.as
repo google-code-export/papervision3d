@@ -64,7 +64,7 @@ package org.papervision3d.utils
 		*/
 		protected var allowDraw										:Boolean = true;
 		
-		protected var clickCoordinates								:Object = null;
+		protected var evaluateClick									:Boolean = false;
 		
 		protected var log											:XrayLog = new XrayLog();
 		
@@ -196,8 +196,8 @@ package org.papervision3d.utils
 		protected function handleMouseOver(e:MouseEvent):void
 		{
 			var eventType:String
-			eventType = clickCoordinates == null || !mouseInteractionMode ? InteractiveScene3DEvent.OBJECT_OVER : InteractiveScene3DEvent.OBJECT_CLICK;
-			clickCoordinates = null;
+			eventType = !evaluateClick || !mouseInteractionMode ? InteractiveScene3DEvent.OBJECT_OVER : InteractiveScene3DEvent.OBJECT_CLICK;
+			evaluateClick = false;
 			dispatchObjectEvent(eventType, Sprite(e.currentTarget));
 		}
 		
@@ -216,7 +216,7 @@ package org.papervision3d.utils
 			if(debug) log.debug("releaseOutside");
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_RELEASE_OUTSIDE));
 			MOUSE_IS_DOWN = false;
-			clickCoordinates = {mouseX:this.container.mouseX, mouseY:this.container.mouseY};
+			evaluateClick = true
 			allowDraw = true;
 		}
 		
