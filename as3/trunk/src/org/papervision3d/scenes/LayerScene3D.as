@@ -84,7 +84,7 @@ public class LayerScene3D extends Scene3D
 		layerSprite.name = "Layer"+layer;
 		container.addChildAt( layerSprite, layer );
 		containerList.push( layerSprite );
-		
+
 		return layerSprite;
 	}
 
@@ -143,10 +143,11 @@ public class LayerScene3D extends Scene3D
 	* [TODO: If you add a child object that already has a different display object container as a parent, the object is removed from the child list of the other display object container.]
 	*
 	* @param	child	The GeometryObject3D symbol or DisplayObject3D instance to add as a child of the scene.
+	* @param	layer	The layer to add to.
 	* @param	name	An optional name of the child to add or create. If no name is provided, the child name will be used.
 	* @return	The DisplayObject3D instance that you have added or created.
 	*/
-	public function addChildAt( child :DisplayObject3D, name :String=null, layer:int=0 ):DisplayObject3D
+	public function addChildAt( child :DisplayObject3D, layer :int, name :String=null ):DisplayObject3D
 	{
 		child = super.addChild( child, name );
 
