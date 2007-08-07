@@ -118,9 +118,6 @@ public class Face3D
 	 */
 	public var face3DInstance:Face3DInstance;
 	
-	public var container:InteractiveSprite;
-	
-	
 	/**
 	* The Face3D constructor lets you create linear textured or solid colour triangles.
 	*
@@ -161,7 +158,7 @@ public class Face3D
 	* @return					The number of triangles drawn. Either one if it is double sided or visible, or zero if it single sided and not visible.
 	*
 	*/
-	public function render( instance:DisplayObject3D, container:InteractiveSprite ): Number
+	public function render( instance:DisplayObject3D, container:Sprite ): Number
 	{
 		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
 		return material.drawFace3D(instance, this, container.graphics, v0.vertex2DInstance, v1.vertex2DInstance, v2.vertex2DInstance);

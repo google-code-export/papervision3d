@@ -28,16 +28,14 @@ package org.papervision3d.utils
 		public static var DEFAULT_SPRITE_ALPHA						:Number = .0051;
 		public static var DEFAULT_FILL_ALPHA						:Number = .0051;
 		public static var DEFAULT_FILL_COLOR						:Number = 0xFFFFFF;
+		public static var MOUSE_IS_DOWN								:Boolean = false;
 		
-		public var buttonMode										:Boolean;
-		
-		public var mouseDown										:Function;
-		public var mouseClick										:Function;
-		public var release											:Function;
-		public var releaseOutside									:Function;
-		public var mouseOver										:Function;
-		public var mouseOut											:Function;
-		public var mouseMove										:Function;
+		public var buttonMode										:Boolean = false;
+		/**
+		* This allows objects faces to have their own containers.  When set to true
+		* and the DisplayObject3D.faceLevelMode = false, the faces will be drawn in ISM's layer of containers
+		*/
+		public var faceLevelMode  									:Boolean = false;
 		
 		public var faceDictionary									:Dictionary = new Dictionary();
 		public var containerDictionary								:Dictionary = new Dictionary();
@@ -58,65 +56,47 @@ package org.papervision3d.utils
 			container.stage.addEventListener(MouseEvent.MOUSE_UP, handleReleaseOutside);
 		}
 		
-		public function addDisplayObject(container3d:*):void
+		public function addInteractiveObject(container3d:Object):void
 		{
 			if(faceDictionary[container3d] == null) 
 			{
-				var icd:InteractiveContainerData;
-				if(container3d is Face3DInstance && container3d.instance.faceLevelMode){
-					
-					icd = faceDictionary[container3d.face] = new InteractiveContainerData(container3d.face);
-					icd.container = container3d.face.container;
-					
-					//container.addChild(icd.container);
-					if(debug) log.debug("addDisplayObject id", container3d.face.id, container3d.face.id, DEFAULT_SPRITE_ALPHA);
-				}
-				else if(container3d is DisplayObject3D && !container3d.faceLevelMode){
-					icd = faceDictionary[container3d] = new InteractiveContainerData(container3d);
-					
-					// for reverse lookup when you have the sprite container
-					containerDictionary[icd.container] = container3d;
-					
-					if(debug) log.debug("addDisplayObject id", container3d.id, container3d.name, DEFAULT_SPRITE_ALPHA);
-				} else {
-					icd = faceDictionary[container3d] = new InteractiveContainerData(container3d);
-					containerDictionary[icd.container] = container3d;
-				}
+				var icd:InteractiveContainerData = faceDictionary[container3d] = new InteractiveContainerData(container3d);
 				
-			}
-			if(icd && container3d is Face3DInstance && icd.displayObject3D.face3DInstance.instance.faceLevelMode || icd && icd.displayObject3D is DisplayObject3D && !icd.displayObject3D.faceLevelMode){
+				// for reverse lookup when you have the sprite container
+				containerDictionary[icd.container] = container3d;
 				
 				// add mouse events to be captured and passed along
-				if(buttonMode) icd.container.buttonMode = true;
 				icd.container.addEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
 				icd.container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
 				icd.container.addEventListener(MouseEvent.CLICK, handleMouseClick);
 				icd.container.addEventListener(MouseEvent.MOUSE_OVER, handleMouseOver);
 				icd.container.addEventListener(MouseEvent.MOUSE_OUT, handleMouseOut);
 				icd.container.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
-					
-				icd.container.mouseDown = mouseDown;
-				icd.container.mouseOver = mouseOver;
-				icd.container.mouseOut = mouseOut;
-				icd.container.release = release;
-				icd.container.mouseClick = mouseClick;
-				icd.container.mouseMove = mouseMove;
+				
+				if(debug) log.debug("addDisplayObject id", container3d.id, container3d.name, DEFAULT_SPRITE_ALPHA);
 			}
 		}
 		
-		public function drawFace(container3d:DisplayObject3D, face3D:Face3D, x0:Number, x1:Number, x2:Number, y0:Number, y1:Number, y2:Number ):void
+		public function drawFace(container3d:DisplayObject3D, face3d:Face3D, x0:Number, x1:Number, x2:Number, y0:Number, y1:Number, y2:Number ):void
 		{
-			if(faceDictionary[container3d] == null) addDisplayObject(container3d);
-			if(!container3d.faceLevelMode){
-				var drawingContainer:InteractiveContainerData = faceDictionary[container3d];
-				
-				drawingContainer.container.graphics.beginFill(drawingContainer.color, drawingContainer.fillAlpha);
-				drawingContainer.container.graphics.moveTo( x0, y0 );
-				drawingContainer.container.graphics.lineTo( x1, y1 );
-				drawingContainer.container.graphics.lineTo( x2, y2 );
-				drawingContainer.container.graphics.endFill();
-				drawingContainer.isDrawn = true;
-			}
+			// if we're face level on this DO3D, then we switch to the face3D object
+			var container:Object = container3d;
+			if(faceLevelMode || container3d.faceLevelMode) container = face3d;
+			
+			// add to the dictionary if not added already
+			if(faceDictionary[container] == null) addInteractiveObject(container);
+			
+			// if ISM isn't dealing with drawing the tri's just return and don't draw.
+			if( !faceLevelMode ) return;
+			
+			var drawingContainer:InteractiveContainerData = faceDictionary[container];
+			
+			drawingContainer.container.graphics.beginFill(drawingContainer.color, drawingContainer.fillAlpha);
+			drawingContainer.container.graphics.moveTo( x0, y0 );
+			drawingContainer.container.graphics.lineTo( x1, y1 );
+			drawingContainer.container.graphics.lineTo( x2, y2 );
+			drawingContainer.container.graphics.endFill();
+			drawingContainer.isDrawn = true;
 		}
 		
 		public function getSprite(container3d:DisplayObject3D):InteractiveSprite
@@ -158,7 +138,7 @@ package org.papervision3d.utils
 			for each( var item:InteractiveContainerData in faceDictionary)
 			{
 				if(!item.sort) continue;
-				var distance:Number = item.displayObject3D.screenZ;
+				var distance:Number = item.screenZ;
 				sort.push({container:item.container, distance:distance});
 			}
 			
@@ -169,97 +149,57 @@ package org.papervision3d.utils
 		
 		protected function handleMousePress(e:MouseEvent):void
 		{
-			if(debug) log.debug("press", DisplayObject3D(containerDictionary[e.target]).name);
-			
-			var do3d:*;
-			if(e.target.obj is DisplayObject3D) do3d = DisplayObject3D(e.target.obj);
-			else do3d = DisplayObject3D(e.target.obj.instance);
-			
-			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_PRESS, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_PRESS, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			InteractiveSprite.mouseIsDown = true;
-			if(mouseDown is Function)
-				e.target.mouseDown();
+			MOUSE_IS_DOWN = true;
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, e);
 		}
 		
 		protected function handleMouseRelease(e:MouseEvent):void
 		{
-			if(debug) log.debug("release", DisplayObject3D(containerDictionary[e.target]).name);
-			
-			var do3d:*;
-			if(e.target.obj is DisplayObject3D) do3d = DisplayObject3D(e.target.obj);
-			else do3d = DisplayObject3D(e.target.obj.instance);
-			
-			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_RELEASE, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_RELEASE, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			InteractiveSprite.mouseIsDown = false;
-			if(release is Function)
-				e.target.release();
+			MOUSE_IS_DOWN = false;
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, e);
 		}
 		
 		protected function handleMouseClick(e:MouseEvent):void
 		{
-			if(debug) log.debug("click", DisplayObject3D(containerDictionary[e.target]).name);
-			
-			var do3d:*;
-			if(e.target.obj is DisplayObject3D) do3d = DisplayObject3D(e.target.obj);
-			else do3d = DisplayObject3D(e.target.obj.instance);
-			
-			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_CLICK, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_CLICK, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			if(mouseClick is Function)
-				e.target.mouseClick();
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, e);
 		}
 		
 		protected function handleMouseOver(e:MouseEvent):void
 		{
-			if(debug) log.debug("Over", DisplayObject3D(containerDictionary[e.target]).name);
-			
-			var do3d:*;
-			if(e.target.obj is DisplayObject3D) do3d = DisplayObject3D(e.target.obj);
-			else do3d = DisplayObject3D(e.target.obj.instance);
-			
-			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_OVER, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_OVER, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			if(mouseOver is Function)
-				e.target.mouseOver();
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER, e);
 		}
 		
 		protected function handleMouseOut(e:MouseEvent):void
 		{
-			if(debug) log.debug("Out", DisplayObject3D(containerDictionary[e.target]).name);
-			
-			var do3d:*;
-			if(e.target.obj is DisplayObject3D) do3d = DisplayObject3D(e.target.obj);
-			else do3d = DisplayObject3D(e.target.obj.instance);
-			
-			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_OUT, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_OUT, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			if(mouseOut is Function)
-				e.target.mouseOut();
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT, e);
 		}
 		
 		protected function handleMouseMove(e:MouseEvent):void
 		{	
-			if(debug) log.debug("Move", DisplayObject3D(containerDictionary[e.target]).name);
-			
-			var do3d:*;
-			if(e.target.obj is DisplayObject3D) do3d = DisplayObject3D(e.target.obj);
-			else do3d = DisplayObject3D(e.target.obj.instance);
-				
-			do3d.dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_MOVE, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_MOVE, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-			if(mouseMove is Function)
-				e.target.mouseMove();
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, e);
 		}
 		
 		protected function handleReleaseOutside(e:MouseEvent):void
 		{	
 			if(debug) log.debug("releaseOutside");
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_RELEASE_OUTSIDE));
-			InteractiveSprite.mouseIsDown = false;
-			if(releaseOutside is Function)
-				releaseOutside();
+			MOUSE_IS_DOWN = false;
+		}
+		
+		protected function dispatchObjectEvent(event:String, e:MouseEvent):void
+		{
+			if(debug) log.debug(event, DisplayObject3D(containerDictionary[e.currentTarget]).name);
+			
+			if(containerDictionary[e.currentTarget] is DisplayObject3D)
+			{
+				do3d.dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
+				dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget), null, null));
+			}else if(containerDictionary[e.currentTarget] is Face3D)
+			{
+				var face3d:Face3D = containerDictionary[e.currentTarget];
+				var face3dContainer:InteractiveContainerData = faceDictionary[face3d];
+				dispatchEvent(new InteractiveScene3DEvent(event, null, InteractiveSprite(e.currentTarget), face3d, face3dContainer));
+			}
 		}
 		
 		protected function handleResize(e:Event):void

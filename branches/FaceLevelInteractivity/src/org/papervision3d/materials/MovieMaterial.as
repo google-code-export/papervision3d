@@ -38,16 +38,16 @@
 package org.papervision3d.materials
 {
 import flash.geom.Matrix;
-import flash.display.MovieClip;
+import flash.display.Sprite;
 import flash.display.BitmapData;
 import flash.utils.Dictionary;
 
 /**
-* The MovieMaterial class creates a texture from an existing MovieClip instance.
+* The MovieMaterial class creates a texture from an existing Sprite instance.
 * <p/>
-* The texture can be animated and/or transparent. Current scale and color values of the MovieClip instance will be used. Rotation will be discarded.
+* The texture can be animated and/or transparent. Current scale and color values of the Sprite instance will be used. Rotation will be discarded.
 * <p/>
-* The MovieClip's content needs to be top left aligned with the registration point.
+* The Sprite's content needs to be top left aligned with the registration point.
 * <p/>
 * Materials collects data about how objects appear when rendered.
 */
@@ -57,12 +57,12 @@ public class MovieMaterial extends BitmapMaterial
 	// ______________________________________________________________________ PUBLIC
 
 	/**
-	* The MovieClip that is used as a texture.
+	* The Sprite that is used as a texture.
 	*/
-	public var movie :MovieClip;
+	public var movie :Sprite;
 
 	/**
-	* A Boolean value that determines whether the MovieClip is transparent. The default value is false, which is much faster.
+	* A Boolean value that determines whether the Sprite is transparent. The default value is false, which is much faster.
 	*/
 	public var movieTransparent :Boolean;
 
@@ -87,10 +87,10 @@ public class MovieMaterial extends BitmapMaterial
 	// ______________________________________________________________________ NEW
 
 	/**
-	* The MovieMaterial class creates a texture from an existing MovieClip instance.
+	* The MovieMaterial class creates a texture from an existing Sprite instance.
 	*
-	* @param	asset			A String that contains an existing MovieClip library id.
-	* @param	transparent		[optional] - If it's not transparent, the empty areas of the MovieClip will be of fill32 color. Default value is false.
+	* @param	asset			A String that contains an existing Sprite library id.
+	* @param	transparent		[optional] - If it's not transparent, the empty areas of the Sprite will be of fill32 color. Default value is false.
 	* @param	initObject		[optional] - An object that contains additional properties with which to populate the newly created material.
 	*/
 	public function MovieMaterial( asset:*, transparent:Boolean=false, initObject:Object=null )
@@ -104,14 +104,14 @@ public class MovieMaterial extends BitmapMaterial
 	// ______________________________________________________________________ UPDATE
 
 	/**
-	* Updates animated MovieClip bitmap.
+	* Updates animated Sprite bitmap.
 	*
-	* Draws the current MovieClip image onto bitmap.
+	* Draws the current Sprite image onto bitmap.
 	*/
 	public override function updateBitmap():void
 	{
 		var tex :BitmapData = this.bitmap;
-		var mov :MovieClip  = this.movie;
+		var mov :Sprite  = Sprite(this.movie);
 
 		tex.fillRect( tex.rect, this.fillColor );
 
