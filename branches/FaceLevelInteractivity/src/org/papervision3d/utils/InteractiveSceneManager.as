@@ -7,6 +7,8 @@
 package org.papervision3d.utils 
 {
 	import com.blitzagency.xray.logger.XrayLog;
+	import flash.geom.Point;
+	import org.papervision3d.components.as3.utils.CoordinateTools;
 	
 	import flash.display.Sprite;
 	import flash.events.EventDispatcher;
@@ -20,7 +22,7 @@ package org.papervision3d.utils
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.events.InteractiveScene3DEvent;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.events.InteractiveSprite;
+	import org.papervision3d.utils.InteractiveSprite;
 	import flash.events.Event;
 
 	public class InteractiveSceneManager extends EventDispatcher
@@ -37,12 +39,32 @@ package org.papervision3d.utils
 		*/
 		public var faceLevelMode  									:Boolean = false;
 		
+		/**
+		* If the user sets this to true, then we monitor the allowDraw flag via mouse interaction.
+		* If set to true, then leave DEFAULT_SPRITE_ALPHA and DEFAULT_FILL_ALPHA at their default values to avoid odd drawings over the 3D scene
+		*/
+		private var _mouseInteractionMode							:Boolean = false;
+		public function set mouseInteractionMode(value:Boolean):void
+		{
+			_mouseInteractionMode = value;
+			allowDraw = !value;
+			if( value ) container.stage.addEventListener(MouseEvent.MOUSE_MOVE, handleStageMouseMove);
+			if( !value ) container.stage.removeEventListener(MouseEvent.MOUSE_MOVE, handleStageMouseMove);
+		}
+		public function get mouseInteractionMode():Boolean { return _mouseInteractionMode; }
 		public var faceDictionary									:Dictionary = new Dictionary();
 		public var containerDictionary								:Dictionary = new Dictionary();
 		public var container										:Sprite = new InteractiveSprite();
 		public var scene											:SceneObject3D;
 		
 		public var debug											:Boolean = false;
+		
+		/**
+		* Boolean flag used internally to turn off ISM drawing when it's not needed in the render loop.  This only applies if mouseInteractionMode is set to true.
+		*/
+		protected var allowDraw										:Boolean = true;
+		
+		protected var clickCoordinates								:Object = null;
 		
 		protected var log											:XrayLog = new XrayLog();
 		
@@ -86,17 +108,20 @@ package org.papervision3d.utils
 			// add to the dictionary if not added already
 			if(faceDictionary[container] == null) addInteractiveObject(container);
 			
-			// if ISM isn't dealing with drawing the tri's just return and don't draw.
-			if( !faceLevelMode ) return;
-			
-			var drawingContainer:InteractiveContainerData = faceDictionary[container];
-			
-			drawingContainer.container.graphics.beginFill(drawingContainer.color, drawingContainer.fillAlpha);
-			drawingContainer.container.graphics.moveTo( x0, y0 );
-			drawingContainer.container.graphics.lineTo( x1, y1 );
-			drawingContainer.container.graphics.lineTo( x2, y2 );
-			drawingContainer.container.graphics.endFill();
-			drawingContainer.isDrawn = true;
+			// if ISM.faceLevelMode = false, and DO3D.faceLevelMode = true, then ISM isn't dealing with drawing the tri's just return and don't draw.
+			// otherwise, we're in object level mode, and we draw
+			//log.debug("drawFace", faceLevelMode, allowDraw);
+			if( faceLevelMode && allowDraw )
+			{
+				var drawingContainer:InteractiveContainerData = faceDictionary[container];
+				
+				drawingContainer.container.graphics.beginFill(drawingContainer.color, drawingContainer.fillAlpha);
+				drawingContainer.container.graphics.moveTo( x0, y0 );
+				drawingContainer.container.graphics.lineTo( x1, y1 );
+				drawingContainer.container.graphics.lineTo( x2, y2 );
+				drawingContainer.container.graphics.endFill();
+				drawingContainer.isDrawn = true;
+			}
 		}
 		
 		public function getSprite(container3d:DisplayObject3D):InteractiveSprite
@@ -120,7 +145,6 @@ package org.papervision3d.utils
 			// clear all triangles/faces that have been drawn
 			for each( var item:InteractiveContainerData in faceDictionary)
 			{
-				
 				item.container.graphics.clear();
 				item.sort = item.isDrawn;
 				item.isDrawn = false;
@@ -145,38 +169,44 @@ package org.papervision3d.utils
 			sort.sortOn("distance", Array.DESCENDING | Array.NUMERIC);
 			
 			for(var i:Number=0;i<sort.length;i++) container.addChild(sort[i].container);
+			
+			// after the render loop is complete, and we've sorted, we reset the allowDraw flag
+			if( mouseInteractionMode ) allowDraw = false;
 		}
 		
 		protected function handleMousePress(e:MouseEvent):void
 		{
 			MOUSE_IS_DOWN = true;
-			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, e);
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, Sprite(e.currentTarget));
 		}
 		
 		protected function handleMouseRelease(e:MouseEvent):void
 		{
 			MOUSE_IS_DOWN = false;
-			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, e);
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, Sprite(e.currentTarget));
 		}
 		
 		protected function handleMouseClick(e:MouseEvent):void
 		{
-			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, e);
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, Sprite(e.currentTarget));
 		}
 		
 		protected function handleMouseOver(e:MouseEvent):void
 		{
-			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER, e);
+			var eventType:String
+			eventType = clickCoordinates == null || !mouseInteractionMode ? InteractiveScene3DEvent.OBJECT_OVER : InteractiveScene3DEvent.OBJECT_CLICK;
+			clickCoordinates = null;
+			dispatchObjectEvent(eventType, Sprite(e.currentTarget));
 		}
 		
 		protected function handleMouseOut(e:MouseEvent):void
 		{
-			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT, e);
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT, Sprite(e.currentTarget));
 		}
 		
 		protected function handleMouseMove(e:MouseEvent):void
 		{	
-			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, e);
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, Sprite(e.currentTarget));
 		}
 		
 		protected function handleReleaseOutside(e:MouseEvent):void
@@ -184,21 +214,28 @@ package org.papervision3d.utils
 			if(debug) log.debug("releaseOutside");
 			dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_RELEASE_OUTSIDE));
 			MOUSE_IS_DOWN = false;
+			clickCoordinates = {mouseX:this.container.mouseX, mouseY:this.container.mouseY};
+			allowDraw = true;
 		}
 		
-		protected function dispatchObjectEvent(event:String, e:MouseEvent):void
+		protected function handleStageMouseMove(e:MouseEvent):void
 		{
-			if(debug) log.debug(event, DisplayObject3D(containerDictionary[e.currentTarget]).name);
+			allowDraw = true;
+		}
+		
+		protected function dispatchObjectEvent(event:String, currentTarget:Sprite):void
+		{
+			if(debug) log.debug(event, DisplayObject3D(containerDictionary[currentTarget]).name);
 			
-			if(containerDictionary[e.currentTarget] is DisplayObject3D)
+			if(containerDictionary[currentTarget] is DisplayObject3D)
 			{
-				do3d.dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget)));
-				dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[e.currentTarget], InteractiveSprite(e.currentTarget), null, null));
-			}else if(containerDictionary[e.currentTarget] is Face3D)
+				containerDictionary[currentTarget].dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[currentTarget], InteractiveSprite(currentTarget)));
+				dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[currentTarget], InteractiveSprite(currentTarget), null, null));
+			}else if(containerDictionary[currentTarget] is Face3D)
 			{
-				var face3d:Face3D = containerDictionary[e.currentTarget];
+				var face3d:Face3D = containerDictionary[currentTarget];
 				var face3dContainer:InteractiveContainerData = faceDictionary[face3d];
-				dispatchEvent(new InteractiveScene3DEvent(event, null, InteractiveSprite(e.currentTarget), face3d, face3dContainer));
+				dispatchEvent(new InteractiveScene3DEvent(event, null, InteractiveSprite(currentTarget), face3d, face3dContainer));
 			}
 		}
 		
