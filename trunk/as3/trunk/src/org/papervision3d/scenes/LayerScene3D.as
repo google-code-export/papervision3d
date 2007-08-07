@@ -82,7 +82,7 @@ public class LayerScene3D extends Scene3D
 		var layerSprite:Sprite = new Sprite();
 
 		layerSprite.name = "Layer"+layer;
-		container.addChild( layerSprite );
+		container.addChildAt( layerSprite, layer );
 		containerList.push( layerSprite );
 		
 		return layerSprite;
@@ -158,12 +158,12 @@ public class LayerScene3D extends Scene3D
 	private function layerContainer( layer:int ):Sprite
 	{
 		var layerSprite:Sprite = getLayerSprite( layer );
-		
+
 		if( ! layerSprite )
 		{
 			layerSprite = createLayer( layer );
 		}
-		
+
 		return layerSprite;
 	}
 
