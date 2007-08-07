@@ -95,6 +95,8 @@ package org.papervision3d.utils
 				icd.container.addEventListener(MouseEvent.MOUSE_OUT, handleMouseOut);
 				icd.container.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
 				
+				icd.container.buttonMode = buttonMode;
+				
 				if(debug) log.debug("addDisplayObject id", container3d.id, container3d.name, DEFAULT_SPRITE_ALPHA);
 			}
 		}
