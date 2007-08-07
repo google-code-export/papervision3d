@@ -26,9 +26,9 @@ package org.papervision3d.components.as3.utils
 	
 	public class CoordinateTools
 	{
-		public static function localToLocal(containerFrom:DisplayObject, containerTo:DisplayObject):Point
+		public static function localToLocal(containerFrom:DisplayObject, containerTo:DisplayObject, originalX:Number, originalY:Number):Point
 		{
-			var point:Point = new Point();
+			var point:Point = new Point(originalX, originalY);
 			point = containerFrom.localToGlobal(point);
 			point = containerTo.globalToLocal(point);
 			return point;

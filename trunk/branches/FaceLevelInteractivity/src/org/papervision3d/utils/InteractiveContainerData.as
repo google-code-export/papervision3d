@@ -6,7 +6,7 @@
 	import org.papervision3d.core.geom.Face3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	import flash.display.Sprite;
-	import org.papervision3d.events.InteractiveSprite;
+	import org.papervision3d.utils.InteractiveSprite;
 	
 	public class InteractiveContainerData extends EventDispatcher
 	{
@@ -35,7 +35,7 @@
 			{
 				if( face3d.face3DInstance.container != null )
 				{
-					this.container = face3d.face3DInstance.container;
+					this.container = InteractiveSprite(face3d.face3DInstance.container);
 				}
 				else
 				{

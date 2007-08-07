@@ -56,7 +56,7 @@ import org.papervision3d.core.proto.SceneObject3D;
 import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.scenes.InteractiveScene3D;
 import org.papervision3d.utils.InteractiveSceneManager;
-import org.papervision3d.events.InteractiveSprite;
+import org.papervision3d.utils.InteractiveSprite;
 /**
 * The DisplayObject class represents instances of 3D objects that are contained in the scene.
 * <p/>

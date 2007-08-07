@@ -40,13 +40,14 @@ package org.papervision3d.core.geom
 {
 import flash.display.*;
 import flash.geom.Matrix;
+	import flash.geom.Point;
 import flash.utils.Dictionary;
 
 import org.papervision3d.Papervision3D;
 import org.papervision3d.core.*;
 import org.papervision3d.core.proto.*;
 import org.papervision3d.objects.DisplayObject3D;
-import org.papervision3d.events.InteractiveSprite;
+import org.papervision3d.utils.InteractiveSprite;
 
 /**
 * The Face3D class lets you render linear textured triangles. It also supports solid colour fill and hairline outlines.
@@ -197,10 +198,10 @@ public class Face3D
 		var rY : Number = v0.y + ( v1.y - v0.y ) * v + ( v2.y - v0.y ) * u;
 		var rZ : Number = v0.z + ( v1.z - v0.z ) * v + ( v2.z - v0.z ) * u;
         	
-		return { x:rX, y:rY, z:rZ };
+		return new Vertex3D(rX, rY, rZ);
 	}
 	
-	public function getMapCoordAtPoint( x : Number, y : Number ) : Object 
+	public function getMapCoordAtPoint( x : Number, y : Number ) : Point 
 	{
 		var rUV : Object = UVatPoint(x,y);
 		var u : Number = rUV.u;
@@ -209,8 +210,40 @@ public class Face3D
 		var v_x : Number = ( uv[1].u - uv[0].u ) * v +  (uv[2].u - uv[0].u) * u + uv[0].u;
 		var v_y : Number = ( uv[1].v - uv[0].v ) * v +  (uv[2].v - uv[0].v) * u + uv[0].v;
         	
-		return { x: v_x * face3DInstance.instance.material.bitmap.width, y: face3DInstance.instance.material.bitmap.height - v_y * face3DInstance.instance.material.bitmap.height };
+		return new Point(v_x * face3DInstance.instance.material.bitmap.width, face3DInstance.instance.material.bitmap.height - v_y * face3DInstance.instance.material.bitmap.height );
 	}
+	
+	/*
+	private function getMapCoordAtPoint(displayObject:DisplayObject3D, material:BitmapMaterial):Point        
+	{            
+		var x:Number = displayObject.scene.container.mouseX;
+		var y:Number = displayObject.scene.container.mouseY;            
+		var face:Face3D = displayObject.geometry.faces[0];                            
+		var UV : Object = UVatPoint(x, y, face);            
+		var v_x : Number = (face.uv[1].u - face.uv[0].u) * UV.v +  (face.uv[2].u - face.uv[0].u) * UV.u + face.uv[0].u;            
+		var v_y : Number = (face.uv[1].v - face.uv[0].v ) * UV.v + (face.uv[2].v - face.uv[0].v) * UV.u + face.uv[0].v;                        
+		return new Point( v_x * material.texture.width, material.texture.height - v_y * material.texture.height );        
+	}                
+		
+	private function UVatPoint(x:Number, y:Number, face:Face3D):Object        
+	{                
+		var v0_x : Number = face.v2.vertex2DInstance.x - face.v0.vertex2DInstance.x;            
+		var v0_y : Number = face.v2.vertex2DInstance.y - face.v0.vertex2DInstance.y;            
+		var v1_x : Number = face.v1.vertex2DInstance.x - face.v0.vertex2DInstance.x;            
+		var v1_y : Number = face.v1.vertex2DInstance.y - face.v0.vertex2DInstance.y;            
+		var v2_x : Number = x - face.v0.vertex2DInstance.x;            
+		var v2_y : Number = y - face.v0.vertex2DInstance.y;                        
+		var dot00 : Number = v0_x * v0_x + v0_y * v0_y;            
+		var dot01 : Number = v0_x * v1_x + v0_y * v1_y;            
+		var dot02 : Number = v0_x * v2_x + v0_y * v2_y;            
+		var dot11 : Number = v1_x * v1_x + v1_y * v1_y;            
+		var dot12 : Number = v1_x * v2_x + v1_y * v2_y;                        
+		var invDenom : Number = 1 / (dot00 * dot11 - dot01 * dot01);            
+		var u : Number = (dot11 * dot02 - dot01 * dot12) * invDenom;            
+		var v : Number = (dot00 * dot12 - dot01 * dot02) * invDenom;                        
+		return {u:u, v:v};        
+	}   
+	*/
 		
 	protected function createNormal():void
 	{
