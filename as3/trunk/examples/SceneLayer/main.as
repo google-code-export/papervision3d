@@ -54,7 +54,7 @@ public class main extends Sprite
 	function init3D():void
 	{
 		// No traces
-		Papervision3D.VERBOSE = false;
+		//Papervision3D.VERBOSE = false;
 
 		// Create container sprite and center it in the stage
 		container = new Sprite();

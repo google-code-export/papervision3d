@@ -40,6 +40,7 @@ package org.papervision3d.scenes
 import flash.utils.getTimer;
 import flash.display.*;
 
+import org.papervision3d.Papervision3D;
 import org.papervision3d.scenes.*;
 import org.papervision3d.core.proto.*;
 
@@ -54,6 +55,8 @@ import flash.utils.Dictionary;
 
 public class LayerScene3D extends Scene3D
 {
+	public var totalLayers :Number = 32;
+
 	// ___________________________________________________________________ N E W
 	//
 	// NN  NN EEEEEE WW    WW
@@ -75,20 +78,6 @@ public class LayerScene3D extends Scene3D
 		containerList = new Array();
 
 		currentLayer = createLayer( 0 );
-	}
-
-	private function createLayer( layer:int ):Sprite
-	{
-		for( var i:int = container.numChildren; i <= layer; i++ )
-		{
-			var layerSprite:Sprite = new Sprite();
-
-			layerSprite.name = "Layer"+i;
-			container.addChildAt( layerSprite, i );
-			containerList[ i ] = layerSprite;
-		}
-
-		return layerSprite;
 	}
 
 
@@ -120,18 +109,7 @@ public class LayerScene3D extends Scene3D
 		return child;
 	}
 	
-	private var currentLayer:Sprite;
-
-	public function selectLayer( layer:int ):void
-	{
-		currentLayer = layerContainer( layer );
-	}
-
-	public function getLayerSprite( layer:int ):Sprite
-	{
-		return containerList[ layer ];
-	}
-
+	
 	// ___________________________________________________________________ A D D C H I L D
 	//
 	//   AA   DDDDD  DDDDD   CCCC  HH  HH II LL     DDDDD
@@ -154,11 +132,29 @@ public class LayerScene3D extends Scene3D
 	{
 		child = super.addChild( child, name );
 
-		child.container = layerContainer( layer );
+		var childContainer :Sprite = layerContainer( layer );
 
+		if( childContainer )
+		{
+			child.container = childContainer;
+		}
+		else
+			child.container = currentLayer;
+		
 		return child;
 	}
 
+
+	public function selectLayer( layer:int ):void
+	{
+		var selectContainer :Sprite = layerContainer( layer );
+		
+		if( selectContainer )
+			currentLayer = selectContainer;
+	}
+
+	
+	
 	private function layerContainer( layer:int ):Sprite
 	{
 		var layerSprite:Sprite = getLayerSprite( layer );
@@ -169,6 +165,35 @@ public class LayerScene3D extends Scene3D
 		}
 
 		return layerSprite;
+	}
+
+
+	private function createLayer( layer:int ):Sprite
+	{
+		if( layer < totalLayers )
+		{
+			for( var i:int = container.numChildren; i <= layer; i++ )
+			{
+				var layerSprite:Sprite = new Sprite();
+
+				layerSprite.name = "Layer"+i;
+				container.addChildAt( layerSprite, i );
+				containerList[ i ] = layerSprite;
+			}
+			return layerSprite;
+		}
+		else
+		{
+			Papervision3D.log( "SceneLayer3D - ERROR: Layer " + layer + " is not allowed as it's greater than totalLayers. Use a lower layer number or change totalLayers if really needed." );
+
+			return null;
+		}
+	}
+
+
+	public function getLayerSprite( layer:int ):Sprite
+	{
+		return containerList[ layer ];
 	}
 
 	// ___________________________________________________________________ R E N D E R   C A M E R A
@@ -214,5 +239,6 @@ public class LayerScene3D extends Scene3D
 	}
 
 	private var containerList :Array;
+	private var currentLayer  :Sprite;
 }
 }
