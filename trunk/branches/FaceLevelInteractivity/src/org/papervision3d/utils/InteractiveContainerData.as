@@ -6,6 +6,7 @@
 	import org.papervision3d.core.geom.Face3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	import flash.display.Sprite;
+	import flash.display.BlendMode;
 	import org.papervision3d.utils.InteractiveSprite;
 	
 	public class InteractiveContainerData extends EventDispatcher
@@ -44,7 +45,8 @@
 			}
 			color = p_color;
 			
-			container.alpha = InteractiveSceneManager.DEFAULT_SPRITE_ALPHA;
+			//container.alpha = InteractiveSceneManager.DEFAULT_SPRITE_ALPHA;
+			container.interactiveContainerData = this;
 		}		
 	}
 }

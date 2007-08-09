@@ -11,6 +11,7 @@ package org.papervision3d.utils
 	import org.papervision3d.components.as3.utils.CoordinateTools;
 	
 	import flash.display.Sprite;
+	import flash.display.BlendMode;
 	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
 	import flash.utils.Dictionary;
@@ -96,6 +97,7 @@ package org.papervision3d.utils
 				icd.container.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
 				
 				icd.container.buttonMode = buttonMode;
+				icd.container.blendMode = BlendMode.ERASE;
 				
 				if(debug) log.debug("addDisplayObject id", container3d.id, container3d.name, DEFAULT_SPRITE_ALPHA);
 			}
@@ -113,9 +115,11 @@ package org.papervision3d.utils
 			// if ISM.faceLevelMode = false, and DO3D.faceLevelMode = true, then ISM isn't dealing with drawing the tri's just return and don't draw.
 			// otherwise, we're in object level mode, and we draw
 			//log.debug("drawFace", faceLevelMode, allowDraw);
-			if( faceLevelMode && allowDraw )
+			//if( faceLevelMode && allowDraw )
+			if( allowDraw )
 			{
 				var drawingContainer:InteractiveContainerData = faceDictionary[container];
+				//drawingContainer.container.drawHitArea(x0, x1, x2, y0, y1, y2);
 				
 				drawingContainer.container.graphics.beginFill(drawingContainer.color, drawingContainer.fillAlpha);
 				drawingContainer.container.graphics.moveTo( x0, y0 );
@@ -174,6 +178,61 @@ package org.papervision3d.utils
 			
 			// after the render loop is complete, and we've sorted, we reset the allowDraw flag
 			if( mouseInteractionMode ) allowDraw = false;
+		}
+		
+		public function UVatPoint( face3d:Face3D, x : Number, y : Number ) : Object 
+		{	
+			
+			var v0:Number = face3d.v0;
+			var v1:Number = face3d.v1;
+			var v2:Number = face3d.v2;
+			
+			var v0_x : Number = v2.vertex2DInstance.x - v0.vertex2DInstance.x;
+			var v0_y : Number = v2.vertex2DInstance.y - v0.vertex2DInstance.y;
+			var v1_x : Number = v1.vertex2DInstance.x - v0.vertex2DInstance.x;
+			var v1_y : Number = v1.vertex2DInstance.y - v0.vertex2DInstance.y;
+			var v2_x : Number = x - v0.vertex2DInstance.x;
+			var v2_y : Number = y - v0.vertex2DInstance.y;
+				
+			var dot00 : Number = v0_x * v0_x + v0_y * v0_y;
+			var dot01 : Number = v0_x * v1_x + v0_y * v1_y;
+			var dot02 : Number = v0_x * v2_x + v0_y * v2_y;
+			var dot11 : Number = v1_x * v1_x + v1_y * v1_y;
+			var dot12 : Number = v1_x * v2_x + v1_y * v2_y;
+				
+			var invDenom : Number = 1 / (dot00 * dot11 - dot01 * dot01);
+			var u : Number = (dot11 * dot02 - dot01 * dot12) * invDenom;
+			var v : Number = (dot00 * dot12 - dot01 * dot02) * invDenom;
+		   
+			return { u : u, v : v };
+		}
+		
+		public function getCoordAtPoint( face3d:Face3D, x : Number, y : Number ) : Vertex3D 
+		{	
+			var rUV : Object = UVatPoint(face3d, x, y);
+			
+			var u : Number = rUV.u;
+			var v : Number = rUV.v;
+				
+			var rX : Number = v0.x + ( v1.x - v0.x ) * v + ( v2.x - v0.x ) * u;
+			var rY : Number = v0.y + ( v1.y - v0.y ) * v + ( v2.y - v0.y ) * u;
+			var rZ : Number = v0.z + ( v1.z - v0.z ) * v + ( v2.z - v0.z ) * u;
+				
+			return { x:rX, y:rY, z:rZ };
+		}
+		
+		public function getMapCoordAtPoint( face3d:Face3D, x : Number, y : Number ) : Object 
+		{
+			var rUV : Object = UVatPoint(face3d, x, y);
+			var u : Number = rUV.u;
+			var v : Number = rUV.v;
+				
+			var v_x : Number = ( uv[1].u - uv[0].u ) * v +  (uv[2].u - uv[0].u) * u + uv[0].u;
+			var v_y : Number = ( uv[1].v - uv[0].v ) * v +  (uv[2].v - uv[0].v) * u + uv[0].v;
+			
+			var face3DInstance:Face3DInstance = face3d.face3DInstance;
+				
+			return { x: v_x * face3DInstance.instance.material.bitmap.width, y: face3DInstance.instance.material.bitmap.height - v_y * face3DInstance.instance.material.bitmap.height };
 		}
 		
 		protected function handleMousePress(e:MouseEvent):void
