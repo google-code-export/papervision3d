@@ -118,6 +118,7 @@ public class main extends Sprite
 		{
 			var plane:Plane = new Plane( materialSpace, 64*1.5, 48*1.5, 1, 1 );
 
+			//Sphere surface distribution
 			var ax  :Number = Math.random() * Math.PI;
 			var ay  :Number = Math.random() * Math.PI * 2;
 
