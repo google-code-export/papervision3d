@@ -58,13 +58,13 @@ package org.papervision3d.materials
 				_localMatrix.ty = uvMatrix.ty;
 				_localMatrix.concat(_triMatrix);
 				
-				graphics.beginBitmapFill( bitmap, _localMatrix, true, smooth);
+				graphics.beginBitmapFill( bitmap, _localMatrix, tiled, smooth);
 				graphics.moveTo( x0, y0 );
 				graphics.lineTo( x1, y1 );
 				graphics.lineTo( x2, y2 );
 				graphics.lineTo( x0, y0 );
 				graphics.endFill();
-				return 1;	
+				return 1;
 			}
 			return 0;
 		}
@@ -105,7 +105,7 @@ package org.papervision3d.materials
 			var dt :Number = ( v2 - v0 );
 
 			uvMatrix = new Matrix( at, bt, ct, dt, u0, v0 );
-			uvMatrix.invert();	
+			uvMatrix.invert();
 		}
 		
 	}
