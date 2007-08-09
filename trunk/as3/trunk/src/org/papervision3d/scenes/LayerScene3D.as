@@ -72,18 +72,21 @@ public class LayerScene3D extends Scene3D
 	{
 		super( container );
 
-		this.containerList = new Array();
-		
+		containerList = new Array();
+
 		currentLayer = createLayer( 0 );
 	}
 
 	private function createLayer( layer:int ):Sprite
 	{
-		var layerSprite:Sprite = new Sprite();
+		for( var i:int = container.numChildren; i <= layer; i++ )
+		{
+			var layerSprite:Sprite = new Sprite();
 
-		layerSprite.name = "Layer"+layer;
-		container.addChildAt( layerSprite, layer );
-		containerList.push( layerSprite );
+			layerSprite.name = "Layer"+i;
+			container.addChildAt( layerSprite, i );
+			containerList[ i ] = layerSprite;
+		}
 
 		return layerSprite;
 	}
@@ -186,9 +189,8 @@ public class LayerScene3D extends Scene3D
 		var objectsLength :Number = this.objects.length;
 
 		// Clear object container
-		var gfx          :Sprite;
-		var containerList :Array = this.containerList;
-		var i            :Number = 0;
+		var gfx           :Sprite;
+		var i             :Number = 0;
 
 		// Clear all known object
 		while( gfx = containerList[i++] ) gfx.graphics.clear();
@@ -211,6 +213,6 @@ public class LayerScene3D extends Scene3D
 		stats.performance = getTimer() - stats.performance;
 	}
 
-	private var containerList : Array;
+	private var containerList :Array;
 }
 }
