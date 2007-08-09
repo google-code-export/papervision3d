@@ -1,4 +1,4 @@
-/*
+﻿/*
  *  PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
  *  AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
  *  PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
@@ -143,7 +143,7 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 			_localMatrix.ty = map.ty;
 			_localMatrix.concat(_triMatrix);
 			
-			graphics.beginBitmapFill( bitmap, _localMatrix, true, smooth);
+			graphics.beginBitmapFill( bitmap, _localMatrix, tiled, smooth);
 		}
 
 		graphics.moveTo( x0, y0 );

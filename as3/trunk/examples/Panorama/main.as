@@ -12,17 +12,20 @@
 
 package
 {
+import flash.display.MovieClip;
 import flash.display.Sprite;
+import flash.display.StageQuality;
+import flash.display.StageScaleMode;
 import flash.events.Event;
 
 // Import Papervision3D
 import org.papervision3d.scenes.Scene3D;
-import org.papervision3d.cameras.Camera3D;
+import org.papervision3d.cameras.FreeCamera3D;
 import org.papervision3d.objects.Cube;
 import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.materials.MovieAssetMaterial;
 
-public class main extends Sprite
+public class main extends MovieClip
 {
 	// ___________________________________________________________________ Static
 
@@ -33,16 +36,20 @@ public class main extends Sprite
 
 	private var container :Sprite;
 	private var scene     :Scene3D;
-	private var camera    :Camera3D;
+	private var camera    :FreeCamera3D;
 	private var cube      :Cube;
 
 	// ___________________________________________________________________ main
 
 	public function main()
 	{
-		init3D();
+		stage.scaleMode = StageScaleMode.NO_SCALE;
 
+		init3D();
+		
 		createCube();
+
+		stage.quality = StageQuality.LOW;
 
 		this.addEventListener( Event.ENTER_FRAME, loop );
 	}
@@ -62,7 +69,10 @@ public class main extends Sprite
 		scene = new Scene3D( container );
 
 		// Create camera
-		camera = new Camera3D();
+		camera = new FreeCamera3D();
+		camera.zoom = 1;
+		camera.focus = 1000;
+		camera.z = 0;
 	}
 
 
@@ -71,8 +81,8 @@ public class main extends Sprite
 	private function createCube()
 	{
 		// Attributes
-		var size :Number = 1000;
-		var quality :Number = 6;
+		var size :Number = 5000;
+		var quality :Number = 16;
 	
 		// Materials
 		var materials:MaterialsList = new MaterialsList(
@@ -93,7 +103,7 @@ public class main extends Sprite
 		var insideFaces  :int = Cube.ALL;
 
 		// Front and back cube faces will not be created.
-		var excludeFaces :int = Cube.TOP;
+		var excludeFaces :int = Cube.NONE;
 
 		// Create the cube.
 		cube = new Cube( materials, size, size, size, quality, quality, quality, insideFaces, excludeFaces );
@@ -112,8 +122,14 @@ public class main extends Sprite
 
 	private function update3D():void
 	{
-		cube.rotationY = container.mouseX / 2;
-		cube.rotationX = container.mouseY / 2;
+		// Pan
+		var pan:Number = camera.rotationY - 210 * container.mouseX/(stage.stageWidth/2);
+		pan = Math.max( -100, Math.min( pan, 100 ) ); // Max speed
+		camera.rotationY -= pan / 12;
+
+		// Tilt
+		var tilt:Number = 90 * container.mouseY/(stage.stageHeight/2);
+		camera.rotationX -= (camera.rotationX + tilt) / 12;
 
 		// Render
 		scene.renderCamera( this.camera );
