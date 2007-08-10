@@ -1,4 +1,7 @@
-﻿package org.papervision3d.utils
+﻿/**
+* @author De'Angelo Richardson 
+*/
+package org.papervision3d.utils
 {
 	import com.blitzagency.xray.logger.XrayLog;
 

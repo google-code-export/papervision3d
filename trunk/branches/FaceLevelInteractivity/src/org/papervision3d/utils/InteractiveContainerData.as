@@ -1,4 +1,8 @@
-﻿package org.papervision3d.utils
+﻿/**
+* @author John Grden
+*/
+
+package org.papervision3d.utils
 {
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;

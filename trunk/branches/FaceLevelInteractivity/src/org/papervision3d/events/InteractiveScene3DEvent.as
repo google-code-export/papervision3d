@@ -1,3 +1,7 @@
+/**
+* @author John Grden
+*/
+
 package org.papervision3d.events
 {
 	import flash.events.Event;
