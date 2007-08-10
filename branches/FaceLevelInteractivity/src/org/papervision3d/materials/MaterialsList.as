@@ -139,7 +139,8 @@ public class MaterialsList
 	*/
 	public function getMaterialByName( name:String ):MaterialObject3D
 	{
-		return this.materialsByName[ name ];
+		return this.materialsByName[name] ? this.materialsByName[name] : this.materialsByName["all"];
+		//return this.materialsByName[ name ];
 	}
 
 	/**

@@ -461,7 +461,7 @@ package org.papervision3d.components.as3.flash9
 		 */	
 		protected function checkLoadedQue():Boolean
 		{
-			for each(var items in materialsQue)
+			for each(var items:Object in materialsQue)
 			{
 				if(!items) return false;
 			}
@@ -570,7 +570,7 @@ package org.papervision3d.components.as3.flash9
 		 */	
 		private function showChildren():void
 		{
-			for each(var item in collada.children) if(debug) trace("collada children: ", item.name);
+			for each(var item:Object in collada.children) if(debug) trace("collada children: ", item.name);
 		}
 		
 		/**
