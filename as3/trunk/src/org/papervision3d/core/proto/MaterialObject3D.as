@@ -73,6 +73,11 @@ public class MaterialObject3D extends EventDispatcher implements IFaceDrawer
 	public var smooth :Boolean;
 
 	/**
+	* A Boolean value that determines whether the texture is tiled when rendered. Defaults to false.
+	*/
+	public var tiled :Boolean = false;
+
+	/**
 	* A RGB color value to draw the faces outline.
 	*/
 	public var lineColor :Number;
@@ -230,9 +235,9 @@ public class MaterialObject3D extends EventDispatcher implements IFaceDrawer
 	
 	/**
 	 *	drawFace3D();
-	 * 	
+	 *
 	 * Draws the triangle to screen.
-	 * 
+	 *
 	 */
 	public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
 	{
