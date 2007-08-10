@@ -14,10 +14,16 @@
 		public var displayObject3D							:DisplayObject3D = null;
 		public var container								:InteractiveSprite;
 		public var face3d									:Face3D;
-		public var color									:Number = InteractiveSceneManager.DEFAULT_FILL_COLOR;
+		
 		public var isDrawn									:Boolean = false;
 		public var sort										:Boolean = false;
+		
+		public var color									:Number = InteractiveSceneManager.DEFAULT_FILL_COLOR;
 		public var fillAlpha								:Number = InteractiveSceneManager.DEFAULT_FILL_ALPHA;
+		public var lineColor								:Number = InteractiveSceneManager.DEFAULT_LINE_COLOR;
+		public var lineSize									:Number = InteractiveSceneManager.DEFAULT_LINE_SIZE;
+		public var lineAlpha								:Number = InteractiveSceneManager.DEFAULT_LINE_ALPHA;
+		
 		
 		public function get screenZ():Number
 		{
@@ -45,7 +51,7 @@
 			}
 			color = p_color;
 			
-			//container.alpha = InteractiveSceneManager.DEFAULT_SPRITE_ALPHA;
+			container.alpha = InteractiveSceneManager.DEFAULT_SPRITE_ALPHA;
 			container.interactiveContainerData = this;
 		}		
 	}
