@@ -125,6 +125,8 @@ public class Collada extends DisplayObject3D
 
 	public function Collada( COLLADA :*, materials :MaterialsList=null, scale :Number=1, initObject :Object=null )
 	{
+		super(null, null, initObject);
+		
 		this._materials = materials;
 
 		this._container = this;

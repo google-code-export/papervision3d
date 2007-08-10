@@ -38,7 +38,7 @@
 package org.papervision3d.materials
 {
 import flash.geom.Matrix;
-import flash.display.MovieClip;
+import flash.display.Sprite;
 import flash.display.BitmapData;
 import flash.utils.Dictionary;
 
@@ -59,7 +59,7 @@ public class MovieMaterial extends BitmapMaterial
 	/**
 	* The MovieClip that is used as a texture.
 	*/
-	public var movie :MovieClip;
+	public var movie :Sprite;
 
 	/**
 	* A Boolean value that determines whether the MovieClip is transparent. The default value is false, which is much faster.
@@ -111,7 +111,7 @@ public class MovieMaterial extends BitmapMaterial
 	public override function updateBitmap():void
 	{
 		var tex :BitmapData = this.bitmap;
-		var mov :MovieClip  = this.movie;
+		var mov :Sprite  = this.movie;
 
 		tex.fillRect( tex.rect, this.fillColor );
 
