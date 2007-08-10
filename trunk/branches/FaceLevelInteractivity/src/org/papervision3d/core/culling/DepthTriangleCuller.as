@@ -11,9 +11,8 @@ package org.papervision3d.core.culling
 			
 		}
 		
-		public function testFace(faceInstance:Face3D, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
+		public function testFace(displayObject:DisplayObject3D, faceInstance:Face3DInstance, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
 		{
-			
 			return false;
 		}
 		
