@@ -731,7 +731,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 	private function calculateScreenCoords( camera :CameraObject3D ):void
 	{
-		var persp = (camera.focus * camera.zoom) / (camera.focus + view.n34);
+		var persp:Number = (camera.focus * camera.zoom) / (camera.focus + view.n34);
 		screen.x = view.n14 * persp;
 		screen.y = view.n24 * persp;
 		screen.z = view.n34;

@@ -33,7 +33,7 @@ package org.papervision3d.core.culling
 			cullers = new Array();
 		}
 		
-		public function testFace(faceInstance:Object, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
+		public function testFace(displayObject:DisplayObject3D, faceInstance:Face3DInstance, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
 		{
 			for each(var culler:ITriangleCuller in cullers)
 			{
