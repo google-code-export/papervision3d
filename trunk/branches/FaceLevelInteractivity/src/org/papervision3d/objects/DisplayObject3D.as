@@ -428,7 +428,9 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	*/
 	public var faces     :Array = new Array();
 
-	//De'Angelo Added this to allow this objects faces to have containers
+	/**
+	 * This allows objects faces to have their own containers.
+	 */
 	public var faceLevelMode  :Boolean;
 	
 	/**
