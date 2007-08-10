@@ -211,7 +211,7 @@ package org.papervision3d.utils
 			for each( var item:InteractiveContainerData in faceDictionary)
 			{
 				if(!item.sort) continue;
-				var distance:Number = item.screenZ;
+				var distance:Number = item.face3d == null ? item.screenZ : item.face3d.face3DInstance.screenZ;
 				sort.push({container:item.container, distance:distance});
 			}
 			
