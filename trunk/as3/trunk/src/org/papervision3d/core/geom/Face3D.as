@@ -161,7 +161,7 @@ public class Face3D
 	*/
 	public function render( instance:DisplayObject3D, container:Sprite ): Number
 	{
-		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.materialsByName[ this.materialName ] : instance.material;
+		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.getMaterialByName( this.materialName ) : instance.material;
 		return material.drawFace3D(instance, this, container.graphics, v0.vertex2DInstance, v1.vertex2DInstance, v2.vertex2DInstance);
 	}
 	
