@@ -1,3 +1,38 @@
+/*
+ *  PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
+ *  AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
+ *  PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
+ *  ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
+ *  RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
+ *  ______________________________________________________________________
+ *  papervision3d.org � blog.papervision3d.org � osflash.org/papervision3d
+ */
+
+/*
+ * Copyright 2006 (c) Carlos Ulloa Matesanz, noventaynueve.com.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /**
 * @author John Grden
 * @version 1.0
@@ -69,7 +104,7 @@ package org.papervision3d.utils
 			return new Vertex3D( rX, rY, rZ );
 		}
 		
-		public static function getMapCoordAtPoint( face3d:Face3D, x : Number, y : Number ) : Point 
+		public static function getMapCoordAtPoint( face3d:Face3D, x : Number, y : Number ) : Object 
 		{
 			var uv:Array = face3d.uv;
 			
@@ -89,7 +124,7 @@ package org.papervision3d.utils
 
 			var bitmap:BitmapData = face3d.face3DInstance.instance.material.bitmap;
 				
-			return new Point(v_x * bitmap.width, bitmap.height - v_y * bitmap.height );
+			return { x:v_x * bitmap.width, y:bitmap.height - v_y * bitmap.height };
 		}
 	}	
 }

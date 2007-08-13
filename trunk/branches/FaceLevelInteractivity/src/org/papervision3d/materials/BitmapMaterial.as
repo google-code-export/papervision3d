@@ -256,9 +256,19 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 		var okBitmap :BitmapData;
 
 		var levels :Number = 1 << MIP_MAP_DEPTH;
+		
+		// this is faster than Math.ceil
+		var bWidth :Number = bitmap.width  / levels;
+		bWidth = bWidth == uint(bWidth) ? bWidth : uint(bWidth)+1;
+		var bHeight :Number = bitmap.height  / levels;
+		bHeight = bHeight == uint(bHeight) ? bHeight : uint(bHeight)+1;
+		
+		var width  :Number = levels * bWidth;
+		var height :Number = levels * bHeight;
+		/*
 		var width  :Number = levels * Math.ceil( bitmap.width  / levels );
-		var height :Number = levels * Math.ceil( bitmap.height / levels );
-
+		var height :Number = levels * Math.ceil( bitmap.height  / levels );
+		*/
 		// Check for BitmapData maximum size
 		var ok:Boolean = true;
 

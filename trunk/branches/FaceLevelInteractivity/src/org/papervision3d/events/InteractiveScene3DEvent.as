@@ -19,6 +19,7 @@ package org.papervision3d.events
 		public static var OBJECT_PRESS:String = "mousePress";
 		public static var OBJECT_RELEASE:String = "mouseRelease";
 		public static var OBJECT_RELEASE_OUTSIDE:String = "mouseReleaseOutside";
+		public static var OBJECT_ADDED:String = "objectAdded";
 		
 		public var displayObject3D				:DisplayObject3D = null;
 		public var sprite						:Sprite = null;
