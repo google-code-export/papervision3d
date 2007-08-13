@@ -37,7 +37,7 @@ package org.papervision3d.components.as3.utils
 		// zero based random range returned
 		public static function random(range:Number):Number
 		{
-			return Math.floor(Math.random()*range);
+			return Number(uint(Math.random()*range));
 		} 
 	}
 }

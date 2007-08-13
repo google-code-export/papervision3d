@@ -8,7 +8,7 @@ package org.papervision3d.materials
 	
 	public class InteractiveWireframeMaterial extends WireframeMaterial
 	{
-		public function InteractiveWireframeMaterial(color:Number=0xFF00FF, alpha:Number=100, initObject:Object=null)
+		public function InteractiveWireframeMaterial(color:Number=0xFF00FF, alpha:Number=1, initObject:Object=null)
 		{
 			super(color, alpha, initObject);
 		}
@@ -19,7 +19,7 @@ package org.papervision3d.materials
 		override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
 		{
 			var result:int = super.drawFace3D(instance, face3D, graphics, v0, v1,v2);
-			if(instance.interactiveSceneManager != null && result) instance.interactiveSceneManager.drawFace(instance,face3D, x0, x1, x2, y0, y1, y2);
+			if(instance.interactiveSceneManager != null && result) instance.interactiveSceneManager.drawFace(instance,face3D,v0.x, v1.x, v2.x, v0.y, v1.y, v2.y)
 			return result;
 		}
 	}

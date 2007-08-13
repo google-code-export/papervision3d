@@ -60,7 +60,7 @@ public class WireframeMaterial extends MaterialObject3D implements IFaceDrawer
 	* @param	asset				A BitmapData object.
 	* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 	*/
-	public function WireframeMaterial( color:Number=0xFF00FF, alpha:Number=100, initObject:Object=null )
+	public function WireframeMaterial( color:Number=0xFF00FF, alpha:Number=1, initObject:Object=null )
 	{
 		super( initObject );
 

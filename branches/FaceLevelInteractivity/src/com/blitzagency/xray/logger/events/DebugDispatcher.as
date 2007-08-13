@@ -10,6 +10,10 @@ package com.blitzagency.xray.logger.events
 
 		public function sendEvent(eventName:String, obj:Object):void 
 		{
+			// send to flash IDE
+			trace(obj.message);
+			
+			// dispatchEvent
 	        dispatchEvent(new DebugEvent(DebugDispatcher.TRACE, false, false, obj));
 	    }
 	}
