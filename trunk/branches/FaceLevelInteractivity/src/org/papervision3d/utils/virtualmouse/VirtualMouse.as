@@ -630,12 +630,10 @@ package org.papervision3d.utils.virtualmouse
 			var currentTargetLocal:Point = currentTarget.globalToLocal(location);
 			
 			// move event
-			if (lastLocation.x != location.x || lastLocation.y != location.y) {
-				
-				var stageWidth:Number = stage ? stage.stageWidth : container.width;
-				var stageHeight:Number = stage ? stage.stageHeight : container.height;
-				
-				var withinStage:Boolean = Boolean(location.x >= 0 && location.y >= 0 && location.x <= stageWidth && location.y <= stageHeight);
+			if (lastLocation.x != location.x || lastLocation.y != location.y) 
+			{				
+				var withinStage:Boolean = false;
+				if(stage) withinStage = (location.x >= 0 && location.y >= 0 && location.x <= stage.stageWidth && location.y <= stage.stageHeight);
 				
 				// mouse leave if left stage
 				if (!withinStage && lastWithinStage && !disabledEvents[Event.MOUSE_LEAVE]){
@@ -656,8 +654,8 @@ package org.papervision3d.utils.virtualmouse
 			}
 			
 			// roll/mouse (out and over) events 
-			if (currentTarget != target) {
-				
+			if (currentTarget != target) 
+			{				
 				// off of last target
 				if (!disabledEvents[MouseEvent.MOUSE_OUT]){
 					_lastEvent = new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, currentTarget, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
