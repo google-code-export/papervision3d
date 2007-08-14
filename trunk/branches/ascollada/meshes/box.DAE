@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Tim</author>
+      <authoring_tool>Feeling ColladaMax v3.00 with FCollada v3.00.</authoring_tool>
+      <comments>ColladaMax Export Options: ExportNormals=1;ExportEPolyAsTriangles=1;ExportXRefs=1;ExportSelected=0;ExportTangents=0;ExportAnimations=1;SampleAnim=1;ExportAnimClip=0;BakeMatrices=1;ExportRelativePaths=1;AnimStart=0;AnimEnd=30;</comments>
+      <source_data>file:///D:/Program%20Files/Autodesk/3dsMax8/scenes/box.max</source_data>
+    </contributor>
+    <created>2007-05-17T20:23:09Z</created>
+    <modified>2007-05-17T20:23:22Z</modified>
+    <unit meter="0.025400" name="inch"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="ColorMaterial_57E05700" name="ColorMaterial_57E05700">
+      <instance_effect url="#ColorMaterial_57E05700-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="ColorMaterial_57E05700-fx">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color>0 0 0 0</color>
+            </emission>
+            <ambient>
+              <color>0.341176 0.878431 0.341176 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color>0.341176 0.878431 0.341176 1.000000</color>
+            </diffuse>
+            <specular>
+              <color>1.000000 1.000000 1.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float>10.000000</float>
+            </shininess>
+            <reflective>
+              <color>1.000000 1.000000 1.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float>1.000000</float>
+            </reflectivity>
+            <transparent opaque="RGB_ZERO">
+              <color>0 0 0 1.000000</color>
+            </transparent>
+            <transparency>
+              <float>0</float>
+            </transparency>
+            <index_of_refraction>
+              <float>0</float>
+            </index_of_refraction>
+          </phong>
+          <extra>
+            <technique profile="FCOLLADA">
+              <spec_level>
+                <float>0.200000</float>
+              </spec_level>
+            </technique>
+          </extra>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="Box01-mesh" name="Box01">
+      <mesh>
+        <source id="Box01-mesh-positions">
+          <float_array id="Box01-mesh-positions-array" count="24">-50.000000 -50.000000 0 50.000000 -50.000000 0 -50.000000 50.000000 0 50.000000 50.000000 0 -50.000000 -50.000000 100.000000 50.000000 -50.000000 100.000000 -50.000000 50.000000 100.000000 50.000000 50.000000 100.000000</float_array>
+          <technique_common>
+            <accessor source="#Box01-mesh-positions-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Box01-mesh-normals">
+          <float_array id="Box01-mesh-normals-array" count="72">0 0 -1.000000 0 0 -1.000000 0 0 -1.000000 0 0 -1.000000 0 0 1.000000 0 0 1.000000 0 0 1.000000 0 0 1.000000 0 -1.000000 0 0 -1.000000 0 0 -1.000000 0 0 -1.000000 0 1.000000 0 0 1.000000 0 0 1.000000 0 0 1.000000 0 0 0 1.000000 0 0 1.000000 0 0 1.000000 0 0 1.000000 0 -1.000000 0 0 -1.000000 0 0 -1.000000 0 0 -1.000000 0 0</float_array>
+          <technique_common>
+            <accessor source="#Box01-mesh-normals-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Box01-mesh-map-channel1">
+          <float_array id="Box01-mesh-map-channel1-array" count="36">0 0 0 1.000000 0 0 0 1.000000 0 1.000000 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0 1.000000 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0 1.000000 1.000000 0</float_array>
+          <technique_common>
+            <accessor source="#Box01-mesh-map-channel1-array" count="12" stride="3">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+              <param name="P" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Box01-mesh-vertices">
+          <input semantic="POSITION" source="#Box01-mesh-positions"/>
+        </vertices>
+        <triangles material="ColorMaterial_57E05700" count="12">
+          <input semantic="VERTEX" source="#Box01-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Box01-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Box01-mesh-map-channel1" offset="2" set="1"/>
+          <p>0 0 9 2 1 11 3 2 10 3 2 10 1 3 8 0 0 9 4 4 8 5 5 9 7 6 11 7 6 11 6 7 10 4 4 8 0 8 4 1 9 5 5 10 7 5 10 7 4 11 6 0 8 4 1 12 0 3 13 1 7 14 3 7 14 3 5 15 2 1 12 0 3 16 4 2 17 5 6 18 7 6 18 7 7 19 6 3 16 4 2 20 0 0 21 1 4 22 3 4 22 3 6 23 2 2 20 0</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="box_max" name="box_max">
+      <node id="Box01-node" name="Box01" type="NODE">
+        <matrix>1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000</matrix>
+        <instance_geometry url="#Box01-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="ColorMaterial_57E05700" target="#ColorMaterial_57E05700"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <extra>
+        <technique profile="MAX3D">
+          <frame_rate>30</frame_rate>
+        </technique>
+        <technique profile="FCOLLADA">
+          <start_time>0</start_time>
+          <end_time>1.000000</end_time>
+        </technique>
+      </extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#box_max"/>
+  </scene>
+</COLLADA>

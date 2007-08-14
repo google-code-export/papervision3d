@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>ascollada - focus</title>
+		<script type="text/javascript" src="swfobject.js"> </script>
+		<style type="text/css">
+			body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				background-color: #000000;
+				font-family: verdana;
+				font-size: 11pt;
+			}
+			
+			a {
+				color: silver;
+				font-size: 10pt;
+				text-decoration: none;
+			}
+			
+			option {
+				width: 100px;
+			}
+			
+			a:hover { color: red; }
+			a:active { color: yellow; }
+		</style>
+	</head>
+	<body>
+		<div>
+		<div id="flashcontent" style="float:left;margin-right:10px">
+			This text is replaced by the Flash movie.
+		</div>
+		<script type="text/javascript">
+		   var so = new SWFObject("focus.swf", "focus", "800", "600", "9", "#000000");
+		   so.write("flashcontent");
+		</script>
+		
+		</div>
+	</body>
+</html>
