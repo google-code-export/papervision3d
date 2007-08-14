@@ -119,12 +119,12 @@ public class BitmapFileMaterial extends BitmapMaterial
 		}
 		// Already loaded?
 		else if( _loadedBitmaps[ asset ] )
-		{
+		{		
 			var bitmap:BitmapData = _loadedBitmaps[ asset ];
 			
 			// John Testing
 			bitmap = correctBitmap( bitmap, false );
-
+			
 			this.loadComplete();
 
 			return bitmap;
@@ -216,8 +216,8 @@ public class BitmapFileMaterial extends BitmapMaterial
 		var url:String = _loaderUrls[ loader ];
 
 		// Retrieve loaded bitmapdata
-		var bitmap:BitmapData = correctBitmap( loadedBitmap.bitmapData, true );
-
+		var bitmap:BitmapData = AUTO_MIP_MAPPING ? correctBitmap( loadedBitmap.bitmapData, true ) : super.createBitmap(loadedBitmap.bitmapData);
+			
 		// Update subscribed materials
 		for each( var material:BitmapFileMaterial in _subscribedMaterials[ url ] )
 		{
@@ -266,10 +266,26 @@ public class BitmapFileMaterial extends BitmapMaterial
 	 */
 	override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
 	{
-		if(bitmap == null) return 1;
-		bitmap.lock();
+		if (bitmap == null)
+		{
+			var x0:Number = v0.x;
+	  		var y0:Number = v0.y;
+	  		var x1:Number = v1.x;
+	  		var y1:Number = v1.y;
+	  		var x2:Number = v2.x;
+	  		var y2:Number = v2.y;
+	
+	  		graphics.beginFill( fillColor, fillAlpha );
+	  		graphics.moveTo( x0, y0 );
+	  		graphics.lineTo( x1, y1 );
+	  		graphics.lineTo( x2, y2 );
+	  		graphics.lineTo( x0, y0 );
+	 		graphics.endFill();
+		  	return 1;
+		}
+		
 		var i:int = super.drawFace3D(instance, face3D, graphics, v0, v1, v2);
-		bitmap.unlock();
+		
 		return i;		
 	}
 
