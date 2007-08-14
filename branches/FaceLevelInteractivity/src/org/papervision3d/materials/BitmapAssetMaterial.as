@@ -112,6 +112,7 @@ public class BitmapAssetMaterial extends BitmapMaterial
 		else
 		{
 			bitmapOk = bitmap;
+			maxU = maxV = 1;
 			_count[asset]++;
 		}
 
