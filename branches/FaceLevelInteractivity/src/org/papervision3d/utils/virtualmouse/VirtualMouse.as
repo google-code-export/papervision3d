@@ -619,7 +619,10 @@ package org.papervision3d.utils.virtualmouse
 			// move event
 			if (lastLocation.x != location.x || lastLocation.y != location.y) {
 				
-				var withinStage:Boolean = Boolean(location.x >= 0 && location.y >= 0 && location.x <= stage.stageWidth && location.y <= stage.stageHeight);
+				var stageWidth:Number = stage is Stage ? Stage(stage).stageWidth : stage.stage.stageWidth;
+				var stageHeight:Number = stage is Stage ? Stage(stage).stageHeight : stage.stage.stageHeight;
+				
+				var withinStage:Boolean = Boolean(location.x >= 0 && location.y >= 0 && location.x <= stageWidth && location.y <= stageHeight);
 				
 				// mouse leave if left stage
 				if (!withinStage && lastWithinStage && !disabledEvents[Event.MOUSE_LEAVE]){

@@ -141,11 +141,14 @@ package org.papervision3d.utils
 			scene.container.parent.addChild(container);
 			container.x = scene.container.x;
 			container.y = scene.container.y;
+			
+			container.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
+			/*
 			container.stage.addEventListener(Event.RESIZE, handleResize);
 			container.stage.addEventListener(MouseEvent.MOUSE_UP, handleReleaseOutside);
-			
+			*/
 			enableMouse = false;
-		}
+		}		
 		
 		public function addInteractiveObject(container3d:Object):void
 		{
@@ -260,6 +263,12 @@ package org.papervision3d.utils
 			if( mouseInteractionMode ) allowDraw = false;
 		}
 		
+		protected function handleAddedToStage(e:Event):void
+		{
+			container.stage.addEventListener (Event.RESIZE, handleResize);
+			container.stage.addEventListener(MouseEvent.MOUSE_UP, handleReleaseOutside);
+		}
+		
 		protected function handleMousePress(e:MouseEvent):void
 		{
 			MOUSE_IS_DOWN = true;
@@ -295,7 +304,7 @@ package org.papervision3d.utils
 			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, Sprite(e.currentTarget));
 			if(Mouse3D.enabled) 
 			{
-				mouse.updatePosition(Face3D(containerDictionary[e.currentTarget]), e.currentTarget);
+				mouse.updatePosition(Face3D(containerDictionary[e.currentTarget]), e.currentTarget as Sprite);
 			}
 		}
 		
