@@ -171,7 +171,8 @@ package org.papervision3d.utils.virtualmouse
 		private var shiftKey:Boolean = false;
 		private var delta:int = 0; // mouseWheel unsupported
 		
-		private var _stage:Sprite;
+		private var _stage:Stage;
+		private var _container:Sprite;
 		private var target:InteractiveObject;
 		
 		private var location:Point;
@@ -205,10 +206,10 @@ package org.papervision3d.utils.virtualmouse
 		 * virtual mouse will not function.
 		 * @see VirtualMouse()
 		 */
-		public function get stage():Sprite {
+		public function get stage():Stage {
 			return _stage;
 		}
-		public function set stage(s:Sprite):void {
+		public function set stage(s:Stage):void {
 			var hadStage:Boolean;
 			if (_stage){
 				hadStage = true;
@@ -225,6 +226,17 @@ package org.papervision3d.utils.virtualmouse
 				if (!hadStage) update();
 			}
 		}
+		
+		/**
+		* 
+		* @param	value Sprite container you want VirtualMouse to use with its testing of sub containers
+		* @return
+		*/
+		public function set container(value:Sprite):void
+		{
+			_container = value;
+		}
+		public function get container():Sprite { return _container; }
 		
 		/**
 		 * The last event dispatched by the VirtualMouse
@@ -321,8 +333,9 @@ package org.papervision3d.utils.virtualmouse
 		 * @param startY The initial y location of
 		 * 		the virtual mouse.
 		 */
-		public function VirtualMouse(stage:Sprite = null, startX:Number = 0, startY:Number = 0) {
+		public function VirtualMouse(stage:Stage = null, container:Sprite = null, startX:Number = 0, startY:Number = 0) {
 			this.stage = stage;
+			this.container = container;
 			location = new Point(startX, startY);
 			lastLocation = location.clone();
 			addEventListener(UPDATE, handleUpdate);
@@ -551,7 +564,7 @@ package org.papervision3d.utils.virtualmouse
 		
 		private function handleUpdate(event:Event):void 
 		{
-			if (!_stage) return;
+			if (!container) return;
 				
 			// go through each objectsUnderPoint checking:
 			// 		1) is not ignored
@@ -560,7 +573,7 @@ package org.papervision3d.utils.virtualmouse
 			// 		4) all parents have mouseChildren
 			// if not interactive object, defer interaction to next object in list
 			// if is interactive and enabled, give interaction and ignore rest
-			var objectsUnderPoint:Array = _stage.getObjectsUnderPoint(location);
+			var objectsUnderPoint:Array = container.getObjectsUnderPoint(location);
 			var currentTarget:InteractiveObject;
 			var currentParent:DisplayObject;
 			
@@ -619,8 +632,8 @@ package org.papervision3d.utils.virtualmouse
 			// move event
 			if (lastLocation.x != location.x || lastLocation.y != location.y) {
 				
-				var stageWidth:Number = stage is Stage ? Stage(stage).stageWidth : stage.stage.stageWidth;
-				var stageHeight:Number = stage is Stage ? Stage(stage).stageHeight : stage.stage.stageHeight;
+				var stageWidth:Number = stage ? stage.stageWidth : container.width;
+				var stageHeight:Number = stage ? stage.stageHeight : container.height;
 				
 				var withinStage:Boolean = Boolean(location.x >= 0 && location.y >= 0 && location.x <= stageWidth && location.y <= stageHeight);
 				
