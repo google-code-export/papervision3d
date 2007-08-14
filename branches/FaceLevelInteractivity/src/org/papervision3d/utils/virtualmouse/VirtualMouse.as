@@ -178,13 +178,14 @@ package org.papervision3d.utils.virtualmouse
 		
 		private var isLocked:Boolean = false;
 		private var isDoubleClickEvent:Boolean = false;
-		private var _mouseIsDown:Boolean = false;
+		private static var _mouseIsDown:Boolean = false;
 		
 		private var disabledEvents:Object = new Object();
 		private var ignoredInstances:Dictionary = new Dictionary(true);
 		
 		private var _lastEvent:Event;
 		private var lastMouseDown:Boolean = false;
+		private var updateMouseDown:Boolean = false;
 		private var lastLocation:Point;
 		private var lastDownTarget:DisplayObject;
 		private var lastWithinStage:Boolean = true;
@@ -462,7 +463,8 @@ package org.papervision3d.utils.virtualmouse
 		 * @see click()
 		 */
 		public function press():void {
-			if (_mouseIsDown) return;
+			//if (_mouseIsDown) return;
+			updateMouseDown = true;
 			_mouseIsDown = true;
 			if (!isLocked) update();
 		}
@@ -475,7 +477,8 @@ package org.papervision3d.utils.virtualmouse
 		 * @see click()
 		 */
 		public function release():void {
-			if (!_mouseIsDown) return;
+			//if (!_mouseIsDown) return;
+			updateMouseDown = true;
 			_mouseIsDown = false;
 			if (!isLocked) update();
 		}
@@ -664,10 +667,12 @@ package org.papervision3d.utils.virtualmouse
 					currentTarget.dispatchEvent(_lastEvent);
 					dispatchEvent(_lastEvent);
 				}
+			
+			
 			}
 			
 			// click/up/down events
-			if (lastMouseDown != _mouseIsDown) {
+			if (updateMouseDown) {
 				if (_mouseIsDown) {
 					
 					if (!disabledEvents[MouseEvent.MOUSE_DOWN]){
@@ -678,7 +683,7 @@ package org.papervision3d.utils.virtualmouse
 					
 					// remember last down
 					lastDownTarget = currentTarget;
-					
+					updateMouseDown = false;
 				// mouse is up
 				}else{
 					if (!disabledEvents[MouseEvent.MOUSE_UP]){
@@ -695,6 +700,7 @@ package org.papervision3d.utils.virtualmouse
 					
 					// clear last down
 					lastDownTarget = null;
+					updateMouseDown = false;
 				}
 			}
 			
