@@ -46,7 +46,6 @@ package {
 			mc.graphics.beginFill( 0xFF3300, 100 );
 			mc.graphics.drawRect(0, 0, 200, 200);
 			mc.graphics.endFill();
-			//addChild(mc);
 			
 	 		child = new MovieClip();
 	 		child.name = "child";
@@ -54,7 +53,6 @@ package {
 			child.graphics.drawRect(50, 50, 50, 50);
 			child.graphics.endFill();
 			mc.addChild(child);
-			//mc.x = -2000;
 		}
 		protected function init3D():void {
 			container = new InteractiveSprite();
@@ -66,16 +64,7 @@ package {
 			scene = new InteractiveScene3D(container);
 			ism = scene.interactiveSceneManager;
 			
-			InteractiveSceneManager.SHOW_DRAWN_FACES = false;
-			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = 0;
-			InteractiveSceneManager.DEFAULT_FILL_ALPHA = 1;
-			
-			BitmapMaterial.AUTO_MIP_MAPPING = false;
-			DisplayObject3D.faceLevelMode = false;
-			
-			ism.buttonMode = true;
-			ism.faceLevelMode = true;											
-			ism.mouseInteractionMode = false;
+			ism.setInteractivityDefaults();
 			
 			camera = new Camera3D();
 			camera.zoom = 5;
@@ -90,6 +79,10 @@ package {
 			mChild.addEventListener(MouseEvent.CLICK, handleBTNClick);
 			mChild.addEventListener(MouseEvent.MOUSE_OVER, handleBTNOver);
 			mChild.addEventListener(MouseEvent.MOUSE_OUT, handleBTNOut);
+			
+			mc.addEventListener(MouseEvent.CLICK, handleBTNClick);
+			mc.addEventListener(MouseEvent.MOUSE_OVER, handleBTNOver);
+			mc.addEventListener(MouseEvent.MOUSE_OUT, handleBTNOut);
 
 			material.updateBitmap();
 			
@@ -103,15 +96,15 @@ package {
 		}
 		
 		protected function handleBTNClick(e:MouseEvent):void {
-			trace("vMouse click from btn", e.currentTarget);
+			trace("vMouse click from btn", e.currentTarget.name);
 			if (e is IVirtualMouseEvent) trace("IVirtualMouseEvent click from btn");
 		}
 		protected function handleBTNOver(e:MouseEvent):void {
-			trace("over", e.currentTarget);
+			trace("over", e.currentTarget.name);
 			e.currentTarget.blendMode = BlendMode.ADD;
 		}
 		protected function handleBTNOut(e:MouseEvent):void {
-			trace("out", e.currentTarget);
+			trace("out", e.currentTarget.name);
 			e.currentTarget.blendMode = BlendMode.NORMAL;
 		}
 	}

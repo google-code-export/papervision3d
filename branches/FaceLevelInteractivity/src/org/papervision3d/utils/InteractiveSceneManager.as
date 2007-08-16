@@ -336,8 +336,6 @@ package org.papervision3d.utils
 				// set the location where the calcs should be performed
 				virtualMouse.container = mat.movie;
 				
-				log.debug("virtualMouse.container", virtualMouse.container.width);
-				
 				// update virtual mouse so it can test
 				virtualMouse.setLocation(point.x, point.y);
 			}
