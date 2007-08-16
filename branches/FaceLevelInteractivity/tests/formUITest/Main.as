@@ -82,11 +82,11 @@
 //			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = .75;
 //			InteractiveSceneManager.DEFAULT_FILL_ALPHA = .75;
 			
-			BitmapMaterial.AUTO_MIP_MAPPING = true;
-			DisplayObject3D.faceLevelMode = true;
+			BitmapMaterial.AUTO_MIP_MAPPING = false;
+			DisplayObject3D.faceLevelMode = false;
 			
 			ism.buttonMode = true;
-			ism.faceLevelMode = false;											
+			ism.faceLevelMode = true;											
 			ism.mouseInteractionMode = false;
 			ism.addEventListener(InteractiveScene3DEvent.OBJECT_OVER, handleMouseOver);
 			//ism.addEventListener(InteractiveScene3DEvent.OBJECT_OUT, handleMouseOut);
@@ -104,7 +104,6 @@
 			material.animated = true;
 			material.smooth = true;
 			
-			material.movie.alpha = .3;
 			material.movie["btn"].drawNow();
 			material.movie["txt"].drawNow();
 			
@@ -118,7 +117,8 @@
 			material.updateBitmap();
 		
 			plane = new Plane( material, 500, 500, 8, 8 );
-			plane.yaw(-20);
+			plane.yaw(20);
+			plane.moveRight(100);
 //			plane.x = 200;
 			scene.addChild(plane);
 			
@@ -199,14 +199,16 @@
 		{
 			//ball.copyTransform(mouse);
 			var plane:DisplayObject3D;
+			var point:Object = null;
 			if(e.displayObject3D != null)
 			{
 				plane = e.displayObject3D;
+				point = InteractiveUtils.getMapCoordAtPointDO3D(e.displayObject3D, ism.container.mouseX, ism.container.mouseY);
 			}
 			else 
 			{
 				plane = e.face3d.face3DInstance.instance;
-				var point:Object = InteractiveUtils.getMapCoordAtPoint(e.face3d, e.sprite.mouseX, e.sprite.mouseY);
+				point = InteractiveUtils.getMapCoordAtPoint(e.face3d, e.sprite.mouseX, e.sprite.mouseY);
 				//trace(point.x, point.y);
 				var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(plane.material);
 				
@@ -216,7 +218,7 @@
 				g.endFill();
 			}
 			
-			vMouse.setLocation(point.x, point.y);
+			if(point) vMouse.setLocation(point.x, point.y);
 			return ;
 			
 			if(InteractiveSceneManager.MOUSE_IS_DOWN)

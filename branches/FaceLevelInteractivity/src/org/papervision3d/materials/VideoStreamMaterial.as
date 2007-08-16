@@ -113,9 +113,17 @@ package org.papervision3d.materials
 		{
 			// Dispose of previous bitmap
 			if( this.bitmap ) this.bitmap.dispose();
-	
+			
 			// Create new bitmap
-			this.bitmap = correctBitmap( new BitmapData( asset.width, asset.height, this.movieTransparent ), true );
+			if(AUTO_MIP_MAPPING)
+			{
+				this.bitmap = correctBitmap( new BitmapData( asset.width, asset.height, this.movieTransparent ), true );
+			}
+			else
+			{
+				this.bitmap = new BitmapData( asset.width, asset.height, this.movieTransparent );
+				this.maxU = this.maxV = 1;
+			}
 
 			// Draw bitmap
 			this.updateBitmap();
