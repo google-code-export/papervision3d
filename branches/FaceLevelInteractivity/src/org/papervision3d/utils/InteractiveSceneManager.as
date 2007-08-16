@@ -169,7 +169,7 @@ package org.papervision3d.utils
 				icdContainer.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
 				
 				icdContainer.buttonMode = buttonMode;
-				if( !SHOW_DRAWN_FACES ) icdContainer.blendMode = BlendMode.ERASE;
+				if( !SHOW_DRAWN_FACES && !DisplayObject3D.faceLevelMode ) icdContainer.blendMode = BlendMode.ERASE;
 				
 				dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_ADDED, null, icdContainer));
 				
@@ -181,7 +181,7 @@ package org.papervision3d.utils
 		{
 			// if we're face level on this DO3D, then we switch to the face3D object
 			var container:Object = container3d;
-			if(faceLevelMode || container3d.faceLevelMode) container = face3d;
+			if(faceLevelMode || DisplayObject3D.faceLevelMode) container = face3d;
 			
 			// add to the dictionary if not added already
 			if(faceDictionary[container] == null) addInteractiveObject(container);
@@ -190,7 +190,7 @@ package org.papervision3d.utils
 			// otherwise, we're in object level mode, and we draw
 			//log.debug("drawFace", faceLevelMode, allowDraw);
 			//if( faceLevelMode && allowDraw )
-			if( allowDraw )
+			if( allowDraw && !DisplayObject3D.faceLevelMode )
 			{
 				var drawingContainer:InteractiveContainerData = faceDictionary[container];
 				var iContainer:InteractiveSprite = drawingContainer.container;

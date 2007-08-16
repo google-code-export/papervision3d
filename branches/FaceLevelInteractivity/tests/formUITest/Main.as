@@ -82,7 +82,9 @@
 //			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = .75;
 //			InteractiveSceneManager.DEFAULT_FILL_ALPHA = .75;
 			
+			BitmapMaterial.AUTO_MIP_MAPPING = true;
 			DisplayObject3D.faceLevelMode = true;
+			
 			ism.buttonMode = true;
 			ism.faceLevelMode = false;											
 			ism.mouseInteractionMode = false;
@@ -205,9 +207,9 @@
 			{
 				plane = e.face3d.face3DInstance.instance;
 				var point:Object = InteractiveUtils.getMapCoordAtPoint(e.face3d, e.sprite.mouseX, e.sprite.mouseY);
-				//var point:Object = InteractiveUtils.getMapCoordAtPoint(e.face3d, ism.container.parent.mouseX, ism.container.parent.mouseY);
-				trace(point.x, point.y);
+				//trace(point.x, point.y);
 				var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(plane.material);
+				
 				var g:Graphics = mat.movie.graphics;
 				g.beginFill(0x000000,1);
 				g.drawCircle(point.x, point.y, 5);
