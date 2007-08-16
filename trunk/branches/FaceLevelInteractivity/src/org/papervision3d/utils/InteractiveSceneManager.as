@@ -143,10 +143,7 @@ package org.papervision3d.utils
 			container.y = scene.container.y;
 			
 			container.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
-			/*
-			container.stage.addEventListener(Event.RESIZE, handleResize);
-			container.stage.addEventListener(MouseEvent.MOUSE_UP, handleReleaseOutside);
-			*/
+		
 			enableMouse = false;
 		}		
 		
@@ -302,7 +299,7 @@ package org.papervision3d.utils
 		protected function handleMouseMove(e:MouseEvent):void
 		{	
 			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, Sprite(e.currentTarget));
-			if(Mouse3D.enabled) 
+			if( Mouse3D.enabled && faceLevelMode ) 
 			{
 				mouse.updatePosition(Face3D(containerDictionary[e.currentTarget]), e.currentTarget as Sprite);
 			}

@@ -34,7 +34,18 @@
  */
 
 /**
+* @author Pierre Lepers
+* @author De'Angelo Richardson
 * @author John Grden
+* 
+* NOTES:
+* 	Special thanks to Blackpawn for this post:
+*   http://www.blackpawn.com/texts/pointinpoly/default.html
+* 
+* 	And Pierre Lepers / Away3D for providing the foundational UVatPoint and getCoordAtPoint methods.  We're not sure who came out with them first, but wanted
+* 	to thank them both just the same.
+* 
+* 	These rock!!
 * @version 1.0
 */
 package org.papervision3d.utils 
@@ -44,6 +55,7 @@ package org.papervision3d.utils
 	import org.papervision3d.core.geom.Face3D;
 	import org.papervision3d.core.geom.Vertex3D;
 	import org.papervision3d.materials.BitmapMaterial;
+	import org.papervision3d.objects.DisplayObject3D;
 	
 	public class InteractiveUtils 
 	{
@@ -103,6 +115,12 @@ package org.papervision3d.utils
 			var rZ : Number = v0z + ( v1z - v0z ) * v + ( v2z - v0z ) * u;
 				
 			return new Vertex3D( rX, rY, rZ );
+		}
+		
+		public static function getMapCoordAtPointDO3D( displayObject:DisplayObject3D, x : Number, y : Number ):Object
+		{
+			var face:Face3D = displayObject.geometry.faces[0];
+			return getMapCoordAtPoint(face, x, y);
 		}
 		
 		public static function getMapCoordAtPoint( face3d:Face3D, x : Number, y : Number ) : Object 
