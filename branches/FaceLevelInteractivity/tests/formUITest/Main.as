@@ -74,13 +74,11 @@
 			// Create scene
 			scene = new InteractiveScene3D( container );
 			ism = scene.interactiveSceneManager;
-			mouse = ism.mouse;
-			ism.enableMouse = true;
 			
-//			InteractiveSceneManager.SHOW_DRAWN_FACES = true;
-//			InteractiveSceneManager.DEFAULT_LINE_COLOR = 0xFFFFFF;
-//			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = .75;
-//			InteractiveSceneManager.DEFAULT_FILL_ALPHA = .75;
+			InteractiveSceneManager.SHOW_DRAWN_FACES = false;
+			//InteractiveSceneManager.DEFAULT_LINE_COLOR = 0xFFFFFF;
+			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = 0;
+			InteractiveSceneManager.DEFAULT_FILL_ALPHA = 1;
 			
 			BitmapMaterial.AUTO_MIP_MAPPING = false;
 			DisplayObject3D.faceLevelMode = false;
@@ -88,24 +86,35 @@
 			ism.buttonMode = true;
 			ism.faceLevelMode = true;											
 			ism.mouseInteractionMode = false;
-			ism.addEventListener(InteractiveScene3DEvent.OBJECT_OVER, handleMouseOver);
-			//ism.addEventListener(InteractiveScene3DEvent.OBJECT_OUT, handleMouseOut);
-			ism.addEventListener(InteractiveScene3DEvent.OBJECT_MOVE, handleMouseMove);
-			//ism.addEventListener(InteractiveScene3DEvent.OBJECT_PRESS, handleMouseDown);
-			ism.addEventListener(InteractiveScene3DEvent.OBJECT_CLICK, handleMouseUp);
-			//ism.addEventListener(InteractiveScene3DEvent.OBJECT_RELEASE, handleMouseUp);
-			ism.addEventListener(InteractiveScene3DEvent.OBJECT_ADDED, handleAddedSprite);
 			
+			createPlane(-20, 350);
+			createPlane(20, -350);
+
+			// Create camera
+			camera = new Camera3D();
+			camera.zoom = 5;
+			
+		}
+		// ___________________________________________________________________ Create album
+		//var mouseIsDown:Boolean;
+		
+		public function createPlane(yaw=20, left:Number=250):void
+		{
 			//var material:MovieMaterial = new InteractiveMovieMaterial( new canvas() );
 			var material:MovieMaterial = new InteractiveMovieMaterial( this.formUI );
 		
-			material.doubleSided = true;
-			material.lineColor = 0xFFFFFF;
+			//material.doubleSided = true;
+			//material.lineColor = 0xFFFFFF;
 			material.animated = true;
 			material.smooth = true;
 			
 			material.movie["btn"].drawNow();
 			material.movie["txt"].drawNow();
+			material.movie["label"].drawNow();
+			material.movie["combobox"].drawNow();
+			material.movie["numericstepper"].drawNow();
+			material.movie["radio"].drawNow();
+			material.movie["slider"].drawNow();
 			
 			material.movie["btn"].addEventListener(MouseEvent.CLICK, handleBTNClick);
 			material.movie["btn"].addEventListener(MouseEvent.MOUSE_OVER, handleBTNOver);
@@ -115,22 +124,13 @@
 			material.movie["b1"].addEventListener(MouseEvent.MOUSE_OUT, handleB1Out)
 			
 			material.updateBitmap();
-		
-			plane = new Plane( material, 500, 500, 8, 8 );
-			plane.yaw(20);
-			plane.moveRight(100);
-//			plane.x = 200;
-			scene.addChild(plane);
 			
-			vMouse = new VirtualMouse(stage, material.movie);
+			var plane = new Plane( material, 500, 500, 8, 8 );
+			plane.yaw(yaw);
+			plane.moveLeft(left);
 
-			// Create camera
-			camera = new Camera3D();
-			camera.zoom = 5;
-			
+			scene.addChild(plane);
 		}
-		// ___________________________________________________________________ Create album
-		//var mouseIsDown:Boolean;
 		
 		function handleBTNClick(e:MouseEvent):void
 		{
@@ -171,101 +171,10 @@
 			e.currentTarget.blendMode = BlendMode.NORMAL;
 		}
 		
-		// everytime a sprite contrainer is made for a face3d in the ISM, we add it as an ignored item for the VirtualMouse
-		function handleAddedSprite(e:InteractiveScene3DEvent):void
-		{
-			vMouse.ignore(e.sprite);
-		}
-		
-		function handleMouseDown(e:InteractiveScene3DEvent)
-		{
-		
-		}
-		
-		function handleMouseUp(e:InteractiveScene3DEvent)
-		{
-			// we tell the vMouse there was a click to execute.
-			vMouse.click();
-		}
-		
-		function handleMouseOver(e:InteractiveScene3DEvent)
-		{
-			trace("over", e.sprite.name);
-		}
-		
-		var dragObject:*;
-		
-		function handleMouseMove(e:InteractiveScene3DEvent)
-		{
-			//ball.copyTransform(mouse);
-			var plane:DisplayObject3D;
-			var point:Object = null;
-			if(e.displayObject3D != null)
-			{
-				plane = e.displayObject3D;
-				point = InteractiveUtils.getMapCoordAtPointDO3D(e.displayObject3D, ism.container.mouseX, ism.container.mouseY);
-			}
-			else 
-			{
-				plane = e.face3d.face3DInstance.instance;
-				point = InteractiveUtils.getMapCoordAtPoint(e.face3d, e.sprite.mouseX, e.sprite.mouseY);
-				//trace(point.x, point.y);
-				var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(plane.material);
-				
-				var g:Graphics = mat.movie.graphics;
-				g.beginFill(0x000000,1);
-				g.drawCircle(point.x, point.y, 5);
-				g.endFill();
-			}
-			
-			if(point) vMouse.setLocation(point.x, point.y);
-			return ;
-			
-			if(InteractiveSceneManager.MOUSE_IS_DOWN)
-			{
-				if(dragObject){
-					dragObject.x = point.x;
-					dragObject.y = point.y;
-					plane.material.updateBitmap();
-				} 
-				//plane.material.updateBitmap();
-			} else {
-		
-				
-				var color:ColorTransform = new ColorTransform();
-				var color1:ColorTransform = new ColorTransform();
-				
-				if(plane.material.movie.b1.hitTestPoint(point.x, point.y)){
-					color.color = 0xff0000;
-					plane.material.movie.b1.transform.colorTransform = color;
-					plane.material.updateBitmap();
-				} else if(plane.material.movie.b2.hitTestPoint(point.x, point.y)){
-					color.color = 0xff0000;
-					plane.material.movie.b2.transform.colorTransform = color;
-					plane.material.updateBitmap();
-				}else if(plane.material.movie.btn.hitTestPoint(point.x, point.y)){
-					plane.material.movie.btn.setMouseState("over");
-					plane.material.movie.btn.drawNow();
-					plane.material.updateBitmap();
-				} else if(!plane.material.movie.b1.hitTestPoint(point.x, point.y) || !plane.material.movie.b2.hitTestPoint(point.x, point.y) || !plane.material.movie.btn.hitTestPoint(point.x, point.y)){
-					plane.material.movie.b1.transform.colorTransform = color1;
-					plane.material.movie.b2.transform.colorTransform = color1;
-					plane.material.movie.btn.setMouseState("up");
-					plane.material.movie.btn.drawNow();
-					plane.material.updateBitmap();
-				} 
-			}
-			
-		}
-		
-		
 		// ___________________________________________________________________ Loop
 		
 		function loop(event:Event):void 
 		{
-			//plane.yaw(.05);
-//			camera.x = -(container.mouseX * 3)/2;
-//			camera.y = (container.mouseY * 3);
 			scene.renderCamera( this.camera );
 		
 			FS.x = 640 + (stage.stageWidth - 640)/2;

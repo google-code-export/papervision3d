@@ -48,6 +48,7 @@ package org.papervision3d.utils
 	import org.papervision3d.components.as3.utils.CoordinateTools;
 	import org.papervision3d.core.geom.Vertex2D;
 	import org.papervision3d.core.geom.Vertex3D;
+	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 	
 	import flash.display.Sprite;
 	import flash.display.BlendMode;
@@ -63,6 +64,7 @@ package org.papervision3d.utils
 	import org.papervision3d.events.InteractiveScene3DEvent;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.utils.InteractiveSprite;
+	import org.papervision3d.materials.InteractiveMovieMaterial;
 	import flash.events.Event;
 
 	public class InteractiveSceneManager extends EventDispatcher
@@ -116,7 +118,8 @@ package org.papervision3d.utils
 		public var containerDictionary								:Dictionary = new Dictionary();
 		public var container										:Sprite = new InteractiveSprite();
 		public var scene											:SceneObject3D;
-		public var mouse											:Mouse3D = new Mouse3D();
+		public var mouse3D											:Mouse3D = new Mouse3D();
+		public var virtualMouse										:VirtualMouse = new VirtualMouse();
 		
 		public function set enableMouse(value:Boolean):void
 		{
@@ -137,12 +140,11 @@ package org.papervision3d.utils
 		
 		public function InteractiveSceneManager(p_scene:SceneObject3D):void
 		{
+			container.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
 			scene = p_scene;
 			scene.container.parent.addChild(container);
 			container.x = scene.container.x;
-			container.y = scene.container.y;
-			
-			container.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
+			container.y = scene.container.y;			
 		
 			enableMouse = false;
 		}		
@@ -168,6 +170,10 @@ package org.papervision3d.utils
 				icdContainer.buttonMode = buttonMode;
 				if( !SHOW_DRAWN_FACES && !DisplayObject3D.faceLevelMode ) icdContainer.blendMode = BlendMode.ERASE;
 				
+				// need to let virtualMouse know what to ignore
+				virtualMouse.ignore(icdContainer);
+				
+				// let others know we've added a container
 				dispatchEvent(new InteractiveScene3DEvent(InteractiveScene3DEvent.OBJECT_ADDED, null, icdContainer));
 				
 				if(debug) log.debug("addDisplayObject id", container3d.id, container3d.name, DEFAULT_SPRITE_ALPHA);
@@ -264,6 +270,7 @@ package org.papervision3d.utils
 		{
 			container.stage.addEventListener (Event.RESIZE, handleResize);
 			container.stage.addEventListener(MouseEvent.MOUSE_UP, handleReleaseOutside);
+			virtualMouse.stage = container.stage;
 		}
 		
 		protected function handleMousePress(e:MouseEvent):void
@@ -280,6 +287,7 @@ package org.papervision3d.utils
 		
 		protected function handleMouseClick(e:MouseEvent):void
 		{
+			if(virtualMouse) virtualMouse.click();
 			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, Sprite(e.currentTarget));
 		}
 		
@@ -288,6 +296,8 @@ package org.papervision3d.utils
 			var eventType:String
 			eventType = !evaluateClick || !mouseInteractionMode ? InteractiveScene3DEvent.OBJECT_OVER : InteractiveScene3DEvent.OBJECT_CLICK;
 			evaluateClick = false;
+			
+			if( virtualMouse && eventType == InteractiveScene3DEvent.OBJECT_CLICK ) virtualMouse.click()
 			dispatchObjectEvent(eventType, Sprite(e.currentTarget));
 		}
 		
@@ -298,10 +308,30 @@ package org.papervision3d.utils
 		
 		protected function handleMouseMove(e:MouseEvent):void
 		{	
-			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, Sprite(e.currentTarget));
-			if( Mouse3D.enabled && faceLevelMode ) 
+			var point:Object;
+			if( VirtualMouse && ( faceLevelMode || DisplayObject3D.faceLevelMode ))
 			{
-				mouse.updatePosition(Face3D(containerDictionary[e.currentTarget]), e.currentTarget as Sprite);
+				// need the face3d for the coordinate conversion
+				var face3d:Face3D = containerDictionary[e.currentTarget];
+				
+				// get 2D coordinates
+				point = InteractiveUtils.getMapCoordAtPoint(face3d, container.mouseX, container.mouseY);
+				
+				// locate the material's movie
+				var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(face3d.face3DInstance.instance.material);
+				
+				// set the location where the calcs should be performed
+				virtualMouse.container = mat.movie;
+				
+				// update virtual mouse so it can test
+				virtualMouse.setLocation(point.x, point.y);
+			}
+			
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, Sprite(e.currentTarget));
+			
+			if( Mouse3D.enabled && ( faceLevelMode || DisplayObject3D.faceLevelMode ) ) 
+			{
+				mouse3D.updatePosition(Face3D(containerDictionary[e.currentTarget]), e.currentTarget as Sprite);
 			}
 		}
 		
