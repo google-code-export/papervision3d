@@ -3,6 +3,7 @@
 	import flash.display.*;
 	import flash.filters.*;
 	import flash.display.Stage;
+	import flash.display.BlendMode;
 	import flash.events.*;
 	
 	// Import Papervision3D
@@ -27,7 +28,7 @@
 		var scene     :InteractiveScene3D;
 		var camera    :Camera3D;
 		var ism		  :InteractiveSceneManager;
-		var plane	  :Plane;
+		var sphere	  :Sphere;
 		var mouse     :Mouse3D;
 		var vMouse	  :VirtualMouse;
 		
@@ -72,20 +73,21 @@
 			scene = new InteractiveScene3D( container );
 			ism = scene.interactiveSceneManager;
 			
-			InteractiveSceneManager.SHOW_DRAWN_FACES = false;
-			//InteractiveSceneManager.DEFAULT_LINE_COLOR = 0xFFFFFF;
-			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = 1;
+			InteractiveSceneManager.SHOW_DRAWN_FACES = true;
+			InteractiveSceneManager.DEFAULT_LINE_COLOR = 0x000000;
+			InteractiveSceneManager.DEFAULT_FILL_COLOR = 0x003399;
+			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = .3;
 			InteractiveSceneManager.DEFAULT_FILL_ALPHA = 1;
 			
 			BitmapMaterial.AUTO_MIP_MAPPING = false;
 			DisplayObject3D.faceLevelMode = false;
 			
 			ism.buttonMode = true;
-			ism.faceLevelMode = true;											
-			ism.mouseInteractionMode = false;
+			ism.faceLevelMode = true;
 			
-			createPlane(-20, 350);
-			createPlane(20, -350);
+			ism.addEventListener(InteractiveScene3DEvent.OBJECT_MOVE, handleMouseMove);
+			
+			createSphere();
 
 			// Create camera
 			camera = new Camera3D();
@@ -95,84 +97,42 @@
 		// ___________________________________________________________________ Create album
 		//var mouseIsDown:Boolean;
 
-		public function createPlane(yaw=20, left:Number=250):void
+		public function createSphere():void
 		{
-			//var material:MovieMaterial = new InteractiveMovieMaterial( new canvas() );
-			var material:MovieMaterial = new InteractiveMovieMaterial( this.formUI );
-		
-			//material.doubleSided = true;
-			//material.lineColor = 0xFFFFFF;
+			var material:MovieMaterial = new InteractiveMovieMaterial( new canvas() );
+			material.lineColor = 0xffffff;
+			material.lineThickness = .25;
 			material.animated = true;
 			material.smooth = true;
 			
-			material.movie["btn"].drawNow();
-			material.movie["txt"].drawNow();
-			material.movie["label"].drawNow();
-			material.movie["combobox"].drawNow();
-			material.movie["numericstepper"].drawNow();
-			material.movie["radio"].drawNow();
-			material.movie["slider"].drawNow();
-			
-			material.movie["btn"].addEventListener(MouseEvent.CLICK, handleBTNClick);
-			material.movie["btn"].addEventListener(MouseEvent.MOUSE_OVER, handleBTNOver);
-			material.movie["btn"].addEventListener(MouseEvent.MOUSE_OUT, handleBTNOut);
-			
-			material.movie["b1"].addEventListener(MouseEvent.MOUSE_OVER, handleB1Over);
-			material.movie["b1"].addEventListener(MouseEvent.MOUSE_OUT, handleB1Out)
-			
-			material.updateBitmap();
-			
-			var plane = new Plane( material, 500, 500, 8, 8 );
-			plane.yaw(yaw);
-			plane.moveLeft(left);
-			plane.moveDown(200);
+			sphere = new Sphere(material, 350, 12, 12);
 
-			scene.addChild(plane);
+			scene.addChild(sphere);
 		}
 		
-		function handleBTNClick(e:MouseEvent):void
+		public function handleMouseMove(e:InteractiveScene3DEvent):void
 		{
-			trace("vMouse click from btn");
-			if (e is IVirtualMouseEvent) trace("IVirtualMouseEvent click from btn");
-		
-		}
-		
-		// these are received from the btn in the canvas itself via the VirtualMouse
-		function handleBTNOver(e:MouseEvent):void
-		{
-			trace("over");
-			//e.currentTarget.invalidate();
-			e.currentTarget.setMouseState("over");
-			e.currentTarget.drawNow();
-		}
-		
-		// these are received from the btn in the canvas itself via the VirtualMouse
-		function handleBTNOut(e:MouseEvent):void
-		{
-			trace("out");
-			//e.currentTarget.invalidate();
-			e.currentTarget.setMouseState("up");
-			e.currentTarget.drawNow();
-		}
-		
-		// these are received from the btn in the canvas itself via the VirtualMouse
-		function handleB1Over(e:MouseEvent):void
-		{
-			trace("over");
-			e.currentTarget.blendMode = BlendMode.ADD;
-		}
-		
-		// these are received from the btn in the canvas itself via the VirtualMouse
-		function handleB1Out(e:MouseEvent):void
-		{
-			trace("out");
-			e.currentTarget.blendMode = BlendMode.NORMAL;
+			// MOUSE_IS_DOWN is a publis static property of ISM
+			if( !InteractiveSceneManager.MOUSE_IS_DOWN ) return;
+			
+			// grab the 2D coordinates
+			var point:Object = InteractiveUtils.getMapCoordAtPoint(e.face3d, e.sprite.mouseX, e.sprite.mouseY);
+			var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(e.face3d.face3DInstance.instance.material);
+			
+			// get to the movieclip's level
+			var movie:MovieClip = MovieClip(mat.movie);
+			
+			// draw
+			movie.surface.graphics.beginFill(Math.random()*0xFFFFFF,2);
+			movie.surface.graphics.drawCircle(point.x, point.y, 1)
+			movie.surface.graphics.endFill();
 		}
 		
 		// ___________________________________________________________________ Loop
 		
 		function loop(event:Event):void 
 		{
+			sphere.yaw(.3);
 			scene.renderCamera( this.camera );
 		
 			FS.x = 640 + (stage.stageWidth - 640)/2;
