@@ -65,6 +65,7 @@ package org.papervision3d.utils
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.utils.InteractiveSprite;
 	import org.papervision3d.materials.InteractiveMovieMaterial;
+	import org.papervision3d.materials.BitmapMaterial;
 	import flash.events.Event;
 
 	public class InteractiveSceneManager extends EventDispatcher
@@ -147,7 +148,22 @@ package org.papervision3d.utils
 			container.y = scene.container.y;			
 		
 			enableMouse = false;
-		}		
+		}
+		
+		public function setInteractivityDefaults():void 
+		{
+		   SHOW_DRAWN_FACES = false;
+		   DEFAULT_SPRITE_ALPHA = 1;
+		   DEFAULT_FILL_ALPHA = 1;
+
+		   BitmapMaterial.AUTO_MIP_MAPPING = false;
+		   DisplayObject3D.faceLevelMode = false;
+
+		   buttonMode = true;
+		   faceLevelMode = true;
+		   mouseInteractionMode = false;
+		}
+
 		
 		public function addInteractiveObject(container3d:Object):void
 		{
@@ -188,11 +204,7 @@ package org.papervision3d.utils
 			
 			// add to the dictionary if not added already
 			if(faceDictionary[container] == null) addInteractiveObject(container);
-			
-			// if ISM.faceLevelMode = false, and DO3D.faceLevelMode = true, then ISM isn't dealing with drawing the tri's just return and don't draw.
-			// otherwise, we're in object level mode, and we draw
-			//log.debug("drawFace", faceLevelMode, allowDraw);
-			//if( faceLevelMode && allowDraw )
+
 			if( allowDraw && !DisplayObject3D.faceLevelMode )
 			{
 				var drawingContainer:InteractiveContainerData = faceDictionary[container];
@@ -270,6 +282,7 @@ package org.papervision3d.utils
 		{
 			container.stage.addEventListener (Event.RESIZE, handleResize);
 			container.stage.addEventListener(MouseEvent.MOUSE_UP, handleReleaseOutside);
+			
 			virtualMouse.stage = container.stage;
 		}
 		
@@ -322,6 +335,8 @@ package org.papervision3d.utils
 				
 				// set the location where the calcs should be performed
 				virtualMouse.container = mat.movie;
+				
+				log.debug("virtualMouse.container", virtualMouse.container.width);
 				
 				// update virtual mouse so it can test
 				virtualMouse.setLocation(point.x, point.y);
