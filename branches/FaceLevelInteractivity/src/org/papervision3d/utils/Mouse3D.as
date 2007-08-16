@@ -95,13 +95,17 @@ package org.papervision3d.utils
 				look.n33 = zAxis.z;
 			}
 			
-			var m:Matrix3D = Matrix3D.IDENTITY;
 			
+			var m:Matrix3D = Matrix3D.IDENTITY;
+			this.transform = Matrix3D.multiply(face3d.face3DInstance.instance.world, look);
 			var v:Matrix3D = Matrix3D.IDENTITY;
-					
-			v.n14 = InteractiveUtils.getCoordAtPoint(face3d, container.mouseX, container.mouseY).x;
-			v.n24 = InteractiveUtils.getCoordAtPoint(face3d, container.mouseX, container.mouseY).y;
-			v.n34 = InteractiveUtils.getCoordAtPoint(face3d, container.mouseX, container.mouseY).z;
+			
+			var mx:Number = container.mouseX;
+			var my:Number = container.mouseY;
+			
+			v.n14 = InteractiveUtils.getCoordAtPoint(face3d, mx, my).x;
+			v.n24 = InteractiveUtils.getCoordAtPoint(face3d, mx, my).y;
+			v.n34 = InteractiveUtils.getCoordAtPoint(face3d, mx, my).z;
 			
 			m.calculateMultiply( face3d.face3DInstance.instance.world, v );
 			
