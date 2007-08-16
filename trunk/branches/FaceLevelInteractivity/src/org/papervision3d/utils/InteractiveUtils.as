@@ -43,6 +43,7 @@ package org.papervision3d.utils
 	import flash.geom.Point;
 	import org.papervision3d.core.geom.Face3D;
 	import org.papervision3d.core.geom.Vertex3D;
+	import org.papervision3d.materials.BitmapMaterial;
 	
 	public class InteractiveUtils 
 	{
@@ -122,9 +123,12 @@ package org.papervision3d.utils
 			var v_x : Number = ( u1 - u0 ) * v +  ( u2 - u0 ) * u + u0;
 			var v_y : Number = ( v1 - v0 ) * v +  ( v2 - v0 ) * u + v0;
 
-			var bitmap:BitmapData = face3d.face3DInstance.instance.material.bitmap;
+			var material:BitmapMaterial = BitmapMaterial(face3d.face3DInstance.instance.material);
+			var bitmap:BitmapData = material.bitmap;
+			var width:Number = BitmapMaterial.AUTO_MIP_MAPPING ? material.widthOffset : bitmap.width;
+			var height:Number = BitmapMaterial.AUTO_MIP_MAPPING ? material.heightOffset : bitmap.height;
 				
-			return { x:v_x * bitmap.width, y:bitmap.height - v_y * bitmap.height };
+			return { x:v_x * width, y:height - v_y * height };
 		}
 	}	
 }

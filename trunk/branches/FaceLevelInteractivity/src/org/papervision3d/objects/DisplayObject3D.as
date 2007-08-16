@@ -431,7 +431,7 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	/**
 	 * This allows objects faces to have their own containers.
 	 */
-	public var faceLevelMode  :Boolean;
+	public static var faceLevelMode  :Boolean;
 	
 	/**
 	* The GeometryObject3D object that contains the 3D definition of this instance.

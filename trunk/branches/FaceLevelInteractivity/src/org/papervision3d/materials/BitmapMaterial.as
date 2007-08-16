@@ -68,6 +68,9 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 	 * Levels of mip mapping to force.
 	 */
 	static public var MIP_MAP_DEPTH :Number = 8;
+	
+	public var widthOffset:Number = 0;
+	public var heightOffset:Number = 0;
 
 	// ______________________________________________________________________ TEXTURE
 
@@ -290,7 +293,13 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 		if( bitmap && ( bitmap.width % levels !=0  ||  bitmap.height % levels != 0 ) )
 		{
 			okBitmap = new BitmapData( width, height, bitmap.transparent, 0x00000000 );
-
+			
+			// this is for ISM and offsetting bitmaps that have been resized
+			widthOffset = bitmap.width;
+			heightOffset = bitmap.height;
+			trace("original and new", bitmap.width, bitmap.height, width, height);
+			trace("offsets", widthOffset, heightOffset);
+			
 			this.maxU = bitmap.width / width;
 			this.maxV = bitmap.height / height;
 
