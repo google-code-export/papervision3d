@@ -128,6 +128,7 @@
 			var plane = new Plane( material, 500, 500, 8, 8 );
 			plane.yaw(yaw);
 			plane.moveLeft(left);
+			plane.moveDown(200);
 
 			scene.addChild(plane);
 		}

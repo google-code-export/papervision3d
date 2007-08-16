@@ -591,18 +591,24 @@ package org.papervision3d.utils.virtualmouse
 					}
 					
 					// invalid target if in a SimpleButton
-					if (currentTarget && currentParent is SimpleButton) {
+					if (currentTarget && currentParent is SimpleButton) 
+					{
+						//log.debug("found SimpleButton - setting currentTarget to null");
 						currentTarget = null;
 						
 					// invalid target if a parent has a
 					// false mouseChildren
-					} else if (currentTarget && !DisplayObjectContainer(currentParent).mouseChildren) {
+					} else if (currentTarget && !DisplayObjectContainer(currentParent).mouseChildren) 
+					{
+						//log.debug("parent false mouseChildren - setting currentTarget to null");
 						currentTarget = null;
 					}
 					
 					// define target if an InteractiveObject
 					// and mouseEnabled is true
-					if (!currentTarget && currentParent is InteractiveObject && InteractiveObject(currentParent).mouseEnabled) {
+					if (!currentTarget && currentParent is InteractiveObject && InteractiveObject(currentParent).mouseEnabled) 
+					{
+						//log.debug("found InteractiveObject && mouseEnabled = true - setting currentTarget");
 						currentTarget = InteractiveObject(currentParent);
 					}
 					
