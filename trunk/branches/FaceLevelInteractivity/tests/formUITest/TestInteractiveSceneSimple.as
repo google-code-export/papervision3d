@@ -17,6 +17,8 @@ package {
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.display.BlendMode;
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
 
 	[SWF(backgroundColor="0xFFFFFF", frameRate="31")]
 	public class TestInteractiveSceneSimple extends Sprite {
@@ -35,6 +37,8 @@ package {
 			init();
 		}
 		public function init():void {
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
 			createContent();
 			init3D();
 			createPlane();
@@ -59,16 +63,25 @@ package {
 			addChild(container);
 			container.name = "mainCont";
 			container.x = stage.stageWidth*.5;
-			container.y = stage.stageHeight*.5;;
+			container.y = stage.stageHeight*.5;
 	
 			scene = new InteractiveScene3D(container);
 			ism = scene.interactiveSceneManager;
 			
-			ism.setInteractivityDefaults();
+			InteractiveSceneManager.SHOW_DRAWN_FACES = false;
+			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = 0;
+			InteractiveSceneManager.DEFAULT_FILL_ALPHA = 1;
+			
+			BitmapMaterial.AUTO_MIP_MAPPING = false;
+			DisplayObject3D.faceLevelMode = false;
+			
+			ism.buttonMode = true;
+			ism.faceLevelMode = true;											
+			ism.mouseInteractionMode = false;
 			
 			camera = new Camera3D();
-			camera.zoom = 5;
-			camera.focus = 200;
+			camera.zoom = 3;
+			camera.focus = 500;
 		}
 		protected function createPlane():void {
 			var material:MovieMaterial = new InteractiveMovieMaterial(mc);
@@ -76,13 +89,11 @@ package {
 			material.animated = true;
 			material.smooth = true;
 
+			material.movie.addEventListener(MouseEvent.MOUSE_OVER, handleMainOver);
+			material.movie.addEventListener(MouseEvent.MOUSE_OUT, handleMainOut);
 			mChild.addEventListener(MouseEvent.CLICK, handleBTNClick);
 			mChild.addEventListener(MouseEvent.MOUSE_OVER, handleBTNOver);
 			mChild.addEventListener(MouseEvent.MOUSE_OUT, handleBTNOut);
-			
-			mc.addEventListener(MouseEvent.CLICK, handleBTNClick);
-			mc.addEventListener(MouseEvent.MOUSE_OVER, handleBTNOver);
-			mc.addEventListener(MouseEvent.MOUSE_OUT, handleBTNOut);
 
 			material.updateBitmap();
 			
@@ -94,18 +105,26 @@ package {
 			camera.y = (container.mouseY * 3);
 			scene.renderCamera(camera);
 		}
-		
 		protected function handleBTNClick(e:MouseEvent):void {
-			trace("vMouse click from btn", e.currentTarget.name);
 			if (e is IVirtualMouseEvent) trace("IVirtualMouseEvent click from btn");
 		}
 		protected function handleBTNOver(e:MouseEvent):void {
-			trace("over", e.currentTarget.name);
 			e.currentTarget.blendMode = BlendMode.ADD;
 		}
 		protected function handleBTNOut(e:MouseEvent):void {
-			trace("out", e.currentTarget.name);
 			e.currentTarget.blendMode = BlendMode.NORMAL;
+		}
+		protected function handleMainClick(e:MouseEvent):void {
+			trace("vMouse click from btn", e.currentTarget);
+			if (e is IVirtualMouseEvent) trace("IVirtualMouseEvent click from btn");
+		}
+		protected function handleMainOver(e:MouseEvent):void {
+			trace("handleMainOver", e.currentTarget);
+			e.currentTarget.alpha -= .2;
+		}
+		protected function handleMainOut(e:MouseEvent):void {
+			trace("handleMainOut", e.currentTarget);
+			e.currentTarget.alpha += .2;
 		}
 	}
 }
