@@ -69,8 +69,8 @@
 			container = new InteractiveSprite();
 			addChild( container );
 			container.name = "mainCont";
-			container.x = 320;
-			container.y = 240;
+			container.x = stage.stageWidth *.5;
+			container.y = stage.stageHeight *.5;
 		
 			// Create scene
 			scene = new InteractiveScene3D( container );
@@ -92,7 +92,7 @@
 			var matsList:MaterialsList = new MaterialsList();
 			matsList.addMaterial(material, "boxMaterial");
 			
-			var file:String = this.loaderInfo.url.indexOf("http:") > -1 ? "box.DAE" : "box.DAE";
+			var file:String = this.loaderInfo.url.indexOf("http:") > -1 ? "http://www.rockonflash.com/demos/pv3d/InteractiveSceneManager_faceLevelMode/boxDemo/box.DAE" : "box.DAE";
 			
 			collada = new Collada(file, matsList, .3);
 			collada.addEventListener(FileLoadEvent.LOAD_COMPLETE, handleLoadComplete);
