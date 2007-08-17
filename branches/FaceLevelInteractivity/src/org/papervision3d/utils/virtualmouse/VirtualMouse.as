@@ -553,6 +553,18 @@ package org.papervision3d.utils.virtualmouse
 				container.dispatchEvent(_lastEvent);
 				dispatchEvent(_lastEvent);
 			}
+			if (target != container) {
+				if (!disabledEvents[MouseEvent.MOUSE_OUT]) {
+					_lastEvent = new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
+					target.dispatchEvent(_lastEvent);
+					dispatchEvent(_lastEvent);
+				}
+				if (!disabledEvents[MouseEvent.ROLL_OUT]) { // rolls do not propagate
+					_lastEvent = new mouseEventEvent(MouseEvent.ROLL_OUT, false, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
+					target.dispatchEvent(_lastEvent);
+					dispatchEvent(_lastEvent);
+				}
+			}
 			//reset the target to the stage, which is the value it starts at.
 			target = _stage;
 		}
