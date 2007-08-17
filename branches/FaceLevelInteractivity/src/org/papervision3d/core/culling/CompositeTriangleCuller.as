@@ -2,6 +2,8 @@ package org.papervision3d.core.culling
 {
 	import org.papervision3d.core.geom.Vertex2D;
 	import org.papervision3d.core.geom.Face3D;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.core.geom.Face3DInstance;
 
 	public class CompositeTriangleCuller implements ITriangleCuller
 	{
