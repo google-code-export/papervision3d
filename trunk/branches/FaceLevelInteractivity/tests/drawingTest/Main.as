@@ -73,20 +73,20 @@
 			scene = new InteractiveScene3D( container );
 			ism = scene.interactiveSceneManager;
 			
+			// set SHOW_DRAWN_FACES = false if you don't want to see the overlay of sprites - this will also increase speed
 			InteractiveSceneManager.SHOW_DRAWN_FACES = true;
 			InteractiveSceneManager.DEFAULT_LINE_COLOR = 0x000000;
 			InteractiveSceneManager.DEFAULT_FILL_COLOR = 0x003399;
 			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = .3;
 			InteractiveSceneManager.DEFAULT_FILL_ALPHA = 1;
 			
-			BitmapMaterial.AUTO_MIP_MAPPING = false;
-			DisplayObject3D.faceLevelMode = false;
-			
 			ism.buttonMode = true;
 			ism.faceLevelMode = true;
 			
+			// add event to listen for mouse moves from the ISM
 			ism.addEventListener(InteractiveScene3DEvent.OBJECT_MOVE, handleMouseMove);
 			
+			// create our simple sphere with an interactive material
 			createSphere();
 
 			// Create camera
@@ -99,6 +99,7 @@
 
 		public function createSphere():void
 		{
+			// canvas is in the library and set to export in first frame
 			var material:MovieMaterial = new InteractiveMovieMaterial( new canvas() );
 			material.lineColor = 0xffffff;
 			material.lineThickness = .25;
