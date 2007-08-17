@@ -111,13 +111,10 @@
 
 		public function createMaterial():void
 		{
-			//var material:InteractiveMovieMaterial = new InteractiveMovieMaterial( new canvas() );
 			material = new InteractiveMovieMaterial( this.formUIContainer["formUI"] );
-		
-			//material.doubleSided = true;
+
 			material.animated = true;
 			material.smooth = true;
-			
 			
 			material.movie["btn"].addEventListener(MouseEvent.CLICK, handleBTNClick);
 			material.movie["btn"].addEventListener(MouseEvent.MOUSE_OVER, handleBTNOver);
