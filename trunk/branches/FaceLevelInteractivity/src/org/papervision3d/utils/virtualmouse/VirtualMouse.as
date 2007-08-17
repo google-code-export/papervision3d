@@ -540,6 +540,23 @@ package org.papervision3d.utils.virtualmouse
 			}
 		}
 		
+		/*Added by Jim Kremens kremens@gmail.com 08/16/07 */
+		public function exitContainer():void {
+			var targetLocal:Point = target.globalToLocal(location);
+			if (!disabledEvents[MouseEvent.MOUSE_OUT]) {
+				_lastEvent = new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
+				container.dispatchEvent(_lastEvent);
+				dispatchEvent(_lastEvent);
+			}
+			if (!disabledEvents[MouseEvent.ROLL_OUT]) { // rolls do not propagate
+				_lastEvent = new mouseEventEvent(MouseEvent.ROLL_OUT, false, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
+				container.dispatchEvent(_lastEvent);
+				dispatchEvent(_lastEvent);
+			}
+			//reset the target to the stage, which is the value it starts at.
+			target = _stage;
+		}
+		
 		/**
 		 * Updates the VirtualMouse instance's state
 		 * to reflect a change in the virtual mouse.

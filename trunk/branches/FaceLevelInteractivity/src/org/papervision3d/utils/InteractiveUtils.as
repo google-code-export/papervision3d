@@ -54,9 +54,15 @@ package org.papervision3d.utils
 	import flash.geom.Point;
 	import org.papervision3d.core.geom.Face3D;
 	import org.papervision3d.core.geom.Vertex3D;
+	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.materials.BitmapMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
 	
+	/**
+	 * InteractiveUtils are used in conjunction with the ISM to resolve a face's mouse interaction and coordinates back to 2D screen space
+	 * 
+	 * 
+	 */	
 	public class InteractiveUtils 
 	{
 		public static function UVatPoint( face3d:Face3D, x : Number, y : Number ) : Object 
@@ -141,7 +147,7 @@ package org.papervision3d.utils
 			var v_x : Number = ( u1 - u0 ) * v +  ( u2 - u0 ) * u + u0;
 			var v_y : Number = ( v1 - v0 ) * v +  ( v2 - v0 ) * u + v0;
 
-			var material:BitmapMaterial = BitmapMaterial(face3d.face3DInstance.instance.material);
+			var material:MaterialObject3D = face3d.face3DInstance.instance.material;
 			var bitmap:BitmapData = material.bitmap;
 			var width:Number = BitmapMaterial.AUTO_MIP_MAPPING ? material.widthOffset : bitmap.width;
 			var height:Number = BitmapMaterial.AUTO_MIP_MAPPING ? material.heightOffset : bitmap.height;
