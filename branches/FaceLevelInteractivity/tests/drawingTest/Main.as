@@ -125,7 +125,7 @@
 			
 			// draw
 			movie.surface.graphics.beginFill(Math.random()*0xFFFFFF,2);
-			movie.surface.graphics.drawCircle(point.x, point.y, 1)
+			movie.surface.graphics.drawCircle(point.x, point.y, 3)
 			movie.surface.graphics.endFill();
 		}
 		
