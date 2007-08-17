@@ -12,7 +12,7 @@
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.utils.*;
-	import org.papervision3d.objects.Sphere;
+	import org.papervision3d.objects.Plane;
 	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.utils.virtualmouse.IVirtualMouseEvent;
 	
@@ -31,7 +31,7 @@
 		var mouse     :Mouse3D;
 		var vMouse	  :VirtualMouse;
 		
-		public var formUI:MovieClip;
+		public var formUIContainer:MovieClip;
 		
 //		var formUI	  :MovieClip;
 		var FS 		  :SimpleButton;
@@ -84,12 +84,13 @@
 			ism.faceLevelMode = true;											
 			ism.mouseInteractionMode = false;
 			
-			createPlane(-20, 350);
-			createPlane(20, -350);
+			createPlane(-20, 0);
+			
+			this.formUIContainer.blendMode = BlendMode.ERASE;
 
 			// Create camera
 			camera = new Camera3D();
-			camera.zoom = 5;
+			camera.zoom = 6;
 			
 		}
 		// ___________________________________________________________________ Create album
@@ -98,20 +99,12 @@
 		public function createPlane(yaw=20, left:Number=250):void
 		{
 			//var material:MovieMaterial = new InteractiveMovieMaterial( new canvas() );
-			var material:MovieMaterial = new InteractiveMovieMaterial( this.formUI );
+			var material:MovieMaterial = new InteractiveMovieMaterial( this.formUIContainer["formUI"] );
 		
-			//material.doubleSided = true;
+			material.doubleSided = true;
 			//material.lineColor = 0xFFFFFF;
 			material.animated = true;
 			material.smooth = true;
-			
-			material.movie["btn"].drawNow();
-			material.movie["txt"].drawNow();
-			material.movie["label"].drawNow();
-			material.movie["combobox"].drawNow();
-			material.movie["numericstepper"].drawNow();
-			material.movie["radio"].drawNow();
-			material.movie["slider"].drawNow();
 			
 			material.movie["btn"].addEventListener(MouseEvent.CLICK, handleBTNClick);
 			material.movie["btn"].addEventListener(MouseEvent.MOUSE_OVER, handleBTNOver);
@@ -125,7 +118,6 @@
 			var plane = new Plane( material, 500, 500, 8, 8 );
 			plane.yaw(yaw);
 			plane.moveLeft(left);
-			plane.moveDown(200);
 
 			scene.addChild(plane);
 		}
