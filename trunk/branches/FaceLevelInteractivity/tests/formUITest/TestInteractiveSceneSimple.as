@@ -118,14 +118,8 @@ package {
 			trace("vMouse click from btn", e.currentTarget);
 			if (e is IVirtualMouseEvent) trace("IVirtualMouseEvent click from btn");
 		}
-		protected function handleMainOver(e:MouseEvent):void {
-			trace("handleMainOver", e.currentTarget);
-			e.currentTarget.alpha -= .2;
-		}
-		protected function handleMainOut(e:MouseEvent):void {
-			trace("handleMainOut", e.currentTarget);
-			e.currentTarget.alpha += .2;
-		}
+		protected function handleMainOver(e:MouseEvent):void { trace("handleMainOver", e.currentTarget); e.currentTarget.alpha = .8; } 
+		protected function handleMainOut(e:MouseEvent):void { trace("handleMainOut", e.currentTarget); e.currentTarget.alpha = 1; }
 	}
 }
 

@@ -38,6 +38,7 @@
 
 package org.papervision3d.objects
 {
+	import com.blitzagency.xray.logger.util.ObjectTools;
 import com.blitzagency.xray.logger.XrayLog;
 
 import flash.events.Event;
@@ -467,7 +468,11 @@ public class Collada extends DisplayObject3D
 		var material:MaterialObject3D;
 		
 		if( this._materials )
+		{
+			//trace("found the material in the list of materials", name);
 			material = this._materials.getMaterialByName( name );
+			//trace("material type?", ObjectTools.getImmediateClassPath(material));
+		}
 
 		if( ! material )
 		{
