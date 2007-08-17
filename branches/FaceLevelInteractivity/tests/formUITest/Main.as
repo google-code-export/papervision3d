@@ -30,6 +30,7 @@
 		var plane	  :Plane;
 		var mouse     :Mouse3D;
 		var vMouse	  :VirtualMouse;
+		var material  :InteractiveMovieMaterial;
 		
 		public var formUIContainer:MovieClip;
 		
@@ -87,6 +88,9 @@
 			createPlane(-20, 0);
 			
 			this.formUIContainer.blendMode = BlendMode.ERASE;
+			this.formUIContainer.enabled = false;
+			this.formUIContainer.mouseEnabled = false;
+			//this.formUIContainer.mouseChildren = false;
 
 			// Create camera
 			camera = new Camera3D();
@@ -99,7 +103,7 @@
 		public function createPlane(yaw=20, left:Number=250):void
 		{
 			//var material:MovieMaterial = new InteractiveMovieMaterial( new canvas() );
-			var material:MovieMaterial = new InteractiveMovieMaterial( this.formUIContainer["formUI"] );
+			material = new InteractiveMovieMaterial( this.formUIContainer["formUI"] );
 		
 			material.doubleSided = true;
 			//material.lineColor = 0xFFFFFF;
@@ -115,7 +119,7 @@
 			
 			material.updateBitmap();
 			
-			var plane = new Plane( material, 500, 500, 8, 8 );
+			plane = new Plane( material, 500, 500, 8, 8 );
 			plane.yaw(yaw);
 			plane.moveLeft(left);
 
@@ -165,7 +169,10 @@
 		
 		function loop(event:Event):void 
 		{
+			material.movie.cacheAsBitmap = true;
+			plane.yaw(.2);
 			scene.renderCamera( this.camera );
+			material.movie.cacheAsBitmap = false;
 		
 			FS.x = 640 + (stage.stageWidth - 640)/2;
 			FS.y = 480 + (stage.stageHeight - 480)/2;
