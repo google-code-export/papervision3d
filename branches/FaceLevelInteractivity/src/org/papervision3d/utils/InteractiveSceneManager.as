@@ -406,14 +406,14 @@ package org.papervision3d.utils
 				var iContainer:InteractiveSprite = drawingContainer.container;
 				var graphics:Graphics = iContainer.graphics;
 				
-				/*
+				
 				iContainer.x0 = x0;
 				iContainer.x1 = x1;
 				iContainer.x2 = x2;
 				iContainer.y0 = y0;
 				iContainer.y1 = y1;
 				iContainer.y2 = y2;
-				*/
+				
 				graphics.beginFill(drawingContainer.color, drawingContainer.fillAlpha);
 				if( drawingContainer.lineColor != -1 && SHOW_DRAWN_FACES ) graphics.lineStyle(drawingContainer.lineSize, drawingContainer.lineColor, drawingContainer.lineAlpha);
 				graphics.moveTo( x0, y0 );
@@ -588,7 +588,7 @@ package org.papervision3d.utils
 				// get 2D coordinates
 				point = InteractiveUtils.getMapCoordAtPoint(face3d, container.mouseX, container.mouseY);
 				
-				log.debug("material type", ObjectTools.getImmediateClassPath(face3d.face3DInstance.instance.material), face3d.face3DInstance.instance.material is InteractiveMovieMaterial);
+				//log.debug("material type", ObjectTools.getImmediateClassPath(face3d.face3DInstance.instance.material), face3d.face3DInstance.instance.material is InteractiveMovieMaterial);
 				try
 				{
 					// locate the material's movie
