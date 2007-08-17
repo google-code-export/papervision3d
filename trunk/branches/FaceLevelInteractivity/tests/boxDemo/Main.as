@@ -92,7 +92,9 @@
 			var matsList:MaterialsList = new MaterialsList();
 			matsList.addMaterial(material, "boxMaterial");
 			
-			collada = new Collada("box.DAE", matsList, .3);
+			var file:String = this.loaderInfo.url.indexOf("http:") > -1 ? "box.DAE" : "box.DAE";
+			
+			collada = new Collada(file, matsList, .3);
 			collada.addEventListener(FileLoadEvent.LOAD_COMPLETE, handleLoadComplete);
 			
 			this.formUIContainer.blendMode = BlendMode.ERASE;
@@ -142,7 +144,7 @@
 			* I would say this is a bug we need to fix in Collada object ;)
 			*/
 			box = collada.getChildByName("Box01").getChildByName("Box01_PIVOT");
-			//box.material = material;
+			box.material = material;
 
 			scene.addChild(collada);
 			
