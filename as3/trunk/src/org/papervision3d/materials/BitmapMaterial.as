@@ -81,8 +81,9 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 
 	public function set texture( asset:* ):void
 	{
-		this.bitmap   = createBitmap( asset );
-		this._texture = asset;
+		bitmap   = createBitmap( asset );
+
+		_texture = asset;
 	}
 
 	public var uvMatrices:Dictionary;
@@ -100,15 +101,19 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 	{
 		super( initObject );
 
+		// texture calls createBitmap. That's where all the init happens. This allows to reinit when changing texture. -C4RL05
 		texture = asset;
-		init();
 	}
 	
-	private function init():void
+
+	/**
+	* Resets the mapping coordinates. Use when the texture has been resized.
+	*/
+	public function resetMapping():void
 	{
 		uvMatrices = new Dictionary();
 	}
-	
+
 	/**
 	 *  drawFace3D
 	 */
@@ -116,7 +121,7 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 	{
 		if( lineAlpha )
 			graphics.lineStyle( 0, lineColor, lineAlpha );
-		
+
 		if( bitmap )
 		{
 			var map:Matrix = (uvMatrices[face3D] || transformUV(face3D, instance));
@@ -236,9 +241,14 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 
 	protected function createBitmap( asset:* ):BitmapData
 	{
+		// Dispose of previous bitmap
+		//if( this.bitmap ) this.bitmap.dispose();
+		
+		resetMapping();
+
 		if( AUTO_MIP_MAPPING )
 		{
-			return correctBitmap( asset, false );
+			return correctBitmap( asset );
 		}
 		else
 		{
@@ -251,7 +261,7 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 
 	// ______________________________________________________________________ CORRECT BITMAP FOR MIP MAPPING
 
-	public function correctBitmap( bitmap :BitmapData, dispose :Boolean ):BitmapData
+	private function correctBitmap( bitmap :BitmapData ):BitmapData
 	{
 		var okBitmap :BitmapData;
 
@@ -288,9 +298,6 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 
 			// PLEASE DO NOT REMOVE
 			extendBitmapEdges( okBitmap, bitmap.width, bitmap.height );
-
-			// Dispose bitmap if needed
-			if( dispose ) bitmap.dispose();
 		}
 		else
 		{
