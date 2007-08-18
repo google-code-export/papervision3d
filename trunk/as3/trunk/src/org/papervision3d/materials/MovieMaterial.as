@@ -53,7 +53,6 @@ import flash.utils.Dictionary;
 */
 public class MovieMaterial extends BitmapMaterial
 {
-
 	// ______________________________________________________________________ PUBLIC
 
 	/**
@@ -110,17 +109,21 @@ public class MovieMaterial extends BitmapMaterial
 	*/
 	public override function updateBitmap():void
 	{
-		var tex :BitmapData = this.bitmap;
-		var mov :Sprite  = this.movie;
+		if( Math.floor( movie.width ) != bitmap.width || Math.floor( movie.height ) != bitmap.height )
+		{
+			// Init new bitmap size
+			initBitmap( movie, movieTransparent );
 
-		tex.fillRect( tex.rect, this.fillColor );
+			// Init texture
+			texture = movie;
+		}
+
+		bitmap.fillRect( bitmap.rect, this.fillColor );
 
 		var mtx:Matrix = new Matrix();
-		mtx.scale( mov.scaleX, mov.scaleY );
+		mtx.scale( movie.scaleX, movie.scaleY );
 
-		tex.draw( mov, mtx, mov.transform.colorTransform );
-		
-		extendBitmapEdges( tex, mov.width, mov.height );
+		bitmap.draw( movie, mtx, movie.transform.colorTransform );
 	}
 
 
@@ -128,15 +131,13 @@ public class MovieMaterial extends BitmapMaterial
 
 	protected override function createBitmap( asset:* ):BitmapData
 	{
-		// Dispose of previous bitmap
-		if( this.bitmap ) this.bitmap.dispose();
-
-		// Create new bitmap
-		this.bitmap = correctBitmap( new BitmapData( asset.width, asset.height, this.movieTransparent ), true );
-
 		// Draw bitmap
 		this.movie = asset;
 		updateBitmap();
+
+		// Call super.createBitmap to centralize the bitmap specific code.
+		// Here only MovieClip specific code, all bitmap code (maxUVs, AUTO_MIP_MAP, correctBitmap) in BitmapMaterial.
+		super.createBitmap( bitmap );
 
 		return this.bitmap;
 	}
@@ -162,6 +163,13 @@ public class MovieMaterial extends BitmapMaterial
 	private function initBitmap( asset:*, transparent:Boolean ):*
 	{
 		this.movieTransparent = transparent || false;
+
+		// Cleanup previous bitmap if needed
+		if( bitmap )
+			bitmap.dispose();
+
+		// Create new bitmap
+		bitmap = new BitmapData( asset.width, asset.height, this.movieTransparent );
 
 		return asset;
 	}
