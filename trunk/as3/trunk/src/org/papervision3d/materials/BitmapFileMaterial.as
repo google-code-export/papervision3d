@@ -119,15 +119,14 @@ public class BitmapFileMaterial extends BitmapMaterial
 		}
 		// Already loaded?
 		else if( _loadedBitmaps[ asset ] )
-		{		
-			var bitmap:BitmapData = _loadedBitmaps[ asset ];
-			
-			// John Testing
-			bitmap = correctBitmap( bitmap, false );
-			
+		{
+			var bmp:BitmapData = _loadedBitmaps[ asset ];
+
+			super.createBitmap( bmp );
+
 			this.loadComplete();
 
-			return bitmap;
+			return bmp;
 		}
 		else
 		{
@@ -216,19 +215,20 @@ public class BitmapFileMaterial extends BitmapMaterial
 		var url:String = _loaderUrls[ loader ];
 
 		// Retrieve loaded bitmapdata
-		var bitmap:BitmapData = AUTO_MIP_MAPPING ? correctBitmap( loadedBitmap.bitmapData, true ) : super.createBitmap(loadedBitmap.bitmapData);
+		var bmp:BitmapData = super.createBitmap( loadedBitmap.bitmapData );
 			
 		// Update subscribed materials
 		for each( var material:BitmapFileMaterial in _subscribedMaterials[ url ] )
 		{
-			material.bitmap = bitmap;
+			material.bitmap = bmp;
 			material.maxU = this.maxU;
 			material.maxV = this.maxV;
+			material.resetMapping();
 			material.loadComplete();
 		}
 
 		// Include in library
-		_loadedBitmaps[ url ] = bitmap;
+		_loadedBitmaps[ url ] = bmp;
 
 		// Remove from queue
 		_waitingBitmaps.shift();
@@ -286,7 +286,7 @@ public class BitmapFileMaterial extends BitmapMaterial
 		
 		var i:int = super.drawFace3D(instance, face3D, graphics, v0, v1, v2);
 		
-		return i;		
+		return i;
 	}
 
 	// ___________________________________________________________________ PRIVATE
