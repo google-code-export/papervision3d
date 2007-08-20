@@ -5,7 +5,7 @@
  *  ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
  *  RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
  *  ______________________________________________________________________
- *  papervision3d.org � blog.papervision3d.org � osflash.org/papervision3d
+ *  papervision3d.org ? blog.papervision3d.org ? osflash.org/papervision3d
  */
 
 /*
@@ -149,8 +149,13 @@ package org.papervision3d.utils
 
 			var material:MaterialObject3D = face3d.face3DInstance.instance.material;
 			var bitmap:BitmapData = material.bitmap;
-			var width:Number = BitmapMaterial.AUTO_MIP_MAPPING ? material.widthOffset : bitmap.width;
-			var height:Number = BitmapMaterial.AUTO_MIP_MAPPING ? material.heightOffset : bitmap.height;
+			var width:Number = 1;
+			var height:Number = 1;
+			if(bitmap)
+			{
+				width = BitmapMaterial.AUTO_MIP_MAPPING ? material.widthOffset : bitmap.width;
+				height = BitmapMaterial.AUTO_MIP_MAPPING ? material.heightOffset : bitmap.height;
+			}
 				
 			return { x:v_x * width, y:height - v_y * height };
 		}
