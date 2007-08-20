@@ -102,8 +102,9 @@ public class BitmapAssetMaterial extends BitmapMaterial
 				bitmap = new BitmapAsset() as BitmapData;
 			else
 				bitmap = new BitmapAsset( 0, 0 ) as BitmapData;
-
-			bitmapOk = correctBitmap( bitmap, true );
+			
+			bitmapOk = AUTO_MIP_MAPPING ? correctBitmap( bitmap, true ) : super.createBitmap( bitmap );
+			//bitmapOk = correctBitmap( bitmap, true );
 
 			_library[asset] = bitmapOk;
 			_count[asset] = 0;
@@ -111,6 +112,7 @@ public class BitmapAssetMaterial extends BitmapMaterial
 		else
 		{
 			bitmapOk = bitmap;
+			maxU = maxV = 1;
 			_count[asset]++;
 		}
 
