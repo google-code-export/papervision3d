@@ -512,6 +512,7 @@ package org.papervision3d.utils
 		protected function handleMousePress(e:MouseEvent):void
 		{
 			MOUSE_IS_DOWN = true;
+			if( virtualMouse ) virtualMouse.press();
 			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, Sprite(e.currentTarget));
 		}
 		/**
@@ -522,6 +523,7 @@ package org.papervision3d.utils
 		protected function handleMouseRelease(e:MouseEvent):void
 		{
 			MOUSE_IS_DOWN = false;
+			if( virtualMouse ) virtualMouse.release();
 			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, Sprite(e.currentTarget));
 		}
 		/**
@@ -531,7 +533,6 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseClick(e:MouseEvent):void
 		{
-			if(virtualMouse) virtualMouse.click();
 			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, Sprite(e.currentTarget));
 		}
 		/**
@@ -555,19 +556,22 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseOut(e:MouseEvent):void
 		{
-			try
+			if( VirtualMouse && ( faceLevelMode || DisplayObject3D.faceLevelMode ))
 			{
-				/*Added by Jim Kremens kremens@gmail.com 08/16/07 */
-				var face3d:Face3D = containerDictionary[e.currentTarget];
-				var p:Object = InteractiveUtils.getMapCoordAtPoint(face3d, container.mouseX, container.mouseY);
-				var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(face3d.face3DInstance.instance.material);
-				var rect:Rectangle = new Rectangle(0, 0, mat.movie.width, mat.movie.height);
-				var contains:Boolean = rect.contains(p.x, p.y);
-				if (!contains) virtualMouse.exitContainer();
-				/*End of addition*/
-			}catch(err:Error)
-			{
-				log.error("material type is not Interactive.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message);
+				try
+				{
+					var face3d:Face3D = containerDictionary[e.currentTarget];
+					var p:Object = InteractiveUtils.getMapCoordAtPoint(face3d, container.mouseX, container.mouseY);
+					
+					var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(face3d.face3DInstance.instance.material);
+					var rect:Rectangle = new Rectangle(0, 0, mat.movie.width, mat.movie.height);
+					var contains:Boolean = rect.contains(p.x, p.y);
+					
+					if (!contains) virtualMouse.exitContainer();
+				}catch(err:Error)
+				{
+					log.error("material type is not Interactive.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message);
+				}
 			}
 			
 			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT, Sprite(e.currentTarget));
