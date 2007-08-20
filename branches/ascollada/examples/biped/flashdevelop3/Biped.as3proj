@@ -15,7 +15,6 @@
   <classpaths>
     <class path="classes" />
     <class path="..\..\..\src" />
-    <class path="..\..\..\..\..\..\Papervision3D\as3\trunk\src" />
   </classpaths>
   <!-- Build options -->
   <build>
