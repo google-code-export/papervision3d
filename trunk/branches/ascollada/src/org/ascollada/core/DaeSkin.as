@@ -112,12 +112,12 @@ package org.ascollada.core
 				return;
 				
 			super.read( node );
-			
-			Logger.trace( "reading skin: " + this.id );
-							
+										
 			// required - ref to skin's geometry
 			this.source = getAttribute(node, ASCollada.DAE_SOURCE_ATTRIBUTE);
 			
+			Logger.trace( "reading skin, source: " + this.source );
+						
 			// optional - bind_shape_matrix, defaults to identity matrix
 			var bindList:XMLList = getNodeList(node, ASCollada.DAE_BINDSHAPEMX_SKIN_PARAMETER);	
 			if( bindList.length() )
@@ -162,12 +162,12 @@ package org.ascollada.core
 				{
 					case ASCollada.DAE_JOINT_SKIN_INPUT:
 						this.joints = src.values;
-						Logger.trace( " => => joints: " + this.joints );
+						//Logger.trace( " => => joints: " + this.joints );
 						break;
 						
 					case ASCollada.DAE_BINDMATRIX_SKIN_INPUT:
 						this.bind_matrices = src.values;
-						Logger.trace( " => => bind_matrices: " + this.bind_matrices );
+						//Logger.trace( " => => bind_matrices: " + this.bind_matrices );
 						break;
 						
 					default:
@@ -200,7 +200,7 @@ package org.ascollada.core
 						tmpWeights = src.values;
 						weightOffset = input.offset;
 						maxOffset++;
-						Logger.trace( " => => => vertex_weights: " + tmpWeights );
+						//Logger.trace( " => => => vertex_weights: " + tmpWeights );
 						break;
 						
 					default:
@@ -208,9 +208,9 @@ package org.ascollada.core
 				}
 			}
 			
-			Logger.trace( " => source: " + this.source );
-			Logger.trace( " => bind_shape_matrix: " + this.bind_shape_matrix );
-			Logger.trace( " => max offset: " + maxOffset + " " + jointOffset + " " + weightOffset );
+			//Logger.trace( " => source: " + this.source );
+			//Logger.trace( " => bind_shape_matrix: " + this.bind_shape_matrix );
+			//Logger.trace( " => max offset: " + maxOffset + " " + jointOffset + " " + weightOffset );
 			var cur:int = 0;
 			
 			for( var i:int = 0; i < weights.vcounts.length; i++ )

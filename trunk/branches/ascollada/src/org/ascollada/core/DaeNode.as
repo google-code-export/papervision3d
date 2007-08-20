@@ -71,6 +71,36 @@ package org.ascollada.core
 			
 			_yUp = yUp;
 		}
+
+		/**
+		 * 
+		 * @param	id
+		 * @return
+		 */
+		public function findController( id:String ):DaeInstanceController
+		{
+			for each( var ctrl:DaeInstanceController in this.controllers )
+			{
+				if( id == ctrl.id )
+					return ctrl;
+			}
+			return null;
+		}
+		
+		/**
+		 * 
+		 * @param	sid
+		 * @return
+		 */
+		public function findMatrixBySID( sid:String ):Array
+		{
+			for( var i:uint = 0; i < this.matrix_sids.length; i++ )
+			{
+				if( sid == this.matrix_sids[i] )
+					return this.matrices[i];
+			}
+			return null;
+		}
 		
 		/**
 		 * 
@@ -90,9 +120,9 @@ package org.ascollada.core
 				
 			super.read( node );
 								
-			this.type = TYPE_NODE; //getAttribute(node, ASCollada.DAE_TYPE_ATTRIBUTE) != "NODE" ? TYPE_JOINT : TYPE_NODE;
+			this.type = getAttribute(node, ASCollada.DAE_TYPE_ATTRIBUTE) == "JOINT" ? TYPE_JOINT : TYPE_NODE;
 			
-			Logger.trace( "reading node: " + this.id + " type:" + this.type );
+			//Logger.trace( "reading node: " + this.id + " type:" + this.type );
 			
 			var children:XMLList = node.children();
 			var num:int = children.length();

@@ -140,7 +140,7 @@ package org.papervision3d.objects
 			this.document = _reader.document;
 			
 			MaterialObject3D.DEFAULT_COLOR = 0xff0000;
-			
+						
 			for( var i:int = 0; i < this.document.vscene.nodes.length; i++ )
 				buildScene( this.document.vscene.nodes[i], this );
 			
@@ -246,7 +246,18 @@ package org.papervision3d.objects
 						Logger.error( "animation target: " + nodeID + " not found." );
 						throw new Error( "animation target: " + nodeID + " not found." );
 					}	
-					target.channel = channel;
+					
+					if( target.hasOwnProperty("channel") )
+						target.channel = channel;
+					else
+					{
+						var node:DaeNode = document.getDaeNodeById(nodeID);
+						
+						var s:Array = node.findMatrixBySID("transform");
+						target.transform = new Matrix3D(s);
+						
+						Logger.trace( "anim: " + s + " " + channel.target + " " + channel.source + " -> " + node.id );
+					}
 				}
 			}
 		}
@@ -282,32 +293,73 @@ package org.papervision3d.objects
 					geom.vertices.push( new Vertex3D(v[i][0] * scaling, v[i][1] * scaling, v[i][2] * scaling) );
 			}
 			
+			f = triangulate(f);
+			
 			// create faces 
 			for( i = 0; i < f.length; i++ )
 			{
 				// get triangle's vertex indices
 				var tri:Array = f[i];
 				
+				// fix texcoords for triangulating
+				var uvid:int = tri.length > 3 ? tri[3] : i;
+				
 				// get vertex refs
 				var p0:Vertex3D = geom.vertices[ tri[0] ];
 				var p1:Vertex3D = geom.vertices[ tri[1] ];
 				var p2:Vertex3D = geom.vertices[ tri[2] ];
-				
+
 				// create uvs
-				var t0:NumberUV = new NumberUV( t[i][0][0], t[i][0][1] );
-				var t1:NumberUV = new NumberUV( t[i][1][0], t[i][1][1] );
-				var t2:NumberUV = new NumberUV( t[i][2][0], t[i][2][1] );
+				var t0:NumberUV = new NumberUV( t[uvid][0][0], t[uvid][0][1] );
+				var t1:NumberUV = new NumberUV( t[uvid][1][0], t[uvid][1][1] );
+				var t2:NumberUV = new NumberUV( t[uvid][2][0], t[uvid][2][1] );
 				
 				// reversed winding due to positive flash-y pointing down (?)
-				if( this.document.yUp == DaeDocument.Y_UP )
-					geom.faces.push( new Face3D( [p2, p1, p0], "wire", [t2, t1, t0] ) ); 
-				else
+				//if( this.document.yUp == DaeDocument.Y_UP )
+				//	geom.faces.push( new Face3D( [p2, p1, p0], "wire", [t2, t1, t0] ) ); 
+				//else
 					geom.faces.push( new Face3D( [p0, p1, p2], "wire", [t0, t1, t2] ) );
 			}	
 			
 			Logger.trace( "geom v:" + geom.vertices.length + " f:" + geom.faces.length );
 			
 			return geom;
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		private function triangulate( polys:Array ):Array
+		{
+			var tris:Array = new Array();
+			for( var i:int = 0; i < polys.length; i++ )
+			{
+				var poly:Array = polys[i];
+				
+				if( poly.length > 3 )
+				{
+					var p0:int = poly.shift(); 
+					var p1:int = poly.shift(); 
+					var p2:int = poly.shift(); 
+						
+					// set element #4 to original vertex-index,
+					// so we can find the correct uv later on.
+					tris.push( [p0, p1, p2, i] );
+					
+					while( poly.length )
+					{
+						var p3:int = poly.shift();
+						tris.push( [p0, p2, p3, i] );
+					}
+					
+				}
+				else
+				{
+					tris.push(poly);
+				}
+			}
+			return tris;
 		}
 		
 		/**
@@ -360,7 +412,7 @@ package org.papervision3d.objects
 			
 			if( dae_material )
 			{
-				//Logger.trace( "buildMaterial : " + instance_material.symbol );
+				Logger.trace( "buildMaterial : " + instance_material.symbol + " " + dae_material.effect );
 					
 				var effect:DaeEffect = this.document.effects[ dae_material.effect ];
 				if( effect && effect.texture_url )
@@ -368,6 +420,8 @@ package org.papervision3d.objects
 					var img:DaeImage = this.document.images[effect.texture_url];
 					if( img )
 					{
+						Logger.trace( " => effect has texture: " + effect.texture_url + " =>" +  this.document.images[effect.texture_url]);
+					
 						material = new BitmapFileMaterial( buildImagePath(this.baseUrl, img.init_from) );
 						material.addEventListener( FileLoadEvent.LOAD_COMPLETE, materialCompleteHandler );
 					}
@@ -483,7 +537,7 @@ package org.papervision3d.objects
 		private function buildScene( node:DaeNode, parent:DisplayObjectContainer3D ):void
 		{
 			var newNode:DisplayObject3D;
-						
+			
 			// build node's matrix
 			var matrix:Matrix3D = buildMatrix(node);
 			
@@ -495,13 +549,27 @@ package org.papervision3d.objects
 				// just handle a single controller
 				// TODO: handle more
 				var instance_controller:DaeInstanceController = node.controllers[0];
-				
+
 				var controller:DaeController = this.document.controllers[ instance_controller.url ];
 
 				// can be of type <skin> or <morph>
 				if( controller.skin )
 				{
 					var geom:DaeGeometry = this.document.geometries[ controller.skin.source ];
+				
+					if( !geom )
+					{
+						if( this.document.controllers[controller.skin.source] )
+						{
+							var morphCtrl:DaeController = this.document.controllers[controller.skin.source];
+							geom = this.document.geometries[ morphCtrl.morph.source ];
+						}
+						
+						if( !geom )
+						{
+							throw new Error("Can't find geometry: " + controller.skin.source );
+						}
+					}
 					
 					// simply try first instance_material of controller, when available
 					material = buildMaterial( instance_controller.materials[0] );	
@@ -529,8 +597,6 @@ package org.papervision3d.objects
 			}
 			else if( node.type == DaeNode.TYPE_NODE && node.geometries.length )
 			{
-				Logger.error( "ok" );
-				
 				// handle just one geometry per node for now...
 				var instance_geometry:DaeInstanceGeometry = node.geometries[0];
 				
@@ -556,10 +622,12 @@ package org.papervision3d.objects
 				}
 			}
 			else if( node.type == DaeNode.TYPE_NODE )
-				newNode = new DisplayObject3D( node.name, new GeometryObject3D() )
+				newNode = new DisplayObject3D( node.id, new GeometryObject3D() )
 	
 			if( newNode )
 			{
+				Logger.trace( "newNode: " + node.id + " sid:" + node.sid);
+				
 				var instance:DisplayObject3D = parent.addChild(newNode, node.id);
 							
 				for( var i:int = 0; i < node.nodes.length; i++ )
@@ -585,20 +653,33 @@ package org.papervision3d.objects
 		{
 			var bone:Bone3D = new Bone3D(node);
 			
-			var bindMatrix:Array = skin.findJointBindMatrix(node.id);	
+			//Logger.trace( "buildSkeleton: " + node.id + " " + node.sid );
+			
+			var bindMatrix:Array = skin.findJointBindMatrix(node.id);
 			if( !bindMatrix )
-				throw new Error( "could not find the bindmatrix for node: " + node.id );
+			{
+				bindMatrix = skin.findJointBindMatrix(node.sid);
+				if( node.type == DaeNode.TYPE_JOINT && !bindMatrix )
+					throw new Error( "could not find the bindmatrix for node: " + node.id );
+			}	
+			
+			if( bindMatrix )
+			{
+				// bind-matrix for the bone
+				bone.bindMatrix = new Matrix3D( bindMatrix );
 				
-			// bind-matrix for the bone
-			bone.bindMatrix = new Matrix3D( bindMatrix );
+				// vertex-weigths for the bone
+				bone.blendVerts = skin.findJointVertexWeights( node.id );
+				if( !bone.blendVerts.length )
+				{
+					bone.blendVerts = skin.findJointVertexWeights( node.sid );
+				}
+			}
 			
 			// init-matrix
 			bone.initMatrix = buildMatrix( node );
-			
+				
 			bone.transformMatrix = Matrix3D.clone(bone.initMatrix);
-			
-			// vertex-weigths for the bone
-			bone.blendVerts = skin.findJointVertexWeights( node.id );
 				
 			// recurse children
 			for( var i:int = 0; i < node.nodes.length; i++ )

@@ -98,16 +98,88 @@ package org.ascollada.core
 			}	
 					
 			var triangles:XMLList = getNodeList( node, ASCollada.DAE_TRIANGLES_ELEMENT );
-			for each( var trianglesNode:XML in triangles )
-				parseTriangles( trianglesNode, sources );
-			/*
-			var trianglesNode:XML = getNode(node, ASCollada.DAE_TRIANGLES_ELEMENT);
-			if( trianglesNode )
+			if( triangles.length() )
 			{
-				parseTriangles( trianglesNode, sources );
+				for each( var trianglesNode:XML in triangles )
+					parseTriangles( trianglesNode, sources );
 				return;
 			}
-			*/
+			
+			var polylists:XMLList = getNodeList( node, ASCollada.DAE_POLYLIST_ELEMENT );
+			if( polylists.length() )
+			{
+				for each( var polylistNode:XML in polylists )
+					parsePolyList( polylistNode, sources );
+				return;
+			}
+		}
+		
+		/**
+		 * 
+		 * @param	node
+		 * @param	sources
+		 * @return
+		 */
+		private function parsePolyList( node:XML, sources:Object ):void
+		{
+			var inputList:XMLList = getNodeList( node, ASCollada.DAE_INPUT_ELEMENT );
+			var inputs:Array = new Array();
+			var input:DaeInput;
+			
+			for each( var inputNode:XML in inputList )
+			{
+				input = new DaeInput( inputNode );
+				inputs.push( input );
+			}
+			
+			var p:Array = getInts( getNode(node, ASCollada.DAE_POLYGON_ELEMENT) );
+			var pidx:uint = 0;
+						
+			var vcount:Array = getInts(getNode(node, ASCollada.DAE_VERTEXCOUNT_ELEMENT));
+			
+			for( var i:uint = 0; i < vcount.length; i++ )
+			{
+				var tri:Array = new Array();
+				var nor:Array = new Array();
+				var tex:Array = new Array();
+			
+				var v:Number = vcount[i];
+				
+				for( var j:uint = 0; j < v; j++ )
+				{
+					for( var k:uint = 0; k < inputs.length; k++ )
+					{
+						input = inputs[k];
+						
+						var values:Array = sources[ input.source ];
+						
+						switch( input.semantic )
+						{
+							case "VERTEX":
+								tri.push( p[pidx + input.offset] );
+								break;
+							case "NORMAL":
+								nor.push( values[p[pidx + input.offset]] );
+								break;
+							case "TEXCOORD":
+								tex.push( values[p[pidx + input.offset]] );
+								break;
+							default:
+								break;
+						}
+					}
+					
+					pidx += inputs.length;
+				}
+				
+				this.faces.push( tri );
+				this.texcoords.push( tex );
+			}
+			
+			//Logger.trace( " => verts #" + this.vertices.length + " => " + this.vertices );
+			//Logger.trace( " => faces #" + this.faces.length + " => " + this.faces.join("@") );
+			//Logger.trace( " => normals #" + this.normals.length + " => " + this.normals.join("@") );
+			//Logger.trace( " => texcoords #" + this.texcoords.length + " => " + this.texcoords.join("@") );
 		}
 		
 		/**

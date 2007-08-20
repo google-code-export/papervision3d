@@ -174,9 +174,9 @@ package org.papervision3d.objects
 				
 				var dt:Number = (getTimer() - _startTime) / 1000;
 								
-				dt *= 0.02;
+				//dt *= 0.02;
 					
-				if( dt > 3.3 )
+				if( dt > 15 )
 					_startTime = getTimer();
 
 				calcAnimation( this.skeleton, dt );
@@ -192,7 +192,8 @@ package org.papervision3d.objects
 			
 			var et:Number = (getTimer()-st)/1000;
 				
-			Logger.debug("num: " + num + " et: " + et + " " + verts.length + " cached:" + _cached.length);
+			//Logger.trace( "verts: " + this.geometry.vertices );
+			//Logger.debug("num: " + num + " et: " + et + " " + verts.length + " cached:" + _cached.length);
 				
 			return num;
 		}
@@ -232,6 +233,8 @@ package org.papervision3d.objects
 			var i:int;
 			var pos:Number3D = new Number3D();
 
+			//Logger.trace( "skinMesh: bone + " + bone.id + "\n" + bone.blendVerts.length );
+			
 			for( i = 0; i < bone.blendVerts.length; i++ )
 			{
 				var bw:DaeBlendWeight = bone.blendVerts[i] as DaeBlendWeight;

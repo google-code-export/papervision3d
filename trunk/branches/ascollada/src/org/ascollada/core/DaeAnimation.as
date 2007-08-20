@@ -132,11 +132,18 @@ package org.ascollada.core
 					}
 				}
 				
-				channel.createCurves();
-				//Logger.trace( " => => channel @source=" + channel.source );
-				//Logger.trace( " => => channel @target=" + channel.target );
+				try
+				{	
+					channel.createCurves();
+					this.channels.push( channel );
+				}
+				catch( e:Error )
+				{
+					Logger.error( "error creating channel:\n" + channel.target + "\n" + e.toString() + "\n" + e.getStackTrace() );
+				}
+				//Logger.trace( " => => channel @source=" + channel.source + " => => channel @target=" + channel.target );
 				
-				this.channels.push( channel );
+				
 			}
 		}
 	}

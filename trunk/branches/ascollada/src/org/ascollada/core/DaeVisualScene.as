@@ -53,6 +53,21 @@ package org.ascollada.core
 			_yUp = yUp;
 		}
 		
+		public function get endTime():Number
+		{
+			return this.extras["end_time"];
+		}
+		
+		public function get frameRate():Number
+		{
+			return this.extras[ASCollada.DAEMAX_FRAMERATE_PARAMETER];
+		}
+		
+		public function get startTime():Number
+		{
+			return this.extras["start_time"];
+		}
+		
 		/**
 		 * 
 		 * @param	node
@@ -76,8 +91,8 @@ package org.ascollada.core
 			for( var i:int = 0; i < nodeList.length(); i++ )
 				this.nodes.push( new DaeNode(nodeList[i], _yUp) );
 				
-			var extraNode:XML = getNode(node, ASCollada.DAE_EXTRA_ELEMENT);		
-			if( extraNode )
+			var extraList:XMLList = getNodeList(node, ASCollada.DAE_EXTRA_ELEMENT);		
+			for each( var extraNode:XML in extraList )
 			{
 				var techniqueList:XMLList = getNodeList(extraNode, ASCollada.DAE_TECHNIQUE_ELEMENT);
 				
