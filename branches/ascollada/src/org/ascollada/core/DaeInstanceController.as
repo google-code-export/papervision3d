@@ -73,6 +73,7 @@ package org.ascollada.core
 				switch( child.localName() )
 				{		
 					case ASCollada.DAE_SKELETON_ELEMENT:
+						if( this.skeleton ) continue;
 						this.skeleton = getNodeContent(child).split("#")[1];
 						Logger.trace( " => skeleton: " + this.skeleton );
 						break;

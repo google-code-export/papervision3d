@@ -74,19 +74,21 @@ package
 			
 			// papervision camera
 			this.camera = new Camera3D();
-			this.camera.zoom = 1700;
+			this.camera.zoom = 10;
 			
 			this.status.text = "loading collada";
 			
 			DAE.DEFAULT_SCALING = 1;
 			
-			this.focus = this.scene.addChild( new DAE("../../../meshes/hound.dae") );
-			this.focus.rotationX = 90;
-			this.focus.rotationZ = -90;
+			this.focus = this.scene.addChild( new DAE("../../../meshes/dino5.dae") );
+			//this.focus = this.scene.addChild( new DAE("../../../meshes/Documents/Private Section/Skin_and_Morph/skin_and_morph.dae") );
+			
+			//this.focus.rotationX = 90;
+			//this.focus.rotationZ = -90;
 			
 			//this.focus.pitch(50);
-			this.focus.roll(-40);
-			this.focus.pitch( 50 );
+			//this.focus.roll(-40);
+			//this.focus.pitch( 50 );
 			
 			//this.scene.renderCamera( this.camera );
 			
@@ -111,7 +113,10 @@ package
 		 * @return
 		 */
 		private function loop3D( event:Event = null ):void
-		{			
+		{	
+			//this.focus.rotationX++;
+			//this.focus.rotationY++;
+			
 			this.scene.renderCamera( this.camera );
 		}	
 		

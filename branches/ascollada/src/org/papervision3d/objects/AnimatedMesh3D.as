@@ -64,17 +64,17 @@ package org.papervision3d.objects
 			
 			_curFrame = 0;
 			_keys = new Array();
+			_channels = new Array();
 		}
 		
 		/**
 		 * 
-		 * @param	keys
-		 * @param	values
-		 * @param	interpolations
+		 * @param	channel
+		 * @return
 		 */
-		public function addChannel( keys:Array, values:Array, interpolations:Array ):void
+		public function addChannel( channel:DaeChannel ):void
 		{
-			
+			_channels.push( channel );
 		}
 		
 		/**
@@ -90,5 +90,7 @@ package org.papervision3d.objects
 		private var _keys:Array;
 		
 		private var _keyValues:Array;
+		
+		private var _channels:Array;
 	}
 }

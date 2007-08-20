@@ -34,6 +34,17 @@ package org.ascollada.core
 	 */
 	public class DaeMorph extends DaeEntity
 	{			
+		public static const METHOD_NORMALIZED:String = "NORMALIZED";
+		public static const METHOD_RELATIVE:String = "RELATIVE";
+		
+		public var source:String;
+		
+		public var targets:Array;
+		
+		public var weights:Array;
+		
+		public var method:String;
+		
 		/**
 		 * 
 		 * @param	node
@@ -55,6 +66,53 @@ package org.ascollada.core
 				return;
 				
 			super.read( node );
+					
+			// required - ref to morph's geometry
+			this.source = getAttribute(node, ASCollada.DAE_SOURCE_ATTRIBUTE);
+			
+			// defaults to METHOD_NORMALIZED
+			this.method = getAttribute(node, ASCollada.DAE_METHOD_ATTRIBUTE) == METHOD_RELATIVE ? METHOD_RELATIVE : METHOD_NORMALIZED;
+			
+			Logger.trace( "reading morph, source: " + this.source + " method: " + this.method);
+			
+			// exactly one targets element
+			var targetNode:XML = getNode(node, ASCollada.DAE_TARGETS_ELEMENT);
+		
+			this.targets = this.weights = null;
+			
+			var sources:Object = new Object();
+			var sourceList:XMLList = getNodeList(node, ASCollada.DAE_SOURCE_ELEMENT);
+			for each( var sourceNode:XML in sourceList )
+			{
+				var source:DaeSource = new DaeSource(sourceNode);
+				sources[source.id] = source;
+			}
+			
+			var inputList:XMLList = getNodeList(targetNode, ASCollada.DAE_INPUT_ELEMENT);
+			
+			for each( var inputNode:XML in inputList )
+			{
+				var input:DaeInput = new DaeInput(inputNode);
+				
+				switch( input.semantic )
+				{
+					case ASCollada.DAE_TARGET_MORPH_INPUT:
+						this.targets = sources[input.source].values;
+						break;
+						
+					case ASCollada.DAE_WEIGHT_MORPH_INPUT:
+						this.weights = sources[input.source].values;
+						break;
+						
+					default:
+						break;
+				}
+			}
+			
+			if( !this.targets )
+				throw new Error( "Invalid morph, could not find morph-targets" );
+			if( !this.weights )
+				throw new Error( "Invalid morph, could not find morhp-weights!" );
 		}
 	}	
 }

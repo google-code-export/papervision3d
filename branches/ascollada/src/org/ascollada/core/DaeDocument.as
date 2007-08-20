@@ -379,7 +379,12 @@ package org.ascollada.core
 					if( this.visual_scenes[vurl] is DaeVisualScene )
 					{
 						Logger.trace( "found visual scene: " + vurl );
+						
 						this.vscene = this.visual_scenes[ vurl ];
+						
+						Logger.trace( " -> frameRate: " + this.vscene.frameRate );
+						Logger.trace( " -> startTime: " + this.vscene.startTime );
+						Logger.trace( " -> endTime: " + this.vscene.endTime );
 					}
 				}
 				
