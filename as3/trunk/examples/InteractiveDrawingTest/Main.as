@@ -105,6 +105,7 @@
 			material.lineThickness = .25;
 			material.animated = true;
 			material.smooth = true;
+			material.allowAutoResize = false;
 			
 			sphere = new Sphere(material, 350, 12, 12);
 
