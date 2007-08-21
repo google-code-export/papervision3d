@@ -4,22 +4,22 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
-<meta content="Mesh3D,org.papervision3d.core.geom.Mesh3D,project,projectTexture" name="keywords">
+<meta content="Mesh3D,org.papervision3d.core.geom.Mesh3D,project,projectTexture,mergeVertices" name="keywords">
 <title>org.papervision3d.core.geom.Mesh3D</title>
 </head>
 <body>
 <script type="text/javascript" language="javascript" src="../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../cookies.js"></script><script type="text/javascript" language="javascript">
 <!--
-				asdocTitle = 'Mesh3D - Papervision3D API Documentation';
+				asdocTitle = 'Mesh3D - Papervision3D API';
 				var baseRef = '../../../../';
 				window.onload = configPage;
 			--></script>
 <table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
 <tr>
-<td align="left" class="titleTableTitle">Papervision3D API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../index-list.html')" href="../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../index.html?org/papervision3d/core/geom/Mesh3D.html&amp;org/papervision3d/core/geom/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../images/logo.jpg"></td>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../index-list.html')" href="../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../index.html?org/papervision3d/core/geom/Mesh3D.html&amp;org/papervision3d/core/geom/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../images/logo.jpg"></td>
 </tr>
 <tr class="titleTableRow2">
-<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;Mesh3D</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a></td>
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;Mesh3D</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a></td>
 </tr>
 <tr class="titleTableRow3">
 <td colspan="2">&nbsp;</td>
@@ -27,7 +27,7 @@
 </table>
 <script type="text/javascript" language="javascript">
 <!--
-if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class Mesh3D"); titleBar_setSubNav(false,true,false,false,false,false,true,false,false,false,false,false,false,false);}
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class Mesh3D"); titleBar_setSubNav(true,true,false,false,false,false,true,false,false,false,false,false,false,false);}
 --></script>
 <div class="MainContent">
 <table cellspacing="0" cellpadding="0" class="classHeaderTable">
@@ -41,7 +41,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">Mesh3D <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> <a href="Vertices3D.html">Vertices3D</a> <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> <a href="../../objects/DisplayObject3D.html">DisplayObject3D</a> <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> <a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a> <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> flash.events.EventDispatcher</td>
 </tr>
 <tr>
-<td class="classHeaderTableLabel">Subclasses</td><td><a href="../../objects/Ase.html">Ase</a>, <a href="../../objects/Cube.html">Cube</a>, <a href="../../objects/Cylinder.html">Cylinder</a>, <a href="../../objects/PaperPlane.html">PaperPlane</a>, <a href="../../objects/Plane.html">Plane</a>, <a href="../../objects/Sphere.html">Sphere</a></td>
+<td class="classHeaderTableLabel">Subclasses</td><td><a href="../../objects/Ase.html">Ase</a>, <a href="../../objects/Cube.html">Cube</a>, <a href="../../objects/Cylinder.html">Cylinder</a>, <a href="../../objects/OldCube.html">OldCube</a>, <a href="../../objects/PaperPlane.html">PaperPlane</a>, <a href="../../objects/Plane.html">Plane</a>, <a href="../../objects/Sphere.html">Sphere</a></td>
 </tr>
 </table>
 <p></p>
@@ -81,6 +81,11 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#faceLevelMode">faceLevelMode</a> : Boolean<div class="summaryTableDescription">[static]
+  This allows objects faces to have their own containers.</div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#faces">faces</a> : Array<div class="summaryTableDescription">
  [internal-use]
  </div>
@@ -98,6 +103,13 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#interactiveSceneManager">interactiveSceneManager</a> : <a href="../../utils/InteractiveSceneManager.html">InteractiveSceneManager</a>
+<div class="summaryTableDescription">
+ If an InteractiveScene3D is used, this will DisplayObject3D will be registered with the InteractiveSceneManager
+ </div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#material">material</a> : <a href="../proto/MaterialObject3D.html">MaterialObject3D</a>
 <div class="summaryTableDescription">
  The default material for the object instance.</div>
@@ -107,6 +119,12 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#materials">materials</a> : <a href="../../materials/MaterialsList.html">MaterialsList</a>
 <div class="summaryTableDescription">
  The list of materials for this instance.</div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#meshSort">meshSort</a> : uint = 1<div class="summaryTableDescription">
+ tells Mesh3D's render() method to compare the measurement choice of the user for a triangle's sorting
+ </div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -123,12 +141,6 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#parent">parent</a> : <a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a>
 <div class="summaryTableDescription">
  [read-only] Indicates the DisplayObjectContainer3D object that contains this display object.</div>
-</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
-</tr>
-<tr class="hideInheritedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#projected">projected</a> : Dictionary<div class="summaryTableDescription">
- [internal-use]
- </div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -174,13 +186,33 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#scene">scene</a> : <a href="../proto/SceneObject3D.html">SceneObject3D</a>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#sceneX">sceneX</a> : Number<div class="summaryTableDescription">
+ The X coordinate of a object relative to the scene coordinate system.</div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#sceneY">sceneY</a> : Number<div class="summaryTableDescription">
+ The Y coordinate of a object relative to the scene coordinate system.</div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#sceneZ">sceneZ</a> : Number<div class="summaryTableDescription">
+ The Z coordinate of a object relative to the scene coordinate system.</div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#screen">screen</a> : <a href="../../core/Number3D.html">Number3D</a>
 <div class="summaryTableDescription">
- The scene where the object belongs.</div>
+ [read-only] The coordinate of the object on screen.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#screenZ">screenZ</a> : Number<div class="summaryTableDescription">
- [internal-use] The depth (z coordinate) of the transformed object's center.</div>
+ [internal-use] The average depth of the object faces center.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -201,18 +233,24 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#world">world</a> : <a href="../../core/Matrix3D.html">Matrix3D</a>
+<div class="summaryTableDescription">
+ World transformation.</div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#x">x</a> : Number<div class="summaryTableDescription">
- An Number that sets the X coordinate of a object relative to the scene coordinate system.</div>
+ An Number that sets the X coordinate of a object relative to the origin of its parent.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#y">y</a> : Number<div class="summaryTableDescription">
- An Number that sets the Y coordinate of a object relative to the scene coordinates.</div>
+ An Number that sets the Y coordinate of a object relative to the origin of its parent.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#z">z</a> : Number<div class="summaryTableDescription">
- An Number that sets the Z coordinate of a object relative to the scene coordinates.</div>
+ An Number that sets the Z coordinate of a object relative to the origin of its parent.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -247,6 +285,11 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../proto/DisplayObjectContainer3D.html#_childrenByName">_childrenByName</a> : Object<div class="summaryTableDescription">
  [internal-use] Children indexed by name.</div>
 </td><td class="summaryTableOwnerCol"><a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
+</tr>
+<tr class="hideInheritedProtectedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#_scene">_scene</a> : <a href="../proto/SceneObject3D.html">SceneObject3D</a> = null<div class="summaryTableDescription">
+ The scene where the object belongs.</div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#_sorted">_sorted</a> : Array<div class="summaryTableDescription"></div>
@@ -286,11 +329,11 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="../proto/DisplayObjectContainer3D.html#addChild()">addChild</a>(child:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, name:String = null):<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>
+<a class="signatureLink" href="../../objects/DisplayObject3D.html#addChild()">addChild</a>(child:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, name:String = null):<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>
 </div>
 <div class="summaryTableDescription">
  Adds a child DisplayObject3D instance to this DisplayObjectContainer instance.</div>
-</td><td class="summaryTableOwnerCol"><a href="../proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -407,6 +450,14 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
  Returns a string value with the list of material names of the materials list.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#mergeVertices()">mergeVertices</a>():void</div>
+<div class="summaryTableDescription">
+ Merges duplicated vertices.</div>
+</td><td class="summaryTableOwnerCol">Mesh3D</td>
+</tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
@@ -460,7 +511,7 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 <div class="summarySignature">
 <a class="signatureLink" href="../../objects/DisplayObject3D.html#pitch()">pitch</a>(angle:Number):void</div>
 <div class="summaryTableDescription">
- Rotate the display object around its lateral or transverse axis an axis running from the pilot's left to right in piloted aircraft, and parallel to the wings of a winged aircraft; thus the nose pitches up and the tail down, or vice-versa.</div>
+ Rotate the display object around its lateral or transverse axis —an axis running from the pilot's left to right in piloted aircraft, and parallel to the wings of a winged aircraft; thus the nose pitches up and the tail down, or vice-versa.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="">
@@ -510,7 +561,7 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 <div class="summarySignature">
 <a class="signatureLink" href="../../objects/DisplayObject3D.html#roll()">roll</a>(angle:Number):void</div>
 <div class="summaryTableDescription">
- Rotate the display object around the longitudinal axis an axis drawn through the body of the vehicle from tail to nose in the normal direction of flight, or the direction the object is facing.</div>
+ Rotate the display object around the longitudinal axis —an axis drawn through the body of the vehicle from tail to nose in the normal direction of flight, or the direction the object is facing.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -541,7 +592,7 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 <div class="summarySignature">
 <a class="signatureLink" href="../../objects/DisplayObject3D.html#yaw()">yaw</a>(angle:Number):void</div>
 <div class="summaryTableDescription">
- Rotate the display object around about the vertical axis an axis drawn from top to bottom.</div>
+ Rotate the display object around about the vertical axis —an axis drawn from top to bottom.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 </table>
@@ -567,6 +618,41 @@ The Mesh3D class lets you create and display solid 3D objects made of vertices a
 <a class="signatureLink" href="../../objects/DisplayObject3D.html#updateTransform()">updateTransform</a>():void</div>
 <div class="summaryTableDescription">
  [internal-use] Updates the transform Matrix3D with the current rotation and scale values.</div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+</table>
+</div>
+<a name="constantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Constants</div>
+<div class="showHideLinks">
+<div class="hideInheritedConstant" id="hideInheritedConstant">
+<a onclick="javascript:setInheritedVisible(false,'Constant');" href="#constantSummary" class="showHideLink"><img src="../../../../images/expanded.gif" class="showHideLinkImage"> Hide Inherited Public Constants</a>
+</div>
+<div class="showInheritedConstant" id="showInheritedConstant">
+<a onclick="javascript:setInheritedVisible(true,'Constant');" href="#constantSummary" class="showHideLink"><img src="../../../../images/collapsed.gif" class="showHideLinkImage"> Show Inherited Public Constants</a>
+</div>
+</div>
+<table id="summaryTableConstant" class="summaryTable hideInheritedConstant" cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="hideInheritedConstant">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#MESH_SORT_CENTER">MESH_SORT_CENTER</a> : uint = 1<div class="summaryTableDescription">[static]
+ tells Mesh3D's render() method to sort by measuring from the center of a triangle
+ </div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedConstant">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#MESH_SORT_CLOSE">MESH_SORT_CLOSE</a> : uint = 3<div class="summaryTableDescription">[static]
+ tells Mesh3D's render() method to sort by measuring from the closest point of a triangle
+ </div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedConstant">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#MESH_SORT_FAR">MESH_SORT_FAR</a> : uint = 2<div class="summaryTableDescription">[static]
+ tells Mesh3D's render() method to sort by measuring from the farthest point of a triangle
+ </div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 </table>
@@ -637,10 +723,20 @@ showHideInherited();
 </div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
+<a name="mergeVertices()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">mergeVertices</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function mergeVertices():void</code><p>
+ Merges duplicated vertices.
+ </p></div>
 <a name="project()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">project</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+<td class="detailHeaderName">project</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">
@@ -703,9 +799,9 @@ showHideInherited();
 <hr>
 <br>
 <p></p>
-<center class="copyright">
-<br>Wed Mar 28 2007, 5:46 PM GMT+01:00 </center>
+<center class="copyright"> 
+</center>
 </div>
 </body>
 </html>
-<!--Wed Mar 28 2007, 5:46 PM GMT+01:00 -->
+<!-- -->

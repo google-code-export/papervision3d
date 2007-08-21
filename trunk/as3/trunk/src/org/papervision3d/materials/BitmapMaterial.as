@@ -82,7 +82,6 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 	public function set texture( asset:* ):void
 	{
 		bitmap   = createBitmap( asset );
-
 		_texture = asset;
 	}
 
@@ -240,10 +239,7 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 	// ______________________________________________________________________ CREATE BITMAP
 
 	protected function createBitmap( asset:* ):BitmapData
-	{
-		// Dispose of previous bitmap
-		//if( this.bitmap ) this.bitmap.dispose();
-		
+	{		
 		resetMapping();
 
 		if( AUTO_MIP_MAPPING )
@@ -261,13 +257,19 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 
 	// ______________________________________________________________________ CORRECT BITMAP FOR MIP MAPPING
 
-	private function correctBitmap( bitmap :BitmapData ):BitmapData
+	protected function correctBitmap( bitmap :BitmapData ):BitmapData
 	{
 		var okBitmap :BitmapData;
 
 		var levels :Number = 1 << MIP_MAP_DEPTH;
-		var width  :Number = levels * Math.ceil( bitmap.width  / levels );
-		var height :Number = levels * Math.ceil( bitmap.height / levels );
+		// this is faster than Math.ceil
+		var bWidth :Number = bitmap.width  / levels;
+		bWidth = bWidth == uint(bWidth) ? bWidth : uint(bWidth)+1;
+		var bHeight :Number = bitmap.height  / levels;
+		bHeight = bHeight == uint(bHeight) ? bHeight : uint(bHeight)+1;
+		
+		var width  :Number = levels * bWidth;
+		var height :Number = levels * bHeight;
 
 		// Check for BitmapData maximum size
 		var ok:Boolean = true;
@@ -291,6 +293,11 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 		{
 			okBitmap = new BitmapData( width, height, bitmap.transparent, 0x00000000 );
 
+				
+			// this is for ISM and offsetting bitmaps that have been resized
+			widthOffset = bitmap.width;
+			heightOffset = bitmap.height;
+			
 			this.maxU = bitmap.width / width;
 			this.maxV = bitmap.height / height;
 

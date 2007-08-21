@@ -4,19 +4,19 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
-<meta content="MaterialObject3D,org.papervision3d.core.proto.MaterialObject3D,bitmap,animated,smooth,lineColor,lineAlpha,fillColor,fillAlpha,oneSide,invisible,opposite,scene,DEFAULT_COLOR,DEBUG_COLOR,name,id,doubleSided,DEFAULT,DEBUG,updateBitmap,copy,clone,toString" name="keywords">
+<meta content="MaterialObject3D,org.papervision3d.core.proto.MaterialObject3D,bitmap,smooth,lineColor,lineAlpha,lineThickness,fillColor,fillAlpha,oneSide,invisible,opposite,scene,DEFAULT_COLOR,DEBUG_COLOR,name,id,maxU,maxV,needsFaceNormals,doubleSided,DEFAULT,DEBUG,drawFace3D,updateBitmap,copy,clone,toString" name="keywords">
 <title>org.papervision3d.core.proto.MaterialObject3D</title>
 </head>
 <body>
 <script type="text/javascript" language="javascript" src="../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../cookies.js"></script><script type="text/javascript" language="javascript">
 <!--
-				asdocTitle = 'MaterialObject3D - Papervision3D API Documentation';
+				asdocTitle = 'MaterialObject3D - Papervision3D API';
 				var baseRef = '../../../../';
 				window.onload = configPage;
 			--></script>
 <table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
 <tr>
-<td align="left" class="titleTableTitle">Papervision3D API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../index-list.html')" href="../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../index.html?org/papervision3d/core/proto/MaterialObject3D.html&amp;org/papervision3d/core/proto/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../images/logo.jpg"></td>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../index-list.html')" href="../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../index.html?org/papervision3d/core/proto/MaterialObject3D.html&amp;org/papervision3d/core/proto/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../images/logo.jpg"></td>
 </tr>
 <tr class="titleTableRow2">
 <td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;MaterialObject3D</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a></td>
@@ -41,7 +41,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">MaterialObject3D <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> flash.events.EventDispatcher</td>
 </tr>
 <tr>
-<td class="classHeaderTableLabel">Subclasses</td><td><a href="../../materials/BitmapMaterial.html">BitmapMaterial</a>, <a href="../../materials/ColorMaterial.html">ColorMaterial</a>, <a href="../../materials/WireframeMaterial.html">WireframeMaterial</a></td>
+<td class="classHeaderTableLabel">Implements</td><td><a href="../draw/IFaceDrawer.html">IFaceDrawer</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Subclasses</td><td><a href="../../materials/BitmapMaterial.html">BitmapMaterial</a>, <a href="../../materials/ColorMaterial.html">ColorMaterial</a>, <a href="../../materials/CompositeMaterial.html">CompositeMaterial</a>, <a href="../../materials/ShadedColorMaterial.html">ShadedColorMaterial</a>, <a href="../../materials/WireframeMaterial.html">WireframeMaterial</a></td>
 </tr>
 </table>
 <p></p>
@@ -66,11 +69,6 @@ MaterialObject3D is an abstract base class; therefore, you cannot call MaterialO
 <table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
 <tr>
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#animated">animated</a> : Boolean<div class="summaryTableDescription">
- A Boolean value that determines whether the texture is animated.</div>
-</td><td class="summaryTableOwnerCol">MaterialObject3D</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#bitmap">bitmap</a> : BitmapData<div class="summaryTableDescription">
@@ -134,8 +132,30 @@ MaterialObject3D is an abstract base class; therefore, you cannot call MaterialO
 </td><td class="summaryTableOwnerCol">MaterialObject3D</td>
 </tr>
 <tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#lineThickness">lineThickness</a> : Number = 1<div class="summaryTableDescription">
+ An value for the thickness of the faces line.</div>
+</td><td class="summaryTableOwnerCol">MaterialObject3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#maxU">maxU</a> : Number<div class="summaryTableDescription">
+  Internal use
+  </div>
+</td><td class="summaryTableOwnerCol">MaterialObject3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#maxV">maxV</a> : Number<div class="summaryTableDescription">
+  Internal use
+  </div>
+</td><td class="summaryTableOwnerCol">MaterialObject3D</td>
+</tr>
+<tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#name">name</a> : String<div class="summaryTableDescription">
  The name of the material.</div>
+</td><td class="summaryTableOwnerCol">MaterialObject3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#needsFaceNormals">needsFaceNormals</a> : Boolean = false<div class="summaryTableDescription">
+  Defines if face normals need to be rotated for this material.</div>
 </td><td class="summaryTableOwnerCol">MaterialObject3D</td>
 </tr>
 <tr class="">
@@ -196,6 +216,16 @@ MaterialObject3D is an abstract base class; therefore, you cannot call MaterialO
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
+<a class="signatureLink" href="#drawFace3D()">drawFace3D</a>(instance:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, face3D:<a href="../geom/Face3D.html">Face3D</a>, graphics:Graphics, v0:<a href="../geom/Vertex2D.html">Vertex2D</a>, v1:<a href="../geom/Vertex2D.html">Vertex2D</a>, v2:<a href="../geom/Vertex2D.html">Vertex2D</a>):int</div>
+<div class="summaryTableDescription">
+  drawFace3D();
+   
+  Draws the triangle to screen.</div>
+</td><td class="summaryTableOwnerCol">MaterialObject3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
 <a class="signatureLink" href="#toString()">toString</a>():String</div>
 <div class="summaryTableDescription">
  Returns a string value representing the material properties.</div>
@@ -218,21 +248,10 @@ showHideInherited();
 <div class="MainContent">
 <a name="propertyDetail"></a>
 <div class="detailSectionHeader">Property detail</div>
-<a name="animated"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">animated</td><td class="detailHeaderType">property</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>public var animated:Boolean</code><p>
- A Boolean value that determines whether the texture is animated.
-  If set, the material must be included into the scene so the BitmapData texture can be updated when rendering. For performance reasons, the default value is false.
- </p></div>
 <a name="bitmap"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">bitmap</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+<td class="detailHeaderName">bitmap</td><td class="detailHeaderType">property</td>
 </tr>
 </table>
 <div class="detailBody">
@@ -361,6 +380,36 @@ showHideInherited();
 <code>public var lineColor:Number</code><p>
  A RGB color value to draw the faces outline.
  </p></div>
+<a name="lineThickness"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">lineThickness</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var lineThickness:Number = 1</code><p>
+ An value for the thickness of the faces line.
+ </p></div>
+<a name="maxU"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">maxU</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var maxU:Number</code><p>
+  Internal use
+  </p></div>
+<a name="maxV"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">maxV</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var maxV:Number</code><p>
+  Internal use
+  </p></div>
 <a name="name"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -371,6 +420,16 @@ showHideInherited();
 <code>public var name:String</code><p>
  The name of the material.
  </p></div>
+<a name="needsFaceNormals"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">needsFaceNormals</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var needsFaceNormals:Boolean = false</code><p>
+  Defines if face normals need to be rotated for this material.
+  </p></div>
 <a name="oneSide"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -470,6 +529,62 @@ showHideInherited();
 </tr>
 </table>
 </div>
+<a name="drawFace3D()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">drawFace3D</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function drawFace3D(instance:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, face3D:<a href="../geom/Face3D.html">Face3D</a>, graphics:Graphics, v0:<a href="../geom/Vertex2D.html">Vertex2D</a>, v1:<a href="../geom/Vertex2D.html">Vertex2D</a>, v2:<a href="../geom/Vertex2D.html">Vertex2D</a>):int</code><p>
+  drawFace3D();
+   
+  Draws the triangle to screen.
+  
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">instance</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">face3D</span>:<a href="../geom/Face3D.html">Face3D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">graphics</span>:Graphics</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v0</span>:<a href="../geom/Vertex2D.html">Vertex2D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v1</span>:<a href="../geom/Vertex2D.html">Vertex2D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v2</span>:<a href="../geom/Vertex2D.html">Vertex2D</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>int</code></td>
+</tr>
+</table>
+</div>
 <a name="toString()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -504,9 +619,9 @@ showHideInherited();
 <hr>
 <br>
 <p></p>
-<center class="copyright">
-<br>Wed Mar 28 2007, 5:46 PM GMT+01:00 </center>
+<center class="copyright"> 
+</center>
 </div>
 </body>
 </html>
-<!--Wed Mar 28 2007, 5:46 PM GMT+01:00 -->
+<!-- -->

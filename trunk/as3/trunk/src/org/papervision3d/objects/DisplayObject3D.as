@@ -55,6 +55,7 @@ import org.papervision3d.core.proto.SceneObject3D;
 import org.papervision3d.materials.MaterialsList;
 import org.papervision3d.scenes.InteractiveScene3D;
 import org.papervision3d.utils.InteractiveSceneManager;
+import org.papervision3d.utils.InteractiveSprite;
 
 /**
 * The DisplayObject class represents instances of 3D objects that are contained in the scene.
@@ -428,6 +429,11 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 	public var faces     :Array = new Array();
 
 	/**
+	 * This allows objects faces to have their own containers.
+	 */
+	public static var faceLevelMode  :Boolean;
+	
+	/**
 	* The GeometryObject3D object that contains the 3D definition of this instance.
 	* <p/>
 	* When different objects share the same geometry, they become instances. They are the same object, displayed multiple times. Changing the shape of this object changes the shape of all of its instances.
@@ -763,8 +769,26 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 
 		for( var i:int = 0; iFace = iFaces[i]; i++ )
 		{
-			if( iFace.visible )
-				rendered += iFace.face.render( iFace.instance, container );
+			if( faceLevelMode )
+			{
+				if( !iFace.container )
+				{
+					iFace.container = new InteractiveSprite(this);
+					scene.container.addChild(iFace.container);
+				}
+				else
+				{
+					iFace.container.graphics.clear();
+				}
+				
+				if( iFace.visible )
+					rendered += iFace.face.render( iFace.instance,  iFace.container)
+			}else
+			{
+				// if we're not in faceLevelMode, then it's render as usual - no extra checks in the render loop
+				if( iFace.visible )
+					rendered += iFace.face.render( iFace.instance, container );
+			}			
 		}
 
 		// Update stats
