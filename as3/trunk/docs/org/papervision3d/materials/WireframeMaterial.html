@@ -4,19 +4,19 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
-<meta content="WireframeMaterial,org.papervision3d.materials.WireframeMaterial,toString" name="keywords">
+<meta content="WireframeMaterial,org.papervision3d.materials.WireframeMaterial,drawFace3D,toString" name="keywords">
 <title>org.papervision3d.materials.WireframeMaterial</title>
 </head>
 <body>
 <script type="text/javascript" language="javascript" src="../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../cookies.js"></script><script type="text/javascript" language="javascript">
 <!--
-				asdocTitle = 'WireframeMaterial - Papervision3D API Documentation';
+				asdocTitle = 'WireframeMaterial - Papervision3D API';
 				var baseRef = '../../../';
 				window.onload = configPage;
 			--></script>
 <table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
 <tr>
-<td align="left" class="titleTableTitle">Papervision3D API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../index-list.html')" href="../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../index.html?org/papervision3d/materials/WireframeMaterial.html&amp;org/papervision3d/materials/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../images/logo.jpg"></td>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../index-list.html')" href="../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../index.html?org/papervision3d/materials/WireframeMaterial.html&amp;org/papervision3d/materials/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../images/logo.jpg"></td>
 </tr>
 <tr class="titleTableRow2">
 <td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;WireframeMaterial</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a></td>
@@ -39,6 +39,12 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr>
 <td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">WireframeMaterial <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../images/inherit-arrow.gif"> <a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a> <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../images/inherit-arrow.gif"> flash.events.EventDispatcher</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Implements</td><td><a href="../core/draw/IFaceDrawer.html">IFaceDrawer</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Subclasses</td><td><a href="../materials/InteractiveWireframeMaterial.html">InteractiveWireframeMaterial</a></td>
 </tr>
 </table>
 <p></p>
@@ -63,11 +69,6 @@ Materials collects data about how objects appear when rendered.
 <table id="summaryTableProperty" class="summaryTable hideInheritedProperty" cellpadding="3" cellspacing="0">
 <tr>
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
-</tr>
-<tr class="hideInheritedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#animated">animated</a> : Boolean<div class="summaryTableDescription">
- A Boolean value that determines whether the texture is animated.</div>
-</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#bitmap">bitmap</a> : BitmapData<div class="summaryTableDescription">
@@ -131,8 +132,30 @@ Materials collects data about how objects appear when rendered.
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#lineThickness">lineThickness</a> : Number = 1<div class="summaryTableDescription">
+ An value for the thickness of the faces line.</div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#maxU">maxU</a> : Number<div class="summaryTableDescription">
+  Internal use
+  </div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#maxV">maxV</a> : Number<div class="summaryTableDescription">
+  Internal use
+  </div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#name">name</a> : String<div class="summaryTableDescription">
  The name of the material.</div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#needsFaceNormals">needsFaceNormals</a> : Boolean = false<div class="summaryTableDescription">
+  Defines if face normals need to be rotated for this material.</div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -176,7 +199,7 @@ Materials collects data about how objects appear when rendered.
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#WireframeMaterial()">WireframeMaterial</a>(color:Number = 0xFF00FF, alpha:Number = 100, initObject:Object = null)</div>
+<a class="signatureLink" href="#WireframeMaterial()">WireframeMaterial</a>(color:Number = 0xFF00FF, alpha:Number = 1, initObject:Object = null)</div>
 <div class="summaryTableDescription">
  The WireframeMaterial class creates a wireframe material, where only the outlines of the faces are drawn.</div>
 </td><td class="summaryTableOwnerCol">WireframeMaterial</td>
@@ -197,6 +220,15 @@ Materials collects data about how objects appear when rendered.
 <div class="summaryTableDescription">
  Copies the properties of a material.</div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#drawFace3D()">drawFace3D</a>(instance:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a>, face3D:<a href="../core/geom/Face3D.html">Face3D</a>, graphics:Graphics, v0:<a href="../core/geom/Vertex2D.html">Vertex2D</a>, v1:<a href="../core/geom/Vertex2D.html">Vertex2D</a>, v2:<a href="../core/geom/Vertex2D.html">Vertex2D</a>):int</div>
+<div class="summaryTableDescription">
+   drawFace3D
+  </div>
+</td><td class="summaryTableOwnerCol">WireframeMaterial</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
@@ -230,7 +262,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function WireframeMaterial(color:Number = 0xFF00FF, alpha:Number = 100, initObject:Object = null)</code><p>
+<code>public function WireframeMaterial(color:Number = 0xFF00FF, alpha:Number = 1, initObject:Object = null)</code><p>
  The WireframeMaterial class creates a wireframe material, where only the outlines of the faces are drawn.
   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
@@ -242,7 +274,7 @@ showHideInherited();
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">alpha</span>:Number</code> (default = <code>100</code>)<code></code> &mdash;   [optional] - An object that contains additional properties with which to populate the newly created material.
+<td width="20px"></td><td><code><span class="label">alpha</span>:Number</code> (default = <code>1</code>)<code></code> &mdash;   [optional] - An object that contains additional properties with which to populate the newly created material.
  </td>
 </tr>
 <tr>
@@ -255,10 +287,63 @@ showHideInherited();
 </div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
+<a name="drawFace3D()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">drawFace3D</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function drawFace3D(instance:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a>, face3D:<a href="../core/geom/Face3D.html">Face3D</a>, graphics:Graphics, v0:<a href="../core/geom/Vertex2D.html">Vertex2D</a>, v1:<a href="../core/geom/Vertex2D.html">Vertex2D</a>, v2:<a href="../core/geom/Vertex2D.html">Vertex2D</a>):int</code><p>
+   drawFace3D
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">instance</span>:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">face3D</span>:<a href="../core/geom/Face3D.html">Face3D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">graphics</span>:Graphics</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v0</span>:<a href="../core/geom/Vertex2D.html">Vertex2D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v1</span>:<a href="../core/geom/Vertex2D.html">Vertex2D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v2</span>:<a href="../core/geom/Vertex2D.html">Vertex2D</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>int</code></td>
+</tr>
+</table>
+</div>
 <a name="toString()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">toString</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+<td class="detailHeaderName">toString</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">
@@ -278,9 +363,9 @@ showHideInherited();
 <hr>
 <br>
 <p></p>
-<center class="copyright">
-<br>Wed Mar 28 2007, 5:46 PM GMT+01:00 </center>
+<center class="copyright"> 
+</center>
 </div>
 </body>
 </html>
-<!--Wed Mar 28 2007, 5:46 PM GMT+01:00 -->
+<!-- -->

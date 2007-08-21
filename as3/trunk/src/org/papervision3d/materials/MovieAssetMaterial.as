@@ -67,13 +67,19 @@ public class MovieAssetMaterial extends MovieMaterial
 
 	public function MovieAssetMaterial( id:*, transparent:Boolean=false, initObject:Object=null )
 	{
-		super( id, transparent, initObject );
+		super( createMovie(id), transparent, initObject );
 	}
 
 
 	// ______________________________________________________________________ CREATE BITMAP
-
-	protected override function createBitmap( asset:* ):BitmapData
+	
+	/*
+	* since we need to pass a movieclip reference to MovieMaterial, I changed this method
+	* from createBitmap, to createMovie.  the super's constructor will take care of
+	* creating the actual bitmap reference
+	*  
+	*/
+	protected function createMovie( asset:* ):MovieClip
 	{
 		// Remove previous bitmap
 		if( this._texture != asset )
@@ -83,12 +89,14 @@ public class MovieAssetMaterial extends MovieMaterial
 			var prevMovie:MovieClip = _library[this._texture];
 
 			if( prevMovie && _count[this._texture] == 0 )
+			{
 				_library[this._texture] = null;
+			}
 		}
-
+		
 		// Retrieve from library or...
 		var movie:MovieClip = _library[asset];
-
+		
 		// ...attachMovie
 		if( ! movie )
 		{
@@ -103,7 +111,7 @@ public class MovieAssetMaterial extends MovieMaterial
 		}
 
 		// Create Bitmap
-		return super.createBitmap( movie );
+		return  movie;
 	}
 
 	static private var _library :Object = new Object();

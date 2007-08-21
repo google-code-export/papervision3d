@@ -171,6 +171,15 @@ public class MaterialObject3D extends EventDispatcher implements IFaceDrawer
 	 * Defines if face normals need to be rotated for this material.
 	 */
 	 public var needsFaceNormals:Boolean = false;
+	 
+	 /**
+	* Holds the original size of the bitmap before it was resized by Automip mapping
+	*/
+	 public var widthOffset:Number = 0;
+	/**
+	* Holds the original size of the bitmap before it was resized by Automip mapping
+	*/
+	 public var heightOffset:Number = 0;
 
 //	public var extra :Object;
 
