@@ -64,6 +64,13 @@ public class MovieMaterial extends BitmapMaterial
 	* A Boolean value that determines whether the MovieClip is transparent. The default value is false, which is much faster.
 	*/
 	public var movieTransparent :Boolean;
+	
+	/**
+	* When updateBitmap() is called on an animated material, it looks to handle a change in size on the texture.
+	* 
+	* This is true by default, but in certain situations, like drawing on an object, you wouldn't want the size to change
+	*/
+	public var allowAutoResize:Boolean = true;
 
 
 	// ______________________________________________________________________ ANIMATED
@@ -109,7 +116,11 @@ public class MovieMaterial extends BitmapMaterial
 	*/
 	public override function updateBitmap():void
 	{
-		if( Math.floor( movie.width ) != bitmap.width || Math.floor( movie.height ) != bitmap.height )
+		// using int is much faster than using Math.floor. And casting the variable saves in speed from having the avm decide what to cast it as
+		var mWidth:int = int(movie.width);
+		var mHeight:int = int(movie.height);
+		
+		if( allowAutoResize && mWidth != bitmap.width || mHeight != bitmap.height )
 		{
 			// Init new bitmap size
 			initBitmap( movie, movieTransparent );
