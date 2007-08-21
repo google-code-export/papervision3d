@@ -34,8 +34,8 @@
  */
  
  /**
- * @author Alexander
- * NOTE: by Andy Zupko
+ * @author Alexander Zadorozhny - Away3D
+ * @author John Grden
  */
  
 package org.papervision3d.materials 
@@ -48,7 +48,7 @@ package org.papervision3d.materials
 	
 	public class InteractivePreciseBitmapMaterial extends PreciseBitmapMaterial
 	{
-		public function InteractivePreciseBitmapMaterial(asset:*, init:Object = null)
+		public function InteractivePreciseBitmapMaterial(asset:*, initObject:Object = null)
 		{
 			super(asset, initObject);
 		}

@@ -25,7 +25,7 @@
 
 		// ___________________________________________________________________ 3D vars
 		var container :Sprite;
-		var scene     :MovieScene3D;
+		var scene     :InteractiveScene3D;
 		var camera    :Camera3D;
 		var ism		  :InteractiveSceneManager;
 		var plane	  :Plane;
@@ -58,11 +58,15 @@
 			container.x = 300;
 			container.y = 200;
 			
-			scene = new MovieScene3D(container);
-		
+			scene = new InteractiveScene3D(container);
+			ism = scene.interactiveSceneManager
+			ism.buttonMode = true;
+			
+			ism.addEventListener(InteractiveScene3DEvent.OBJECT_CLICK, handleClick);
+			
 			var bp:BitmapMaterial = new BitmapMaterial(new wall(1,1));
 			
-			var bpp:PreciseBitmapMaterial = new PreciseBitmapMaterial(new wall(1,1));
+			var bpp:PreciseBitmapMaterial = new InteractivePreciseBitmapMaterial(new wall(1,1));
 			var mp1 = new MaterialsList();
 			mp1.addMaterial(bp, "all");
 			
@@ -74,8 +78,8 @@
 			scene.addChild(pp);
 			p.rotationZ = -30;
 			pp.rotationZ = -30;
-			p.x = 310;
-			pp.x = -310;
+			p.x = 410;
+			pp.x = -410;
 
 
 			// Create camera
@@ -87,7 +91,11 @@
 		// ___________________________________________________________________ Create album
 		//var mouseIsDown:Boolean;
 
-
+		private function handleClick(e:InteractiveScene3DEvent):void
+		{
+			trace('click', e.displayObject3D.id);
+		}
+		
 		// ___________________________________________________________________ Loop
 		
 		function loop(event:Event):void 
