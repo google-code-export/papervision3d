@@ -34,8 +34,8 @@
  */
  
  /**
- * @author Alexander
- * NOTE: by Andy Zupko
+ * @author Alexander Zadorozhny - Away3D
+ * NOTE: ported by Andy Zupko
  */
 package org.papervision3d.materials
 {
@@ -102,7 +102,7 @@ package org.papervision3d.materials
             var fbz:Number = focus + bz;
             var fcz:Number = focus + cz;
 
-			var mabz:Number = 2 /  (faz + fbz);
+			var mabz:Number = 2 / (faz + fbz);
             var mbcz:Number = 2 / (fbz + fcz);
             var mcaz:Number = 2 / (fcz + faz);
 
@@ -136,16 +136,16 @@ package org.papervision3d.materials
             if ((dsab > precision) && (dsca > precision) && (dsbc > precision))
             {
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2, ty*2,
-                    ax, ay, az, mabx*.5, maby*.5, (az+bz)*.5, mcax*.5, mcay*.5, (cz+az)*.5);
+                    ax, ay, az, mabx>>1, maby>>1, (az+bz)>>1, mcax>>1, mcay>>1, (cz+az)>>1);
 
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2-1, ty*2,
-                    mabx*.5, maby*.5, (az+bz)*.5, bx, by, bz, mbcx*.5, mbcy*.5, (bz+cz)*.5);
+                    mabx>>1, maby>>1, (az+bz)>>1, bx, by, bz, mbcx>>1, mbcy>>1, (bz+cz)>>1);
 
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2, ty*2-1,
-                    mcax*.5, mcay*.5, (cz+az)*.5, mbcx*.5, mbcy*.5, (bz+cz)*.5, cx, cy, cz);
+                    mcax>>1, mcay>>1, (cz+az)>>1, mbcx>>1, mbcy>>1, (bz+cz)>>1, cx, cy, cz);
 
                 renderRec(graphics, -ta*2, -tb*2, -tc*2, -td*2, -tx*2+1, -ty*2+1,
-                    mbcx*.5, mbcy*.5, (bz+cz)*.5, mcax*.5, mcay*.5, (cz+az)*.5, mabx*.5, maby*.5, (az+bz)*.5);
+                    mbcx>>1, mbcy>>1, (bz+cz)>>1, mcax>>1, mcay>>1, (cz+az)>>1, mabx>>1, maby>>1, (az+bz)>>1);
 
                 return;
             }
@@ -154,10 +154,10 @@ package org.papervision3d.materials
             if (dsab == dmax)
             {
                 renderRec(graphics, ta*2, tb*1, tc*2, td*1, tx*2, ty*1,
-                    ax, ay, az, mabx*.5, maby*.5, (az+bz)*.5, cx, cy, cz);
+                    ax, ay, az, mabx>>1, maby>>1, (az+bz)>>1, cx, cy, cz);
 
                 renderRec(graphics, ta*2+tb, tb*1, 2*tc+td, td*1, tx*2+ty-1, ty*1,
-                    mabx*.5, maby*.5, (az+bz)*.5, bx, by, bz, cx, cy, cz);
+                    mabx>>1, maby>>1, (az+bz)>>1, bx, by, bz, cx, cy, cz);
             
                 return;
             }
@@ -165,20 +165,20 @@ package org.papervision3d.materials
             if (dsca == dmax)
             {
                 renderRec(graphics, ta*1, tb*2, tc*1, td*2, tx*1, ty*2,
-                    ax, ay, az, bx, by, bz, mcax*.5, mcay*.5, (cz+az)*.5);
+                    ax, ay, az, bx, by, bz, mcax>>1, mcay>>1, (cz+az)>>1);
 
                 renderRec(graphics, ta*1, tb*2 + ta, tc*1, td*2 + tc, tx, ty*2+tx-1,
-                    mcax*.5, mcay*.5, (cz+az)*.5, bx, by, bz, cx, cy, cz);
+                    mcax>>1, mcay>>1, (cz+az)>>1, bx, by, bz, cx, cy, cz);
             
                 return;
             }
 
 
             renderRec(graphics, ta-tb, tb*2, tc-td, td*2, tx-ty, ty*2,
-                ax, ay, az, bx, by, bz, mbcx*.5, mbcy*.5, (bz+cz)*.5);
+                ax, ay, az, bx, by, bz, mbcx>>1, mbcy>>1, (bz+cz)>>1);
 
             renderRec(graphics, 2*ta, tb-ta, tc*2, td-tc, 2*tx, ty-tx,
-                ax, ay, az, mbcx*.5, mbcy*.5, (bz+cz)*.5, cx, cy, cz);
+                ax, ay, az, mbcx>>1, mbcy>>1, (bz+cz)>>1, cx, cy, cz);
         }
 		
 		public function renderTriangleBitmap(graphics:Graphics,a:Number, b:Number, c:Number, d:Number, tx:Number, ty:Number, 
