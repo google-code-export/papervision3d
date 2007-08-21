@@ -120,7 +120,7 @@ public class MovieMaterial extends BitmapMaterial
 		var mWidth:int = int(movie.width);
 		var mHeight:int = int(movie.height);
 		
-		if( allowAutoResize && mWidth != bitmap.width || mHeight != bitmap.height )
+		if( allowAutoResize && ( mWidth != bitmap.width || mHeight != bitmap.height ) )
 		{
 			// Init new bitmap size
 			initBitmap( movie, movieTransparent );
