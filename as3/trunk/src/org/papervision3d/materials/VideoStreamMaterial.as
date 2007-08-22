@@ -115,7 +115,7 @@ package org.papervision3d.materials
 			if( this.bitmap ) this.bitmap.dispose();
 	
 			// Create new bitmap
-			this.bitmap = correctBitmap( new BitmapData( asset.width, asset.height, this.movieTransparent ), true );
+			this.bitmap = correctBitmap( new BitmapData( asset.width, asset.height, this.movieTransparent ) );
 
 			// Draw bitmap
 			this.updateBitmap();
