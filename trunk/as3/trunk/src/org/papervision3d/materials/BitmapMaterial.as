@@ -102,6 +102,8 @@ public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
 
 		// texture calls createBitmap. That's where all the init happens. This allows to reinit when changing texture. -C4RL05
 		texture = asset;
+		
+		resetMapping();
 	}
 	
 
