@@ -103,7 +103,7 @@ public class MovieMaterial extends BitmapMaterial
 	{
 		super( initBitmap( asset, transparent ), initObject );
 		
-		animatedMaterials[ this ] = false;
+		animatedMaterials[ this ] = initObject.animated || false;
 	}
 
 

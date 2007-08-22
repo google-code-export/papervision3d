@@ -103,8 +103,7 @@ public class BitmapAssetMaterial extends BitmapMaterial
 			else
 				bitmap = new BitmapAsset( 0, 0 ) as BitmapData;
 			
-			bitmapOk = AUTO_MIP_MAPPING ? correctBitmap( bitmap, true ) : super.createBitmap( bitmap );
-			//bitmapOk = correctBitmap( bitmap, true );
+			bitmapOk = AUTO_MIP_MAPPING ? correctBitmap( bitmap ) : super.createBitmap( bitmap );
 
 			_library[asset] = bitmapOk;
 			_count[asset] = 0;
