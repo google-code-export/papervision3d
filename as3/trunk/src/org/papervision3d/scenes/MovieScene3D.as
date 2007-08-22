@@ -112,6 +112,21 @@ public class MovieScene3D extends Scene3D
 		return spriteList[child];
 	}
 
+	public override function removeChild( child:DisplayObject3D ):DisplayObject3D
+	{
+		var removed:DisplayObject3D=super.removeChild(child);
+		for(var i:int=0;i<containerList.length;i++){
+			if(removed.container==containerList[i]){
+				this.containerList.splice(i, 1);
+			}
+		}
+		
+		container.removeChild(removed.container);
+		
+		delete spriteList[removed];
+		
+		return removed;
+	} 
 
 	// ___________________________________________________________________ R E N D E R   C A M E R A
 	//

@@ -160,6 +160,7 @@ public class DisplayObjectContainer3D extends EventDispatcher
 	* @param	child	The DisplayObject3D instance to remove.
 	* @return	The DisplayObject3D instance that you pass in the child parameter.
 	*/
+	/*
 	public function removeChild( child:DisplayObject3D ):DisplayObject3D
 	{
 		delete this._childrenByName[ this._children[ child ] ];
@@ -170,7 +171,27 @@ public class DisplayObjectContainer3D extends EventDispatcher
 
 		return child;
 	}
+	*/
+	
+	/**
+	* @private
+	* Added from Bug #10 by John Grden 8/22/2007
+	*/
+	public function removeChild( child:DisplayObject3D ):DisplayObject3D
+	{
+		//removeChildByname(name:string) may return null // must check here
+		if(child){
+			delete this._childrenByName[ this._children[ child ] ];
+			delete this._children[ child ];
+		
+			child.parent = null;
+			child.root = null;
 
+			return child;
+		}
+		return null;
+		
+	}
 
 	/**
 	* Returns the child display object that exists with the specified name.
