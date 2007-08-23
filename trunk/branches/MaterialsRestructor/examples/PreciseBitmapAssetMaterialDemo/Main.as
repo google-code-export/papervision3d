@@ -60,7 +60,7 @@
 			
 			scene = new Scene3D(container);
 			
-			var bp:BitmapAssetMaterial = new BitmapAssetMaterial(new wall(1,1));
+			var bp:BitmapAssetMaterial = new BitmapAssetMaterial("wall");
 			
 			var bpp:PreciseBitmapAssetMaterial = new PreciseBitmapAssetMaterial("wall");
 			var mp1 = new MaterialsList();
