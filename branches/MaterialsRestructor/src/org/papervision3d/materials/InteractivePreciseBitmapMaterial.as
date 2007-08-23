@@ -43,14 +43,15 @@ package org.papervision3d.materials
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.core.geom.Face3D;
 	import flash.display.Graphics;
+	import flash.display.BitmapData;
 	import org.papervision3d.core.geom.Vertex2D;
 	import flash.geom.Matrix;
 	
 	public class InteractivePreciseBitmapMaterial extends PreciseBitmapMaterial
 	{
-		public function InteractivePreciseBitmapMaterial(asset:*, initObject:Object = null)
+		public function InteractivePreciseBitmapMaterial( asset:BitmapData )
 		{
-			super(asset, initObject);
+			super( asset );
 		}
 		
 		/**

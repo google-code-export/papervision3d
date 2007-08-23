@@ -8,9 +8,9 @@ package org.papervision3d.materials
 	
 	public class InteractiveBitmapWireframeMaterial extends BitmapWireframeMaterial
 	{
-		public function InteractiveBitmapWireframeMaterial(color:Number=0xFF00FF, alpha:Number=1)
+		public function InteractiveBitmapWireframeMaterial(color:Number=0xFF00FF, alpha:Number=1, thickness:Number=3)
 		{
-			super(color, alpha);
+			super(color, alpha, thickness);
 		}
 		
 		/**

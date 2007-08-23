@@ -14,9 +14,8 @@ package org.papervision3d.materials
 		
 		private var materials:Array;
 		
-		public function CompositeMaterial(initObject:Object=null)
+		public function CompositeMaterial()
 		{
-			super(initObject);
 			init();
 		}
 		

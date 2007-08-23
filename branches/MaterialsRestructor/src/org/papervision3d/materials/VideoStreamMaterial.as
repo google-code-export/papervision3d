@@ -46,6 +46,7 @@
 package org.papervision3d.materials
 {
 	import flash.display.BitmapData;
+	import flash.display.Sprite;
 	import flash.events.NetStatusEvent;
 	import flash.geom.Matrix;
 	import flash.media.Video;
@@ -78,16 +79,17 @@ package org.papervision3d.materials
 		* @param	stream			Stream that is used to play the FLV file
 		* @param	initObject		[optional] - An object that contains additional properties with which to populate the newly created material.
 		*/
-		public function VideoStreamMaterial ( video:Video=null, stream:NetStream=null, initObject:Object=null )
+		public function VideoStreamMaterial ( video:Video=null, stream:NetStream=null )
 		{			
 			// store the values
 			this.stream = stream;
 			this.video = video;
+			animated = true;
 			
 			// init the material with a listener for the NS object 
 			initMaterial ( video, stream );
 						
-			super ( video, initObject );
+			super ( Sprite(video) );
 		}
 	
 
@@ -102,28 +104,6 @@ package org.papervision3d.materials
 		}
 		
 
-		// ______________________________________________________________________ CREATE BITMAP		
-		
-		/**
-		 * Creates the bitmap that is used as a texture
-		 *
-		 * @param The asset that is used as a texture.
-		 */
-		protected override function createBitmap( asset:* ):BitmapData
-		{
-			// Dispose of previous bitmap
-			if( this.bitmap ) this.bitmap.dispose();
-	
-			// Create new bitmap
-			this.bitmap = correctBitmap( new BitmapData( asset.width, asset.height, this.movieTransparent ) );
-
-			// Draw bitmap
-			this.updateBitmap();
-	
-			return this.bitmap;
-		}
-		
-	
 		// ______________________________________________________________________ UPDATE
 	
 		/**
