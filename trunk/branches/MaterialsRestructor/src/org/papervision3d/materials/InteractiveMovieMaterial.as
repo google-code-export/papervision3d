@@ -3,14 +3,15 @@ package org.papervision3d.materials
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.core.geom.Face3D;
 	import flash.display.Graphics;
+	import flash.display.Sprite;
 	import org.papervision3d.core.geom.Vertex2D;
 	import flash.geom.Matrix;
 	
 	public class InteractiveMovieMaterial extends MovieMaterial
 	{
-		public function InteractiveMovieMaterial(asset:*, transparent:Boolean=false, initObject:Object=null)
+		public function InteractiveMovieMaterial(movieAsset:Sprite, transparent:Boolean=false, animated:Boolean=false)
 		{
-			super(asset, transparent, initObject);
+			super(movieAsset, transparent, animated);
 		}
 		
 		/**

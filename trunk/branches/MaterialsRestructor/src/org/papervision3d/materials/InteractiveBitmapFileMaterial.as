@@ -8,9 +8,9 @@ package org.papervision3d.materials
 	
 	public class InteractiveBitmapFileMaterial extends BitmapFileMaterial
 	{
-		public function InteractiveBitmapFileMaterial(url:String, initObject:Object=null)
+		public function InteractiveBitmapFileMaterial( url:String )
 		{
-			super(url, initObject);
+			super( url );
 		}
 		
 		/**

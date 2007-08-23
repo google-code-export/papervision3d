@@ -8,9 +8,9 @@ package org.papervision3d.materials
 	
 	public class InteractiveMovieAssetMaterial extends MovieAssetMaterial
 	{
-		public function InteractiveMovieAssetMaterial(id:*, transparent:Boolean=false, initObject:Object=null)
+		public function InteractiveMovieAssetMaterial(linkageID:String, transparent:Boolean=false, animated:Boolean=false)
 		{
-			super(id, transparent, initObject);
+			super(linkageID, transparent, animated);
 		}
 		
 		/**

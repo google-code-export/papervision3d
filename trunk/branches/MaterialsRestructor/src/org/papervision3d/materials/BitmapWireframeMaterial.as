@@ -19,7 +19,6 @@ package org.papervision3d.materials
 		
 		public function BitmapWireframeMaterial(color:Number=0xFF00FF, alpha:Number=1, thickness:Number=3)
 		{
-			super(new BitmapData(2,2,true));
 			bitmap = new BitmapData(BITMAP_WIDTH,BITMAP_HEIGHT,true,0x00000000);
 			lineColor = color;
 			lineAlpha = alpha;

@@ -1,0 +1,1063 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
+<meta content="VirtualMouse,org.papervision3d.utils.virtualmouse.VirtualMouse,UPDATE,stage,container,lastEvent,mouseIsDown,x,y,useNativeEvents,getLocation,setLocation,lock,unlock,disableEvent,enableEvent,ignore,unignore,press,release,click,doubleClick,exitContainer,update" name="keywords">
+<title>org.papervision3d.utils.virtualmouse.VirtualMouse</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'VirtualMouse - Papervision3D API';
+				var baseRef = '../../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../index-list.html')" href="../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../index.html?org/papervision3d/utils/virtualmouse/VirtualMouse.html&amp;org/papervision3d/utils/virtualmouse/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;VirtualMouse</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a>&nbsp;| <a href="#eventSummary">Events</a>&nbsp;| <a href="#constantSummary">Constants</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class VirtualMouse"); titleBar_setSubNav(true,true,false,false,true,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">org.papervision3d.utils.virtualmouse</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class VirtualMouse</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">VirtualMouse <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> flash.events.EventDispatcher</td>
+</tr>
+</table>
+<p></p>
+  The VirtualMouse class is used to create a programmatic 
+  version of the users mouse that can be moved about the
+  Flash player stage firing off mouse events of the display
+  objects it interacts with.  This can allow you to simulate
+  interaction with buttons and movie clips through ActionScript.
+  <br />
+  Handled events include:
+    Event.MOUSE_LEAVE,
+    MouseEvent.MOUSE_MOVE,
+    MouseEvent.MOUSE_OUT,
+    MouseEvent.ROLL_OUT,
+    MouseEvent.MOUSE_OVER,
+    MouseEvent.ROLL_OVER,
+    MouseEvent.MOUSE_DOWN,
+    MouseEvent.MOUSE_UP.
+    MouseEvent.CLICK, and,
+    MouseEvent.DOUBLE_CLICK.
+  Along with dispatching those events for their respective
+  targets, the VirtualMouse instance will also dispatch the
+  event on itself allowing to capture which events are being
+  fired by the virtual mouse.  The last event fired can also
+  be referenced in the lastEvent property.
+  <br />
+  VirtualMouse mouse cannot:
+    activate states of SimpleButton instances, 
+    change object focus, 
+    handle mouseWheel related events,
+    change the system's cursor location, or 
+    spoof the location of the mouseX and mouseY properties
+     (which some components rely on).
+  <p></p>
+<br>
+<hr>
+</div>
+<a name="propertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Properties</div>
+<table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#container">container</a> : Sprite<div class="summaryTableDescription">
+  
+  </div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#lastEvent">lastEvent</a> : Event<div class="summaryTableDescription">[read-only]
+   The last event dispatched by the VirtualMouse
+   instance.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#mouseIsDown">mouseIsDown</a> : Boolean<div class="summaryTableDescription">[read-only]
+   True if the virtual mouse is being
+   pressed, false if not.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#stage">stage</a> : Stage<div class="summaryTableDescription">
+   A reference to the Stage instance.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#useNativeEvents">useNativeEvents</a> : Boolean<div class="summaryTableDescription">
+   Determines if the events dispatched by the
+   VirtualMouse instance are IVirualMouseEvent
+   Events (wrapping Event and MouseEvent) or events
+   of the native Event and MouseEvent type.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#x">x</a> : Number<div class="summaryTableDescription">
+   The x location of the virtual mouse.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#y">y</a> : Number<div class="summaryTableDescription">
+   The y location of the virtual mouse.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+</table>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#VirtualMouse()">VirtualMouse</a>(stage:Stage = null, container:Sprite = null, startX:Number = 0, startY:Number = 0)</div>
+<div class="summaryTableDescription"> 
+   Initializes a new VirtualMouse instance.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#click()">click</a>():void</div>
+<div class="summaryTableDescription">
+   Simulates a click of the left
+   mouse button (press and release)
+   </div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#disableEvent()">disableEvent</a>(type:String):void</div>
+<div class="summaryTableDescription">
+   Allows you to disable an event by type
+   preventing the virtual mouse from 
+   dispatching that event during an update.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#doubleClick()">doubleClick</a>():void</div>
+<div class="summaryTableDescription">
+   Simulates a double-click of the left
+   mouse button (press and release twice).</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#enableEvent()">enableEvent</a>(type:String):void</div>
+<div class="summaryTableDescription">
+   Re-enables an event disabled with
+   disableEvent.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#exitContainer()">exitContainer</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getLocation()">getLocation</a>():Point</div>
+<div class="summaryTableDescription">
+   Returns the location (x and y) of the current
+   VirtualMouse instance.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#ignore()">ignore</a>(instance:DisplayObject):void</div>
+<div class="summaryTableDescription">
+   Ignores a display object preventing that
+   object from recieving events from the
+   virtual mouse.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#lock()">lock</a>():void</div>
+<div class="summaryTableDescription">
+   Locks the current VirtualMouse instance
+   preventing updates from being made as 
+   properties change within the instance.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#press()">press</a>():void</div>
+<div class="summaryTableDescription">
+   Simulates the pressing of the left
+   mouse button.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#release()">release</a>():void</div>
+<div class="summaryTableDescription">
+   Simulates the release of the left
+   mouse button.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#setLocation()">setLocation</a>(a:*, b:* = null):void</div>
+<div class="summaryTableDescription">
+   Sets the location (x and y) of the current
+   VirtualMouse instance.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#unignore()">unignore</a>(instance:DisplayObject):void</div>
+<div class="summaryTableDescription">
+   Removes an instance from the ignore list
+   defined by ignore().</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#unlock()">unlock</a>():void</div>
+<div class="summaryTableDescription">
+   Unlocks the current VirtualMouse instance
+   allowing updates to be made for the
+   dispatching of virtual mouse events.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#update()">update</a>():void</div>
+<div class="summaryTableDescription">
+   Updates the VirtualMouse instance's state
+   to reflect a change in the virtual mouse.</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+</table>
+</div>
+<a name="eventSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Events</div>
+<table id="summaryTableEvent" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Event</th><th>Summary</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:click">click</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  MouseEvent.CLICK event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:doubleClick">doubleClick</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  MouseEvent.DOUBLE_CLICK event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:mouseDown">mouseDown</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_DOWN event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:mouseLeave">mouseLeave</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  Event.MOUSE_LEAVE event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:mouseMove">mouseMove</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_MOVE event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:mouseOut">mouseOut</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_OUT event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:mouseOver">mouseOver</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_OVER event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:mouseUp">mouseUp</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_UP event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:rollOut">rollOut</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  MouseEvent.ROLL_OUT event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:rollOver">rollOver</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse fires an
+  MouseEvent.ROLL_OVER event.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#event:update">update</a>
+</div>
+</td><td class="summaryTableDescription summaryTableCol">
+     Dispatched when the virtual mouse state is updated.</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+</table>
+</div>
+<a name="constantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Constants</div>
+<table id="summaryTableConstant" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#UPDATE">UPDATE</a> : String = "update"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">VirtualMouse</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="propertyDetail"></a>
+<div class="detailSectionHeader">Property detail</div>
+<a name="container"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">container</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>container:Sprite</code>&nbsp;&nbsp;[read-write]<p>
+  
+  </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get container():Sprite</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set container(value:Sprite):void</code>
+<br>
+</div>
+<a name="lastEvent"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">lastEvent</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>lastEvent:Event</code>&nbsp;&nbsp;[read-only]<p>
+   The last event dispatched by the VirtualMouse
+   instance.  This can be useful for preventing
+   event recursion if performing VirtualMouse
+   operations within MouseEvent handlers.
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get lastEvent():Event</code>
+<br>
+</div>
+<a name="mouseIsDown"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">mouseIsDown</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>mouseIsDown:Boolean</code>&nbsp;&nbsp;[read-only]<p>
+   True if the virtual mouse is being
+   pressed, false if not.  The mouse is
+   down for the virtual mouse if press()
+   was called.
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get mouseIsDown():Boolean</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">press()<br>release()</div>
+</div>
+<a name="stage"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">stage</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>stage:Stage</code>&nbsp;&nbsp;[read-write]<p>
+   A reference to the Stage instance. This
+   reference needs to be passed to the 
+   VirtualMouse instance either in its constructor
+   or through assigning it's stage property.
+   Without a valid reference to the stage, the
+   virtual mouse will not function.
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get stage():Stage</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set stage(value:Stage):void</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">VirtualMouse()</div>
+</div>
+<a name="useNativeEvents"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">useNativeEvents</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>useNativeEvents:Boolean</code>&nbsp;&nbsp;[read-write]<p>
+   Determines if the events dispatched by the
+   VirtualMouse instance are IVirualMouseEvent
+   Events (wrapping Event and MouseEvent) or events
+   of the native Event and MouseEvent type. When using
+   non-native events, you can check to see if the
+   events originated from VirtualMouse by seeing if
+   the events are of the type IVirualMouseEvent.
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get useNativeEvents():Boolean</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set useNativeEvents(value:Boolean):void</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">lastEvent</div>
+</div>
+<a name="x"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">x</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>x:Number</code>&nbsp;&nbsp;[read-write]<p>
+   The x location of the virtual mouse. If you are
+   setting both the x and y properties of the
+   virtual mouse at the same time, you would probably
+   want to lock the VirtualMouse instance to prevent
+   additional events from firing.
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get x():Number</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set x(value:Number):void</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">lock<br>unlock<br>y<br>setLocation()<br>getLocation()</div>
+</div>
+<a name="y"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">y</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>y:Number</code>&nbsp;&nbsp;[read-write]<p>
+   The y location of the virtual mouse.  If you are
+   setting both the x and y properties of the
+   virtual mouse at the same time, you would probably
+   want to lock the VirtualMouse instance to prevent
+   additional events from firing.
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get y():Number</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set y(value:Number):void</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">lock<br>unlock<br>x<br>setLocation()<br>getLocation()</div>
+</div>
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="VirtualMouse()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">VirtualMouse</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function VirtualMouse(stage:Stage = null, container:Sprite = null, startX:Number = 0, startY:Number = 0)</code><p> 
+   Initializes a new VirtualMouse instance. 
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">stage</span>:Stage</code> (default = <code>null</code>)<code></code> &mdash; A reference to the stage instance.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">container</span>:Sprite</code> (default = <code>null</code>)<code></code> &mdash; The initial x location of
+     the virtual mouse.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">startX</span>:Number</code> (default = <code>0</code>)<code></code> &mdash; The initial y location of
+     the virtual mouse.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">startY</span>:Number</code> (default = <code>0</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="click()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">click</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function click():void</code><p>
+   Simulates a click of the left
+   mouse button (press and release)
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">press()<br>release()<br>click()<br>doubleClick()</div>
+</div>
+<a name="disableEvent()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">disableEvent</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function disableEvent(type:String):void</code><p>
+   Allows you to disable an event by type
+   preventing the virtual mouse from 
+   dispatching that event during an update.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">type</span>:String</code> &mdash; The type for the event to
+     disable, e.g. MouseEvent.CLICK
+   </td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">enableEvent()</div>
+</div>
+<a name="doubleClick()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">doubleClick</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function doubleClick():void</code><p>
+   Simulates a double-click of the left
+   mouse button (press and release twice).
+   Calling this command is the only way to
+   simulate a double-click for the virtual
+   mouse.  Calling press() and release() or
+   click() is rapid succession will not
+   invoke a double-click event. The double-click
+   event will also only fire for an instance
+   if it's doubleClickEnabled property is
+   set to true.
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">click()</div>
+</div>
+<a name="enableEvent()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">enableEvent</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function enableEvent(type:String):void</code><p>
+   Re-enables an event disabled with
+   disableEvent.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">type</span>:String</code> &mdash; The type for the event to
+     enable, e.g. MouseEvent.CLICK
+   </td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">disableEvent()</div>
+</div>
+<a name="exitContainer()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">exitContainer</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function exitContainer():void</code>
+</div>
+<a name="getLocation()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getLocation</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getLocation():Point</code><p>
+   Returns the location (x and y) of the current
+   VirtualMouse instance. The location of the
+   virtual mouse is based in the global
+   coordinate space.
+   </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Point</code> &mdash; A Point instance representing the 
+     location of the virtual mouse in
+     global coordinate space.
+   </td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">x<br>y<br>setLocation()</div>
+</div>
+<a name="ignore()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ignore</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function ignore(instance:DisplayObject):void</code><p>
+   Ignores a display object preventing that
+   object from recieving events from the
+   virtual mouse.  This is useful for instances
+   used for cursors which may always be under
+   the virtual mouse's location.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">instance</span>:DisplayObject</code> &mdash; A reference to the
+     DisplayObject instance to ignore.
+   </td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">unignore()</div>
+</div>
+<a name="lock()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">lock</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function lock():void</code><p>
+   Locks the current VirtualMouse instance
+   preventing updates from being made as 
+   properties change within the instance.
+   To release and allow an update, call unlock().
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">lock()<br>update()</div>
+</div>
+<a name="press()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">press</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function press():void</code><p>
+   Simulates the pressing of the left
+   mouse button. To release the mouse
+   button, use release().
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">release()<br>click()</div>
+</div>
+<a name="release()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">release</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function release():void</code><p>
+   Simulates the release of the left
+   mouse button.  This method has no
+   effect unless press() was called first.
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">press()<br>click()</div>
+</div>
+<a name="setLocation()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">setLocation</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function setLocation(a:*, b:* = null):void</code><p>
+   Sets the location (x and y) of the current
+   VirtualMouse instance.  There are two ways to
+   call setLocation, either passing in a single
+   Point instance, or by passing in two Number
+   instances representing x and y coordinates.
+   The location of the virtual mouse is based in
+   the global coordinate space.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">a</span>:*</code> &mdash; A Point instance or x Number value.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">b</span>:*</code> (default = <code>null</code>)<code></code> &mdash; A y Number value if a is a Number.
+   </td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">x<br>y<br>getLocation()</div>
+</div>
+<a name="unignore()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">unignore</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function unignore(instance:DisplayObject):void</code><p>
+   Removes an instance from the ignore list
+   defined by ignore().  When an ingored
+   object is passed into unignore(), it will
+   be able to receive events from the virtual
+   mouse.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">instance</span>:DisplayObject</code> &mdash; A reference to the
+     DisplayObject instance to unignore.
+   </td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">ignore()</div>
+</div>
+<a name="unlock()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">unlock</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function unlock():void</code><p>
+   Unlocks the current VirtualMouse instance
+   allowing updates to be made for the
+   dispatching of virtual mouse events. After
+   unlocking the instance, it will update and
+   additional calls to press(), release(), or
+   changing the location of the virtual mouse
+   will also invoke updates.
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">lock()<br>update()</div>
+</div>
+<a name="update()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">update</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function update():void</code><p>
+   Updates the VirtualMouse instance's state
+   to reflect a change in the virtual mouse.
+   Within this method all events will be dispatched.
+   update() is called any time a VirtualMouse
+   property is changed unless lock() was used to
+   lock the instance.  update() will then not be
+   called until unlock() is used to unlock
+   the instance. Typically you would never call
+   update() directly; it is called automatically
+   by the VirtualMouse class. Calling update()
+   manually will override lock(). Whenever update()
+   is called, the UPDATE event is dispatched.
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">lock()<br>unlock()</div>
+</div>
+<div class="detailSectionHeader">Event detail</div>
+<a name="event:click"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">click</td><td class="detailHeaderType">event&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.MouseEvent</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  MouseEvent.CLICK event.
+     </p></div>
+<a name="event:doubleClick"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">doubleClick</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.MouseEvent</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  MouseEvent.DOUBLE_CLICK event.
+     </p></div>
+<a name="event:mouseDown"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">mouseDown</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.MouseEvent</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_DOWN event.
+     </p></div>
+<a name="event:mouseLeave"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">mouseLeave</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.Event</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  Event.MOUSE_LEAVE event.
+     </p></div>
+<a name="event:mouseMove"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">mouseMove</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.MouseEvent</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_MOVE event.
+     </p></div>
+<a name="event:mouseOut"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">mouseOut</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.MouseEvent</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_OUT event.
+     </p></div>
+<a name="event:mouseOver"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">mouseOver</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.MouseEvent</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_OVER event.
+     </p></div>
+<a name="event:mouseUp"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">mouseUp</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.MouseEvent</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  MouseEvent.MOUSE_UP event.
+     </p></div>
+<a name="event:rollOut"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">rollOut</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.MouseEvent</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  MouseEvent.ROLL_OUT event.
+     </p></div>
+<a name="event:rollOver"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">rollOver</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.MouseEvent</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse fires an
+  MouseEvent.ROLL_OVER event.
+     </p></div>
+<a name="event:update"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">update</td><td class="detailHeaderType">event&nbsp;</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<span class="label">Event object type: </span><a href=""><code>flash.events.Event</code></a>
+<br>
+<p></p><p>
+     Dispatched when the virtual mouse state is updated.
+     </p></div>
+<a name="constantDetail"></a>
+<div class="detailSectionHeader">Constant detail</div>
+<a name="UPDATE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">UPDATE</td><td class="detailHeaderType">constant</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const UPDATE:String = "update"</code>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->
