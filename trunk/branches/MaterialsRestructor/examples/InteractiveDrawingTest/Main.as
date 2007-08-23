@@ -17,10 +17,6 @@
 	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.utils.virtualmouse.IVirtualMouseEvent;
 	
-	/**
-	 *	Sorry about the changes I had to make to this class to make it work with CS3 as a class.  I hate the way they implemented stage instances...
-	 *  Jim Kremens 
-	*/
 	public class Main extends MovieClip {
 
 		// ___________________________________________________________________ 3D vars
