@@ -64,6 +64,7 @@ package org.papervision3d.utils
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.utils.InteractiveSprite;
 	import org.papervision3d.materials.InteractiveMovieMaterial;
+	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.materials.BitmapMaterial;
 	import org.papervision3d.components.as3.utils.CoordinateTools;
 	import org.papervision3d.core.geom.Vertex2D;
@@ -596,7 +597,7 @@ package org.papervision3d.utils
 				try
 				{
 					// locate the material's movie
-					var mat:InteractiveMovieMaterial = face3d.face3DInstance.instance.material as InteractiveMovieMaterial;
+					var mat:MovieMaterial = face3d.face3DInstance.instance.material as MovieMaterial;
 
 						// set the location where the calcs should be performed
 					virtualMouse.container = mat.movie;
@@ -605,7 +606,7 @@ package org.papervision3d.utils
 					virtualMouse.setLocation(point.x, point.y);
 				}catch(err:Error)
 				{
-					log.error("material type is not Interactive.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message);
+					log.error("material type is not Inter active.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message);
 				}
 			}
 			
