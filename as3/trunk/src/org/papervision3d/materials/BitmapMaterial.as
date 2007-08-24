@@ -164,13 +164,11 @@ package org.papervision3d.materials
 				graphics.beginBitmapFill( bitmap, _localMatrix, tiled, smooth);
 			}
 			
-			if( lineAlpha != 0 )
-			{
-				graphics.moveTo( x0, y0 );
-				graphics.lineTo( x1, y1 );
-				graphics.lineTo( x2, y2 );
-				graphics.lineTo( x0, y0 );
-			}
+
+			graphics.moveTo( x0, y0 );
+			graphics.lineTo( x1, y1 );
+			graphics.lineTo( x2, y2 );
+			graphics.lineTo( x0, y0 );
 
 			if( bitmap )
 				graphics.endFill();
