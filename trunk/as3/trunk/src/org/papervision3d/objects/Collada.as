@@ -268,7 +268,6 @@ public class Collada extends DisplayObject3D
 				// Baked transform matrix
 				case "matrix":
 					matrix = Matrix3D.multiply( matrix, bakedMatrix( new Matrix3D( getArray( child ) ) ) );
-					trace( matrix );
 					break;
 
 				case "node":
