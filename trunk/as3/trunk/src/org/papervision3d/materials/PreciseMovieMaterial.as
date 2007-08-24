@@ -62,6 +62,8 @@ package org.papervision3d.materials
 		public function PreciseMovieMaterial( movieAsset:Sprite=null, transparent:Boolean=false, animated:Boolean=false )
 		{
 			super( movieAsset, transparent, animated );
+			
+			precision = precision * precision * 1.4;
 		}
 		
 		public override function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int

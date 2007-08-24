@@ -125,7 +125,7 @@ package org.papervision3d.materials
 				else
 					bitmap = new BitmapAsset( 0, 0 ) as BitmapData;
 				
-				bitmapOk = AUTO_MIP_MAPPING ? correctBitmap( bitmap ) : createBitmap( bitmap );
+				bitmapOk = createBitmap( bitmap );
 
 				_library[asset] = bitmapOk;
 				_count[asset] = 0;

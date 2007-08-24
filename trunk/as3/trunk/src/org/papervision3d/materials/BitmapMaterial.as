@@ -94,7 +94,7 @@ package org.papervision3d.materials
 			_texture = asset;
 		}
 
-		public var uvMatrices:Dictionary;
+		public var uvMatrices:Dictionary = new Dictionary();
 		
 		/**
 		* @private
@@ -183,7 +183,7 @@ package org.papervision3d.materials
 		*
 		*/
 		public function transformUV(face3D:Face3D, instance:DisplayObject3D=null):Matrix
-		{
+		{			
 			if( ! face3D.uv )
 			{
 				Papervision3D.log( "MaterialObject3D: transformUV() uv not found!" );
@@ -191,39 +191,38 @@ package org.papervision3d.materials
 			else if( bitmap )
 			{
 				var uv :Array  = face3D.uv;
-
+				
 				var w  :Number = bitmap.width * maxU;
 				var h  :Number = bitmap.height * maxV;
-
+				
 				var u0 :Number = w * uv[0].u;
 				var v0 :Number = h * ( 1 - uv[0].v );
 				var u1 :Number = w * uv[1].u;
 				var v1 :Number = h * ( 1 - uv[1].v );
 				var u2 :Number = w * uv[2].u;
 				var v2 :Number = h * ( 1 - uv[2].v );
-
+				
 				// Fix perpendicular projections
 				if( (u0 == u1 && v0 == v1) || (u0 == u2 && v0 == v2) )
 				{
 					u0 -= (u0 > 0.05)? 0.05 : -0.05;
 					v0 -= (v0 > 0.07)? 0.07 : -0.07;
 				}
-
+				
 				if( u2 == u1 && v2 == v1 )
 				{
 					u2 -= (u2 > 0.05)? 0.04 : -0.04;
 					v2 -= (v2 > 0.06)? 0.06 : -0.06;
 				}
-
+				
 				// Precalculate matrix & correct for mip mapping
 				var at :Number = ( u1 - u0 );
 				var bt :Number = ( v1 - v0 );
 				var ct :Number = ( u2 - u0 );
 				var dt :Number = ( v2 - v0 );
-
+				
 				var m :Matrix = new Matrix( at, bt, ct, dt, u0, v0 );
 				m.invert();
-
 				var mapping:Matrix = uvMatrices[face3D] || (uvMatrices[face3D] = m.clone() );
 				mapping.a  = m.a;
 				mapping.b  = m.b;
