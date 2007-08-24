@@ -114,12 +114,7 @@ public class Mesh3D extends Vertices3D
 		if( ! sorted ) sorted = this._sorted;
 		
 		// Faces
-		var faces        :Array  = this.geometry.faces;
-		var screenZs     :Number = 0;
-		var visibleFaces :Number = 0;
-		
-		var triCuller:ITriangleCuller = scene.triangleCuller;
-		var vertex0 :Vertex2D, vertex1 :Vertex2D, vertex2 :Vertex2D, iFace:Face3DInstance, face:Face3D;
+		var faces:Array  = this.geometry.faces, screenZs:Number = 0, visibleFaces :Number = 0, triCuller:ITriangleCuller = scene.triangleCuller, vertex0:Vertex2D, vertex1:Vertex2D, vertex2 :Vertex2D, iFace:Face3DInstance, face:Face3D;
 		
 		for each(face in faces){
 			iFace = face.face3DInstance;
@@ -169,28 +164,25 @@ public class Mesh3D extends Vertices3D
 	*/
 	public function projectTexture( u:String="x", v:String="y" ):void
 	{
-		var faces :Array  = this.geometry.faces;
-
-		var bBox  :Object = this.boundingBox();
-		var minX  :Number = bBox.min[u];
-		var sizeX :Number = bBox.size[u];
-		var minY  :Number = bBox.min[v];
-		var sizeY :Number = bBox.size[v];
+		var faces	:Array  = this.geometry.faces, 
+			bBox	:Object = this.boundingBox(), 
+			minX	:Number = bBox.min[u], 
+			sizeX 	:Number = bBox.size[u],
+			minY  	:Number = bBox.min[v],
+			sizeY 	:Number = bBox.size[v];
 
 		var objectMaterial :MaterialObject3D = this.material;
 
 		for( var i:String in faces )
 		{
-			var myFace     :Face3D = faces[Number(i)];
-			var myVertices :Array  = myFace.vertices;
-
-			var a :Vertex3D = myVertices[0];
-			var b :Vertex3D = myVertices[1];
-			var c :Vertex3D = myVertices[2];
-
-			var uvA :NumberUV = new NumberUV( (a[u] - minX) / sizeX, (a[v] - minY) / sizeY );
-			var uvB :NumberUV = new NumberUV( (b[u] - minX) / sizeX, (b[v] - minY) / sizeY );
-			var uvC :NumberUV = new NumberUV( (c[u] - minX) / sizeX, (c[v] - minY) / sizeY );
+			var myFace     :Face3D = faces[Number(i)],
+				myVertices :Array  = myFace.vertices,
+				a :Vertex3D = myVertices[0],
+				b :Vertex3D = myVertices[1],
+				c :Vertex3D = myVertices[2],
+				uvA :NumberUV = new NumberUV( (a[u] - minX) / sizeX, (a[v] - minY) / sizeY ),
+				uvB :NumberUV = new NumberUV( (b[u] - minX) / sizeX, (b[v] - minY) / sizeY ),
+				uvC :NumberUV = new NumberUV( (c[u] - minX) / sizeX, (c[v] - minY) / sizeY );
 
 			myFace.uv = [ uvA, uvB, uvC ];
 		}
@@ -201,8 +193,8 @@ public class Mesh3D extends Vertices3D
 	*/
 	public function mergeVertices():void
 	{
-		var uniqueDic  :Dictionary = new Dictionary();
-		var uniqueList :Array = new Array();
+		var uniqueDic  :Dictionary = new Dictionary(),
+			uniqueList :Array = new Array();
 
 		// Find unique vertices
 		for each( var v:Vertex3D in this.geometry.vertices )
