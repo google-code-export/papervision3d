@@ -63,8 +63,6 @@ public class ColorMaterial extends MaterialObject3D implements IFaceDrawer
 	*/
 	public function ColorMaterial( color:Number=0xFF00FF, alpha:Number = 1, initObject:Object=null )
 	{
-		super( initObject );
-
 		this.fillColor = color;
 		this.fillAlpha = alpha;
 	}

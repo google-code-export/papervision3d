@@ -23,7 +23,8 @@ package org.papervision3d.materials
                 */
                public function ShadedColorMaterial(fillColor:uint, fillAlpha:Number= 1.0):void
                {
-                       super({fillColor:fillColor, fillAlpha:fillAlpha});
+                       this.fillColor = fillColor;
+                       this.fillAlpha = fillAlpha;
 
                        this.light = new Number3D(0.6, 0.8, 0.4);
 

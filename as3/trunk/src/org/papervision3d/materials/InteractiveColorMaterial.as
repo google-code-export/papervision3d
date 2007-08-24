@@ -8,9 +8,9 @@ package org.papervision3d.materials
 	
 	public class InteractiveColorMaterial extends ColorMaterial
 	{
-		public function InteractiveColorMaterial(color:Number=0xFF00FF, alpha:Number=1, initObject:Object=null)
+		public function InteractiveColorMaterial( color:Number=0xFF00FF, alpha:Number=1 )
 		{
-			super(color, alpha, initObject);
+			super( color, alpha );
 		}
 		
 		/**

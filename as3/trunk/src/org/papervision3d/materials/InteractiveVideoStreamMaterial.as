@@ -12,9 +12,9 @@ package org.papervision3d.materials
 
 	public class InteractiveVideoStreamMaterial extends VideoStreamMaterial
 	{
-		public function InteractiveVideoStreamMaterial(video:Video=null, stream:NetStream=null, initObject:Object=null)
+		public function InteractiveVideoStreamMaterial( video:Video=null, stream:NetStream=null )
 		{
-			super(video, stream, initObject);
+			super( video, stream );
 		}
 		
 		/**
