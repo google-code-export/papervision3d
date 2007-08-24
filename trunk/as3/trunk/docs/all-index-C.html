@@ -63,7 +63,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("CÂ
 </tr>
 <tr>
 <td width="20"></td><td>
- Function to call when the last image has loaded.</td>
+  Function to call when the last image has loaded.</td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/components/as3/flash9/class-list.html');" href="org/papervision3d/components/as3/flash9/PV3DScene3D.html#camera">camera</a> &mdash; Property in class org.papervision3d.components.as3.flash9.<a onclick="javascript:loadClassListFrame('org/papervision3d/components/as3/flash9/class-list.html');" href="org/papervision3d/components/as3/flash9/PV3DScene3D.html">PV3DScene3D</a></td>
@@ -241,14 +241,14 @@ The CameraObject3D class is the base class for all the cameras that can be place
 </tr>
 <tr>
 <td width="20"></td><td>
- Creates a copy of the material.</td>
+  Creates a copy of the material.</td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html#clone()">clone</a>() &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html">BitmapMaterial</a></td>
 </tr>
 <tr>
 <td width="20"></td><td>
- Creates a copy of the material.</td>
+  Creates a copy of the material.</td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MaterialsList.html#clone()">clone</a>() &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MaterialsList.html">MaterialsList</a></td>
@@ -296,7 +296,9 @@ The Collada class lets you load and parse Collada scenes.</td>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/utils/class-list.html');" href="org/papervision3d/utils/InteractiveContainerData.html#color">color</a> &mdash; Property in class org.papervision3d.utils.<a onclick="javascript:loadClassListFrame('org/papervision3d/utils/class-list.html');" href="org/papervision3d/utils/InteractiveContainerData.html">InteractiveContainerData</a></td>
 </tr>
 <tr>
-<td width="20"></td><td></td>
+<td width="20"></td><td>
+  color used for the fill of the face
+  </td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/ColorMaterial.html">ColorMaterial</a> &mdash; Class in package <a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/package-detail.html">org.papervision3d.materials</a></td>
@@ -343,7 +345,7 @@ The ColorMaterial class creates a solid color material.</td>
 <td width="20"></td><td></td>
 </tr>
 <tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/CompositeMaterial.html#CompositeMaterial()">CompositeMaterial</a>(initObject) &mdash; Constructor in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/CompositeMaterial.html">CompositeMaterial</a></td>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/CompositeMaterial.html#CompositeMaterial()">CompositeMaterial</a>() &mdash; Constructor in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/CompositeMaterial.html">CompositeMaterial</a></td>
 </tr>
 <tr>
 <td width="20"></td><td></td>
@@ -442,14 +444,14 @@ The Cone class lets you create and display Cones.</td>
 </tr>
 <tr>
 <td width="20"></td><td>
- Copies the properties of a material.</td>
+  Copies the properties of a material.</td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html#copy()">copy</a>(material:<a href="org/papervision3d/core/proto/MaterialObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:MaterialObject3D</a>) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html">BitmapMaterial</a></td>
 </tr>
 <tr>
 <td width="20"></td><td>
- Copies the properties of a material.</td>
+  Copies the properties of a material.</td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/class-list.html');" href="org/papervision3d/core/Matrix3D.html#copy3x3()">copy3x3</a>(m:<a href="org/papervision3d/core/Matrix3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core./class-list.html');">org.papervision3d.core:Matrix3D</a>) &mdash; Method in class org.papervision3d.core.<a onclick="javascript:loadClassListFrame('org/papervision3d/core/class-list.html');" href="org/papervision3d/core/Matrix3D.html">Matrix3D</a></td>
@@ -479,26 +481,10 @@ The Cone class lets you create and display Cones.</td>
  Copies the transformation information (position, rotation and scale) from another object or Matrix3D.</td>
 </tr>
 <tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html#correctBitmap()">correctBitmap</a>(bitmap, dispose) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html">BitmapMaterial</a></td>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html#correctBitmap()">correctBitmap</a>(bitmap) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html">BitmapMaterial</a></td>
 </tr>
 <tr>
 <td width="20"></td><td></td>
-</tr>
-<tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapAssetMaterial.html#createBitmap()">createBitmap</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapAssetMaterial.html">BitmapAssetMaterial</a></td>
-</tr>
-<tr>
-<td width="20"></td><td>
- [internal-use]
-  </td>
-</tr>
-<tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapFileMaterial.html#createBitmap()">createBitmap</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapFileMaterial.html">BitmapFileMaterial</a></td>
-</tr>
-<tr>
-<td width="20"></td><td>
- [internal-use]
-  </td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html#createBitmap()">createBitmap</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapMaterial.html">BitmapMaterial</a></td>
@@ -507,24 +493,28 @@ The Cone class lets you create and display Cones.</td>
 <td width="20"></td><td></td>
 </tr>
 <tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MovieAssetMaterial.html#createBitmap()">createBitmap</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MovieAssetMaterial.html">MovieAssetMaterial</a></td>
-</tr>
-<tr>
-<td width="20"></td><td></td>
-</tr>
-<tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MovieMaterial.html#createBitmap()">createBitmap</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MovieMaterial.html">MovieMaterial</a></td>
-</tr>
-<tr>
-<td width="20"></td><td></td>
-</tr>
-<tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/VideoStreamMaterial.html#createBitmap()">createBitmap</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/VideoStreamMaterial.html">VideoStreamMaterial</a></td>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapAssetMaterial.html#createBitmapFromLinkageID()">createBitmapFromLinkageID</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapAssetMaterial.html">BitmapAssetMaterial</a></td>
 </tr>
 <tr>
 <td width="20"></td><td>
-   Creates the bitmap that is used as a texture
-      </td>
+  [internal-use]
+    </td>
+</tr>
+<tr>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MovieMaterial.html#createBitmapFromSprite()">createBitmapFromSprite</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MovieMaterial.html">MovieMaterial</a></td>
+</tr>
+<tr>
+<td width="20"></td><td>
+  
+  </td>
+</tr>
+<tr>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapFileMaterial.html#createBitmapFromURL()">createBitmapFromURL</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/BitmapFileMaterial.html">BitmapFileMaterial</a></td>
+</tr>
+<tr>
+<td width="20"></td><td>
+  [internal-use]
+    </td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/utils/class-list.html');" href="org/papervision3d/materials/utils/BitmapMaterialTools.html#createBitmapMaterial()">createBitmapMaterial</a>(bitmapClass, oneSided) &mdash; Static method in class org.papervision3d.materials.utils.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/utils/class-list.html');" href="org/papervision3d/materials/utils/BitmapMaterialTools.html">BitmapMaterialTools</a></td>
@@ -534,6 +524,12 @@ The Cone class lets you create and display Cones.</td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/utils/class-list.html');" href="org/papervision3d/materials/utils/BitmapMaterialTools.html#createInteractiveBitmapMaterial()">createInteractiveBitmapMaterial</a>(bitmapClass, oneSided) &mdash; Static method in class org.papervision3d.materials.utils.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/utils/class-list.html');" href="org/papervision3d/materials/utils/BitmapMaterialTools.html">BitmapMaterialTools</a></td>
+</tr>
+<tr>
+<td width="20"></td><td></td>
+</tr>
+<tr>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MovieAssetMaterial.html#createMovie()">createMovie</a>(asset) &mdash; Method in class org.papervision3d.materials.<a onclick="javascript:loadClassListFrame('org/papervision3d/materials/class-list.html');" href="org/papervision3d/materials/MovieAssetMaterial.html">MovieAssetMaterial</a></td>
 </tr>
 <tr>
 <td width="20"></td><td></td>

@@ -17,10 +17,6 @@
 	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.utils.virtualmouse.IVirtualMouseEvent;
 	
-	/**
-	 *	Sorry about the changes I had to make to this class to make it work with CS3 as a class.  I hate the way they implemented stage instances...
-	 *  Jim Kremens 
-	*/
 	public class Main extends MovieClip {
 
 		// ___________________________________________________________________ 3D vars
@@ -74,7 +70,7 @@
 			ism = scene.interactiveSceneManager;
 			
 			// set SHOW_DRAWN_FACES = false if you don't want to see the overlay of sprites - this will also increase speed
-			InteractiveSceneManager.SHOW_DRAWN_FACES = true;
+			InteractiveSceneManager.SHOW_DRAWN_FACES = false;
 			InteractiveSceneManager.DEFAULT_LINE_COLOR = 0x000000;
 			InteractiveSceneManager.DEFAULT_FILL_COLOR = 0x003399;
 			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = .3;

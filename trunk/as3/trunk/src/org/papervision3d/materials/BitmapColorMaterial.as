@@ -19,7 +19,6 @@
 		
 		public function BitmapColorMaterial(color:Number=0xFF00FF, alpha:Number=1)
 		{
-			super(new BitmapData(2,2,true));
 			bitmap = new BitmapData(BITMAP_WIDTH,BITMAP_HEIGHT,fillAlpha > 1,0x00000000);
 			fillColor = color;
 			fillAlpha = alpha;

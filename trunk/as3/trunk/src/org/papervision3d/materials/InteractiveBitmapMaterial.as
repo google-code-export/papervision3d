@@ -3,14 +3,15 @@ package org.papervision3d.materials
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.core.geom.Face3D;
 	import flash.display.Graphics;
+	import flash.display.BitmapData;
 	import org.papervision3d.core.geom.Vertex2D;
 	import flash.geom.Matrix;
 	
 	public class InteractiveBitmapMaterial extends BitmapMaterial
 	{		
-		public function InteractiveBitmapMaterial(asset:*, initObject:Object=null)
+		public function InteractiveBitmapMaterial( asset:BitmapData )
 		{
-			super(asset, initObject);
+			super( asset );
 		}
 		
 		/**

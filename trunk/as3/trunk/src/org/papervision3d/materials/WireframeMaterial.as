@@ -37,76 +37,74 @@
 
 package org.papervision3d.materials
 {
-import org.papervision3d.core.proto.MaterialObject3D;
-import org.papervision3d.core.draw.IFaceDrawer;
-import org.papervision3d.core.geom.Face3D;
-import flash.display.Graphics;
-import org.papervision3d.core.geom.Vertex2D;
-import flash.geom.Matrix;
-import org.papervision3d.objects.DisplayObject3D;
-
-/**
-* The WireframeMaterial class creates a wireframe material, where only the outlines of the faces are drawn.
-* <p/>
-* Materials collects data about how objects appear when rendered.
-*/
-public class WireframeMaterial extends MaterialObject3D implements IFaceDrawer
-{
-	// ______________________________________________________________________ NEW
+	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.core.draw.IFaceDrawer;
+	import org.papervision3d.core.geom.Face3D;
+	import flash.display.Graphics;
+	import org.papervision3d.core.geom.Vertex2D;
+	import flash.geom.Matrix;
+	import org.papervision3d.objects.DisplayObject3D;
 
 	/**
 	* The WireframeMaterial class creates a wireframe material, where only the outlines of the faces are drawn.
-	*
-	* @param	asset				A BitmapData object.
-	* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
+	* <p/>
+	* Materials collects data about how objects appear when rendered.
 	*/
-	public function WireframeMaterial( color:Number=0xFF00FF, alpha:Number=100, initObject:Object=null )
+	public class WireframeMaterial extends MaterialObject3D implements IFaceDrawer
 	{
-		super( initObject );
+		// ______________________________________________________________________ NEW
 
-		this.lineColor   = color;
-		this.lineAlpha   = alpha;
-
-		this.doubleSided = false;
-	}
-	
-	/**
-	 *  drawFace3D
-	 */
-	override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
-	{
-		var x0:Number = v0.x;
-		var y0:Number = v0.y;
-		var x1:Number = v1.x;
-		var y1:Number = v1.y;
-		var x2:Number = v2.x;
-		var y2:Number = v2.y;
-
-		if( lineAlpha )
+		/**
+		* The WireframeMaterial class creates a wireframe material, where only the outlines of the faces are drawn.
+		*
+		* @param	asset				A BitmapData object.
+		* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
+		*/
+		public function WireframeMaterial( color:Number=0xFF00FF, alpha:Number=100 )
 		{
-			graphics.lineStyle( 0, lineColor, lineAlpha );
-			graphics.moveTo( x0, y0 );
-			graphics.lineTo( x1, y1 );
-			graphics.lineTo( x2, y2 );
-			graphics.lineTo( x0, y0 );
-			graphics.lineStyle();
+			this.lineColor   = color;
+			this.lineAlpha   = alpha;
 
-			return 1;
+			this.doubleSided = false;
 		}
-		else
-			return 0;
-	}
+		
+		/**
+		 *  drawFace3D
+		 */
+		override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		{
+			var x0:Number = v0.x;
+			var y0:Number = v0.y;
+			var x1:Number = v1.x;
+			var y1:Number = v1.y;
+			var x2:Number = v2.x;
+			var y2:Number = v2.y;
 
-	// ______________________________________________________________________ TO STRING
+			if( lineAlpha )
+			{
+				graphics.lineStyle( 0, lineColor, lineAlpha );
+				graphics.moveTo( x0, y0 );
+				graphics.lineTo( x1, y1 );
+				graphics.lineTo( x2, y2 );
+				graphics.lineTo( x0, y0 );
+				graphics.lineStyle();
 
-	/**
-	* Returns a string value representing the material properties in the specified WireframeMaterial object.
-	*
-	* @return	A string.
-	*/
-	public override function toString(): String
-	{
-		return 'WireframeMaterial - color:' + this.lineColor + ' alpha:' + this.lineAlpha;
+				return 1;
+			}
+			else
+				return 0;
+		}
+
+		// ______________________________________________________________________ TO STRING
+
+		/**
+		* Returns a string value representing the material properties in the specified WireframeMaterial object.
+		*
+		* @return	A string.
+		*/
+		public override function toString(): String
+		{
+			return 'WireframeMaterial - color:' + this.lineColor + ' alpha:' + this.lineAlpha;
+		}
 	}
-}
 }

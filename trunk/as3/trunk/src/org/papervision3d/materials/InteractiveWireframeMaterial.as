@@ -8,9 +8,9 @@ package org.papervision3d.materials
 	
 	public class InteractiveWireframeMaterial extends WireframeMaterial
 	{
-		public function InteractiveWireframeMaterial(color:Number=0xFF00FF, alpha:Number=1, initObject:Object=null)
+		public function InteractiveWireframeMaterial( color:Number=0xFF00FF, alpha:Number=1 )
 		{
-			super(color, alpha, initObject);
+			super( color, alpha );
 		}
 		
 		/**

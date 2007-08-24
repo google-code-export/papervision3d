@@ -39,39 +39,32 @@
  */
 package org.papervision3d.materials
 {
-   	import flash.display.BitmapData;
-	import flash.geom.Rectangle;
-	import flash.geom.Point;
+	import flash.display.BitmapData;
+	import flash.display.Graphics;
 	import flash.geom.Matrix;
 	
-	import org.papervision3d.core.proto.MaterialObject3D;
-	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.draw.IFaceDrawer;
-	import flash.display.Graphics;
-	import org.papervision3d.core.geom.*;
-	import org.papervision3d.core.*;
-	import flash.utils.Dictionary;
+	import org.papervision3d.materials.BitmapAssetMaterial;
+	import org.papervision3d.materials.IPreciseMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.materials.*;
-
-    import flash.utils.*;
+	import org.papervision3d.core.geom.Face3D;
+	import org.papervision3d.core.geom.Vertex2D;
+	import org.papervision3d.core.NumberUV;
 
     /** Bitmap material that renders bitmap texture taking into account perspective distortion */
-    public class PreciseBitmapMaterial extends BitmapMaterial
+    public class PreciseBitmapMaterial extends BitmapMaterial implements IPreciseMaterial
     {
         public var precision:Number = 1;
 		public var uv0:NumberUV;
         public var uv1:NumberUV;
         public var uv2:NumberUV;
 
-        public function PreciseBitmapMaterial(asset:*, init:Object = null)
+        public function PreciseBitmapMaterial( asset:BitmapData )
         {
-            super(asset, init);
+            super( asset );
 			
             precision = precision * precision * 1.4;
 			
         }
-
 		
 		public override function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
         {
@@ -79,11 +72,9 @@ package org.papervision3d.materials
 
             renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
 			return 1;
-        }
-	
+        }		
 		
-		
-        protected function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
+        public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
             ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number):void
         {
 

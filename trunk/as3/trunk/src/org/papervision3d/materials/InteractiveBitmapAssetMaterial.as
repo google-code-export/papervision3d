@@ -8,9 +8,9 @@ package org.papervision3d.materials
 	
 	public class InteractiveBitmapAssetMaterial extends BitmapAssetMaterial
 	{
-		public function InteractiveBitmapAssetMaterial(id:String, initObject:Object=null)
+		public function InteractiveBitmapAssetMaterial( linkageID:String )
 		{
-			super(id, initObject);
+			super( linkageID );
 		}
 		
 		/**
