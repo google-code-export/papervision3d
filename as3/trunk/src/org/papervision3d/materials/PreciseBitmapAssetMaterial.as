@@ -61,6 +61,8 @@ package org.papervision3d.materials
 		public function PreciseBitmapAssetMaterial( linkageID:String )
 		{
 			super( linkageID );
+			
+			precision = precision * precision * 1.4;
 		}
 		
 		public override function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
