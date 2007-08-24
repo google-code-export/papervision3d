@@ -763,12 +763,17 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		iFaces.sortOn( 'screenZ', Array.DESCENDING | Array.NUMERIC );
 
 		// Render
-		var container :Sprite = this.container || scene.container;
-		var rendered  :Number = 0;
-		var iFace     :Face3DInstance;
-
-		for( var i:int = 0; iFace = iFaces[i]; i++ )
+		var container 	:Sprite = this.container || scene.container,
+		rendered  		:Number = 0,
+		iFace     		:Face3DInstance, 
+		length			:Number = iFaces.length,
+		i				:int = 0;	
+		
+		//for( var i:int = 0; iFace = iFaces[i]; i++ )
+		//for( var i:int = 0; i < length ; i++ )
+		while(i < length)
 		{
+			iFace = iFaces[i];
 			if( faceLevelMode )
 			{
 				if( !iFace.container )
@@ -788,7 +793,9 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 				// if we're not in faceLevelMode, then it's render as usual - no extra checks in the render loop
 				if( iFace.visible )
 					rendered += iFace.face.render( iFace.instance, container );
-			}			
+			}	
+			
+			i++;		
 		}
 
 		// Update stats

@@ -137,14 +137,13 @@ package org.papervision3d.materials
 
 			if( bitmap )
 			{
-				var map:Matrix = (uvMatrices[face3D] || transformUV(face3D, instance));
-
-				var x0:Number = v0.x;
-				var y0:Number = v0.y;
-				var x1:Number = v1.x;
-				var y1:Number = v1.y;
-				var x2:Number = v2.x;
-				var y2:Number = v2.y;
+				var map:Matrix = (uvMatrices[face3D] || transformUV(face3D, instance)),
+				x0:Number = v0.x,
+				y0:Number = v0.y,
+				x1:Number = v1.x,
+				y1:Number = v1.y,
+				x2:Number = v2.x,
+				y2:Number = v2.y;
 
 				_triMatrix.a = x1 - x0;
 				_triMatrix.b = y1 - y0;
@@ -192,7 +191,6 @@ package org.papervision3d.materials
 			else if( bitmap )
 			{
 				var uv :Array  = face3D.uv;
-				
 				var w  :Number = bitmap.width * maxU;
 				var h  :Number = bitmap.height * maxV;
 				

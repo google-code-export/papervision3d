@@ -161,7 +161,9 @@ public class Face3D
 	*/
 	public function render( instance:DisplayObject3D, container:Sprite ): Number
 	{
-		var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.getMaterialByName( this.materialName ) : instance.material;
+		var material:MaterialObject3D = instance.material;
+		if( this.materialName && instance.materials ) material = instance.materials.getMaterialByName( this.materialName );
+		//var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.getMaterialByName( this.materialName ) : instance.material;
 		return material.drawFace3D(instance, this, container.graphics, v0.vertex2DInstance, v1.vertex2DInstance, v2.vertex2DInstance);
 	}
 	
@@ -217,11 +219,11 @@ public class Face3D
 	
 	protected function createNormal():void
 	{
-		var vn0:Number3D = v0.toNumber3D();
-		var vn1:Number3D = v1.toNumber3D();
-		var vn2:Number3D = v2.toNumber3D();
-		var vt1:Number3D = Number3D.sub(vn1,vn0);
-		var vt2:Number3D = Number3D.sub(vn2,vn0);
+		var vn0:Number3D = v0.toNumber3D(),
+			vn1:Number3D = v1.toNumber3D(),
+			vn2:Number3D = v2.toNumber3D(),
+			vt1:Number3D = Number3D.sub(vn1,vn0),
+			vt2:Number3D = Number3D.sub(vn2,vn0);
 		
 		faceNormal = Number3D.cross(vt2,vt1);
 		faceNormal.normalize();

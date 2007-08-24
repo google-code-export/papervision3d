@@ -99,32 +99,33 @@ public class Vertices3D extends DisplayObject3D
 		//var screenZ:Number =
 		super.project( parent, camera, sorted );
 
-		var view:Matrix3D = this.view;
+		var view:Matrix3D = this.view,
 
 		// Camera
-		var m11 :Number = view.n11;
-		var m12 :Number = view.n12;
-		var m13 :Number = view.n13;
-		var m21 :Number = view.n21;
-		var m22 :Number = view.n22;
-		var m23 :Number = view.n23;
-		var m31 :Number = view.n31;
-		var m32 :Number = view.n32;
-		var m33 :Number = view.n33;
+		m11 :Number = view.n11,
+		m12 :Number = view.n12,
+		m13 :Number = view.n13,
+		m21 :Number = view.n21,
+		m22 :Number = view.n22,
+		m23 :Number = view.n23,
+		m31 :Number = view.n31,
+		m32 :Number = view.n32,
+		m33 :Number = view.n33,
+		vx	:Number,
+		vy	:Number,
+		vz	:Number,
+		s_x	:Number,
+		s_y	:Number,
+		s_z	:Number,
+		vertex:Vertex3D, 
+		screen:Vertex2D,
+		persp :Number,
 
-		var vertices :Array  = this.geometry.vertices;
-		var i        :int    = vertices.length;
+		vertices :Array  = this.geometry.vertices,
+		i        :int    = vertices.length,
 
-		var focus    :Number = camera.focus;
-		var fz       :Number = focus * camera.zoom;
-		var vertex   :Vertex3D, screen :Vertex2D, persp :Number;
-		
-		var vx:Number;
-		var vy:Number;
-		var vz:Number;
-		var s_x:Number;
-		var s_y:Number;
-		var s_z:Number;
+		focus    :Number = camera.focus,
+		fz       :Number = focus * camera.zoom;
 		
 		while( vertex = vertices[--i] )
 		{
@@ -190,24 +191,24 @@ public class Vertices3D extends DisplayObject3D
 
 	public function transformVertices( transformation:Matrix3D ):void
 	{
-		var m11 :Number = transformation.n11;
-		var m12 :Number = transformation.n12;
-		var m13 :Number = transformation.n13;
-		var m21 :Number = transformation.n21;
-		var m22 :Number = transformation.n22;
-		var m23 :Number = transformation.n23;
-		var m31 :Number = transformation.n31;
-		var m32 :Number = transformation.n32;
-		var m33 :Number = transformation.n33;
+		var m11 :Number = transformation.n11,
+		m12 :Number = transformation.n12,
+		m13 :Number = transformation.n13,
+		m21 :Number = transformation.n21,
+		m22 :Number = transformation.n22,
+		m23 :Number = transformation.n23,
+		m31 :Number = transformation.n31,
+		m32 :Number = transformation.n32,
+		m33 :Number = transformation.n33,
 
-		var m14 :Number = transformation.n14;
-		var m24 :Number = transformation.n24;
-		var m34 :Number = transformation.n34;
+		m14 :Number = transformation.n14,
+		m24 :Number = transformation.n24,
+		m34 :Number = transformation.n34,
 
-		var vertices :Array  = this.geometry.vertices;
-		var i        :int    = vertices.length;
+		vertices :Array  = this.geometry.vertices,
+		i        :int    = vertices.length,
 
-		var vertex   :Vertex3D;
+		vertex   :Vertex3D;
 
 		// trace( "transformed " + i ); // DEBUG
 
