@@ -13,7 +13,6 @@
 package
 {
 import flash.display.*;
-import flash.display.stage.*;
 import flash.events.*;
 import flash.geom.ColorTransform;
 import flash.utils.Dictionary;
@@ -101,12 +100,11 @@ public class main extends Sprite
 
 	private function createAlbum()
 	{
-		var material:MovieAssetMaterial = new MovieAssetMaterial( "Album" );
+		var material:InteractiveMovieAssetMaterial = new InteractiveMovieAssetMaterial( "Album" );
 
 		material.doubleSided = true;
 		material.lineColor = 0xFFFFFF;
 
-		material.movie.gotoAndStop( num % material.movie.totalFrames );
 		material.updateBitmap();
 
 		var plane :Plane = new Plane( material, paperSize, 0, 2, 2 );
