@@ -118,7 +118,7 @@ package org.papervision3d.core.proto
 		/**
 		* A Boolean value that indicates whether the faces are single sided. It has preference over doubleSided.
 		*/
-		public var oneSide :Boolean = false;
+		public var oneSide :Boolean = true;
 
 
 		/**
