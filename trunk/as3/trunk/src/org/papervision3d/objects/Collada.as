@@ -267,7 +267,8 @@ public class Collada extends DisplayObject3D
 
 				// Baked transform matrix
 				case "matrix":
-					matrix = Matrix3D.multiply( matrix, new Matrix3D( getArray( child ) ) );
+					matrix = Matrix3D.multiply( matrix, bakedMatrix( new Matrix3D( getArray( child ) ) ) );
+					trace( matrix );
 					break;
 
 				case "node":
@@ -590,6 +591,15 @@ public class Collada extends DisplayObject3D
 			return Matrix3D.scaleMatrix( vector[0], vector[1], vector[2] );
 		else
 			return Matrix3D.scaleMatrix( vector[0], vector[2], vector[1] );
+	}
+
+	private function bakedMatrix( matrix:Matrix3D ):Matrix3D
+	{
+		matrix.n14 *= _scaling;
+		matrix.n24 *= _scaling;
+		matrix.n34 *= _scaling;
+		
+		return matrix;
 	}
 
 	// _______________________________________________________________________
