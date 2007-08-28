@@ -37,66 +37,71 @@
 //                                                               Vertex3D
 package org.papervision3d.core.geom
 {
-
-/**
-* The Vertex2D constructor lets you create 2D projected vertices.
-*/
-public class Vertex2D
-{
-	/**
-	* An Number that sets the X coordinate of a object relative to the scene coordinate system.
-	*/
-	public var x :Number;
-
-	/**
-	* An Number that sets the Y coordinate of a object relative to the scene coordinates.
-	*/
-	public var y :Number;
-
-	/**
-	* An Number that sets the Z coordinate of a object relative to the scene coordinates.
-	*/
-	public var z :Number;
-
-	/**
-	* An object that contains user defined properties.
-	*/
-	public var extra :Object;
-
-
-	/**
-	* [internal-use] A Boolean value that indicates whether the vertex is visible after projection.
-	*
-	* If false, it indicates that the vertex is behind the camera plane.
-	*
-	* */
-	public var visible :Boolean;
-
-
-	/**
-	* Creates a new Vertex2D object whose three-dimensional values are specified by the x, y and z parameters.
-	*
-	* @param	x	The horizontal coordinate value. The default value is zero.
-	* @param	y	The vertical coordinate value. The default value is zero.
-	* @param	z	The depth coordinate value. The default value is zero.
-	*
-	* */
-	public function Vertex2D( x:Number=0, y:Number=0, z:Number=0 )
-	{
-		this.x = x;
-		this.y = y;
-		this.z = z;
-
-		this.visible   = false;
-	}
+	import org.papervision3d.core.Number3D;
 	
-	public function clone():Vertex2D
+
+	/**
+	* The Vertex2D constructor lets you create 2D projected vertices.
+	*/
+	public class Vertex2D
 	{
-		var clone:Vertex2D = new Vertex2D(x,y,z);
-		clone.visible = visible;
-		clone.extra = extra; //TODO : FIX CLONING OF THE EXTRA OBJECT.
-		return clone;
-	}
+		/**
+		* An Number that sets the X coordinate of a object relative to the scene coordinate system.
+		*/
+		public var x :Number;
 	
-}
+		/**
+		* An Number that sets the Y coordinate of a object relative to the scene coordinates.
+		*/
+		public var y :Number;
+	
+		/**
+		* An Number that sets the Z coordinate of a object relative to the scene coordinates.
+		*/
+		public var z :Number;
+	
+		/**
+		* An object that contains user defined properties.
+		*/
+		public var extra :Object;
+	
+	
+		/**
+		* [internal-use] A Boolean value that indicates whether the vertex is visible after projection.
+		*
+		* If false, it indicates that the vertex is behind the camera plane.
+		*
+		* */
+		public var visible :Boolean;
+		
+		//To be docced
+		public var normal:Number3D;
+	
+		/**
+		* Creates a new Vertex2D object whose three-dimensional values are specified by the x, y and z parameters.
+		*
+		* @param	x	The horizontal coordinate value. The default value is zero.
+		* @param	y	The vertical coordinate value. The default value is zero.
+		* @param	z	The depth coordinate value. The default value is zero.
+		*
+		* */
+		public function Vertex2D( x:Number=0, y:Number=0, z:Number=0 )
+		{
+			this.x = x;
+			this.y = y;
+			this.z = z;
+	
+			this.visible   = false;
+			this.normal = new Number3D();
+		}
+		
+		public function clone():Vertex2D
+		{
+			var clone:Vertex2D = new Vertex2D(x,y,z);
+			clone.visible = visible;
+			clone.extra = extra; //TODO : FIX CLONING OF THE EXTRA OBJECT.
+			return clone;
+		}
+		
+	}
 }

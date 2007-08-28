@@ -172,6 +172,9 @@ package org.papervision3d.core.proto
 		 */
 		 public var needsFaceNormals:Boolean = false;
 		 
+		 //To be docced
+		 public var needsVertexNormals:Boolean = false;
+		 
 		 /**
 		* Holds the original size of the bitmap before it was resized by Automip mapping
 		*/

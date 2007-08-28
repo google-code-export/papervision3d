@@ -9,6 +9,7 @@ package org.papervision3d.core.stat
 		public var triangles:int = 0;
 		public var culledTriangles:int = 0;
 		public var pixels:Number;
+		public var particles:Number;
 		
 		public function RenderStatistics()
 		{
@@ -23,6 +24,7 @@ package org.papervision3d.core.stat
 			rendered = 0;
 			triangles = 0;
 			pixels = 0;
+			particles = 0;
 			culledTriangles = 0;
 		}
 		
