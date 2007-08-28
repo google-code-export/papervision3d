@@ -163,7 +163,6 @@ public class Face3D
 	{
 		var material:MaterialObject3D = instance.material;
 		if( this.materialName && instance.materials ) material = instance.materials.getMaterialByName( this.materialName );
-		//var material:MaterialObject3D = ( this.materialName && instance.materials )? instance.materials.getMaterialByName( this.materialName ) : instance.material;
 		return material.drawFace3D(instance, this, container.graphics, v0.vertex2DInstance, v1.vertex2DInstance, v2.vertex2DInstance);
 	}
 	

@@ -21,6 +21,7 @@ package org.papervision3d.core.geom
 		{
 			this.face = face;
 			this.instance = instance;
+			faceNormal = new Number3D();
 		}
 	}
 }
