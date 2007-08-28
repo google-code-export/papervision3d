@@ -8,13 +8,12 @@ package org.papervision3d.materials
        import org.papervision3d.core.geom.Vertex2D;
        import org.papervision3d.core.proto.MaterialObject3D;
        import org.papervision3d.objects.DisplayObject3D;
-
+     
        /**
         *
         */
        public class ShadedColorMaterial extends MaterialObject3D
        {
-       		
                public var light:Number3D;
 
                /**
@@ -24,7 +23,7 @@ package org.papervision3d.materials
                 */
                public function ShadedColorMaterial(fillColor:uint, fillAlpha:Number= 1.0):void
                {
-                       this.fillColor = fillColor;
+                 	   this.fillColor = fillColor;
                        this.fillAlpha = fillAlpha;
                        this.light = new Number3D(0, 0, 100);
 					   needsFaceNormals = true;

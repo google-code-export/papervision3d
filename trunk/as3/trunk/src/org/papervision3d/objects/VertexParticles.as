@@ -48,7 +48,7 @@ package org.papervision3d.objects
 			}
 			for each(particle in particles)
 			{
-				particle.render(container);
+				scene.stats.particles += particle.render(container);
 			}
 		}
 		

@@ -39,67 +39,87 @@ package org.papervision3d.core.geom
 {
 	import org.papervision3d.core.Number3D;
 	import com.blitzagency.xray.logger.util.ObjectTools;
+	import flash.utils.Dictionary;
 	
 
-/**
-* The Vertex3D constructor lets you create 3D vertices.
-*/
-public class Vertex3D
-{
 	/**
-	* An Number that sets the X coordinate of a object relative to the scene coordinate system.
+	* The Vertex3D constructor lets you create 3D vertices.
 	*/
-	public var x :Number;
-
-	/**
-	* An Number that sets the Y coordinate of a object relative to the scene coordinates.
-	*/
-	public var y :Number;
-
-	/**
-	* An Number that sets the Z coordinate of a object relative to the scene coordinates.
-	*/
-	public var z :Number;
-
-	/**
-	* An object that contains user defined properties.
-	*/
-	public var extra :Object;
-	
-	/**
-	 * Vertex2D instance 
-	 */
-	 public var vertex2DInstance:Vertex2D;
-
-	/**
-	* Creates a new Vertex3D object whose three-dimensional values are specified by the x, y and z parameters.
-	*
-	* @param	x	The horizontal coordinate value. The default value is zero.
-	* @param	y	The vertical coordinate value. The default value is zero.
-	* @param	z	The depth coordinate value. The default value is zero.
-	*
-	* */
-	public function Vertex3D( x:Number=0, y:Number=0, z:Number=0 )
+	public class Vertex3D
 	{
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		/**
+		* An Number that sets the X coordinate of a object relative to the scene coordinate system.
+		*/
+		public var x :Number;
+	
+		/**
+		* An Number that sets the Y coordinate of a object relative to the scene coordinates.
+		*/
+		public var y :Number;
+	
+		/**
+		* An Number that sets the Z coordinate of a object relative to the scene coordinates.
+		*/
+		public var z :Number;
+	
+		/**
+		* An object that contains user defined properties.
+		*/
+		public var extra :Object;
 		
-		this.vertex2DInstance = new Vertex2D();
-	}
+		/**
+		 * Vertex2D instance 
+		 */
+		 public var vertex2DInstance:Vertex2D;
+		
+		//To be docced
+		public var normal:Number3D;
+		public var connectedFaces:Dictionary;
 	
-	public function toNumber3D():Number3D
-	{
-		return new Number3D(x,y,z);
+		/**
+		* Creates a new Vertex3D object whose three-dimensional values are specified by the x, y and z parameters.
+		*
+		* @param	x	The horizontal coordinate value. The default value is zero.
+		* @param	y	The vertical coordinate value. The default value is zero.
+		* @param	z	The depth coordinate value. The default value is zero.
+		*
+		* */
+		public function Vertex3D( x:Number=0, y:Number=0, z:Number=0 )
+		{
+			this.x = x;
+			this.y = y;
+			this.z = z;
+			
+			this.vertex2DInstance = new Vertex2D();
+			this.normal = new Number3D();
+			this.connectedFaces = new Dictionary();
+		}
+		
+		public function toNumber3D():Number3D
+		{
+			return new Number3D(x,y,z);
+		}
+		
+		public function clone():Vertex3D
+		{
+			var clone:Vertex3D = new Vertex3D(x,y,z);
+			clone.extra = extra;
+			clone.vertex2DInstance = vertex2DInstance.clone();
+			clone.normal = normal.clone();
+			
+			return clone;
+		}
+		
+		public function calculateNormal():void
+		{
+			var face:Face3D;
+			normal = new Number3D();
+			for each(face in connectedFaces)
+			{	
+				normal = Number3D.add(face.faceNormal, normal);
+			}
+			normal.normalize();
+		}
+		
 	}
-	
-	public function clone():Vertex3D
-	{
-		var clone:Vertex3D = new Vertex3D(x,y,z);
-		clone.extra = extra;
-		clone.vertex2DInstance = vertex2DInstance.clone();
-		return clone;
-	}
-	
-}
 }

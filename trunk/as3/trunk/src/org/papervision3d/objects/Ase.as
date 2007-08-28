@@ -277,14 +277,14 @@ public class Ase extends Mesh3D
 			}
 		}
 
-		this.geometry.ready = true;
+		
 
 		// dispatch event
 		var fileEvent:FileLoadEvent = new FileLoadEvent( FileLoadEvent.LOAD_COMPLETE, _filename );
 		dispatchEvent( fileEvent );
 
 		this.loaded = true;
-
+		this.geometry.ready = true;
 		Papervision3D.log( "Parsed ASE: " + this._filename + " [vertices:" + vertices.length + " faces:" + faces.length + "]" );
 	}
 
