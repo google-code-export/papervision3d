@@ -60,7 +60,7 @@ package {
 			scene = new Scene3D(pv3dContainer);
 			
 			//Create a new FreeCamera3D, and center it in the scene
-			camera = new FreeCamera3D(2,100);
+			camera = new FreeCamera3D(.25,1500);
 			camera.x = 400;
 			camera.y = 0;
 			camera.z = 0;
@@ -75,7 +75,7 @@ package {
 			*/
 			
 			//Create a new particlefield.
-			particleField = new ParticleField(700,0xcccccc, starSprite);
+			particleField = new ParticleField(2000,0xcccccc, starSprite, 20000, 20000, 20000);
 			scene.addChild(particleField);
 			
 			//Set the container to the center of the stage.

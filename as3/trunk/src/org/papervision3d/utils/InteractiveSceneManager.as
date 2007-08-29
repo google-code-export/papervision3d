@@ -599,11 +599,11 @@ package org.papervision3d.utils
 					// locate the material's movie
 					var mat:MovieMaterial = face3d.face3DInstance.instance.material as MovieMaterial;
 
-						// set the location where the calcs should be performed
-					virtualMouse.container = mat.movie;
+					// set the location where the calcs should be performed
+					virtualMouse.container = mat.movie as Sprite;
 						
-						// update virtual mouse so it can test
-					virtualMouse.setLocation(point.x, point.y);
+					// update virtual mouse so it can test
+					if( virtualMouse.container ) virtualMouse.setLocation(point.x, point.y);
 				}catch(err:Error)
 				{
 					log.error("material type is not Inter active.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message);

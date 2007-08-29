@@ -38,7 +38,7 @@
 package org.papervision3d.materials
 {
 	import flash.geom.Matrix;
-	import flash.display.Sprite;
+	import flash.display.DisplayObject;
 	import flash.display.BitmapData;
 	import flash.utils.Dictionary;
 	
@@ -60,7 +60,7 @@ package org.papervision3d.materials
 		/**
 		* The MovieClip that is used as a texture.
 		*/
-		public var movie :Sprite;
+		public var movie :DisplayObject;
 
 		/**
 		* A Boolean value that determines whether the MovieClip is transparent. The default value is false, which is much faster.
@@ -104,12 +104,12 @@ package org.papervision3d.materials
 		*/
 		override public function set texture( asset:Object ):void
 		{
-			if( asset is Sprite == false )
+			if( asset is DisplayObject == false )
 			{
 				Papervision3D.log("Error: MovieMaterial.texture requires a Sprite to be passed as the object");
 				return;
 			}
-			bitmap = createBitmapFromSprite( Sprite(asset) );
+			bitmap = createBitmapFromSprite( DisplayObject(asset) );
 			_texture = asset;
 		}
 
@@ -122,7 +122,7 @@ package org.papervision3d.materials
 		* @param	transparent		[optional] - If it's not transparent, the empty areas of the MovieClip will be of fill32 color. Default value is false.
 		* @param	animated		[optional] - a flag setting whether or not this material has animation.  If set to true, it will be updated during each render loop
 		*/
-		public function MovieMaterial( movieAsset:Sprite=null, transparent:Boolean=false, animated:Boolean=false )
+		public function MovieMaterial( movieAsset:DisplayObject=null, transparent:Boolean=false, animated:Boolean=false )
 		{
 			movieTransparent = transparent;
 			this.animated = animated;
@@ -136,7 +136,7 @@ package org.papervision3d.materials
 		* @param	asset
 		* @return
 		*/
-		protected function createBitmapFromSprite( asset:Sprite ):BitmapData
+		protected function createBitmapFromSprite( asset:DisplayObject ):BitmapData
 		{
 			// Set the new movie reference
 			movie = asset;
@@ -154,7 +154,7 @@ package org.papervision3d.materials
 			return bitmap;
 		}
 		
-		protected function initBitmap( asset:Sprite ):void
+		protected function initBitmap( asset:DisplayObject ):void
 		{
 			// Cleanup previous bitmap if needed
 			if( bitmap )
