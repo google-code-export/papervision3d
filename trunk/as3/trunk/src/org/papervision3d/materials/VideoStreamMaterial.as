@@ -46,7 +46,7 @@
 package org.papervision3d.materials
 {
 	import flash.display.BitmapData;
-	import flash.display.Sprite;
+	import flash.display.DisplayObject;
 	import flash.events.NetStatusEvent;
 	import flash.geom.Matrix;
 	import flash.media.Video;
@@ -79,7 +79,7 @@ package org.papervision3d.materials
 		* @param	stream			Stream that is used to play the FLV file
 		* @param	initObject		[optional] - An object that contains additional properties with which to populate the newly created material.
 		*/
-		public function VideoStreamMaterial ( video:Video=null, stream:NetStream=null )
+		public function VideoStreamMaterial ( video:Video, stream:NetStream )
 		{			
 			// store the values
 			this.stream = stream;
@@ -89,7 +89,7 @@ package org.papervision3d.materials
 			// init the material with a listener for the NS object 
 			initMaterial ( video, stream );
 						
-			super ( Sprite(video) );
+			super ( DisplayObject(video) );
 		}
 	
 
@@ -113,18 +113,24 @@ package org.papervision3d.materials
 		*/	
 		public override function updateBitmap ():void
 		{
-			// copies the scale properties of the video
-			var myMatrix:Matrix = new Matrix();
-			myMatrix.scale( this.video.scaleX, this.video.scaleY );
+			try
+			{
+				// copies the scale properties of the video
+				var myMatrix:Matrix = new Matrix();
+				myMatrix.scale( this.video.scaleX, this.video.scaleY );
 
-			// Fills the rectangle with a background color
-			this.bitmap.fillRect ( this.bitmap.rect, this.fillColor );
+				// Fills the rectangle with a background color
+				this.bitmap.fillRect ( this.bitmap.rect, this.fillColor );
 
-			// Due to security reasons the BitmapData cannot access RTMP content like a NetStream using a FMS server.
-			// The next three lines are a simple but effective workaround to get pass Flash its security sandbox.
-			this.video.attachNetStream ( null );
-			this.bitmap.draw( this.video, myMatrix, this.video.transform.colorTransform );
-            this.video.attachNetStream ( this.stream );
+				// Due to security reasons the BitmapData cannot access RTMP content like a NetStream using a FMS server.
+				// The next three lines are a simple but effective workaround to get pass Flash its security sandbox.
+				this.video.attachNetStream ( null );
+				this.bitmap.draw( this.video, myMatrix, this.video.transform.colorTransform );
+				this.video.attachNetStream ( this.stream );
+			}catch(e:Error)
+			{
+				//
+			}
 		}
 		
 		
