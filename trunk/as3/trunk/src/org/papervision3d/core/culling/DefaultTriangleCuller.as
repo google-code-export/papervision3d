@@ -24,7 +24,7 @@ package org.papervision3d.core.culling
 		{
 			//Material checks & backface culling
 			if(vertex0.visible && vertex1.visible && vertex2.visible){
-				var material:MaterialObject3D = (faceInstance.face.materialName && displayObject3D.materials)? displayObject3D.materials.getMaterialByName( faceInstance.face.materialName ) : displayObject3D.material;
+				var material:MaterialObject3D = faceInstance.face.material ? faceInstance.face.material : displayObject3D.material;
 				
 				if(material.invisible){
 					return false
