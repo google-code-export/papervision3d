@@ -30,7 +30,6 @@ package org.papervision3d.materials
                }
 
                /**
-                *
                 * @param       instance
                 * @param       face3D
                 * @param       graphics

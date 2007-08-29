@@ -211,7 +211,7 @@ package org.papervision3d.objects
 			this.dispatchEvent( fileEvent );
 	
 			this.loaded = true;
-			this.geometry.ready = true;
+			
 		}
 	
 	
@@ -296,6 +296,7 @@ package org.papervision3d.objects
 			}
 	
 			instance.copyTransform( matrix );
+			instance.geometry.ready = true;
 		}
 	
 		// _______________________________________________________________________ parseGeometry
