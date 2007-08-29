@@ -115,8 +115,9 @@ package org.papervision3d.core.geom
 			
 			// Faces
 			var faces:Array  = this.geometry.faces, screenZs:Number = 0, visibleFaces :Number = 0, triCuller:ITriangleCuller = scene.triangleCuller, vertex0:Vertex2D, vertex1:Vertex2D, vertex2 :Vertex2D, iFace:Face3DInstance, face:Face3D;
-			
+			var mat:MaterialObject3D;
 			for each(face in faces){
+				mat = face.material ? face.material : material;
 				iFace = face.face3DInstance;
 				iFace.instance = this; //We must be able to do something about this, right ? 
 				
@@ -126,11 +127,12 @@ package org.papervision3d.core.geom
 				
 				if( (iFace.visible = triCuller.testFace(this, iFace, vertex0, vertex1, vertex2)))
 				{
-					if(material && material.needsFaceNormals){
+					if(mat.needsFaceNormals){
 						face.faceNormal.copyTo(iFace.faceNormal);
 						Matrix3D.multiplyVector3x3( this.view, iFace.faceNormal );
 					}
-					if(material && material.needsVertexNormals){
+					if(mat.needsVertexNormals){
+						
 						face.v0.normal.copyTo(face.v0.vertex2DInstance.normal);
 						Matrix3D.multiplyVector3x3(this.view, face.v0.vertex2DInstance.normal);
 						

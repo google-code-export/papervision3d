@@ -763,12 +763,12 @@ public class DisplayObject3D extends DisplayObjectContainer3D
 		iFaces.sortOn( 'screenZ', Array.DESCENDING | Array.NUMERIC );
 
 		// Render
+		
 		var container 	:Sprite = this.container || scene.container,
 		rendered  		:Number = 0,
 		iFace     		:Face3DInstance, 
 		length			:Number = iFaces.length,
 		i				:int = 0;	
-		
 		//for( var i:int = 0; iFace = iFaces[i]; i++ )
 		//for( var i:int = 0; i < length ; i++ )
 		while(i < length)

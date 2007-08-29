@@ -262,9 +262,12 @@ package org.papervision3d.core.proto
 			this.lineAlpha = material.lineAlpha;
 			this.fillColor = material.fillColor;
 			this.fillAlpha = material.fillAlpha;
-
+			
+			this.needsFaceNormals = material.needsFaceNormals;
+			this.needsVertexNormals = material.needsVertexNormals;
+			
 			this.oneSide   = material.oneSide;
-			this.opposite   = material.opposite;
+			this.opposite  = material.opposite;
 
 			this.invisible = material.invisible;
 			this.scene     = material.scene;

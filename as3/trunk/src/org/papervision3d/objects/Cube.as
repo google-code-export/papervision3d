@@ -199,10 +199,13 @@ public class Cube extends Mesh3D
 
 	private function buildPlane( mat:String, u:String, v:String, width:Number, height:Number, depth:Number, reverse:Boolean=false ):void
 	{
-		if( ! materials.getMaterialByName( mat ) && ! materials.getMaterialByName( "all" ) )
+		var matInstance:MaterialObject3D;
+		if( ! (matInstance= materials.getMaterialByName( mat )))
 		{
-			Papervision3D.log( "Cube: Required material not found in given materials list. Supported materials are: front, back, right, left, top, bottom & all." );
-			return;
+			if(!(matInstance=materials.getMaterialByName( "all" ))){
+				Papervision3D.log( "Cube: Required material not found in given materials list. Supported materials are: front, back, right, left, top, bottom & all." );
+				return;
+			}
 		}
 
 		// Find w depth axis
@@ -264,7 +267,7 @@ public class Cube extends Mesh3D
 				uvC =  new NumberUV( iu     / gridU, (iv+1) / gridV );
 				uvB =  new NumberUV( (iu+1) / gridU, iv     / gridV );
 
-				faces.push( new Face3D( [ a, b, c ], mat, [ uvA, uvB, uvC ] ) );
+				faces.push( new Face3D( [ a, b, c ], matInstance, [ uvA, uvB, uvC ] ) );
 
 				// Triangle B
 				a = planeVerts[ (iu+1) * gridV1 + (iv+1) ];
@@ -275,12 +278,12 @@ public class Cube extends Mesh3D
 				uvC =  new NumberUV( (iu+1) / gridU, iv     / gridV );
 				uvB =  new NumberUV( iu     / gridU, (iv+1) / gridV );
 
-				faces.push( new Face3D( [ a, b, c ], mat, [ uvA, uvB, uvC ] ) );
+				faces.push( new Face3D( [ a, b, c ], matInstance, [ uvA, uvB, uvC ] ) );
 			}
 		}
 	}
-	
 	private var insideFaces  :int;
 	private var excludeFaces :int
+	
 }
 }
