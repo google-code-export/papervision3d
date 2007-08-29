@@ -296,7 +296,6 @@ package org.papervision3d.objects
 			}
 	
 			instance.copyTransform( matrix );
-			instance.geometry.ready = true;
 		}
 	
 		// _______________________________________________________________________ parseGeometry
