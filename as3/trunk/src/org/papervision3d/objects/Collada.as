@@ -431,7 +431,6 @@ package org.papervision3d.objects
 				else uvList = null;
 
 				var materialName:String = semFaces[i].material || null;
-trace( materialName + " " + _materials );
 				var face:Face3D = new Face3D( faceList, _materials.getMaterialByName(materialName), uvList );
 
 				faces.push( face );
