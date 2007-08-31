@@ -39,6 +39,7 @@
 package org.papervision3d.objects
 {
 	import com.blitzagency.xray.logger.XrayLog;
+	import org.papervision3d.components.as3.collections.MaterialsListItem;
 	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -127,7 +128,7 @@ package org.papervision3d.objects
 		{
 			super(null, null, initObject);
 			
-			this._materials = materials;
+			this._materials = materials || new MaterialsList();
 	
 			this._container = this;
 			this.loaded = false;
@@ -428,9 +429,11 @@ package org.papervision3d.objects
 					uvList = [ uvA, uvB, uvC ];
 				}
 				else uvList = null;
-	
+
 				var materialName:String = semFaces[i].material || null;
+trace( materialName + " " + _materials );
 				var face:Face3D = new Face3D( faceList, _materials.getMaterialByName(materialName), uvList );
+
 				faces.push( face );
 			}
 	
