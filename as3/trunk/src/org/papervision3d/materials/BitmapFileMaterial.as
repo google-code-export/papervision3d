@@ -226,8 +226,12 @@ package org.papervision3d.materials
 
 		private function loadBitmapErrorHandler( e:IOErrorEvent ):void
 		{
-			// Remove from queue and set event's text to url of failed bitmap
-			e.text = String(_waitingBitmaps.shift());
+			var failedAsset:String = String(_waitingBitmaps.shift());
+		
+			// force the IOErrorEvent to trigger on any reload.
+			// ie: no reload on retry if we don't clear these 2 statics below.
+			_loadedBitmaps[failedAsset] = null;
+			_subscribedMaterials[failedAsset] = null;
 			
 			// Queue finished?
 			if( _waitingBitmaps.length > 0 )
@@ -242,8 +246,10 @@ package org.papervision3d.materials
 				
 				if( Boolean( callback ) ) callback();
 			}
+						
+			var event:FileLoadEvent = new FileLoadEvent(FileLoadEvent.LOAD_ERROR, failedAsset, -1, -1, e.text);
 			
-			dispatchEvent(e);
+			dispatchEvent(event);
 		}
 		
 		// ___________________________________________________________________ LOAD BITMAP PROGRESS HANDLER
