@@ -195,7 +195,8 @@ package org.papervision3d.materials
 			
 			bitmapLoader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, loadBitmapProgressHandler );
 			bitmapLoader.contentLoaderInfo.addEventListener( Event.COMPLETE, loadBitmapCompleteHandler );
-
+			bitmapLoader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, loadBitmapErrorHandler );
+			
 			try
 			{
 				// Load bitmap
@@ -219,6 +220,30 @@ package org.papervision3d.materials
 
 				Papervision3D.log( "[ERROR] BitmapFileMaterial: Unable to load file " + error.message );
 			}
+		}
+		
+		// ___________________________________________________________________ LOAD BITMAP ERROR HANDLER
+
+		private function loadBitmapErrorHandler( e:IOErrorEvent ):void
+		{
+			// Remove from queue and set event's text to url of failed bitmap
+			e.text = String(_waitingBitmaps.shift());
+			
+			// Queue finished?
+			if( _waitingBitmaps.length > 0 )
+			{
+				// Continue loading
+				loadNextBitmap();
+			}
+			else
+			{
+				// Loading finished
+				_loadingIdle = true;
+				
+				if( Boolean( callback ) ) callback();
+			}
+			
+			dispatchEvent(e);
 		}
 		
 		// ___________________________________________________________________ LOAD BITMAP PROGRESS HANDLER
