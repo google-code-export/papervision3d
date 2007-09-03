@@ -58,6 +58,7 @@ package org.papervision3d.materials
 		public var uv0:NumberUV;
         public var uv1:NumberUV;
         public var uv2:NumberUV;
+		public var focus:Number = 100;
 		
 		public function PreciseMovieMaterial( movieAsset:Sprite=null, transparent:Boolean=false, animated:Boolean=false )
 		{
@@ -70,19 +71,19 @@ package org.papervision3d.materials
         {
             var mapping:Matrix = transformUV(face3D);
 
-            renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
+            renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z,0);
 			return 1;
         }
 	
-        public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
-            ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number):void
+		public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
+            ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number, index:Number):void
         {
 
             if ((az <= 0) && (bz <= 0) && (cz <= 0))
                 return;
 
-            var focus:Number = 120;
-            if ((focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < 10) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < 10))
+           
+            if (index >= 100 || (focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < 2) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < 2))
             {
                 renderTriangleBitmap(graphics, ta, tb, tc, td, tx, ty, ax, ay, bx, by, cx, cy, smooth, tiled);
                
@@ -127,16 +128,16 @@ package org.papervision3d.materials
             if ((dsab > precision) && (dsca > precision) && (dsbc > precision))
             {
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2, ty*2,
-                    ax, ay, az, mabx>>1, maby>>1, (az+bz)>>1, mcax>>1, mcay>>1, (cz+az)>>1);
+                    ax, ay, az, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, index+1);
 
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2-1, ty*2,
-                    mabx>>1, maby>>1, (az+bz)>>1, bx, by, bz, mbcx>>1, mbcy>>1, (bz+cz)>>1);
+                    mabx * 0.5, maby * 0.5, (az+bz) * 0.5, bx, by, bz, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, index+1);
 
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2, ty*2-1,
-                    mcax>>1, mcay>>1, (cz+az)>>1, mbcx>>1, mbcy>>1, (bz+cz)>>1, cx, cy, cz);
+                    mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, cx, cy, cz, index+1);
 
                 renderRec(graphics, -ta*2, -tb*2, -tc*2, -td*2, -tx*2+1, -ty*2+1,
-                    mbcx>>1, mbcy>>1, (bz+cz)>>1, mcax>>1, mcay>>1, (cz+az)>>1, mabx>>1, maby>>1, (az+bz)>>1);
+                    mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, index+1);
 
                 return;
             }
@@ -145,10 +146,10 @@ package org.papervision3d.materials
             if (dsab == dmax)
             {
                 renderRec(graphics, ta*2, tb*1, tc*2, td*1, tx*2, ty*1,
-                    ax, ay, az, mabx>>1, maby>>1, (az+bz)>>1, cx, cy, cz);
+                    ax, ay, az, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, cx, cy, cz, index+1);
 
                 renderRec(graphics, ta*2+tb, tb*1, 2*tc+td, td*1, tx*2+ty-1, ty*1,
-                    mabx>>1, maby>>1, (az+bz)>>1, bx, by, bz, cx, cy, cz);
+                    mabx * 0.5, maby * 0.5, (az+bz) * 0.5, bx, by, bz, cx, cy, cz, index+1);
             
                 return;
             }
@@ -156,20 +157,20 @@ package org.papervision3d.materials
             if (dsca == dmax)
             {
                 renderRec(graphics, ta*1, tb*2, tc*1, td*2, tx*1, ty*2,
-                    ax, ay, az, bx, by, bz, mcax>>1, mcay>>1, (cz+az)>>1);
+                    ax, ay, az, bx, by, bz, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, index+1);
 
                 renderRec(graphics, ta*1, tb*2 + ta, tc*1, td*2 + tc, tx, ty*2+tx-1,
-                    mcax>>1, mcay>>1, (cz+az)>>1, bx, by, bz, cx, cy, cz);
+                    mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, bx, by, bz, cx, cy, cz, index+1);
             
                 return;
             }
 
 
             renderRec(graphics, ta-tb, tb*2, tc-td, td*2, tx-ty, ty*2,
-                ax, ay, az, bx, by, bz, mbcx>>1, mbcy>>1, (bz+cz)>>1);
+                ax, ay, az, bx, by, bz, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, index+1);
 
             renderRec(graphics, 2*ta, tb-ta, tc*2, td-tc, 2*tx, ty-tx,
-                ax, ay, az, mbcx>>1, mbcy>>1, (bz+cz)>>1, cx, cy, cz);
+                ax, ay, az, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, cx, cy, cz, index+1);
         }
 		
 		public function renderTriangleBitmap(graphics:Graphics,a:Number, b:Number, c:Number, d:Number, tx:Number, ty:Number, 
