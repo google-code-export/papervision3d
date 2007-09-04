@@ -38,17 +38,17 @@
 package org.papervision3d.materials
 {
 	import flash.display.BitmapData;
-	import flash.geom.Rectangle;
-	import flash.geom.Point;
+	import flash.display.Graphics;
 	import flash.geom.Matrix;
-
-	import org.papervision3d.core.proto.MaterialObject3D;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	import flash.utils.Dictionary;
+	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.draw.IFaceDrawer;
 	import org.papervision3d.core.geom.Face3D;
-	import flash.display.Graphics;
 	import org.papervision3d.core.geom.Vertex2D;
-	import flash.utils.Dictionary;
+	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.objects.DisplayObject3D;
 
 	/**
