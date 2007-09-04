@@ -205,7 +205,6 @@ package org.papervision3d.core.proto
 		static public function get DEFAULT():MaterialObject3D
 		{
 			var defMaterial :MaterialObject3D = new WireframeMaterial(); //RH, it now returns a wireframe material.
-
 			defMaterial.lineColor   = 0xFFFFFF * Math.random();
 			defMaterial.lineAlpha   = 1;
 			defMaterial.fillColor   = DEFAULT_COLOR;

@@ -517,6 +517,8 @@ package org.papervision3d.objects
 		
 		private function onMaterialLoadError(event:FileLoadEvent):void
 		{
+			var mat:BitmapFileMaterial = event.target as BitmapFileMaterial;
+			trace("Colllada failed to load material : " +mat);
 			//Do error handling here.
 			materialsToLoad--;
 			if(materialsToLoad == 0){

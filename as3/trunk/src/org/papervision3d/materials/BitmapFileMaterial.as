@@ -82,6 +82,11 @@ package org.papervision3d.materials
 		static public var LOADING_COLOR :int = MaterialObject3D.DEFAULT_COLOR;
 		
 		/**
+		 * The color to use for the lines when there is an error.
+		 */
+		static public var ERROR_COLOR:int = MaterialObject3D.DEBUG_COLOR;
+		
+		/**
 		* A texture object.
 		*/		
 		override public function get texture():Object
@@ -102,6 +107,13 @@ package org.papervision3d.materials
 			bitmap   = createBitmapFromURL( String(asset) );
 			_texture = asset;
 		}
+		
+		/**
+		 * Internal
+		 * 
+		 * Used to define if the loading had failed.
+		 */
+		private var errorLoading:Boolean = false;
 
 		// ___________________________________________________________________ NEW
 
@@ -226,12 +238,17 @@ package org.papervision3d.materials
 
 		private function loadBitmapErrorHandler( e:IOErrorEvent ):void
 		{
+			
 			var failedAsset:String = String(_waitingBitmaps.shift());
-		
 			// force the IOErrorEvent to trigger on any reload.
 			// ie: no reload on retry if we don't clear these 2 statics below.
 			_loadedBitmaps[failedAsset] = null;
 			_subscribedMaterials[failedAsset] = null;
+			
+			this.errorLoading = true;
+			this.lineColor = ERROR_COLOR;
+			this.lineAlpha = 1;
+			this.lineThickness = 1;
 			
 			// Queue finished?
 			if( _waitingBitmaps.length > 0 )
@@ -322,7 +339,7 @@ package org.papervision3d.materials
 		 */
 		override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
 		{
-			if (bitmap == null)
+			if (bitmap == null || errorLoading)
 			{
 				var x0:Number = v0.x;
 				var y0:Number = v0.y;
@@ -330,20 +347,26 @@ package org.papervision3d.materials
 				var y1:Number = v1.y;
 				var x2:Number = v2.x;
 				var y2:Number = v2.y;
-		
+				if(errorLoading){
+					graphics.lineStyle(lineThickness,lineColor,lineAlpha);
+				}
 				graphics.beginFill( fillColor, fillAlpha );
 				graphics.moveTo( x0, y0 );
 				graphics.lineTo( x1, y1 );
 				graphics.lineTo( x2, y2 );
 				graphics.lineTo( x0, y0 );
 				graphics.endFill();
+				if(errorLoading){
+					graphics.lineStyle();
+				}
 				return 1;
 			}
 			
 			var i:int = super.drawFace3D(instance, face3D, graphics, v0, v1, v2);
-			
 			return i;
 		}
+		
+
 
 		// ___________________________________________________________________ PRIVATE
 
