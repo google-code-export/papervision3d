@@ -45,6 +45,7 @@ package org.papervision3d.core.proto
 	import org.papervision3d.core.geom.Vertex2D;
 	import org.papervision3d.core.draw.IFaceDrawer;
 	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.materials.WireframeMaterial;
 
 
 	/**
@@ -203,7 +204,7 @@ package org.papervision3d.core.proto
 		*/
 		static public function get DEFAULT():MaterialObject3D
 		{
-			var defMaterial :MaterialObject3D = new MaterialObject3D();
+			var defMaterial :MaterialObject3D = new WireframeMaterial(); //RH, it now returns a wireframe material.
 
 			defMaterial.lineColor   = 0xFFFFFF * Math.random();
 			defMaterial.lineAlpha   = 1;
