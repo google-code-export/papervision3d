@@ -435,6 +435,7 @@ package org.papervision3d.objects
 
 				faces.push( face );
 			}
+			
 	
 			// Activate object
 			instance.geometry.ready = true;
@@ -468,9 +469,12 @@ package org.papervision3d.objects
 			//trace( "Collada: addMaterial: " + instance.name + " > " + name ); // DEBUG
 			var material:MaterialObject3D;
 			
-			if( this._materials )
+			if( this._materials ){
 				material = this._materials.getMaterialByName( name );
-	
+			}else{
+				_materials = new MaterialsList();
+			}
+			
 			if( ! material )
 			{
 				// Find object path
@@ -490,12 +494,12 @@ package org.papervision3d.objects
 				else
 				{
 					material = MaterialObject3D.DEFAULT;
-	
 					Papervision3D.log( "Collada material " + name + " not found." ); // TODO: WARNING
 				}
 	
 				material.name = name;
 			}
+			_materials.addMaterial(material);
 	
 			if( ! instance.materials ) instance.materials = new MaterialsList();
 			
