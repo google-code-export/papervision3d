@@ -15,6 +15,7 @@ package org.papervision3d.core.render
 	import org.papervision3d.core.render.sort.BasicRenderSorter;
 	import org.papervision3d.core.render.sort.IRenderSorter;
 	import org.papervision3d.core.stat.RenderStatistics;
+	import org.papervision3d.events.RendererEvent;
 	
 	public class BasicRenderEngine extends EventDispatcher implements IRenderEngine
 	{
@@ -56,6 +57,8 @@ package org.papervision3d.core.render
 				rc.render(renderSessionData);
 				lastRenderList.push(rc);
 			}
+			
+			dispatchEvent(new RendererEvent(RendererEvent.RENDER_DONE, renderSessionData));
 			return renderStatistics;
 		}
 		
