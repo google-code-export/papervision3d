@@ -4,7 +4,7 @@ package org.papervision3d.core.render.sort
 	{
 		public function sort(array:Array):void
 		{
-			array.sortOn("screenZ", Array.NUMERIC);
+			array.sortOn("screenDepth", Array.NUMERIC);
 		}
 		
 	}
