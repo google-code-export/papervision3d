@@ -42,6 +42,8 @@ package org.papervision3d.core.geom.renderables
 	import flash.utils.Dictionary;
 	
 	import org.papervision3d.core.Number3D;
+	import org.papervision3d.core.render.command.IRenderListItem;
+	import org.papervision3d.core.render.command.RenderableListItem;
 	
 
 	/**
@@ -126,6 +128,11 @@ package org.papervision3d.core.geom.renderables
 			normal.y/=count;
 			normal.z/=count;
 			normal.normalize();
+		}
+		
+		public function getRenderListItem():IRenderListItem
+		{
+			return null;
 		}
 		
 	}

@@ -96,7 +96,7 @@ import org.papervision3d.objects.DisplayObject3D;
 			container.graphics.clear();
 			
 			// Update stats
-			var stats:RenderStatistics = renderer.render(this, container,camera);
+			this.stats = renderer.render(this, container,camera);
 			stats.performance = getTimer() - stats.performance;
 		}
 	}
