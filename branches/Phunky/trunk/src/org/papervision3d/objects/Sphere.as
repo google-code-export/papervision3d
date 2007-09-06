@@ -41,6 +41,8 @@ import flash.display.BitmapData;
 
 import org.papervision3d.core.*;
 import org.papervision3d.core.geom.*;
+import org.papervision3d.core.geom.renderables.Triangle3D;
+import org.papervision3d.core.geom.renderables.Vertex3D;
 import org.papervision3d.core.proto.*;
 
 /**
@@ -176,8 +178,8 @@ public class Sphere extends TriangleMesh3D
 					var aP2uv:NumberUV = new NumberUV(fI1,fJ0);
 					var aP3uv:NumberUV = new NumberUV(fI1,fJ1);
 					// 2 faces
-					if (j<(aVtc.length-1))	aFace.push( new Face3D(new Array(aP1,aP2,aP3), null, new Array(aP1uv,aP2uv,aP3uv)) );
-					if (j>1)				aFace.push( new Face3D(new Array(aP1,aP3,aP4), null, new Array(aP1uv,aP3uv,aP4uv)) );
+					if (j<(aVtc.length-1))	aFace.push( new Triangle3D(this, new Array(aP1,aP2,aP3), null, new Array(aP1uv,aP2uv,aP3uv)) );
+					if (j>1)				aFace.push( new Triangle3D(this, new Array(aP1,aP3,aP4), null, new Array(aP1uv,aP3uv,aP4uv)) );
 
 				}
 			}

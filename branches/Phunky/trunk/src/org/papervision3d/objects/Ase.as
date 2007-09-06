@@ -37,18 +37,18 @@
 //                                                  GeometryObject3D: Ase
 package org.papervision3d.objects
 {
-import org.papervision3d.Papervision3D;
-import org.papervision3d.core.*;
-import org.papervision3d.core.proto.*;
-import org.papervision3d.core.geom.*;
-import org.papervision3d.events.FileLoadEvent;
-
-//import com.blitzagency.xray.logger.XrayLog;
-
 import flash.display.BitmapData;
 import flash.events.*;
-import flash.net.URLRequest;
 import flash.net.URLLoader;
+import flash.net.URLRequest;
+
+import org.papervision3d.Papervision3D;
+import org.papervision3d.core.*;
+import org.papervision3d.core.geom.*;
+import org.papervision3d.core.geom.renderables.Triangle3D;
+import org.papervision3d.core.geom.renderables.Vertex3D;
+import org.papervision3d.core.proto.*;
+import org.papervision3d.events.FileLoadEvent;
 
 /**
 * The Ase class lets you load and parse ASE format objects exported from 3DS Max.
@@ -223,7 +223,7 @@ public class Ase extends TriangleMesh3D
 							var c:Vertex3D = vertices[ int( con.substr( 0, con.lastIndexOf( ' ' ) ) ) ];
 
 							// Swap b/c
-							faces.push( new Face3D( [a, b, c], null, [new NumberUV(), new NumberUV(), new NumberUV()] ) );
+							faces.push( new Triangle3D(this,[a, b, c], null, [new NumberUV(), new NumberUV(), new NumberUV()] ) );
 						}
 					}
 					catch(e:Error)
