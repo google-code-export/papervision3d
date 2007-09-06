@@ -45,30 +45,24 @@ package org.papervision3d.utils
 	import com.blitzagency.xray.logger.util.ObjectTools;
 	
 	import flash.display.BitmapData;
+	import flash.display.BlendMode;
 	import flash.display.Graphics;
 	import flash.display.Sprite;
-	import flash.display.BlendMode;
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
-	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.core.geom.Mesh3D;
-	import org.papervision3d.core.geom.Face3DInstance;
-	import org.papervision3d.core.geom.Face3D;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.events.InteractiveScene3DEvent;
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.utils.InteractiveSprite;
+	import org.papervision3d.materials.BitmapMaterial;
 	import org.papervision3d.materials.InteractiveMovieMaterial;
 	import org.papervision3d.materials.MovieMaterial;
-	import org.papervision3d.materials.BitmapMaterial;
-	import org.papervision3d.components.as3.utils.CoordinateTools;
-	import org.papervision3d.core.geom.Vertex2D;
-	import org.papervision3d.core.geom.Vertex3D;
+	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 	
 	
@@ -392,10 +386,10 @@ package org.papervision3d.utils
 		* @param	y2
 		* @return
 		*/
-		public function drawFace(container3d:DisplayObject3D, face3d:Face3D, x0:Number, x1:Number, x2:Number, y0:Number, y1:Number, y2:Number ):void
+		public function drawFace(face3d:Triangle3D, x0:Number, x1:Number, x2:Number, y0:Number, y1:Number, y2:Number ):void
 		{
 			// if we're face level on this DO3D, then we switch to the face3D object
-			var container:Object = container3d;
+			var container:Object = face3d.instance;
 			if(faceLevelMode || DisplayObject3D.faceLevelMode) container = face3d;
 			
 			// add to the dictionary if not added already
@@ -561,7 +555,7 @@ package org.papervision3d.utils
 			{
 				try
 				{
-					var face3d:Face3D = containerDictionary[e.currentTarget];
+					var face3d:Triangle3D = containerDictionary[e.currentTarget];
 					var p:Object = InteractiveUtils.getMapCoordAtPoint(face3d, container.mouseX, container.mouseY);
 					
 					var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(face3d.face3DInstance.instance.material);
@@ -588,7 +582,7 @@ package org.papervision3d.utils
 			if( VirtualMouse && ( faceLevelMode || DisplayObject3D.faceLevelMode ))
 			{
 				// need the face3d for the coordinate conversion
-				var face3d:Face3D = containerDictionary[e.currentTarget];
+				var face3d:Triangle3D = containerDictionary[e.currentTarget];
 				
 				// get 2D coordinates
 				point = InteractiveUtils.getMapCoordAtPoint(face3d, container.mouseX, container.mouseY);
@@ -614,7 +608,7 @@ package org.papervision3d.utils
 			
 			if( Mouse3D.enabled && ( faceLevelMode || DisplayObject3D.faceLevelMode ) ) 
 			{
-				mouse3D.updatePosition(Face3D(containerDictionary[e.currentTarget]), e.currentTarget as Sprite);
+				mouse3D.updatePosition(Triangle3D(containerDictionary[e.currentTarget]), e.currentTarget as Sprite);
 			}
 		}
 		/**
@@ -654,9 +648,9 @@ package org.papervision3d.utils
 			{
 				containerDictionary[currentTarget].dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[currentTarget], InteractiveSprite(currentTarget)));
 				dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[currentTarget], InteractiveSprite(currentTarget), null, null));
-			}else if(containerDictionary[currentTarget] is Face3D)
+			}else if(containerDictionary[currentTarget] is Triangle3D)
 			{
-				var face3d:Face3D = containerDictionary[currentTarget];
+				var face3d:Triangle3D = containerDictionary[currentTarget];
 				var face3dContainer:InteractiveContainerData = faceDictionary[face3d];
 				dispatchEvent(new InteractiveScene3DEvent(event, null, InteractiveSprite(currentTarget), face3d, face3dContainer));
 			}

@@ -44,7 +44,12 @@ package org.papervision3d.core.geom
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.*;
 	import org.papervision3d.core.culling.ITriangleCuller;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Triangle3DInstance;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.proto.*;
+	import org.papervision3d.core.render.command.RenderTriangleCommand;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.scenes.Scene3D;
 	
@@ -52,7 +57,7 @@ package org.papervision3d.core.geom
 	/**
 	* The Mesh3D class lets you create and display solid 3D objects made of vertices and triangular polygons.
 	*/
-	public class Mesh3D extends Vertices3D
+	public class TriangleMesh3D extends Vertices3D
 	{
 		// ___________________________________________________________________________________________________
 		//                                                                                               N E W
@@ -84,7 +89,7 @@ package org.papervision3d.core.geom
 		* </ul>
 		*
 		*/
-		public function Mesh3D( material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null )
+		public function TriangleMesh3D( material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null )
 		{
 			super( vertices, name, initObject );
 	
@@ -114,33 +119,38 @@ package org.papervision3d.core.geom
 			if( ! sorted ) sorted = this._sorted;
 			
 			// Faces
-			var faces:Array  = this.geometry.faces, screenZs:Number = 0, visibleFaces :Number = 0, triCuller:ITriangleCuller = scene.triangleCuller, vertex0:Vertex2D, vertex1:Vertex2D, vertex2 :Vertex2D, iFace:Face3DInstance, face:Face3D;
-			var mat:MaterialObject3D;
+			var faces:Array  = this.geometry.faces, 
+								screenZs:Number = 0, 
+								visibleFaces :Number = 0, 
+								triCuller:ITriangleCuller = scene.triangleCuller, 
+								vertex0:Vertex3DInstance, 
+								vertex1:Vertex3DInstance, 
+								vertex2:Vertex3DInstance, 
+								iFace:Triangle3DInstance, 
+								face:Triangle3D,
+								mat:MaterialObject3D;
+								
 			for each(face in faces){
 				mat = face.material ? face.material : material;
 				iFace = face.face3DInstance;
-				iFace.instance = this; //We must be able to do something about this, right ? 
-				
-				vertex0 = face.v0.vertex2DInstance;
-				vertex1 = face.v1.vertex2DInstance;
-				vertex2 = face.v2.vertex2DInstance;
-				
-				if( (iFace.visible = triCuller.testFace(this, iFace, vertex0, vertex1, vertex2)))
+				vertex0 = face.v0.vertex3DInstance;
+				vertex1 = face.v1.vertex3DInstance;
+				vertex2 = face.v2.vertex3DInstance;
+				if( (iFace.visible = triCuller.testFace(face, vertex0, vertex1, vertex2)))
 				{
 					if(mat.needsFaceNormals){
 						face.faceNormal.copyTo(iFace.faceNormal);
 						Matrix3D.multiplyVector3x3( this.view, iFace.faceNormal );
 					}
 					if(mat.needsVertexNormals){
+						face.v0.normal.copyTo(face.v0.vertex3DInstance.normal);
+						Matrix3D.multiplyVector3x3(this.world, vertex0.normal);
 						
-						face.v0.normal.copyTo(face.v0.vertex2DInstance.normal);
-						Matrix3D.multiplyVector3x3(this.view, face.v0.vertex2DInstance.normal);
+						face.v1.normal.copyTo(face.v1.vertex3DInstance.normal);
+						Matrix3D.multiplyVector3x3(this.world, vertex1.normal);
 						
-						face.v1.normal.copyTo(face.v1.vertex2DInstance.normal);
-						Matrix3D.multiplyVector3x3(this.view, face.v1.vertex2DInstance.normal);
-						
-						face.v2.normal.copyTo(face.v2.vertex2DInstance.normal);
-						Matrix3D.multiplyVector3x3(this.view, face.v2.vertex2DInstance.normal);
+						face.v2.normal.copyTo(face.v2.vertex3DInstance.normal);
+						Matrix3D.multiplyVector3x3(this.world, vertex2.normal);
 					}
 					//Note to self ;-) Get the switch out of here.
 					switch(meshSort)
@@ -158,7 +168,8 @@ package org.papervision3d.core.geom
 							break;
 					}
 					visibleFaces++;
-					sorted.push(iFace);
+					face.renderCommand.screenDepth = iFace.screenZ;
+					scene.renderer.addToRenderList(face.renderCommand);
 				}else{
 					scene.stats.culledTriangles++;
 				}
@@ -186,7 +197,7 @@ package org.papervision3d.core.geom
 	
 			for( var i:String in faces )
 			{
-				var myFace     :Face3D = faces[Number(i)],
+				var myFace     :Triangle3D = faces[Number(i)],
 					myVertices :Array  = myFace.vertices,
 					a :Vertex3D = myVertices[0],
 					b :Vertex3D = myVertices[1],
@@ -230,7 +241,7 @@ package org.papervision3d.core.geom
 			this.geometry.vertices = uniqueList;
 	
 			// Update faces
-			for each( var f:Face3D in this.geometry.faces )
+			for each( var f:Triangle3D in this.geometry.faces )
 			{
 				f.v0 = uniqueDic[ f.v0 ];
 				f.v1 = uniqueDic[ f.v1 ];

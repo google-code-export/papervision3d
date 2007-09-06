@@ -45,9 +45,9 @@ package org.papervision3d.materials
 	import flash.utils.Dictionary;
 	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.draw.IFaceDrawer;
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.geom.Vertex2D;
+	import org.papervision3d.core.draw.ITriangleDrawer;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.objects.DisplayObject3D;
 
@@ -57,7 +57,7 @@ package org.papervision3d.materials
 	* Materials collect data about how objects appear when rendered.
 	*
 	*/
-	public class BitmapMaterial extends MaterialObject3D implements IFaceDrawer
+	public class BitmapMaterial extends MaterialObject3D implements ITriangleDrawer
 	{
 		/**
 		 * Indicates if mip mapping is forced.
@@ -130,14 +130,14 @@ package org.papervision3d.materials
 		/**
 		 *  drawFace3D
 		 */
-		override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		override public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
 		{
 			if( lineAlpha )
 				graphics.lineStyle( 0, lineColor, lineAlpha );
 
 			if( bitmap )
 			{
-				var map:Matrix = (uvMatrices[face3D] || transformUV(face3D, instance)),
+				var map:Matrix = (uvMatrices[face3D] || transformUV(face3D)),
 				x0:Number = v0.x,
 				y0:Number = v0.y,
 				x1:Number = v1.x,
@@ -182,7 +182,7 @@ package org.papervision3d.materials
 		* Applies the updated UV texture mapping values to the triangle. This is required to speed up rendering.
 		*
 		*/
-		public function transformUV(face3D:Face3D, instance:DisplayObject3D=null):Matrix
+		public function transformUV(face3D:Triangle3D):Matrix
 		{			
 			if( ! face3D.uv )
 			{

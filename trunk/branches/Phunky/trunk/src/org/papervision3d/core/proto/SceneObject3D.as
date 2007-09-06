@@ -39,18 +39,17 @@
 package org.papervision3d.core.proto
 {
 	import flash.display.Sprite;
-	import flash.utils.getTimer;
 	import flash.utils.Dictionary;
+	import flash.utils.getTimer;
 	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.proto.*;
+	import org.papervision3d.core.culling.DefaultTriangleCuller;
+	import org.papervision3d.core.culling.ITriangleCuller;
+	import org.papervision3d.core.render.IRenderEngine;
+	import org.papervision3d.core.stat.RenderStatistics;
 	import org.papervision3d.materials.MaterialsList;
 	import org.papervision3d.materials.MovieMaterial;
-	
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.culling.ITriangleCuller;
-	import org.papervision3d.core.culling.DefaultTriangleCuller;
-	import org.papervision3d.core.stat.RenderStatistics;
 	
 	/**
 	* The SceneObject3D class is the base class for all scenes.
@@ -97,7 +96,24 @@ package org.papervision3d.core.proto
 		* It contains a list of materials in the scene.
 		*/
 		public var materials :MaterialsList;
-	
+		
+		/**
+		 * Defines the method of culling triangles through the ITriangleCuller interface for this scene object.
+		 */
+		public var triangleCuller:ITriangleCuller = new DefaultTriangleCuller();
+		
+		/**
+		 * Defines the used renderer for this scene.
+		 */
+		public var renderer:IRenderEngine;
+		
+		/**
+		* [internal-use]
+		*
+		* @param	sort
+		*/
+		protected function renderObjects( camera3D:CameraObject3D ):void {}
+		
 		// ___________________________________________________________________ N E W
 		//
 		// NN  NN EEEEEE WW    WW
@@ -122,14 +138,7 @@ package org.papervision3d.core.proto
 			this.materials = new MaterialsList();
 	
 			Papervision3D.log( Papervision3D.NAME + " " + Papervision3D.VERSION + " (" + Papervision3D.DATE + ")\n" );
-	
 			this.stats = new RenderStatistics();
-			this.stats.points = 0;
-			this.stats.polys = 0;
-			this.stats.triangles = 0;
-			this.stats.performance = 0;
-			this.stats.rendered = 0;
-			
 			this.root = this;
 		}
 	
@@ -234,17 +243,8 @@ package org.papervision3d.core.proto
 			if( camera.sort )
 				this.objects.sortOn( 'screenZ', Array.NUMERIC );
 					
-			renderObjects( camera.sort );
+			renderObjects(camera);
 		}
-	
-		public var triangleCuller:ITriangleCuller = new DefaultTriangleCuller();
-		
-		
-		/**
-		* [internal-use]
-		*
-		* @param	sort
-		*/
-		protected function renderObjects( sort:Boolean ):void {}
+
 	}
 }

@@ -44,10 +44,10 @@ package org.papervision3d.materials
 	import flash.events.*;
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
-
+	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.geom.Vertex2D;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.objects.DisplayObject3D;
@@ -337,7 +337,7 @@ package org.papervision3d.materials
 		/**
 		 *  drawFace3D
 		 */
-		override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		override public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
 		{
 			if (bitmap == null || errorLoading)
 			{
@@ -362,7 +362,7 @@ package org.papervision3d.materials
 				return 1;
 			}
 			
-			var i:int = super.drawFace3D(instance, face3D, graphics, v0, v1, v2);
+			var i:int = super.drawFace3D(face3D, graphics, v0, v1, v2);
 			return i;
 		}
 		

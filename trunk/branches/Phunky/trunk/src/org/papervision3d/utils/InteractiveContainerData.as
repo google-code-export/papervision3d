@@ -39,14 +39,14 @@
 
 package org.papervision3d.utils
 {
+	import flash.display.BlendMode;
+	import flash.display.SpreadMethod;
+	import flash.display.Sprite;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
-	import flash.display.SpreadMethod;
-	import org.papervision3d.core.geom.Face3D;
+	
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.objects.DisplayObject3D;
-	import flash.display.Sprite;
-	import flash.display.BlendMode;
-	import org.papervision3d.utils.InteractiveSprite;
 	
 	/**
 	 * InteractiveContainerData is a data object for a face or do3d that's passed to the ISM for interaction.  It contains the information that glues all objects involved, together.
@@ -58,7 +58,7 @@ package org.papervision3d.utils
 	{
 		public var displayObject3D							:DisplayObject3D = null;
 		public var container								:InteractiveSprite;
-		public var face3d									:Face3D;
+		public var face3d									:Triangle3D;
 		
 		/**
 		* Used in the initial reset of the scene and then in the drawing stage.  if set to true, then it'll be sorted
@@ -106,7 +106,7 @@ package org.papervision3d.utils
 			super(target);
 
 			displayObject3D = container3d is DisplayObject3D == true ? container3d : null;
-			face3d = container3d is Face3D == true ? container3d : null;
+			face3d = container3d is Triangle3D == true ? container3d : null;
 			
 			if( displayObject3D != null ) this.container = new InteractiveSprite(container3d);
 			if( face3d != null )

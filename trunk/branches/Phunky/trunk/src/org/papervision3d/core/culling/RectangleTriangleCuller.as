@@ -1,10 +1,12 @@
 package org.papervision3d.core.culling
 {
-	import org.papervision3d.core.geom.Vertex2D;
-	import org.papervision3d.core.geom.Face3D;
 	import flash.geom.Rectangle;
-	import org.papervision3d.objects.DisplayObject3D;
+	
+	import org.papervision3d.core.geom.Face3D;
 	import org.papervision3d.core.geom.Face3DInstance;
+	import org.papervision3d.core.geom.Vertex2D;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.objects.DisplayObject3D;
 
 	public class RectangleTriangleCuller extends DefaultTriangleCuller implements ITriangleCuller
 	{
@@ -13,7 +15,6 @@ package org.papervision3d.core.culling
 		private static const DEFAULT_RECT_H:Number = 480;
 		private static const DEFAULT_RECT_X:Number = -(DEFAULT_RECT_W/2);
 		private static const DEFAULT_RECT_Y:Number = -(DEFAULT_RECT_H/2);
-		
 		
 		private static var hitRect:Rectangle = new Rectangle();
 		
@@ -33,7 +34,7 @@ package org.papervision3d.core.culling
 			}
 		}
 		
-		override public function testFace(displayObject3D:DisplayObject3D, faceInstance:Face3DInstance, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
+		override public function testFace(face:Triangle3D, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
 		{
 			if(super.testFace(displayObject3D, faceInstance, vertex0, vertex1, vertex2)){
 				hitRect.x = Math.min(vertex2.x, Math.min(vertex1.x, vertex0.x));

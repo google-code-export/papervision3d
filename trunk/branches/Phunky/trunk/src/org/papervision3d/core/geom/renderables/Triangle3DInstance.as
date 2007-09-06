@@ -1,12 +1,12 @@
-package org.papervision3d.core.geom
+package org.papervision3d.core.geom.renderables
 {
 	import flash.display.Sprite;
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.Number3D;
 	
-	public class Face3DInstance
+	import org.papervision3d.core.Number3D;
+	import org.papervision3d.objects.DisplayObject3D;
+	
+	public class Triangle3DInstance
 	{
-		public var face:Face3D;
 		public var instance:DisplayObject3D;
 		
 		/**
@@ -17,9 +17,8 @@ package org.papervision3d.core.geom
 		public var screenZ:Number;
 		public var faceNormal:Number3D;
 		
-		public function Face3DInstance(face:Face3D, instance:DisplayObject3D = null)
+		public function Triangle3DInstance(face:Triangle3D, instance:DisplayObject3D)
 		{
-			this.face = face;
 			this.instance = instance;
 			faceNormal = new Number3D();
 		}

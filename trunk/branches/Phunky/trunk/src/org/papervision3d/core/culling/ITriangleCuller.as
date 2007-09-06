@@ -1,12 +1,13 @@
 package org.papervision3d.core.culling
 {
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.geom.Vertex2D;
-	import org.papervision3d.core.geom.Face3DInstance;
+	
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Triangle3DInstance;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	public interface ITriangleCuller
 	{
-		function testFace(displayObject:DisplayObject3D, faceInstance:Face3DInstance, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean;
+		function testFace(face3D:Triangle3D, vertex0:Vertex3DInstance, vertex1:Vertex3DInstance, vertex2:Vertex3DInstance):Boolean;
 	}
 }

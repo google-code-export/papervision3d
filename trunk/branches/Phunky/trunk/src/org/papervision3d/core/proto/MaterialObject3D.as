@@ -37,15 +37,17 @@
 
 package org.papervision3d.core.proto
 {
-	import flash.geom.Matrix;
 	import flash.display.BitmapData;
-	import flash.events.EventDispatcher;
-	import org.papervision3d.core.geom.Face3D;
 	import flash.display.Graphics;
-	import org.papervision3d.core.geom.Vertex2D;
-	import org.papervision3d.core.draw.IFaceDrawer;
-	import org.papervision3d.objects.DisplayObject3D;
+	import flash.events.EventDispatcher;
+	import flash.geom.Matrix;
+	
+	import org.papervision3d.core.draw.ITriangleDrawer;
+	
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.materials.WireframeMaterial;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 
 
 	/**
@@ -61,7 +63,7 @@ package org.papervision3d.core.proto
 	* <p/>
 	* MaterialObject3D is an abstract base class; therefore, you cannot call MaterialObject3D directly.
 	*/
-	public class MaterialObject3D extends EventDispatcher implements IFaceDrawer
+	public class MaterialObject3D extends EventDispatcher implements ITriangleDrawer
 	{
 		/**
 		* A transparent or opaque BitmapData texture.
@@ -234,7 +236,7 @@ package org.papervision3d.core.proto
 		 * Draws the triangle to screen.
 		 *
 		 */
-		public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
 		{
 			return 0;
 		}

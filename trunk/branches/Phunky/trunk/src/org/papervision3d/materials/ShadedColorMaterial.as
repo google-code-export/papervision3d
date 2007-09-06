@@ -40,7 +40,6 @@ package org.papervision3d.materials
                 */
                override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
                {
-               		
                     var s:Number;
                     var lt:Number3D = new Number3D();
 					light.copyTo(lt);

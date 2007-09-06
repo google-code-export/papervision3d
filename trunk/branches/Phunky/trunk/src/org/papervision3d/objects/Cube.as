@@ -37,13 +37,13 @@
 //                                                GeometryObject3D: Cube
 package org.papervision3d.objects
 {
-import org.papervision3d.materials.MaterialsList;
+import flash.display.BitmapData;
+
 import org.papervision3d.Papervision3D;
 import org.papervision3d.core.*;
-import org.papervision3d.core.proto.*;
 import org.papervision3d.core.geom.*;
-
-import flash.display.BitmapData;
+import org.papervision3d.core.proto.*;
+import org.papervision3d.materials.MaterialsList;
 
 /**
 * The Cube class lets you create and display flat rectangle objects.
@@ -52,7 +52,7 @@ import flash.display.BitmapData;
 * <p/>
 * Dividing the Cube in the direction of the perspective or vanishing point, helps to reduce this problem. Perspective distortion dissapears when the Cube is facing straignt to the camera, i.e. it is perpendicular with the vanishing point of the scene.
 */
-public class Cube extends Mesh3D
+public class Cube extends TriangleMesh3D
 {
 	/**
 	* Number of segments per axis. Defaults to 1.

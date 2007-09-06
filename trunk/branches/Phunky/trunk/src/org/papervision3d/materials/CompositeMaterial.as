@@ -39,7 +39,7 @@ package org.papervision3d.materials
 			materials = new Array();
 		}
 		
-		override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		override public function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
 		{
 			var num:int = 0;
 			for each(var n:MaterialObject3D in materials){

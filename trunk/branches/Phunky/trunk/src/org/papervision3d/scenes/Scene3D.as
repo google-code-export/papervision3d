@@ -38,69 +38,66 @@
 
 package org.papervision3d.scenes
 {
-import flash.utils.getTimer;
 import flash.display.Sprite;
+import flash.utils.getTimer;
 
-import org.papervision3d.objects.DisplayObject3D;
-import org.papervision3d.scenes.*;
 import org.papervision3d.core.proto.*;
+import org.papervision3d.core.render.BasicRenderEngine;
+import org.papervision3d.core.render.IRenderEngine;
+import org.papervision3d.core.stat.RenderStatistics;
+import org.papervision3d.objects.DisplayObject3D;
 
 /**
 * The Scene3D class lets you create a scene where all objects are rendered in the same container.
 * <p/>
 * A scene is the place where objects are placed, it contains the 3D environment.
 */
-public class Scene3D extends SceneObject3D
-{
-	// ___________________________________________________________________ N E W
-	//
-	// NN  NN EEEEEE WW    WW
-	// NNN NN EE     WW WW WW
-	// NNNNNN EEEE   WWWWWWWW
-	// NN NNN EE     WWW  WWW
-	// NN  NN EEEEEE WW    WW
-
-	/**
-	* The Scene3D class lets you create a scene where all objects are rendered in the same container.
-	*
-	* @param	container	The Sprite that you draw into when rendering.
-	*
-	*/
-	public function Scene3D( container:Sprite )
+	public class Scene3D extends SceneObject3D
 	{
-		super( container );
+		// ___________________________________________________________________ N E W
+		//
+		// NN  NN EEEEEE WW    WW
+		// NNN NN EE     WW WW WW
+		// NNNNNN EEEE   WWWWWWWW
+		// NN NNN EE     WWW  WWW
+		// NN  NN EEEEEE WW    WW
+		
+		
+		
+		/**
+		* The Scene3D class lets you create a scene where all objects are rendered in the same container.
+		*
+		* @param	container	The Sprite that you draw into when rendering.
+		*
+		*/
+		public function Scene3D( container:Sprite )
+		{
+			super( container );
+			renderer = new BasicRenderEngine();
+		}
+	
+	
+		// ___________________________________________________________________ R E N D E R   C A M E R A
+		//
+		// RRRRR  EEEEEE NN  NN DDDDD  EEEEEE RRRRR
+		// RR  RR EE     NNN NN DD  DD EE     RR  RR
+		// RRRRR  EEEE   NNNNNN DD  DD EEEE   RRRRR
+		// RR  RR EE     NN NNN DD  DD EE     RR  RR
+		// RR  RR EEEEEE NN  NN DDDDD  EEEEEE RR  RR CAMERA
+	
+		/**
+		* Generates an image from the camera's point of view and the visible models of the scene.
+		*
+		* @param	camera		camera to render from.
+		*/
+		protected override function renderObjects( camera:CameraObject3D ):void
+		{
+			// Clear scene container
+			container.graphics.clear();
+			
+			// Update stats
+			var stats:RenderStatistics = renderer.render(this, container,camera);
+			stats.performance = getTimer() - stats.performance;
+		}
 	}
-
-
-	// ___________________________________________________________________ R E N D E R   C A M E R A
-	//
-	// RRRRR  EEEEEE NN  NN DDDDD  EEEEEE RRRRR
-	// RR  RR EE     NNN NN DD  DD EE     RR  RR
-	// RRRRR  EEEE   NNNNNN DD  DD EEEE   RRRRR
-	// RR  RR EE     NN NNN DD  DD EE     RR  RR
-	// RR  RR EEEEEE NN  NN DDDDD  EEEEEE RR  RR CAMERA
-
-	/**
-	* Generates an image from the camera's point of view and the visible models of the scene.
-	*
-	* @param	camera		camera to render from.
-	*/
-	protected override function renderObjects( sort:Boolean ):void
-	{
-		// Clear scene container
-		this.container.graphics.clear();
-
-		var p       :DisplayObject3D;
-		var objects :Array  = this.objects;
-		var i       :Number = objects.length;
-
-		while( p = objects[--i] )
-			if( p.visible )
-				p.render( this );
-
-		// Update stats
-		var stats:Object  = this.stats;
-		stats.performance = getTimer() - stats.performance;
-	}
-}
 }

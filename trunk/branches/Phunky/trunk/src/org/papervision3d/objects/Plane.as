@@ -37,11 +37,13 @@
 //                                                GeometryObject3D: Plane
 package org.papervision3d.objects
 {
-import org.papervision3d.core.*;
-import org.papervision3d.core.proto.*;
-import org.papervision3d.core.geom.*;
-
 import flash.display.BitmapData;
+
+import org.papervision3d.core.*;
+import org.papervision3d.core.geom.*;
+import org.papervision3d.core.geom.renderables.Triangle3D;
+import org.papervision3d.core.geom.renderables.Vertex3D;
+import org.papervision3d.core.proto.*;
 
 /**
 * The Plane class lets you create and display flat rectangle objects.
@@ -50,7 +52,7 @@ import flash.display.BitmapData;
 * <p/>
 * Dividing the plane in the direction of the perspective or vanishing point, helps to reduce this problem. Perspective distortion dissapears when the plane is facing straignt to the camera, i.e. it is perpendicular with the vanishing point of the scene.
 */
-public class Plane extends Mesh3D
+public class Plane extends TriangleMesh3D
 {
 	/**
 	* Number of segments horizontally. Defaults to 1.
@@ -180,7 +182,7 @@ public class Plane extends Mesh3D
 				uvC =  new NumberUV( ix     / gridX, (iy+1) / gridY );
 				uvB =  new NumberUV( (ix+1) / gridX, iy     / gridY );
 
-				faces.push( new Face3D( [ a, b, c ], null, [ uvA, uvB, uvC ] ) );
+				faces.push(new Triangle3D(this, [ a, b, c ], null, [ uvA, uvB, uvC ] ) );
 
 				// Triangle B
 				a = vertices[ (ix+1) * gridY1 + (iy+1) ];
@@ -191,7 +193,7 @@ public class Plane extends Mesh3D
 				uvC =  new NumberUV( (ix+1) / gridX, iy      / gridY );
 				uvB =  new NumberUV( ix      / gridX, (iy+1) / gridY );
 
-				faces.push( new Face3D( [ a, b, c ], null, [ uvA, uvB, uvC ] ) );
+				faces.push(new Triangle3D(this, [ a, b, c ], null, [ uvA, uvB, uvC ] ) );
 			}
 		}
 

@@ -52,8 +52,9 @@ package org.papervision3d.utils
 {
 	import flash.display.BitmapData;
 	import flash.geom.Point;
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.geom.Vertex3D;
+	
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.materials.BitmapMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
@@ -65,19 +66,19 @@ package org.papervision3d.utils
 	 */	
 	public class InteractiveUtils 
 	{
-		public static function UVatPoint( face3d:Face3D, x : Number, y : Number ) : Object 
+		public static function UVatPoint( face3d:Triangle3D, x : Number, y : Number ) : Object 
 		{	
 			
 			var v0:Vertex3D = face3d.v0;
 			var v1:Vertex3D = face3d.v1;
 			var v2:Vertex3D = face3d.v2;
 			
-			var v0Dx : Number = v0.vertex2DInstance.x;
-			var v0Dy : Number = v0.vertex2DInstance.y;
-			var v1Dx : Number = v1.vertex2DInstance.x;
-			var v1Dy : Number = v1.vertex2DInstance.y;
-			var v2Dx : Number = v2.vertex2DInstance.x;
-			var v2Dy : Number = v2.vertex2DInstance.y;
+			var v0Dx : Number = v0.vertex3DInstance.x;
+			var v0Dy : Number = v0.vertex3DInstance.y;
+			var v1Dx : Number = v1.vertex3DInstance.x;
+			var v1Dy : Number = v1.vertex3DInstance.y;
+			var v2Dx : Number = v2.vertex3DInstance.x;
+			var v2Dy : Number = v2.vertex3DInstance.y;
 			
 			var v0_x : Number = v2Dx - v0Dx;
 			var v0_y : Number = v2Dy - v0Dy;
@@ -99,7 +100,7 @@ package org.papervision3d.utils
 			return { u : u, v : v };
 		}
 		
-		public static function getCoordAtPoint( face3d:Face3D, x : Number, y : Number ) : Vertex3D 
+		public static function getCoordAtPoint( face3d:Triangle3D, x : Number, y : Number ) : Vertex3D
 		{	
 			var rUV : Object = UVatPoint(face3d, x, y);
 			
@@ -125,11 +126,11 @@ package org.papervision3d.utils
 		
 		public static function getMapCoordAtPointDO3D( displayObject:DisplayObject3D, x : Number, y : Number ):Object
 		{
-			var face:Face3D = displayObject.geometry.faces[0];
+			var face:Triangle3D = displayObject.geometry.faces[0];
 			return getMapCoordAtPoint(face, x, y);
 		}
 		
-		public static function getMapCoordAtPoint( face3d:Face3D, x : Number, y : Number ) : Object 
+		public static function getMapCoordAtPoint( face3d:Triangle3D, x : Number, y : Number ) : Object 
 		{
 			var uv:Array = face3d.uv;
 			

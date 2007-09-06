@@ -23,7 +23,6 @@ package org.papervision3d.core.stat
 			polys = 0;
 			rendered = 0;
 			triangles = 0;
-			pixels = 0;
 			particles = 0;
 			culledTriangles = 0;
 		}

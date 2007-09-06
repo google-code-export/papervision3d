@@ -37,14 +37,12 @@
 
 package org.papervision3d.scenes
 {
-	import flash.utils.getTimer;
 	import flash.display.*;
-	
-	import org.papervision3d.scenes.*;
-	import org.papervision3d.core.proto.*;
-	
-	import org.papervision3d.objects.DisplayObject3D;
 	import flash.utils.Dictionary;
+	import flash.utils.getTimer;
+	
+	import org.papervision3d.core.proto.*;
+	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
 	* The MovieScene3D class lets you create a scene where each object is rendered in its own container.
@@ -141,7 +139,7 @@ package org.papervision3d.scenes
 		*
 		* @param	camera		camera to render from.
 		*/
-		protected override function renderObjects( sort:Boolean ):void
+		protected override function renderObjects( camera:CameraObject3D ):void
 		{
 			var objectsLength :Number = this.objects.length;
 	
@@ -158,14 +156,13 @@ package org.papervision3d.scenes
 			var objects :Array  = this.objects;
 			i = objects.length;
 	
-			if( sort )
+			if( camera.sort )
 			{
 				while( p = objects[--i] )
 				{
 					if( p.visible )
 					{
 						container.addChild( p.container );
-						p.render( this );
 					}
 				}
 			}
@@ -175,7 +172,7 @@ package org.papervision3d.scenes
 				{
 					if( p.visible )
 					{
-						p.render( this );
+						//p.render( this );
 					}
 				}
 			}

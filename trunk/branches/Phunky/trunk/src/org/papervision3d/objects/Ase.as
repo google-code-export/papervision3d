@@ -57,7 +57,7 @@ import flash.net.URLLoader;
 * <p/>
 * For more complex objects, it is recommended to import Collada scenes with addCollada method.
 */
-public class Ase extends Mesh3D
+public class Ase extends TriangleMesh3D
 {
 	/**
 	* Whether or not the scene has been loaded.
