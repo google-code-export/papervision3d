@@ -1,8 +1,11 @@
 package org.papervision3d.core.culling
 {
-	import org.papervision3d.core.geom.Vertex2D;
+
+
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Triangle3DInstance;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.proto.MaterialObject3D;
-	import org.papervision3d.core.geom.Face3DInstance;
 	import org.papervision3d.objects.DisplayObject3D;
 
 	public class DefaultTriangleCuller implements ITriangleCuller
@@ -20,11 +23,11 @@ package org.papervision3d.core.culling
 			
 		}
 	
-		public function testFace(displayObject3D:DisplayObject3D, faceInstance:Face3DInstance, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
+		public function testFace(face:Triangle3D, vertex0:Vertex3DInstance, vertex1:Vertex3DInstance, vertex2:Vertex3DInstance):Boolean
 		{
 			//Material checks & backface culling
 			if(vertex0.visible && vertex1.visible && vertex2.visible){
-				var material:MaterialObject3D = faceInstance.face.material ? faceInstance.face.material : displayObject3D.material;
+				var material:MaterialObject3D = face.material ? face.material : face.instance.material;
 				
 				if(material.invisible){
 					return false

@@ -1,11 +1,12 @@
 package org.papervision3d.materials
 {
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.geom.Face3D;
 	import flash.display.Graphics;
 	import flash.display.Sprite;
-	import org.papervision3d.core.geom.Vertex2D;
 	import flash.geom.Matrix;
+	
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
+	import org.papervision3d.objects.DisplayObject3D;
 	
 	public class InteractiveMovieMaterial extends MovieMaterial
 	{
@@ -17,10 +18,10 @@ package org.papervision3d.materials
 		/**
 		 *  drawFace3D
 		 */
-		override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		override public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
 		{
-			var result:int = super.drawFace3D(instance, face3D, graphics, v0, v1,v2);
-			if(instance.interactiveSceneManager != null && result) instance.interactiveSceneManager.drawFace(instance,face3D,v0.x, v1.x, v2.x, v0.y, v1.y, v2.y);
+			var result:int = super.drawFace3D(face3D, graphics, v0, v1,v2);
+			if(face3D.instance.interactiveSceneManager != null && result) face3D.instance.interactiveSceneManager.drawFace(face3D,v0.x, v1.x, v2.x, v0.y, v1.y, v2.y);
 			return result;
 		}
 		

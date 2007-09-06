@@ -32,7 +32,7 @@ package org.papervision3d.materials
 			createStaticUVMatrix();
 		}
 		
-		override public function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		override public function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
 		{
 			if(bitmap){
 				var x0:Number = v0.x;

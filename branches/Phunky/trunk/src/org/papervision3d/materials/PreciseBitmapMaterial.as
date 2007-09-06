@@ -67,7 +67,7 @@ package org.papervision3d.materials
 			
         }
 		
-		public override function drawFace3D(instance:DisplayObject3D, face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		public override function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
         {
             var mapping:Matrix = transformUV(face3D);
 

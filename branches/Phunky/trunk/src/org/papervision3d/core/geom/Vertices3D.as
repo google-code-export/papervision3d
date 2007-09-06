@@ -37,13 +37,14 @@
 //                                               GeometryObject3D: Points
 package org.papervision3d.core.geom
 {
-import org.papervision3d.core.*;
-import org.papervision3d.core.geom.*;
-import org.papervision3d.core.proto.*;
-import org.papervision3d.scenes.*;
-import org.papervision3d.objects.DisplayObject3D;
-
 import flash.utils.Dictionary;
+
+import org.papervision3d.core.*;
+import org.papervision3d.core.geom.renderables.Vertex3D;
+import org.papervision3d.core.geom.renderables.Vertex3DInstance;
+import org.papervision3d.core.proto.*;
+import org.papervision3d.objects.DisplayObject3D;
+import org.papervision3d.scenes.*;
 
 /**
 * The Vertices3D class lets you create and manipulate groups of vertices.
@@ -118,7 +119,7 @@ public class Vertices3D extends DisplayObject3D
 		s_y	:Number,
 		s_z	:Number,
 		vertex:Vertex3D, 
-		screen:Vertex2D,
+		screen:Vertex3DInstance,
 		persp :Number,
 
 		vertices :Array  = this.geometry.vertices,
@@ -136,7 +137,7 @@ public class Vertices3D extends DisplayObject3D
 			
 			s_z = vx * m31 + vy * m32 + vz * m33 + view.n34;
 			
-			screen = vertex.vertex2DInstance;
+			screen = vertex.vertex3DInstance;
 	
 			if( screen.visible = ( s_z > 0 ) )
 			{

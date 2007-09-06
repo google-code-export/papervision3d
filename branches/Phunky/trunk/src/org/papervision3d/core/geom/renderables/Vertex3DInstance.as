@@ -35,7 +35,7 @@
 
 // ______________________________________________________________________
 //                                                               Vertex3D
-package org.papervision3d.core.geom
+package org.papervision3d.core.geom.renderables
 {
 	import org.papervision3d.core.Number3D;
 	
@@ -43,7 +43,7 @@ package org.papervision3d.core.geom
 	/**
 	* The Vertex2D constructor lets you create 2D projected vertices.
 	*/
-	public class Vertex2D
+	public class Vertex3DInstance
 	{
 		/**
 		* An Number that sets the X coordinate of a object relative to the scene coordinate system.
@@ -85,7 +85,7 @@ package org.papervision3d.core.geom
 		* @param	z	The depth coordinate value. The default value is zero.
 		*
 		* */
-		public function Vertex2D( x:Number=0, y:Number=0, z:Number=0 )
+		public function Vertex3DInstance( x:Number=0, y:Number=0, z:Number=0 )
 		{
 			this.x = x;
 			this.y = y;
@@ -95,9 +95,9 @@ package org.papervision3d.core.geom
 			this.normal = new Number3D();
 		}
 		
-		public function clone():Vertex2D
+		public function clone():Vertex3DInstance
 		{
-			var clone:Vertex2D = new Vertex2D(x,y,z);
+			var clone:Vertex3DInstance = new Vertex3DInstance(x,y,z);
 			clone.visible = visible;
 			clone.extra = extra; //TODO : FIX CLONING OF THE EXTRA OBJECT.
 			return clone;

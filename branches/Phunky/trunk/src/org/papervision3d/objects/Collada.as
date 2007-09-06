@@ -39,7 +39,6 @@
 package org.papervision3d.objects
 {
 	import com.blitzagency.xray.logger.XrayLog;
-	import org.papervision3d.components.as3.collections.MaterialsListItem;
 	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -51,9 +50,9 @@ package org.papervision3d.objects
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.Matrix3D;
 	import org.papervision3d.core.NumberUV;
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.geom.Mesh3D;
-	import org.papervision3d.core.geom.Vertex3D;
+	import org.papervision3d.core.geom.TriangleMesh3D;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.proto.DisplayObjectContainer3D;
 	import org.papervision3d.core.proto.GeometryObject3D;
 	import org.papervision3d.core.proto.MaterialObject3D;
@@ -241,7 +240,7 @@ package org.papervision3d.objects
 			if( String( node.instance_geometry ) == "" )
 				newNode = new DisplayObject3D( node.@name );
 			else
-				newNode = new Mesh3D( null, null, null, node.@name );
+				newNode = new TriangleMesh3D( null, null, null, node.@name );
 	
 	
 			var instance :DisplayObject3D = parent.addChild( newNode, node.@name );
@@ -431,7 +430,7 @@ package org.papervision3d.objects
 				else uvList = null;
 
 				var materialName:String = semFaces[i].material || null;
-				var face:Face3D = new Face3D( faceList, _materials.getMaterialByName(materialName), uvList );
+				var face:Triangle3D = new Triangle3D(this, faceList, _materials.getMaterialByName(materialName), uvList );
 
 				faces.push( face );
 			}

@@ -39,19 +39,16 @@
 package org.papervision3d.utils
 {
 	import com.blitzagency.xray.logger.XrayLog;
-
+	
 	import flash.display.Sprite;
 	import flash.geom.Matrix;
 	import flash.utils.Dictionary;
-
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.Number3D;
+	
 	import org.papervision3d.core.Matrix3D;
+	import org.papervision3d.core.Number3D;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.scenes.InteractiveScene3D;
-	import org.papervision3d.utils.InteractiveSceneManager;
-	import org.papervision3d.utils.InteractiveSprite;
-	import org.papervision3d.utils.InteractiveUtils;
 
 	public class Mouse3D extends DisplayObject3D
 	{
@@ -64,7 +61,7 @@ package org.papervision3d.utils
 			
 		}
 		
-		public function updatePosition( face3d:Face3D, container:Sprite ):void
+		public function updatePosition( face3d:Triangle3D, container:Sprite ):void
 		{			
 			var position:Number3D = new Number3D(0, 0, 0);
 			var target:Number3D = new Number3D(face3d.faceNormal.x, face3d.faceNormal.y, face3d.faceNormal.z);

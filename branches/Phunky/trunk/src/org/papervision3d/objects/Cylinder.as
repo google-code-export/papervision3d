@@ -37,17 +37,18 @@
 //                                                GeometryObject3D: Cylinder
 package org.papervision3d.objects
 {
-	import org.papervision3d.core.*;
-	import org.papervision3d.core.proto.*;
-	import org.papervision3d.core.geom.*;
 	import flash.display.BitmapData;
+	
+	import org.papervision3d.core.*;
+	import org.papervision3d.core.geom.*;
+	import org.papervision3d.core.proto.*;
 
 	/**
 	* The Cylinder class lets you create and display Cylinders.
 	* <p/>
 	* The Cylinder is divided in vertical and horizontal segment, the smallest combination is two vertical and three horizontal segments.
 	*/
-	public class Cylinder extends Mesh3D
+	public class Cylinder extends TriangleMesh3D
 	{
 		/**
 		* Number of segments horizontally. Defaults to 8.

@@ -37,18 +37,18 @@
 //                                                GeometryObject3D: Sphere
 package org.papervision3d.objects
 {
-import org.papervision3d.core.*;
-import org.papervision3d.core.proto.*;
-import org.papervision3d.core.geom.*;
-
 import flash.display.BitmapData;
+
+import org.papervision3d.core.*;
+import org.papervision3d.core.geom.*;
+import org.papervision3d.core.proto.*;
 
 /**
 * The Sphere class lets you create and display spheres.
 * <p/>
 * The sphere is divided in vertical and horizontal segment, the smallest combination is two vertical and three horizontal segments.
 */
-public class Sphere extends Mesh3D
+public class Sphere extends TriangleMesh3D
 {
 	/**
 	* Number of segments horizontally. Defaults to 8.

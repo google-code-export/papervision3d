@@ -38,16 +38,17 @@
 
 package org.papervision3d.core.proto
 {
-	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.proto.*;
-	import org.papervision3d.core.geom.*;
-	import org.papervision3d.core.*;
-	import org.papervision3d.scenes.*;
-	import org.papervision3d.materials.*;
-	import org.papervision3d.objects.DisplayObject3D;
-	
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
+	
+	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.*;
+	import org.papervision3d.core.geom.*;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
+	import org.papervision3d.materials.*;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.scenes.*;
 
 /**
 * The GeometryObject3D class contains the mesh definition of an object.
@@ -169,9 +170,8 @@ package org.papervision3d.core.proto
 		private function createVertexNormals():void
 		{
 			var tempVertices:Dictionary = new Dictionary(true);
-			var face:Face3D;
+			var face:Triangle3D;
 			var vertex3D:Vertex3D;
-			
 			for each(face in faces){
 				face.v0.connectedFaces[face] = face;
 				face.v1.connectedFaces[face] = face;

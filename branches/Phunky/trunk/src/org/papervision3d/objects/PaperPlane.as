@@ -36,18 +36,18 @@
 // _______________________________________________________________________ PaperPlane
 package org.papervision3d.objects
 {
-import org.papervision3d.core.*;
-import org.papervision3d.core.proto.*;
-import org.papervision3d.core.geom.*;
-
 import flash.display.BitmapData;
+
+import org.papervision3d.core.*;
+import org.papervision3d.core.geom.*;
+import org.papervision3d.core.proto.*;
 
 /**
 * The PaperPlane class lets you create a paper plane object.
 * <p/>
 * Paper planes are useful for testing, when you want to know the direction an object is facing.
 */
-public class PaperPlane extends Mesh3D
+public class PaperPlane extends TriangleMesh3D
 {
 	/**
 	* Default value of segments.

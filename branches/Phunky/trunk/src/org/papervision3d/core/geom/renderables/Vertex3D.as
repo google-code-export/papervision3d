@@ -35,11 +35,13 @@
 
 // ______________________________________________________________________
 //                                                               Vertex3D
-package org.papervision3d.core.geom
+package org.papervision3d.core.geom.renderables
 {
-	import org.papervision3d.core.Number3D;
 	import com.blitzagency.xray.logger.util.ObjectTools;
+	
 	import flash.utils.Dictionary;
+	
+	import org.papervision3d.core.Number3D;
 	
 
 	/**
@@ -70,7 +72,7 @@ package org.papervision3d.core.geom
 		/**
 		 * Vertex2D instance 
 		 */
-		 public var vertex2DInstance:Vertex2D;
+		 public var vertex3DInstance:Vertex3DInstance;
 		
 		//To be docced
 		public var normal:Number3D;
@@ -90,7 +92,7 @@ package org.papervision3d.core.geom
 			this.y = y;
 			this.z = z;
 			
-			this.vertex2DInstance = new Vertex2D();
+			this.vertex3DInstance = new Vertex3DInstance();
 			this.normal = new Number3D();
 			this.connectedFaces = new Dictionary();
 		}
@@ -104,7 +106,7 @@ package org.papervision3d.core.geom
 		{
 			var clone:Vertex3D = new Vertex3D(x,y,z);
 			clone.extra = extra;
-			clone.vertex2DInstance = vertex2DInstance.clone();
+			clone.vertex3DInstance = vertex3DInstance.clone();
 			clone.normal = normal.clone();
 			
 			return clone;
@@ -112,12 +114,17 @@ package org.papervision3d.core.geom
 		
 		public function calculateNormal():void
 		{
-			var face:Face3D;
+			var face:Triangle3D;
 			normal = new Number3D();
+			var count:Number = 0;
 			for each(face in connectedFaces)
 			{	
+				count++;
 				normal = Number3D.add(face.faceNormal, normal);
 			}
+			normal.x/=count;
+			normal.y/=count;
+			normal.z/=count;
 			normal.normalize();
 		}
 		
