@@ -354,12 +354,6 @@ package org.papervision3d.objects
 			{
 				if(child.scene == null) child.scene = _scene;
 			}
-			
-			// if this is NOT an interactiveScene3D, just return
-			if(_scene is InteractiveScene3D == false) return;
-			
-			// if we have an InteractiveScene3D, register this and the children to add them to the InteractiveSceneManager
-			interactiveSceneManager = InteractiveScene3D(_scene).interactiveSceneManager;
 		}
 		
 		public function get scene():SceneObject3D { return _scene; }
