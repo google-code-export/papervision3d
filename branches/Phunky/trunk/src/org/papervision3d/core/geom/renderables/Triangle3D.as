@@ -172,7 +172,7 @@ package org.papervision3d.core.geom.renderables
 			faceNormal.normalize();
 		}
 		
-		public function getRenderCommand():IRenderListItem
+		public function getRenderListItem():IRenderListItem
 		{
 			return renderCommand;
 		}

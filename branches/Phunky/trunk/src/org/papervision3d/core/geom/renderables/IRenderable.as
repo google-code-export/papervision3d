@@ -4,6 +4,6 @@ package org.papervision3d.core.geom.renderables
 	
 	public interface IRenderable
 	{
-		function getRenderCommand():IRenderListItem;
+		function getRenderListItem():IRenderListItem;
 	}
 }
