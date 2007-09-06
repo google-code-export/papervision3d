@@ -67,12 +67,12 @@ package org.papervision3d
 		/**
 		* Enables version to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var VERSION  :String = 'Beta 1.7';
+		static public var VERSION  :String = 'Beta 1.7 - PHUNKY';
 	
 		/**
 		* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var DATE     :String = '20.08.07';
+		static public var DATE     :String = '20.09.07';
 	
 		/**
 		* Enables copyright information to be retrieved at runtime or when reviewing a decompiled swf.
