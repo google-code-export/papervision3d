@@ -45,8 +45,8 @@ package org.papervision3d.core.geom.renderables
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.*;
 	import org.papervision3d.core.proto.*;
-	import org.papervision3d.core.render.command.IRenderCommand;
-	import org.papervision3d.core.render.command.RenderTriangleCommand;
+	import org.papervision3d.core.render.command.IRenderListItem;
+	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
@@ -128,7 +128,7 @@ package org.papervision3d.core.geom.renderables
 		public var material:MaterialObject3D;
 		
 		//To be docced
-		public var renderCommand:RenderTriangleCommand;
+		public var renderCommand:RenderTriangle;
 		
 		private static var _totalFaces:Number = 0;
 		
@@ -142,7 +142,7 @@ package org.papervision3d.core.geom.renderables
 		public function Triangle3D(do3dInstance:DisplayObject3D, vertices:Array, material:MaterialObject3D=null, uv:Array=null )
 		{
 			this.instance = do3dInstance;
-			this.renderCommand = new RenderTriangleCommand(this);
+			this.renderCommand = new RenderTriangle(this);
 			
 			//Setup this instance
 			face3DInstance = new Triangle3DInstance(this, do3dInstance);
@@ -172,7 +172,7 @@ package org.papervision3d.core.geom.renderables
 			faceNormal.normalize();
 		}
 		
-		public function getRenderCommand():IRenderCommand
+		public function getRenderCommand():IRenderListItem
 		{
 			return renderCommand;
 		}

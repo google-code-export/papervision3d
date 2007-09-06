@@ -7,7 +7,7 @@ package org.papervision3d.core.render.command
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	
-	public class RenderTriangleCommand extends AbstractRenderCommand implements IRenderCommand
+	public class RenderTriangle extends AbstractRenderListItem implements IRenderListItem
 	{
 		//Avoiding vars in the main loop.
 		private static var container:Sprite;
@@ -15,12 +15,13 @@ package org.papervision3d.core.render.command
 		
 		public var face:Triangle3D;
 		
-		public function RenderTriangleCommand(face:Triangle3D):void
+		public function RenderTriangle(face:Triangle3D):void
 		{
 			this.face = face;
+			renderable = Triangle3D;
 		}
 		
-		override public function execute(renderSessionData:RenderSessionData):void
+		override public function render(renderSessionData:RenderSessionData):void
 		{
 			container = face.instance.container ? face.instance.container : renderSessionData.container;
 			renderMat = face.material ? face.material : face.instance.material;
