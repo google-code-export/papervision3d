@@ -161,29 +161,6 @@ package org.papervision3d.core.geom.renderables
 			createNormal();
 		}
 		
-		// ______________________________________________________________________________
-		//                                                                         RENDER
-		// RRRRR  EEEEEE NN  NN DDDDD  EEEEEE RRRRR
-		// RR  RR EE     NNN NN DD  DD EE     RR  RR
-		// RRRRR  EEEE   NNNNNN DD  DD EEEE   RRRRR
-		// RR  RR EE     NN NNN DD  DD EE     RR  RR
-		// RR  RR EEEEEE NN  NN DDDDD  EEEEEE RR  RR
-	
-		/**
-		* Draws the triangle into its MovieClip container.
-		*
-		* @param	container	The default MovieClip that you draw into when rendering.
-		* @param	randomFill		A Boolean value that indicates whether random coloring is enabled. Typically used for debug purposes. Defaults to false.
-		* @return					The number of triangles drawn. Either one if it is double sided or visible, or zero if it single sided and not visible.
-		*
-		*/
-		public function render( instance:DisplayObject3D, container:Sprite ): Number
-		{
-			renderMat = material ? material : instance.material;
-			return renderMat.drawFace3D(this, container.graphics, v0.vertex3DInstance, v1.vertex3DInstance, v2.vertex3DInstance);
-		}
-		private var renderMat:MaterialObject3D; //Used to not use var above.
-		
 		protected function createNormal():void
 		{
 			var vn0:Number3D = v0.toNumber3D(),
