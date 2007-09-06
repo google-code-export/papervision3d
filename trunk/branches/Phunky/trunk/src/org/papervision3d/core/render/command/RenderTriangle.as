@@ -40,14 +40,17 @@ package org.papervision3d.core.render.command
 		
 		override public function hitTestPoint2D(point:Point):RenderHitData
 		{
-			var vPoint:Vertex3DInstance = new Vertex3DInstance(point.x, point.y);
-			var vx0:Vertex3DInstance = triangle.v0.vertex3DInstance;
-			var vx1:Vertex3DInstance = triangle.v1.vertex3DInstance;
-			var vx2:Vertex3DInstance = triangle.v2.vertex3DInstance;
-			if(sameSide(vPoint,vx0,vx1,vx2)){
-				if(sameSide(vPoint,vx1,vx0,vx2)){
-					if(sameSide(vPoint,vx2,vx0,vx1)){
-						return deepHitTest(triangle, vPoint);
+			renderMat = triangle.material ? triangle.material : triangle.instance.material;
+			if(renderMat.interactive){
+				var vPoint:Vertex3DInstance = new Vertex3DInstance(point.x, point.y);
+				var vx0:Vertex3DInstance = triangle.v0.vertex3DInstance;
+				var vx1:Vertex3DInstance = triangle.v1.vertex3DInstance;
+				var vx2:Vertex3DInstance = triangle.v2.vertex3DInstance;
+				if(sameSide(vPoint,vx0,vx1,vx2)){
+					if(sameSide(vPoint,vx1,vx0,vx2)){
+						if(sameSide(vPoint,vx2,vx0,vx1)){
+							return deepHitTest(triangle, vPoint);
+						}
 					}
 				}
 			}
@@ -131,8 +134,6 @@ package org.papervision3d.core.render.command
 			
 			return rhd;
 		}
-		
-		
-		
+	
 	}
 }
