@@ -2,20 +2,21 @@ package org.papervision3d.core.render
 {
 	import flash.display.Scene;
 	import flash.display.Sprite;
+	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.command.IRenderListItem;
+	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.filter.IRenderFilter;
+	import org.papervision3d.core.render.hit.RenderHitData;
 	import org.papervision3d.core.render.sort.BasicRenderSorter;
 	import org.papervision3d.core.render.sort.IRenderSorter;
 	import org.papervision3d.core.stat.RenderStatistics;
-	import org.papervision3d.core.render.command.RenderableListItem;
-	import org.papervision3d.core.render.hit.RenderHitData;
 	
-	public class BasicRenderEngine implements IRenderEngine
+	public class BasicRenderEngine extends EventDispatcher implements IRenderEngine
 	{
 		public var sorter:IRenderSorter;
 		public var filter:IRenderFilter;
@@ -49,22 +50,17 @@ package org.papervision3d.core.render
 			renderSessionData.container = container;
 			renderSessionData.camera = camera;
 			renderSessionData.scene = scene;
-	
 			var rc:IRenderListItem;
 			while(rc = renderList.pop())
 			{
 				rc.render(renderSessionData);
 				lastRenderList.push(rc);
 			}
-			
-			
-			
 			return renderStatistics;
 		}
 		
 		public function hitTestPoint2D(point:Point):RenderHitData
 		{
-			
 			var rli:RenderableListItem;
 			var rhd:RenderHitData;
 			var rc:IRenderListItem;
@@ -73,8 +69,7 @@ package org.papervision3d.core.render
 				if(rc is RenderableListItem)
 				{
 					rli = rc as RenderableListItem;
-					if((rhd = rli.hitTestPoint2D(point))){
-						
+					if((rhd = rli.hitTestPoint2D(point))){				
 						return rhd;
 					}
 				}

@@ -92,7 +92,6 @@ package org.papervision3d.utils
 				look.n33 = zAxis.z;
 			}
 			
-			
 			var m:Matrix3D = Matrix3D.IDENTITY;
 			this.transform = Matrix3D.multiply(face3d.face3DInstance.instance.world, look);
 			var v:Matrix3D = Matrix3D.IDENTITY;

@@ -186,7 +186,12 @@ package org.papervision3d.core.proto
 		* Holds the original size of the bitmap before it was resized by Automip mapping
 		*/
 		 public var heightOffset:Number = 0;
-
+		
+		/**
+		 * Defines if this material will be interactive;
+		 */
+		public var interactive:Boolean = false;
+		
 	//	public var extra :Object;
 
 		/**
