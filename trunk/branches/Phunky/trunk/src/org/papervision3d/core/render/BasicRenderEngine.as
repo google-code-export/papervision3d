@@ -12,12 +12,15 @@ package org.papervision3d.core.render
 	import org.papervision3d.core.render.sort.BasicRenderSorter;
 	import org.papervision3d.core.render.sort.IRenderSorter;
 	import org.papervision3d.core.stat.RenderStatistics;
+	import org.papervision3d.core.render.command.RenderableListItem;
+	import org.papervision3d.core.render.hit.RenderHitData;
 	
 	public class BasicRenderEngine implements IRenderEngine
 	{
 		public var sorter:IRenderSorter;
 		public var filter:IRenderFilter;
 		
+		private var renderStatistics:RenderStatistics;
 		private var lastRenderList:Array;
 		private var renderList:Array;
 		private var renderSessionData:RenderSessionData;
@@ -29,6 +32,7 @@ package org.papervision3d.core.render
 		
 		private function init():void
 		{
+			renderStatistics = new RenderStatistics();
 			sorter = new BasicRenderSorter();
 			renderList = new Array();
 			lastRenderList = new Array();
@@ -37,11 +41,10 @@ package org.papervision3d.core.render
 		
 		public function render(scene:SceneObject3D, container:Sprite, camera:CameraObject3D):RenderStatistics
 		{
+			//Sort entire list.
 			sorter.sort(renderList);
 			
 			lastRenderList = new Array();
-			var renderStatistics:RenderStatistics = new RenderStatistics();
-			
 			renderSessionData.container = container;
 			renderSessionData.camera = camera;
 			renderSessionData.scene = scene;
@@ -53,6 +56,25 @@ package org.papervision3d.core.render
 				lastRenderList.push(rc);
 			}
 			return renderStatistics;
+		}
+		
+		public function hitTestPoint2D(point:Point):RenderHitData
+		{
+			var rli:RenderableListItem;
+			var rhd:RenderHitData;
+			var rc:IRenderListItem;
+			while(rc = renderList.pop())
+			{
+				if(rc is RenderableListItem)
+				{
+					rhd = rli.hitTestPoint2D(point);		
+					if(rhd){
+						return rhd;
+						trace("called");
+					}
+				}
+			}
+			return null;
 		}
 		
 		public function addToRenderList(renderCommand:IRenderListItem):int

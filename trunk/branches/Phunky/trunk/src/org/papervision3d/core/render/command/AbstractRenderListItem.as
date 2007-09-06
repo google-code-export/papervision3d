@@ -4,8 +4,12 @@ package org.papervision3d.core.render.command
 
 	public class AbstractRenderListItem implements IRenderListItem
 	{
-		public var renderable:Class;
 		public var screenDepth:Number;
+		
+		public function AbstractRenderListItem()
+		{
+			
+		}
 	
 		public function render(renderSessionData:RenderSessionData):void
 		{

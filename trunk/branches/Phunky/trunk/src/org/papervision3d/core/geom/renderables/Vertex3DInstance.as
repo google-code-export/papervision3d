@@ -41,7 +41,7 @@ package org.papervision3d.core.geom.renderables
 	
 
 	/**
-	* The Vertex2D constructor lets you create 2D projected vertices.
+	* The Vertex3DInstance constructor lets you create 2D projected vertices.
 	*/
 	public class Vertex3DInstance
 	{
@@ -101,6 +101,25 @@ package org.papervision3d.core.geom.renderables
 			clone.visible = visible;
 			clone.extra = extra; //TODO : FIX CLONING OF THE EXTRA OBJECT.
 			return clone;
+		}
+		
+		public static function dot(v0:Vertex3DInstance, v1:Vertex3DInstance):Number
+		{
+			return (v0.x * v1.x + v0.y * v1.y);
+		}
+		
+		public static function cross(v0:Vertex3DInstance,v1:Vertex3DInstance):Number
+		{
+			return (v0.x*v1.y-v1.x*v0.y);
+		}
+		
+		public static function sub( v0:Vertex3DInstance, v1:Vertex3DInstance ):Vertex3DInstance
+		{
+			return new Vertex3DInstance
+			(
+				v1.x - v0.y,
+				v1.x - v0.y
+			);
 		}
 		
 	}
