@@ -38,9 +38,9 @@ package org.papervision3d.core.render.command
 		override public function hitTestPoint2D(point:Point):RenderHitData
 		{
 			var vPoint:Vertex3DInstance = new Vertex3DInstance(point.x, point.y);
-			var vx0:Vertex3DInstance;
-			var vx1:Vertex3DInstance;
-			var vx2:Vertex3DInstance;
+			var vx0:Vertex3DInstance = triangle.v0.vertex3DInstance;
+			var vx1:Vertex3DInstance = triangle.v1.vertex3DInstance;
+			var vx2:Vertex3DInstance = triangle.v2.vertex3DInstance;
 			if(sameSide(vPoint,vx0,vx1,vx2)){
 				if(sameSide(vPoint,vx1,vx0,vx2)){
 					if(sameSide(vPoint,vx2,vx0,vx1)){
@@ -49,6 +49,11 @@ package org.papervision3d.core.render.command
 				}
 			}
 			return null;
+		}
+		
+		private function sameSide(point:Vertex3DInstance, ref:Vertex3DInstance, a:Vertex3DInstance, b:Vertex3DInstance):Boolean
+		{
+			return Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(point,a))*Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(ref,a)) > 0;
 		}
 		
 		private function deepHitTest(face:Triangle3D, vPoint:Vertex3DInstance):RenderHitData
@@ -90,10 +95,7 @@ package org.papervision3d.core.render.command
 			return rhd;
 		}
 		
-		private function sameSide(point:Vertex3DInstance, ref:Vertex3DInstance, a:Vertex3DInstance, b:Vertex3DInstance):Boolean
-		{
-			return Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(point,a))*Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(ref,a)) > 0;
-		}
+		
 		
 	}
 }

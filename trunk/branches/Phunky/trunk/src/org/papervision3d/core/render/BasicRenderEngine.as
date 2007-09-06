@@ -27,7 +27,7 @@ package org.papervision3d.core.render
 		
 		public function BasicRenderEngine():void
 		{
-			init();			
+			init();			 
 		}
 		
 		private function init():void
@@ -55,6 +55,9 @@ package org.papervision3d.core.render
 				rc.render(renderSessionData);
 				lastRenderList.push(rc);
 			}
+			
+			hitTestPoint2D(new Point(320,240));
+			
 			return renderStatistics;
 		}
 		
@@ -63,12 +66,12 @@ package org.papervision3d.core.render
 			var rli:RenderableListItem;
 			var rhd:RenderHitData;
 			var rc:IRenderListItem;
-			while(rc = renderList.pop())
-			{
+			while(rc = lastRenderList.pop())
+			{	
 				if(rc is RenderableListItem)
 				{
-					if(rhd = rli.hitTestPoint2D(point)){
-						trace("called");
+					rli = rc as RenderableListItem;
+					if((rhd = rli.hitTestPoint2D(point))){
 						return rhd;
 					}
 				}
