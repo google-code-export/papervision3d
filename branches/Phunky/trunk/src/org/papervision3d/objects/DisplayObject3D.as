@@ -742,65 +742,6 @@ package org.papervision3d.objects
 			screen.y = view.n24 * persp;
 			screen.z = view.n34;
 		}	
-		
-		// ___________________________________________________________________________________________________
-		//                                                                                         R E N D E R
-		// RRRRR  EEEEEE NN  NN DDDDD  EEEEEE RRRRR
-		// RR  RR EE     NNN NN DD  DD EE     RR  RR
-		// RRRRR  EEEE   NNNNNN DD  DD EEEE   RRRRR
-		// RR  RR EE     NN NNN DD  DD EE     RR  RR
-		// RR  RR EEEEEE NN  NN DDDDD  EEEEEE RR  RR
-	
-		/**
-		* [internal-use] Render the projected object.
-		*
-		* @param	scene	The scene where the object belongs.
-		*/
-		/*public function render( scene :SceneObject3D ):void
-		{
-			var iFaces :Array = this._sorted;
-			iFaces.sortOn( 'screenZ', Array.DESCENDING | Array.NUMERIC );
-	
-			// Render
-			
-			var container 	:Sprite = this.container || scene.container,
-			rendered  		:Number = 0,
-			iFace     		:Triangle3DInstance, 
-			length			:Number = iFaces.length,
-			i				:int = 0;	
-			//for( var i:int = 0; iFace = iFaces[i]; i++ )
-			//for( var i:int = 0; i < length ; i++ )
-			while(i < length)
-			{
-				iFace = iFaces[i];
-				if( faceLevelMode )
-				{
-					if( !iFace.container )
-					{
-						iFace.container = new InteractiveSprite(this);
-						scene.container.addChild(iFace.container);
-					}
-					else
-					{
-						iFace.container.graphics.clear();
-					}
-					
-					if( iFace.visible )
-						rendered += iFace.face.render( iFace.instance,  iFace.container)
-				}else
-				{
-					// if we're not in faceLevelMode, then it's render as usual - no extra checks in the render loop
-					if( iFace.visible )
-						rendered += iFace.face.render( iFace.instance, container );
-				}	
-				
-				i++;		
-			}
-	
-			// Update stats
-			scene.stats.rendered += rendered;
-		}*/
-	
 		// ___________________________________________________________________________________________________
 		//                                                                     L O C A L   T R A N S F O R M S
 		// LL      OOOO   CCCC    AA   LL
