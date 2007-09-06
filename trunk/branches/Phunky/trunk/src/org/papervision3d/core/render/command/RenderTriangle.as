@@ -51,9 +51,11 @@ package org.papervision3d.core.render.command
 			return null;
 		}
 		
-		private function sameSide(point:Vertex3DInstance, ref:Vertex3DInstance, a:Vertex3DInstance, b:Vertex3DInstance):Boolean
+		public function sameSide(point:Vertex3DInstance, ref:Vertex3DInstance, a:Vertex3DInstance, b:Vertex3DInstance):Boolean
 		{
-			return Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(point,a))*Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(ref,a)) > 0;
+			var n:Number =  Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(point,a))*Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(ref,a));
+			
+			return n>0;
 		}
 		
 		private function deepHitTest(face:Triangle3D, vPoint:Vertex3DInstance):RenderHitData
@@ -92,6 +94,7 @@ package org.papervision3d.core.render.command
 			var rhd:RenderHitData = new RenderHitData();
 			rhd.displayObject3D = face.instance;
 			rhd.renderable = face;
+			
 			return rhd;
 		}
 		

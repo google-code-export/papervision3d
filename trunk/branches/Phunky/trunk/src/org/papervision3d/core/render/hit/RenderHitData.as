@@ -8,5 +8,10 @@ package org.papervision3d.core.render.hit
 		public var displayObject3D:DisplayObject3D;
 		public var renderable:IRenderable;
 		
+		
+		public function toString():String
+		{
+			return displayObject3D +" "+renderable;
+		}
 	}
 }
