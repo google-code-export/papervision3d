@@ -57,7 +57,6 @@ package org.papervision3d.core.render.command
 		public function sameSide(point:Vertex3DInstance, ref:Vertex3DInstance, a:Vertex3DInstance, b:Vertex3DInstance):Boolean
 		{
 			var n:Number =  Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(point,a))*Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(ref,a));
-			
 			return n>0;
 		}
 		
@@ -129,9 +128,6 @@ package org.papervision3d.core.render.command
 			
 			rhd.u = v_x * width;
 			rhd.v = height - v_y * height;
-			if(bitmap){
-				bitmap.setPixel(rhd.u, rhd.v,0x000000);
-			}
 			
 			return rhd;
 		}
