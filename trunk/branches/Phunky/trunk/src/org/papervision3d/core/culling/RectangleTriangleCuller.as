@@ -2,10 +2,8 @@ package org.papervision3d.core.culling
 {
 	import flash.geom.Rectangle;
 	
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.geom.Face3DInstance;
-	import org.papervision3d.core.geom.Vertex2D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.objects.DisplayObject3D;
 
 	public class RectangleTriangleCuller extends DefaultTriangleCuller implements ITriangleCuller
@@ -34,9 +32,9 @@ package org.papervision3d.core.culling
 			}
 		}
 		
-		override public function testFace(face:Triangle3D, vertex0:Vertex2D, vertex1:Vertex2D, vertex2:Vertex2D):Boolean
+		override public function testFace(face:Triangle3D, vertex0:Vertex3DInstance, vertex1:Vertex3DInstance, vertex2:Vertex3DInstance):Boolean
 		{
-			if(super.testFace(displayObject3D, faceInstance, vertex0, vertex1, vertex2)){
+			if(super.testFace(face, vertex0, vertex1, vertex2)){
 				hitRect.x = Math.min(vertex2.x, Math.min(vertex1.x, vertex0.x));
 				hitRect.width = Math.max(vertex2.x, Math.max(vertex1.x, vertex0.x)) + Math.abs(hitRect.x);
 				hitRect.y = Math.min(vertex2.y, Math.min(vertex1.y, vertex0.y));

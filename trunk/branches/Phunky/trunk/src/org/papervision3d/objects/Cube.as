@@ -42,8 +42,10 @@ import flash.display.BitmapData;
 import org.papervision3d.Papervision3D;
 import org.papervision3d.core.*;
 import org.papervision3d.core.geom.*;
+import org.papervision3d.core.geom.renderables.Vertex3D;
 import org.papervision3d.core.proto.*;
 import org.papervision3d.materials.MaterialsList;
+import org.papervision3d.core.geom.renderables.Triangle3D;
 
 /**
 * The Cube class lets you create and display flat rectangle objects.
@@ -267,7 +269,7 @@ public class Cube extends TriangleMesh3D
 				uvC =  new NumberUV( iu     / gridU, (iv+1) / gridV );
 				uvB =  new NumberUV( (iu+1) / gridU, iv     / gridV );
 
-				faces.push( new Face3D( [ a, b, c ], matInstance, [ uvA, uvB, uvC ] ) );
+				faces.push(new Triangle3D(this, [ a, b, c ], matInstance, [ uvA, uvB, uvC ] ) );
 
 				// Triangle B
 				a = planeVerts[ (iu+1) * gridV1 + (iv+1) ];
@@ -278,7 +280,7 @@ public class Cube extends TriangleMesh3D
 				uvC =  new NumberUV( (iu+1) / gridU, iv     / gridV );
 				uvB =  new NumberUV( iu     / gridU, (iv+1) / gridV );
 
-				faces.push( new Face3D( [ a, b, c ], matInstance, [ uvA, uvB, uvC ] ) );
+				faces.push(new Triangle3D(this, [ a, b, c ], matInstance, [ uvA, uvB, uvC ] ) );
 			}
 		}
 	}

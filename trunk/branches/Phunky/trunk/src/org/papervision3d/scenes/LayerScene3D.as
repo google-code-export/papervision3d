@@ -37,15 +37,15 @@
 
 package org.papervision3d.scenes
 {
-import flash.utils.getTimer;
 import flash.display.*;
+import flash.utils.Dictionary;
+import flash.utils.getTimer;
 
 import org.papervision3d.Papervision3D;
-import org.papervision3d.scenes.*;
+import org.papervision3d.cameras.Camera3D;
 import org.papervision3d.core.proto.*;
-
+import org.papervision3d.core.stat.RenderStatistics;
 import org.papervision3d.objects.DisplayObject3D;
-import flash.utils.Dictionary;
 
 /**
 * The LayerScene3D class lets you create a scene where each object is rendered in its own container.
@@ -209,7 +209,7 @@ public class LayerScene3D extends Scene3D
 	*
 	* @param	camera		camera to render from.
 	*/
-	protected override function renderObjects( sort:Boolean ):void
+	protected override function renderObjects( camera:CameraObject3D ):void
 	{
 		var objectsLength :Number = this.objects.length;
 
@@ -220,21 +220,8 @@ public class LayerScene3D extends Scene3D
 		// Clear all known object
 		while( gfx = containerList[i++] ) gfx.graphics.clear();
 
-		// Render
-		var p       :DisplayObject3D;
-		var objects :Array  = this.objects;
-		i = objects.length;
-
-		while( p = objects[--i] )
-		{
-			if( p.visible )
-			{
-				p.render( this );
-			}
-		}
-
 		// Update stats
-		var stats:Object  = this.stats;
+		var stats:RenderStatistics = renderer.render(this, container, camera);
 		stats.performance = getTimer() - stats.performance;
 	}
 

@@ -12,6 +12,7 @@ package org.papervision3d.core.render
 	{
 		function render(scene:SceneObject3D, container:Sprite, camera:CameraObject3D):RenderStatistics;
 		function addToRenderList(renderCommand:IRenderCommand):int;
+		function removeFromRenderList(renderCommand:IRenderCommand):int;
 	}
 
 }
