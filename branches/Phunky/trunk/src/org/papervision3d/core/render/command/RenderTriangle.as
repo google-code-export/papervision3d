@@ -1,6 +1,7 @@
 package org.papervision3d.core.render.command
 {
 
+	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.geom.Point;
 	
@@ -11,6 +12,8 @@ package org.papervision3d.core.render.command
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.hit.RenderHitData;
+	import org.papervision3d.materials.BitmapMaterial;
+	import org.papervision3d.utils.InteractiveUtils;
 	
 	public class RenderTriangle extends RenderableListItem implements IRenderListItem
 	{
@@ -91,9 +94,44 @@ package org.papervision3d.core.render.command
 			var hy:Number = face.v1.y + rv0_y*u + rv1_y*v;
 			var hz:Number = face.v0.z + rv0_z*u + rv1_z*v;
 			
+			//From interactive utils
+			var uv:Array = face.uv;
+			var uu0 : Number = uv[0].u;
+			var uu1 : Number = uv[1].u;
+			var uu2 : Number = uv[2].u;
+			var uv0 : Number = uv[0].v;
+			var uv1 : Number = uv[1].v;
+			var uv2 : Number = uv[2].v;
+				
+			var v_x : Number = ( uu1 - uu0 ) * v +  ( uu2 - uu0 ) * u + uu0;
+			var v_y : Number = ( uv1 - uv0 ) * v +  ( uv2 - uv0 ) * u + uv0;
+
+			renderMat = triangle.material ? face.material : face.instance.material;
+			
+			var bitmap:BitmapData = renderMat.bitmap;
+			var width:Number = 1;
+			var height:Number = 1;
+			if(bitmap)
+			{
+				width = BitmapMaterial.AUTO_MIP_MAPPING ? renderMat.widthOffset : bitmap.width;
+				height = BitmapMaterial.AUTO_MIP_MAPPING ? renderMat.heightOffset : bitmap.height;
+			
+			}
+			//end from interactive utils
+			
 			var rhd:RenderHitData = new RenderHitData();
 			rhd.displayObject3D = face.instance;
 			rhd.renderable = face;
+			
+			rhd.x = hx;
+			rhd.y = hy;
+			rhd.z = hz;
+			
+			rhd.u = v_x * width;
+			rhd.v = height - v_y * height;
+			if(bitmap){
+				bitmap.setPixel(rhd.u, rhd.v,0x000000);
+			}
 			
 			return rhd;
 		}

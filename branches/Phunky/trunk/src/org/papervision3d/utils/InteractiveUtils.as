@@ -132,6 +132,7 @@ package org.papervision3d.utils
 		
 		public static function getMapCoordAtPoint( face3d:Triangle3D, x : Number, y : Number ) : Object 
 		{
+			
 			var uv:Array = face3d.uv;
 			
 			var rUV : Object = UVatPoint(face3d, x, y);
