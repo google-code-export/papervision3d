@@ -55,11 +55,6 @@ package org.papervision3d.core.render
 			return renderStatistics;
 		}
 		
-		public function hitTestPoint2D(point:Point):void
-		{
-			
-		}
-		
 		public function addToRenderList(renderCommand:IRenderListItem):int
 		{
 			return renderList.push(renderCommand);

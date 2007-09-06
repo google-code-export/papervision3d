@@ -152,10 +152,14 @@ package org.papervision3d.scenes
 			while( gfx = containerList[i++] ) gfx.graphics.clear();
 	
 			// Render
+			
+			var stats:RenderStatistics = renderer.render(this, container, camera);
+			stats.performance = getTimer() - stats.performance;
+			
 			var p       :DisplayObject3D;
 			var objects :Array  = this.objects;
 			i = objects.length;
-	
+			
 			if( camera.sort )
 			{
 				while( p = objects[--i] )
@@ -166,20 +170,6 @@ package org.papervision3d.scenes
 					}
 				}
 			}
-			else
-			{
-				while( p = objects[--i] )
-				{
-					if( p.visible )
-					{
-						//p.render( this );
-					}
-				}
-			}
-	
-			// Update stats
-			var stats:Object  = this.stats;
-			stats.performance = getTimer() - stats.performance;
 		}
 	
 		private var containerList : Array;
