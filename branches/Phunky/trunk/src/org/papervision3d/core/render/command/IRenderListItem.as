@@ -2,8 +2,8 @@ package org.papervision3d.core.render.command
 {
 	import org.papervision3d.core.render.data.RenderSessionData;
 	
-	public interface IRenderCommand
+	public interface IRenderListItem
 	{
-		function execute(renderSessionData:RenderSessionData):void;
+		function render(renderSessionData:RenderSessionData):void;
 	}
 }

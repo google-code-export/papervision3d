@@ -53,7 +53,6 @@ package org.papervision3d.objects
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.materials.MaterialsList;
-	import org.papervision3d.scenes.InteractiveScene3D;
 	import org.papervision3d.utils.InteractiveSceneManager;
 	import org.papervision3d.utils.InteractiveSprite;
 	

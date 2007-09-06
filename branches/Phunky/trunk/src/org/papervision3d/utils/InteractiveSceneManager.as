@@ -60,7 +60,6 @@ package org.papervision3d.utils
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.events.InteractiveScene3DEvent;
 	import org.papervision3d.materials.BitmapMaterial;
-	import org.papervision3d.materials.InteractiveMovieMaterial;
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.utils.virtualmouse.VirtualMouse;
@@ -558,11 +557,11 @@ package org.papervision3d.utils
 					var face3d:Triangle3D = containerDictionary[e.currentTarget];
 					var p:Object = InteractiveUtils.getMapCoordAtPoint(face3d, container.mouseX, container.mouseY);
 					
-					var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(face3d.face3DInstance.instance.material);
-					var rect:Rectangle = new Rectangle(0, 0, mat.movie.width, mat.movie.height);
-					var contains:Boolean = rect.contains(p.x, p.y);
+					//var mat:InteractiveMovieMaterial = InteractiveMovieMaterial(face3d.face3DInstance.instance.material);
+					//var rect:Rectangle = new Rectangle(0, 0, mat.movie.width, mat.movie.height);
+					//var contains:Boolean = rect.contains(p.x, p.y);
 					
-					if (!contains) virtualMouse.exitContainer();
+					//if (!contains) virtualMouse.exitContainer();
 				}catch(err:Error)
 				{
 					log.error("material type is not Interactive.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message);

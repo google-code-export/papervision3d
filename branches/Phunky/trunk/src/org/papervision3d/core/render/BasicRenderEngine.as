@@ -2,11 +2,11 @@ package org.papervision3d.core.render
 {
 	import flash.display.Scene;
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
-	import org.papervision3d.core.render.command.AbstractRenderCommand;
-	import org.papervision3d.core.render.command.IRenderCommand;
+	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.filter.IRenderFilter;
 	import org.papervision3d.core.render.sort.BasicRenderSorter;
@@ -46,21 +46,26 @@ package org.papervision3d.core.render
 			renderSessionData.camera = camera;
 			renderSessionData.scene = scene;
 	
-			var rc:AbstractRenderCommand;
+			var rc:IRenderListItem;
 			while(rc = renderList.pop())
 			{
-				rc.execute(renderSessionData);
+				rc.render(renderSessionData);
 				lastRenderList.push(rc);
 			}
 			return renderStatistics;
 		}
 		
-		public function addToRenderList(renderCommand:IRenderCommand):int
+		public function hitTestPoint2D(point:Point):void
+		{
+			
+		}
+		
+		public function addToRenderList(renderCommand:IRenderListItem):int
 		{
 			return renderList.push(renderCommand);
 		}
 		
-		public function removeFromRenderList(renderCommand:IRenderCommand):int
+		public function removeFromRenderList(renderCommand:IRenderListItem):int
 		{
 			return renderList.splice(renderList.indexOf(renderCommand),1);
 		}
