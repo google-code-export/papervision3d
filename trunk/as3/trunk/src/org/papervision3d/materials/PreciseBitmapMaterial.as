@@ -190,7 +190,7 @@ package org.papervision3d.materials
                                            tx*a2 + ty*c2 + v0x, 
                                            tx*b2 + ty*d2 + v0y);
 
-            graphics.lineStyle(0.25, 0, 0.2);
+            graphics.lineStyle();
             graphics.beginBitmapFill(bitmap, matrix, repeat, smooth && (v0x*(v2y - v1y) + v1x*(v0y - v2y) + v2x*(v1y - v0y) > 400));
             graphics.moveTo(v0x, v0y);
             graphics.lineTo(v1x, v1y);
