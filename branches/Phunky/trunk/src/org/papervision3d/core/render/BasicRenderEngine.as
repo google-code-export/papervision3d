@@ -45,6 +45,7 @@ package org.papervision3d.core.render
 			sorter.sort(renderList);
 			
 			lastRenderList = new Array();
+			
 			renderSessionData.container = container;
 			renderSessionData.camera = camera;
 			renderSessionData.scene = scene;
@@ -56,13 +57,14 @@ package org.papervision3d.core.render
 				lastRenderList.push(rc);
 			}
 			
-			hitTestPoint2D(new Point(320,240));
+			
 			
 			return renderStatistics;
 		}
 		
 		public function hitTestPoint2D(point:Point):RenderHitData
 		{
+			
 			var rli:RenderableListItem;
 			var rhd:RenderHitData;
 			var rc:IRenderListItem;
@@ -72,6 +74,7 @@ package org.papervision3d.core.render
 				{
 					rli = rc as RenderableListItem;
 					if((rhd = rli.hitTestPoint2D(point))){
+						
 						return rhd;
 					}
 				}

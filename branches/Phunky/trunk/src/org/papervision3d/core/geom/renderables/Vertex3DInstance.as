@@ -117,8 +117,8 @@ package org.papervision3d.core.geom.renderables
 		{
 			return new Vertex3DInstance
 			(
-				v1.x - v0.y,
-				v1.x - v0.y
+				v1.x - v0.x,
+				v1.y - v0.y
 			);
 		}
 		
