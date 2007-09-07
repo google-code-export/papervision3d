@@ -21,6 +21,7 @@ package org.papervision3d.core.render.command
 		private static var container:Sprite;
 		private static var renderMat:MaterialObject3D;
 		private var rhd:RenderHitData = new RenderHitData();
+		private var position:Number3D = new Number3D();
 		
 		public var triangle:Triangle3D;
 		public var container:Sprite;
@@ -133,9 +134,14 @@ package org.papervision3d.core.render.command
 			rhd.material = renderMat;
 			rhd.renderable = face;
 			
-			rhd.x = hx;
-			rhd.y = hy;
-			rhd.z = hz;
+			position.x = hx;
+			position.y = hy;
+			position.z = hz;
+			Matrix3D.multiplyVector( face.instance, position );
+			
+			rhd.x = position.x; //hx;
+			rhd.y = position.y; //hy;
+			rhd.z = position.z; //hz;
 			
 			rhd.u = v_x * width;
 			rhd.v = height - v_y * height;
