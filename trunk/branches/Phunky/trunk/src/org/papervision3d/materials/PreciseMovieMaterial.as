@@ -48,8 +48,8 @@ package org.papervision3d.materials
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.materials.IPreciseMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.geom.Vertex2D;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.NumberUV;
 	
 	public class PreciseMovieMaterial extends MovieMaterial implements IPreciseMaterial
@@ -67,8 +67,9 @@ package org.papervision3d.materials
 			precision = precision * precision * 1.4;
 		}
 		
-		public override function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		public override function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
         {
+			
             var mapping:Matrix = transformUV(face3D);
 
             renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z,0);
