@@ -8,12 +8,14 @@ package org.papervision3d.utils
 {
 	import com.blitzagency.xray.logger.XrayLog;
 	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.hit.RenderHitData;
@@ -56,6 +58,8 @@ package org.papervision3d.utils
 		public var currentDisplayObject3D							:DisplayObject3D;
 		
 		public var currentMaterial									:MaterialObject3D;
+		
+		public var debug											:Boolean = false;
 		
 		protected var point											:Point = new Point();
 		
@@ -144,7 +148,7 @@ package org.papervision3d.utils
 		{
 			MOUSE_IS_DOWN = true;
 			if( virtualMouse ) virtualMouse.press();
-			//dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, Sprite(e.currentTarget));
+			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS);
 		}
 		/**
 		 * Handles the MOUSE_UP event on an InteractiveSprite container
@@ -155,7 +159,7 @@ package org.papervision3d.utils
 		{
 			MOUSE_IS_DOWN = false;
 			if( virtualMouse ) virtualMouse.release();
-			//dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, Sprite(e.currentTarget));
+			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE);
 		}
 		/**
 		 * Handles the MOUSE_CLICK event on an InteractiveSprite container
@@ -164,7 +168,7 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseClick(e:MouseEvent):void
 		{
-			//dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, Sprite(e.currentTarget));
+			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK);
 		}
 		/**
 		 * Handles the MOUSE_OVER event on an InteractiveSprite container
@@ -173,13 +177,7 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseOver(e:MouseEvent):void
 		{
-			//var eventType:String
-			//eventType = !evaluateClick || !mouseInteractionMode ? InteractiveScene3DEvent.OBJECT_OVER : InteractiveScene3DEvent.OBJECT_CLICK;
-			//evaluateClick = false;
-			
-			//if( virtualMouse && eventType == InteractiveScene3DEvent.OBJECT_CLICK ) 
-			//virtualMouse.click()
-			//dispatchObjectEvent(eventType, Sprite(e.currentTarget));
+			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER);
 		}
 		/**
 		 * Handles the MOUSE_OUT event on an InteractiveSprite container
@@ -189,7 +187,7 @@ package org.papervision3d.utils
 		protected function handleMouseOut(e:MouseEvent):void
 		{
 			//if( VirtualMouse && ( faceLevelMode || DisplayObject3D.faceLevelMode ))
-			if( VirtualMouse )
+			if( VirtualMouse && renderHitData )
 			{
 				try
 				{					
@@ -198,13 +196,14 @@ package org.papervision3d.utils
 					var contains:Boolean = rect.contains(renderHitData.u, renderHitData.v);
 					
 					if (!contains) virtualMouse.exitContainer();
+					
+					dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT);
 				}catch(err:Error)
 				{
 					log.error("MOUSE_OUT material type is not Interactive.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message);
 				}
 			}
 			
-			//dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT, Sprite(e.currentTarget));
 		}
 		/**
 		 * Handles the MOUSE_MOVE event on an InteractiveSprite container
@@ -212,10 +211,8 @@ package org.papervision3d.utils
 		 * 
 		 */		
 		protected function handleMouseMove(e:MouseEvent):void
-		{			
-			log.debug("MOUSE_MOVE, currentMaterial null?", currentMaterial == null);
-			//if( VirtualMouse && ( faceLevelMode || DisplayObject3D.faceLevelMode ))
-			if( VirtualMouse )
+		{
+			if( VirtualMouse && renderHitData )
 			{				
 				//log.debug("material type", ObjectTools.getImmediateClassPath(face3d.face3DInstance.instance.material), face3d.face3DInstance.instance.material is InteractiveMovieMaterial);
 				try
@@ -228,13 +225,14 @@ package org.papervision3d.utils
 						
 					// update virtual mouse so it can test
 					if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
+					
+					dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE);
 				}catch(err:Error)
 				{
 					log.error("MOUSE_MOVE material type is not Inter active.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message, currentMaterial == null);
 				}
 			}
 			
-			//dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, Sprite(e.currentTarget));
 			
 			/*
 			if( Mouse3D.enabled && ( faceLevelMode || DisplayObject3D.faceLevelMode ) ) 
@@ -250,23 +248,15 @@ package org.papervision3d.utils
 		 * @param currentTarget
 		 * 
 		 */		
-		/*
-		protected function dispatchObjectEvent(event:String, currentTarget:Sprite):void
+		
+		protected function dispatchObjectEvent(event:String):void
 		{
-			if(debug) log.debug(event, DisplayObject3D(containerDictionary[currentTarget]).name);
-			
-			if(containerDictionary[currentTarget] is DisplayObject3D)
-			{
-				containerDictionary[currentTarget].dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[currentTarget], InteractiveSprite(currentTarget)));
-				dispatchEvent(new InteractiveScene3DEvent(event, containerDictionary[currentTarget], InteractiveSprite(currentTarget), null, null));
-			}else if(containerDictionary[currentTarget] is Face3D)
-			{
-				var face3d:Face3D = containerDictionary[currentTarget];
-				var face3dContainer:InteractiveContainerData = faceDictionary[face3d];
-				dispatchEvent(new InteractiveScene3DEvent(event, null, InteractiveSprite(currentTarget), face3d, face3dContainer));
-			}
-		}	
-		*/
-	}
-	
+			//if(debug) log.debug(event, currentDisplayObject3D.name);
+			trace("dispatchObjectEvent",currentDisplayObject3D == null, container == null, renderHitData.renderable == null);
+			var IS3DE:InteractiveScene3DEvent = new InteractiveScene3DEvent(event, currentDisplayObject3D, container, renderHitData.renderable as Triangle3D)
+			var dispatched:Boolean = currentDisplayObject3D.dispatchEvent(IS3DE);
+			trace("dispatched", dispatched);
+			dispatchEvent(IS3DE);
+		}
+	}	
 }

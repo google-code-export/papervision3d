@@ -47,7 +47,6 @@ package org.papervision3d.events
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.utils.InteractiveContainerData;
 
 	public class InteractiveScene3DEvent extends Event
 	{
@@ -95,15 +94,13 @@ package org.papervision3d.events
 		public var displayObject3D				:DisplayObject3D = null;
 		public var sprite						:Sprite = null;
 		public var face3d						:Triangle3D = null;
-		public var interactiveContainerData		:InteractiveContainerData = null;
 		
-		public function InteractiveScene3DEvent(type:String, container3d:DisplayObject3D=null, sprite:Sprite=null, face3d:Triangle3D=null, interactiveContainerData:InteractiveContainerData=null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function InteractiveScene3DEvent(type:String, container3d:DisplayObject3D=null, sprite:Sprite=null, face3d:Triangle3D=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 			this.displayObject3D = container3d;
 			this.sprite = sprite;
 			this.face3d = face3d;
-			this.interactiveContainerData = interactiveContainerData;
 		}		
 	}
 }

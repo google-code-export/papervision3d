@@ -18,6 +18,7 @@
 	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.utils.virtualmouse.IVirtualMouseEvent;
 	import org.papervision3d.events.FileLoadEvent;
+	import org.papervision3d.events.InteractiveScene3DEvent;
 	import org.papervision3d.components.as3.utils.ObjectController;
 	
 	public class Main extends MovieClip {
@@ -26,7 +27,6 @@
 		var container :Sprite;
 		var scene     :Scene3D;
 		var camera    :Camera3D;
-		//var ism		  :InteractiveSceneManager;
 		var box       :DisplayObject3D;
 		var mouse     :Mouse3D;
 		var vMouse	  :VirtualMouse;
@@ -61,7 +61,7 @@
 		public function init3D():void {
 			
 			// Create container sprite and center it in the stage
-			container = new InteractiveSprite();
+			container = new Sprite();
 			addChild( container );
 			container.name = "mainCont";
 			container.x = stage.stageWidth *.5;
@@ -127,6 +127,8 @@
 			*/
 			box = collada.getChildByName("Box01").getChildByName("Box01_PIVOT");
 			box.material = material;
+			
+			collada.addEventListener(InteractiveScene3DEvent.OBJECT_CLICK, handleBoxClick);
 
 			scene.addChild(collada);
 			
@@ -173,6 +175,11 @@
 		{
 			trace("out");
 			e.currentTarget.blendMode = BlendMode.NORMAL;
+		}
+		
+		function handleBoxClick(e:InteractiveScene3DEvent):void
+		{
+			trace("box click", e.displayObject3D.name);
 		}
 		
 		// ___________________________________________________________________ Loop
