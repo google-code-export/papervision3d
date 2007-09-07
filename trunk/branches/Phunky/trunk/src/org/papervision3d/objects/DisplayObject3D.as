@@ -53,8 +53,6 @@ package org.papervision3d.objects
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.materials.MaterialsList;
-	import org.papervision3d.utils.InteractiveSceneManager;
-	import org.papervision3d.utils.InteractiveSprite;
 	
 	/**
 	* The DisplayObject class represents instances of 3D objects that are contained in the scene.
@@ -332,12 +330,6 @@ package org.papervision3d.objects
 		* The list of materials for this instance.
 		*/
 		public var materials   :MaterialsList;
-	
-	
-		/**
-		* If an InteractiveScene3D is used, this will DisplayObject3D will be registered with the InteractiveSceneManager
-		*/	
-		public var interactiveSceneManager:InteractiveSceneManager;
 	
 		/**
 		* The scene where the object belongs.
