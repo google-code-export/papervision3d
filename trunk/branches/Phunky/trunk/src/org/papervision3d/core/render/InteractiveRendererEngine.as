@@ -26,11 +26,11 @@ package org.papervision3d.core.render
 		override protected function init():void
 		{
 			super.init();
+			interactiveSceneManager = new InteractiveSceneManager(scene, container, camera);
 		}
 		
 		override public function render(scene:SceneObject3D, container:Sprite, camera:CameraObject3D):RenderStatistics
 		{
-			if( interactiveSceneManager == null ) interactiveSceneManager = new InteractiveSceneManager(scene, container, camera);
 			return super.render(scene, container, camera);
 		}
 	}
