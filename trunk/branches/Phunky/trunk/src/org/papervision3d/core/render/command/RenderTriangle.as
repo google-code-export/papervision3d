@@ -137,7 +137,7 @@ package org.papervision3d.core.render.command
 			position.x = hx;
 			position.y = hy;
 			position.z = hz;
-			Matrix3D.multiplyVector( face.instance, position );
+			Matrix3D.multiplyVector( face.instance.world, position );
 			
 			rhd.x = position.x; //hx;
 			rhd.y = position.y; //hy;
