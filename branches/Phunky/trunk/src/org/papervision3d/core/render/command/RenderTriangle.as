@@ -6,6 +6,7 @@ package org.papervision3d.core.render.command
 	import flash.geom.Point;
 	
 	import org.papervision3d.core.Number3D;
+	import org.papervision3d.core.Matrix3D;
 	import org.papervision3d.core.geom.renderables.IRenderable;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
