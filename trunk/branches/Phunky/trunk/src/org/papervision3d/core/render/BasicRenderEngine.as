@@ -1,10 +1,14 @@
 package org.papervision3d.core.render
 {
+	import com.blitzagency.xray.logger.XrayLog;
 	import flash.display.Scene;
 	import flash.display.Sprite;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
+	import org.papervision3d.objects.DisplayObject3D;
+	import com.blitzagency.xray.logger.util.ObjectTools;
 	
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.command.IRenderListItem;
@@ -27,12 +31,14 @@ package org.papervision3d.core.render
 		private var renderList:Array;
 		private var renderSessionData:RenderSessionData;
 		
+		private var log:XrayLog = new XrayLog();
+		
 		public function BasicRenderEngine():void
 		{
 			init();			 
 		}
 		
-		private function init():void
+		protected function init():void
 		{
 			renderStatistics = new RenderStatistics();
 			sorter = new BasicRenderSorter();
@@ -51,6 +57,8 @@ package org.papervision3d.core.render
 			renderSessionData.container = container;
 			renderSessionData.camera = camera;
 			renderSessionData.scene = scene;
+			renderSessionData.renderer = this;
+			
 			var rc:IRenderListItem;
 			while(rc = renderList.pop())
 			{
@@ -67,12 +75,14 @@ package org.papervision3d.core.render
 			var rli:RenderableListItem;
 			var rhd:RenderHitData;
 			var rc:IRenderListItem;
+			
 			while(rc = lastRenderList.pop())
 			{	
 				if(rc is RenderableListItem)
 				{
 					rli = rc as RenderableListItem;
-					if((rhd = rli.hitTestPoint2D(point))){				
+					if((rhd = rli.hitTestPoint2D(point)))
+					{							
 						return rhd;
 					}
 				}

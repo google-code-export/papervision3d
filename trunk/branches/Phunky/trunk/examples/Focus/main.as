@@ -15,13 +15,14 @@ package
 import flash.display.*;
 import flash.events.*;
 import flash.ui.Keyboard;
+import flash.geom.Point;
 
 import org.papervision3d.cameras.*;
 import org.papervision3d.events.*;
 import org.papervision3d.materials.*;
 import org.papervision3d.objects.*;
 import org.papervision3d.scenes.*;
-
+import org.papervision3d.core.render.hit.*;
 
 public class main extends Sprite
 {
@@ -265,6 +266,12 @@ public class main extends Sprite
 
 		// Render the scene
 		this.scene.renderCamera( camera );
+		
+		var p:Point = new Point();
+		p.x = this.container.mouseX;
+		p.y = this.container.mouseY;
+		var rsh:RenderHitData = this.scene.renderer.hitTestPoint2D(p) as RenderHitData;
+		trace(rsh.u, rsh.v, rsh.x, rsh.y, rsh.z);
 	}
 }
 }

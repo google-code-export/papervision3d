@@ -20,6 +20,7 @@ package org.papervision3d.core.render.command
 		//Avoiding vars in the main loop.
 		private static var container:Sprite;
 		private static var renderMat:MaterialObject3D;
+		private var rhd:RenderHitData = new RenderHitData();
 		
 		public var triangle:Triangle3D;
 		public var container:Sprite;
@@ -33,14 +34,18 @@ package org.papervision3d.core.render.command
 		
 		override public function render(renderSessionData:RenderSessionData):void
 		{
-			container = triangle.instance.container ? triangle.instance.container : renderSessionData.container;
-			renderMat = triangle.material ? triangle.material : triangle.instance.material;
+			container = triangle.instance.container;
+			if( !container ) container = renderSessionData.container;
+			renderMat = triangle.material;
+			if( !renderMat ) renderMat = triangle.instance.material;
 			renderMat.drawFace3D(triangle, container.graphics, triangle.v0.vertex3DInstance, triangle.v1.vertex3DInstance, triangle.v2.vertex3DInstance);
 		}
 		
 		override public function hitTestPoint2D(point:Point):RenderHitData
 		{
-			renderMat = triangle.material ? triangle.material : triangle.instance.material;
+			renderMat = triangle.material;
+			if( !renderMat ) renderMat = triangle.instance.material;
+			
 			if(renderMat.interactive){
 				var vPoint:Vertex3DInstance = new Vertex3DInstance(point.x, point.y);
 				var vx0:Vertex3DInstance = triangle.v0.vertex3DInstance;
@@ -107,8 +112,11 @@ package org.papervision3d.core.render.command
 				
 			var v_x : Number = ( uu1 - uu0 ) * v +  ( uu2 - uu0 ) * u + uu0;
 			var v_y : Number = ( uv1 - uv0 ) * v +  ( uv2 - uv0 ) * u + uv0;
-
-			renderMat = triangle.material ? face.material : face.instance.material;
+			
+			if( triangle.material )
+				renderMat = face.material;
+			else
+				renderMat = face.instance.material;
 			
 			var bitmap:BitmapData = renderMat.bitmap;
 			var width:Number = 1;
@@ -121,8 +129,8 @@ package org.papervision3d.core.render.command
 			}
 			//end from interactive utils
 			
-			var rhd:RenderHitData = new RenderHitData();
 			rhd.displayObject3D = face.instance;
+			rhd.material = renderMat;
 			rhd.renderable = face;
 			
 			rhd.x = hx;

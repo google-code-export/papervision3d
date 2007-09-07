@@ -8,8 +8,7 @@
 	import org.papervision3d.materials.MaterialsList;
 	
 	// Import Papervision3D
-	import org.papervision3d.events.InteractiveScene3DEvent;
-	import org.papervision3d.scenes.InteractiveScene3D;
+	import org.papervision3d.scenes.Scene3D;
 	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.objects.Collada;
@@ -25,14 +24,14 @@
 
 		// ___________________________________________________________________ 3D vars
 		var container :Sprite;
-		var scene     :InteractiveScene3D;
+		var scene     :Scene3D;
 		var camera    :Camera3D;
-		var ism		  :InteractiveSceneManager;
+		//var ism		  :InteractiveSceneManager;
 		var box       :DisplayObject3D;
 		var mouse     :Mouse3D;
 		var vMouse	  :VirtualMouse;
 		var collada	  :Collada;
-		var material  :InteractiveMovieMaterial;
+		var material  :MovieMaterial;
 		
 		public var formUIContainer:MovieClip;
 		
@@ -69,20 +68,9 @@
 			container.y = stage.stageHeight *.5;
 		
 			// Create scene
-			scene = new InteractiveScene3D( container );
-			ism = scene.interactiveSceneManager;
-			
-			InteractiveSceneManager.SHOW_DRAWN_FACES = false;
-			//InteractiveSceneManager.DEFAULT_LINE_COLOR = 0xFFFFFF;
-			InteractiveSceneManager.DEFAULT_SPRITE_ALPHA = 1;
-			InteractiveSceneManager.DEFAULT_FILL_ALPHA = 1;
+			scene = new Scene3D( container, true );
 			
 			BitmapMaterial.AUTO_MIP_MAPPING = true;
-			DisplayObject3D.faceLevelMode = false;
-			
-			ism.buttonMode = true;
-			ism.faceLevelMode = true;											
-			ism.mouseInteractionMode = false;
 			
 			createMaterial();
 			var matsList:MaterialsList = new MaterialsList();
@@ -107,10 +95,11 @@
 
 		public function createMaterial():void
 		{
-			material = new InteractiveMovieMaterial( this.formUIContainer["formUI"] );
+			material = new MovieMaterial( this.formUIContainer["formUI"] );
 
 			material.animated = true;
 			material.smooth = true;
+			material.interactive = true;
 			
 			material.movie["btn"].addEventListener(MouseEvent.CLICK, handleBTNClick);
 			material.movie["btn"].addEventListener(MouseEvent.MOUSE_OVER, handleBTNOver);

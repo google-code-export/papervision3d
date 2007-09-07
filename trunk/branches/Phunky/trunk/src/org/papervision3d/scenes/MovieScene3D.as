@@ -66,9 +66,9 @@ package org.papervision3d.scenes
 		* @param	container	The Sprite where the new containers are created.
 		*
 		*/
-		public function MovieScene3D( container:Sprite )
+		public function MovieScene3D( container:Sprite, interactive:Boolean=false )
 		{
-			super( container );
+			super( container, interactive );
 	
 			this.containerList = new Array();
 			spriteList = new Dictionary();
