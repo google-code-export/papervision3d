@@ -71,9 +71,9 @@ public class LayerScene3D extends Scene3D
 	* @param	container	The Sprite where the new containers are created.
 	*
 	*/
-	public function LayerScene3D( container:Sprite )
+	public function LayerScene3D( container:Sprite, interactive:Boolean=false )
 	{
-		super( container );
+		super( container, interactive );
 
 		containerList = new Array();
 

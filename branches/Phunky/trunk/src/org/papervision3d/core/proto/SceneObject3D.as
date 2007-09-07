@@ -108,6 +108,11 @@ package org.papervision3d.core.proto
 		public var renderer:IRenderEngine;
 		
 		/**
+		 * A boolean flag indicating whether or not to use the InteractiveRenderEngine
+		 */
+		public var interactive:Boolean = false;
+		
+		/**
 		* [internal-use]
 		*
 		* @param	sort

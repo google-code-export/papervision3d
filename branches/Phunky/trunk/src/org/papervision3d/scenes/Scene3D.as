@@ -40,9 +40,11 @@ package org.papervision3d.scenes
 {
 import flash.display.Sprite;
 import flash.utils.getTimer;
+import org.papervision3d.core.render.InteractiveRendererEngine;
 
 import org.papervision3d.core.proto.*;
 import org.papervision3d.core.render.BasicRenderEngine;
+import org.papervision3d.core.render.InteractiveRendererEngine;
 import org.papervision3d.core.render.IRenderEngine;
 import org.papervision3d.core.stat.RenderStatistics;
 import org.papervision3d.objects.DisplayObject3D;
@@ -70,10 +72,19 @@ import org.papervision3d.objects.DisplayObject3D;
 		* @param	container	The Sprite that you draw into when rendering.
 		*
 		*/
-		public function Scene3D( container:Sprite )
+		public function Scene3D( container:Sprite, interactive:Boolean=false )
 		{
 			super( container );
-			renderer = new BasicRenderEngine();
+			
+			this.interactive = interactive;
+			if( interactive )
+			{
+				renderer = new InteractiveRendererEngine();
+			}
+			else
+			{
+				renderer = new BasicRenderEngine();
+			}
 		}
 	
 	
@@ -96,7 +107,7 @@ import org.papervision3d.objects.DisplayObject3D;
 			container.graphics.clear();
 			
 			// Update stats
-			this.stats = renderer.render(this, container,camera);
+			this.stats = renderer.render(this, container, camera);
 			stats.performance = getTimer() - stats.performance;
 		}
 	}

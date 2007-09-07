@@ -73,23 +73,23 @@ package org.papervision3d.utils
 		/**
 		* color used for the fill of the face
 		*/		
-		public var color									:Number = InteractiveSceneManager.DEFAULT_FILL_COLOR;
+		public var color									:Number = InteractiveSceneManager_old.DEFAULT_FILL_COLOR;
 		/**
 		* Alpha value 0-1 of the fill
 		*/		
-		public var fillAlpha								:Number = InteractiveSceneManager.DEFAULT_FILL_ALPHA;
+		public var fillAlpha								:Number = InteractiveSceneManager_old.DEFAULT_FILL_ALPHA;
 		/**
 		* Line color for the outline of the drawing
 		*/		
-		public var lineColor								:Number = InteractiveSceneManager.DEFAULT_LINE_COLOR;
+		public var lineColor								:Number = InteractiveSceneManager_old.DEFAULT_LINE_COLOR;
 		/**
 		* Line size to be used
 		*/		
-		public var lineSize									:Number = InteractiveSceneManager.DEFAULT_LINE_SIZE;
+		public var lineSize									:Number = InteractiveSceneManager_old.DEFAULT_LINE_SIZE;
 		/**
 		* Lind Alpha to be used
 		*/		
-		public var lineAlpha								:Number = InteractiveSceneManager.DEFAULT_LINE_ALPHA;
+		public var lineAlpha								:Number = InteractiveSceneManager_old.DEFAULT_LINE_ALPHA;
 		
 		/**
 		 * Used in the ISM's sort method to sort the containers
@@ -122,7 +122,7 @@ package org.papervision3d.utils
 			}
 			color = p_color;
 			
-			container.alpha = InteractiveSceneManager.DEFAULT_SPRITE_ALPHA;
+			container.alpha = InteractiveSceneManager_old.DEFAULT_SPRITE_ALPHA;
 			container.interactiveContainerData = this;
 		}		
 	}
