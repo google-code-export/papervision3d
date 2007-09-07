@@ -25,9 +25,8 @@
 
 		// ___________________________________________________________________ 3D vars
 		var container :Sprite;
-		var scene     :InteractiveScene3D;
+		var scene     :Scene3D;
 		var camera    :Camera3D;
-		var ism		  :InteractiveSceneManager;
 		var plane	  :Plane;
 		var time:Number;
 
@@ -58,15 +57,11 @@
 			container.x = 300;
 			container.y = 200;
 			
-			scene = new InteractiveScene3D(container);
-			ism = scene.interactiveSceneManager
-			ism.buttonMode = true;
-			
-			ism.addEventListener(InteractiveScene3DEvent.OBJECT_CLICK, handleClick);
+			scene = new Scene3D(container, true);
 			
 			var bp:BitmapMaterial = new BitmapMaterial(new wall(1,1));
 			
-			var bpp:PreciseBitmapMaterial = new InteractivePreciseBitmapMaterial(new wall(1,1));
+			var bpp:PreciseBitmapMaterial = new PreciseBitmapMaterial(new wall(1,1));
 			var mp1 = new MaterialsList();
 			mp1.addMaterial(bp, "all");
 			
@@ -76,6 +71,7 @@
 			var pp:Cube = new Cube(mp2, 500, 500,500, 1, 1,1);
 			scene.addChild(p);
 			scene.addChild(pp);
+			
 			p.rotationZ = -30;
 			pp.rotationZ = -30;
 			p.x = 410;
