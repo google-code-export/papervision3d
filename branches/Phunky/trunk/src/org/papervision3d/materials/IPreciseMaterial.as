@@ -7,13 +7,14 @@ package org.papervision3d.materials
 	
 	import org.papervision3d.materials.BitmapAssetMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.geom.Vertex2D;
+
 	import org.papervision3d.core.NumberUV;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 		
 	public interface IPreciseMaterial 
 	{		
-		function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
 		
 		function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
             ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number, index:Number):void
