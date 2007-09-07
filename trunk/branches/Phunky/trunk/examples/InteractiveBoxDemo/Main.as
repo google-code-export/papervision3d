@@ -125,8 +125,8 @@
 			* 
 			* I would say this is a bug we need to fix in Collada object ;)
 			*/
-			box = collada.getChildByName("Box01").getChildByName("Box01_PIVOT");
-			box.material = material;
+			//box = collada.getChildByName("Box01").getChildByName("Box01_PIVOT");
+			//box.material = material;
 			
 			collada.addEventListener(InteractiveScene3DEvent.OBJECT_CLICK, handleBoxClick);
 
