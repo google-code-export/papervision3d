@@ -38,6 +38,15 @@ package org.papervision3d.components.as3.collections
 		 */		
 		public var materialFileLocation		:String = "";
 		
+		[Inspectable (name="materialMovieInstance", type="String")]
+		/**
+		 * Pass in a dot separated value to the location of your MovieClip/Sprite.  so, if you have a clip on stage on the main timeline, pass the instance name.
+		 * Otherwise, pass the literal path:
+		 * 
+		 * myMovie.mySubMovieA.mySubMovieB
+		 */		
+		public var materialMovieInstance		:String = "";
+		
 		[Inspectable (name="materialType", defaultValue="Bitmap", type="String")]
 		//[Inspectable (name="materialType", defaultValue="Bitmap", enumeration="Bitmap, File, MovieClip", type="list")]
 		/**
@@ -45,13 +54,14 @@ package org.papervision3d.components.as3.collections
 		 * </p>
 		 * <p>
 		 * <ul>
-		 * <li>Bitmap: BitmapAssetMaterial - a bitmap defined in the library</li>
-		 * <li>MovieClip: MovieAssetMaterial - a MovieClip defined in the library</li>
-		 * <li>File: BitmapFileMaterial - an external bitmap file</li>
+		 * <li>BitmapAssetMaterial: BitmapAssetMaterial - a bitmap defined in the library</li>
+		 * <li>BitmapFileMaterial: BitmapFileMaterial - an external bitmap file</li>
+		 * <li>MovieMaterial: MovieMaterial - an external bitmap file</li>
+		 * <li>MovieAssetMaterial: MovieAssetMaterial - a MovieClip defined in the library</li>
 		 * </ul>
 		 * </p>
 		 */
-		public var materialType				:String = "Bitmap";
+		public var materialType				:String = "BitmapAssetMaterial";
 		
 		[Inspectable (name="animated", defaultValue=false, type="Boolean")]
 		/**
@@ -78,7 +88,14 @@ package org.papervision3d.components.as3.collections
 		*/	
 		public var interactive				:Boolean = false;
 		
-		//[Inspectable (name="smooth", defaultValue=false, type="Boolean")]
-		//public var smooth				:Boolean = false;
+		[Inspectable (name="precisionMaterial", defaultValue=false, type="Boolean")]
+		/**
+		* Boolean flag indicating whether or not the material is Interactive.  If set to true, the DisplayObject3D this material
+		 * is assigned to will dispatch mouse events.
+		*/	
+		public var precisionMaterial		:Boolean = false;
+		
+		[Inspectable (name="smooth", defaultValue=false, type="Boolean")]
+		public var smooth					:Boolean = false;
 	}
 }

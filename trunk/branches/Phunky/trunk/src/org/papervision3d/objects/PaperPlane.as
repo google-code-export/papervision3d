@@ -37,10 +37,12 @@
 package org.papervision3d.objects
 {
 import flash.display.BitmapData;
+import org.papervision3d.core.geom.renderables.Triangle3D;
+import org.papervision3d.core.geom.renderables.Vertex3D;
+import org.papervision3d.core.geom.TriangleMesh3D;
+import org.papervision3d.core.proto.MaterialObject3D;
 
-import org.papervision3d.core.*;
-import org.papervision3d.core.geom.*;
-import org.papervision3d.core.proto.*;
+
 
 /**
 * The PaperPlane class lets you create a paper plane object.
@@ -106,10 +108,10 @@ public class PaperPlane extends TriangleMesh3D
 
 		this.geometry.faces =
 		[
-			new Face3D( [v[0], v[1], v[2]] ),
-			new Face3D( [v[0], v[2], v[3]] ),
-			new Face3D( [v[0], v[3], v[4]] ),
-			new Face3D( [v[0], v[4], v[5]] )
+			new Triangle3D( [v[0], v[1], v[2]] ),
+			new Triangle3D( [v[0], v[2], v[3]] ),
+			new Triangle3D( [v[0], v[3], v[4]] ),
+			new Triangle3D( [v[0], v[4], v[5]] )
 		];
 
 		this.projectTexture( "x", "z" );

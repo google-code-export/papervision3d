@@ -4,6 +4,8 @@
 package org.papervision3d.components.as3.flash9
 {
 	import com.blitzagency.xray.logger.util.PropertyTools;
+	import flash.display.Sprite;
+	
 	
 	import fl.data.SimpleDataProvider;
 	
@@ -21,12 +23,15 @@ package org.papervision3d.components.as3.flash9
 	import org.papervision3d.materials.ColorMaterial;
 	import org.papervision3d.materials.MaterialsList;
 	import org.papervision3d.materials.MovieAssetMaterial;
+	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.objects.Collada;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.materials.InteractiveBitmapFileMaterial;
-	import org.papervision3d.materials.InteractiveMovieAssetMaterial;
-	import org.papervision3d.materials.InteractiveBitmapAssetMaterial;
+	import org.papervision3d.materials.PreciseBitmapAssetMaterial;
+	import org.papervision3d.materials.PreciseBitmapFileMaterial;
+	import org.papervision3d.materials.PreciseMovieAssetMaterial;
+	import org.papervision3d.materials.PreciseMovieMaterial;
 	import org.papervision3d.components.as3.utils.ObjectController;
+	import org.papervision3d.components.as3.utils.StageTools;
 	
 	/**
 	* Dispatched when the collada file and materials have been completely parsed and loaded.
@@ -326,6 +331,7 @@ package org.papervision3d.components.as3.flash9
 		 */	
 		override protected function init3D():void
 		{
+			StageTools.stage = stage;
 			super.init3D();
 			
 			initScene();
@@ -362,51 +368,81 @@ package org.papervision3d.components.as3.flash9
 					// materials are in library with linkage
 					var materialsListItem:MaterialsListItem = MaterialsListItem(extMaterials.dataProvider[i]);
 					
+					var mov:MovieMaterial;
+					
 					switch(materialsListItem.materialType.toLowerCase())
 					{
-						case "bitmap":
+						case "bitmapassetmaterial":
 							if(isLivePreview)
 							{								
-								clrMat.oneSide = materialsListItem.singleSided;
+								if( materialsListItem.singleSided ) clrMat.oneSide = materialsListItem.singleSided;
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
-								var bam:BitmapAssetMaterial = materialsListItem.interactive ? new InteractiveBitmapAssetMaterial(materialsListItem.materialLinkageID) : new BitmapAssetMaterial(materialsListItem.materialLinkageID);;
+								var bam:BitmapAssetMaterial = materialsListItem.precisionMaterial ? new PreciseBitmapAssetMaterial(materialsListItem.materialLinkageID) : new BitmapAssetMaterial(materialsListItem.materialLinkageID);;
 								loadCollada = true;
 								bam.oneSide = materialsListItem.singleSided;
-								//bam.smooth = materialsListItem.smooth;
+								if( materialsListItem.interactive ) bam.interactive = materialsListItem.interactive;
+								if( materialsListItem.smooth ) bam.smooth = materialsListItem.smooth;
 								materialsList.addMaterial(bam, materialsListItem.materialName);
 							}
 							if(!checkForFileLoads(extMaterials)) loadCollada = true;
 						break;
 						
-						case "file":
+						case "bitmapfilematerial":
 							var fileLocation:String = isLivePreview ? _localPath + materialsListItem.materialFileLocation : materialsListItem.materialFileLocation;
 							fileLocation = fileLocation.split("\\").join("/");
 							if(debug) log.debug("File to load", fileLocation);
-							var bm:BitmapFileMaterial = materialsListItem.interactive ? new InteractiveBitmapFileMaterial("") : new BitmapFileMaterial("");
+							var bm:BitmapFileMaterial = materialsListItem.precisionMaterial ? new PreciseBitmapFileMaterial("") : new BitmapFileMaterial("");
 							bm.addEventListener(FileLoadEvent.LOAD_COMPLETE, handleBitmapFileLoadComplete);
 							materialsQue[bm] = false;
 							// setting the texture property actually causes the load of the file
 							bm.texture = fileLocation;
-							//bm.smooth = materialsListItem.smooth;
+							if( materialsListItem.interactive ) bm.interactive = materialsListItem.interactive;
+							if( materialsListItem.smooth ) bm.smooth = materialsListItem.smooth;
 							// because we didn't set the URL through the constructor, we have to set it manually if we want it back in the event thats disatched
 							bm.url = fileLocation;
 							bm.oneSide = materialsListItem.singleSided;
 							materialsList.addMaterial(bm, materialsListItem.materialName);
 						break;
 						
-						case "movieclip":
+						case "movieassetmaterial":
 							if(isLivePreview)
 							{
-								clrMat.oneSide = materialsListItem.singleSided;
+								if( materialsListItem.singleSided ) clrMat.oneSide = materialsListItem.singleSided;
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
-								var mov:MovieAssetMaterial = materialsListItem.interactive ? new InteractiveMovieAssetMaterial(materialsListItem.materialLinkageID, materialsListItem.transparent) : new MovieAssetMaterial(materialsListItem.materialLinkageID, materialsListItem.transparent);
+								mov = materialsListItem.precisionMaterial ? new PreciseMovieAssetMaterial(materialsListItem.materialLinkageID, materialsListItem.transparent) : new MovieAssetMaterial(materialsListItem.materialLinkageID, materialsListItem.transparent);
 								if(materialsListItem.animated) mov.animated = true;
 								mov.oneSide = materialsListItem.singleSided;
-								//mov.smooth = materialsListItem.smooth;
+								if( materialsListItem.interactive ) mov.interactive = materialsListItem.interactive;
+								if( materialsListItem.smooth ) mov.smooth = materialsListItem.smooth;
+								materialsList.addMaterial(mov, materialsListItem.materialName);
+							}
+							if(!checkForFileLoads(extMaterials)) loadCollada = true;
+						break;
+						
+						case "moviematerial":
+							if(isLivePreview)
+							{
+								clrMat = new ColorMaterial(0x00ff00, .75);
+								if( materialsListItem.singleSided ) clrMat.oneSide = materialsListItem.singleSided;
+								materialsList.addMaterial(clrMat, materialsListItem.materialName);
+							}else
+							{
+								var movieClipReference:Sprite = StageTools.buildObjectFromString(materialsListItem.materialMovieInstance) as Sprite;
+								if( !movieClipReference )
+								{
+									trace("please privide a valid MovieClip or sprite instance");
+									log.error("please privide a valid MovieClip or sprite instance");
+									break;
+								}
+								mov = materialsListItem.precisionMaterial ? new PreciseMovieMaterial(movieClipReference, materialsListItem.transparent) : new MovieMaterial(movieClipReference, materialsListItem.transparent);
+								if(materialsListItem.animated) mov.animated = true;
+								mov.oneSide = materialsListItem.singleSided;
+								if( materialsListItem.interactive ) mov.interactive = materialsListItem.interactive;
+								if( materialsListItem.smooth ) mov.smooth = materialsListItem.smooth;
 								materialsList.addMaterial(mov, materialsListItem.materialName);
 							}
 							if(!checkForFileLoads(extMaterials)) loadCollada = true;
