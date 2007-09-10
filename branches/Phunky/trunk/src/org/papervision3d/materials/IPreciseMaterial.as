@@ -5,7 +5,7 @@ package org.papervision3d.materials
 	
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 		
-	public interface IPreciseMaterial implements ITriangleDrawer
+	public interface IPreciseMaterial extends ITriangleDrawer
 	{		
 		function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
             ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number, index:Number):void
