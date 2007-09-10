@@ -62,6 +62,7 @@ package org.papervision3d.core.render
 			renderSessionData.camera = camera;
 			renderSessionData.scene = scene;
 			renderSessionData.renderer = this;
+			renderSessionData.renderStatistics = new RenderStatistics();
 			
 			var rc:IRenderListItem;
 			while(rc = renderList.pop())
@@ -79,7 +80,7 @@ package org.papervision3d.core.render
 			var rli:RenderableListItem;
 			var rhd:RenderHitData;
 			var rc:IRenderListItem;
-			
+			trace(lastRenderList.length);
 			while(rc = lastRenderList.pop())
 			{	
 				if(rc is RenderableListItem)
