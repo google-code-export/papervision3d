@@ -70,7 +70,7 @@ package org.papervision3d.materials
 		/**
 		 *  drawTriangle
 		 */
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
+		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
 		{
 			var x0:Number = face3D.v0.vertex3DInstance.x;
 			var y0:Number = face3D.v0.vertex3DInstance.y;
@@ -88,10 +88,9 @@ package org.papervision3d.materials
 				graphics.lineTo( x0, y0 );
 				graphics.lineStyle();
 
-				return 1;
+				renderSessionData.renderStatistics.triangles++;
 			}
-			else
-				return 0;
+
 		}
 
 		// ______________________________________________________________________ TO STRING

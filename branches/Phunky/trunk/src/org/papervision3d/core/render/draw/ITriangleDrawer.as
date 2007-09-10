@@ -7,6 +7,6 @@ package org.papervision3d.core.render.draw
 	
 	public interface ITriangleDrawer
 	{
-		function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int;
+		function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void;
 	}
 }

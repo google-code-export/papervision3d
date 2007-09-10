@@ -238,9 +238,9 @@ package org.papervision3d.core.proto
 		 * Draws the triangle to screen.
 		 *
 		 */
-		public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
+		public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
 		{
-			return 0;
+			
 		}
 		
 		/**

@@ -129,7 +129,7 @@ package org.papervision3d.materials
 		/**
 		 *  drawTriangle
 		 */
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
+		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
 		{
 			if( lineAlpha )
 				graphics.lineStyle( 0, lineColor, lineAlpha );
@@ -173,8 +173,8 @@ package org.papervision3d.materials
 
 			if( lineAlpha )
 				graphics.lineStyle();
-
-			return 1;
+				
+			renderSessionData.renderStatistics.triangles++;
 		}
 		
 		/**
