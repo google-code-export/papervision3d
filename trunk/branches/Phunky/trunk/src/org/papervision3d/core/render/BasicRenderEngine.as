@@ -80,7 +80,7 @@ package org.papervision3d.core.render
 			var rli:RenderableListItem;
 			var rhd:RenderHitData;
 			var rc:IRenderListItem;
-			trace(lastRenderList.length);
+			
 			while(rc = lastRenderList.pop())
 			{	
 				if(rc is RenderableListItem)
