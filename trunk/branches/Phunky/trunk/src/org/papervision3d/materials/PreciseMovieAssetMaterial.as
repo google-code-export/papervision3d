@@ -73,9 +73,8 @@ package org.papervision3d.materials
         {
 			
             var mapping:Matrix = transformUV(face3D); //Fix this
-
             renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y, face3D.v0.vertex3DInstance.z, face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y, face3D.v1.vertex3DInstance.z, face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y, face3D.v2.vertex3DInstance.z,0);
-			return 1;
+			renderSessionData.renderStatistics.triangles++; //Might be better to have the actual number of triangles precise drew.
         }
 	
         public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 

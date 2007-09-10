@@ -68,11 +68,11 @@ package org.papervision3d.materials
 			precision = precision * precision * 1.4;
 		}
 		
-		public override function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
+		public override function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
         {
             var mapping:Matrix = transformUV(face3D); // Fix this
             renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z,0);
-			return 1;
+			renderSessionData.renderStatistics.triangles++; //Might be better to have the actual number of triangles precise drew.
         }
 	
 		public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 

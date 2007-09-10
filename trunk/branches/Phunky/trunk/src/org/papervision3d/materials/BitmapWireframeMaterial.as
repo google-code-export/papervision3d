@@ -31,7 +31,7 @@ package org.papervision3d.materials
 			createStaticUVMatrix();
 		}
 		
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
+		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
 		{
 			if(bitmap){
 				var x0:Number = face3D.v0.vertex3DInstance.x;
@@ -62,9 +62,9 @@ package org.papervision3d.materials
 				graphics.lineTo( x2, y2 );
 				graphics.lineTo( x0, y0 );
 				graphics.endFill();
-				return 1;
+				renderSessionData.renderStatistics.triangles++;
 			}
-			return 0;
+			
 		}
 		
 		private function createBitmapData():void

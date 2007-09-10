@@ -68,7 +68,7 @@ public class ColorMaterial extends MaterialObject3D implements ITriangleDrawer
 	/**
 	 *  drawTriangle
 	 */
-	override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
+	override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
 	{
 		var x0:Number = face3D.v0.vertex3DInstance.x;
 		var y0:Number = face3D.v0.vertex3DInstance.y;
@@ -84,7 +84,8 @@ public class ColorMaterial extends MaterialObject3D implements ITriangleDrawer
 		graphics.lineTo( x0, y0 );
 		graphics.endFill();
 		
-		return 1;
+		renderSessionData.renderStatistics.triangles++;
+	
 	}
 	
 	// ______________________________________________________________________ TO STRING

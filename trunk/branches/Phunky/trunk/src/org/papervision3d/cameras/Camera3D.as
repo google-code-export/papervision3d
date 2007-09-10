@@ -38,9 +38,8 @@
 
 package org.papervision3d.cameras
 {
-import org.papervision3d.Papervision3D;
-import org.papervision3d.core.Number3D;
 import org.papervision3d.core.Matrix3D;
+import org.papervision3d.core.Number3D;
 import org.papervision3d.core.proto.CameraObject3D;
 import org.papervision3d.objects.DisplayObject3D;
 

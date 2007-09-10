@@ -36,13 +36,12 @@ package org.papervision3d.materials
 			materials = new Array();
 		}
 		
-		override public function drawTriangle(face3D:Face3D, graphics:Graphics, renderSessionData:RenderSessionData):int
+		override public function drawTriangle(face3D:Face3D, graphics:Graphics, renderSessionData:RenderSessionData):void
 		{
 			var num:int = 0;
 			for each(var n:MaterialObject3D in materials){
-				num += n.drawTriangle(face3D, graphics, renderSessionData);
+				n.drawTriangle(face3D, graphics, renderSessionData);
 			}
-			return num;
 		}
 		
 	}
