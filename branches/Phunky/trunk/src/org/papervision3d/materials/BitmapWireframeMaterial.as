@@ -4,12 +4,10 @@ package org.papervision3d.materials
 	import flash.display.Graphics;
 	import flash.display.Sprite;
 	import flash.geom.Matrix;
-	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	
-	import org.papervision3d.core.draw.ITriangleDrawer;
-	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
 	public class BitmapWireframeMaterial extends BitmapMaterial implements ITriangleDrawer
 	{

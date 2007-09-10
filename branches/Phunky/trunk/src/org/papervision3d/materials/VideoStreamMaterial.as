@@ -45,12 +45,13 @@
 
 package org.papervision3d.materials
 {
-	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.events.NetStatusEvent;
 	import flash.geom.Matrix;
 	import flash.media.Video;
 	import flash.net.NetStream;
+	
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
 	/*
 	* The VideoMaterial class creates a texture from an existing Video instance and is for use with a Video and NetStream objects with an RTMP stream.
@@ -59,7 +60,7 @@ package org.papervision3d.materials
 	* <p/>
 	* Materials collects data about how objects appear when rendered.
 	*/
-	public class VideoStreamMaterial extends MovieMaterial
+	public class VideoStreamMaterial extends MovieMaterial implements ITriangleDrawer
 	{		
 		// ______________________________________________________________________ PUBLIC
 	
