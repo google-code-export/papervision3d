@@ -47,10 +47,9 @@ package org.papervision3d.materials
 	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.events.FileLoadEvent;
-	import org.papervision3d.objects.DisplayObject3D;
 
 	/**
 	* The BitmapFileMaterial class creates a texture by loading a bitmap from an external file.
@@ -337,16 +336,16 @@ package org.papervision3d.materials
 		/**
 		 *  drawFace3D
 		 */
-		override public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
+		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
 		{
 			if (bitmap == null || errorLoading)
 			{
-				var x0:Number = v0.x;
-				var y0:Number = v0.y;
-				var x1:Number = v1.x;
-				var y1:Number = v1.y;
-				var x2:Number = v2.x;
-				var y2:Number = v2.y;
+				var x0:Number = face3D.v0.vertex3DInstance.x;
+				var y0:Number = face3D.v0.vertex3DInstance.y;
+				var x1:Number = face3D.v1.vertex3DInstance.x;
+				var y1:Number = face3D.v1.vertex3DInstance.y;
+				var x2:Number = face3D.v2.vertex3DInstance.x;
+				var y2:Number = face3D.v2.vertex3DInstance.y;
 				if(errorLoading){
 					graphics.lineStyle(lineThickness,lineColor,lineAlpha);
 				}
@@ -362,7 +361,7 @@ package org.papervision3d.materials
 				return 1;
 			}
 			
-			var i:int = super.drawFace3D(face3D, graphics, v0, v1, v2);
+			var i:int = super.drawTriangle(face3D, graphics, renderSessionData);
 			return i;
 		}
 		

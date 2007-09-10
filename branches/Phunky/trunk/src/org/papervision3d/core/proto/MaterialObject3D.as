@@ -40,14 +40,11 @@ package org.papervision3d.core.proto
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
 	import flash.events.EventDispatcher;
-	import flash.geom.Matrix;
-	
-	import org.papervision3d.core.draw.ITriangleDrawer;
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.materials.WireframeMaterial;
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 
 
 	/**
@@ -236,12 +233,12 @@ package org.papervision3d.core.proto
 		
 		
 		/**
-		 *	drawFace3D();
+		 *	drawTriangle();
 		 *
 		 * Draws the triangle to screen.
 		 *
 		 */
-		public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
+		public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
 		{
 			return 0;
 		}

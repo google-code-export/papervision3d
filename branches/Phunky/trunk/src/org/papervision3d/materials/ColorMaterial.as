@@ -37,13 +37,11 @@
 package org.papervision3d.materials
 {
 import flash.display.Graphics;
-import flash.geom.Matrix;
 
-import org.papervision3d.core.draw.ITriangleDrawer;
 import org.papervision3d.core.geom.renderables.Triangle3D;
-import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 import org.papervision3d.core.proto.MaterialObject3D;
-import org.papervision3d.objects.DisplayObject3D;
+import org.papervision3d.core.render.data.RenderSessionData;
+import org.papervision3d.core.render.draw.ITriangleDrawer;
 
 /**
 * The ColorMaterial class creates a solid color material.
@@ -68,16 +66,16 @@ public class ColorMaterial extends MaterialObject3D implements ITriangleDrawer
 	}
 	
 	/**
-	 *  drawFace3D
+	 *  drawTriangle
 	 */
-	override public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
+	override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
 	{
-		var x0:Number = v0.x;
-		var y0:Number = v0.y;
-		var x1:Number = v1.x;
-		var y1:Number = v1.y;
-		var x2:Number = v2.x;
-		var y2:Number = v2.y;
+		var x0:Number = face3D.v0.vertex3DInstance.x;
+		var y0:Number = face3D.v0.vertex3DInstance.y;
+		var x1:Number = face3D.v1.vertex3DInstance.x;
+		var y1:Number = face3D.v1.vertex3DInstance.y;
+		var x2:Number = face3D.v2.vertex3DInstance.x;
+		var y2:Number = face3D.v2.vertex3DInstance.y;
 		
 		graphics.beginFill( fillColor, fillAlpha );
 		graphics.moveTo( x0, y0 );

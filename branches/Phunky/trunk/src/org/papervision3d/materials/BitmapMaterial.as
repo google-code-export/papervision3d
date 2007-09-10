@@ -45,11 +45,10 @@ package org.papervision3d.materials
 	import flash.utils.Dictionary;
 	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.draw.ITriangleDrawer;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.proto.MaterialObject3D;
-	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
 	/**
 	* The BitmapMaterial class creates a texture from a BitmapData object.
@@ -128,9 +127,9 @@ package org.papervision3d.materials
 		}
 
 		/**
-		 *  drawFace3D
+		 *  drawTriangle
 		 */
-		override public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
+		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
 		{
 			if( lineAlpha )
 				graphics.lineStyle( 0, lineColor, lineAlpha );
@@ -138,12 +137,12 @@ package org.papervision3d.materials
 			if( bitmap )
 			{
 				var map:Matrix = (uvMatrices[face3D] || transformUV(face3D)),
-				x0:Number = v0.x,
-				y0:Number = v0.y,
-				x1:Number = v1.x,
-				y1:Number = v1.y,
-				x2:Number = v2.x,
-				y2:Number = v2.y;
+				x0:Number = face3D.v0.vertex3DInstance.x,
+				y0:Number = face3D.v0.vertex3DInstance.y,
+				x1:Number = face3D.v1.vertex3DInstance.x,
+				y1:Number = face3D.v1.vertex3DInstance.y,
+				x2:Number = face3D.v2.vertex3DInstance.x,
+				y2:Number = face3D.v2.vertex3DInstance.y;
 
 				_triMatrix.a = x1 - x0;
 				_triMatrix.b = y1 - y0;

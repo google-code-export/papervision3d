@@ -30,6 +30,7 @@ package org.papervision3d.core.render.command
 		public function RenderTriangle(triangle:Triangle3D):void
 		{
 			this.triangle = triangle;
+			
 			renderableInstance = triangle;
 			renderable = Triangle3D;
 		}
@@ -40,7 +41,7 @@ package org.papervision3d.core.render.command
 			if( !container ) container = renderSessionData.container;
 			renderMat = triangle.material;
 			if( !renderMat ) renderMat = triangle.instance.material;
-			renderMat.drawFace3D(triangle, container.graphics, triangle.v0.vertex3DInstance, triangle.v1.vertex3DInstance, triangle.v2.vertex3DInstance);
+			renderMat.drawTriangle(triangle, container.graphics, renderSessionData);
 		}
 		
 		override public function hitTestPoint2D(point:Point):RenderHitData

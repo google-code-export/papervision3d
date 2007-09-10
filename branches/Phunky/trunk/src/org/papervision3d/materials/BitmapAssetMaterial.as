@@ -42,6 +42,7 @@ package org.papervision3d.materials
 	import flash.utils.getDefinitionByName;
 
 	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.draw.ITriangleDrawer;
 	
 	/**
 	* The BitmapAssetMaterial class creates a texture from a Bitmap library symbol.
@@ -49,7 +50,7 @@ package org.papervision3d.materials
 	* Materials collects data about how objects appear when rendered.
 	*
 	*/
-	public class BitmapAssetMaterial extends BitmapMaterial
+	public class BitmapAssetMaterial extends BitmapMaterial implements ITriangleDrawer
 	{
 		/**
 		* A texture object.
