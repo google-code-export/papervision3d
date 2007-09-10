@@ -4,8 +4,9 @@ package org.papervision3d.materials
 	
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
-	public class CompositeMaterial extends MaterialObject3D implements IFaceDrawer
+	public class CompositeMaterial extends MaterialObject3D implements ITriangleDrawer
 	{
 		
 		private var materials:Array;

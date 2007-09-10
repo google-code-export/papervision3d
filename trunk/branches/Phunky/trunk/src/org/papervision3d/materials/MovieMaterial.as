@@ -37,12 +37,13 @@
 
 package org.papervision3d.materials
 {
-	import flash.geom.Matrix;
-	import flash.display.DisplayObject;
 	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
+	import flash.geom.Matrix;
 	import flash.utils.Dictionary;
 	
 	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
 	/**
 	* The MovieMaterial class creates a texture from an existing MovieClip instance.
@@ -53,7 +54,7 @@ package org.papervision3d.materials
 	* <p/>
 	* Materials collects data about how objects appear when rendered.
 	*/
-	public class MovieMaterial extends BitmapMaterial
+	public class MovieMaterial extends BitmapMaterial implements ITriangleDrawer
 	{
 		// ______________________________________________________________________ PUBLIC
 

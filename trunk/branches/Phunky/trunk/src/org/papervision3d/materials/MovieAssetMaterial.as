@@ -5,7 +5,7 @@
  *  ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
  *  RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
  *  ______________________________________________________________________
- *  papervision3d.org • blog.papervision3d.org • osflash.org/papervision3d
+ *  papervision3d.org ï¿½ blog.papervision3d.org ï¿½ osflash.org/papervision3d
  */
 
 /*
@@ -37,12 +37,11 @@
 
 package org.papervision3d.materials
 {
-	import flash.display.BitmapData;
-	import flash.display.MovieClip;	
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
-	import flash.utils.getDefinitionByName;
 	
 	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
 
 	/**
@@ -54,7 +53,7 @@ package org.papervision3d.materials
 	* <p/>
 	* Materials collects data about how objects appear when rendered.
 	*/
-	public class MovieAssetMaterial extends MovieMaterial
+	public class MovieAssetMaterial extends MovieMaterial implements ITriangleDrawer
 	{
 		
 		/**
