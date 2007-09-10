@@ -1,19 +1,17 @@
 package org.papervision3d.core.render
 {
 	import com.blitzagency.xray.logger.XrayLog;
-	import flash.display.Scene;
+	
 	import flash.display.Sprite;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
-	import org.papervision3d.objects.DisplayObject3D;
-	import com.blitzagency.xray.logger.util.ObjectTools;
 	
-	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.core.render.filter.BasicRenderFilter;
 	import org.papervision3d.core.render.filter.IRenderFilter;
 	import org.papervision3d.core.render.hit.RenderHitData;
 	import org.papervision3d.core.render.sort.BasicRenderSorter;
@@ -41,7 +39,10 @@ package org.papervision3d.core.render
 		protected function init():void
 		{
 			renderStatistics = new RenderStatistics();
+			
 			sorter = new BasicRenderSorter();
+			filter = new BasicRenderFilter();
+			
 			renderList = new Array();
 			lastRenderList = new Array();
 			renderSessionData = new RenderSessionData();
@@ -49,6 +50,9 @@ package org.papervision3d.core.render
 		
 		public function render(scene:SceneObject3D, container:Sprite, camera:CameraObject3D):RenderStatistics
 		{
+			//Filter the list
+			filter.filter(renderList);
+			
 			//Sort entire list.
 			sorter.sort(renderList);
 			

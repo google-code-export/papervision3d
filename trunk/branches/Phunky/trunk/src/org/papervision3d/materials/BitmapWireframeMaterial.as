@@ -9,6 +9,7 @@ package org.papervision3d.materials
 	
 	import org.papervision3d.core.draw.ITriangleDrawer;
 	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.core.render.data.RenderSessionData;
 
 	public class BitmapWireframeMaterial extends BitmapMaterial implements ITriangleDrawer
 	{
@@ -32,15 +33,15 @@ package org.papervision3d.materials
 			createStaticUVMatrix();
 		}
 		
-		override public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
+		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
 		{
 			if(bitmap){
-				var x0:Number = v0.x;
-				var y0:Number = v0.y;
-				var x1:Number = v1.x;
-				var y1:Number = v1.y;
-				var x2:Number = v2.x;
-				var y2:Number = v2.y;
+				var x0:Number = face3D.v0.vertex3DInstance.x;
+				var y0:Number = face3D.v0.vertex3DInstance.y;
+				var x1:Number = face3D.v1.vertex3DInstance.x;
+				var y1:Number = face3D.v1.vertex3DInstance.y;
+				var x2:Number = face3D.v2.vertex3DInstance.x;
+				var y2:Number = face3D.v2.vertex3DInstance.y;
 				
 				_triMatrix.a = x1 - x0;
 				_triMatrix.b = y1 - y0;
