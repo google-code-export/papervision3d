@@ -1,4 +1,4 @@
-package org.papervision3d.objects
+﻿package org.papervision3d.objects
 {
 	/**
 	 * @Author Ralph Hauwert
@@ -6,8 +6,7 @@ package org.papervision3d.objects
 	
 	import flash.display.Sprite;
 	
-	import org.papervision3d.core.geom.Vertex2D;
-	import org.papervision3d.core.geom.Vertex3D;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.geom.Vertices3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.objects.particles.AbstractParticle;
@@ -38,7 +37,7 @@ package org.papervision3d.objects
 		 *
 		 * Renders the particles added to this VertexParticles Object
 		 */
-		public override function render(scene:SceneObject3D ):void
+		public function render(scene:SceneObject3D ):void
 		{
 			var vertices:Array = this.geometry.vertices;
 			var container:Sprite = this.container || scene.container;

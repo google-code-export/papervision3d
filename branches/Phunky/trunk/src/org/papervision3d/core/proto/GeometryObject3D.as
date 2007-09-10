@@ -42,13 +42,11 @@ package org.papervision3d.core.proto
 	import flash.utils.Dictionary;
 	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.*;
-	import org.papervision3d.core.geom.*;
+	import org.papervision3d.core.Matrix3D
+	import org.papervision3d.core.proto.MaterialObject3D
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
-	import org.papervision3d.materials.*;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.scenes.*;
 
 /**
 * The GeometryObject3D class contains the mesh definition of an object.

@@ -1,4 +1,4 @@
-/**
+﻿/**
 * @author John Grden
 */
 package org.papervision3d.components.as3.flash9
@@ -23,7 +23,7 @@ package org.papervision3d.components.as3.flash9
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.scenes.MovieScene3D;
 	import org.papervision3d.scenes.Scene3D;
-	import org.papervision3d.scenes.InteractiveScene3D;	
+	import org.papervision3d.scenes.Scene3D;	
 	
 	/**
 	* Dispatched when the Scene3D has been created along with the camera.
@@ -149,15 +149,15 @@ package org.papervision3d.components.as3.flash9
 	    /**
 		* @private
 		*/
-	    protected var _scene     				:InteractiveScene3D = null;
+	    protected var _scene     				:Scene3D = null;
 	    /**
 		* The InteractiveScene3D used by the component
 		*/
-	    public function set scene(scene3d:InteractiveScene3D):void
+	    public function set scene(scene3d:Scene3D):void
 	    {
 	    	_scene = scene3d;
 	    }
-	    public function get scene():InteractiveScene3D
+	    public function get scene():Scene3D
 	    {			
 			return _scene;
 	    }
@@ -298,7 +298,7 @@ package org.papervision3d.components.as3.flash9
 		
 		protected function createScene():void
 		{
-			scene = new InteractiveScene3D( mainCanvas );
+			scene = new Scene3D( mainCanvas , true);
 		}
 		
 		/**

@@ -2,7 +2,7 @@ package org.papervision3d.objects.particles
 {
 	import flash.display.Sprite;
 	
-	import org.papervision3d.core.geom.Vertex3D;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
 
 	public class AbstractParticle implements IParticle
 	{

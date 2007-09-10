@@ -1,6 +1,6 @@
 package org.papervision3d.objects.particles
 {
-	import org.papervision3d.core.geom.Vertex3D;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import flash.display.Sprite;
 	
 	public class StarParticle extends AbstractParticle implements IParticle
@@ -17,9 +17,9 @@ package org.papervision3d.objects.particles
 		
 		override public function render(container:Sprite):int
 		{
-			if(vertex3D.vertex2DInstance.visible){
+			if(vertex3D.vertex3DInstance.visible){
 				container.graphics.beginFill(color, 1);
-				container.graphics.drawCircle(vertex3D.vertex2DInstance.x, vertex3D.vertex2DInstance.y,size);
+				container.graphics.drawCircle(vertex3D.vertex3DInstance.x, vertex3D.vertex3DInstance.y,size);
 				container.graphics.endFill();
 			}
 			return 1;	

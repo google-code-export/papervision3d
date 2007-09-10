@@ -19,8 +19,10 @@ package org.papervision3d.components.as3.core
 	
 	// include all types of objects users might use
 	import org.papervision3d.materials.*;
+	import org.papervision3d.objects.particles.*;
 	import org.papervision3d.objects.*;
 	import org.papervision3d.cameras.*;
+	import org.papervision3d.scenes.*;
 	import org.papervision3d.utils.InteractiveSceneManager;
 	
 	/**
@@ -116,7 +118,57 @@ package org.papervision3d.components.as3.core
 		public function PV3DUIComponent()
 		{
 			super();
+			includePackages();
 			init();
+		}
+		
+		private function includePackages():void
+		{
+			// materials;
+			BitmapAssetMaterial;
+			BitmapColorMaterial;
+			BitmapFileMaterial;
+			BitmapMaterial;
+			BitmapWireframeMaterial;
+			ColorMaterial;
+			//CompositeMaterial;
+			IPreciseMaterial;
+			//MaterialsList;
+			MovieAssetMaterial;
+			MovieMaterial;
+			PreciseBitmapAssetMaterial;
+			PreciseBitmapFileMaterial;
+			PreciseBitmapMaterial;
+			PreciseMovieAssetMaterial;
+			PreciseMovieMaterial;
+			VideoStreamMaterial;
+			WireframeMaterial;
+			
+			// objects
+			AbstractParticle;
+			IParticle;
+			StarParticle;
+			//Ase;
+			Collada;
+			//Cone;
+			Cube;
+			//Cylinder;
+			DisplayObject3D;
+			//OldCube;
+			//PaperPlane;
+			//ParticleField;
+			//Plane;
+			//Sphere;
+			//VertexParticles;
+			
+			// cameras
+			Camera3D;
+			FreeCamera3D;
+			
+			// scenes
+			Scene3D;
+			LayerScene3D;
+			MovieScene3D;			
 		}
 		
 		/**

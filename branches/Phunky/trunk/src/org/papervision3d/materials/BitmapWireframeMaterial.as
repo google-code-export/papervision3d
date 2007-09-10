@@ -4,13 +4,13 @@ package org.papervision3d.materials
 	import flash.display.Graphics;
 	import flash.display.Sprite;
 	import flash.geom.Matrix;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	
-	import org.papervision3d.core.draw.IFaceDrawer;
-	import org.papervision3d.core.geom.Face3D;
-	import org.papervision3d.core.geom.Vertex2D;
+	import org.papervision3d.core.draw.ITriangleDrawer;
 	import org.papervision3d.objects.DisplayObject3D;
 
-	public class BitmapWireframeMaterial extends BitmapMaterial implements IFaceDrawer
+	public class BitmapWireframeMaterial extends BitmapMaterial implements ITriangleDrawer
 	{
 		private static const BITMAP_WIDTH:int = 64;
 		private static const BITMAP_HEIGHT:int = 64;
@@ -32,7 +32,7 @@ package org.papervision3d.materials
 			createStaticUVMatrix();
 		}
 		
-		override public function drawFace3D(face3D:Face3D, graphics:Graphics, v0:Vertex2D, v1:Vertex2D, v2:Vertex2D):int
+		override public function drawFace3D(face3D:Triangle3D, graphics:Graphics, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance):int
 		{
 			if(bitmap){
 				var x0:Number = v0.x;
