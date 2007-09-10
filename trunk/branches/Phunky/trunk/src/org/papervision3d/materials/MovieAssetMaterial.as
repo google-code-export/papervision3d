@@ -40,6 +40,8 @@ package org.papervision3d.materials
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	
+	import flash.utils.getDefinitionByName;
+	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
