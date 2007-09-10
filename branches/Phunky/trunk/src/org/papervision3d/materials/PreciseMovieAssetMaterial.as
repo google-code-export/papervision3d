@@ -69,7 +69,7 @@ package org.papervision3d.materials
 			precision = precision * precision * 1.4;
 		}
 		
-		public override function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):int
+		public override function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
         {
 			
             var mapping:Matrix = uvMatrices[face3D] ? uvMatrices[face3D] as Matrix : transformUV(face3D);

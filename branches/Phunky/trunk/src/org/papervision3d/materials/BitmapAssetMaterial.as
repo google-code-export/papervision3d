@@ -1,4 +1,4 @@
-/*
+﻿/*
  *  PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
  *  AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
  *  PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
@@ -38,6 +38,8 @@
 package org.papervision3d.materials
 {
 	import flash.display.BitmapData;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.describeType;
 	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
