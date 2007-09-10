@@ -71,7 +71,7 @@ package org.papervision3d.materials
 		public override function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
         {
             var mapping:Matrix = uvMatrices[face3D] ? uvMatrices[face3D] as Matrix : transformUV(face3D);
-            renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z,0);
+            renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y, face3D.v0.vertex3DInstance.z, face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y, face3D.v1.vertex3DInstance.z, face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y, face3D.v2.vertex3DInstance.z,0);
 			renderSessionData.renderStatistics.triangles++; //Might be better to have the actual number of triangles precise drew.
         }
 	
