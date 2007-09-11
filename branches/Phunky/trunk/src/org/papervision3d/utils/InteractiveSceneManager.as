@@ -253,10 +253,16 @@ package org.papervision3d.utils
 		{
 			if(debug) log.debug(event, currentDisplayObject3D.name);
 			
-			var IS3DE:InteractiveScene3DEvent = new InteractiveScene3DEvent(event, currentDisplayObject3D, container, renderHitData.renderable as Triangle3D)
-			var dispatched:Boolean = currentDisplayObject3D.dispatchEvent(IS3DE);
+			try
+			{
+				var IS3DE:InteractiveScene3DEvent = new InteractiveScene3DEvent(event, currentDisplayObject3D, container, renderHitData.renderable as Triangle3D)
+				var dispatched:Boolean = currentDisplayObject3D.dispatchEvent(IS3DE);
 			
-			dispatchEvent(IS3DE);
+				dispatchEvent(IS3DE);
+			}catch(e:Error)
+			{
+				log.error("dispatchObjectEvent", e.message);
+			}
 		}
 	}	
 }
