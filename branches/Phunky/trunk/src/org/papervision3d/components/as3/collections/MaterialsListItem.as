@@ -88,6 +88,18 @@ package org.papervision3d.components.as3.collections
 		*/	
 		public var interactive				:Boolean = false;
 		
+		[Inspectable (name="precision", defaultValue=1, type="Number")]
+		/**
+		* If you're using a precision material, this is the setting for how precise you want it to be.  A setting of one is pretty accurate.
+		*/	
+		public var precision				:Number = 1;
+		
+		[Inspectable (name="miminumRenderSize", defaultValue=2, type="Number")]
+		/**
+		* If you're using a precision material, this is the setting for how small your triangles can be before the recursion loop will draw the face
+		*/	
+		public var miminumRenderSize		:Number = 2;
+		
 		[Inspectable (name="precisionMaterial", defaultValue=false, type="Boolean")]
 		/**
 		* Boolean flag indicating whether or not the material is Interactive.  If set to true, the DisplayObject3D this material
@@ -95,6 +107,9 @@ package org.papervision3d.components.as3.collections
 		*/	
 		public var precisionMaterial		:Boolean = false;
 		
+		/**
+		 * whether or not to apply smoothing to the bitmap fill on the triangles of this material
+		 */
 		[Inspectable (name="smooth", defaultValue=false, type="Boolean")]
 		public var smooth					:Boolean = false;
 	}

@@ -124,6 +124,22 @@ package org.papervision3d.components.as3.flash9
 			return _cameraFocus;
 		}
 		
+		[Inspectable ( type="Boolean", defaultValue="true", name="Auto Render Scene")]
+		/**
+		* @private
+		*/
+		public function set autoRenderScene(value:Boolean):void
+		{
+			_autoRenderScene = value;
+		}
+		/**
+		* @private
+		*/
+		public function get autoRenderScene():Boolean
+		{
+			return _autoRenderScene;
+		}
+		
 		/**
 		 * @private 
 	 	*/
@@ -199,6 +215,10 @@ package org.papervision3d.components.as3.flash9
 		/**
 		 * @private 
 	 	*/
+		protected var _autoRenderScene		:Boolean = true;
+		/**
+		 * @private 
+	 	*/
 		protected var freeCam 				:FreeCamera3D;
 
 		/**
@@ -266,7 +286,7 @@ package org.papervision3d.components.as3.flash9
 			init3D();
 			
 			// updateScene
-			if(!isLivePreview)
+			if(!isLivePreview && autoRenderScene)
 			{
 				timer.addEventListener(TimerEvent.TIMER, handleTimerUpdate);
 				timer.start();

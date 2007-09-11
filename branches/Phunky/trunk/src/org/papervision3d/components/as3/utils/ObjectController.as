@@ -149,7 +149,7 @@ package org.papervision3d.components.as3.utils
 			try
 			{
 				movementInc += movementInc*.1;
-				log.debug("keyDown", e.keyCode);
+				//log.debug("keyDown", e.keyCode);
 				switch(e.keyCode)
 				{
 					case 37:
