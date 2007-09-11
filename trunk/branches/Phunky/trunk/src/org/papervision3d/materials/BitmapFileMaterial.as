@@ -49,6 +49,7 @@ package org.papervision3d.materials
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.events.FileLoadEvent;
 
 	/**
@@ -56,7 +57,7 @@ package org.papervision3d.materials
 	*
 	* Materials collect data about how objects appear when rendered.
 	*/
-	public class BitmapFileMaterial extends BitmapMaterial
+	public class BitmapFileMaterial extends BitmapMaterial implements ITriangleDrawer
 	{
 		// ___________________________________________________________________ PUBLIC
 
@@ -340,26 +341,22 @@ package org.papervision3d.materials
 		{
 			if (bitmap == null || errorLoading)
 			{
-				var x0:Number = face3D.v0.vertex3DInstance.x;
-				var y0:Number = face3D.v0.vertex3DInstance.y;
-				var x1:Number = face3D.v1.vertex3DInstance.x;
-				var y1:Number = face3D.v1.vertex3DInstance.y;
-				var x2:Number = face3D.v2.vertex3DInstance.x;
-				var y2:Number = face3D.v2.vertex3DInstance.y;
 				if(errorLoading){
 					graphics.lineStyle(lineThickness,lineColor,lineAlpha);
 				}
+				
 				graphics.beginFill( fillColor, fillAlpha );
-				graphics.moveTo( x0, y0 );
-				graphics.lineTo( x1, y1 );
-				graphics.lineTo( x2, y2 );
-				graphics.lineTo( x0, y0 );
+				graphics.moveTo( face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y );
+				graphics.lineTo( face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y );
+				graphics.lineTo( face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y );
+				graphics.lineTo( face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y );
 				graphics.endFill();
+				
 				if(errorLoading){
 					graphics.lineStyle();
 				}
+				
 				renderSessionData.renderStatistics.triangles++;
-				return;
 			}
 			
 			super.drawTriangle(face3D, graphics, renderSessionData);

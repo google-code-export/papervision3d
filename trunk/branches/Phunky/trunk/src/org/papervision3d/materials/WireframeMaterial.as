@@ -40,16 +40,15 @@ package org.papervision3d.materials
 	import flash.display.Graphics;
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
-
+	
 	/**
 	* The WireframeMaterial class creates a wireframe material, where only the outlines of the faces are drawn.
 	* <p/>
 	* Materials collects data about how objects appear when rendered.
 	*/
-	public class WireframeMaterial extends MaterialObject3D implements ITriangleDrawer
+	public class WireframeMaterial extends TriangleMaterial implements ITriangleDrawer
 	{
 		// ______________________________________________________________________ NEW
 
@@ -74,17 +73,13 @@ package org.papervision3d.materials
 		{
 			var x0:Number = face3D.v0.vertex3DInstance.x;
 			var y0:Number = face3D.v0.vertex3DInstance.y;
-			var x1:Number = face3D.v1.vertex3DInstance.x;
-			var y1:Number = face3D.v1.vertex3DInstance.y;
-			var x2:Number = face3D.v2.vertex3DInstance.x;
-			var y2:Number = face3D.v2.vertex3DInstance.y;
-
+			
 			if( lineAlpha )
 			{
 				graphics.lineStyle( 0, lineColor, lineAlpha );
 				graphics.moveTo( x0, y0 );
-				graphics.lineTo( x1, y1 );
-				graphics.lineTo( x2, y2 );
+				graphics.lineTo( face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y );
+				graphics.lineTo( face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y );
 				graphics.lineTo( x0, y0 );
 				graphics.lineStyle();
 
