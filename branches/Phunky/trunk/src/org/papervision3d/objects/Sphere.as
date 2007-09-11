@@ -169,8 +169,11 @@ public class Sphere extends TriangleMesh3D
 					var aP3:Vertex3D = aVtc[j-1][(i==0?iHorNum:i)-1];
 					var aP4:Vertex3D = aVtc[j-1][bEnd?0:i];
 					// uv
-					var fJ0:Number = j		/ iVerNum;
-					var fJ1:Number = (j-1)	/ iVerNum;
+					/*
+					 * fix applied as suggested by Philippe to correct the uv mapping on a sphere
+					 * */
+					var fJ0:Number = j		/ (iVerNum-1);
+					var fJ1:Number = (j-1)	/ (iVerNum-1);
 					var fI0:Number = (i+1)	/ iHorNum;
 					var fI1:Number = i		/ iHorNum;
 					var aP4uv:NumberUV = new NumberUV(fI0,fJ1);
