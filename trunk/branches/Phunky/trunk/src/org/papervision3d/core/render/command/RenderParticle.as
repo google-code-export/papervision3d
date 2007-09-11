@@ -9,14 +9,14 @@ package org.papervision3d.core.render.command
 	
 	import org.papervision3d.core.geom.renderables.Particle;
 	import org.papervision3d.core.render.data.RenderSessionData;
-	import org.papervision3d.materials.BasicParticleMaterial;
+	import org.papervision3d.materials.ParticleMaterial;
 
 	public class RenderParticle extends RenderableListItem implements IRenderListItem
 	{
 		
 		private static var container:Sprite;
 		public var particle:Particle;
-		public var renderer:BasicParticleMaterial;
+		public var renderer:ParticleMaterial;
 		
 		
 		public function RenderParticle(particle:Particle)
