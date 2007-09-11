@@ -1,5 +1,10 @@
 package org.papervision3d.core.render
 {
+	
+	/**
+	 * @Author Ralph Hauwert
+	 */
+	 
 	import com.blitzagency.xray.logger.XrayLog;
 	
 	import flash.display.Sprite;

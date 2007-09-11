@@ -1,5 +1,10 @@
 package org.papervision3d.core.stat
 {
+	
+	/**
+	 * @Author Ralph Hauwert
+	 */
+	 
 	public class RenderStatistics
 	{
 		public var performance:int = 0;

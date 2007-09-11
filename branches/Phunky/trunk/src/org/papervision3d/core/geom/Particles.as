@@ -1,18 +1,14 @@
-﻿package org.papervision3d.objects
+﻿package org.papervision3d.core.geom
 {
 	/**
 	 * @Author Ralph Hauwert
 	 */
 	
-	import flash.display.Sprite;
+	import org.papervision3d.core.geom.renderables.Particle;
+	import org.papervision3d.core.proto.CameraObject3D;
+	import org.papervision3d.objects.DisplayObject3D;
 	
-	import org.papervision3d.core.geom.renderables.Vertex3D;
-	import org.papervision3d.core.geom.Vertices3D;
-	import org.papervision3d.core.proto.SceneObject3D;
-	import org.papervision3d.objects.particles.AbstractParticle;
-	import org.papervision3d.objects.particles.IParticle;
-	
-	public class VertexParticles extends Vertices3D
+	public class Particles extends Vertices3D
 	{
 		
 		private var vertices:Array;
@@ -25,7 +21,7 @@
 		 * 
 		 * Renders added particles to a given container using Flash's drawing API.
 		 */
-		public function VertexParticles(name:String = "VertexParticles")
+		public function Particles(name:String = "VertexParticles")
 		{
 			this.vertices = new Array();
 			this.particles = new Array();
@@ -33,22 +29,20 @@
 		}
 		
 		/**
-		 *	render(scene);
-		 *
-		 * Renders the particles added to this VertexParticles Object
+		 * Project
 		 */
-		public function render(scene:SceneObject3D ):void
+		public override function project( parent :DisplayObject3D, camera :CameraObject3D, sorted :Array=null ):Number
 		{
-			var vertices:Array = this.geometry.vertices;
-			var container:Sprite = this.container || scene.container;
-			var particle:IParticle;
-			if(this.container){
-				container.graphics.clear();
+			super.project(parent,camera, sorted);
+			var p:Particle;
+			for each(p in particles){
+				if(p.vertex3D.vertex3DInstance.visible){
+					p.renderCommand.screenDepth = p.vertex3D.vertex3DInstance.z;
+					scene.renderer.addToRenderList(p.renderCommand);
+				}
 			}
-			for each(particle in particles)
-			{
-				scene.stats.particles += particle.render(container);
-			}
+			
+			return 1;
 		}
 		
 		/**
@@ -56,8 +50,9 @@
 		 * 
 		 * @param	particle	partical to be added and rendered by to this VertexParticles Object.
 		 */
-		public function addParticle(particle:AbstractParticle):void
+		public function addParticle(particle:Particle):void
 		{
+			particle.instance = this;
 			particles.push(particle);
 			vertices.push(particle.vertex3D);
 		}
@@ -67,8 +62,9 @@
 		 * 
 		 * @param	particle	partical to be removed from this VertexParticles Object.
 		 */
-		public function removeParticle(particle:AbstractParticle):void
+		public function removeParticle(particle:Particle):void
 		{
+			particle.instance = null;
 			particles.splice(particles.indexOf(particle,0));
 			vertices.splice(vertices.indexOf(particle.vertex3D,0));
 		}
@@ -83,6 +79,7 @@
 			particles = new Array();
 			vertices = new Array();
 		}
+		
 		
 	}
 }

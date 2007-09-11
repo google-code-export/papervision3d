@@ -1,13 +1,15 @@
 package org.papervision3d.objects
 {
-	import org.papervision3d.objects.particles.StarParticle;
 	import flash.display.Sprite;
+	
+	import org.papervision3d.core.geom.Particles;
+	import org.papervision3d.objects.particles.StarParticle;
 	
 	/**
 	 * @Author Ralph Hauwert
 	 */
 	 
-	public class ParticleField extends VertexParticles
+	public class ParticleField extends Particles
 	{
 		
 		private var fieldDepth:Number;
@@ -43,7 +45,6 @@ package org.papervision3d.objects
 		
 		private function createParticles():void
 		{
-			var vertices:Array = this.geometry.vertices;
 			var width2  :Number = fieldWidth /2;
 			var height2 :Number = fieldHeight /2;
 			var depth2  :Number = fieldDepth /2;

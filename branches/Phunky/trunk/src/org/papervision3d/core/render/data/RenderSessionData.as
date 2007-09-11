@@ -1,5 +1,10 @@
 package org.papervision3d.core.render.data
 {
+	
+	/**
+	 * @Author Ralph Hauwert
+	 */
+	 
 	import flash.display.Sprite;
 	
 	import org.papervision3d.core.proto.CameraObject3D;
