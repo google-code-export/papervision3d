@@ -5,27 +5,25 @@ package org.papervision3d.core.render.command
 	import flash.display.Sprite;
 	import flash.geom.Point;
 	
-	import org.papervision3d.core.Number3D;
 	import org.papervision3d.core.Matrix3D;
-	import org.papervision3d.core.geom.renderables.IRenderable;
+	import org.papervision3d.core.Number3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.core.render.hit.RenderHitData;
 	import org.papervision3d.materials.BitmapMaterial;
-	import org.papervision3d.utils.InteractiveUtils;
 	
 	public class RenderTriangle extends RenderableListItem implements IRenderListItem
 	{
-		//Avoiding vars in the main loop.
-		private static var container:Sprite;
-		private static var renderMat:MaterialObject3D;
 		private var rhd:RenderHitData = new RenderHitData();
 		private var position:Number3D = new Number3D();
 		
 		public var triangle:Triangle3D;
 		public var container:Sprite;
+		public var renderer:ITriangleDrawer;
+		public var renderMat:MaterialObject3D;
 		
 		public function RenderTriangle(triangle:Triangle3D):void
 		{
@@ -39,9 +37,7 @@ package org.papervision3d.core.render.command
 		{
 			container = triangle.instance.container;
 			if( !container ) container = renderSessionData.container;
-			renderMat = triangle.material;
-			if( !renderMat ) renderMat = triangle.instance.material;
-			renderMat.drawTriangle(triangle, container.graphics, renderSessionData);
+			renderer.drawTriangle(triangle, container.graphics, renderSessionData);
 		}
 		
 		override public function hitTestPoint2D(point:Point):RenderHitData

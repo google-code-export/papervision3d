@@ -37,11 +37,8 @@
 //                                               GeometryObject3D: Mesh3D
 package org.papervision3d.core.geom
 {
-	import flash.display.BitmapData;
-	import flash.display.Sprite;
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.*;
 	import org.papervision3d.core.culling.ITriangleCuller;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
@@ -49,8 +46,8 @@ package org.papervision3d.core.geom
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.proto.*;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.scenes.Scene3D;
 	
 	
 	/**
@@ -167,6 +164,7 @@ package org.papervision3d.core.geom
 							break;
 					}
 					visibleFaces++;
+					face.renderCommand.renderer = mat as ITriangleDrawer;
 					face.renderCommand.screenDepth = iFace.screenZ;
 					scene.renderer.addToRenderList(face.renderCommand);
 				}else{
