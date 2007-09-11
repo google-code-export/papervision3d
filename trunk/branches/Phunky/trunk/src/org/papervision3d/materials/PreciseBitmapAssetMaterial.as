@@ -54,6 +54,7 @@ package org.papervision3d.materials
         public var uv1:NumberUV;
         public var uv2:NumberUV;
 		public var focus:Number = 100;
+		public var tolerance:Number = 2;
 		
 		public function PreciseBitmapAssetMaterial( linkageID:String )
 		{
@@ -63,26 +64,29 @@ package org.papervision3d.materials
 		
 		public override function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
         {
+			
             var mapping:Matrix = uvMatrices[face3D] ? uvMatrices[face3D] as Matrix : transformUV(face3D);
-            renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y, face3D.v0.vertex3DInstance.z, face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y, face3D.v1.vertex3DInstance.z, face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y, face3D.v2.vertex3DInstance.z,0);
-			renderSessionData.renderStatistics.triangles++; //Might be better to have the actual number of triangles precise drew.
-        }
-	
-        public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
-            ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number, index:Number):void
+            focus = renderSessionData.camera.focus;
+			renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y, face3D.v0.vertex3DInstance.z, face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y, face3D.v1.vertex3DInstance.z, face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y, face3D.v2.vertex3DInstance.z,0, renderSessionData);
+			 
+        }		
+		
+         public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
+		 ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number, index:Number, renderSessionData:RenderSessionData):void
         {
 
             if ((az <= 0) && (bz <= 0) && (cz <= 0))
                 return;
 
            
-            if (index >= 100 || (focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < 2) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < 2))
+            if (index >= 100 || (focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < tolerance) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < tolerance))
             {
                 renderTriangleBitmap(graphics, ta, tb, tc, td, tx, ty, ax, ay, bx, by, cx, cy, smooth, tiled);
-               
+               renderSessionData.renderStatistics.triangles++;
                 return;
             }
 
+			
             var faz:Number = focus + az;
             var fbz:Number = focus + bz;
             var fcz:Number = focus + cz;
@@ -112,7 +116,7 @@ package org.papervision3d.materials
             if ((dsab <= precision) && (dsca <= precision) && (dsbc <= precision))
             {
                renderTriangleBitmap(graphics, ta, tb, tc, td, tx, ty, ax, ay, bx, by, cx, cy, smooth, tiled);
-               
+               renderSessionData.renderStatistics.triangles++;
                 return;
             }
 
@@ -121,16 +125,16 @@ package org.papervision3d.materials
             if ((dsab > precision) && (dsca > precision) && (dsbc > precision))
             {
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2, ty*2,
-                    ax, ay, az, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, index+1);
+                    ax, ay, az, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, index+1, renderSessionData);
 
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2-1, ty*2,
-                    mabx * 0.5, maby * 0.5, (az+bz) * 0.5, bx, by, bz, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, index+1);
+                    mabx * 0.5, maby * 0.5, (az+bz) * 0.5, bx, by, bz, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, index+1, renderSessionData);
 
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2, ty*2-1,
-                    mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, cx, cy, cz, index+1);
+                    mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, cx, cy, cz, index+1, renderSessionData);
 
                 renderRec(graphics, -ta*2, -tb*2, -tc*2, -td*2, -tx*2+1, -ty*2+1,
-                    mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, index+1);
+                    mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, index+1, renderSessionData);
 
                 return;
             }
@@ -139,10 +143,10 @@ package org.papervision3d.materials
             if (dsab == dmax)
             {
                 renderRec(graphics, ta*2, tb*1, tc*2, td*1, tx*2, ty*1,
-                    ax, ay, az, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, cx, cy, cz, index+1);
+                    ax, ay, az, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, cx, cy, cz, index+1, renderSessionData);
 
                 renderRec(graphics, ta*2+tb, tb*1, 2*tc+td, td*1, tx*2+ty-1, ty*1,
-                    mabx * 0.5, maby * 0.5, (az+bz) * 0.5, bx, by, bz, cx, cy, cz, index+1);
+                    mabx * 0.5, maby * 0.5, (az+bz) * 0.5, bx, by, bz, cx, cy, cz, index+1, renderSessionData);
             
                 return;
             }
@@ -150,20 +154,20 @@ package org.papervision3d.materials
             if (dsca == dmax)
             {
                 renderRec(graphics, ta*1, tb*2, tc*1, td*2, tx*1, ty*2,
-                    ax, ay, az, bx, by, bz, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, index+1);
+                    ax, ay, az, bx, by, bz, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, index+1, renderSessionData);
 
                 renderRec(graphics, ta*1, tb*2 + ta, tc*1, td*2 + tc, tx, ty*2+tx-1,
-                    mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, bx, by, bz, cx, cy, cz, index+1);
+                    mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, bx, by, bz, cx, cy, cz, index+1, renderSessionData);
             
                 return;
             }
 
 
             renderRec(graphics, ta-tb, tb*2, tc-td, td*2, tx-ty, ty*2,
-                ax, ay, az, bx, by, bz, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, index+1);
+                ax, ay, az, bx, by, bz, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, index+1, renderSessionData);
 
             renderRec(graphics, 2*ta, tb-ta, tc*2, td-tc, 2*tx, ty-tx,
-                ax, ay, az, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, cx, cy, cz, index+1);
+                ax, ay, az, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, cx, cy, cz, index+1, renderSessionData);
         }
 		
 		public function renderTriangleBitmap(graphics:Graphics,a:Number, b:Number, c:Number, d:Number, tx:Number, ty:Number, 
