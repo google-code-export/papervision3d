@@ -8,18 +8,18 @@ package org.papervision3d.core.geom.renderables
 	import org.papervision3d.core.geom.Particles;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderParticle;
-	import org.papervision3d.materials.BasicParticleMaterial;
+	import org.papervision3d.materials.ParticleMaterial;
 
 	public class Particle implements IRenderable
 	{
 		
 		public var size:int;
 		public var vertex3D:Vertex3D;
-		public var material:BasicParticleMaterial;
+		public var material:ParticleMaterial;
 		public var renderCommand:RenderParticle;
 		public var instance:Particles;
 		
-		public function Particle(material:BasicParticleMaterial, size:int=1, x:Number=0, y:Number=0, z:Number=0)
+		public function Particle(material:ParticleMaterial, size:int=1, x:Number=0, y:Number=0, z:Number=0)
 		{
 			this.material = material;
 			this.size = size;

@@ -7,9 +7,9 @@ package org.papervision3d.materials
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.IParticleDrawer;
 
-	public class BasicParticleMaterial extends MaterialObject3D implements IParticleDrawer
+	public class ParticleMaterial extends MaterialObject3D implements IParticleDrawer
 	{
-		public function BasicParticleMaterial(color:Number, alpha:Number)
+		public function ParticleMaterial(color:Number, alpha:Number)
 		{
 			super();
 			this.fillAlpha = alpha;
