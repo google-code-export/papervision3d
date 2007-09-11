@@ -56,7 +56,7 @@ package org.papervision3d.materials
 	* Materials collect data about how objects appear when rendered.
 	*
 	*/
-	public class BitmapMaterial extends MaterialObject3D implements ITriangleDrawer
+	public class BitmapMaterial extends TriangleMaterial implements ITriangleDrawer
 	{
 		/**
 		 * Indicates if mip mapping is forced.

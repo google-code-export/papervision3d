@@ -40,17 +40,11 @@
  */
 package org.papervision3d.materials 
 {
-	import flash.display.BitmapData;
 	import flash.display.Graphics;
-	import flash.display.Sprite;
 	import flash.geom.Matrix;
 	
-	import org.papervision3d.materials.MovieAssetMaterial;
-	import org.papervision3d.materials.IPreciseMaterial;
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.NumberUV;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	
 	public class PreciseMovieAssetMaterial extends MovieAssetMaterial implements IPreciseMaterial

@@ -39,7 +39,6 @@ package org.papervision3d.materials
 import flash.display.Graphics;
 
 import org.papervision3d.core.geom.renderables.Triangle3D;
-import org.papervision3d.core.proto.MaterialObject3D;
 import org.papervision3d.core.render.data.RenderSessionData;
 import org.papervision3d.core.render.draw.ITriangleDrawer;
 
@@ -49,7 +48,7 @@ import org.papervision3d.core.render.draw.ITriangleDrawer;
 * Materials collects data about how objects appear when rendered.
 *
 */
-public class ColorMaterial extends MaterialObject3D implements ITriangleDrawer
+public class ColorMaterial extends TriangleMaterial implements ITriangleDrawer
 {
 	// ______________________________________________________________________ NEW
 

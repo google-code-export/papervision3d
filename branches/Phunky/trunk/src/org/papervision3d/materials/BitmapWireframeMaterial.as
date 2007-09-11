@@ -9,7 +9,7 @@ package org.papervision3d.materials
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
-	public class BitmapWireframeMaterial extends BitmapMaterial implements ITriangleDrawer
+	public class BitmapWireframeMaterial extends TriangleMaterial implements ITriangleDrawer
 	{
 		private static const BITMAP_WIDTH:int = 64;
 		private static const BITMAP_HEIGHT:int = 64;
