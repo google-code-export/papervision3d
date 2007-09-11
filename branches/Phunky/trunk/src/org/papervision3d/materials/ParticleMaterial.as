@@ -19,7 +19,8 @@ package org.papervision3d.materials
 		public function drawParticle(particle:Particle, graphics:Graphics, renderSessionData:RenderSessionData):void
 		{
 			graphics.beginFill(fillColor, fillAlpha);
-			graphics.drawCircle(particle.vertex3D.vertex3DInstance.x, particle.vertex3D.vertex3DInstance.y,1);
+			//graphics.drawCircle(particle.vertex3D.vertex3DInstance.x, particle.vertex3D.vertex3DInstance.y,1);
+			graphics.drawRect(particle.vertex3D.vertex3DInstance.x, particle.vertex3D.vertex3DInstance.y,1,1);
 			graphics.endFill();
 		}
 		
