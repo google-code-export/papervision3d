@@ -1,5 +1,10 @@
 package org.papervision3d.core.render.command
 {
+	
+	/**
+	 * @Author Ralph Hauwert
+	 */
+	 
 	import flash.display.Sprite;
 	
 	import org.papervision3d.core.geom.renderables.Line3D;

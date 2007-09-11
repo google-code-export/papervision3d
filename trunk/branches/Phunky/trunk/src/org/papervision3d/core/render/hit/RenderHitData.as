@@ -1,5 +1,9 @@
 package org.papervision3d.core.render.hit
 {
+	/**
+	 * @Author Ralph Hauwert
+	 */
+	 
 	import org.papervision3d.core.geom.renderables.IRenderable;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.objects.DisplayObject3D;

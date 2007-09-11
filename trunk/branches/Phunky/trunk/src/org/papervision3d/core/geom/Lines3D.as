@@ -1,5 +1,9 @@
 package org.papervision3d.core.geom
 {
+	/**
+	 * @Author Ralph Hauwert
+	 */
+	 
 	import org.papervision3d.core.geom.renderables.Line3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.proto.CameraObject3D;
@@ -41,7 +45,7 @@ package org.papervision3d.core.geom
 				scene.renderer.addToRenderList(line3D.renderCommand);
 			}
 			
-			return screenZ/lines.length;
+			return screenZ/(lines.length+1);
 		}
 		
 		public function addLine(line:Line3D):void

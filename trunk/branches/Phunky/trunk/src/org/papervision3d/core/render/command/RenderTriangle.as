@@ -1,5 +1,9 @@
 package org.papervision3d.core.render.command
 {
+	
+	/**
+	 * @Author Ralph Hauwert
+	 */
 
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
