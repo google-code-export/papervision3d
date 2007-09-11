@@ -57,6 +57,11 @@ package org.papervision3d.materials
 	*/
 	public class MovieAssetMaterial extends MovieMaterial implements ITriangleDrawer
 	{
+		/**
+		 * By default, a MovieAssetMaterial is stored and resused, but there are times where a user may want a unique copy.  set to true if you want a unique instance
+		 * created
+		 */
+		public var createUnique:Boolean = false;
 		
 		/**
 		* A texture object.
@@ -91,10 +96,11 @@ package org.papervision3d.materials
 		* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 		*/
 		
-		public function MovieAssetMaterial( linkageID:String="", transparent:Boolean=false, animated:Boolean=false )
+		public function MovieAssetMaterial( linkageID:String="", transparent:Boolean=false, animated:Boolean=false, createUnique:Boolean=false )
 		{
 			movieTransparent = transparent;
 			this.animated = animated;
+			this.createUnique = createUnique;
 			if( linkageID.length > 0 ) texture = linkageID;
 		}
 
@@ -125,13 +131,20 @@ package org.papervision3d.materials
 			// Retrieve from library or...
 			var movie:MovieClip = _library[asset];
 			
+			var MovieAsset:Class;
+			
 			// ...attachMovie
 			if( ! movie )
 			{
-				var MovieAsset:Class = getDefinitionByName( asset ) as Class;
+				MovieAsset = getDefinitionByName( asset ) as Class;
 				movie = new MovieAsset();
 				_library[asset] = movie;
 				_count[asset] = 0;
+			}
+			else if( createUnique )
+			{
+				MovieAsset = getDefinitionByName( asset ) as Class;
+				movie = new MovieAsset();
 			}
 			else
 			{
