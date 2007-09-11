@@ -40,9 +40,11 @@ package org.papervision3d.core.geom
 			
 			for each(line3D in lines)
 			{
-				line3D.renderCommand.renderer = line3D.material;
-				screenZ+=line3D.renderCommand.screenDepth = (line3D.v0.vertex3DInstance.z + line3D.v1.vertex3DInstance.z)/2;
-				scene.renderer.addToRenderList(line3D.renderCommand);
+				if(line3D.v0.vertex3DInstance.visible && line3D.v1.vertex3DInstance.visible){
+					line3D.renderCommand.renderer = line3D.material;
+					screenZ+=line3D.renderCommand.screenDepth = (line3D.v0.vertex3DInstance.z + line3D.v1.vertex3DInstance.z)/2;
+					scene.renderer.addToRenderList(line3D.renderCommand);
+				}
 			}
 			
 			return screenZ/(lines.length+1);
