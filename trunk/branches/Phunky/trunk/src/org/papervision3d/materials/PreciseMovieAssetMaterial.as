@@ -60,7 +60,7 @@ package org.papervision3d.materials
         public var uv1:NumberUV;
         public var uv2:NumberUV;
 		public var focus:Number = 100;
-		public var tolerance:Number = 2;
+		public var miminumRenderSize:Number = 2;
 
 		
 		public function PreciseMovieAssetMaterial( linkageID:String="", transparent:Boolean=false, animated:Boolean=false )
@@ -87,7 +87,7 @@ package org.papervision3d.materials
                 return;
 
            
-            if (index >= 100 || (focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < tolerance) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < tolerance))
+            if (index >= 100 || (focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < miminumRenderSize) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < miminumRenderSize))
             {
                 renderTriangleBitmap(graphics, ta, tb, tc, td, tx, ty, ax, ay, bx, by, cx, cy, smooth, tiled);
                renderSessionData.renderStatistics.triangles++;
@@ -196,7 +196,8 @@ package org.papervision3d.materials
                                            tx*b2 + ty*d2 + v0y);
 
             //graphics.lineStyle();
-            graphics.beginBitmapFill(bitmap, matrix, repeat, smooth && (v0x*(v2y - v1y) + v1x*(v0y - v2y) + v2x*(v1y - v0y) > 400));
+            //graphics.beginBitmapFill(bitmap, matrix, repeat, smooth && (v0x*(v2y - v1y) + v1x*(v0y - v2y) + v2x*(v1y - v0y) > 400));
+			graphics.beginBitmapFill(bitmap, matrix, repeat, smooth);
             graphics.moveTo(v0x, v0y);
             graphics.lineTo(v1x, v1y);
             graphics.lineTo(v2x, v2y);

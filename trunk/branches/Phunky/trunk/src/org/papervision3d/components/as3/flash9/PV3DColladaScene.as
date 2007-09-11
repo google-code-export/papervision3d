@@ -112,7 +112,7 @@ package org.papervision3d.components.as3.flash9
 		/**
 		* A boolean flag letting the component know whether or not to show trace output
 		*/		
-		public var debug						:Boolean = false;
+		public var debug						:Boolean = true;
 		
 				
 		private var _materialsList						:MaterialsList = new MaterialsList();
@@ -187,14 +187,16 @@ package org.papervision3d.components.as3.flash9
 		 */	
 		override public function set propertyInspectorSetting(p_piSetting:Boolean):void
 		{
+			trace(0);
 			_propertyInspectorSetting = p_piSetting;
 			if(!p_piSetting)
 			{
+				trace(1);
 				// if we haven't initialized yet, do so
 				if(!isAppInitialized) initApp();
-				
+				trace(2, isLivePreview);
 				if(debug) log.debug("********** isLivePreview?", isLivePreview);
-				
+				trace(3, rebuildCollada, collada == null);
 				if(rebuildCollada || collada == null) 
 				{
 					if(debug) log.debug("GO CREATE MATERIALS");
@@ -353,7 +355,7 @@ package org.papervision3d.components.as3.flash9
 		 */	
 		protected function createMaterials():void
 		{
-			if(debug) log.debug("extMaterials", extMaterials.dataProvider.length);
+			if(debug) log.debug("extMaterials", extMaterials.dataProvider ? extMaterials.dataProvider.length : 0);
 			var loadCollada:Boolean = false;
 			
 			if(extMaterials.dataProvider.length > 0)
@@ -374,8 +376,7 @@ package org.papervision3d.components.as3.flash9
 					{
 						case "bitmapassetmaterial":
 							if(isLivePreview)
-							{								
-								if( materialsListItem.singleSided ) clrMat.oneSide = materialsListItem.singleSided;
+							{
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
@@ -384,6 +385,12 @@ package org.papervision3d.components.as3.flash9
 								bam.oneSide = materialsListItem.singleSided;
 								if( materialsListItem.interactive ) bam.interactive = materialsListItem.interactive;
 								if( materialsListItem.smooth ) bam.smooth = materialsListItem.smooth;
+								if(materialsListItem.precisionMaterial)
+								{
+									var pbam:PreciseBitmapAssetMaterial =  PreciseBitmapAssetMaterial(bam);
+									pbam.precision = materialsListItem.precision
+									pbam.miminumRenderSize = materialsListItem.miminumRenderSize;
+								}
 								materialsList.addMaterial(bam, materialsListItem.materialName);
 							}
 							if(!checkForFileLoads(extMaterials)) loadCollada = true;
@@ -403,13 +410,18 @@ package org.papervision3d.components.as3.flash9
 							// because we didn't set the URL through the constructor, we have to set it manually if we want it back in the event thats disatched
 							bm.url = fileLocation;
 							bm.oneSide = materialsListItem.singleSided;
+							if(materialsListItem.precisionMaterial)
+							{
+								var pbm:PreciseBitmapFileMaterial =  PreciseBitmapFileMaterial(bm);
+								pbm.precision = materialsListItem.precision
+								pbm.miminumRenderSize = materialsListItem.miminumRenderSize;
+							}
 							materialsList.addMaterial(bm, materialsListItem.materialName);
 						break;
 						
 						case "movieassetmaterial":
 							if(isLivePreview)
 							{
-								if( materialsListItem.singleSided ) clrMat.oneSide = materialsListItem.singleSided;
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
@@ -418,6 +430,12 @@ package org.papervision3d.components.as3.flash9
 								mov.oneSide = materialsListItem.singleSided;
 								if( materialsListItem.interactive ) mov.interactive = materialsListItem.interactive;
 								if( materialsListItem.smooth ) mov.smooth = materialsListItem.smooth;
+								if(materialsListItem.precisionMaterial)
+								{
+									var pmov:PreciseMovieAssetMaterial =  PreciseMovieAssetMaterial(mov);
+									pmov.precision = materialsListItem.precision
+									pmov.miminumRenderSize = materialsListItem.miminumRenderSize;
+								}
 								materialsList.addMaterial(mov, materialsListItem.materialName);
 							}
 							if(!checkForFileLoads(extMaterials)) loadCollada = true;
@@ -426,8 +444,6 @@ package org.papervision3d.components.as3.flash9
 						case "moviematerial":
 							if(isLivePreview)
 							{
-								clrMat = new ColorMaterial(0x00ff00, .75);
-								if( materialsListItem.singleSided ) clrMat.oneSide = materialsListItem.singleSided;
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
@@ -443,6 +459,12 @@ package org.papervision3d.components.as3.flash9
 								mov.oneSide = materialsListItem.singleSided;
 								if( materialsListItem.interactive ) mov.interactive = materialsListItem.interactive;
 								if( materialsListItem.smooth ) mov.smooth = materialsListItem.smooth;
+								if(materialsListItem.precisionMaterial)
+								{
+									var pmm:PreciseMovieMaterial = PreciseMovieMaterial(mov);
+									pmm.precision = materialsListItem.precision
+									pmm.miminumRenderSize = materialsListItem.miminumRenderSize;
+								}
 								materialsList.addMaterial(mov, materialsListItem.materialName);
 							}
 							if(!checkForFileLoads(extMaterials)) loadCollada = true;
@@ -529,7 +551,7 @@ package org.papervision3d.components.as3.flash9
 			var fileLocation:String = isLivePreview ? _localPath + colladaFile : colladaFile;
 			if(debug) log.debug("fileLocation for collada", fileLocation);
 			
-			if(collada) collada.container.graphics.clear();
+			if( collada && collada.container ) collada.container.graphics.clear();
 			collada = new Collada(fileLocation, materialsList, sceneScale,{localPath:localPath});
 			scene.addChild(collada);
 			collada.addEventListener(FileLoadEvent.LOAD_COMPLETE, handleLoadComplete);

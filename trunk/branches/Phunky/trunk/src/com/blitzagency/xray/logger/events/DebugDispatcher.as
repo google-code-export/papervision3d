@@ -10,6 +10,7 @@ package com.blitzagency.xray.logger.events
 
 		public function sendEvent(eventName:String, obj:Object):void 
 		{
+			trace(obj.message);
 	        dispatchEvent(new DebugEvent(DebugDispatcher.TRACE, false, false, obj));
 	    }
 	}
