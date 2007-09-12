@@ -56,7 +56,7 @@ package org.papervision3d.materials
         public var uv1:NumberUV;
         public var uv2:NumberUV;
 		public var focus:Number = 100;
-		public var miminumRenderSize:Number = 2;
+		public var minimumRenderSize:Number = 2;
 
         public function PreciseBitmapMaterial( asset:BitmapData )
         {
@@ -81,7 +81,7 @@ package org.papervision3d.materials
                 return;
 
            
-            if (index >= 100 || (focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < miminumRenderSize) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < miminumRenderSize))
+            if (index >= 100 || (focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < minimumRenderSize) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < minimumRenderSize))
             {
                 renderTriangleBitmap(graphics, ta, tb, tc, td, tx, ty, ax, ay, bx, by, cx, cy, smooth, tiled);
                renderSessionData.renderStatistics.triangles++;
