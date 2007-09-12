@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 
  * @author John Grden
  * 
@@ -129,7 +129,7 @@ package org.papervision3d.components.as3.core
 			BitmapColorMaterial;
 			BitmapFileMaterial;
 			BitmapMaterial;
-			BitmapWireframeMaterial;
+			//BitmapWireframeMaterial;
 			ColorMaterial;
 			//CompositeMaterial;
 			IPreciseMaterial;
