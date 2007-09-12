@@ -389,7 +389,7 @@ package org.papervision3d.components.as3.flash9
 								{
 									var pbam:PreciseBitmapAssetMaterial =  PreciseBitmapAssetMaterial(bam);
 									pbam.precision = materialsListItem.precision
-									pbam.miminumRenderSize = materialsListItem.miminumRenderSize;
+									pbam.minimumRenderSize = materialsListItem.minimumRenderSize;
 								}
 								materialsList.addMaterial(bam, materialsListItem.materialName);
 							}
@@ -414,7 +414,7 @@ package org.papervision3d.components.as3.flash9
 							{
 								var pbm:PreciseBitmapFileMaterial =  PreciseBitmapFileMaterial(bm);
 								pbm.precision = materialsListItem.precision
-								pbm.miminumRenderSize = materialsListItem.miminumRenderSize;
+								pbm.minimumRenderSize = materialsListItem.minimumRenderSize;
 							}
 							materialsList.addMaterial(bm, materialsListItem.materialName);
 						break;
@@ -434,7 +434,7 @@ package org.papervision3d.components.as3.flash9
 								{
 									var pmov:PreciseMovieAssetMaterial =  PreciseMovieAssetMaterial(mov);
 									pmov.precision = materialsListItem.precision
-									pmov.miminumRenderSize = materialsListItem.miminumRenderSize;
+									pmov.minimumRenderSize = materialsListItem.minimumRenderSize;
 								}
 								materialsList.addMaterial(mov, materialsListItem.materialName);
 							}
@@ -463,7 +463,7 @@ package org.papervision3d.components.as3.flash9
 								{
 									var pmm:PreciseMovieMaterial = PreciseMovieMaterial(mov);
 									pmm.precision = materialsListItem.precision
-									pmm.miminumRenderSize = materialsListItem.miminumRenderSize;
+									pmm.minimumRenderSize = materialsListItem.minimumRenderSize;
 								}
 								materialsList.addMaterial(mov, materialsListItem.materialName);
 							}

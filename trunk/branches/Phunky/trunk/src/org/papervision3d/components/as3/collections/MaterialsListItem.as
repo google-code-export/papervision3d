@@ -94,11 +94,11 @@ package org.papervision3d.components.as3.collections
 		*/	
 		public var precision				:Number = 1;
 		
-		[Inspectable (name="miminumRenderSize", defaultValue=2, type="Number")]
+		[Inspectable (name="minimumRenderSize", defaultValue=2, type="Number")]
 		/**
 		* If you're using a precision material, this is the setting for how small your triangles can be before the recursion loop will draw the face
 		*/	
-		public var miminumRenderSize		:Number = 2;
+		public var minimumRenderSize		:Number = 2;
 		
 		[Inspectable (name="precisionMaterial", defaultValue=false, type="Boolean")]
 		/**
