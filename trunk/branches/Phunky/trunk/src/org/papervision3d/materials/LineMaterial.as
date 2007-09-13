@@ -18,8 +18,7 @@ package org.papervision3d.materials
 		}
 		
 		public function drawLine(line:Line3D, graphics:Graphics, renderSessionData:RenderSessionData):void
-		{
-			
+		{	
 			graphics.lineStyle( line.size, lineColor, lineAlpha );
 			graphics.moveTo( line.v0.vertex3DInstance.x, line.v0.vertex3DInstance.y );
 			graphics.lineTo( line.v1.vertex3DInstance.x, line.v1.vertex3DInstance.y );

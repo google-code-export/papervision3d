@@ -35,8 +35,10 @@
 		{
 			super.project(parent,camera, sorted);
 			var p:Particle;
+			var fz:Number = (camera.focus*camera.zoom);
 			for each(p in particles){
 				if(p.vertex3D.vertex3DInstance.visible){
+					p.renderScale = fz / (camera.focus + p.vertex3D.vertex3DInstance.z);
 					p.renderCommand.screenDepth = p.vertex3D.vertex3DInstance.z;
 					scene.renderer.addToRenderList(p.renderCommand);
 				}
