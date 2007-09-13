@@ -1,4 +1,4 @@
-/*
+﻿/*
  *  PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
  *  AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
  *  PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
@@ -40,6 +40,8 @@ package org.papervision3d.objects
 import org.papervision3d.core.*;
 import org.papervision3d.core.proto.*;
 import org.papervision3d.core.geom.*;
+import org.papervision3d.core.geom.renderables.Triangle3D;
+import org.papervision3d.core.geom.renderables.Vertex3D;
 
 import flash.display.BitmapData;
 
