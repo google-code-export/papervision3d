@@ -108,12 +108,12 @@ public class PaperPlane extends TriangleMesh3D
 
 		this.geometry.faces =
 		[
-			new Triangle3D( [v[0], v[1], v[2]] ),
-			new Triangle3D( [v[0], v[2], v[3]] ),
-			new Triangle3D( [v[0], v[3], v[4]] ),
-			new Triangle3D( [v[0], v[4], v[5]] )
+			new Triangle3D( this, [v[0], v[1], v[2]] ),
+			new Triangle3D( this, [v[0], v[2], v[3]] ),
+			new Triangle3D( this, [v[0], v[3], v[4]] ),
+			new Triangle3D( this, [v[0], v[4], v[5]] )
 		];
-
+		
 		this.projectTexture( "x", "z" );
 
 		this.geometry.ready = true;

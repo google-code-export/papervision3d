@@ -1,4 +1,4 @@
-/*
+﻿/*
  *  PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
  *  AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
  *  PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
@@ -41,6 +41,8 @@ package org.papervision3d.objects
 	
 	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.*;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.proto.*;
 
 	/**
@@ -123,7 +125,7 @@ package org.papervision3d.objects
 		* <p/>
 		* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
 		*/
-		public function Cylinder( material:MaterialObject3D=null, radius:Number=100, height:Number=100, segmentsW:int=8, segmentsH:int=6, topRadius:Number=0, initObject:Object=null )
+		public function Cylinder( material:MaterialObject3D=null, radius:Number=100, height:Number=100, segmentsW:int=8, segmentsH:int=6, topRadius:Number=-1, initObject:Object=null )
 		{
 			super( material, new Array(), new Array(), null, initObject );
 	
@@ -132,7 +134,7 @@ package org.papervision3d.objects
 			if (radius==0) radius = DEFAULT_RADIUS; // Defaults to 100
 			if (height==0) height = DEFAULT_HEIGHT; // Defaults to 100
 			// if (typeOf(initObject)=="object") for each (prop in initObject) this[prop] = initObject[prop];
-			if (topRadius==0) topRadius = radius;
+			if (topRadius==-1) topRadius = radius;
 	
 			var scale :Number = DEFAULT_SCALE;
 	
@@ -141,6 +143,8 @@ package org.papervision3d.objects
 	
 		private function buildCylinder( fRadius:Number, fHeight:Number,  fTopRadius:Number ):void
 		{
+			var matInstance:MaterialObject3D = material;
+			
 			var i:Number, j:Number, k:Number;
 	
 			var iHor:Number = Math.max(3,this.segmentsW);
@@ -191,8 +195,8 @@ package org.papervision3d.objects
 						aP2uv = new NumberUV(fI1,fJ0);
 						aP3uv = new NumberUV(fI1,fJ1);
 						// 2 faces
-						aFace.push( new Face3D(new Array(aP1,aP2,aP3), null, new Array(aP1uv,aP2uv,aP3uv)) );
-						aFace.push( new Face3D(new Array(aP1,aP3,aP4), null, new Array(aP1uv,aP3uv,aP4uv)) );
+						aFace.push( new Triangle3D(this, [aP1,aP2,aP3], matInstance, [aP1uv,aP2uv,aP3uv]) );
+						aFace.push( new Triangle3D(this, [aP1,aP3,aP4], matInstance, [aP1uv,aP3uv,aP4uv]) );
 					}
 				}
 				if (j==0||j==(iVerNum-1)) {
@@ -209,8 +213,8 @@ package org.papervision3d.objects
 						aP3uv = new NumberUV( (bTop?1:0)+(bTop?-1:1)*(aP3.x/fRadius/2+.5), aP3.z/fRadius/2+.5 );
 	
 						// face
-						if (j==0)	aFace.push( new Face3D(new Array(aP1,aP3,aP2), null, new Array(aP1uv,aP3uv,aP2uv)) );
-						else		aFace.push( new Face3D(new Array(aP1,aP2,aP3), null, new Array(aP1uv,aP2uv,aP3uv)) );
+						if (j==0)	aFace.push( new Triangle3D(this, [aP1,aP3,aP2], matInstance, [aP1uv,aP3uv,aP2uv]) );
+						else		aFace.push( new Triangle3D(this, [aP1,aP2,aP3], matInstance, [aP1uv,aP2uv,aP3uv]) );
 					}
 				}
 			}
