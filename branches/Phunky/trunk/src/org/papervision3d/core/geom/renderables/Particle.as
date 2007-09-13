@@ -18,6 +18,7 @@ package org.papervision3d.core.geom.renderables
 		public var material:ParticleMaterial;
 		public var renderCommand:RenderParticle;
 		public var instance:Particles;
+		public var renderScale:Number;
 		
 		public function Particle(material:ParticleMaterial, size:int=1, x:Number=0, y:Number=0, z:Number=0)
 		{
