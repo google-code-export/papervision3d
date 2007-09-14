@@ -380,7 +380,7 @@ package org.papervision3d.components.as3.flash9
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
-								var bam:BitmapAssetMaterial = materialsListItem.precisionMaterial ? new PreciseBitmapAssetMaterial(materialsListItem.materialLinkageID) : new BitmapAssetMaterial(materialsListItem.materialLinkageID);;
+								var bam:BitmapAssetMaterial = materialsListItem.precisionMaterial ? new PreciseBitmapAssetMaterial(materialsListItem.materialLocation) : new BitmapAssetMaterial(materialsListItem.materialLocation);;
 								loadCollada = true;
 								bam.oneSide = materialsListItem.singleSided;
 								if( materialsListItem.interactive ) bam.interactive = materialsListItem.interactive;
@@ -397,7 +397,7 @@ package org.papervision3d.components.as3.flash9
 						break;
 						
 						case "bitmapfilematerial":
-							var fileLocation:String = isLivePreview ? _localPath + materialsListItem.materialFileLocation : materialsListItem.materialFileLocation;
+							var fileLocation:String = isLivePreview ? _localPath + materialsListItem.materialLocation : materialsListItem.materialLocation;
 							fileLocation = fileLocation.split("\\").join("/");
 							if(debug) log.debug("File to load", fileLocation);
 							var bm:BitmapFileMaterial = materialsListItem.precisionMaterial ? new PreciseBitmapFileMaterial("") : new BitmapFileMaterial("");
@@ -425,7 +425,7 @@ package org.papervision3d.components.as3.flash9
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
-								mov = materialsListItem.precisionMaterial ? new PreciseMovieAssetMaterial(materialsListItem.materialLinkageID, materialsListItem.transparent) : new MovieAssetMaterial(materialsListItem.materialLinkageID, materialsListItem.transparent);
+								mov = materialsListItem.precisionMaterial ? new PreciseMovieAssetMaterial(materialsListItem.materialLocation, materialsListItem.transparent) : new MovieAssetMaterial(materialsListItem.materialLocation, materialsListItem.transparent);
 								if(materialsListItem.animated) mov.animated = true;
 								mov.oneSide = materialsListItem.singleSided;
 								if( materialsListItem.interactive ) mov.interactive = materialsListItem.interactive;
@@ -447,7 +447,7 @@ package org.papervision3d.components.as3.flash9
 								materialsList.addMaterial(clrMat, materialsListItem.materialName);
 							}else
 							{
-								var movieClipReference:Sprite = StageTools.buildObjectFromString(materialsListItem.materialMovieInstance) as Sprite;
+								var movieClipReference:Sprite = StageTools.buildObjectFromString(materialsListItem.materialLocation) as Sprite;
 								if( !movieClipReference )
 								{
 									trace("please privide a valid MovieClip or sprite instance");

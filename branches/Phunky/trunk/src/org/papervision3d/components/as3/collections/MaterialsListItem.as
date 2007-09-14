@@ -26,26 +26,11 @@ package org.papervision3d.components.as3.collections
 		 */		
 		public var materialName				:String = "";
 		
-		[Inspectable (name="materialLinkageID", type="String")]
-		/**
-		 * LinkageID set in the library for a Bitmap or MovieClip asset
-		 */		
-		public var materialLinkageID		:String = "";
-		
-		[Inspectable (name="materialFileLocation", type="String")]
+		[Inspectable (name="materialLocation", type="String")]
 		/**
 		 * If an external file is being used, this is the relative or absolute URL of the file
 		 */		
-		public var materialFileLocation		:String = "";
-		
-		[Inspectable (name="materialMovieInstance", type="String")]
-		/**
-		 * Pass in a dot separated value to the location of your MovieClip/Sprite.  so, if you have a clip on stage on the main timeline, pass the instance name.
-		 * Otherwise, pass the literal path:
-		 * 
-		 * myMovie.mySubMovieA.mySubMovieB
-		 */		
-		public var materialMovieInstance		:String = "";
+		public var materialLocation		:String = "";
 		
 		[Inspectable (name="materialType", defaultValue="Bitmap", type="String")]
 		//[Inspectable (name="materialType", defaultValue="Bitmap", enumeration="Bitmap, File, MovieClip", type="list")]
