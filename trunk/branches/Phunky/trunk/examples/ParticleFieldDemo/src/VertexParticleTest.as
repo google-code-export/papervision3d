@@ -16,9 +16,9 @@ package {
 	import org.papervision3d.objects.Cube;
 	import org.papervision3d.objects.ParticleField;
 	import org.papervision3d.objects.Sphere;
-	import org.papervision3d.objects.VertexParticles;
-	import org.papervision3d.objects.particles.StarParticle;
+
 	import org.papervision3d.scenes.Scene3D;
+	import org.papervision3d.materials.ParticleMaterial;
 	
 	[SWF( width="640", height="480", backgroundColor="0")]
 	public class VertexParticleTest extends Sprite
@@ -29,7 +29,7 @@ package {
 		
 		private var scene:Scene3D;
 		private var camera:FreeCamera3D;
-		private var vParticles:VertexParticles;
+
 		private var particleField:ParticleField;
 		
 		private var doForward:Boolean = false;
@@ -74,8 +74,11 @@ package {
 			scene.addChild(vParticles);
 			*/
 			
+			//Create a new particle material;
+			var pm:ParticleMaterial = new ParticleMaterial(0xFFFFFF,1);
+			
 			//Create a new particlefield.
-			particleField = new ParticleField(2000,0xcccccc, starSprite, 20000, 20000, 20000);
+			particleField = new ParticleField(pm, 2000, null, 20000, 20000, 20000);
 			scene.addChild(particleField);
 			
 			//Set the container to the center of the stage.
