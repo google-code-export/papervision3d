@@ -3,7 +3,8 @@ package org.papervision3d.objects
 	import flash.display.Sprite;
 	
 	import org.papervision3d.core.geom.Particles;
-	import org.papervision3d.objects.particles.StarParticle;
+	import org.papervision3d.materials.ParticleMaterial;
+	import org.papervision3d.core.geom.renderables.Particle;
 	
 	/**
 	 * @Author Ralph Hauwert
@@ -20,20 +21,19 @@ package org.papervision3d.objects
 		
 		/**
 		* The ParticleField class creates an object with an amount of particles randomly distributed over a specied 3d area.
-		*
-		* @param	quantity	The amount of particles to create
+		* @param	material 	The Material for the to be created particles
 		* @param	color		The color of the created particles
 		* @param	container	An alternate container to render to, if needed.
 		* @param	fieldWidth 	The width of the area
 		* @param 	fieldHeight The height of the area
 		* @param	fieldDepth	The depth of the area 
 		*/
-		public function ParticleField(quantity:int = 200, color:int = 0xFFFFFF, container:Sprite = null, fieldWidth:Number = 2000, fieldHeight:Number = 2000, fieldDepth:Number = 2000)
+		public function ParticleField(mat:ParticleMaterial, quantity:int = 200, container:Sprite = null, fieldWidth:Number = 2000, fieldHeight:Number = 2000, fieldDepth:Number = 2000)
 		{
 			super("ParticleField");
 			
+			this.material = mat;
 			this.quantity = quantity;
-			this.color = color;
 			this.container = container;
 			
 			this.fieldWidth = fieldWidth;
@@ -52,7 +52,7 @@ package org.papervision3d.objects
 			var r:int;
 			for( var i:Number = 0; i < quantity; i++ )
 			{
-				addParticle(new StarParticle(color, 1,Math.random() * fieldWidth  - width2, Math.random() * fieldHeight - height2, Math.random() * fieldDepth  - depth2 ));
+				addParticle(new Particle(material as ParticleMaterial, 0,Math.random() * fieldWidth  - width2, Math.random() * fieldHeight - height2, Math.random() * fieldDepth  - depth2 ));
 			}
 		}
 		
