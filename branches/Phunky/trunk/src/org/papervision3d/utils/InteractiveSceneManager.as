@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ...
 * @author John Grden
 * @version 0.1
@@ -23,6 +23,7 @@ package org.papervision3d.utils
 	import org.papervision3d.events.InteractiveScene3DEvent;
 	import org.papervision3d.objects.DisplayObject3D;
 	
+	import org.papervision3d.utils.Mouse3D;
 	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
@@ -43,6 +44,8 @@ package org.papervision3d.utils
 		 * Using these events requires you only to do what you normally do - establish listeners with your objects like you normally would, and you'll receive them!
 		*/		
 		public var virtualMouse										:VirtualMouse = new VirtualMouse();
+		
+		public var mouse3D											:Mouse3D = new Mouse3D();
 		
 		public var scene											:SceneObject3D;
 		
@@ -226,6 +229,9 @@ package org.papervision3d.utils
 					// update virtual mouse so it can test
 					if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
 					
+					// update the position mouse3D
+					if( Mouse3D.enabled ) mouse3D.updatePosition(renderHitData);
+					
 					dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE);
 				}catch(err:Error)
 				{
@@ -233,13 +239,6 @@ package org.papervision3d.utils
 				}
 			}
 			
-			
-			/*
-			if( Mouse3D.enabled && ( faceLevelMode || DisplayObject3D.faceLevelMode ) ) 
-			{
-				mouse3D.updatePosition(Face3D(containerDictionary[e.currentTarget]), e.currentTarget as Sprite);
-			}
-			*/
 		}
 		
 		/**
