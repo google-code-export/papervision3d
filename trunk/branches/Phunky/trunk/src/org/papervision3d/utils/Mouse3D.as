@@ -47,6 +47,7 @@ package org.papervision3d.utils
 	import org.papervision3d.core.Matrix3D;
 	import org.papervision3d.core.Number3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.render.hit.RenderHitData;
 	import org.papervision3d.objects.DisplayObject3D;
 
 
@@ -54,15 +55,17 @@ package org.papervision3d.utils
 	{
 		static private var UP 								:Number3D = new Number3D(0, 1, 0);
 		
-		static public var enabled							:Boolean = true;
+		static public var enabled							:Boolean = false;
 		
 		public function Mouse3D(initObject:Object=null):void
 		{
 			
 		}
 		
-		public function updatePosition( face3d:Triangle3D, container:Sprite ):void
+		public function updatePosition( rhd:RenderHitData ):void
 		{			
+			var face3d:Triangle3D = rhd.renderable as Triangle3D;
+			
 			var position:Number3D = new Number3D(0, 0, 0);
 			var target:Number3D = new Number3D(face3d.faceNormal.x, face3d.faceNormal.y, face3d.faceNormal.z);
 				
@@ -93,21 +96,20 @@ package org.papervision3d.utils
 			}
 			
 			var m:Matrix3D = Matrix3D.IDENTITY;
-			this.transform = Matrix3D.multiply(face3d.face3DInstance.instance.world, look);
-			var v:Matrix3D = Matrix3D.IDENTITY;
+			this.transform = Matrix3D.multiply(face3d.instance.world, look);
 			
-			var mx:Number = container.mouseX;
+			/*var mx:Number = container.mouseX;
 			var my:Number = container.mouseY;
 			
 			v.n14 = InteractiveUtils.getCoordAtPoint(face3d, mx, my).x;
 			v.n24 = InteractiveUtils.getCoordAtPoint(face3d, mx, my).y;
 			v.n34 = InteractiveUtils.getCoordAtPoint(face3d, mx, my).z;
 			
-			m.calculateMultiply( face3d.face3DInstance.instance.world, v );
+			m.calculateMultiply( face3d.face3DInstance.instance.world, v );*/
 			
-			x = m.n14;
-			y = m.n24;
-			z = m.n34;
+			x = rhd.x;
+			y = rhd.y;
+			z = rhd.z;
 		}
 	}
 }
