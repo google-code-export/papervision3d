@@ -98,15 +98,6 @@ package org.papervision3d.utils
 			var m:Matrix3D = Matrix3D.IDENTITY;
 			this.transform = Matrix3D.multiply(face3d.instance.world, look);
 			
-			/*var mx:Number = container.mouseX;
-			var my:Number = container.mouseY;
-			
-			v.n14 = InteractiveUtils.getCoordAtPoint(face3d, mx, my).x;
-			v.n24 = InteractiveUtils.getCoordAtPoint(face3d, mx, my).y;
-			v.n34 = InteractiveUtils.getCoordAtPoint(face3d, mx, my).z;
-			
-			m.calculateMultiply( face3d.face3DInstance.instance.world, v );*/
-			
 			x = rhd.x;
 			y = rhd.y;
 			z = rhd.z;
