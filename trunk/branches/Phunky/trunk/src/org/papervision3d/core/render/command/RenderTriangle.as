@@ -1,4 +1,4 @@
-package org.papervision3d.core.render.command
+﻿package org.papervision3d.core.render.command
 {
 	
 	/**
@@ -101,7 +101,7 @@ package org.papervision3d.core.render.command
 			var rv1_z : Number = face.v1.z - face.v0.z;
 			
 			var hx:Number = face.v0.x + rv0_x*u + rv1_x*v;
-			var hy:Number = face.v1.y + rv0_y*u + rv1_y*v;
+			var hy:Number = face.v0.y + rv0_y*u + rv1_y*v;
 			var hz:Number = face.v0.z + rv0_z*u + rv1_z*v;
 			
 			//From interactive utils
