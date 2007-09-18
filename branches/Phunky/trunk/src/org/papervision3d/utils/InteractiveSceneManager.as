@@ -28,7 +28,6 @@ package org.papervision3d.utils
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.utils.virtualmouse.IVirtualMouseEvent;
-	import org.papervision3d.utils.Mouse3D;
 	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 
 	public class InteractiveSceneManager extends EventDispatcher
@@ -239,18 +238,21 @@ package org.papervision3d.utils
 		{
 			if( e is IVirtualMouseEvent ) return;
 			if( VirtualMouse && renderHitData )
-			{				
+			{
 				//log.debug("material type", ObjectTools.getImmediateClassPath(face3d.face3DInstance.instance.material), face3d.face3DInstance.instance.material is InteractiveMovieMaterial);
 				try
 				{
 					// locate the material's movie
 					var mat:MovieMaterial = currentMaterial as MovieMaterial;
-
-					// set the location where the calcs should be performed
-					virtualMouse.container = mat.movie as Sprite;
+					
+					if( mat )
+					{
+						// set the location where the calcs should be performed
+						virtualMouse.container = mat.movie as Sprite;
 						
-					// update virtual mouse so it can test
-					if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
+						// update virtual mouse so it can test
+						if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
+					}
 					
 					// update the position mouse3D
 					if( Mouse3D.enabled ) mouse3D.updatePosition(renderHitData);
@@ -260,6 +262,9 @@ package org.papervision3d.utils
 				{
 					if( debug ) log.error("MOUSE_MOVE material type is not Inter active.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message, currentMaterial == null);
 				}
+			}else if( renderHitData )
+			{
+				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE);
 			}
 			
 		}
@@ -273,11 +278,14 @@ package org.papervision3d.utils
 		
 		protected function dispatchObjectEvent(event:String):void
 		{
+			if( !renderHitData.hasHit ) return;
 			if(debug) log.debug(event, currentDisplayObject3D.name);
 			
 			try
 			{
-				var IS3DE:InteractiveScene3DEvent = new InteractiveScene3DEvent(event, currentDisplayObject3D, container, renderHitData.renderable as Triangle3D, renderHitData.u, renderHitData.v)
+				var x:Number = renderHitData.u ? renderHitData.u : 0;
+				var y:Number = renderHitData.v ? renderHitData.v : 0;
+				var IS3DE:InteractiveScene3DEvent = new InteractiveScene3DEvent(event, currentDisplayObject3D, container, renderHitData.renderable as Triangle3D, x, y)
 			
 				dispatchEvent(IS3DE);
 				currentDisplayObject3D.dispatchEvent(IS3DE);
