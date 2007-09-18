@@ -62,7 +62,7 @@
 					}
 				}
 			}
-			return null;
+			return new RenderHitData();
 		}
 		
 		public function sameSide(point:Vertex3DInstance, ref:Vertex3DInstance, a:Vertex3DInstance, b:Vertex3DInstance):Boolean
@@ -135,7 +135,7 @@
 			rhd.displayObject3D = face.instance;
 			rhd.material = renderMat;
 			rhd.renderable = face;
-			
+			rhd.hasHit = true;
 			position.x = hx;
 			position.y = hy;
 			position.z = hz;
