@@ -50,6 +50,7 @@ package org.papervision3d.core.proto
 	import org.papervision3d.materials.MaterialsList;
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.utils.InteractiveSceneManager;
 	
 	/**
 	* The SceneObject3D class is the base class for all scenes.
@@ -111,6 +112,11 @@ package org.papervision3d.core.proto
 		 * A boolean flag indicating whether or not to use the InteractiveRenderEngine
 		 */
 		public var interactive:Boolean = false;
+		
+		/**
+		 * A reference to an interactiveSceneManager instance.  Only available if the scene3d is set to interactive
+		 */
+		public var interactiveSceneManager:InteractiveSceneManager = null;
 		
 		/**
 		* [internal-use]

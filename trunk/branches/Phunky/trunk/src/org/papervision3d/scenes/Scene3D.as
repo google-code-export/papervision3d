@@ -79,7 +79,9 @@ import org.papervision3d.objects.DisplayObject3D;
 			this.interactive = interactive;
 			if( interactive )
 			{
-				renderer = new InteractiveRendererEngine();
+				renderer = new InteractiveRendererEngine(this);
+				interactiveSceneManager = InteractiveRendererEngine(renderer).interactiveSceneManager;
+				interactiveSceneManager.initListeners();
 			}
 			else
 			{

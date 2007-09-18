@@ -657,7 +657,7 @@ package org.papervision3d.utils.virtualmouse
 			// the currentTarget is the stage
 			if (!currentTarget){
 				currentTarget = _stage;
-				log.debug("no new target found, using stage");
+				//log.debug("no new target found, using stage");
 			}
 			
 			// get local coordinate locations

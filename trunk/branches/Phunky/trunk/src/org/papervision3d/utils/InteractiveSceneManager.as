@@ -7,28 +7,29 @@
 package org.papervision3d.utils 
 {
 	import com.blitzagency.xray.logger.XrayLog;
+	
 	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
 	import flash.display.Sprite;
-	import flash.events.MouseEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
+	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
-	
-	import org.papervision3d.core.proto.MaterialObject3D;
-	import org.papervision3d.core.render.hit.RenderHitData;
-	import org.papervision3d.core.render.InteractiveRendererEngine;
-	import org.papervision3d.events.InteractiveScene3DEvent;
-	import org.papervision3d.objects.DisplayObject3D;
-	
-	import org.papervision3d.utils.Mouse3D;
-	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.core.proto.CameraObject3D;
+	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
+	import org.papervision3d.core.render.InteractiveRendererEngine;
+	import org.papervision3d.core.render.hit.RenderHitData;
+	import org.papervision3d.events.InteractiveScene3DEvent;
 	import org.papervision3d.events.RendererEvent;
 	import org.papervision3d.materials.MovieMaterial;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.utils.virtualmouse.IVirtualMouseEvent;
+	import org.papervision3d.utils.Mouse3D;
+	import org.papervision3d.utils.virtualmouse.VirtualMouse;
 
 	public class InteractiveSceneManager extends EventDispatcher
 	{
@@ -71,7 +72,7 @@ package org.papervision3d.utils
 		*/		
 		protected var log											:XrayLog = new XrayLog();
 		
-		public function InteractiveSceneManager(scene:SceneObject3D, container:Sprite, camera:CameraObject3D) 
+		public function InteractiveSceneManager(scene:SceneObject3D, container:Sprite, camera:CameraObject3D=null) 
 		{
 			this.scene = scene;
 			this.container = container;
@@ -87,7 +88,7 @@ package org.papervision3d.utils
 				if( container.stage )
 				{
 					initVirtualMouse();
-					initListeners();
+					//initListeners();
 				}else
 				{
 					container.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
@@ -115,31 +116,40 @@ package org.papervision3d.utils
 			virtualMouse.container = container; // might set this to stage later
 		}
 		
-		protected function initListeners():void
+		public function initListeners():void
 		{
-			// setup listeners
-			container.addEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
-			container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
-			container.addEventListener(MouseEvent.CLICK, handleMouseClick);
-			container.addEventListener(MouseEvent.MOUSE_OVER, handleMouseOver);
-			container.addEventListener(MouseEvent.MOUSE_OUT, handleMouseOut);
-			container.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+			trace("renderer?", scene.renderer is InteractiveRendererEngine);
+			if( scene.interactive )
+			{
+				// setup listeners
+				container.addEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
+				container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
+				container.addEventListener(MouseEvent.CLICK, handleMouseClick);
+				container.addEventListener(MouseEvent.MOUSE_OVER, handleMouseOver);
+				container.addEventListener(MouseEvent.MOUSE_OUT, handleMouseOut);
+				container.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
 			
-			InteractiveRendererEngine(scene.renderer).addEventListener(RendererEvent.RENDER_DONE, handleRenderDone);
+				if( scene.renderer is InteractiveRendererEngine ) InteractiveRendererEngine(scene.renderer).addEventListener(RendererEvent.RENDER_DONE, handleRenderDone);
+			}
 		}
 		
 		protected function handleRenderDone(e:RendererEvent):void
 		{
-			point.x = container.mouseX;
-			point.y = container.mouseY;
-			
-			renderHitData = e.renderSessionData.renderer.hitTestPoint2D(point) as RenderHitData;
+			resolveRenderHitData();
 			
 			if( renderHitData )
 			{
 				currentDisplayObject3D = renderHitData.displayObject3D;
 				currentMaterial = renderHitData.material;
 			}
+		}
+		
+		protected function resolveRenderHitData():void
+		{
+			point.x = container.mouseX;
+			point.y = container.mouseY;
+			//renderHitData = e.renderSessionData.renderer.hitTestPoint2D(point) as RenderHitData;
+			renderHitData = InteractiveRendererEngine(scene.renderer).hitTestPoint2D(point) as RenderHitData;
 		}
 		
 		/**
@@ -149,6 +159,7 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMousePress(e:MouseEvent):void
 		{
+			if( e is IVirtualMouseEvent ) return;
 			MOUSE_IS_DOWN = true;
 			if( virtualMouse ) virtualMouse.press();
 			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS);
@@ -160,6 +171,7 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseRelease(e:MouseEvent):void
 		{
+			if( e is IVirtualMouseEvent ) return;
 			MOUSE_IS_DOWN = false;
 			if( virtualMouse ) virtualMouse.release();
 			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE);
@@ -171,6 +183,7 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseClick(e:MouseEvent):void
 		{
+			if( e is IVirtualMouseEvent ) return;
 			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK);
 		}
 		/**
@@ -180,7 +193,15 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseOver(e:MouseEvent):void
 		{
-			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER);
+			if( e is IVirtualMouseEvent ) return;
+			if( renderHitData == null ) setTimeout(confirmOver, 25);
+		}
+		/*
+		when there's a mouseOver event, the renderHitData is initially null because they were "off".
+		*/
+		protected function confirmOver():void
+		{
+			if( renderHitData )dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER);
 		}
 		/**
 		 * Handles the MOUSE_OUT event on an InteractiveSprite container
@@ -189,6 +210,7 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseOut(e:MouseEvent):void
 		{
+			if( e is IVirtualMouseEvent ) return;
 			//if( VirtualMouse && ( faceLevelMode || DisplayObject3D.faceLevelMode ))
 			if( VirtualMouse && renderHitData )
 			{
@@ -203,7 +225,7 @@ package org.papervision3d.utils
 					dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT);
 				}catch(err:Error)
 				{
-					log.error("MOUSE_OUT material type is not Interactive.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message);
+					if( debug ) log.error("MOUSE_OUT material type is not Interactive.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message);
 				}
 			}
 			
@@ -215,6 +237,7 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseMove(e:MouseEvent):void
 		{
+			if( e is IVirtualMouseEvent ) return;
 			if( VirtualMouse && renderHitData )
 			{				
 				//log.debug("material type", ObjectTools.getImmediateClassPath(face3d.face3DInstance.instance.material), face3d.face3DInstance.instance.material is InteractiveMovieMaterial);
@@ -235,7 +258,7 @@ package org.papervision3d.utils
 					dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE);
 				}catch(err:Error)
 				{
-					log.error("MOUSE_MOVE material type is not Inter active.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message, currentMaterial == null);
+					if( debug ) log.error("MOUSE_MOVE material type is not Inter active.  If you're using a Collada object, you may have to reassign the material to the object after the collada scene is loaded", err.message, currentMaterial == null);
 				}
 			}
 			
@@ -254,10 +277,10 @@ package org.papervision3d.utils
 			
 			try
 			{
-				var IS3DE:InteractiveScene3DEvent = new InteractiveScene3DEvent(event, currentDisplayObject3D, container, renderHitData.renderable as Triangle3D)
-				var dispatched:Boolean = currentDisplayObject3D.dispatchEvent(IS3DE);
+				var IS3DE:InteractiveScene3DEvent = new InteractiveScene3DEvent(event, currentDisplayObject3D, container, renderHitData.renderable as Triangle3D, renderHitData.u, renderHitData.v)
 			
 				dispatchEvent(IS3DE);
+				currentDisplayObject3D.dispatchEvent(IS3DE);
 			}catch(e:Error)
 			{
 				log.error("dispatchObjectEvent", e.message);
