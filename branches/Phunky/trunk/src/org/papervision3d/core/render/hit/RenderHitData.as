@@ -10,6 +10,8 @@ package org.papervision3d.core.render.hit
 	
 	public class RenderHitData
 	{
+		public var hasHit:Boolean = false;
+		
 		public var displayObject3D:DisplayObject3D;
 		public var material:MaterialObject3D;
 		
