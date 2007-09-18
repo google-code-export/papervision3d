@@ -58,10 +58,11 @@ public class ColorMaterial extends TriangleMaterial implements ITriangleDrawer
 	* @param	asset				A BitmapData object.
 	* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 	*/
-	public function ColorMaterial( color:Number=0xFF00FF, alpha:Number = 1 )
+	public function ColorMaterial( color:Number=0xFF00FF, alpha:Number = 1, interactive:Boolean = false )
 	{
 		this.fillColor = color;
 		this.fillAlpha = alpha;
+		this.interactive = interactive;
 	}
 	
 	/**

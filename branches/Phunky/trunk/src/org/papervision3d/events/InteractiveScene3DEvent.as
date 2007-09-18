@@ -94,13 +94,17 @@ package org.papervision3d.events
 		public var displayObject3D				:DisplayObject3D = null;
 		public var sprite						:Sprite = null;
 		public var face3d						:Triangle3D = null;
+		public var x							:Number = 0;
+		public var y							:Number = 0;
 		
-		public function InteractiveScene3DEvent(type:String, container3d:DisplayObject3D=null, sprite:Sprite=null, face3d:Triangle3D=null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function InteractiveScene3DEvent(type:String, container3d:DisplayObject3D=null, sprite:Sprite=null, face3d:Triangle3D=null,x:Number=0, y:Number=0, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 			this.displayObject3D = container3d;
 			this.sprite = sprite;
 			this.face3d = face3d;
+			this.x = x;
+			this.y = y;
 		}		
 	}
 }

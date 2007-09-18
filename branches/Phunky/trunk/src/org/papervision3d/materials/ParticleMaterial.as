@@ -19,7 +19,7 @@ package org.papervision3d.materials
 		public function drawParticle(particle:Particle, graphics:Graphics, renderSessionData:RenderSessionData):void
 		{
 			graphics.beginFill(fillColor, fillAlpha);
-			trace(particle.size);
+			//trace(particle.size);
 			if(particle.size == 0){
 				graphics.drawRect(particle.vertex3D.vertex3DInstance.x, particle.vertex3D.vertex3DInstance.y,1,1);
 			}else{
