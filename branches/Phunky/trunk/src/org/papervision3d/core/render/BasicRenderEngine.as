@@ -91,7 +91,8 @@ package org.papervision3d.core.render
 				if(rc is RenderableListItem)
 				{
 					rli = rc as RenderableListItem;
-					if((rhd = rli.hitTestPoint2D(point)))
+					rhd = rli.hitTestPoint2D(point);
+					if(rhd.hasHit)
 					{							
 						return rhd;
 					}
