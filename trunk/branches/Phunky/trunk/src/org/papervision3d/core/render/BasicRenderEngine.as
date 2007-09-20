@@ -85,9 +85,9 @@ package org.papervision3d.core.render
 			var rli:RenderableListItem;
 			var rhd:RenderHitData;
 			var rc:IRenderListItem;
-			
-			while(rc = lastRenderList.pop())
-			{	
+		
+			for(var i:uint = lastRenderList.length; rc = lastRenderList[--i]; )
+			{
 				if(rc is RenderableListItem)
 				{
 					rli = rc as RenderableListItem;
@@ -97,7 +97,9 @@ package org.papervision3d.core.render
 						return rhd;
 					}
 				}
+				
 			}
+			
 			return null;
 		}
 		
