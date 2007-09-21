@@ -1,6 +1,7 @@
 package org.papervision3d.materials
 {
 	import flash.display.Graphics;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
@@ -36,7 +37,7 @@ package org.papervision3d.materials
 			materials = new Array();
 		}
 		
-		override public function drawTriangle(face3D:Face3D, graphics:Graphics, renderSessionData:RenderSessionData):void
+		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
 		{
 			var num:int = 0;
 			for each(var n:MaterialObject3D in materials){
