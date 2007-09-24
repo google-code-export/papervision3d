@@ -69,11 +69,11 @@ package org.papervision3d.materials
 		
 		public override function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void
         {
-			
+			if(this.loaded){
             var mapping:Matrix = uvMatrices[face3D] ? uvMatrices[face3D] as Matrix : transformUV(face3D);
             focus = renderSessionData.camera.focus;
 			renderRec(graphics, mapping.a, mapping.b, mapping.c, mapping.d, mapping.tx, mapping.ty, face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y, face3D.v0.vertex3DInstance.z, face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y, face3D.v1.vertex3DInstance.z, face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y, face3D.v2.vertex3DInstance.z,0, renderSessionData);
-			 
+			}
         }		
 		
          public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
