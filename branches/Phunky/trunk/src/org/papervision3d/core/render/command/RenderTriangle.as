@@ -23,6 +23,7 @@
 	{
 		private var rhd:RenderHitData = new RenderHitData();
 		private var position:Number3D = new Number3D();
+		private var cleanRHD:RenderHitData = new RenderHitData();
 		
 		public var triangle:Triangle3D;
 		public var container:Sprite;
@@ -62,7 +63,7 @@
 					}
 				}
 			}
-			return new RenderHitData();
+			return cleanRHD;
 		}
 		
 		public function sameSide(point:Vertex3DInstance, ref:Vertex3DInstance, a:Vertex3DInstance, b:Vertex3DInstance):Boolean
