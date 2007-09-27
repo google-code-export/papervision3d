@@ -33,6 +33,7 @@ package org.papervision3d.core.render
 		private var lastRenderList:Array;
 		private var renderList:Array;
 		private var renderSessionData:RenderSessionData;
+		private var cleanRHD:RenderHitData = new RenderHitData();
 		
 		private var log:XrayLog = new XrayLog();
 		
@@ -100,7 +101,7 @@ package org.papervision3d.core.render
 				
 			}
 			
-			return null;
+			return cleanRHD;
 		}
 		
 		public function addToRenderList(renderCommand:IRenderListItem):int
