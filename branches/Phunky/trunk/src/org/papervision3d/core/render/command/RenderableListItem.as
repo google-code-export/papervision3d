@@ -12,7 +12,6 @@ package org.papervision3d.core.render.command
 	
 	public class RenderableListItem extends AbstractRenderListItem
 	{
-		
 		public var renderable:Class;
 		public var renderableInstance:IRenderable;
 		
@@ -21,9 +20,9 @@ package org.papervision3d.core.render.command
 			super();
 		}
 		
-		public function hitTestPoint2D(point:Point):RenderHitData
+		public function hitTestPoint2D(point:Point, renderHitData:RenderHitData):RenderHitData
 		{
-			return null;	
+			return renderHitData;
 		}
 		
 	}

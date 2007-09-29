@@ -84,7 +84,7 @@ package org.papervision3d.core.render
 		public function hitTestPoint2D(point:Point):RenderHitData
 		{
 			var rli:RenderableListItem;
-			var rhd:RenderHitData;
+			var rhd:RenderHitData = new RenderHitData();
 			var rc:IRenderListItem;
 		
 			for(var i:uint = lastRenderList.length; rc = lastRenderList[--i]; )
@@ -92,7 +92,7 @@ package org.papervision3d.core.render
 				if(rc is RenderableListItem)
 				{
 					rli = rc as RenderableListItem;
-					rhd = rli.hitTestPoint2D(point);
+					rhd = rli.hitTestPoint2D(point, rhd);
 					if(rhd.hasHit)
 					{							
 						return rhd;
@@ -100,7 +100,6 @@ package org.papervision3d.core.render
 				}
 				
 			}
-			
 			return cleanRHD;
 		}
 		

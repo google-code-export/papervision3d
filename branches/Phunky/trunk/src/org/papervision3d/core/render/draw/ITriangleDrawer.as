@@ -13,4 +13,6 @@ package org.papervision3d.core.render.draw
 	{
 		function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData):void;
 	}
+	
+	
 }
