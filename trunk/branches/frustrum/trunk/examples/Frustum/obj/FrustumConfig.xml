@@ -6,14 +6,14 @@
 <flex-config>
   <compiler>
     <source-path append="true">
-      <path-element>D:\dev\flash9\Papervision3D\branches\PhunkyTim\trunk\examples\Frustum\classes</path-element>
-      <path-element>D:\dev\flash9\Papervision3D\branches\PhunkyTim\trunk\src</path-element>
+      <path-element>D:\dev\flash9\Papervision3D\branches\frustrum\trunk\examples\Frustum\classes</path-element>
+      <path-element>D:\dev\flash9\Papervision3D\branches\frustrum\trunk\src</path-element>
       <path-element>D:\dev\as3_toplevel</path-element>
       <path-element>C:\Program Files\FlashDevelop\FirstRun\Library\AS3\classes</path-element>
     </source-path>
   </compiler>
   <file-specs>
-    <path-element>D:\dev\flash9\Papervision3D\branches\PhunkyTim\trunk\examples\Frustum\classes\Main.as</path-element>
+    <path-element>D:\dev\flash9\Papervision3D\branches\frustrum\trunk\examples\Frustum\classes\Main.as</path-element>
   </file-specs>
   <default-background-color>#000000</default-background-color>
   <default-frame-rate>31</default-frame-rate>

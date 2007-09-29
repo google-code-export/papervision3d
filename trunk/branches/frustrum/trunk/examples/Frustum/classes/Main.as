@@ -6,10 +6,11 @@ package
 	import flash.events.*;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import org.papervision3d.core.culling.IFrustumCuller;
-	import org.papervision3d.core.culling.RectangleTriangleCuller;
-	import org.papervision3d.Papervision3D;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	
+	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.culling.*;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.cameras.*;
 	import org.papervision3d.materials.*;
@@ -23,6 +24,8 @@ package
 		public var scene:Scene3D;
 		
 		public var camera:CameraObject3D;
+		
+		public var status:TextField;
 		
 		/**
 		 * 
@@ -40,6 +43,15 @@ package
 		private function init():void
 		{
 			stage.quality = StageQuality.LOW;
+			
+			status = new TextField();
+			addChild(status);
+			status.x = status.y = 5;
+			status.width = 300;
+			status.height = 200;
+			status.selectable = false;
+			status.multiline = true;
+			status.defaultTextFormat = new TextFormat("Arial", 9, 0xff0000);
 			
 			// used for camera movement
 			lastMouse = new Point();
@@ -63,12 +75,14 @@ package
 
 			buildScene();
 			
-			//maskViewport();
+			maskViewport();
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+			
+			status.text = usage();
 			
 			loop3D();
 		}
@@ -155,11 +169,13 @@ package
 							FrustumCamera3D(camera).far -= speed;
 						else
 							FrustumCamera3D(camera).far += speed;
+						status.text = usage();
 					}
 					break;
 				
 				case "L".charCodeAt():
-					camera.lookAt(DisplayObject3D.ZERO);
+					if( camera is FrustumCamera3D )
+						FrustumCamera3D(camera).lookAt(DisplayObject3D.ZERO);
 					break;
 					
 				case "M".charCodeAt():
@@ -167,6 +183,7 @@ package
 						unMaskViewport();
 					else
 						maskViewport();
+					status.text = usage();
 					break;
 				
 				case "N".charCodeAt():
@@ -176,6 +193,7 @@ package
 							FrustumCamera3D(camera).near -= speed;
 						else
 							FrustumCamera3D(camera).near += speed;
+						status.text = usage();
 					}
 					break;
 				
@@ -186,6 +204,7 @@ package
 							FrustumCamera3D(camera).fov--;
 						else
 							FrustumCamera3D(camera).fov++;
+						status.text = usage();
 					}
 					break;
 					
@@ -243,7 +262,7 @@ package
 		 */
 		private function drawViewport( camera:CameraObject3D ):void
 		{
-			if( camera.viewport ) return;
+			if( !camera.viewport ) return;
 			var rc:Rectangle = camera.viewport;
 			var g:Graphics = container.graphics;
 			g.lineStyle(3, 0xff0000);
@@ -256,6 +275,8 @@ package
 		private function maskViewport():void
 		{
 			unMaskViewport();
+			
+			if( !camera.viewport ) return;
 			
 			viewportMask = new Sprite();
 			
@@ -280,6 +301,32 @@ package
 		{
 			if( viewportMask ) container.removeChild(viewportMask);
 			container.mask = viewportMask = null;
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		private function usage():String
+		{
+			if( !FrustumCamera3D(camera) )
+				return "";
+				
+			var cam:FrustumCamera3D = camera as FrustumCamera3D;
+			
+			var msg:String  = "click/drag to rotate view.\nKEYS:\n";
+			
+			msg += "W: move forward\n";
+			msg += "S: move backward\n";
+			msg += "A: sidestep left\n";
+			msg += "D: sidestep right\n";
+			msg += "N*: adjust near plane [near: " + cam.near + "]\n";
+			msg += "F*: adjust far plane [far: " + cam.far + "]\n";
+			msg += "V*: adjust field of view [fov: " + cam.fov + "]\n";
+			msg += "M: toggle viewport masking [mask: " + (container.mask?"ON":"OFF") + "]\n";
+			msg += "* = use shift to decrease";
+			
+			return msg;
 		}
 		
 		private var lastMouse:Point;
