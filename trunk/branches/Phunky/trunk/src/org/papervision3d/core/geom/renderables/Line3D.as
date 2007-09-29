@@ -27,8 +27,6 @@ package org.papervision3d.core.geom.renderables
 			this.v0 = vertex0;
 			this.v1 = vertex1;
 			this.instance = instance;
-			
-		
 			this.renderCommand = new RenderLine(this);
 		}
 		

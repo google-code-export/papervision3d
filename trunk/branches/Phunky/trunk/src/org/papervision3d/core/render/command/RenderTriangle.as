@@ -21,9 +21,7 @@
 	
 	public class RenderTriangle extends RenderableListItem implements IRenderListItem
 	{
-		private var rhd:RenderHitData = new RenderHitData();
 		private var position:Number3D = new Number3D();
-		private var cleanRHD:RenderHitData = new RenderHitData();
 		
 		public var triangle:Triangle3D;
 		public var container:Sprite;
@@ -45,7 +43,7 @@
 			renderer.drawTriangle(triangle, container.graphics, renderSessionData);
 		}
 		
-		override public function hitTestPoint2D(point:Point):RenderHitData
+		override public function hitTestPoint2D(point:Point, renderhitData:RenderHitData):RenderHitData
 		{
 			renderMat = triangle.material;
 			if( !renderMat ) renderMat = triangle.instance.material;
@@ -58,12 +56,12 @@
 				if(sameSide(vPoint,vx0,vx1,vx2)){
 					if(sameSide(vPoint,vx1,vx0,vx2)){
 						if(sameSide(vPoint,vx2,vx0,vx1)){
-							return deepHitTest(triangle, vPoint);
+							return deepHitTest(triangle, vPoint, renderhitData);
 						}
 					}
 				}
 			}
-			return cleanRHD;
+			return renderhitData;
 		}
 		
 		public function sameSide(point:Vertex3DInstance, ref:Vertex3DInstance, a:Vertex3DInstance, b:Vertex3DInstance):Boolean
@@ -72,7 +70,7 @@
 			return n>0;
 		}
 		
-		private function deepHitTest(face:Triangle3D, vPoint:Vertex3DInstance):RenderHitData
+		private function deepHitTest(face:Triangle3D, vPoint:Vertex3DInstance, rhd:RenderHitData):RenderHitData
 		{
 			var v0:Vertex3DInstance = face.v0.vertex3DInstance;
 			var v1:Vertex3DInstance = face.v1.vertex3DInstance;

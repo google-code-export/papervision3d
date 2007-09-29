@@ -40,10 +40,11 @@ package org.papervision3d.core.proto
 {
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
-	import flash.utils.getTimer;
 	
 	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.culling.DefaultParticleCuller;
 	import org.papervision3d.core.culling.DefaultTriangleCuller;
+	import org.papervision3d.core.culling.IParticleCuller;
 	import org.papervision3d.core.culling.ITriangleCuller;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.stat.RenderStatistics;
@@ -51,6 +52,7 @@ package org.papervision3d.core.proto
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.utils.InteractiveSceneManager;
+	import flash.utils.getTimer;
 	
 	/**
 	* The SceneObject3D class is the base class for all scenes.
@@ -102,6 +104,11 @@ package org.papervision3d.core.proto
 		 * Defines the method of culling triangles through the ITriangleCuller interface for this scene object.
 		 */
 		public var triangleCuller:ITriangleCuller = new DefaultTriangleCuller();
+		
+		/**
+		 * Defines the method of culling particles through the IParticleCuller interface for this scene object.
+		 */
+		public var particleCuller:IParticleCuller = new DefaultParticleCuller();
 		
 		/**
 		 * Defines the used renderer for this scene.

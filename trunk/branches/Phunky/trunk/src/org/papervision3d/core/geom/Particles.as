@@ -37,7 +37,7 @@
 			var p:Particle;
 			var fz:Number = (camera.focus*camera.zoom);
 			for each(p in particles){
-				if(p.vertex3D.vertex3DInstance.visible){
+				if(scene.particleCuller.testParticle(p)){
 					p.renderScale = fz / (camera.focus + p.vertex3D.vertex3DInstance.z);
 					p.renderCommand.screenDepth = p.vertex3D.vertex3DInstance.z;
 					scene.renderer.addToRenderList(p.renderCommand);
@@ -80,6 +80,7 @@
 		{
 			particles = new Array();
 			vertices = new Array();
+			geometry.vertices = vertices;
 		}
 		
 		
