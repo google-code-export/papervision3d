@@ -107,7 +107,7 @@ package org.papervision3d.core.geom
 			
 			if( camera is IFrustumCuller )
 				return projectFrustum(parent, camera, sorted);
-				
+			
 			var view:Matrix3D = this.view,
 
 			// Camera
