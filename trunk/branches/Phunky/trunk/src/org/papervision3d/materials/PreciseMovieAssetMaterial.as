@@ -57,9 +57,9 @@ package org.papervision3d.materials
 		public var minimumRenderSize:Number = 2;
 
 		
-		public function PreciseMovieAssetMaterial( linkageID:String="", transparent:Boolean=false, animated:Boolean=false )
+		public function PreciseMovieAssetMaterial( linkageID:String="", transparent:Boolean=false, animated:Boolean=false, createUnique:Boolean=false )
 		{
-			super( linkageID, transparent, animated );
+			super( linkageID, transparent, animated, createUnique );
 			
 			precision = precision * precision * 1.4;
 		}
