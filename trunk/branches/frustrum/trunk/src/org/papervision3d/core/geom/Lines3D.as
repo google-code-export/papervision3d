@@ -35,6 +35,8 @@ package org.papervision3d.core.geom
 			super.project( parent, camera, sorted );
 			if( ! sorted ) sorted = this._sorted;
 			
+			if( this.culled ) return 0;
+			
 			var line3D:Line3D;
 			var screenZ:Number;
 			

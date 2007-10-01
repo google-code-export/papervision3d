@@ -37,6 +37,7 @@
 
 package org.papervision3d
 {
+	import com.blitzagency.xray.logger.XrayLog;
 	import org.papervision3d.core.culling.DefaultTriangleCuller;
 	import org.papervision3d.core.culling.ITriangleCuller;
 	/**
@@ -84,6 +85,8 @@ package org.papervision3d
 		*/
 		static public var VERBOSE  :Boolean = true;
 		
+		static public var logger:XrayLog = new XrayLog();
+		
 		// ___________________________________________________________________ LOG
 	
 		/**
@@ -94,7 +97,7 @@ package org.papervision3d
 		static public function log( message :String ):void
 		{
 			if( Papervision3D.VERBOSE )
-				trace( message );
+				logger.debug( message );
 		}
 	}
 }

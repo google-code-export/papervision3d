@@ -206,7 +206,6 @@ public class DisplayObjectContainer3D extends EventDispatcher
 		return this._childrenByName[ name ];
 	}
 
-
 	/**
 	* Removes the child DisplayObject3D instance that exists with the specified name, from the child list of the DisplayObjectContainer3D instance.
 	* </p>
