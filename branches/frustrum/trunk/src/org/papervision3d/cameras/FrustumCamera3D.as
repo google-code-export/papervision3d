@@ -177,7 +177,7 @@ public class FrustumCamera3D extends CameraObject3D implements IFrustumCuller
 	 */
 	public function testObject( obj:DisplayObject3D ):int
 	{				
-		if( !this.enableFrustum )
+		if( !obj.geometry || !obj.geometry.vertices.length || !this.enableFrustum )
 			return INSIDE;		
 		
 		var radius:Number = obj.geometry.boundingSphere2;

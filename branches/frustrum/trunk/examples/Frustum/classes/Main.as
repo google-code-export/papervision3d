@@ -64,7 +64,7 @@ package
 						
 			scene = new Scene3D(container);
 			
-		//	scene.triangleCuller = new RectangleTriangleCuller(new Rectangle(-160, -120, 320, 240));
+			scene.triangleCuller = new RectangleTriangleCuller(new Rectangle(-160, -120, 320, 240));
 			
 			// viewport for camera
 			var vp:Rectangle = new Rectangle(0, 0, 320, 240);
@@ -105,6 +105,12 @@ package
 		 */
 		private function buildScene():void
 		{
+			var ucs:UCS = new UCS();
+			
+			scene.addChild( ucs );
+			
+			ucs.y = -100;
+			
 			var radius:Number = 100;
 			var material:WireframeMaterial = new WireframeMaterial();
 			
