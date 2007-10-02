@@ -39,7 +39,9 @@ package org.papervision3d.animation
 	import flash.events.ProgressEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	
 	import org.papervision3d.Papervision3D;
+	import org.papervision3d.animation.curves.*;
 	
 	/**
 	 * @author Tim Knip 
@@ -126,7 +128,7 @@ package org.papervision3d.animation
 			
 			channel.bakeMatrices();
 			
-			for each( var curve:AnimationCurve in channel.curves )
+			for each( var curve:AbstractCurve in channel.curves )
 			{
 				_totalFrames = Math.max( _totalFrames, curve.keys.length );
 			}

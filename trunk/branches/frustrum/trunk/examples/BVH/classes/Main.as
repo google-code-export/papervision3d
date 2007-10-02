@@ -5,8 +5,7 @@ package
 	import flash.events.ProgressEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
-	import org.papervision3d.events.FileLoadEvent;
-	import org.papervision3d.Papervision3D;
+
 	
 	import flash.display.Sprite;
 	import flash.display.StageQuality;
@@ -15,10 +14,12 @@ package
 	import flash.utils.getQualifiedClassName;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
-	
+
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.cameras.*;
-	import org.papervision3d.objects.BVH;
-	import org.papervision3d.scenes.Scene3D;
+	import org.papervision3d.events.*;
+	import org.papervision3d.objects.*;
+	import org.papervision3d.scenes.*;
 
 	import mx.utils.StringUtil;
 	
@@ -184,10 +185,11 @@ package
 			// viewport for camera
 			var vp:Rectangle = new Rectangle(0, 0, 800, 600);
 			
-			camera = new FrustumCamera3D(60, 10, 1000, vp);
-			camera.x = camera.y;
+			camera = new FrustumCamera3D(70, 0.1, 1000, vp);
+			camera.x = 0;
+			camera.y = 2;
 			camera.z = -200;
-			//camera.enableFrustum = false;
+			camera.lookAt(DisplayObject3D.ZERO);
 			
 			stage.addEventListener( KeyboardEvent.KEY_UP, keyUpHandler );
 			
@@ -203,6 +205,9 @@ package
 		*/
 		private function loop3D( event:Event ):void
 		{
+			var hips:DisplayObject3D = bvh.getChildByName("Hips");
+			if( hips )
+				camera.z = hips.world.n34 - 200;
 			scene.renderCamera(camera);
 		}
 		
@@ -232,6 +237,8 @@ package
 			
 			scene.addChild(bvh);
 	
+			bvh.rotationY += 90;
+			
 			_curFile = _curFile < _files.length ? _curFile : 0;
 		}
 		
@@ -242,6 +249,8 @@ package
 		 */
 		private function playBVH( event:FileLoadEvent = null ):void
 		{
+			Papervision3D.log(bvh.toHierarchyString());
+			
 			bvh.play(2);
 		}
 		

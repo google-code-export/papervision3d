@@ -33,7 +33,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.animation 
+package org.papervision3d.animation.curves
 {
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.Matrix3D;
@@ -41,7 +41,7 @@ package org.papervision3d.animation
 	/**
 	 * @author Tim Knip 
 	 */
-	public class AnimationCurve 
+	public class AbstractCurve 
 	{
 		public static const INTERPOLATION_STEP:uint = 0; //equivalent to no interpolation
 		public static const INTERPOLATION_LINEAR:uint = 1;
@@ -59,29 +59,8 @@ package org.papervision3d.animation
 		public static const INFINITY_DEFAULT:uint = 0;
 		
 		public static const TYPE_MATRIX			:String = "matrix";
-		public static const TYPE_MATRIX_N11		:String = "n11";
-		public static const TYPE_MATRIX_N12		:String = "n12";
-		public static const TYPE_MATRIX_N13		:String = "n13";
-		public static const TYPE_MATRIX_N14		:String = "n14";
-		public static const TYPE_MATRIX_N21		:String = "n21";
-		public static const TYPE_MATRIX_N22		:String = "n22";
-		public static const TYPE_MATRIX_N23		:String = "n23";
-		public static const TYPE_MATRIX_N24		:String = "n24";
-		public static const TYPE_MATRIX_N31		:String = "n31";
-		public static const TYPE_MATRIX_N32		:String = "n32";
-		public static const TYPE_MATRIX_N33		:String = "n33";
-		public static const TYPE_MATRIX_N34		:String = "n34";
-		public static const TYPE_TRANSLATION_X	:String = "x";
-		public static const TYPE_TRANSLATION_Y	:String = "y";
-		public static const TYPE_TRANSLATION_Z	:String = "z";
-		public static const TYPE_ROTATION_X		:String = "rotationX";
-		public static const TYPE_ROTATION_Y		:String = "rotationY";
-		public static const TYPE_ROTATION_Z		:String = "rotationZ";
 		
-		/** the object this curve targets. */
-		public var target:Object;
-		
-		/** the curve-target property this curve targets. */
+		/** */
 		public var type:String;
 		
 		/** curve keys as milliseconds. */
@@ -102,16 +81,14 @@ package org.papervision3d.animation
 		/**
 		 * constructor.
 		 * 
-		 * @param	target
-		 * @param	type
 		 * @param	keys
 		 * @param	values
+		 * @param	interpolations
 		 * 
 		 * @return
 		 */
-		public function AnimationCurve( target:Object, type:String, keys:Array = null, values:Array = null ):void
+		public function AbstractCurve( type:String, keys:Array = null, values:Array = null, interpolations:Array = null ):void
 		{
-			this.target = target;
 			this.type = type;
 			this.keys = keys || new Array();
 			this.values = values || new Array();
@@ -207,7 +184,6 @@ package org.papervision3d.animation
 		 */
 		public function update( dt:Number ):void
 		{
-			target[type] = evaluate(dt);
 		}
 	}	
 }
