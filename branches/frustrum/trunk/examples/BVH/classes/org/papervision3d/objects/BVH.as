@@ -46,6 +46,7 @@ package org.papervision3d.objects
 
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.animation.*;
+	import org.papervision3d.animation.curves.*;
 	import org.papervision3d.core.Matrix3D;
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.proto.*;
@@ -265,27 +266,27 @@ package org.papervision3d.objects
 						for( j = 0; j < numChannels; j++ )
 						{							
 							var target:String = parts[j+2];
-							var curve:AnimationCurve;
+							var curve:AbstractCurve;
 							
 							switch( target )
 							{
 								case "Xposition":
-									curve = new AnimationCurve(instance, AnimationCurve.TYPE_TRANSLATION_X);
+									curve = new TranslationCurve(instance, TranslationCurve.TRANSLATION_X);
 									break;
 								case "Yposition":
-									curve = new AnimationCurve(instance, AnimationCurve.TYPE_TRANSLATION_Y);
+									curve = new TranslationCurve(instance, TranslationCurve.TRANSLATION_Y);
 									break;
 								case "Zposition":
-									curve = new AnimationCurve(instance, AnimationCurve.TYPE_TRANSLATION_Z);
-									break;
+									curve = new TranslationCurve(instance, TranslationCurve.TRANSLATION_Z);
+									break;curves
 								case "Xrotation":
-									curve = new AnimationCurve(instance, AnimationCurve.TYPE_ROTATION_X);
+									curve = new RotationCurve(instance, RotationCurve.ROTATION_X);
 									break;
 								case "Yrotation":
-									curve = new AnimationCurve(instance, AnimationCurve.TYPE_ROTATION_Y);
+									curve = new RotationCurve(instance, RotationCurve.ROTATION_Y);
 									break;
 								case "Zrotation":
-									curve = new AnimationCurve(instance, AnimationCurve.TYPE_ROTATION_Z);
+									curve = new RotationCurve(instance, RotationCurve.ROTATION_Z);
 									break;
 								default:
 									break;
@@ -378,6 +379,8 @@ package org.papervision3d.objects
 		 */
 		private function createAnimation( obj:DisplayObject3D ):void
 		{			
+			Papervision3D.log( "creating animation for " + obj.name );
+			
 			if( obj.extra && obj.extra["CHANNELS"] is Array )
 			{	
 				var channel:AnimationChannel = new AnimationChannel(obj);
@@ -385,16 +388,16 @@ package org.papervision3d.objects
 				for( var i:int = 0; i < obj.extra["CHANNELS"].length; i++ )
 				{
 					var channelID:int = obj.extra["CHANNELS"][i].channel;	
-					var curve:AnimationCurve = obj.extra["CHANNELS"][i].curve;
+					var curve:AbstractCurve = obj.extra["CHANNELS"][i].curve;
 
 					switch( curve.type )
 					{
-						case AnimationCurve.TYPE_TRANSLATION_X:
-						case AnimationCurve.TYPE_TRANSLATION_Y:
-						case AnimationCurve.TYPE_TRANSLATION_Z:
-						case AnimationCurve.TYPE_ROTATION_X:
-						case AnimationCurve.TYPE_ROTATION_Y:
-						case AnimationCurve.TYPE_ROTATION_Z:
+						case TranslationCurve.TRANSLATION_X:
+						case TranslationCurve.TRANSLATION_Y:
+						case TranslationCurve.TRANSLATION_Z:
+						case RotationCurve.ROTATION_X:
+						case RotationCurve.ROTATION_Y:
+						case RotationCurve.ROTATION_Z:
 							curve.keys = createCurveKeys();
 							curve.values = createCurveValues(channelID);
 							channel.addCurve(curve);

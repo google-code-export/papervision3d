@@ -35,10 +35,14 @@
  
 package org.papervision3d.animation 
 {
-	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.Matrix3D;
+	import org.papervision3d.animation.curves.*;
+	import org.papervision3d.core.*;
+	import org.papervision3d.objects.DisplayObject3D;
 	
+	/**
+	 * @author Tim Knip 
+	 */
 	public class AnimationChannel 
 	{		
 		public var target:DisplayObject3D;
@@ -61,7 +65,7 @@ package org.papervision3d.animation
 		 * @param	curve
 		 * @return
 		 */
-		public function addCurve( curve:AnimationCurve ):AnimationCurve
+		public function addCurve( curve:AbstractCurve ):AbstractCurve
 		{
 			this.curves.push( curve );
 			return curve;
@@ -72,7 +76,7 @@ package org.papervision3d.animation
 		 * @param	type
 		 * @return
 		 */
-		public function findCurveByType( type:String ):AnimationCurve
+		public function findCurveByType( type:String ):AbstractCurve
 		{
 			for( var i:int = 0; i < curves.length; i++ )
 			{
@@ -88,10 +92,10 @@ package org.papervision3d.animation
 		 * @param	curve
 		 * @return
 		 */
-		public function removeCurve( curve:AnimationCurve ):AnimationCurve
+		public function removeCurve( curve:AbstractCurve ):AbstractCurve
 		{
 			var tmp:Array = new Array();
-			var removed:AnimationCurve;
+			var removed:AbstractCurve;
 			for( var i:int = 0; i < curves.length; i++ )
 			{
 				if( curves[i] === curve )
@@ -109,9 +113,9 @@ package org.papervision3d.animation
 		 */
 		public function bakeMatrices():void
 		{
-			var cX:AnimationCurve = findCurveByType(AnimationCurve.TYPE_ROTATION_X);
-			var cY:AnimationCurve = findCurveByType(AnimationCurve.TYPE_ROTATION_Y);
-			var cZ:AnimationCurve = findCurveByType(AnimationCurve.TYPE_ROTATION_Z);
+			var cX:AbstractCurve = findCurveByType(RotationCurve.ROTATION_X);
+			var cY:AbstractCurve = findCurveByType(RotationCurve.ROTATION_Y);
+			var cZ:AbstractCurve = findCurveByType(RotationCurve.ROTATION_Z);
 			
 			if( cX || cY || cZ )
 			{
@@ -167,15 +171,15 @@ package org.papervision3d.animation
 				if( cZ )
 					removeCurve( cZ );
 				
-				addCurve( new AnimationCurve(this.target.transform, AnimationCurve.TYPE_MATRIX_N11, keys, mat.n11) );
-				addCurve( new AnimationCurve(this.target.transform, AnimationCurve.TYPE_MATRIX_N12, keys, mat.n12) );
-				addCurve( new AnimationCurve(this.target.transform, AnimationCurve.TYPE_MATRIX_N13, keys, mat.n13) );
-				addCurve( new AnimationCurve(this.target.transform, AnimationCurve.TYPE_MATRIX_N21, keys, mat.n21) );
-				addCurve( new AnimationCurve(this.target.transform, AnimationCurve.TYPE_MATRIX_N22, keys, mat.n22) );
-				addCurve( new AnimationCurve(this.target.transform, AnimationCurve.TYPE_MATRIX_N23, keys, mat.n23) );
-				addCurve( new AnimationCurve(this.target.transform, AnimationCurve.TYPE_MATRIX_N31, keys, mat.n31) );
-				addCurve( new AnimationCurve(this.target.transform, AnimationCurve.TYPE_MATRIX_N32, keys, mat.n32) );
-				addCurve( new AnimationCurve(this.target.transform, AnimationCurve.TYPE_MATRIX_N33, keys, mat.n33) );
+				addCurve( new MatrixCurve(this.target.transform, MatrixCurve.MATRIX_N11, keys, mat.n11) );
+				addCurve( new MatrixCurve(this.target.transform, MatrixCurve.MATRIX_N12, keys, mat.n12) );
+				addCurve( new MatrixCurve(this.target.transform, MatrixCurve.MATRIX_N13, keys, mat.n13) );
+				addCurve( new MatrixCurve(this.target.transform, MatrixCurve.MATRIX_N21, keys, mat.n21) );
+				addCurve( new MatrixCurve(this.target.transform, MatrixCurve.MATRIX_N22, keys, mat.n22) );
+				addCurve( new MatrixCurve(this.target.transform, MatrixCurve.MATRIX_N23, keys, mat.n23) );
+				addCurve( new MatrixCurve(this.target.transform, MatrixCurve.MATRIX_N31, keys, mat.n31) );
+				addCurve( new MatrixCurve(this.target.transform, MatrixCurve.MATRIX_N32, keys, mat.n32) );
+				addCurve( new MatrixCurve(this.target.transform, MatrixCurve.MATRIX_N33, keys, mat.n33) );
 			}
 		}
 		
@@ -187,7 +191,7 @@ package org.papervision3d.animation
 		 */
 		public function update( dt:Number ):void
 		{
-			var curve:AnimationCurve;
+			var curve:AbstractCurve;
 			var curves:Array = this.curves;
 			var i:int = curves.length;
 			
@@ -206,7 +210,7 @@ package org.papervision3d.animation
 			
 			for( var i:int = 0; i < curves.length; i++ )
 			{
-				var curve:AnimationCurve = curves[i];
+				var curve:AbstractCurve = curves[i];
 				var value:Number;
 				
 				if( key >= curve.keys.length || key >= curve.values.length )
@@ -214,15 +218,15 @@ package org.papervision3d.animation
 					
 				switch( curve.type )
 				{
-					case AnimationCurve.TYPE_ROTATION_X:
+					case RotationCurve.ROTATION_X:
 						value = curve.values[ key ] * (Math.PI/180);
 						rot = Matrix3D.multiply( rot, Matrix3D.rotationMatrix(1,0,0,value) );
 						break;
-					case AnimationCurve.TYPE_ROTATION_Y:
+					case RotationCurve.ROTATION_Y:
 						value = curve.values[ key ] * (Math.PI/180);
 						rot = Matrix3D.multiply( rot, Matrix3D.rotationMatrix(0,1,0,value) );
 						break;
-					case AnimationCurve.TYPE_ROTATION_Z:
+					case RotationCurve.ROTATION_Z:
 						value = curve.values[ key ] * (Math.PI/180);
 						rot = Matrix3D.multiply( rot, Matrix3D.rotationMatrix(0,0,1,value) );
 						break;
