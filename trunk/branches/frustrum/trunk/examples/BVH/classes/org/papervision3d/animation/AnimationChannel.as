@@ -35,9 +35,13 @@
  
 package org.papervision3d.animation 
 {
+<<<<<<< .mine
+	import org.papervision3d.core.Number3D;
+=======
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.animation.curves.*;
 	import org.papervision3d.core.*;
+>>>>>>> .r329
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
