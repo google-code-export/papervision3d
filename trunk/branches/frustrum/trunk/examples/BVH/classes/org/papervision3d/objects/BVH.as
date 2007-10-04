@@ -56,6 +56,10 @@ package org.papervision3d.objects
 	import org.papervision3d.materials.*;
 	
 	/**
+	 * class BVH.
+	 * <p>This class attempts to parse a BioVision motion capture file.<br/>
+	 * See: http://www.cs.wisc.edu/graphics/Courses/cs-838-1999/Jeff/BVH.html</p>
+	 * 
 	 * @author Tim Knip 
 	 */
 	public class BVH extends DisplayObject3D
@@ -78,7 +82,7 @@ package org.papervision3d.objects
 		/** default endsite material */
 		public static var DEFAULT_ENDSITE_MATERIAL:MaterialObject3D = new WireframeMaterial(0x00ff00);
 		
-		/** */
+		/** the root of the BVH */
 		public var rootNode:DisplayObject3D;
 		
 		/** frame data */
@@ -151,6 +155,34 @@ package org.papervision3d.objects
 			loader.addEventListener( Event.COMPLETE, loadCompleteHandler );
 			loader.addEventListener( ProgressEvent.PROGRESS, loadProgressHandler );
 			loader.load( new URLRequest(url) );
+		}
+
+				/**
+		 * Plays the animation.
+		 * 
+		 * @param	repeatCount
+		 * @return
+		 */
+		public function play( repeatCount:int = 0 ):void
+		{
+			// need milliseconds
+			this.controller.frameTime = this.frameTime * 1000;
+			
+			// repeat aninamtions
+			this.controller.repeatCount = repeatCount * frames.length;
+			
+			// play!
+			this.controller.play();
+		}
+		
+		/**
+		 * Stops the animation.
+		 * 
+		 * @return
+		 */
+		public function stop():void
+		{
+			this.controller.stop();
 		}
 		
 		/**
@@ -358,38 +390,6 @@ package org.papervision3d.objects
 		
 		/**
 		 * 
-		 * @param	repeatCount
-		 * @return
-		 */
-		public function play( repeatCount:int = 0 ):void
-		{
-			// need milliseconds
-			this.controller.frameTime = this.frameTime * 1000;
-			
-			// repeat aninamtions
-			this.controller.repeatCount = repeatCount * frames.length;
-			
-			// play!
-			this.controller.play();
-		}
-		
-		/**
-		 * 
-		 * @param	obj
-		 * @param	indent
-		 * @return
-		 */
-		public function toHierarchyString( obj:DisplayObject3D = null, indent:String = "" ):String
-		{
-			obj = obj || this;
-			var s:String = indent + obj.name + "\n";
-			for each( var child:DisplayObject3D in obj.children )
-				s += toHierarchyString( child, indent + " -> " );
-			return s;
-		}
-				
-		/**
-		 * 
 		 * @param	obj
 		 * @return
 		 */
@@ -404,20 +404,11 @@ package org.papervision3d.objects
 					var channelID:int = obj.extra["CHANNELS"][i].channel;	
 					var curve:AbstractCurve = obj.extra["CHANNELS"][i].curve;
 
-					switch( curve.type )
+					if( curve )
 					{
-						case TranslationCurve.TRANSLATION_X:
-						case TranslationCurve.TRANSLATION_Y:
-						case TranslationCurve.TRANSLATION_Z:
-						case RotationCurve.ROTATION_X:
-						case RotationCurve.ROTATION_Y:
-						case RotationCurve.ROTATION_Z:
-							curve.keys = createCurveKeys();
-							curve.values = createCurveValues(channelID);
-							channel.addCurve(curve);
-							break;
-						default:
-							break;
+						curve.keys = createCurveKeys();
+						curve.values = createCurveValues(channelID);
+						channel.addCurve(curve);
 					}
 				}
 				
@@ -425,9 +416,7 @@ package org.papervision3d.objects
 			}
 			
 			for each( var child:DisplayObject3D in obj.children )
-			{
 				createAnimation(child);
-			}
 		}
 		
 		/**
