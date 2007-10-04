@@ -32,14 +32,25 @@ package
 	 */
 	public class Main extends flash.display.Sprite
 	{
+		/** pv3d container */
 		public var container:Sprite;
 		
+		/** pv3d scene */
 		public var scene:Scene3D;
 		
+		/** pv3d camera */
 		public var camera:FrustumCamera3D;
 		
+		/** some info */
 		public var status:TextField;
+						
+		/** the BVH to show */
+		public var bvh:BVH;
 		
+		/** some logging */
+		public var log:XrayLog;
+		
+		/** embed some sample files */
 		[Embed (source="ballerina.bvh", mimeType="application/octet-stream")]
 		public var ballerinaClass:Class;
 		
@@ -63,62 +74,6 @@ package
 		
 		[Embed (source="cowboy.bvh", mimeType="application/octet-stream")]
 		public var cowboyClass:Class;
-		
-		[Embed (source="animazoo/martial_arts/doublepunch1.bvh", mimeType="application/octet-stream")]
-		public var doublepunch1Class:Class;
-		
-		[Embed (source="animazoo/martial_arts/doublepunch3.bvh", mimeType="application/octet-stream")]
-		public var doublepunch3Class:Class;
-		
-		[Embed (source="animazoo/martial_arts/elbowing_back_right.bvh", mimeType="application/octet-stream")]
-		public var elbowing_back_rightClass:Class;
-		
-		[Embed (source="animazoo/martial_arts/headbutt.bvh", mimeType="application/octet-stream")]
-		public var headbuttClass:Class;
-		
-		[Embed (source="animazoo/martial_arts/kick_r.bvh", mimeType="application/octet-stream")]
-		public var kick_rClass:Class;
-		
-		[Embed (source="animazoo/martial_arts/right_uppercut.bvh", mimeType="application/octet-stream")]
-		public var right_uppercutClass:Class;
-		
-		[Embed (source="animazoo/martial_arts/slapping.bvh", mimeType="application/octet-stream")]
-		public var slappingClass:Class;
-		
-		[Embed (source="animazoo/martial_arts/slapping2.bvh", mimeType="application/octet-stream")]
-		public var slapping2Class:Class;
-		
-		[Embed (source="animazoo/talking/annoyed_conversation.bvh", mimeType="application/octet-stream")]
-		public var annoyed_conversationClass:Class;
-		
-		[Embed (source="animazoo/talking/on_telephone.bvh", mimeType="application/octet-stream")]
-		public var on_telephoneClass:Class;
-		
-		[Embed (source="freebones/horseruncycle.bvh", mimeType="application/octet-stream")]
-		public var horseruncycleClass:Class;
-		
-		[Embed (source="freebones/floordancers21.bvh", mimeType="application/octet-stream")]
-		public var floordancers21Class:Class;
-		
-		[Embed (source="freebones/fallstunt1.bvh", mimeType="application/octet-stream")]
-		public var fallstunt1Class:Class;
-		
-		[Embed (source="freebones/boxerwarming1.bvh", mimeType="application/octet-stream")]
-		public var boxerwarming1Class:Class;
-		
-		[Embed (source="freebones/dance.bvh", mimeType="application/octet-stream")]
-		public var danceClass:Class;
-		/*
-		[Embed (source="freebones/matrix1.bvh", mimeType="application/octet-stream")]
-		public var matrix1Class:Class;
-		
-		[Embed (source="freebones/mike8.bvh", mimeType="application/octet-stream")]
-		public var mike8Class:Class;
-		*/
-		
-		public var bvh:BVH;
-		
-		public var log:XrayLog;
 		
 		/**
 		* 
@@ -148,22 +103,8 @@ package
 			status.selectable = false;
 			status.defaultTextFormat = new TextFormat("Arial", 10, 0xff0000);
 			
+			// testfiles
 			_files = [
-				new boxerwarming1Class(),
-				new fallstunt1Class(),
-				new floordancers21Class(),
-				new horseruncycleClass(),
-				new annoyed_conversationClass(),
-				new on_telephoneClass(),
-				new doublepunch1Class(),
-				new doublepunch3Class(),
-				new elbowing_back_rightClass(),
-				new headbuttClass(),
-				new kick_rClass(),
-				new right_uppercutClass(),
-				new slappingClass(),
-				new slapping2Class(),
-				new danceClass(),
 				new ballerinaClass(),
 				new breakdanceClass(),
 				new shotheadClass(),
@@ -174,34 +115,17 @@ package
 				new cowboyClass()
 			];
 			
+			// setup the scene
 			container = new Sprite();
 			addChild(container);
 			container.x = 400;
 			container.y = 300;
+			scene = new Scene3D(container);
 			
 			// viewport for camera
 			var vp:Rectangle = new Rectangle(0, 0, 600, 400);
-			
-			scene = new Scene3D(container);
-			
-			scene.triangleCuller = new RectangleTriangleCuller(new Rectangle(-vp.width/2, -vp.height/2, vp.width, vp.height));
-			
-			var plane:Plane = new Plane( new WireframeMaterial(0x0caa0c, 0.2), 400, 400, 16, 16 );
-			scene.addChild(plane);
-			plane.rotationX = -90;
-			plane.z -= 120;
-			
-			var border:Sprite = new Sprite();
-			addChild(border);
-			border.graphics.lineStyle(3, 0xff0000);
-			border.graphics.drawRect(400-vp.width/2-2, 300-vp.height/2-2, vp.width+4, vp.height+4);
-			
-			var mask:Sprite = new Sprite();
-			container.addChild(mask);
-			mask.graphics.beginFill(0xffff00);
-			mask.graphics.drawRect(-vp.width/2, -vp.height/2, vp.width, vp.height);
-			container.mask = mask;
-			
+		
+			// setup pv3d camera
 			camera = new FrustumCamera3D(60, 0, 1000, vp);
 			camera.x = -40;
 			camera.y = 20;
@@ -209,6 +133,28 @@ package
 			camera.lookAt(DisplayObject3D.ZERO);
 			camera.pitch(-5);
 			
+			// setup a RectangleTriangleCuller for the scene
+			scene.triangleCuller = new RectangleTriangleCuller(new Rectangle(-vp.width/2, -vp.height/2, vp.width, vp.height));
+			
+			// create a ground plane
+			var plane:Plane = new Plane( new WireframeMaterial(0x0caa0c, 0.2), 400, 400, 16, 16 );
+			scene.addChild(plane);
+			plane.rotationX = -90;
+			plane.z -= 120;
+			
+			// create a viewport border
+			var border:Sprite = new Sprite();
+			addChild(border);
+			border.graphics.lineStyle(3, 0xff0000);
+			border.graphics.drawRect(400-vp.width/2-2, 300-vp.height/2-2, vp.width+4, vp.height+4);
+			
+			// mask the viewport
+			var mask:Sprite = new Sprite();
+			container.addChild(mask);
+			mask.graphics.beginFill(0xffff00);
+			mask.graphics.drawRect(-vp.width/2, -vp.height/2, vp.width, vp.height);
+			container.mask = mask;
+						
 			stage.addEventListener( KeyboardEvent.KEY_UP, keyUpHandler );
 			
 			addEventListener( Event.ENTER_FRAME, loop3D );
@@ -267,8 +213,7 @@ package
 		 */
 		private function playBVH( event:FileLoadEvent = null ):void
 		{
-			Papervision3D.log(bvh.toHierarchyString());
-			
+			// play animation once.
 			bvh.play(1);
 		}
 		
