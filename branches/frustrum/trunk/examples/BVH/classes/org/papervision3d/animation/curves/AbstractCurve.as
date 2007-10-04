@@ -58,8 +58,6 @@ package org.papervision3d.animation.curves
 		public static const INFINITY_UNKNOWN:uint = 5;
 		public static const INFINITY_DEFAULT:uint = 0;
 		
-		public static const TYPE_MATRIX			:String = "matrix";
-		
 		/** */
 		public var type:String;
 		

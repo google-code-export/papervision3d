@@ -1,10 +1,14 @@
 package
 {
 	import com.blitzagency.xray.logger.XrayLog;
+	import flash.display.DisplayObject;
 	import flash.events.KeyboardEvent;
 	import flash.events.ProgressEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
+	import org.papervision3d.core.culling.RectangleTriangleCuller;
+	import org.papervision3d.core.Plane3D;
+	import org.papervision3d.materials.WireframeMaterial;
 
 	
 	import flash.display.Sprite;
@@ -60,7 +64,6 @@ package
 		[Embed (source="cowboy.bvh", mimeType="application/octet-stream")]
 		public var cowboyClass:Class;
 		
-		/*
 		[Embed (source="animazoo/martial_arts/doublepunch1.bvh", mimeType="application/octet-stream")]
 		public var doublepunch1Class:Class;
 		
@@ -105,7 +108,7 @@ package
 		
 		[Embed (source="freebones/dance.bvh", mimeType="application/octet-stream")]
 		public var danceClass:Class;
-		
+		/*
 		[Embed (source="freebones/matrix1.bvh", mimeType="application/octet-stream")]
 		public var matrix1Class:Class;
 		
@@ -145,11 +148,7 @@ package
 			status.selectable = false;
 			status.defaultTextFormat = new TextFormat("Arial", 10, 0xff0000);
 			
-			_files = [	
-				/*
-				new mike8Class(),
-				new matrix1Class(),
-				new danceClass(),
+			_files = [
 				new boxerwarming1Class(),
 				new fallstunt1Class(),
 				new floordancers21Class(),
@@ -164,7 +163,7 @@ package
 				new right_uppercutClass(),
 				new slappingClass(),
 				new slapping2Class(),
-				*/
+				new danceClass(),
 				new ballerinaClass(),
 				new breakdanceClass(),
 				new shotheadClass(),
@@ -180,16 +179,35 @@ package
 			container.x = 400;
 			container.y = 300;
 			
+			// viewport for camera
+			var vp:Rectangle = new Rectangle(0, 0, 600, 400);
+			
 			scene = new Scene3D(container);
 			
-			// viewport for camera
-			var vp:Rectangle = new Rectangle(0, 0, 800, 600);
+			scene.triangleCuller = new RectangleTriangleCuller(new Rectangle(-vp.width/2, -vp.height/2, vp.width, vp.height));
 			
-			camera = new FrustumCamera3D(70, 0.1, 1000, vp);
-			camera.x = 0;
-			camera.y = 2;
-			camera.z = -200;
+			var plane:Plane = new Plane( new WireframeMaterial(0x0caa0c, 0.2), 400, 400, 16, 16 );
+			scene.addChild(plane);
+			plane.rotationX = -90;
+			plane.z -= 120;
+			
+			var border:Sprite = new Sprite();
+			addChild(border);
+			border.graphics.lineStyle(3, 0xff0000);
+			border.graphics.drawRect(400-vp.width/2-2, 300-vp.height/2-2, vp.width+4, vp.height+4);
+			
+			var mask:Sprite = new Sprite();
+			container.addChild(mask);
+			mask.graphics.beginFill(0xffff00);
+			mask.graphics.drawRect(-vp.width/2, -vp.height/2, vp.width, vp.height);
+			container.mask = mask;
+			
+			camera = new FrustumCamera3D(60, 0, 1000, vp);
+			camera.x = -40;
+			camera.y = 20;
+			camera.z = -120;
 			camera.lookAt(DisplayObject3D.ZERO);
+			camera.pitch(-5);
 			
 			stage.addEventListener( KeyboardEvent.KEY_UP, keyUpHandler );
 			
@@ -205,9 +223,9 @@ package
 		*/
 		private function loop3D( event:Event ):void
 		{
-			var hips:DisplayObject3D = bvh.getChildByName("Hips");
-			if( hips )
-				camera.z = hips.world.n34 - 200;
+			if( bvh.rootNode )
+				camera.z = bvh.rootNode.world.n34 - 120;
+			
 			scene.renderCamera(camera);
 		}
 		
@@ -251,7 +269,7 @@ package
 		{
 			Papervision3D.log(bvh.toHierarchyString());
 			
-			bvh.play(2);
+			bvh.play(1);
 		}
 		
 		/**

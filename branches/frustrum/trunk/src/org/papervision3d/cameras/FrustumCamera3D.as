@@ -182,9 +182,9 @@ public class FrustumCamera3D extends CameraObject3D implements IFrustumCuller
 		
 		var radius:Number = obj.geometry.boundingSphere2;
 		
-		_objpos.x = obj.x;
-		_objpos.y = obj.y;
-		_objpos.z = obj.z;
+		_objpos.x = obj.world.n14;
+		_objpos.y = obj.world.n24;
+		_objpos.z = obj.world.n34;
 			
 		return sphereInFrustum(_objpos, radius);
 	}
