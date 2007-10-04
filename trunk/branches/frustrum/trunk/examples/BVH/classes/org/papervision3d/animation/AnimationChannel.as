@@ -109,6 +109,7 @@ package org.papervision3d.animation
 		}
 		
 		/**
+		 * bake matrix curves from rotation curves.
 		 * 
 		 * @return
 		 */

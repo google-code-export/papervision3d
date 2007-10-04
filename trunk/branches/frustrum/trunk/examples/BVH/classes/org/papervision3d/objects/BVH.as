@@ -41,6 +41,8 @@ package org.papervision3d.objects
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
+	import org.papervision3d.core.geom.Lines3D;
+	import org.papervision3d.core.Number3D;
 	
 	import mx.utils.StringUtil;
 
@@ -75,6 +77,9 @@ package org.papervision3d.objects
 		
 		/** default endsite material */
 		public static var DEFAULT_ENDSITE_MATERIAL:MaterialObject3D = new WireframeMaterial(0x00ff00);
+		
+		/** */
+		public var rootNode:DisplayObject3D;
 		
 		/** frame data */
 		public var frames:Array;
@@ -170,7 +175,7 @@ package org.papervision3d.objects
 		protected function createJoint( material:MaterialObject3D = null ):DisplayObject3D
 		{
 			material = material || DEFAULT_JOINT_MATERIAL;
-			
+	
 			return new Sphere(material, 1, 3, 2);
 		}
 		
@@ -216,7 +221,7 @@ package org.papervision3d.objects
 			var state:String = "";
 			var lines:Array = raw.split("\n");
 			var lastName:String = "";
-			
+	
 			frames = new Array();
 			
 			_poses = new Dictionary();
@@ -247,9 +252,13 @@ package org.papervision3d.objects
 						break;
 						
 					case "ROOT":
+						stickModel = new Lines3D(new LineMaterial(0xffff00));
+						
 						instance = parent.addChild( createRoot(), parts[1] );
 						instance.name = parts[1];
 						instance.extra = new Object();
+						rootNode = instance;
+						rootNode.addChild( stickModel );
 						break;
 						
 					case "OFFSET":
@@ -337,6 +346,8 @@ package org.papervision3d.objects
 						break;
 				}
 			}
+						
+			createStickModel( this.rootNode );
 			
 			createAnimation( this );
 			
@@ -352,8 +363,13 @@ package org.papervision3d.objects
 		 */
 		public function play( repeatCount:int = 0 ):void
 		{
+			// need milliseconds
 			this.controller.frameTime = this.frameTime * 1000;
+			
+			// repeat aninamtions
 			this.controller.repeatCount = repeatCount * frames.length;
+			
+			// play!
 			this.controller.play();
 		}
 		
@@ -371,7 +387,7 @@ package org.papervision3d.objects
 				s += toHierarchyString( child, indent + " -> " );
 			return s;
 		}
-			
+				
 		/**
 		 * 
 		 * @param	obj
@@ -379,8 +395,6 @@ package org.papervision3d.objects
 		 */
 		private function createAnimation( obj:DisplayObject3D ):void
 		{			
-			Papervision3D.log( "creating animation for " + obj.name );
-			
 			if( obj.extra && obj.extra["CHANNELS"] is Array )
 			{	
 				var channel:AnimationChannel = new AnimationChannel(obj);
@@ -411,7 +425,9 @@ package org.papervision3d.objects
 			}
 			
 			for each( var child:DisplayObject3D in obj.children )
+			{
 				createAnimation(child);
+			}
 		}
 		
 		/**
@@ -446,6 +462,27 @@ package org.papervision3d.objects
 		
 		/**
 		 * 
+		 * @param	obj
+		 * @param	parent
+		 * @return
+		 */
+		private function createStickModel( obj:DisplayObject3D, parent:DisplayObject3D = null ):void
+		{
+			if( parent && !(obj is Lines3D) && !(parent is Lines3D) && obj.numChildren)
+			{
+				var instance:Lines3D = new Lines3D(new LineMaterial(0xffff00), "Stick_"+parent.name+"_"+obj.name);
+				
+				instance.addNewLine(0, 0, 0, 0, obj.x, obj.y, obj.z);
+				
+				parent.addChild(instance);
+			}
+			
+			for each( var child:DisplayObject3D in obj.children )
+				createStickModel( child, obj );
+		}
+		
+		/**
+		 * 
 		 * @param	name
 		 * @param	obj
 		 * @return
@@ -454,7 +491,7 @@ package org.papervision3d.objects
 		{
 			obj = obj || this;
 	
-			if( obj.name == name )
+			if( obj.name.toLowerCase() == name.toLowerCase() )
 				return obj;
 				
 			for each( var child:DisplayObject3D in obj.children )
@@ -529,6 +566,9 @@ package org.papervision3d.objects
 		{
 			dispatchEvent( event );
 		}
+		
+		/** */
+		private var stickModel:Lines3D;
 		
 		/** */
 		private var _poses:Dictionary;
