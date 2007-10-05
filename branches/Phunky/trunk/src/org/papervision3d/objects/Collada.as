@@ -319,11 +319,13 @@ package org.papervision3d.objects
 			// Triangles
 			for each( var triangles:XML in geometry.mesh.triangles )
 			{
+					
 				// Input
 				var field:Array = new Array();
 	
 				for each( var input:XML in triangles.input )
 				{
+					
 					semantics[ input.@semantic ] = deserialize( input, geometry );
 					field.push( input.@semantic );
 				}
@@ -621,6 +623,7 @@ package org.papervision3d.objects
 	
 			if( acc != new XMLList() )
 			{
+				
 				// Build source floats array
 				var floId  :String  = acc.@source.split("#")[1];
 				var floXML :XMLList = COLLADA..float_array.(@id == floId);
@@ -653,7 +656,6 @@ package org.papervision3d.objects
 			{
 				// Store indexes if no source
 				var recursive :XMLList = geo..vertices.(@id == id)[INPUTTAG];
-	
 				output = deserialize( recursive[0], geo );
 			}
 	
