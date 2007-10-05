@@ -120,7 +120,7 @@ package org.papervision3d.core.geom
 			s_x	:Number,
 			s_y	:Number,
 			s_z	:Number,
-			vertex:org.papervision3d.core.geom.renderables.Vertex3D, 
+			vertex:Vertex3D,
 			screen:Vertex3DInstance,
 			persp :Number,
 
@@ -130,7 +130,7 @@ package org.papervision3d.core.geom
 			focus    :Number = camera.focus,
 			fz       :Number = focus * camera.zoom;
 			
-			while( vertex = org.papervision3d.core.geom.renderables.Vertex3D(vertices[--i]) )
+			while( vertex = vertices[--i] )
 			{
 				// Center position
 				vx = vertex.x;

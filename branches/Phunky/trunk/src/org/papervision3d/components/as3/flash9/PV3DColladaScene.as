@@ -636,7 +636,8 @@ package org.papervision3d.components.as3.flash9
 		 */	
 		override protected function handleTimerUpdate(e:TimerEvent):void
 		{
-			updateScene();
+			//DISABLED! CAUSED SOME STUTTERING
+			//updateScene();
 		}
 		
 		/**

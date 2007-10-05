@@ -418,6 +418,9 @@ package org.papervision3d.objects
 		 */
 		public static var faceLevelMode  :Boolean;
 		
+		//ADDED BY RALPH, HUNTING ARRAY LEAK
+		public static var staticSorted:Array = new Array();
+		
 		/**
 		* The GeometryObject3D object that contains the 3D definition of this instance.
 		* <p/>
@@ -706,7 +709,10 @@ package org.papervision3d.objects
 			var screenZs :Number = 0;
 			var children :Number = 0;
 	
-			if( ! sorted ) this._sorted = sorted = new Array();
+			if( ! sorted ){
+				staticSorted.length = 0;
+				this._sorted = sorted = staticSorted;
+			} 
 	
 			for each( var child:DisplayObject3D in this._childrenByName )
 			{
