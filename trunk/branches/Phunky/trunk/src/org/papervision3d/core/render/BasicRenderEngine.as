@@ -62,7 +62,7 @@ package org.papervision3d.core.render
 			//Sort entire list.
 			sorter.sort(renderList);
 			
-			lastRenderList = new Array();
+			lastRenderList.length = 0;
 			
 			renderSessionData.container = container;
 			renderSessionData.camera = camera;
