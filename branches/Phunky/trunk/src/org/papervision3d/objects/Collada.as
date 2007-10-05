@@ -430,7 +430,7 @@ package org.papervision3d.objects
 				else uvList = null;
 
 				var materialName:String = semFaces[i].material || null;
-				var face:Triangle3D = new Triangle3D(this, faceList, _materials.getMaterialByName(materialName), uvList );
+				var face:Triangle3D = new Triangle3D(instance, faceList, _materials.getMaterialByName(materialName), uvList );
 
 				faces.push( face );
 			}
