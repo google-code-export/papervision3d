@@ -288,10 +288,12 @@ package org.papervision3d.components.as3.flash9
 			// updateScene
 			if(!isLivePreview && autoRenderScene)
 			{
+				log.debug("SHOULD START TIMER ************************");
 				timer.addEventListener(TimerEvent.TIMER, handleTimerUpdate);
 				timer.start();
-			}else
+			}else if(isLivePreview)
 			{
+				log.debug("SHOULD START ENTERFRAME ************************");
 				// gives me 5 frame updates it seems
 				stage.addEventListener(Event.ENTER_FRAME, handleEnterFrame);
 			}

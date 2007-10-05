@@ -145,7 +145,7 @@ package org.papervision3d.components.as3.flash9
 			if(debug) log.debug("componentInspectorSetting", p_piSetting);
 			if(!_componentInspectorSetting) 
 			{
-				initApp();
+				if(!isAppInitialized) initApp();
 				if(debug) log.debug("colladaFile?", colladaFile);
 				if(debug) log.debug("isLivePreview?", isLivePreview);
 				
@@ -637,7 +637,7 @@ package org.papervision3d.components.as3.flash9
 		override protected function handleTimerUpdate(e:TimerEvent):void
 		{
 			//DISABLED! CAUSED SOME STUTTERIN
-			//updateScene();
+			updateScene();
 		}
 		
 		/**
