@@ -40,6 +40,7 @@ package org.papervision3d.core.proto
 {
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
+	import org.papervision3d.animation.core.AnimationEngine;
 	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.culling.DefaultParticleCuller;
@@ -124,7 +125,7 @@ package org.papervision3d.core.proto
 		 * A reference to an interactiveSceneManager instance.  Only available if the scene3d is set to interactive
 		 */
 		public var interactiveSceneManager:InteractiveSceneManager = null;
-		
+				
 		/**
 		* [internal-use]
 		*
@@ -240,7 +241,7 @@ package org.papervision3d.core.proto
 	
 			// Materials
 			MovieMaterial.updateAnimatedBitmaps();
-	
+					
 			// 3D projection
 			if( camera )
 			{
