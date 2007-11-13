@@ -83,7 +83,11 @@ package org.papervision3d.core.proto
 				return _boundingSphere2;
 		}
 	
-	
+		/**
+		 * 
+		 */
+		public var dirty:Boolean;
+		
 		/**
 		* An array of Face3D objects for the faces of the mesh.
 		*/
@@ -110,6 +114,7 @@ package org.papervision3d.core.proto
 		public function GeometryObject3D( initObject:Object=null ):void
 		{
 	//		this.materials = new MaterialsList();
+			this.dirty = true;
 		}
 	
 	
@@ -187,6 +192,7 @@ package org.papervision3d.core.proto
 		{
 			if(b){
 				createVertexNormals();
+				this.dirty = false;
 			}
 			_ready = b;
 		}
