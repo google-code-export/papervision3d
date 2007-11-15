@@ -40,8 +40,7 @@ package org.papervision3d.core.proto
 {
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
-	import org.papervision3d.animation.core.AnimationEngine;
-	
+
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.culling.DefaultParticleCuller;
 	import org.papervision3d.core.culling.DefaultTriangleCuller;
