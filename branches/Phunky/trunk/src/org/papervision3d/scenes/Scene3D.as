@@ -40,7 +40,6 @@ package org.papervision3d.scenes
 {
 import flash.display.Sprite;
 import flash.utils.getTimer;
-	import org.papervision3d.animation.core.AnimationEngine;
 import org.papervision3d.core.render.InteractiveRendererEngine;
 
 import org.papervision3d.core.proto.*;
