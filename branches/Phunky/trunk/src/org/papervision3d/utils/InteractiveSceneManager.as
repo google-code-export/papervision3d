@@ -28,6 +28,7 @@ package org.papervision3d.utils
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.utils.virtualmouse.IVirtualMouseEvent;
 	import org.papervision3d.utils.virtualmouse.VirtualMouse;
+	import flash.display.DisplayObject;
 
 	public class InteractiveSceneManager extends EventDispatcher
 	{
@@ -35,6 +36,8 @@ package org.papervision3d.utils
 		* MOUSE_IS_DOWN is a quick static property to check and is maintained by the ISM
 		*/
 		public static var MOUSE_IS_DOWN								:Boolean = false;
+		public static var MOUSE_IS_OVER								:Boolean = false;
+		public static var MOUSE_IS_OUT								:Boolean = true;
 		
 		/**
 		* VirtualMouse is used with faceLevelMode of ISM or DO3D's.  Its a virtual mouse that causes the objects in your materials movieclip containers to fire off their mouse events such as click, over, out, release, press etc
@@ -67,7 +70,7 @@ package org.papervision3d.utils
 		
 		public var debug											:Boolean = false;
 		
-		protected var point											:Point = new Point();
+		protected static var point									:Point = new Point();
 		
 		/**
 		* @private
@@ -90,7 +93,6 @@ package org.papervision3d.utils
 				if( container.stage )
 				{
 					initVirtualMouse();
-					//initListeners();
 				}else
 				{
 					container.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
@@ -104,9 +106,7 @@ package org.papervision3d.utils
 		 * 
 		 */		
 		protected function handleAddedToStage(e:Event):void
-		{
-			//container.stage.addEventListener(MouseEvent.MOUSE_UP, handleReleaseOutside);
-			
+		{			
 			initVirtualMouse();			
 			initListeners();
 		}
@@ -120,14 +120,13 @@ package org.papervision3d.utils
 		
 		public function initListeners():void
 		{
-			trace("renderer?", scene.renderer is InteractiveRendererEngine);
 			if( scene.interactive )
 			{
 				// setup listeners
 				container.addEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
 				container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
 				container.addEventListener(MouseEvent.CLICK, handleMouseClick);
-				container.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+				container.stage.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
 			
 				if( scene.renderer is InteractiveRendererEngine ) InteractiveRendererEngine(scene.renderer).addEventListener(RendererEvent.RENDER_DONE, handleRenderDone);
 			}
@@ -137,29 +136,38 @@ package org.papervision3d.utils
 		{
 			resolveRenderHitData();
 			
-			if( renderHitData.hasHit )
-			{
-				currentDisplayObject3D = renderHitData.displayObject3D;
-				currentMaterial = renderHitData.material;
-				
-				// when we move the mouse, we assess if there is need to dispatch Over/Out calls
-				manageOverOut();
-			}
+			currentDisplayObject3D = renderHitData.displayObject3D;
+			currentMaterial = renderHitData.material;
+			
+			// when we move the mouse, we assess if there is need to dispatch Over/Out calls
+			manageOverOut();
 		}
 		
 		protected function manageOverOut():void
 		{
-			if( !renderHitData.hasHit || !enableOverOut ) return;
+			if( !enableOverOut ) return;
 			
-			// if currentDO3D is null, then just dispatch the Over event for the new DO3D
-			if( !currentMouseDO3D && currentDisplayObject3D ) handleMouseOver(currentDisplayObject3D);
-			
-			// if DO3D's don't match up, then we have an Out event for the old DO3D, and an Over event for the new DO3D
-			if( currentDisplayObject3D != currentMouseDO3D )
+			if(renderHitData.hasHit)
 			{
-				handleMouseOut(currentMouseDO3D);
-				handleMouseOver(currentDisplayObject3D);
-				currentMouseDO3D = currentDisplayObject3D;
+				if( !currentMouseDO3D && currentDisplayObject3D ) 
+				{
+					handleMouseOver(currentDisplayObject3D);
+					currentMouseDO3D = currentDisplayObject3D;
+				}
+				else if( currentMouseDO3D && currentMouseDO3D != currentDisplayObject3D )
+				{
+					handleMouseOut(currentMouseDO3D);
+					handleMouseOver(currentDisplayObject3D);
+					currentMouseDO3D = currentDisplayObject3D;
+				}
+			}
+			else
+			{
+				if( currentMouseDO3D != null )
+				{
+					handleMouseOut(currentMouseDO3D);
+					currentMouseDO3D = null;
+				}
 			}
 		}
 		
@@ -213,7 +221,6 @@ package org.papervision3d.utils
 		
 		protected function handleMouseOver(DO3D:DisplayObject3D):void
 		{
-			//if( e is IVirtualMouseEvent ) return;
 			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER, DO3D);
 		}
 		
@@ -224,19 +231,14 @@ package org.papervision3d.utils
 		 */		
 		protected function handleMouseOut(DO3D:DisplayObject3D):void
 		{
-			//if( e is IVirtualMouseEvent ) return;
-			
-			if( VirtualMouse && renderHitData )
-			{				
-				var bitmap:BitmapData = currentMaterial.bitmap;
-				var rect:Rectangle = new Rectangle(0, 0, bitmap.width, bitmap.height);
-				var contains:Boolean = rect.contains(renderHitData.u, renderHitData.v);
+			if( DO3D ) 
+			{
+				var mat:MovieMaterial = DO3D.material as MovieMaterial;
 				
-				if (!contains) virtualMouse.exitContainer();
-				
-				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT, DO3D);
+				if( mat ) virtualMouse.exitContainer();
 			}
 			
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT, DO3D);	
 		}
 		/**
 		 * Handles the MOUSE_MOVE event on an InteractiveSprite container
@@ -246,22 +248,23 @@ package org.papervision3d.utils
 		protected function handleMouseMove(e:MouseEvent):void
 		{
 			if( e is IVirtualMouseEvent ) return;
-			if( VirtualMouse && renderHitData )
+			if( virtualMouse && renderHitData )
 			{
 				// locate the material's movie
 				var mat:MovieMaterial = currentMaterial as MovieMaterial;
 				
 				if( mat )
 				{
+					//log.debug("found moviematerial, setting as container", container.name, mat.name);
 					// set the location where the calcs should be performed
 					virtualMouse.container = mat.movie as Sprite;
-					
-					// update virtual mouse so it can test
-					if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
 				}
 				
+				// update virtual mouse so it can test
+				if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
+				
 				// update the position mouse3D
-				if( Mouse3D.enabled && renderHitData.hasHit ) mouse3D.updatePosition(renderHitData);
+				if( Mouse3D.enabled ) mouse3D.updatePosition(renderHitData);
 				
 				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
 
@@ -281,15 +284,19 @@ package org.papervision3d.utils
 		
 		protected function dispatchObjectEvent(event:String, DO3D:DisplayObject3D):void
 		{
-			if( !renderHitData.hasHit ) return;
 			if(debug) log.debug(event, DO3D.name);
 			
-			var x:Number = renderHitData.u ? renderHitData.u : 0;
-			var y:Number = renderHitData.v ? renderHitData.v : 0;
-			var IS3DE:InteractiveScene3DEvent = new InteractiveScene3DEvent(event, DO3D, container, renderHitData.renderable as Triangle3D, x, y)
-		
-			dispatchEvent(IS3DE);
-			currentDisplayObject3D.dispatchEvent(IS3DE);
+			if(renderHitData.hasHit) 
+			{
+				var x:Number = renderHitData.u ? renderHitData.u : 0;
+				var y:Number = renderHitData.v ? renderHitData.v : 0;
+				dispatchEvent(new InteractiveScene3DEvent(event, DO3D, container, renderHitData.renderable as Triangle3D, x, y));
+				DO3D.dispatchEvent(new InteractiveScene3DEvent(event, DO3D, container, renderHitData.renderable as Triangle3D, x, y));
+			} else 
+			{
+				dispatchEvent(new InteractiveScene3DEvent(event, DO3D, container));
+				if( DO3D ) DO3D.dispatchEvent(new InteractiveScene3DEvent(event, DO3D, container));
+			}
 		}
 	}	
 }
