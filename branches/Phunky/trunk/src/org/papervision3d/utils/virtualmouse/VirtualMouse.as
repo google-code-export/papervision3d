@@ -53,6 +53,8 @@ package org.papervision3d.utils.virtualmouse
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
+	import org.papervision3d.components.as3.utils.CoordinateTools;
+	import com.blitzagency.xray.logger.util.ObjectTools;
 	
     /**
      * Dispatched when the virtual mouse state is updated.
@@ -337,6 +339,7 @@ package org.papervision3d.utils.virtualmouse
 			this.stage = stage;
 			this.container = container;
 			location = new Point(startX, startY);
+			trace("Location point?");
 			lastLocation = location.clone();
 			addEventListener(UPDATE, handleUpdate);
 			update();
@@ -372,9 +375,12 @@ package org.papervision3d.utils.virtualmouse
 		 * @see y
 		 * @see getLocation()
 		 */
-		public function setLocation(a:*, b:* = null):void {
+		public function setLocation(a:*, b:* = null):void 
+		{
+			//log.debug("VM setLocation", a, b);
 			if (a is Point) {
-				var loc:Point = Point(a);
+				var loc:Point = a as Point;
+				trace(loc);
 				location.x = loc.x;
 				location.y = loc.y;
 			}else{
@@ -543,26 +549,27 @@ package org.papervision3d.utils.virtualmouse
 		/*Added by Jim Kremens kremens@gmail.com 08/16/07 */
 		public function exitContainer():void {
 			var targetLocal:Point = target.globalToLocal(location);
+			//log.debug("Targetlocal", target != container);
 			if (!disabledEvents[MouseEvent.MOUSE_OUT]) {
 				_lastEvent = new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
-				container.dispatchEvent(_lastEvent);
-				dispatchEvent(_lastEvent);
+				container.dispatchEvent(new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta));
+				dispatchEvent(new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta));
 			}
 			if (!disabledEvents[MouseEvent.ROLL_OUT]) { // rolls do not propagate
 				_lastEvent = new mouseEventEvent(MouseEvent.ROLL_OUT, false, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
-				container.dispatchEvent(_lastEvent);
-				dispatchEvent(_lastEvent);
+				container.dispatchEvent(new mouseEventEvent(MouseEvent.ROLL_OUT, false, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta));
+				dispatchEvent(new mouseEventEvent(MouseEvent.ROLL_OUT, false, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta));
 			}
 			if (target != container) {
 				if (!disabledEvents[MouseEvent.MOUSE_OUT]) {
 					_lastEvent = new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
-					target.dispatchEvent(_lastEvent);
-					dispatchEvent(_lastEvent);
+					target.dispatchEvent(new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta));
+					dispatchEvent(new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta));
 				}
 				if (!disabledEvents[MouseEvent.ROLL_OUT]) { // rolls do not propagate
 					_lastEvent = new mouseEventEvent(MouseEvent.ROLL_OUT, false, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
-					target.dispatchEvent(_lastEvent);
-					dispatchEvent(_lastEvent);
+					target.dispatchEvent(new mouseEventEvent(MouseEvent.ROLL_OUT, false, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta));
+					dispatchEvent(new mouseEventEvent(MouseEvent.ROLL_OUT, false, false, targetLocal.x, targetLocal.y, container, ctrlKey, altKey, shiftKey, _mouseIsDown, delta));
 				}
 			}
 			//reset the target to the stage, which is the value it starts at.
@@ -602,7 +609,8 @@ package org.papervision3d.utils.virtualmouse
 			// 		4) all parents have mouseChildren
 			// if not interactive object, defer interaction to next object in list
 			// if is interactive and enabled, give interaction and ignore rest
-			var objectsUnderPoint:Array = container.getObjectsUnderPoint(location);
+			var p:Point = CoordinateTools.localToLocal(container, stage, location);
+			var objectsUnderPoint:Array = container.getObjectsUnderPoint(location); //container.getObjectsUnderPoint(p);
 			var currentTarget:InteractiveObject;
 			var currentParent:DisplayObject;
 			
@@ -614,7 +622,8 @@ package org.papervision3d.utils.virtualmouse
 				while (currentParent) {
 					
 					// don't use ignored instances as the target
-					if (ignoredInstances[currentParent]) {
+					if (ignoredInstances[currentParent]
+					) {
 						currentTarget = null;
 						break;
 					}
@@ -663,6 +672,8 @@ package org.papervision3d.utils.virtualmouse
 			// get local coordinate locations
 			var targetLocal:Point = target.globalToLocal(location);
 			var currentTargetLocal:Point = currentTarget.globalToLocal(location);
+			//trace("targetLocal");
+			//trace("currentTargetLocal");
 			
 			// move event
 			if (lastLocation.x != location.x || lastLocation.y != location.y) 
@@ -689,8 +700,9 @@ package org.papervision3d.utils.virtualmouse
 			}
 			
 			// roll/mouse (out and over) events 
+			//trace("targets match?", target == _stage, currentTarget == target, currentTarget == _stage, target.name, currentTarget.name, ObjectTools.getImmediateClassPath(currentTarget));
 			if (currentTarget != target) 
-			{				
+			{	
 				// off of last target
 				if (!disabledEvents[MouseEvent.MOUSE_OUT]){
 					_lastEvent = new mouseEventEvent(MouseEvent.MOUSE_OUT, true, false, targetLocal.x, targetLocal.y, currentTarget, ctrlKey, altKey, shiftKey, _mouseIsDown, delta);
