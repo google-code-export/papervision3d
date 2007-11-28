@@ -264,7 +264,7 @@ package org.papervision3d.utils
 				if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
 				
 				// update the position mouse3D
-				if( Mouse3D.enabled ) mouse3D.updatePosition(renderHitData);
+				if( Mouse3D.enabled && renderHitData.renderable!=null ) mouse3D.updatePosition(renderHitData);
 				
 				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
 
