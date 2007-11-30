@@ -189,7 +189,7 @@ package org.papervision3d.utils
 			if( e is IVirtualMouseEvent ) return;
 			MOUSE_IS_DOWN = true;
 			if( virtualMouse ) virtualMouse.press();
-			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, currentDisplayObject3D);
+			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, currentDisplayObject3D);
 		}
 		/**
 		 * Handles the MOUSE_UP event on an InteractiveSprite container
@@ -201,7 +201,7 @@ package org.papervision3d.utils
 			if( e is IVirtualMouseEvent ) return;
 			MOUSE_IS_DOWN = false;
 			if( virtualMouse ) virtualMouse.release();
-			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, currentDisplayObject3D);
+			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, currentDisplayObject3D);
 		}
 		/**
 		 * Handles the MOUSE_CLICK event on an InteractiveSprite container
@@ -211,7 +211,7 @@ package org.papervision3d.utils
 		protected function handleMouseClick(e:MouseEvent):void
 		{
 			if( e is IVirtualMouseEvent ) return;
-			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, currentDisplayObject3D);
+			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, currentDisplayObject3D);
 		}
 		/**
 		 * Handles the MOUSE_OVER event on an InteractiveSprite container
