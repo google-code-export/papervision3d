@@ -1,1 +1,0 @@
-Remember to setup this project to use your PV3D ActionScript project src directory as a sourcepath.
