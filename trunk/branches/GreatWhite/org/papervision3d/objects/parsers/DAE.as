@@ -29,7 +29,6 @@ package org.papervision3d.objects.parsers
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
-	import org.papervision3d.core.geom.lights.PointLight3D;
 	
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.*;
@@ -50,7 +49,14 @@ package org.papervision3d.objects.parsers
 	import org.papervision3d.materials.special.*;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
+
+
+	import org.papervision3d.objects.parsers.ascollada.Node3D;
+	import org.papervision3d.objects.parsers.ascollada.Skin3D;
+	import org.papervision3d.materials.special.LineMaterial;
+
 	import org.papervision3d.objects.parsers.ascollada.*;
+	import org.papervision3d.lights.PointLight3D;
 
 
 	/**
@@ -84,20 +90,43 @@ package org.papervision3d.objects.parsers
 		 * @param	async
 		 * @return
 		 */
-		public function DAE( asset:*, materials:MaterialsList = null, async:Boolean = false ):void
+		public function DAE( async:Boolean = false ):void
+		{
+			_reader = new DaeReader(async);
+		}
+		
+		public function load(asset:*, materials:MaterialsList = null ):void
 		{
 			this.materials = materials || new MaterialsList();
-			
 			this.buildFileInfo(asset);
-			
-			_reader = new DaeReader(async);
-			
 			_asset = asset;
 			
-			// give some time for eventlisteners to get added.
-			_delayTimer = new Timer(500);
-			_delayTimer.addEventListener(TimerEvent.TIMER, delayedLoadHandler);
-			_delayTimer.start();
+			if( _asset is ByteArray || _asset is XML )
+			{
+				if( !this._reader.hasEventListener(Event.COMPLETE) )
+					this._reader.addEventListener(Event.COMPLETE, buildScene);
+					
+				this._reader.loadDocument(_asset);
+			}
+			else
+			{
+				doLoad( String(_asset) );
+			}
+		}
+		
+		/**
+		 * 
+		 * @param	url
+		 * @return
+		 */
+		protected function doLoad( url:String ):void
+		{
+			this.filename = url;
+			
+			_reader.addEventListener( Event.COMPLETE, buildScene );
+			_reader.addEventListener( ProgressEvent.PROGRESS, loadProgressHandler );
+			_reader.addEventListener( IOErrorEvent.IO_ERROR, handleIOError,false, 0, true );
+			_reader.read(filename);
 		}
 		
 		/**
@@ -1280,20 +1309,7 @@ package org.papervision3d.objects.parsers
 				linkSkins(child);
 		}
 		
-		/**
-		 * 
-		 * @param	url
-		 * @return
-		 */
-		private function load( url:String ):void
-		{
-			this.filename = url;
-			
-			_reader.addEventListener( Event.COMPLETE, buildScene );
-			_reader.addEventListener( ProgressEvent.PROGRESS, loadProgressHandler );
-			_reader.addEventListener( IOErrorEvent.IO_ERROR, handleIOError,false, 0, true );
-			_reader.read(filename);
-		}
+		
 		
 		/**
 		 * 
@@ -1381,27 +1397,7 @@ package org.papervision3d.objects.parsers
 			dispatchEvent( event );
 		}
 		
-		/**
-		 * 
-		 * @param	event
-		 * @return
-		 */
-		private function delayedLoadHandler( event:TimerEvent ):void
-		{
-			_delayTimer.stop();
-			
-			if( _asset is ByteArray || _asset is XML )
-			{
-				if( !this._reader.hasEventListener(Event.COMPLETE) )
-					this._reader.addEventListener(Event.COMPLETE, buildScene);
-					
-				this._reader.loadDocument(_asset);
-			}
-			else
-			{
-				load( String(_asset) );
-			}
-		}
+		
 		
 		private var _reader:DaeReader;
 		
