@@ -107,9 +107,6 @@ package org.papervision3d.core.animation.controllers
 					_cached[i] = new Number3D(vertices[i].x, vertices[i].z, vertices[i].y);
 				Matrix3D.multiplyVector(this.skin.bindPose, _cached[i]);
 			}
-			
-			//if( !_yUp )
-			//	this.skin.rotationX = -90;
 		}
 		
 		/**

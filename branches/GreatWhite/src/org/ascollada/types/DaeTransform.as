@@ -100,8 +100,25 @@ package org.ascollada.types
 						for( i = 0; i < output.length; i++ )
 							matrices.push( translationMatrix(output[i][0], output[i][1], output[i][2]) );
 					}
+					else if( channel.syntax.member == "X" )
+					{
+						for( i = 0; i < output.length; i++ )
+							matrices.push( translationMatrix(output[i], 0, 0) );						
+					}
+					else if( channel.syntax.member == "Y" )
+					{
+						for( i = 0; i < output.length; i++ )
+							matrices.push( translationMatrix(0, output[i], 0) );						
+					}
+					else if( channel.syntax.member == "Z" )
+					{
+						for( i = 0; i < output.length; i++ )
+							matrices.push( translationMatrix(0, 0, output[i]) );						
+					}
 					else
+					{
 						Logger.trace( " => => " + this.type + " " + channel.syntax );
+					}
 					break;
 				case ASCollada.DAE_SCALE_ELEMENT:
 					Logger.trace( " => buildAnimatedMatrices " + this.type );

@@ -210,8 +210,7 @@ package org.papervision3d.objects.parsers
 						
 					// #keys and #matrices *should* be equal
 					if( matrices.length != channel.input.length )
-						continue;
-						//throw new Error( "matrices.length != channel.input.length" );
+						throw new Error( "matrices.length != channel.input.length" );
 
 					channel.output = matrices;		
 					
@@ -707,6 +706,7 @@ package org.papervision3d.objects.parsers
 			for( var i:int = 0; i < node.transforms.length; i++ ) 
 			{
 				var transform:DaeTransform = node.transforms[i];
+				
 				matrix = Matrix3D.multiply( matrix, new Matrix3D(transform.matrix) );
 			}			
 			return matrix;
@@ -890,7 +890,7 @@ package org.papervision3d.objects.parsers
 				//this.rootNode.rotationX = 90;
 				//this.rootNode.rotationY = 180;
 			}
-			
+						
 			// there may be animations left to parse...
 			if( document.numQueuedAnimations )
 			{
@@ -902,7 +902,7 @@ package org.papervision3d.objects.parsers
 			}
 			else
 				hasAnimations = false;
-				
+			
 			// done with geometry
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
@@ -1011,8 +1011,6 @@ package org.papervision3d.objects.parsers
 		private function buildVertices( mesh:DaeMesh ):Array
 		{
 			var vertices:Array = new Array();
-			
-			var yUp:Boolean = (document.yUp == DaeDocument.Y_UP);
 			
 			for( var i:int = 0; i < mesh.vertices.length; i++ )
 			{
@@ -1292,6 +1290,8 @@ package org.papervision3d.objects.parsers
 					joint.bindMatrix = new Matrix3D(bindMatrix);
 					joint.blendVerts = daeSkin.findJointVertexWeightsByIDOrSID(jointId);
 
+				//	joint.bindMatrix.n14 = -joint.bindMatrix.n14;
+					
 					if( !joint.blendVerts )
 						throw new Error( "could not find influences for joint: " + jointId );
 						
