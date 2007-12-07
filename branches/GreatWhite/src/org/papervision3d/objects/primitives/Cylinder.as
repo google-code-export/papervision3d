@@ -35,16 +35,12 @@
 
 // ______________________________________________________________________
 //                                                GeometryObject3D: Cylinder
-package org.papervision3d.objects.primitives
-{
-	import flash.display.BitmapData;
-	
-	import org.papervision3d.core.*;
+package org.papervision3d.objects.primitives {
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
-	import org.papervision3d.core.proto.*;
 	import org.papervision3d.core.math.NumberUV;
+	import org.papervision3d.core.proto.*;	
 
 	/**
 	* The Cylinder class lets you create and display Cylinders.

@@ -4,8 +4,8 @@ package org.papervision3d.core.render.sort
 	/**
 	 * @Author Ralph Hauwert
 	 */
-	 
-	import flash.utils.getTimer;
+
+	
 	
 	public class BasicRenderSorter implements IRenderSorter
 	{

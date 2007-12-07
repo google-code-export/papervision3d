@@ -26,13 +26,12 @@
 package org.papervision3d.objects.parsers.ascollada
 {
 	// import papervision
-	import org.papervision3d.core.*;
+	
 	import org.papervision3d.core.geom.AnimatedMesh3D;
 	import org.papervision3d.core.math.*;
-	import org.papervision3d.core.proto.*;
 	import org.papervision3d.materials.*;
-	import org.papervision3d.objects.*;
-	
+	import org.papervision3d.objects.*;	
+
 	public class Node3D extends AnimatedMesh3D 
 	{	
 		public var daeID:String;

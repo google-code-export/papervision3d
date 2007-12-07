@@ -23,12 +23,10 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.core 
-{
+package org.ascollada.core {
 	import org.ascollada.ASCollada;
-	import org.ascollada.core.DaeEntity;
-	import org.ascollada.utils.Logger;
-	
+	import org.ascollada.core.DaeEntity;	
+
 	public class DaeCamera extends DaeEntity
 	{
 		public static const TYPE_X:uint = 0;

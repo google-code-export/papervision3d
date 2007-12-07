@@ -31,16 +31,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.core.animation.controllers
-{
+package org.papervision3d.core.animation.controllers {
 	import org.papervision3d.core.animation.core.KeyFrameController;
-	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.objects.parsers.ascollada.Node3D;
-	import org.papervision3d.objects.parsers.ascollada.Skin3D;
-	
+	import org.papervision3d.objects.parsers.ascollada.Skin3D;	
+
 	/**
 	 * @author Tim Knip 
 	 */

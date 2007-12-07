@@ -35,18 +35,16 @@
 
 // ______________________________________________________________________
 //                                                GeometryObject3D: Cube
-package org.papervision3d.objects.primitives
-{
+package org.papervision3d.objects.primitives {
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.*;
-	import org.papervision3d.materials.utils.MaterialsList;
-	
+	import org.papervision3d.materials.utils.MaterialsList;	
+
 	/**
 	* The Cube class lets you create and display flat rectangle objects.
 	* <p/>
@@ -285,7 +283,7 @@ package org.papervision3d.objects.primitives
 			}
 		}
 		private var insideFaces  :int;
-		private var excludeFaces :int
+		private var excludeFaces :int;
 		
 	}
 }

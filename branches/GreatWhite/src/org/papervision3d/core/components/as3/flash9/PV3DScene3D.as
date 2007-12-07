@@ -1,15 +1,10 @@
 ﻿/**
 * @author John Grden
 */
-package org.papervision3d.core.components.as3.flash9
-{
-	import com.blitzagency.xray.logger.XrayLog;
-	
-	import flash.display.MovieClip;
+package org.papervision3d.core.components.as3.flash9 {
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.utils.Timer;
@@ -19,12 +14,13 @@ package org.papervision3d.core.components.as3.flash9
 	import org.papervision3d.core.components.as3.core.PV3DUIComponent;
 	import org.papervision3d.core.components.as3.utils.CoordinateTools;
 	import org.papervision3d.core.proto.CameraObject3D;
-	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.render.BasicRenderEngine;
 	import org.papervision3d.scenes.Scene3D;
-	import org.papervision3d.view.Viewport3D;	
+	import org.papervision3d.view.Viewport3D;
 	
+	import com.blitzagency.xray.logger.XrayLog;	
+
 	/**
 	* Dispatched when the Scene3D has been created along with the camera.
 	* 

@@ -1,8 +1,5 @@
-﻿package com.blitzagency.xray.logger
-{
-	import com.blitzagency.xray.logger.XrayLogger;
-	import com.blitzagency.xray.logger.util.ObjectTools;
-	import com.blitzagency.xray.logger.Debug;
+﻿package com.blitzagency.xray.logger {
+	import com.blitzagency.xray.logger.util.ObjectTools;	
 
 	public class Log
 	{

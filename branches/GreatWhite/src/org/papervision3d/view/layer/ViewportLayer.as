@@ -1,13 +1,10 @@
-package org.papervision3d.view.layer
-{
+package org.papervision3d.view.layer {
 	import flash.display.Sprite;
 	
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.view.Viewport3D;
 	import org.papervision3d.core.ns.pv3dview;
-	
-	use namespace org.papervision3d.core.ns.pv3dview;
-	
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.view.Viewport3D;	
+
 	/**
 	 * @Author Ralph Hauwert
 	 */

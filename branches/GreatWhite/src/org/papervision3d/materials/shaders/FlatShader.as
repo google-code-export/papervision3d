@@ -53,7 +53,9 @@ package org.papervision3d.materials.shaders
 		{
 			lightMatrix = Matrix3D(sod.lightMatrices[this]);
 			zd = triangle.faceNormal.x * lightMatrix.n31 + triangle.faceNormal.y * lightMatrix.n32 + triangle.faceNormal.z * lightMatrix.n33;
-			if(zd < 0){zd = 0};
+			if(zd < 0){
+				zd = 0;
+			};
 			zd = zd*0xFF;
 			triMatrix = sod.uvMatrices[triangle] ? sod.uvMatrices[triangle] : sod.getUVMatrixForTriangle(triangle);
 			currentColor = _colors[int(zd)];
@@ -76,7 +78,7 @@ package org.papervision3d.materials.shaders
 			lightMatrix = Matrix3D(sod.lightMatrices[this]);
 			if(lightMatrix){
 				zd = triangle.faceNormal.x * lightMatrix.n31 + triangle.faceNormal.y * lightMatrix.n32 + triangle.faceNormal.z * lightMatrix.n33;
-				if(zd < 0){zd = 0};
+				if(zd < 0){zd = 0;};
 				scaleMatrix.a = bmp.width;
 				scaleMatrix.d = bmp.height;
 				scaleMatrix.tx =-int(zd*0xFF)*bmp.width;

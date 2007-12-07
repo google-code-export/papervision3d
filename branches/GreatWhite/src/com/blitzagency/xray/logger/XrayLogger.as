@@ -1,14 +1,13 @@
-﻿package com.blitzagency.xray.logger
-{
+﻿package com.blitzagency.xray.logger {
 	import flash.events.EventDispatcher;
-	import com.blitzagency.xray.logger.Debug;
-	import com.blitzagency.xray.logger.Logger;
-	import com.blitzagency.xray.logger.Log;
-	import com.blitzagency.xray.logger.util.PropertyTools;
-	import com.blitzagency.xray.logger.util.ObjectTools;
 	import flash.utils.*;
-	import flash.events.KeyboardEvent;
-			
+	
+	import com.blitzagency.xray.logger.Debug;
+	import com.blitzagency.xray.logger.Log;
+	import com.blitzagency.xray.logger.Logger;
+	import com.blitzagency.xray.logger.util.ObjectTools;
+	import com.blitzagency.xray.logger.util.PropertyTools;	
+
 	/**
 	 * @author John Grden
 	 */

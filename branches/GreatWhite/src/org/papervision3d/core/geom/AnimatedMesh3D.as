@@ -31,15 +31,13 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.core.geom 
-{
-	import org.papervision3d.core.animation.controllers.*;
+package org.papervision3d.core.geom {
 	import org.papervision3d.core.animation.core.*;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.events.AnimationEvent;
-	import org.papervision3d.objects.DisplayObject3D;
-	
+	import org.papervision3d.objects.DisplayObject3D;	
+
 	/**
 	 * @author Tim Knip 
 	 */

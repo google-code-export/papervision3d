@@ -1,12 +1,8 @@
-package org.papervision3d.core.culling
-{
-
-
+package org.papervision3d.core.culling {
 	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import org.papervision3d.core.geom.renderables.Triangle3DInstance;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.proto.MaterialObject3D;
-	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.DisplayObject3D;	
 
 	public class DefaultTriangleCuller implements ITriangleCuller
 	{
@@ -30,7 +26,7 @@ package org.papervision3d.core.culling
 				var material:MaterialObject3D = face.material ? face.material : face.instance.material;
 				
 				if(material.invisible){
-					return false
+					return false;
 				};
 				
 				x0 = vertex0.x;

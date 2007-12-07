@@ -24,10 +24,9 @@
  */
  
 package org.ascollada.core {
-
 	import flash.utils.Dictionary;
-	import org.ascollada.ASCollada;
-	import org.ascollada.utils.Logger;
+	
+	import org.ascollada.ASCollada;	
 
 	public class DaePrimitive extends DaeEntity {
 		

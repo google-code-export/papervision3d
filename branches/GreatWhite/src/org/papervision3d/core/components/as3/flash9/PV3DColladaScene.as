@@ -1,36 +1,85 @@
 /**
 * @author John Grden
 */
-package org.papervision3d.core.components.as3.flash9
-{
-	import com.blitzagency.xray.logger.util.PropertyTools;
+package org.papervision3d.core.components.as3.flash9 {
 	import flash.display.Sprite;
-	
-	
-	import fl.data.SimpleDataProvider;
-	
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.ProgressEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	
 	import org.papervision3d.core.components.as3.collections.MaterialsListItem;
+	import org.papervision3d.core.components.as3.utils.ObjectController;
+	import org.papervision3d.core.components.as3.utils.StageTools;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.BitmapAssetMaterial;
 	import org.papervision3d.materials.BitmapFileMaterial;
 	import org.papervision3d.materials.BitmapMaterial;
 	import org.papervision3d.materials.ColorMaterial;
-	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.materials.MovieAssetMaterial;
 	import org.papervision3d.materials.MovieMaterial;
-	import org.papervision3d.objects.parsers.Collada;
+	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.components.as3.utils.ObjectController;
-	import org.papervision3d.core.components.as3.utils.StageTools;
 	import org.papervision3d.objects.parsers.DAE;
-	import flash.events.ProgressEvent;
-	import flash.events.IOErrorEvent;
+	
+	import com.blitzagency.xray.logger.util.PropertyTools;
+	
+	import fl.data.SimpleDataProvider;	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	* Dispatched when the collada file and materials have been completely parsed and loaded.
@@ -389,7 +438,7 @@ package org.papervision3d.core.components.as3.flash9
 								if(materialsListItem.precisionMaterial)
 								{
 									//var pbam:PreciseBitmapAssetMaterial =  PreciseBitmapAssetMaterial(bam);
-									bam.precision = materialsListItem.precision
+									bam.precision = materialsListItem.precision;
 									bam.minimumRenderSize = materialsListItem.minimumRenderSize;
 								}
 								materialsList.addMaterial(bam, materialsListItem.materialName);
@@ -415,7 +464,7 @@ package org.papervision3d.core.components.as3.flash9
 							if(materialsListItem.precisionMaterial)
 							{
 								//var pbm:PreciseBitmapFileMaterial =  PreciseBitmapFileMaterial(bm);
-								bm.precision = materialsListItem.precision
+								bm.precision = materialsListItem.precision;
 								bm.minimumRenderSize = materialsListItem.minimumRenderSize;
 							}
 							materialsList.addMaterial(bm, materialsListItem.materialName);
@@ -436,7 +485,7 @@ package org.papervision3d.core.components.as3.flash9
 								if(materialsListItem.precisionMaterial)
 								{
 									//var pmov:PreciseMovieAssetMaterial =  PreciseMovieAssetMaterial(mov);
-									mov.precision = materialsListItem.precision
+									mov.precision = materialsListItem.precision;
 									mov.minimumRenderSize = materialsListItem.minimumRenderSize;
 								}
 								materialsList.addMaterial(mov, materialsListItem.materialName);
@@ -466,7 +515,7 @@ package org.papervision3d.core.components.as3.flash9
 								if(materialsListItem.precisionMaterial)
 								{
 									//var pmm:PreciseMovieMaterial = PreciseMovieMaterial(mov);
-									mov.precision = materialsListItem.precision
+									mov.precision = materialsListItem.precision;
 									mov.minimumRenderSize = materialsListItem.minimumRenderSize;
 								}
 								materialsList.addMaterial(mov, materialsListItem.materialName);
@@ -493,7 +542,9 @@ package org.papervision3d.core.components.as3.flash9
 			for(var i:Number=0;i<obj.dataProvider.length;i++)
 			{
 				var materialsListItem:MaterialsListItem = MaterialsListItem(extMaterials.dataProvider[i]);
-				if(debug) log.debug("@@@@@@@@@@@@@@@@ checkForFileLoads", materialsListItem.materialType.toLowerCase())
+				if(debug){
+					log.debug("@@@@@@@@@@@@@@@@ checkForFileLoads", materialsListItem.materialType.toLowerCase());
+				}
 				if(materialsListItem.materialType.toLowerCase() == "file") return true;
 			}
 			

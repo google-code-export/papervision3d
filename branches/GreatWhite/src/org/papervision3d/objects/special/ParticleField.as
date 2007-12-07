@@ -1,11 +1,8 @@
-package org.papervision3d.objects.special
-{
-	import flash.display.Sprite;
-	
+package org.papervision3d.objects.special {
 	import org.papervision3d.core.geom.Particles;
 	import org.papervision3d.core.geom.renderables.Particle;
-	import org.papervision3d.materials.special.ParticleMaterial;
-	
+	import org.papervision3d.materials.special.ParticleMaterial;	
+
 	/**
 	 * @Author Ralph Hauwert
 	 */

@@ -1,5 +1,4 @@
-package org.papervision3d.view
-{
+package org.papervision3d.view {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
@@ -12,7 +11,6 @@ package org.papervision3d.view
 	import org.papervision3d.core.culling.RectangleParticleCuller;
 	import org.papervision3d.core.culling.RectangleTriangleCuller;
 	import org.papervision3d.core.culling.ViewportObjectFilter;
-	import org.papervision3d.core.culling.ViewportObjectFilterMode;
 	import org.papervision3d.core.ns.pv3dview;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.command.IRenderListItem;
@@ -23,10 +21,8 @@ package org.papervision3d.view
 	import org.papervision3d.events.RendererEvent;
 	import org.papervision3d.render.BasicRenderEngine;
 	import org.papervision3d.view.layer.ViewportBaseLayer;
-	import org.papervision3d.view.layer.ViewportLayer;
-	
-	
-	
+	import org.papervision3d.view.layer.ViewportLayer;	
+
 	/**
 	 * @Author Ralph Hauwert
 	 */

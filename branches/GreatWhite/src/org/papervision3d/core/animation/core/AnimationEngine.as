@@ -31,15 +31,13 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.core.animation.core
-{
+package org.papervision3d.core.animation.core {
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
-	import org.papervision3d.objects.DisplayObject3D;
-
-	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.animation.controllers.*;
 	
+	import org.papervision3d.Papervision3D;
+	import org.papervision3d.objects.DisplayObject3D;	
+
 	/**
 	 * @author Tim Knip 
 	 */
