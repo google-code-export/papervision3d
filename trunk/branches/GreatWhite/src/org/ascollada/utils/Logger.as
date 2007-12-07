@@ -29,27 +29,34 @@ package org.ascollada.utils
 	
 	public class Logger
 	{
+		public static var VERBOSE:Boolean = false;
+		
 		private static var log:XrayLog = new XrayLog();
 		
 		public static function debug( o:String ):void
 		{
-			log.debug( o );
+			if( VERBOSE )
+				log.debug( o );
 		}
 		public static function error( o:String ):void
 		{
-			log.error( o );
+			if( VERBOSE )
+				log.error( o );
 		}		
 		public static function fatal( o:String ):void
 		{
-			log.fatal( o );
+			if( VERBOSE )
+				log.fatal( o );
 		}
 		public static function info( o:String ):void
 		{
-			log.info( o );
+			if( VERBOSE )
+				log.info( o );
 		}
 		public static function trace( o:String ):void
 		{
-			log.debug( o );
+			if( VERBOSE )
+				log.debug( o );
 		}
 	}
 }
