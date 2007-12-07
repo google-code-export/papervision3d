@@ -1152,6 +1152,26 @@ package org.papervision3d.objects.parsers
 		/**
 		 * 
 		 * @param	node
+		 * @return
+		 */
+		private function findRootNode(node:DisplayObject3D):Node3D
+		{
+			if( node is Node3D )
+				return Node3D(node);
+				
+			for each(var child:DisplayObject3D in node.children ) 
+			{
+				var n:DisplayObject3D = findRootNode(child);
+				if( n is Node3D )
+					return Node3D(n);
+			}
+			
+			return null;
+		}
+		
+		/**
+		 * 
+		 * @param	node
 		 * @param	sid
 		 * @return
 		 */
@@ -1256,12 +1276,23 @@ package org.papervision3d.objects.parsers
 			
 			skin.joints = new Array();
 			skin.skeletons = new Array();
-						
+
+			if( !instance_controller.skeletons.length )
+			{
+				var node:Node3D = findRootNode(this);
+				
+				if( node )
+					instance_controller.skeletons.push(node.daeID);
+				else
+					throw new Error( "instance_controller doesn't have a skeleton node, and no rootnode could be found!" );
+			}
+			
 			for(var i:int = 0; i < instance_controller.skeletons.length; i++ )
 			{				
 				var skeletonId:String = instance_controller.skeletons[i];
-				
-				var skeletonNode:DisplayObject3D = findChildByID(this, skeletonId);
+				var skeletonNode:DisplayObject3D;
+								
+				skeletonNode = findChildByID(this, skeletonId);
 				
 				if( !skeletonNode )
 					throw new Error( "could not find skeleton: " + skeletonId);
