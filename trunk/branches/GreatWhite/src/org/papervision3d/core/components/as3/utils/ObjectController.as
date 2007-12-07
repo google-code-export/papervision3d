@@ -36,18 +36,6 @@ package org.papervision3d.core.components.as3.utils
 
 	//import com.rockonflash.papervision3d.modelviewer.events.ObjectControllerEvent;
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public class ObjectController extends EventDispatcher
 	{
 		private static var _instance:ObjectController = null;
