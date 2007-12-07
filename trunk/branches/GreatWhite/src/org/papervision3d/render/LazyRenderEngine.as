@@ -56,7 +56,7 @@ package org.papervision3d.render
 		
 		public function get viewport():Viewport3D
 		{
-			return viewport;
+			return _viewport;
 		}
 	
 	}
