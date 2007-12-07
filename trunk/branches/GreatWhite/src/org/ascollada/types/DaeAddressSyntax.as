@@ -124,7 +124,7 @@ package org.ascollada.types
 				"\nSID:" + targetSID + 
 				"\nmember:" + member +
 				"\narrayMember:" + arrayMember + 
-				"\n" + isArrayAccess + " " + isDotAccess + " " + isFullAccess +
+				"\n" + isArrayAccess + " " + isDotAccess + " " + isFullAccess
 				"]";  
 		}
 	}	

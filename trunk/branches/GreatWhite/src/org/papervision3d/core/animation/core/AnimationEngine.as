@@ -31,13 +31,15 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.core.animation.core {
+package org.papervision3d.core.animation.core
+{
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
-	
-	import org.papervision3d.Papervision3D;
-	import org.papervision3d.objects.DisplayObject3D;	
+	import org.papervision3d.objects.DisplayObject3D;
 
+	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.animation.controllers.*;
+	
 	/**
 	 * @author Tim Knip 
 	 */
@@ -91,19 +93,28 @@ package org.papervision3d.core.animation.core {
 			
 			if( !_animatedObjects[ object ] )
 				_animatedObjects[ object ] = new Array();
-							
+				
+			var maxframes:uint = 0;
+			
 			for each( var frame:AnimationFrame in controller.frames )
 			{
 				var framenum:uint = frame.frame;
 				if( framenum > NUM_FRAMES )
 					NUM_FRAMES = framenum;
+					
+				maxframes = Math.max(maxframes, framenum);
 			}
 			
 			instance.maxTime = NUM_FRAMES * TICK;
 			
 			if( NUM_FRAMES > nframes )
 				Papervision3D.log( "[AnimationEngine] resizing timeline to " + NUM_FRAMES + " frames" );
-						
+			
+			if( NUM_FRAMES > maxframes )
+			{
+				NUM_FRAMES = maxframes;
+				Papervision3D.log( "[AnimationEngine] resizing timeline to " + NUM_FRAMES + " frames" );
+			}
 			_animatedObjects[ object ].push(controller);
 			
 			return controller;

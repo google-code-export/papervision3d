@@ -31,12 +31,15 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.core.animation.core {
-	import flash.events.EventDispatcher;
+package org.papervision3d.core.animation.core
+{
+	import flash.events.EventDispatcher;	
+	import flash.utils.getTimer;
 	
 	import org.papervision3d.core.animation.core.AnimationEngine;
-	import org.papervision3d.core.animation.core.AnimationFrame;		
-
+	import org.papervision3d.core.animation.core.AnimationFrame;
+	import org.papervision3d.core.proto.GeometryObject3D;
+	
 	/**
 	 * @author Tim Knip
 	 */

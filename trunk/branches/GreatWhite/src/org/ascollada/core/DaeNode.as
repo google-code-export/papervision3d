@@ -23,13 +23,16 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.core {
+package org.ascollada.core 
+{
 	import org.ascollada.ASCollada;
+	import org.ascollada.core.DaeDocument;
 	import org.ascollada.core.DaeEntity;
 	import org.ascollada.core.DaeInstanceController;
 	import org.ascollada.core.DaeInstanceGeometry;
-	import org.ascollada.types.DaeTransform;	
-
+	import org.ascollada.types.DaeTransform;
+	import org.ascollada.utils.Logger;
+	
 	/**
 	 * 
 	 */
@@ -44,15 +47,7 @@ package org.ascollada.core {
 		/** array of childnodes */
 		public var nodes:Array;
 		
-		/** array of matrices for this node, we need to post-multiply later */
-		public var matrices:Array;
-		
-		/** array of transform sid's */
-		public var matrix_sids:Array;
-		
 		/** */
-		public var matrix_types:Array;
-		
 		public var transforms:Array;
 		
 		/** array of controller instances */
@@ -101,12 +96,12 @@ package org.ascollada.core {
 		 * @param	sid
 		 * @return
 		 */
-		public function findMatrixBySID( sid:String ):Array
+		public function findMatrixBySID( sid:String ):DaeTransform
 		{
-			for( var i:uint = 0; i < this.matrix_sids.length; i++ )
+			for each( var transform:DaeTransform in this.transforms )
 			{
-				if( sid == this.matrix_sids[i] )
-					return this.matrices[i];
+				if( sid == transform.sid )
+					return transform;
 			}
 			return null;
 		}
@@ -119,9 +114,6 @@ package org.ascollada.core {
 		override public function read( node:XML ):void
 		{	
 			this.nodes = new Array();
-			this.matrices = new Array();
-			this.matrix_sids = new Array();
-			this.matrix_types = new Array();
 			this.controllers = new Array();
 			this.geometries = new Array();
 			this.instance_nodes = new Array();
@@ -134,9 +126,8 @@ package org.ascollada.core {
 			super.read( node );
 								
 			this.type = getAttribute(node, ASCollada.DAE_TYPE_ATTRIBUTE) == "JOINT" ? TYPE_JOINT : TYPE_NODE;
-			
-			//Logger.trace( "reading node: " + this.id + " name: " + this.name + " sid:" + this.sid + " type:" + this.type );
-			
+
+			var yUp:Boolean = (this._yUp == DaeDocument.Y_UP);
 			var children:XMLList = node.children();
 			var num:int = children.length();
 			
@@ -145,6 +136,7 @@ package org.ascollada.core {
 				var child:XML = children[i];
 				var floats:Array;
 				var csid:String = getAttribute(child, ASCollada.DAE_SID_ATTRIBUTE);
+				var transform:DaeTransform;
 				
 				switch( child.localName() )
 				{	
@@ -153,26 +145,20 @@ package org.ascollada.core {
 						
 					case ASCollada.DAE_ROTATE_ELEMENT:			
 						floats = getFloats(child);
-						this.matrices.push(rotationMatrix(floats[0], floats[1], floats[2], floats[3]));
-						this.matrix_sids.push( csid );
-						this.matrix_types.push( "rotate" );
-						this.transforms.push( new DaeTransform(ASCollada.DAE_ROTATE_ELEMENT, csid, floats) );
+						transform = new DaeTransform(ASCollada.DAE_ROTATE_ELEMENT, csid, floats, yUp);
+						this.transforms.push( transform );
 						break;
 						
 					case ASCollada.DAE_TRANSLATE_ELEMENT:
 						floats = getFloats(child);
-						this.matrices.push(translationMatrix(floats[0], floats[1], floats[2]));
-						this.matrix_sids.push( csid );
-						this.matrix_types.push( "translate" );
-						this.transforms.push( new DaeTransform(ASCollada.DAE_TRANSLATE_ELEMENT, csid, floats) );
+						transform = new DaeTransform(ASCollada.DAE_TRANSLATE_ELEMENT, csid, floats, yUp);
+						this.transforms.push( transform );
 						break;
 						
 					case ASCollada.DAE_SCALE_ELEMENT:
 						floats = getFloats(child);
-						this.matrices.push(scaleMatrix(floats[0], floats[1], floats[2]));
-						this.matrix_sids.push( csid );
-						this.matrix_types.push( "scale" );
-						this.transforms.push( new DaeTransform(ASCollada.DAE_SCALE_ELEMENT, csid, floats) );
+						transform = new DaeTransform(ASCollada.DAE_SCALE_ELEMENT, csid, floats, yUp);
+						this.transforms.push( transform );
 						break;
 						
 					case ASCollada.DAE_SKEW_ELEMENT:
@@ -185,9 +171,8 @@ package org.ascollada.core {
 						
 					case ASCollada.DAE_MATRIX_ELEMENT:
 						floats = getFloats(child);
-						this.matrices.push( floats );
-						this.matrix_sids.push( csid );
-						this.transforms.push( new DaeTransform(ASCollada.DAE_MATRIX_ELEMENT, csid, floats) );
+						transform = new DaeTransform(ASCollada.DAE_MATRIX_ELEMENT, csid, floats, yUp);
+						this.transforms.push( transform);
 						break;
 						
 					case ASCollada.DAE_NODE_ELEMENT:
@@ -220,93 +205,6 @@ package org.ascollada.core {
 						break;
 				}
 			}
-		}
-		
-		/**
-		 * 
-		 * @param	x
-		 * @param	y
-		 * @param	z
-		 * @param	rad
-		 * @return
-		 */
-		private function rotationMatrix( x:Number, y:Number, z:Number, deg:Number ):Array
-		{
-			var m:Array = [
-				1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0
-			];
-
-			var rad:Number = deg * (Math.PI/180);
-			var nCos:Number	= Math.cos( rad );
-			var nSin:Number	= Math.sin( rad );
-			var scos:Number	= 1 - nCos;
-
-			var sxy	:Number = x * y * scos;
-			var syz	:Number = y * z * scos;
-			var sxz	:Number = x * z * scos;
-			var sz	:Number = nSin * z;
-			var sy	:Number = nSin * y;
-			var sx	:Number = nSin * x;
-
-			m[0] =  nCos + x * x * scos;
-			m[1] = -sz   + sxy;
-			m[2] =  sy   + sxz;
-
-			m[4] =  sz   + sxy;
-			m[5] =  nCos + y * y * scos;
-			m[6] = -sx   + syz;
-
-			m[8] = -sy   + sxz;
-			m[9] =  sx   + syz;
-			m[10] =  nCos + z * z * scos;
-
-			return m;			
-		}
-
-		/**
-		 * 
-		 * @param	x
-		 * @param	y
-		 * @param	z
-		 * @return
-		 */
-		public function scaleMatrix( x:Number, y:Number, z:Number ):Array
-		{
-			var m:Array = [
-				1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0
-			];
-			
-			m[0] = x;
-			m[5] = y;
-			m[10] = z;
-			
-			return m;
-		}
-		
-		/**
-		 * 
-		 * @param	x
-		 * @param	y
-		 * @param	z
-		 * @return
-		 */
-		public function translationMatrix( x:Number, y:Number, z:Number ):Array
-		{
-			var m:Array = [
-				1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0
-			];
-			
-			m[3] = x;
-			m[7] = y;
-			m[11] = z;
-			
-			return m;
 		}
 	}	
 }

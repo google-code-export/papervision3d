@@ -31,37 +31,37 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.core.animation.controllers {
+package org.papervision3d.core.animation.controllers
+{
 	import org.papervision3d.core.animation.core.KeyFrameController;
+	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.objects.parsers.ascollada.Node3D;
-	import org.papervision3d.objects.parsers.ascollada.Skin3D;	
-
+	import org.papervision3d.objects.parsers.ascollada.Skin3D;
+	
 	/**
 	 * @author Tim Knip 
 	 */
 	public class SkinController extends KeyFrameController
 	{
 		public var skin:Skin3D;
-				
+		
 		/**
-		 * contstructor.
+		 * Constructor.
 		 * 
-		 * @param	geometry
+		 * @param	skin
+		 * @param	yUp
 		 * @return
 		 */
 		public function SkinController( skin:Skin3D, yUp:Boolean = true ):void
 		{
 			super(skin.geometry);
 			
-			this.skin = skin;
+			_yUp = yUp;
 			
-			if( yUp )
-				_fixZUP = Matrix3D.IDENTITY;
-			else
-				_fixZUP = new Matrix3D([1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0]);
+			this.skin = skin;
 		}
 		
 		/**
@@ -98,14 +98,18 @@ package org.papervision3d.core.animation.controllers {
 			var i:int;
 			
 			_cached = new Array(vertices.length);
-
+				
 			for( i = 0; i < vertices.length; i++ )
 			{
-				_cached[i] = new Number3D(vertices[i].x, vertices[i].y, vertices[i].z);
+				if( _yUp )
+					_cached[i] = new Number3D(-vertices[i].x, vertices[i].y, vertices[i].z);
+				else
+					_cached[i] = new Number3D(vertices[i].x, vertices[i].z, vertices[i].y);
 				Matrix3D.multiplyVector(this.skin.bindPose, _cached[i]);
 			}
 			
-			//this.skin.transform.calculateMultiply(_fixZUP, this.skin.transform);
+			//if( !_yUp )
+			//	this.skin.rotationX = -90;
 		}
 		
 		/**
@@ -146,12 +150,12 @@ package org.papervision3d.core.animation.controllers {
 				//update the vertex
 				skinned.x += (pos.x * weight) ;
 				skinned.y += (pos.y * weight) ;
-				skinned.z += (pos.z * weight) ;
+				skinned.z -= (pos.z * weight) ;
 			}
 		}
 		
 		private var _cached:Array;
 		
-		private static var _fixZUP:Matrix3D;
+		private var _yUp:Boolean;
 	}
 }

@@ -23,12 +23,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.fx {
+package org.ascollada.fx
+{
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeEntity;
+	import org.ascollada.core.DaeSampler;
 	import org.ascollada.types.DaeColorOrTexture;
-	import org.ascollada.utils.Logger;	
-
+	import org.ascollada.utils.Logger;
+		
 	/**
 	 * 
 	 */
@@ -73,7 +75,7 @@ package org.ascollada.fx {
 			var images:XMLList = getNodeList( profile, ASCollada.DAE_IMAGE_ELEMENT );
 			
 			// Creates a new parameter from a constrained set of
-			// types recognizable by all platforms ï¿½ <float>,
+			// types recognizable by all platforms – <float>,
 			// <float2>, <float3>, <float4>, <surface>, and
 			// <sampler2D>, with an additional semantic. 0 or more.
 			var newparams:XMLList = getNodeList( profile, ASCollada.DAE_FXCMN_NEWPARAM_ELEMENT );
