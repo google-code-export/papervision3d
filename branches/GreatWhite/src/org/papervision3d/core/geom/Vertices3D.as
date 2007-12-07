@@ -35,8 +35,7 @@
 
 // ______________________________________________________________________
 //                                               GeometryObject3D: Points
-package org.papervision3d.core.geom
-{
+package org.papervision3d.core.geom {
 	import flash.geom.Rectangle;
 	
 	import org.papervision3d.core.culling.IObjectCuller;
@@ -46,7 +45,7 @@ package org.papervision3d.core.geom
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.proto.GeometryObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
-	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.DisplayObject3D;	
 
 	/**
 	* The Vertices3D class lets you create and manipulate groups of vertices.
@@ -192,7 +191,7 @@ package org.papervision3d.core.geom
 				s_w :Number,
 				vpw :Number = viewport.width / 2,
 				vph :Number = viewport.height / 2,
-				vertex:Vertex3D, 
+				vertex : Vertex3D, 
 				screen:Vertex3DInstance,
 				vertices :Array  = this.geometry.vertices,
 				i        :int    = vertices.length;
