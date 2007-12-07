@@ -24,8 +24,11 @@
  */
  
 package org.ascollada.physics {
-	import org.ascollada.core.DaeEntity;	
-	/**
+	
+	import org.ascollada.ASCollada;
+	import org.ascollada.core.DaeEntity;
+	
+	/**
 	 * 
 	 */
 	public class DaeInstanceForceField extends DaeEntity {

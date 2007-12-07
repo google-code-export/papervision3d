@@ -23,11 +23,13 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.objects.parsers {
+package org.papervision3d.objects.parsers
+{
 	import flash.events.*;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
+	import org.papervision3d.Papervision3D;
 	
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.*;
@@ -35,6 +37,7 @@ package org.papervision3d.objects.parsers {
 	import org.ascollada.io.DaeReader;
 	import org.ascollada.types.*;
 	import org.ascollada.utils.Logger;
+	import org.papervision3d.core.*;
 	import org.papervision3d.core.animation.controllers.*;
 	import org.papervision3d.core.animation.core.*;
 	import org.papervision3d.core.geom.*;
@@ -42,16 +45,20 @@ package org.papervision3d.objects.parsers {
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.events.*;
-	import org.papervision3d.lights.PointLight3D;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.materials.shadematerials.*;
 	import org.papervision3d.materials.special.*;
-	import org.papervision3d.materials.special.LineMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.objects.parsers.ascollada.*;
+
+
 	import org.papervision3d.objects.parsers.ascollada.Node3D;
-	import org.papervision3d.objects.parsers.ascollada.Skin3D;	
+	import org.papervision3d.objects.parsers.ascollada.Skin3D;
+	import org.papervision3d.materials.special.LineMaterial;
+
+	import org.papervision3d.objects.parsers.ascollada.*;
+	import org.papervision3d.lights.PointLight3D;
+
 
 	/**
 	 * @author Tim Knip
@@ -203,7 +210,8 @@ package org.papervision3d.objects.parsers {
 						
 					// #keys and #matrices *should* be equal
 					if( matrices.length != channel.input.length )
-						throw new Error( "matrices.length != channel.input.length" );
+						continue;
+						//throw new Error( "matrices.length != channel.input.length" );
 
 					channel.output = matrices;		
 					
@@ -501,7 +509,7 @@ package org.papervision3d.objects.parsers {
 		 */
 		private function buildFileInfo( asset:* ):void
 		{
-			this.filename = asset is String ? String(asset) : "../../../meshes/rawdata_dae";
+			this.filename = asset is String ? String(asset) : "./meshes/rawdata_dae";
 			
 			// make sure we've got forward slashes!
 			this.filename = this.filename.split("\\").join("/");
@@ -687,7 +695,7 @@ package org.papervision3d.objects.parsers {
 		}
 		
 		/**
-		 * builds a papervision Matrix3D from a node's matrices array. @see org.ascollada.core.DaeNode#matrices
+		 * builds a papervision Matrix3D from a node's matrices array. @see org.ascollada.core.DaeNode#transforms
 		 * 
 		 * @param	node
 		 * 
@@ -696,11 +704,11 @@ package org.papervision3d.objects.parsers {
 		private function buildMatrix( node:DaeNode ):Matrix3D 
 		{
 			var matrix:Matrix3D = Matrix3D.IDENTITY;
-			for( var i:int = 0; i < node.matrices.length; i++ ) 
+			for( var i:int = 0; i < node.transforms.length; i++ ) 
 			{
-				matrix = Matrix3D.multiply( matrix, new Matrix3D(node.matrices[i]) );
-			}
-			
+				var transform:DaeTransform = node.transforms[i];
+				matrix = Matrix3D.multiply( matrix, new Matrix3D(transform.matrix) );
+			}			
 			return matrix;
 		}
 		
@@ -712,9 +720,10 @@ package org.papervision3d.objects.parsers {
 		private function buildMatrixStack( node:DaeNode ):Array
 		{
 			var stack:Array = new Array();
-			for( var i:int = 0; i < node.matrices.length; i++ ) 
-			{				
-				var matrix:Matrix3D = new Matrix3D(node.matrices[i]);
+			for( var i:int = 0; i < node.transforms.length; i++ ) 
+			{
+				var transform:DaeTransform = node.transforms[i];				
+				var matrix:Matrix3D = new Matrix3D(transform.matrix);
 				stack.push(matrix);
 			}
 			return stack;
@@ -866,22 +875,20 @@ package org.papervision3d.objects.parsers {
 			buildMaterials();
 			
 			buildVisualScene();
-						
+			
 			linkSkins(this.rootNode);
 						
 			readySkins(this);
 			readyMorphs(this);
-						
-			this.rootNode.scaleX = -1;
 			
 			if( _yUp )
 			{
-				this.rootNode.rotationY = 180;
+				//this.rootNode.rotationY = 180;
 			}
 			else
 			{
-				this.rootNode.rotationX = 90;
-				this.rootNode.rotationY = 180;
+				//this.rootNode.rotationX = 90;
+				//this.rootNode.rotationY = 180;
 			}
 			
 			// there may be animations left to parse...
@@ -920,7 +927,7 @@ package org.papervision3d.objects.parsers {
 			var obj:Skin3D = new Skin3D(material, new Array(), new Array(), skin.source, (document.yUp == DaeDocument.Y_UP));
 			
 			obj.bindPose = new Matrix3D(skin.bind_shape_matrix);	
-			
+
 			obj.joints = new Array();
 			
 			var success:Boolean = buildGeometry(skin.source, obj);
@@ -1011,7 +1018,10 @@ package org.papervision3d.objects.parsers {
 			{
 				var v:Array = mesh.vertices[i];
 				
-				vertices.push(new Vertex3D(v[0], v[1], v[2]));
+				if( _yUp )
+					vertices.push(new Vertex3D(-v[0], v[1], v[2]));
+				else
+					vertices.push(new Vertex3D(v[0], v[2], v[1]));
 			}
 			
 			return vertices;
@@ -1038,14 +1048,21 @@ package org.papervision3d.objects.parsers {
 		{
 			var channels:Array = new Array();
 		
-			for each( var animation:DaeAnimation in document.animations )
+			try
 			{
-				for each( var channel:DaeChannel in animation.channels )
+				for each( var animation:DaeAnimation in document.animations )
 				{
-					var target:String = channel.target.split("/").shift() as String;
-					if( target == id )
-						channels.push(channel);
+					for each( var channel:DaeChannel in animation.channels )
+					{
+						var target:String = channel.target.split("/").shift() as String;
+						if( target == id )
+							channels.push(channel);
+					}
 				}
+			}
+			catch( e:Error )
+			{
+				
 			}
 			return channels;
 		}
@@ -1059,22 +1076,29 @@ package org.papervision3d.objects.parsers {
 		 */
 		private function findChannelMatrix( channels:Array, sid:String, time:Number = 0 ):Matrix3D
 		{
-			for( var i:int = 0; i < channels.length; i++ )
+			try
 			{
-				var channel:DaeChannel = channels[i];
-				if( channel.syntax.targetSID == sid )
+				for( var i:int = 0; i < channels.length; i++ )
 				{
-					for( var j:int = 0; j < channel.input.length; j++ )
+					var channel:DaeChannel = channels[i];
+					if( channel.syntax.targetSID == sid )
 					{
-						var t:Number = channel.input[j];
-												
-						if( t == time )
-							return new Matrix3D(channel.output[j]);
-							
-						if( t > time )
-							break;
+						for( var j:int = 0; j < channel.input.length; j++ )
+						{
+							var t:Number = channel.input[j];
+													
+							if( t == time )
+								return new Matrix3D(channel.output[j]);
+								
+							if( t > time )
+								break;
+						}
 					}
 				}
+			}
+			catch( e:Error )
+			{
+				Papervision3D.log( "[WARNING] Could not find channel matrix for SID=" + sid );
 			}
 			return null;
 		}
@@ -1267,7 +1291,7 @@ package org.papervision3d.objects.parsers {
 						
 					joint.bindMatrix = new Matrix3D(bindMatrix);
 					joint.blendVerts = daeSkin.findJointVertexWeightsByIDOrSID(jointId);
-					
+
 					if( !joint.blendVerts )
 						throw new Error( "could not find influences for joint: " + jointId );
 						
@@ -1277,9 +1301,7 @@ package org.papervision3d.objects.parsers {
 				}
 			}
 			
-			var yUp:Boolean = (document.yUp == DaeDocument.Y_UP);
-			
-			var ctl:SkinController = new SkinController(skin, yUp);
+			var ctl:SkinController = new SkinController(skin, _yUp);
 			
 			skin.addController(ctl);
 		}
@@ -1403,5 +1425,7 @@ package org.papervision3d.objects.parsers {
 		private var _delayTimer:Timer;
 		
 		private var _asset:*;
+		
+		private var _fixZ:Matrix3D;
 	}
 }

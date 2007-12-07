@@ -23,9 +23,11 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.io {
+package org.ascollada.io
+{
+	import flash.errors.ScriptTimeoutError;
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
+	import flash.events.EventDispatcher
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
 	import flash.events.TimerEvent;
@@ -34,8 +36,8 @@ package org.ascollada.io {
 	import flash.utils.Timer;
 	
 	import org.ascollada.core.DaeDocument;
-	import org.ascollada.utils.Logger;	
-
+	import org.ascollada.utils.Logger;
+	
 	/**
 	 * 
 	 */
@@ -158,7 +160,7 @@ package org.ascollada.io {
 		 */
 		private function loadNextAnimation( event:TimerEvent ):void
 		{
-			if( !document.readNextAnimation() )
+			if( !this.document.readNextAnimation() )
 			{				
 				_animTimer.stop();
 				dispatchEvent( new Event(Event.COMPLETE) );
@@ -176,7 +178,7 @@ package org.ascollada.io {
 		 */
 		private function loadNextGeometry( event:TimerEvent ):void
 		{
-			if( !document.readNextGeometry() )
+			if( !this.document.readNextGeometry() )
 			{
 				Logger.trace( "geometries complete" );
 				

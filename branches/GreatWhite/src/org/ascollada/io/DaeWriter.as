@@ -48,7 +48,7 @@ package org.ascollada.io
 		
 		public function write():void
 		{
-			var xml:String = '<?xml version="1.0" encoding="utf-8"?>\n';
+			var xml:String = '<?xml version="1.0" encoding="utf-8"?>\n'
 			
 			xml += '<COLLADA xmlns="' + ASCollada.DAE_SCHEMA_LOCATION + '" version="' + ASCollada.DAE_SCHEMA_VERSION + '">\n';
 			

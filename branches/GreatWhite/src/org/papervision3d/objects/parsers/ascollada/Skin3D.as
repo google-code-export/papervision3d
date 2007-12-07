@@ -31,10 +31,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.objects.parsers.ascollada {
+package org.papervision3d.objects.parsers.ascollada
+{
+	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.*;
+	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.*;
-	import org.papervision3d.core.proto.*;	
+	import org.papervision3d.core.proto.*;
+	import org.papervision3d.objects.DisplayObject3D;
 
 	/**
 	 * @author Tim Knip 

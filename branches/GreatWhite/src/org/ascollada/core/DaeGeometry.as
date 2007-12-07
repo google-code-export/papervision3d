@@ -48,7 +48,7 @@ package org.ascollada.core
 		 */
 		public function DaeGeometry( node:XML = null, async:Boolean = false )
 		{
-			super( node, async );
+			super( node, async )
 		}
 		
 		/**
