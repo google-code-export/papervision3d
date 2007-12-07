@@ -41,7 +41,7 @@ package org.ascollada.io {
 	 */
 	public class DaeReader extends EventDispatcher
 	{
-		public var daedocument:DaeDocument;
+		public var document:DaeDocument;
 		
 		public var async:Boolean;
 		
@@ -158,7 +158,7 @@ package org.ascollada.io {
 		 */
 		private function loadNextAnimation( event:TimerEvent ):void
 		{
-			if( !this.document.readNextAnimation() )
+			if( !document.readNextAnimation() )
 			{				
 				_animTimer.stop();
 				dispatchEvent( new Event(Event.COMPLETE) );
@@ -176,7 +176,7 @@ package org.ascollada.io {
 		 */
 		private function loadNextGeometry( event:TimerEvent ):void
 		{
-			if( !this.document.readNextGeometry() )
+			if( !document.readNextGeometry() )
 			{
 				Logger.trace( "geometries complete" );
 				
