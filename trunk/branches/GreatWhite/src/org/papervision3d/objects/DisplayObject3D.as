@@ -308,7 +308,7 @@ package org.papervision3d.objects
 		* <p/>
 		* All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
 		*/
-		public var extra :Object // = {}; TBD
+		public var extra :Object; // = {}; TBD
 
 		/**
 		* The default material for the object instance. Materials collect data about how objects appear when rendered.
@@ -822,7 +822,7 @@ package org.papervision3d.objects
 	
 			if( this._transformDirty ) updateTransform();
 	
-			Matrix3D.rotateAxis( transform, vector )
+			Matrix3D.rotateAxis( transform, vector );
 	
 			this.x += distance * vector.x;
 			this.y += distance * vector.y;

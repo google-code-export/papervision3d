@@ -24,13 +24,10 @@
  */
  
  
-package org.ascollada.fx 
-{
+package org.ascollada.fx {
 	import org.ascollada.ASCollada;
-	import org.ascollada.core.DaeEntity;
-	import org.ascollada.types.DaeColorOrTexture;
-	import org.ascollada.utils.Logger;
-	
+	import org.ascollada.types.DaeColorOrTexture;	
+
 	/**
 	 * 
 	 */

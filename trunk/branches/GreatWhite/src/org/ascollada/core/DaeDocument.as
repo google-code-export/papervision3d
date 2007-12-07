@@ -23,21 +23,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.core
-{
-	import flash.display.Bitmap;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.display.Loader;
-	import flash.net.URLRequest;
-	import org.ascollada.physics.DaePhysicsScene;
-	
+package org.ascollada.core {
 	import org.ascollada.ASCollada;
 	import org.ascollada.fx.DaeEffect;
 	import org.ascollada.fx.DaeMaterial;
-	import org.ascollada.namespaces.*;
-	import org.ascollada.utils.Logger;
-	
+	import org.ascollada.namespaces.collada;
+	import org.ascollada.physics.DaePhysicsScene;
+	import org.ascollada.utils.Logger;	
+
 	/**
 	 * 
 	 */
@@ -70,6 +63,8 @@ package org.ascollada.core
 		
 		public var materialSymbolToTarget:Object;
 		
+		private var _waitingAnimations:Array;
+		private var _waitingGeometries:Array;
 		/**
 		 * 
 		 */
@@ -95,8 +90,8 @@ package org.ascollada.core
 			
 			var nodes:XMLList = this.COLLADA..collada::[ASCollada.DAE_INSTANCE_MATERIAL_ELEMENT];
 			
-			for each( var child:XML in nodes )
-			{
+			var child:XML;
+			for each(child in nodes){
 				var target:String = getAttribute(child, ASCollada.DAE_TARGET_ATTRIBUTE);
 				var symbol:String = getAttribute(child, ASCollada.DAE_SYMBOL_ATTRIBUTE);
 				
@@ -545,8 +540,6 @@ package org.ascollada.core
 			}
 		}
 		
-		private var _waitingAnimations:Array;
 		
-		private var _waitingGeometries:Array;
 	}	
 }

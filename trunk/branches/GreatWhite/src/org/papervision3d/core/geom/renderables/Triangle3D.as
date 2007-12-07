@@ -36,18 +36,14 @@
 // ______________________________________________________________________
 //                                                                 Face3D
 
-package org.papervision3d.core.geom.renderables
-{
-	import flash.display.*;
-	
-	import org.papervision3d.core.*;
+package org.papervision3d.core.geom.renderables {
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderTriangle;
-	import org.papervision3d.objects.DisplayObject3D;
-	
+	import org.papervision3d.objects.DisplayObject3D;	
+
 	/**
 	* The Face3D class lets you render linear textured triangles. It also supports solid colour fill and hairline outlines.
 	*

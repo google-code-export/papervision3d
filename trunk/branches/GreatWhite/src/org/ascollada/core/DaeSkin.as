@@ -189,7 +189,7 @@ package org.ascollada.core
 			var input:DaeInput;
 			
 			// fetch sources for <joints>
-			var src:DaeSource
+			var src:DaeSource;
 			var sources:Object = new Object();
 			for each( var inputNode:XML in jointsList )
 			{
@@ -293,7 +293,7 @@ package org.ascollada.core
 						
 			for( i = 0; i < blendWeights.length; i++  )
 			{
-				var arr:Array = blendWeights[i]
+				var arr:Array = blendWeights[i];
 				
 				var weightSum:Number = 0;
 				for( j = 0; j < arr.length; j++ )

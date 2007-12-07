@@ -24,7 +24,7 @@
 	{    
 		private static var xrayLC:LocalConnection;
 		private static var connected:Boolean = false;
-		private static var ed:DebugDispatcher = new DebugDispatcher();;
+		private static var ed:DebugDispatcher = new DebugDispatcher();
 		//private static var initialized:Boolean = initialize();
 		
 		private static function initialize():Boolean

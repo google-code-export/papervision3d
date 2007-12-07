@@ -25,21 +25,28 @@ package org.papervision3d.core.components.as3.utils
 	/**
 	 * @author John Grden
 	 */
-	
-	import com.blitzagency.xray.logger.XrayLog;
-	//import com.rockonflash.papervision3d.modelviewer.events.ObjectControllerEvent;
-	
 	import flash.display.Stage;
 	import flash.events.EventDispatcher;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import flash.events.TimerEvent;
-	import flash.ui.Keyboard;
-	import flash.ui.Mouse;
-	import flash.utils.Timer;
-	import flash.utils.setInterval;
 	
 	import org.papervision3d.objects.DisplayObject3D;
+	
+	import com.blitzagency.xray.logger.XrayLog;	
+
+	//import com.rockonflash.papervision3d.modelviewer.events.ObjectControllerEvent;
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public class ObjectController extends EventDispatcher
 	{

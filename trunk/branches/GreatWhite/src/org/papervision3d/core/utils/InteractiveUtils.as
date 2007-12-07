@@ -48,17 +48,15 @@
 * 	These rock!!
 * @version 1.0
 */
-package org.papervision3d.core.utils
-{
+package org.papervision3d.core.utils {
 	import flash.display.BitmapData;
-	import flash.geom.Point;
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.materials.BitmapMaterial;
-	import org.papervision3d.objects.DisplayObject3D;
-	
+	import org.papervision3d.objects.DisplayObject3D;	
+
 	/**
 	 * InteractiveUtils are used in conjunction with the ISM to resolve a face's mouse interaction and coordinates back to 2D screen space
 	 * 

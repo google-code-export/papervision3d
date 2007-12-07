@@ -1,12 +1,9 @@
-package org.papervision3d.materials.shaders
-{
-	import flash.display.Bitmap;
+package org.papervision3d.materials.shaders {
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
 	import flash.display.Sprite;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
-	import flash.geom.Transform;
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
@@ -15,8 +12,8 @@ package org.papervision3d.materials.shaders
 	import org.papervision3d.core.proto.LightObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.shader.ShaderObjectData;
-	import org.papervision3d.materials.utils.LightMaps;
-	
+	import org.papervision3d.materials.utils.LightMaps;	
+
 	/**
 	 * @Author Ralph Hauwert
 	 */

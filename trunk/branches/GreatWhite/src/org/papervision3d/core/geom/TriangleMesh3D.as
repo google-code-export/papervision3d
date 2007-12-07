@@ -35,11 +35,9 @@
 
 // ______________________________________________________________________
 //                                               GeometryObject3D: Mesh3D
-package org.papervision3d.core.geom
-{
+package org.papervision3d.core.geom {
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.core.*;
 	import org.papervision3d.core.culling.ITriangleCuller;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Triangle3DInstance;
@@ -50,9 +48,8 @@ package org.papervision3d.core.geom
 	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
-	import org.papervision3d.objects.DisplayObject3D;
-	
-	
+	import org.papervision3d.objects.DisplayObject3D;	
+
 	/**
 	* The Mesh3D class lets you create and display solid 3D objects made of vertices and triangular polygons.
 	*/

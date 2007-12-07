@@ -30,8 +30,10 @@ package org.papervision3d.core.components.as3.utils
 			
 			for(var i:Number=0;i<ary.length;i++)
 			{
-				var temp:*
-				if(obj.hasOwnProperty("getChildByName")) temp = obj.getChildByName(ary[i]);
+				var temp:*;
+				if(obj.hasOwnProperty("getChildByName")){
+					temp = obj.getChildByName(ary[i]);
+				};
 				if(temp == null) temp = obj[ary[i]];
                 if(temp == obj) continue;
                 obj = temp;

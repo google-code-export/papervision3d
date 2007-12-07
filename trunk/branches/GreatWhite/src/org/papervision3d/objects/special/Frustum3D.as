@@ -33,18 +33,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.papervision3d.objects.special
-{
-	import org.papervision3d.core.geom.renderables.Line3D;
-	import org.papervision3d.core.geom.renderables.Vertex3D;
-
+package org.papervision3d.objects.special {
+	import org.papervision3d.cameras.FrustumCamera3D;
 	import org.papervision3d.core.geom.Lines3D;
-	import org.papervision3d.cameras.FrustumCamera3D;	
-	import org.papervision3d.core.proto.CameraObject3D;
-	
+	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.Number3D;
-	import org.papervision3d.materials.special.LineMaterial;
-	
+	import org.papervision3d.core.proto.CameraObject3D;
+	import org.papervision3d.materials.special.LineMaterial;	
+
 	/**
 	 * @author Tim Knip 
 	 */

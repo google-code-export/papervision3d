@@ -23,14 +23,12 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.core
-{
+package org.ascollada.core {
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeAccessor;
 	import org.ascollada.core.DaeEntity;
-	import org.ascollada.types.DaeArray;
-	import org.ascollada.utils.Logger;
-	
+	import org.ascollada.types.DaeArray;	
+
 	/**
  	 * 
 	 */

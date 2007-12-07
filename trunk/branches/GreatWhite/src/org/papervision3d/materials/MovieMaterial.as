@@ -131,7 +131,7 @@ package org.papervision3d.materials
 			movieTransparent = transparent;
 			this.animated = animated;
 			this.precise = precise;
-			if( movieAsset ) texture = movieAsset
+			if( movieAsset ) texture = movieAsset;
 		}
 		
 		// ______________________________________________________________________ CREATE BITMAP

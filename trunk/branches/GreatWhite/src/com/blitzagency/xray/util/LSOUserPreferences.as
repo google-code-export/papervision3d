@@ -19,7 +19,7 @@ package com.blitzagency.xray.util
 		public static function getPreference(p_key:String):*
 		{
 			var r:* = preferences[p_key] != undefined ? preferences[p_key] : null;
-			return r
+			return r;
 		}
 		
 		public static function getAllPreferences():Object 

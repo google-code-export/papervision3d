@@ -34,16 +34,12 @@
  */
 
 // _______________________________________________________________________ PaperPlane
-package org.papervision3d.objects.primitives
-{
-	import flash.display.BitmapData;
+package org.papervision3d.objects.primitives {
+	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
-	import org.papervision3d.core.geom.TriangleMesh3D;
-	import org.papervision3d.core.proto.MaterialObject3D;
-	
-	
-	
+	import org.papervision3d.core.proto.MaterialObject3D;	
+
 	/**
 	* The PaperPlane class lets you create a paper plane object.
 	* <p/>

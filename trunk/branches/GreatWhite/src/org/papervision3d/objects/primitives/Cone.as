@@ -35,16 +35,9 @@
 
 // ______________________________________________________________________
 //                                                GeometryObject3D: Cone
-package org.papervision3d.objects.primitives
-{
-	import org.papervision3d.core.*;
-	import org.papervision3d.core.proto.*;
-	import org.papervision3d.core.geom.*;
-	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import org.papervision3d.core.geom.renderables.Vertex3D;
-	
-	import flash.display.BitmapData;
-	
+package org.papervision3d.objects.primitives {
+	import org.papervision3d.core.proto.*;	
+
 	/**
 	* The Cone class lets you create and display Cones.
 	* <p/>

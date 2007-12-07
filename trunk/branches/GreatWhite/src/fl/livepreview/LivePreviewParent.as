@@ -3,11 +3,9 @@
 */
 // Copyright 2007. Adobe Systems Incorporated. All Rights Reserved.
 package fl.livepreview {
-
 	import flash.display.*;
 	import flash.external.*;
-	import flash.utils.*;
-	import flash.events.KeyboardEvent;
+	import flash.utils.*;	
 
 	/**
 	 * The LivePreviewParent class provides the timeline for a SWC file 

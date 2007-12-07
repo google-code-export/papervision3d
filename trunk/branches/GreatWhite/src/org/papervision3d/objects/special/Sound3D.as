@@ -1,21 +1,12 @@
-﻿package org.papervision3d.objects.special
-{
-	import org.papervision3d.Papervision3D;
-	
-
-	
-	import org.papervision3d.core.proto.CameraObject3D;
-	
+﻿package org.papervision3d.objects.special {
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
-	import flash.net.URLRequest;
 	
-	import flash.display.Sprite;
-	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
-	
-	
+	import org.papervision3d.objects.DisplayObject3D;		
+
 	public class Sound3D extends DisplayObject3D
 	{
 		
@@ -23,8 +14,8 @@
 		public var sound:Sound;
 		
 		//This is used for sound via SoundChannel, FLV or video to be transformed.
-		public var soundChannel:*;
-		
+		public var soundChannel : SoundChannel;
+
 		//maximum distance the sound can travel
 		public var maxSoundDistance:Number;
 		
@@ -53,7 +44,7 @@
 		}
 		
 		private function setPan(pan:Number):void {
-			var transform:SoundTransform = soundChannel.soundTransform;
+			var transform:SoundTransform = SoundTransform(soundChannel.soundTransform);
 			transform.pan = pan;
 			soundChannel.soundTransform = transform;
 		}

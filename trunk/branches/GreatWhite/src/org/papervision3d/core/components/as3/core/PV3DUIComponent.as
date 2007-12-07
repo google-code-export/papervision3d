@@ -93,7 +93,7 @@ package org.papervision3d.core.components.as3.core
 		/**
 		 * @private 
 	 	*/
-		protected var _propertyInspectorSetting		:Boolean = false
+		protected var _propertyInspectorSetting		:Boolean = false;
 		
 		/**
 		 * @private 
@@ -262,8 +262,8 @@ package org.papervision3d.core.components.as3.core
 	 	*/
 		protected function manageStageSize():void
 		{
-			sceneWidth = resizeWithStage ? stage.stageWidth : width //super.width;
-			sceneHeight = resizeWithStage ? stage.stageHeight : height //super.height;
+			sceneWidth = resizeWithStage ? stage.stageWidth : width; //super.width;
+			sceneHeight = resizeWithStage ? stage.stageHeight : height; //super.height;
 			super.scaleX = 1;
 			super.scaleY = 1;
 			scaleX = 1;

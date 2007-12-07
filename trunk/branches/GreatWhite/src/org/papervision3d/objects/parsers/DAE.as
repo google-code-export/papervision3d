@@ -23,8 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.objects.parsers
-{
+package org.papervision3d.objects.parsers {
 	import flash.events.*;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
@@ -36,7 +35,6 @@ package org.papervision3d.objects.parsers
 	import org.ascollada.io.DaeReader;
 	import org.ascollada.types.*;
 	import org.ascollada.utils.Logger;
-	import org.papervision3d.core.*;
 	import org.papervision3d.core.animation.controllers.*;
 	import org.papervision3d.core.animation.core.*;
 	import org.papervision3d.core.geom.*;
@@ -44,20 +42,16 @@ package org.papervision3d.objects.parsers
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.events.*;
+	import org.papervision3d.lights.PointLight3D;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.materials.shadematerials.*;
 	import org.papervision3d.materials.special.*;
+	import org.papervision3d.materials.special.LineMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
-
-
-	import org.papervision3d.objects.parsers.ascollada.Node3D;
-	import org.papervision3d.objects.parsers.ascollada.Skin3D;
-	import org.papervision3d.materials.special.LineMaterial;
-
 	import org.papervision3d.objects.parsers.ascollada.*;
-	import org.papervision3d.lights.PointLight3D;
-
+	import org.papervision3d.objects.parsers.ascollada.Node3D;
+	import org.papervision3d.objects.parsers.ascollada.Skin3D;	
 
 	/**
 	 * @author Tim Knip
