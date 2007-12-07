@@ -57,9 +57,7 @@ package org.papervision3d.objects.parsers {
 	 * @author Tim Knip
 	 */
 	public class DAE extends DisplayObject3D
-	{
-		public static var DEFAULT_LIGHT:PointLight3D = new PointLight3D();
-		
+	{		
 		/** */
 		public var filename:String;
 		
@@ -639,7 +637,7 @@ package org.papervision3d.objects.parsers {
 				
 				if( lambert && lambert.diffuse.color )
 				{
-					material = new FlatShadeMaterial( DEFAULT_LIGHT, buildColor(lambert.diffuse.color)/*, lambert.transparency*/ );
+					material = new ColorMaterial( buildColor(lambert.diffuse.color)/*, lambert.transparency*/ );
 				}
 				else
 				{
@@ -873,10 +871,7 @@ package org.papervision3d.objects.parsers {
 						
 			readySkins(this);
 			readyMorphs(this);
-			
-			this.rootNode.addChild(DEFAULT_LIGHT);
-			DEFAULT_LIGHT.z = 1000;
-			
+						
 			this.rootNode.scaleX = -1;
 			
 			if( _yUp )
