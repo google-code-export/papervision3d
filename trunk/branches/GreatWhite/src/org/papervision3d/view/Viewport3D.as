@@ -25,7 +25,7 @@ package org.papervision3d.view
 	import org.papervision3d.view.layer.ViewportBaseLayer;
 	import org.papervision3d.view.layer.ViewportLayer;
 	
-	use namespace org.papervision3d.core.ns.pv3dview;
+	
 	
 	/**
 	 * @Author Ralph Hauwert
@@ -35,6 +35,8 @@ package org.papervision3d.view
 	
 	public class Viewport3D extends Sprite implements IViewport3D
 	{
+		
+		//use namespace org.papervision3d.core.ns.pv3dview;
 		protected var _width:Number;
 		protected var _hWidth:Number;
 		protected var _height:Number;
