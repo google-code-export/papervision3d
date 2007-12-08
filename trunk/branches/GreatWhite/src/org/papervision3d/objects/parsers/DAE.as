@@ -1277,6 +1277,8 @@ package org.papervision3d.objects.parsers
 			skin.joints = new Array();
 			skin.skeletons = new Array();
 
+			// <instance_controller> node can have 0 <skeleton> nodes...
+			// so we simply push the 'top' node ID into the skeletons array.
 			if( !instance_controller.skeletons.length )
 			{
 				var node:Node3D = findRootNode(this);
@@ -1287,45 +1289,59 @@ package org.papervision3d.objects.parsers
 					throw new Error( "instance_controller doesn't have a skeleton node, and no rootnode could be found!" );
 			}
 			
+			// the skeletons array contains the ID of nodes to start searching for our bones.
 			for(var i:int = 0; i < instance_controller.skeletons.length; i++ )
 			{				
 				var skeletonId:String = instance_controller.skeletons[i];
 				var skeletonNode:DisplayObject3D;
-								
-				skeletonNode = findChildByID(this, skeletonId);
 				
+				// there should be a DO3D in our scenegraph
+				skeletonNode = findChildByID(this, skeletonId);
 				if( !skeletonNode )
+				{
+					Papervision3D.log( "[ERROR] could not find skeleton: " + skeletonId );
 					throw new Error( "could not find skeleton: " + skeletonId);
-						
+				}		
+				
+				// save a reference of the skeleton to Skin3D
 				skin.skeletons.push(skeletonNode);
 
+				// loop over all bones for this skin
 				for( var j:int = 0; j < daeSkin.joints.length; j++ )
 				{
 					var jointId:String = daeSkin.joints[j];
 					
+					// make sure we don't add this bone twice
 					if( found[jointId] )
 						continue;
 						
+					// the bone *should* be a child of the skeleton
 					var joint:Node3D = findChildByID(skeletonNode, jointId) as Node3D;
 					if( !joint )
 						joint = findChildByID(skeletonNode, jointId, true) as Node3D;
-						
 					if( !joint )
+					{
+						Papervision3D.log( "[ERROR] could not find joint: " + jointId + " " + skeletonId);
 						throw new Error( "could not find joint: " + jointId + " " + skeletonId);
-
+					}
+					
+					// the bone *should* have a bindmatrix
 					var bindMatrix:Array = daeSkin.findJointBindMatrix2(jointId);
-					
 					if( !bindMatrix )
+					{
+						Papervision3D.log( "[ERROR] could not find bindmatrix for joint: " + jointId);
 						throw new Error( "could not find bindmatrix for joint: " + jointId );
-						
+					}	
 					joint.bindMatrix = new Matrix3D(bindMatrix);
-					joint.blendVerts = daeSkin.findJointVertexWeightsByIDOrSID(jointId);
-
-				//	joint.bindMatrix.n14 = -joint.bindMatrix.n14;
 					
+					// the bone *should* have vertex weights
+					joint.blendVerts = daeSkin.findJointVertexWeightsByIDOrSID(jointId);
 					if( !joint.blendVerts )
+					{
+						Papervision3D.log( "[ERROR] could not find influences for joint: " + jointId );
 						throw new Error( "could not find influences for joint: " + jointId );
-						
+					}	
+					
 					skin.joints.push(joint);
 					
 					found[jointId] = joint;

@@ -126,8 +126,8 @@ package org.ascollada.types
 				case ASCollada.DAE_MATRIX_ELEMENT:
 					if( channel.syntax.isFullAccess )
 					{
-					for( i = 0; i < channel.output.length; i++ )
-						matrices.push( bakedMatrix(channel.output[i]) );
+						for( i = 0; i < channel.output.length; i++ )
+							matrices.push( bakedMatrix(channel.output[i]) );
 					}
 					break;
 				default:

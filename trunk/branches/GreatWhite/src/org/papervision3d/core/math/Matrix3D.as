@@ -174,9 +174,6 @@ public class Matrix3D
 	*/
 	public var n44 :Number;
 	
-	public var sid:String;
-	public var type:String = "";
-	
 	// _________________________________________________________________________________ Matrix3D
 
 	/**
