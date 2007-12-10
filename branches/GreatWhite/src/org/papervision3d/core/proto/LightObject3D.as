@@ -9,15 +9,22 @@ package org.papervision3d.core.proto
 	{
 		public var lightMatrix:Matrix3D;
 		
+		/** 
+		 * A boolean value indicating whether to flip the light direction. Hack needed by DAE. 
+		 * NOTE:  
+		 */
+		public var flipped:Boolean;
+		
 		private var _showLight:Boolean;
 		
 		private var displaySphere:Sphere;
 		
-		public function LightObject3D(showLight:Boolean = false)
+		public function LightObject3D(showLight:Boolean = false, flipped:Boolean = false)
 		{
 			super();
 			this.lightMatrix = Matrix3D.IDENTITY;
 			this.showLight = showLight;
+			this.flipped = flipped;
 		}
 		
 		public function set showLight(show:Boolean):void

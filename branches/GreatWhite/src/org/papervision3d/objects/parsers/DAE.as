@@ -1,6 +1,14 @@
 ﻿/*
- * Copyright 2007 (c) Tim Knip, ascollada.org.
+ * PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
+ * AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
+ * PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
+ * ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
+ * RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
+ * ______________________________________________________________________
+ * papervision3d.org + blog.papervision3d.org + osflash.org/papervision3d
  *
+ * Copyright 2006 (c) Carlos Ulloa Matesanz, noventaynueve.com.
+ * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -65,6 +73,8 @@ package org.papervision3d.objects.parsers
 	 */
 	public class DAE extends DisplayObject3D
 	{		
+		public static var DEFAULT_SCALE:Number = 100;
+		
 		/** */
 		public var filename:String;
 		
@@ -83,6 +93,7 @@ package org.papervision3d.objects.parsers
 		/** */
 		public var hasAnimations:Boolean = false;
 		
+		/** The first skin found in the file. */
 		public var skin:Skin3D;
 		
 		/**
@@ -94,8 +105,54 @@ package org.papervision3d.objects.parsers
 		public function DAE( async:Boolean = false ):void
 		{
 			_reader = new DaeReader(async);
+			
 		}
 		
+		/**
+		 * Sets the 3D scale as applied from the registration point of the object.
+		 */
+		override public function set scale( scale:Number ):void
+		{
+			super.scaleX = scale;
+			super.scaleY = scale;
+			super.scaleZ = -scale;
+			_loadScaleSet = true;
+		}
+		
+		/**
+		 * Gets the 3D scale as applied from the registration point of the object.
+		 */
+		override public function get scale():Number
+		{
+			if( super.scaleX == super.scaleY && super.scaleX == -super.scaleZ )
+				return super.scaleX;
+			else
+				return NaN;
+		}
+		
+		/**
+		 * Gets the scale along the local Z axis as applied from the registration point of the object.
+		 */
+		override public function get scaleZ():Number
+		{
+			return super.scaleZ;
+		}
+	
+		/**
+		 * Sets the scale along the local Z axis as applied from the registration point of the object.
+		 */
+		override public function set scaleZ( scale:Number ):void
+		{
+			super.scaleZ = -scale;
+			_loadScaleSet = true;
+		}
+		
+		/**
+		 * Loads a Collada file from url, xml or bytearray.
+		 * 
+		 * @param	asset		Url, XML or ByteArray
+		 * @param	materials	Optional MaterialsList.
+		 */
 		public function load(asset:*, materials:MaterialsList = null ):void
 		{
 			this.materials = materials || new MaterialsList();
@@ -647,7 +704,7 @@ package org.papervision3d.objects.parsers
 				
 				if( lambert && lambert.diffuse.color )
 				{
-					material = new ColorMaterial( buildColor(lambert.diffuse.color)/*, lambert.transparency*/ );
+					material = new WireframeMaterial( buildColor(lambert.diffuse.color)/*, lambert.transparency*/ );
 				}
 				else
 				{
@@ -711,7 +768,7 @@ package org.papervision3d.objects.parsers
 				var transform:DaeTransform = node.transforms[i];
 				
 				matrix = Matrix3D.multiply( matrix, new Matrix3D(transform.matrix) );
-			}			
+			}	
 			return matrix;
 		}
 		
@@ -880,20 +937,13 @@ package org.papervision3d.objects.parsers
 			buildVisualScene();
 			
 			linkSkins(this.rootNode);
-						
+			
 			readySkins(this);
 			readyMorphs(this);
 			
-			if( _yUp )
-			{
-				//this.rootNode.rotationY = 180;
-			}
-			else
-			{
-				//this.rootNode.rotationX = 90;
-				//this.rootNode.rotationY = 180;
-			}
-						
+			if( !_loadScaleSet )
+				this.scale = DEFAULT_SCALE;
+			
 			// there may be animations left to parse...
 			if( document.numQueuedAnimations )
 			{
@@ -984,7 +1034,8 @@ package org.papervision3d.objects.parsers
 			
 			_skins[ obj ] = instance_controller;
 			
-			this.skin = obj;
+			if( !this.skin )
+				this.skin = obj;
 			
 			return obj;
 		}
@@ -1021,10 +1072,7 @@ package org.papervision3d.objects.parsers
 			{
 				var v:Array = mesh.vertices[i];
 				
-				if( _yUp )
-					vertices.push(new Vertex3D(-v[0], v[1], v[2]));
-				else
-					vertices.push(new Vertex3D(v[0], v[2], v[1]));
+				vertices.push(new Vertex3D(v[0], v[1], v[2]));
 			}
 			
 			return vertices;
@@ -1478,6 +1526,6 @@ package org.papervision3d.objects.parsers
 		
 		private var _asset:*;
 		
-		private var _fixZ:Matrix3D;
+		private var _loadScaleSet:Boolean = false;
 	}
 }
