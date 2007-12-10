@@ -83,6 +83,8 @@ package org.papervision3d.objects.parsers
 		/** */
 		public var hasAnimations:Boolean = false;
 		
+		public var skin:Skin3D;
+		
 		/**
 		 * 
 		 * @param	asset
@@ -210,7 +212,8 @@ package org.papervision3d.objects.parsers
 						
 					// #keys and #matrices *should* be equal
 					if( matrices.length != channel.input.length )
-						throw new Error( "matrices.length != channel.input.length" );
+						continue;
+						//throw new Error( "matrices.length != channel.input.length" );
 
 					channel.output = matrices;		
 					
@@ -980,6 +983,8 @@ package org.papervision3d.objects.parsers
 			obj.geometry.ready = true;
 			
 			_skins[ obj ] = instance_controller;
+			
+			this.skin = obj;
 			
 			return obj;
 		}
