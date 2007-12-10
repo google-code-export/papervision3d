@@ -394,18 +394,16 @@ package org.papervision3d.objects.parsers
 		{
 			var i:int, j:int, k:int;
 			
-			material = material || _materialInstances[primitive.material];
+			material = _materialInstances[primitive.material] || material;
 			
 			material = material || MaterialObject3D.DEFAULT;
-			
-			instance.material = material;
-			
+						
 			var texcoords:Array = new Array();
 			
 			// retreive correct texcoord-set for the material.
 			var obj:DaeBindVertexInput = _materialTextureSets[primitive.material] is DaeBindVertexInput ? _materialTextureSets[primitive.material] : null;
 			var setID:int = (obj is DaeBindVertexInput) ? obj.input_set : 0;
-			var texCoordSet:Array = primitive.getTexCoords(setID);
+			var texCoordSet:Array = primitive.getTexCoords(setID); 
 			
 			// texture coords
 			for( i = 0; i < texCoordSet.length; i++ ) 
@@ -695,6 +693,7 @@ package org.papervision3d.objects.parsers
 						var path:String = buildImagePath(this.baseUrl, img.init_from);
 						material = new BitmapFileMaterial( path );
 						material.tiled = true;
+						material.doubleSided = true;
 						material.addEventListener( FileLoadEvent.LOAD_COMPLETE, materialCompleteHandler );
 						material.addEventListener( FileLoadEvent.LOAD_ERROR, materialErrorHandler );
 						this.materials.addMaterial(material, mat.id );
