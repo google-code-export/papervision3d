@@ -6,6 +6,8 @@ package org.papervision3d.materials.utils
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.lights.PointLight3D;
 	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.parsers.ascollada.Node3D;
+	import org.papervision3d.objects.parsers.ascollada.Skin3D;
 	
 	/**
 	 * @Author Tim Knip / Ralph Hauwert
@@ -68,7 +70,7 @@ package org.papervision3d.materials.utils
 			   
 				// normalize!
 				_lightDir.normalize();
-			   
+			   	
 				// inlined:  Number3D.cross(UP, _lightDir);
 				_lightSide.x = (_lightDir.y * UP.z) - (_lightDir.z * UP.y);
 				_lightSide.y = (_lightDir.z * UP.x) - (_lightDir.x * UP.z);
@@ -81,6 +83,13 @@ package org.papervision3d.materials.utils
 				_lightUp.z = (_lightSide.x * _lightDir.y) - (_lightSide.y * _lightDir.x);
 				_lightUp.normalize(); // needed?
 	
+				if(light.flipped)
+				{
+					_lightDir.x = -_lightDir.x;
+					_lightDir.y = -_lightDir.y;
+					_lightDir.z = -_lightDir.z;
+				}
+				
 				// copy values
 				lightMatrix.n11 = _lightSide.x;
 				lightMatrix.n12 = _lightSide.y;

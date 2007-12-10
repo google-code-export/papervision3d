@@ -101,10 +101,8 @@ package org.papervision3d.core.animation.controllers
 				
 			for( i = 0; i < vertices.length; i++ )
 			{
-				if( _yUp )
-					_cached[i] = new Number3D(-vertices[i].x, vertices[i].y, vertices[i].z);
-				else
-					_cached[i] = new Number3D(vertices[i].x, vertices[i].z, vertices[i].y);
+				_cached[i] = new Number3D(vertices[i].x, vertices[i].y, vertices[i].z);
+				
 				Matrix3D.multiplyVector(this.skin.bindPose, _cached[i]);
 			}
 		}
