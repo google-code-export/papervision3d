@@ -31,9 +31,11 @@ package org.ascollada.utils
 	{
 		private static var log:XrayLog = new XrayLog();
 		
+		public static var VERBOSE:Boolean = false;
+		
 		public static function debug( o:String ):void
 		{
-			log.debug( o );
+			if(VERBOSE) log.debug( o );
 		}
 		public static function error( o:String ):void
 		{
@@ -45,11 +47,11 @@ package org.ascollada.utils
 		}
 		public static function info( o:String ):void
 		{
-			log.info( o );
+			if(VERBOSE) log.info( o );
 		}
 		public static function trace( o:String ):void
 		{
-			log.debug( o );
+			if(VERBOSE) log.debug( o );
 		}
 	}
 }
