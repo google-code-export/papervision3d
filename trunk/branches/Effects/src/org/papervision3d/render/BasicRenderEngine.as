@@ -8,6 +8,7 @@ package org.papervision3d.render
 	import flash.geom.Point;
 	
 	import org.papervision3d.core.culling.IObjectCuller;
+	import org.papervision3d.core.layers.utils.RenderLayerManager;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.IRenderEngine;
@@ -75,6 +76,7 @@ package org.papervision3d.render
 			renderSessionData.container = viewPort.containerSprite;
 			renderSessionData.triangleCuller = viewPort.triangleCuller;
 			renderSessionData.particleCuller = viewPort.particleCuller;
+			renderSessionData.defaultRenderLayer = RenderLayerManager.getInstance().defaultLayer;
 			renderSessionData.renderStatistics.clear();
 			
 			//Project the Scene (this will fill up the renderlist).
