@@ -11,8 +11,7 @@ package org.papervision3d.core.layers.utils {
 	
 	import org.papervision3d.core.layers.EffectLayer;
 	import org.papervision3d.core.layers.RenderLayer;
-	import org.papervision3d.core.render.BasicRenderEngine;
-
+	
 	public class RenderLayerManager extends EventDispatcher{
 		
 		//all the layers
@@ -22,8 +21,7 @@ package org.papervision3d.core.layers.utils {
 		public var sortMode:int = RenderLayerSortMode.Z_SORT;
 		
 		//reference to the scene
-		private var renderer:BasicRenderEngine;
-		
+				
 		public function RenderLayerManager(){
 
 			layers = new Dictionary();

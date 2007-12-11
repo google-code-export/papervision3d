@@ -10,6 +10,8 @@ package org.papervision3d.core.render.data
 	
 	public class RenderHitData
 	{
+		public var startTime:int = 0;
+		public var endTime:int = 0;
 		public var hasHit:Boolean = false;
 		
 		public var displayObject3D:DisplayObject3D;

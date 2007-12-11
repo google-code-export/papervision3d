@@ -1,4 +1,4 @@
-package org.papervision3d.core.render
+package org.papervision3d.render
 {
 	
 	/**
@@ -10,6 +10,7 @@ package org.papervision3d.core.render
 	import org.papervision3d.core.culling.IObjectCuller;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
+	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.data.RenderHitData;
 	import org.papervision3d.core.render.data.RenderSessionData;
@@ -23,7 +24,6 @@ package org.papervision3d.core.render
 	import org.papervision3d.events.RendererEvent;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
-	import org.papervision3d.core.layers.utils.RenderLayerManager;
 	
 	public class BasicRenderEngine extends EventDispatcher implements IRenderEngine
 	{
@@ -76,21 +76,21 @@ package org.papervision3d.core.render
 			renderSessionData.triangleCuller = viewPort.triangleCuller;
 			renderSessionData.particleCuller = viewPort.particleCuller;
 			renderSessionData.renderStatistics.clear();
-			renderSessionData.defaultRenderLayer = RenderLayerManager.getInstance().defaultLayer;
 			
 			//Project the Scene (this will fill up the renderlist).
-			project(renderSessionData);
+			doProject(renderSessionData);
 			
 			//Render the Scene.
-			render(renderSessionData);
+			doRender(renderSessionData);
 			
 			return renderSessionData.renderStatistics;
 		}
 		
-		protected function project(renderSessionData:RenderSessionData):void
+		protected function doProject(renderSessionData:RenderSessionData):void
 		{
 			stopWatch.reset();
 			stopWatch.start();
+			
 			// Transform camera
 			renderSessionData.camera.transformView();
 			
@@ -100,23 +100,42 @@ package org.papervision3d.core.render
 			var i:Number = objects.length;
 			if( renderSessionData.camera is IObjectCuller){
 				for each(p in objects){
-					if( p.visible){
+					if(p.visible){
+						if(renderSessionData.viewPort.viewportObjectFilter){
+							if(renderSessionData.viewPort.viewportObjectFilter.testObject(p)){
+								p.view.calculateMultiply4x4(renderSessionData.camera.eye, p.transform);
+								p.project(renderSessionData.camera, renderSessionData);
+							}else{
+								renderSessionData.renderStatistics.filteredObjects++;
+							}
+						}else{
 							p.view.calculateMultiply4x4(renderSessionData.camera.eye, p.transform);
 							p.project(renderSessionData.camera, renderSessionData);
+						}
 					}
 				}
 			}else{
 				for each(p in objects){
 					if( p.visible){
-						p.view.calculateMultiply(renderSessionData.camera.eye, p.transform);
-						p.project(renderSessionData.camera, renderSessionData);
+						if(renderSessionData.viewPort.viewportObjectFilter){
+							if(renderSessionData.viewPort.viewportObjectFilter.testObject(p)){
+								p.view.calculateMultiply(renderSessionData.camera.eye, p.transform);
+								p.project(renderSessionData.camera, renderSessionData);
+							}else{
+								renderSessionData.renderStatistics.filteredObjects++;
+							}
+						}else{
+							p.view.calculateMultiply(renderSessionData.camera.eye, p.transform);
+							p.project(renderSessionData.camera, renderSessionData);
+						}
+						
 					}
 				}
 			}
 			renderSessionData.renderStatistics.projectionTime = stopWatch.stop();
 		}
 		
-		protected function render(renderSessionData:RenderSessionData):RenderStatistics
+		protected function doRender(renderSessionData:RenderSessionData):RenderStatistics
 		{
 			stopWatch.reset();
 			stopWatch.start();
