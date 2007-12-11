@@ -6,7 +6,6 @@ package org.papervision3d.core.render.data
 	 */
 	 
 	import flash.display.Sprite;
-	import org.papervision3d.core.layers.RenderLayer;
 	
 	import org.papervision3d.core.culling.IParticleCuller;
 	import org.papervision3d.core.culling.ITriangleCuller;
@@ -14,6 +13,7 @@ package org.papervision3d.core.render.data
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.view.Viewport3D;
+	import org.papervision3d.core.layers.RenderLayer;
 	
 	
 	public class RenderSessionData

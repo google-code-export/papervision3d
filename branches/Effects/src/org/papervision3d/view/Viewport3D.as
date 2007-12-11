@@ -4,8 +4,6 @@ package org.papervision3d.view
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import org.papervision3d.core.layers.EffectLayer;
-	import org.papervision3d.core.layers.RenderLayer;
 	
 	import org.papervision3d.core.culling.DefaultParticleCuller;
 	import org.papervision3d.core.culling.DefaultTriangleCuller;
@@ -13,14 +11,16 @@ package org.papervision3d.view
 	import org.papervision3d.core.culling.ITriangleCuller;
 	import org.papervision3d.core.culling.RectangleParticleCuller;
 	import org.papervision3d.core.culling.RectangleTriangleCuller;
-	import org.papervision3d.core.render.BasicRenderEngine;
+	import org.papervision3d.core.culling.ViewportObjectFilter;
+	import org.papervision3d.core.layers.RenderLayer;
+	import org.papervision3d.core.layers.utils.RenderLayerManager;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.core.render.data.RenderHitData;
 	import org.papervision3d.core.utils.InteractiveSceneManager;
 	import org.papervision3d.events.RendererEvent;
-	import org.papervision3d.core.layers.utils.RenderLayerManager;
+	import org.papervision3d.render.BasicRenderEngine;
 	
 	/**
 	 * @Author Ralph Hauwert
@@ -44,6 +44,7 @@ package org.papervision3d.view
 		public var sizeRectangle:Rectangle;
 		protected var cullingRectangle:Rectangle;
 		protected var _containerSprite:Sprite;
+		protected var _viewportObjectFilter:ViewportObjectFilter;
 		
 		public var triangleCuller:ITriangleCuller;
 		public var particleCuller:IParticleCuller;
@@ -251,6 +252,16 @@ package org.papervision3d.view
 		public function get interactive():Boolean
 		{
 			return _interactive;
+		}
+		
+		public function set viewportObjectFilter(vof:ViewportObjectFilter):void
+		{
+			_viewportObjectFilter = vof;
+		}
+		
+		public function get viewportObjectFilter():ViewportObjectFilter
+		{
+			return _viewportObjectFilter;
 		}
 		
 		public function updateBeforeRender():void

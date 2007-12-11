@@ -12,9 +12,12 @@ package org.papervision3d.core.render.data
 		public var rendered:int = 0;
 		public var triangles:int = 0;
 		public var culledTriangles:int = 0;
-		public var particles:Number = 0;
-		public var lines:Number = 0;
-		public var shadedTriangles:Number = 0;
+		public var particles:int = 0;
+		public var culledParticles:int = 0;
+		public var lines:int = 0;
+		public var shadedTriangles:int = 0;
+		public var filteredObjects:int = 0;
+		public var culledObjects:int = 0;
 		
 		public function RenderStatistics()
 		{
@@ -29,13 +32,16 @@ package org.papervision3d.core.render.data
 			particles = 0;
 			triangles = 0;
 			culledTriangles = 0;
+			culledParticles = 0;
 			lines = 0;
 			shadedTriangles = 0;
+			filteredObjects = 0;
+			culledObjects = 0;
 		}
 		
 		public function toString():String
 		{
-			return new String("ProjectionTime:"+projectionTime+" RenderTime:"+renderTime+" Particles:"+particles+" Triangles:"+triangles+" CulledTriangles:"+culledTriangles);
+			return new String("ProjectionTime:"+projectionTime+" RenderTime:"+renderTime+" Particles:"+particles+" CulledParticles :"+culledParticles+" Triangles:"+triangles+" ShadedTriangles :"+shadedTriangles+" CulledTriangles:"+culledTriangles+" FilteredObjects:"+filteredObjects+" CulledObjects:"+culledObjects+"");
 		}
 		
 	}
