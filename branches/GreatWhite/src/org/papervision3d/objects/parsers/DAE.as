@@ -33,10 +33,17 @@
  
 package org.papervision3d.objects.parsers
 {
+	import flash.display.BitmapData;
 	import flash.events.*;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
+	import org.papervision3d.materials.shaders.FlatShader;
+	import org.papervision3d.materials.shaders.GouraudShader;
+	import org.papervision3d.materials.shaders.LightShader;
+	import org.papervision3d.materials.shaders.PhongShader;
+	import org.papervision3d.materials.shaders.ShadedMaterial;
+	import org.papervision3d.materials.shaders.Shader;
 	import org.papervision3d.Papervision3D;
 	
 	import org.ascollada.ASCollada;
@@ -396,7 +403,7 @@ package org.papervision3d.objects.parsers
 			
 			material = material || MaterialObject3D.DEFAULT;
 			
-			Papervision3D.log( "material: " + material.name + " " + material );
+			//Papervision3D.log( "material: " + primitive.material + " " + material );
 			
 			var texcoords:Array = new Array();
 			
@@ -693,7 +700,6 @@ package org.papervision3d.objects.parsers
 						var path:String = buildImagePath(this.baseUrl, img.init_from);
 						material = new BitmapFileMaterial( path );
 						material.tiled = true;
-						material.doubleSided = true;
 						material.addEventListener( FileLoadEvent.LOAD_COMPLETE, materialCompleteHandler );
 						material.addEventListener( FileLoadEvent.LOAD_ERROR, materialErrorHandler );
 						this.materials.addMaterial(material, mat.id );
