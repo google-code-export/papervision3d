@@ -33,10 +33,17 @@
  
 package org.papervision3d.objects.parsers
 {
+	import flash.display.BitmapData;
 	import flash.events.*;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
+	import org.papervision3d.materials.shaders.FlatShader;
+	import org.papervision3d.materials.shaders.GouraudShader;
+	import org.papervision3d.materials.shaders.LightShader;
+	import org.papervision3d.materials.shaders.PhongShader;
+	import org.papervision3d.materials.shaders.ShadedMaterial;
+	import org.papervision3d.materials.shaders.Shader;
 	import org.papervision3d.Papervision3D;
 	
 	import org.ascollada.ASCollada;
@@ -73,24 +80,22 @@ package org.papervision3d.objects.parsers
 	 */
 	public class DAE extends DisplayObject3D
 	{		
+		/** Default scale, used when no scale was set. */
 		public static var DEFAULT_SCALE:Number = 100;
 		
-		/** */
+		/** Full filename. */
 		public var filename:String;
 		
-		/** */
+		/** File title. */
 		public var fileTitle:String;
 		
-		/** */
+		/** Base url. */
 		public var baseUrl:String;
 		
-		/** */
-		public var rootNode:DisplayObject3D;
-		
-		/** */
+		/** ASCollada document. @see org.ascollada.core.DaeDocument */
 		public var document:DaeDocument;
 		
-		/** */
+		/** Does the collada contain animations? */
 		public var hasAnimations:Boolean = false;
 		
 		/** The first skin found in the file. */
@@ -397,7 +402,9 @@ package org.papervision3d.objects.parsers
 			material = _materialInstances[primitive.material] || material;
 			
 			material = material || MaterialObject3D.DEFAULT;
-						
+			
+			//Papervision3D.log( "material: " + primitive.material + " " + material );
+			
 			var texcoords:Array = new Array();
 			
 			// retreive correct texcoord-set for the material.
@@ -693,7 +700,6 @@ package org.papervision3d.objects.parsers
 						var path:String = buildImagePath(this.baseUrl, img.init_from);
 						material = new BitmapFileMaterial( path );
 						material.tiled = true;
-						material.doubleSided = true;
 						material.addEventListener( FileLoadEvent.LOAD_COMPLETE, materialCompleteHandler );
 						material.addEventListener( FileLoadEvent.LOAD_ERROR, materialErrorHandler );
 						this.materials.addMaterial(material, mat.id );
@@ -703,7 +709,7 @@ package org.papervision3d.objects.parsers
 				
 				if( lambert && lambert.diffuse.color )
 				{
-					material = new WireframeMaterial( buildColor(lambert.diffuse.color)/*, lambert.transparency*/ );
+					material = new ColorMaterial( buildColor(lambert.diffuse.color)/*, lambert.transparency*/ );
 				}
 				else
 				{
@@ -935,7 +941,7 @@ package org.papervision3d.objects.parsers
 			
 			buildVisualScene();
 			
-			linkSkins(this.rootNode);
+			linkSkins(this._rootNode);
 			
 			readySkins(this);
 			readyMorphs(this);
@@ -1078,15 +1084,14 @@ package org.papervision3d.objects.parsers
 		}
 
 		/**
-		 * 
-		 * @return
+		 * Builds the visual scene (scenegraph).
 		 */
 		private function buildVisualScene():void
 		{
-			this.rootNode = addChild(new DisplayObject3D("COLLADA_root"));
+			this._rootNode = addChild(new DisplayObject3D("COLLADA_root"));
 			
 			for( var i:int = 0; i < document.vscene.nodes.length; i++ )
-				buildNode(document.vscene.nodes[i], this.rootNode);
+				buildNode(document.vscene.nodes[i], this._rootNode);
 		}
 		
 		/**
@@ -1154,10 +1159,11 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
-		 * Finds a child by name.
+		 * Finds a child by dae-ID or dae-SID.
 		 * 
 		 * @param	node
-		 * @param	name
+		 * @param	daeID
+		 * @param	bySID
 		 * @return
 		 */
 		private function findChildByID(node:DisplayObject3D, daeID:String, bySID:Boolean = false):DisplayObject3D
@@ -1202,9 +1208,11 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Finds the top-most Node3D in the scenegraph.
 		 * 
-		 * @param	node
-		 * @return
+		 * @param	node The node to start searching.
+		 * 
+		 * @return The found Node3D or null on failure.
 		 */
 		private function findRootNode(node:DisplayObject3D):Node3D
 		{
@@ -1238,9 +1246,11 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Attempts to find a morph-controller for a node.
 		 * 
-		 * @param	node
-		 * @return
+		 * @param	node	The DaeNode. @see org.ascollada.core.DaeNode
+		 * 
+		 * @return The controller found, or null if not found. @see org.ascollada.core.DaeInstanceController
 		 */
 		private function findMorphController( node:DaeNode ):DaeInstanceController
 		{
@@ -1254,9 +1264,11 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Attempts to find a skin-controller for a node.
 		 * 
-		 * @param	node
-		 * @return
+		 * @param	node	The DaeNode. @see org.ascollada.core.DaeNode
+		 * 
+		 * @return The controller found, or null if not found. @see org.ascollada.core.DaeInstanceController
 		 */
 		private function findSkinController( node:DaeNode ):DaeInstanceController
 		{
@@ -1268,53 +1280,11 @@ package org.papervision3d.objects.parsers
 			}
 			return null;
 		}
-		
+			
 		/**
+		 * Links a skin to its bones.
 		 * 
-		 * @param	values
-		 * @return
-		 */
-		private function getMatrixKeyValues( values:Array ):Array
-		{
-			var i:int, j:int;
-			var keyValues:Array = new Array(values.length);
-			
-			for( i = 0; i < values[0].length; i++ )
-				keyValues[i] = new Array();
-				
-			for( i = 0; i < values.length; i++ )
-				for( j = 0; j < values[i].length; j++ )
-					keyValues[j][i] = values[i][j];
-			return keyValues;
-		}
-		
-		/**
-		 * 
-		 * @param	values
-		 * @return
-		 */
-		private function getTranslationKeyValues( values:Array ):Array
-		{
-			var i:int;
-			var keyValues:Array = new Array(3);
-			
-			keyValues[0] = new Array();
-			keyValues[1] = new Array();
-			keyValues[2] = new Array();
-			
-			for( i = 0; i < values.length; i++ )
-			{
-				keyValues[0][i] = values[i][0];
-				keyValues[1][i] = values[i][1];
-				keyValues[2][i] = values[i][2];
-			}
-			
-			return keyValues;
-		}
-		
-		/**
-		 * 
-		 * @param	skin
+		 * @param	skin	The Skin3D to link.
 		 * @param	instance_controller
 		 * @return
 		 */
@@ -1338,7 +1308,7 @@ package org.papervision3d.objects.parsers
 				if( node )
 					instance_controller.skeletons.push(node.daeID);
 				else
-					throw new Error( "instance_controller doesn't have a skeleton node, and no rootnode could be found!" );
+					throw new Error( "instance_controller doesn't have a skeleton node, and no _rootNode could be found!" );
 			}
 			
 			// the skeletons array contains the ID of nodes to start searching for our bones.
@@ -1371,6 +1341,8 @@ package org.papervision3d.objects.parsers
 					var joint:Node3D = findChildByID(skeletonNode, jointId) as Node3D;
 					if( !joint )
 						joint = findChildByID(skeletonNode, jointId, true) as Node3D;
+					if( !joint )
+						joint = findChildByID(this, jointId, true) as Node3D;
 					if( !joint )
 					{
 						Papervision3D.log( "[ERROR] could not find joint: " + jointId + " " + skeletonId);
@@ -1406,6 +1378,7 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Links all skins with its bones etc.
 		 * 
 		 * @param	do3d
 		 * @return
@@ -1462,9 +1435,9 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Fired when an animation was loaded.
 		 * 
 		 * @param	event
-		 * @return
 		 */
 		private function animationProgressHandler( event:ProgressEvent ):void
 		{
@@ -1472,9 +1445,9 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Fired on collada file load progress.
 		 * 
 		 * @param	event
-		 * @return
 		 */
 		private function loadProgressHandler( event:ProgressEvent ):void
 		{
@@ -1482,24 +1455,29 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Fired when a material was succesfully loaded.
 		 * 
 		 * @param	event
-		 * @return
 		 */
 		private function materialCompleteHandler( event:FileLoadEvent ):void
 		{
 			dispatchEvent(event);
 		}
 		
+		/**
+		 * Fired when an IOErrorEvent occured.
+		 * 
+		 * @param	event
+		 */
 		private function handleIOError( event:IOErrorEvent ):void
 		{
 			dispatchEvent(event);
 		}
 		
 		/**
+		 * Fired when a material failed to load.
 		 * 
 		 * @param	event
-		 * @return
 		 */
 		private function materialErrorHandler( event:FileLoadEvent ):void
 		{
@@ -1507,24 +1485,31 @@ package org.papervision3d.objects.parsers
 			dispatchEvent( event );
 		}
 		
-		
-		
+		/** Parses the Collada file. @see org.ascollada.io.DaeReader. */
 		private var _reader:DaeReader;
 		
+		/** Morphs. */
 		private var _morphs:Dictionary;
 		
+		/** Skins. */
 		private var _skins:Dictionary;
 		
+		/** */
 		private var _materialInstances:Object;
 		
+		/** */
 		private var _materialTextureSets:Object;
 		
+		/** Boolean indicating the Collada file's UP-axis is Y-up or not. */
 		private var _yUp:Boolean;
 		
-		private var _delayTimer:Timer;
-		
+		/** The asset passed to load. @see #load */
 		private var _asset:*;
 		
+		/** */
+		private var _rootNode:DisplayObject3D;
+		
+		/** Boolean indicating the DAE's scale was set before load. */
 		private var _loadScaleSet:Boolean = false;
 	}
 }

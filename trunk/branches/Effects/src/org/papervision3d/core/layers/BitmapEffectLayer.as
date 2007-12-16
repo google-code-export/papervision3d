@@ -73,13 +73,12 @@ package org.papervision3d.core.layers {
 			}
 			
 			drawCommand.draw(canvas, drawTarget, transMat, clippingRect);
-			
-			if(clearMode == BitmapClearMode.CLEAR_POST)
-				drawLayer.graphics.clear();
-			
+
 			for each(var e:AbstractEffect in effects){
 				e.postRender();
 			}
+			if(clearMode == BitmapClearMode.CLEAR_POST)
+				drawLayer.graphics.clear();
 			
 		}
 		public override function removeEffect(fx:AbstractEffect):void{
@@ -113,6 +112,10 @@ package org.papervision3d.core.layers {
 			
 			if(clearMode == BitmapClearMode.CLEAR_PRE)
 				drawLayer.graphics.clear();
+		}
+		
+		public function getTranslationMatrix():Matrix{
+			return transMat;
 		}
 		
 	}
