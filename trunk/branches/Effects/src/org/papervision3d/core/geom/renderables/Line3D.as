@@ -15,17 +15,19 @@ package org.papervision3d.core.geom.renderables
 		
 		public var v0:Vertex3D;
 		public var v1:Vertex3D;
+		public var cV:Vertex3D;
 		public var material:LineMaterial;
 		public var renderCommand:RenderLine;
 		public var size:Number;
 		public var instance:Lines3D
 		
-		public function Line3D(instance:Lines3D, material:LineMaterial, size:Number, vertex0:Vertex3D, vertex1:Vertex3D)
+		public function Line3D(instance:Lines3D, material:LineMaterial, size:Number, vertex0:Vertex3D, vertex1:Vertex3D, controlVertex:Vertex3D = null)
 		{
 			this.size = size;
 			this.material = material;
 			this.v0 = vertex0;
 			this.v1 = vertex1;
+			this.cV = controlVertex;
 			this.instance = instance;
 			this.renderCommand = new RenderLine(this);
 		}
