@@ -5,18 +5,18 @@
 */
 
 package org.papervision3d.core.effects {
-	import flash.display.Sprite;
 	import flash.filters.BitmapFilter;
-	import flash.filters.BlurFilter;
-	import flash.geom.Point;
+	
 	import org.papervision3d.core.layers.*;
 
 	public class BitmapLayerEffect extends AbstractEffect{
 		
 		private var layer:BitmapEffectLayer;
 		private var filter:BitmapFilter;
+		public var isPostRender:Boolean;
 		
-		public function BitmapLayerEffect(filter:BitmapFilter){
+		public function BitmapLayerEffect(filter:BitmapFilter, isPostRender:Boolean = true){
+			this.isPostRender = isPostRender;
 			this.filter = filter;
 		}
 		
@@ -29,9 +29,15 @@ package org.papervision3d.core.effects {
 			this.layer = BitmapEffectLayer(layer);
 			
 		}
+		
+		public override function preRender():void{
+			if(!isPostRender)
+				layer.canvas.applyFilter(layer.canvas, layer.clippingRect, layer.clippingPoint, filter);
+			
+		}
 		public override function postRender():void{
-			layer.graphics.clear();
-			layer.canvas.applyFilter(layer.canvas, layer.clippingRect, layer.clippingPoint, filter);
+			if(isPostRender)
+				layer.canvas.applyFilter(layer.canvas, layer.clippingRect, layer.clippingPoint, filter);
 			
 		}
 	}
