@@ -21,7 +21,12 @@ package org.papervision3d.materials.special
 		{	
 			graphics.lineStyle( line.size, lineColor, lineAlpha );
 			graphics.moveTo( line.v0.vertex3DInstance.x, line.v0.vertex3DInstance.y );
-			graphics.lineTo( line.v1.vertex3DInstance.x, line.v1.vertex3DInstance.y );
+			
+			if(line.cV){
+				graphics.curveTo(line.cV.vertex3DInstance.x, line.cV.vertex3DInstance.y, line.v1.vertex3DInstance.x, line.v1.vertex3DInstance.y);
+			}else{
+				graphics.lineTo( line.v1.vertex3DInstance.x, line.v1.vertex3DInstance.y );
+			}
 			graphics.moveTo(0,0);
 			graphics.lineStyle();
 		}

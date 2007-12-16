@@ -60,6 +60,13 @@ package org.papervision3d.core.geom
 			if(geometry.vertices.indexOf(line.v1) == -1){
 				geometry.vertices.push(line.v1);
 			}
+			
+			if(line.cV){
+				if(geometry.vertices.indexOf(line.cV) == -1){
+				geometry.vertices.push(line.cV);
+			}
+				
+			}
 		}
 		
 		public function addNewLine(size:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):void
