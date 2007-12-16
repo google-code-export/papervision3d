@@ -30,11 +30,11 @@ package org.papervision3d.render
 		public var sorter:IRenderSorter;
 		public var filter:IRenderFilter;
 		
-		private var renderStatistics:RenderStatistics;
-		private var renderList:Array;
-		private var renderSessionData:RenderSessionData;
-		private var cleanRHD:RenderHitData = new RenderHitData();
-		private var stopWatch:StopWatch;
+		protected var renderStatistics:RenderStatistics;
+		protected var renderList:Array;
+		protected var renderSessionData:RenderSessionData;
+		protected var cleanRHD:RenderHitData = new RenderHitData();
+		protected var stopWatch:StopWatch;
 		
 		public function BasicRenderEngine():void
 		{
