@@ -47,5 +47,10 @@ package org.papervision3d.core.data.qTree
 			return array;
 		}
 		
+		public function clearItems():void
+		{
+			baseNode.clearItems();
+		}
+		
 	}
 }

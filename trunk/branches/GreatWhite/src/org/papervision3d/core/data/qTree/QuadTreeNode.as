@@ -16,7 +16,7 @@ package org.papervision3d.core.data.qTree
 		public var boundingRectangle:Rectangle;
 		public var depth:int;
 		public var maxDepth:int;
-		public var items:Dictionary;
+		public var items:Array;
 		public var children:Array;
 		public var parent:QuadTreeNode;
 		
@@ -57,7 +57,7 @@ package org.papervision3d.core.data.qTree
 		
 		protected function init():void
 		{
-			items = new Dictionary(true);
+			items = new Array();
 			children = new Array();
 			partition();
 		}
@@ -82,13 +82,17 @@ package org.papervision3d.core.data.qTree
 		
 		public function clearItems():void
 		{
-			if(nodeType == QuadTreeNodeTypes.NODE_TYPE_CHILD){
+			if(hasActiveChildren){
 				var node:QuadTreeNode;
 				for each(node in children){
-					node.clearItems();
+					if(node.hasActiveChildren || node.hasItems){
+						node.clearItems();
+					}
 				}
 			}
-			items = new Dictionary(true);
+			hasActiveChildren = false;
+			hasItems = false;
+			items.length = 0;
 		}
 		
 		public function queryPoint(point:Point, array:Array):void
