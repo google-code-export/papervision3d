@@ -153,6 +153,20 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Clones this DAE. NOTE: only works for simple dae's. Skinning, animation, etc. is still unsupported.
+		 * 
+		 * @return	The clone DAE.
+		 */
+		public function clone():DAE
+		{
+			var dae:DAE = new DAE();
+			
+			cloneObj( dae, this._rootNode );
+			
+			return dae;
+		}
+		
+		/**
 		 * Loads a Collada file from url, xml or bytearray.
 		 * 
 		 * @param	asset		Url, XML or ByteArray
@@ -1092,6 +1106,98 @@ package org.papervision3d.objects.parsers
 			
 			for( var i:int = 0; i < document.vscene.nodes.length; i++ )
 				buildNode(document.vscene.nodes[i], this._rootNode);
+		}
+		
+		
+		/**
+		 * Clones the source and append the clone to target. Then recurse...
+		 * 
+		 * @param	target
+		 * @param	source
+		 */
+		private function cloneObj( target:DisplayObject3D, source:DisplayObject3D ):void
+		{
+			var o:DisplayObject3D;
+			
+			if( source === _rootNode )
+			{
+				o = new DisplayObject3D( source.name );
+				o.copyTransform( source.transform );
+				target = target.addChild(o);
+			}
+			else if( source is TriangleMesh3D )
+			{
+				o = new TriangleMesh3D(source.material, new Array(), new Array(), source.name);
+				o.geometry = cloneGeometry(o, source.geometry);
+				o.geometry.ready = true;
+				target = target.addChild(o);
+			}
+			else if( source is Node3D )
+			{
+				var n:Node3D = source as Node3D;
+				
+				o = new Node3D(n.name, n.daeID, n.daeSID);
+				o.copyTransform(n.transform);
+				target = target.addChild(o);
+			}
+			else if( source is DisplayObject3D )
+			{
+				o = new DisplayObject3D(source.name);
+				o.copyTransform(source.transform);
+				target = target.addChild(o);
+			}
+			
+			for each( var child:DisplayObject3D in source.children )
+			{
+				cloneObj(target, child);
+			}
+		}
+		
+		/**
+		 * Clones a GeometryObject3D an sets up the faces for target.
+		 * 
+		 * @param	target	The target for the cloned faces and vertices.
+		 * @param	source	The source GeometryObject3D.
+		 * 
+		 * @return	GeometryObject3D
+		 */
+		private function cloneGeometry( target:DisplayObject3D, source:GeometryObject3D ):GeometryObject3D
+		{			
+			var geom:GeometryObject3D = new GeometryObject3D();
+			
+			var vertices:Array = source.vertices;
+			var faces:Array = source.faces;
+			var i:int;
+			var newVerts:Dictionary = new Dictionary();
+			
+			geom.vertices = new Array();
+			geom.faces = new Array();
+			
+			for( i = 0; i < vertices.length; i++ )
+			{
+				var v:Vertex3D = vertices[i];
+				newVerts[ v ] = v.clone();
+				geom.vertices.push( newVerts[ v ] );
+			}
+			
+			for( i = 0; i < faces.length; i++ )
+			{
+				var f:Triangle3D = faces[i];
+				
+				var v0:Vertex3D = newVerts[ f.v0 ];
+				var v1:Vertex3D = newVerts[ f.v1 ];
+				var v2:Vertex3D = newVerts[ f.v2 ];
+				
+				var uv0:NumberUV = f.uv[0].clone();
+				var uv1:NumberUV = f.uv[1].clone();
+				var uv2:NumberUV = f.uv[2].clone();
+				
+				var newTri:Triangle3D = new Triangle3D(target, [v0, v1, v2], f.material, [uv0, uv1, uv2]);
+				
+				geom.faces.push( newTri );
+			}
+			
+			return geom;
 		}
 		
 		/**
