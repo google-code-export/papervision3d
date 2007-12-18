@@ -109,8 +109,11 @@ package org.papervision3d.objects.parsers
 		 */
 		public function DAE( async:Boolean = false ):void
 		{
+			super();
+			
 			_reader = new DaeReader(async);
 			
+			this.name = "DAE_" + this.id;
 		}
 		
 		/**
@@ -162,6 +165,8 @@ package org.papervision3d.objects.parsers
 			var dae:DAE = new DAE();
 			
 			cloneObj( dae, this._rootNode );
+			
+			_numClones++;
 			
 			return dae;
 		}
@@ -215,6 +220,34 @@ package org.papervision3d.objects.parsers
 		override public function getChildByName( name:String ):DisplayObject3D
 		{
 			return findChildByName(this, name);
+		}
+		
+		/**
+		 * Replaces a material by its name.
+		 * 
+		 * @param	material
+		 * @param	name
+		 * @return
+		 */
+		public function replaceMaterialByName( material:MaterialObject3D, name:String ):void
+		{
+			if( !this.materials )
+			{
+				return;
+			}	
+			
+			var existingMaterial:MaterialObject3D = this.materials.getMaterialByName(name);
+			if( existingMaterial )
+			{
+				if( this.material === existingMaterial )
+					this.material = material;
+				existingMaterial = this.materials.removeMaterial(existingMaterial);
+				existingMaterial.unregisterObject(this);
+				
+				material = this.materials.addMaterial(material, name);
+				
+				updateMaterials(this, existingMaterial, material);
+			}
 		}
 		
 		/**
@@ -416,9 +449,15 @@ package org.papervision3d.objects.parsers
 			material = _materialInstances[primitive.material] || material;
 			
 			material = material || MaterialObject3D.DEFAULT;
-			
-			//Papervision3D.log( "material: " + primitive.material + " " + material );
-			
+			/*
+			if( !instance.materials )
+				instance.materials = new MaterialsList();
+				
+			if( !instance.materials.getMaterialByName(primitive.material) )
+			{
+				instance.materials.addMaterial(material, primitive.material);
+			}
+			*/
 			var texcoords:Array = new Array();
 			
 			// retreive correct texcoord-set for the material.
@@ -1121,13 +1160,13 @@ package org.papervision3d.objects.parsers
 			
 			if( source === _rootNode )
 			{
-				o = new DisplayObject3D( source.name );
+				o = new DisplayObject3D( source.name + "-" + _numClones );
 				o.copyTransform( source.transform );
 				target = target.addChild(o);
 			}
 			else if( source is TriangleMesh3D )
 			{
-				o = new TriangleMesh3D(source.material, new Array(), new Array(), source.name);
+				o = new TriangleMesh3D(source.material, new Array(), new Array(), source.name + "-" + _numClones);
 				o.geometry = cloneGeometry(o, source.geometry);
 				o.geometry.ready = true;
 				target = target.addChild(o);
@@ -1136,13 +1175,13 @@ package org.papervision3d.objects.parsers
 			{
 				var n:Node3D = source as Node3D;
 				
-				o = new Node3D(n.name, n.daeID, n.daeSID);
+				o = new Node3D(n.name + "-" + _numClones, n.daeID, n.daeSID);
 				o.copyTransform(n.transform);
 				target = target.addChild(o);
 			}
 			else if( source is DisplayObject3D )
 			{
-				o = new DisplayObject3D(source.name);
+				o = new DisplayObject3D(source.name + "-" + _numClones);
 				o.copyTransform(source.transform);
 				target = target.addChild(o);
 			}
@@ -1525,6 +1564,33 @@ package org.papervision3d.objects.parsers
 		//	for each( var child:DisplayObject3D in do3d.children )
 		//		readySkins(child);
 		}
+				
+		/**
+		 * 
+		 * @param	do3d
+		 * @param	existingMaterial
+		 * @param	newMaterial
+		 * @return
+		 */
+		private function updateMaterials( do3d:DisplayObject3D, existingMaterial:MaterialObject3D, newMaterial:MaterialObject3D ):void
+		{
+			existingMaterial.unregisterObject(do3d);
+			
+			if( do3d.material === existingMaterial )
+				do3d.material = newMaterial;
+					
+			if( do3d.geometry && do3d.geometry.faces && do3d.geometry.faces.length )
+			{
+				for each( var triangle:Triangle3D in do3d.geometry.faces )
+				{
+					if( triangle.material === existingMaterial )
+						triangle.material = newMaterial;
+				}
+			}
+			
+			for each( var child:DisplayObject3D in do3d.children )
+				updateMaterials( child, existingMaterial, newMaterial );
+		}
 		
 		/**
 		 * 
@@ -1617,5 +1683,7 @@ package org.papervision3d.objects.parsers
 		
 		/** Boolean indicating the DAE's scale was set before load. */
 		private var _loadScaleSet:Boolean = false;
+		
+		private static var _numClones:uint = 0;
 	}
 }
