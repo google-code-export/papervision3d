@@ -55,7 +55,7 @@ package org.papervision3d.render
 			renderSessionData.renderer = this;
 		}
 		
-		public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D):RenderStatistics
+		public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, updateAnimation:Boolean = true):RenderStatistics
 		{
 			//Clear the viewport.
 			viewPort.updateBeforeRender();
@@ -64,7 +64,7 @@ package org.papervision3d.render
 			viewPort.lastRenderer = this;
 			
 			//Update animationEngine.
-			if( scene.animationEngine ){
+			if( scene.animationEngine && updateAnimation == true){
 				scene.animationEngine.tick();
 			}
 			
@@ -82,6 +82,7 @@ package org.papervision3d.render
 			
 			//Render the Scene.
 			doRender(renderSessionData);
+			dispatchEvent(new RendererEvent(RendererEvent.RENDER_DONE, renderSessionData));
 			
 			return renderSessionData.renderStatistics;
 		}
@@ -128,7 +129,6 @@ package org.papervision3d.render
 							p.view.calculateMultiply(renderSessionData.camera.eye, p.transform);
 							p.project(renderSessionData.camera, renderSessionData);
 						}
-						
 					}
 				}
 			}
@@ -159,8 +159,6 @@ package org.papervision3d.render
 			//Update Materials
 			MaterialManager.getInstance().updateMaterialsAfterRender(renderSessionData);
 			renderSessionData.renderStatistics.renderTime = stopWatch.stop();
-			
-			dispatchEvent(new RendererEvent(RendererEvent.RENDER_DONE, renderSessionData));
 			
 			renderSessionData.viewPort.updateAfterRender();
 			return renderStatistics;
