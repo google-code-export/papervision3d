@@ -13,8 +13,7 @@ package org.papervision3d.core.material
 
 	public class AbstractLightShadeMaterial extends TriangleMaterial implements ITriangleDrawer, IUpdateBeforeMaterial
 	{
-		
-		
+	
 		public var lightMatrices:Dictionary;
 		private var _light:LightObject3D;
 		protected static var lightMatrix:Matrix3D;

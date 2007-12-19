@@ -242,11 +242,10 @@ package org.papervision3d.materials
             if (index >= 100 || (focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < minimumRenderSize) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < minimumRenderSize))
             {
                 renderTriangleBitmap(graphics, ta, tb, tc, td, tx, ty, ax, ay, bx, by, cx, cy, smooth, tiled, bitmap);
-               renderSessionData.renderStatistics.triangles++;
+                renderSessionData.renderStatistics.triangles++;
                 return;
             }
 
-			
             var faz:Number = focus + az;
             var fbz:Number = focus + bz;
             var fcz:Number = focus + cz;

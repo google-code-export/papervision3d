@@ -125,7 +125,7 @@ package org.papervision3d.core.proto
 		*/
 		public override function addChild( child:DisplayObject3D, name:String=null ):DisplayObject3D
 		{
-			var newChild:DisplayObject3D =	super.addChild( child, name );
+			var newChild:DisplayObject3D =	super.addChild( child, name ? name : child.name );
 			child.scene = this;
 			this.objects.push( newChild );
 			return newChild;
