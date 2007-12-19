@@ -80,8 +80,7 @@ package org.papervision3d.objects
 		{
 			this.transform.n14 = value;
 		}
-	
-	
+		
 		/**
 		* An Number that sets the Y coordinate of a object relative to the origin of its parent.
 		*/
@@ -735,7 +734,7 @@ package org.papervision3d.objects
 			
 			//To get own containers.
 			if(_useOwnContainer){
-				//renderSessionData.viewPort.
+				
 			}
 			
 			for each( var child:DisplayObject3D in this._childrenByName )

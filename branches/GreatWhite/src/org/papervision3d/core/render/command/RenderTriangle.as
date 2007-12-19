@@ -46,7 +46,6 @@
 			if( !renderMat ) renderMat = triangle.instance.material;
 			
 			if(renderMat.interactive){
-				
 				var vPoint:Vertex3DInstance = new Vertex3DInstance(point.x, point.y);
 				var vx0:Vertex3DInstance = triangle.v0.vertex3DInstance;
 				var vx1:Vertex3DInstance = triangle.v1.vertex3DInstance;

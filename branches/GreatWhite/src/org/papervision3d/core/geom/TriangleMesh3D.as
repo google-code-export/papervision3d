@@ -111,41 +111,42 @@ package org.papervision3d.core.geom {
 		public override function project( parent :DisplayObject3D, renderSessionData:RenderSessionData):Number
 		{
 			// Vertices
-			super.project( parent, renderSessionData );
-			
-			// Faces
-			var faces:Array  = this.geometry.faces, 
-								screenZs:Number = 0, 
-								visibleFaces :Number = 0, 
-								triCuller:ITriangleCuller = renderSessionData.triangleCuller, 
-								vertex0:Vertex3DInstance, 
-								vertex1:Vertex3DInstance, 
-								vertex2:Vertex3DInstance, 
-								iFace:Triangle3DInstance, 
-								face:Triangle3D,
-								mat:MaterialObject3D,
-								rc:RenderTriangle;
-			
-			for each(face in faces){
-				mat = face.material ? face.material : material;
-				iFace = face.face3DInstance;
-				vertex0 = face.v0.vertex3DInstance;
-				vertex1 = face.v1.vertex3DInstance;
-				vertex2 = face.v2.vertex3DInstance;
-				if((iFace.visible = triCuller.testFace(face, vertex0, vertex1, vertex2))){
-					screenZs += iFace.screenZ = (vertex0.z + vertex1.z + vertex2.z)/3;
-					
-					rc = face.renderCommand;
-					visibleFaces++;
-					
-					rc.renderer = mat as ITriangleDrawer;
-					rc.screenDepth = iFace.screenZ;
-					renderSessionData.renderer.addToRenderList(rc);
-				}else{
-					renderSessionData.renderStatistics.culledTriangles++;
+			super.project(parent, renderSessionData);
+			if(!this.culled){
+				// Faces
+				var faces:Array  = this.geometry.faces, 
+									screenZs:Number = 0, 
+									visibleFaces :Number = 0, 
+									triCuller:ITriangleCuller = renderSessionData.triangleCuller, 
+									vertex0:Vertex3DInstance, 
+									vertex1:Vertex3DInstance, 
+									vertex2:Vertex3DInstance, 
+									iFace:Triangle3DInstance, 
+									face:Triangle3D,
+									mat:MaterialObject3D,
+									rc:RenderTriangle;
+				
+				for each(face in faces){
+					mat = face.material ? face.material : material;
+					iFace = face.face3DInstance;
+					vertex0 = face.v0.vertex3DInstance;
+					vertex1 = face.v1.vertex3DInstance;
+					vertex2 = face.v2.vertex3DInstance;
+					if((iFace.visible = triCuller.testFace(face, vertex0, vertex1, vertex2))){
+						screenZs += iFace.screenZ = (vertex0.z + vertex1.z + vertex2.z)/3;
+						rc = face.renderCommand;
+						visibleFaces++;
+						rc.renderer = mat as ITriangleDrawer;
+						rc.screenDepth = iFace.screenZ;
+						renderSessionData.renderer.addToRenderList(rc);
+					}else{
+						renderSessionData.renderStatistics.culledTriangles++;
+					}
 				}
+				return this.screenZ = screenZs / visibleFaces;
+			}else{
+				return 0;
 			}
-			return this.screenZ = screenZs / visibleFaces;
 		}
 	
 	
@@ -212,7 +213,7 @@ package org.papervision3d.core.geom {
 			this.geometry.vertices = uniqueList;
 	
 			// Update faces
-			for each( var f:Triangle3D in this.geometry.faces )
+			for each( var f:Triangle3D in geometry.faces )
 			{
 				f.v0 = uniqueDic[ f.v0 ];
 				f.v1 = uniqueDic[ f.v1 ];

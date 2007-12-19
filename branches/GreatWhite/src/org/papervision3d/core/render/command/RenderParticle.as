@@ -22,7 +22,6 @@ package org.papervision3d.core.render.command
 		{
 			super();
 			this.particle = particle;
-			
 		}
 		
 		override public function render(renderSessionData:RenderSessionData):void
