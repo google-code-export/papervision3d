@@ -130,6 +130,7 @@ package org.papervision3d.materials
 		{
 			movieTransparent = transparent;
 			this.animated = animated;
+			this.interactive = interactive;
 			this.precise = precise;
 			if( movieAsset ) texture = movieAsset;
 		}

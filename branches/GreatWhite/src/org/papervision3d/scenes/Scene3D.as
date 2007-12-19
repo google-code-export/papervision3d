@@ -71,7 +71,5 @@ package org.papervision3d.scenes
 				this.animationEngine = AnimationEngine.getInstance();
 			}
 		}
-	
-		
 	}
 }
