@@ -52,11 +52,6 @@ package org.papervision3d.view
 		{
 			if(_autoScaleToStage)
 			{
-				/*
-				// resize bitmap instead of resize the canvas
-				_containerBitmap.width = stage.stageWidth;
-				_containerBitmap.height = stage.stageHeight;
-				*/
 				viewportWidth = stage.stageWidth;
 				viewportHeight = stage.stageHeight;
 			}
