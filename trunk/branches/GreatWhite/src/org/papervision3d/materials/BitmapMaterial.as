@@ -124,7 +124,7 @@ package org.papervision3d.materials
 			if(!_precise){
 				//Render the bitmap using linear texturing.
 				if( lineAlpha )
-					graphics.lineStyle( 0, lineColor, lineAlpha );
+					graphics.lineStyle( lineThickness, lineColor, lineAlpha );
 				if( bitmap )
 				{
 					_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));

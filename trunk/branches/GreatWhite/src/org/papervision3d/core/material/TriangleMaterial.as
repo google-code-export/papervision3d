@@ -23,6 +23,7 @@ package org.papervision3d.core.material
 		
 		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
+			
 		}
 		
 	}

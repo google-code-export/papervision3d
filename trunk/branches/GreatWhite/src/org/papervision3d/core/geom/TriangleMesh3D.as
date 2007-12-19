@@ -88,7 +88,6 @@ package org.papervision3d.core.geom {
 		public function TriangleMesh3D( material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null )
 		{
 			super( vertices, name, initObject );
-	
 			this.geometry.faces = faces || new Array();
 			this.material       = material || MaterialObject3D.DEFAULT;
 		}

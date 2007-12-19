@@ -255,7 +255,6 @@ package org.papervision3d.core.proto
 		public function copy( material :MaterialObject3D ):void
 		{
 			this.bitmap    = material.bitmap;
-	//		this.animated  = material.animated;
 			this.smooth    = material.smooth;
 
 			this.lineColor = material.lineColor;
