@@ -20,6 +20,7 @@ package org.papervision3d.core.geom
 		public var pixels:Array;
 		public var layer:BitmapEffectLayer;
 		public var screenDepth:int;
+		public var sort:Boolean;
 	
 		/**
 		 * Vertexpixels
@@ -35,6 +36,7 @@ package org.papervision3d.core.geom
 			this.pixels = new Array();
 			super(vertices, name);
 			this.screenDepth = 0;
+			this.sort = false;
 		}
 		
 		/**
@@ -43,6 +45,12 @@ package org.papervision3d.core.geom
 		public override function project( parent :DisplayObject3D, renderSessionData:RenderSessionData ):Number
 		{
 			super.project(parent,renderSessionData);		
+			
+			if(this.sort){
+				
+				pixels.sort(sortOnDepth);
+			}
+			
 			renderSessionData.renderer.addToRenderList(this);
 			return 1;
 		}
@@ -52,14 +60,16 @@ package org.papervision3d.core.geom
 			var offsetX:Number = layer.width>>1;
 			var offsetY:Number = layer.height>>1;
 			var canvas:BitmapData = layer.canvas;
+			
 			var v3d:Vertex3DInstance;
 			screenDepth = 0;
 			
 			for each(var p:Pixel3D in pixels){
 				v3d = p.vertex3D.vertex3DInstance;
-				canvas.setPixel32(v3d.x+offsetX, v3d.y+offsetY, p.color);
-				screenDepth += v3d.z;
-				
+				if(v3d.visible){
+					canvas.setPixel32(v3d.x+offsetX, v3d.y+offsetY, p.color);
+					screenDepth += v3d.z;				
+				}
 			}
 			screenDepth /= pixels.length;
 			layer.screenDepth += screenDepth;
@@ -102,6 +112,16 @@ package org.papervision3d.core.geom
 			geometry.vertices = vertices;
 		}
 		
+		private function sortOnDepth(a:Pixel3D, b:Pixel3D):Number {
+		   		
+		    if(a.vertex3D.vertex3DInstance.z > b.vertex3D.vertex3DInstance.z) {
+		        return 1;
+		    } else if(a.vertex3D.vertex3DInstance.z < b.vertex3D.vertex3DInstance.z) {
+		        return -1;
+		    } else  {
+		        return 0;
+		    }
+		}
 		
 		
 		
