@@ -109,8 +109,11 @@ package org.papervision3d.objects.parsers
 		 */
 		public function DAE( async:Boolean = false ):void
 		{
+			super();
+			
 			_reader = new DaeReader(async);
 			
+			this.name = "DAE_" + this.id;
 		}
 		
 		/**
@@ -150,6 +153,22 @@ package org.papervision3d.objects.parsers
 		{
 			super.scaleZ = -scale;
 			_loadScaleSet = true;
+		}
+		
+		/**
+		 * Clones this DAE. NOTE: only works for simple dae's. Skinning, animation, etc. is still unsupported.
+		 * 
+		 * @return	The clone DAE.
+		 */
+		public function clone():DAE
+		{
+			var dae:DAE = new DAE();
+			
+			cloneObj( dae, this._rootNode );
+			
+			_numClones++;
+			
+			return dae;
 		}
 		
 		/**
@@ -201,6 +220,34 @@ package org.papervision3d.objects.parsers
 		override public function getChildByName( name:String ):DisplayObject3D
 		{
 			return findChildByName(this, name);
+		}
+		
+		/**
+		 * Replaces a material by its name.
+		 * 
+		 * @param	material
+		 * @param	name
+		 * @return
+		 */
+		public function replaceMaterialByName( material:MaterialObject3D, name:String ):void
+		{
+			if( !this.materials )
+			{
+				return;
+			}	
+			
+			var existingMaterial:MaterialObject3D = this.materials.getMaterialByName(name);
+			if( existingMaterial )
+			{
+				if( this.material === existingMaterial )
+					this.material = material;
+				existingMaterial = this.materials.removeMaterial(existingMaterial);
+				existingMaterial.unregisterObject(this);
+				
+				material = this.materials.addMaterial(material, name);
+				
+				updateMaterials(this, existingMaterial, material);
+			}
 		}
 		
 		/**
@@ -402,9 +449,15 @@ package org.papervision3d.objects.parsers
 			material = _materialInstances[primitive.material] || material;
 			
 			material = material || MaterialObject3D.DEFAULT;
-			
-			//Papervision3D.log( "material: " + primitive.material + " " + material );
-			
+			/*
+			if( !instance.materials )
+				instance.materials = new MaterialsList();
+				
+			if( !instance.materials.getMaterialByName(primitive.material) )
+			{
+				instance.materials.addMaterial(material, primitive.material);
+			}
+			*/
 			var texcoords:Array = new Array();
 			
 			// retreive correct texcoord-set for the material.
@@ -1094,6 +1147,98 @@ package org.papervision3d.objects.parsers
 				buildNode(document.vscene.nodes[i], this._rootNode);
 		}
 		
+		
+		/**
+		 * Clones the source and append the clone to target. Then recurse...
+		 * 
+		 * @param	target
+		 * @param	source
+		 */
+		private function cloneObj( target:DisplayObject3D, source:DisplayObject3D ):void
+		{
+			var o:DisplayObject3D;
+			
+			if( source === _rootNode )
+			{
+				o = new DisplayObject3D( source.name + "-" + _numClones );
+				o.copyTransform( source.transform );
+				target = target.addChild(o);
+			}
+			else if( source is TriangleMesh3D )
+			{
+				o = new TriangleMesh3D(source.material, new Array(), new Array(), source.name + "-" + _numClones);
+				o.geometry = cloneGeometry(o, source.geometry);
+				o.geometry.ready = true;
+				target = target.addChild(o);
+			}
+			else if( source is Node3D )
+			{
+				var n:Node3D = source as Node3D;
+				
+				o = new Node3D(n.name + "-" + _numClones, n.daeID, n.daeSID);
+				o.copyTransform(n.transform);
+				target = target.addChild(o);
+			}
+			else if( source is DisplayObject3D )
+			{
+				o = new DisplayObject3D(source.name + "-" + _numClones);
+				o.copyTransform(source.transform);
+				target = target.addChild(o);
+			}
+			
+			for each( var child:DisplayObject3D in source.children )
+			{
+				cloneObj(target, child);
+			}
+		}
+		
+		/**
+		 * Clones a GeometryObject3D an sets up the faces for target.
+		 * 
+		 * @param	target	The target for the cloned faces and vertices.
+		 * @param	source	The source GeometryObject3D.
+		 * 
+		 * @return	GeometryObject3D
+		 */
+		private function cloneGeometry( target:DisplayObject3D, source:GeometryObject3D ):GeometryObject3D
+		{			
+			var geom:GeometryObject3D = new GeometryObject3D();
+			
+			var vertices:Array = source.vertices;
+			var faces:Array = source.faces;
+			var i:int;
+			var newVerts:Dictionary = new Dictionary();
+			
+			geom.vertices = new Array();
+			geom.faces = new Array();
+			
+			for( i = 0; i < vertices.length; i++ )
+			{
+				var v:Vertex3D = vertices[i];
+				newVerts[ v ] = v.clone();
+				geom.vertices.push( newVerts[ v ] );
+			}
+			
+			for( i = 0; i < faces.length; i++ )
+			{
+				var f:Triangle3D = faces[i];
+				
+				var v0:Vertex3D = newVerts[ f.v0 ];
+				var v1:Vertex3D = newVerts[ f.v1 ];
+				var v2:Vertex3D = newVerts[ f.v2 ];
+				
+				var uv0:NumberUV = f.uv[0].clone();
+				var uv1:NumberUV = f.uv[1].clone();
+				var uv2:NumberUV = f.uv[2].clone();
+				
+				var newTri:Triangle3D = new Triangle3D(target, [v0, v1, v2], f.material, [uv0, uv1, uv2]);
+				
+				geom.faces.push( newTri );
+			}
+			
+			return geom;
+		}
+		
 		/**
 		 * 
 		 * @param	id
@@ -1419,6 +1564,33 @@ package org.papervision3d.objects.parsers
 		//	for each( var child:DisplayObject3D in do3d.children )
 		//		readySkins(child);
 		}
+				
+		/**
+		 * 
+		 * @param	do3d
+		 * @param	existingMaterial
+		 * @param	newMaterial
+		 * @return
+		 */
+		private function updateMaterials( do3d:DisplayObject3D, existingMaterial:MaterialObject3D, newMaterial:MaterialObject3D ):void
+		{
+			existingMaterial.unregisterObject(do3d);
+			
+			if( do3d.material === existingMaterial )
+				do3d.material = newMaterial;
+					
+			if( do3d.geometry && do3d.geometry.faces && do3d.geometry.faces.length )
+			{
+				for each( var triangle:Triangle3D in do3d.geometry.faces )
+				{
+					if( triangle.material === existingMaterial )
+						triangle.material = newMaterial;
+				}
+			}
+			
+			for each( var child:DisplayObject3D in do3d.children )
+				updateMaterials( child, existingMaterial, newMaterial );
+		}
 		
 		/**
 		 * 
@@ -1511,5 +1683,7 @@ package org.papervision3d.objects.parsers
 		
 		/** Boolean indicating the DAE's scale was set before load. */
 		private var _loadScaleSet:Boolean = false;
+		
+		private static var _numClones:uint = 0;
 	}
 }
