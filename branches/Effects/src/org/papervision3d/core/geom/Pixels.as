@@ -96,8 +96,8 @@ package org.papervision3d.core.geom
 		public function removePixel3D(pixel:Pixel3D):void
 		{
 			pixel.instance = null;
-			pixels.splice(pixels.indexOf(pixel,0));
-			vertices.splice(vertices.indexOf(pixel.vertex3D,0));
+			pixels.splice(pixels.indexOf(pixel,1));
+			vertices.splice(vertices.indexOf(pixel.vertex3D,1));
 		}
 		
 		/**
