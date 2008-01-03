@@ -4,6 +4,7 @@ package org.papervision3d.view
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.utils.Dictionary;
 	
 	import org.papervision3d.core.culling.DefaultParticleCuller;
 	import org.papervision3d.core.culling.DefaultTriangleCuller;
@@ -50,12 +51,14 @@ package org.papervision3d.view
 		public var particleCuller:IParticleCuller;
 		public var lastRenderList:Array;
 		public var interactiveSceneManager:InteractiveSceneManager;
+		public var containers:Dictionary;
 		
 		public var renderLayerManager:RenderLayerManager;
 		
 		public function Viewport3D(viewportWidth:Number = 640, viewportHeight:Number = 480, autoScaleToStage:Boolean = false, interactive:Boolean = false, autoClipping:Boolean = true, autoCulling:Boolean = true)
 		{
 			super();
+			
 			this.interactive = interactive;
 			init();
 			
@@ -72,7 +75,7 @@ package org.papervision3d.view
 		
 		protected function init():void
 		{
-			
+			containers = new Dictionary();
 			lastRenderList = new Array();
 			sizeRectangle = new Rectangle();
 			cullingRectangle = new Rectangle();
@@ -82,7 +85,7 @@ package org.papervision3d.view
 			addChild(_containerSprite);
 			
 			//SETUP THE RLM
-			renderLayerManager = RenderLayerManager.getInstance();
+			renderLayerManager = new RenderLayerManager();
 			var def:RenderLayer = new RenderLayer();
 			_containerSprite.addChild(def);
 			renderLayerManager.addDefaultLayer(def);

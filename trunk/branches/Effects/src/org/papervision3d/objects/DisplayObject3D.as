@@ -38,12 +38,12 @@
 package org.papervision3d.objects
 {
 	import com.blitzagency.xray.logger.XrayLog;
-	import org.papervision3d.core.layers.RenderLayer;
 	
 	import flash.display.Sprite;
 	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.culling.IObjectCuller;
+	import org.papervision3d.core.layers.RenderLayer;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.proto.CameraObject3D;
@@ -319,6 +319,9 @@ package org.papervision3d.objects
 		* You can use the container like any other Sprite. For example, you can add events to it, apply filters or change the blend mode.
 		*/
 		public var container   :Sprite;
+		
+		public var hasOwnRenderLayer:Boolean;
+		public var filters:Array;
 
 		/**
 		* The default material for the object instance. Materials collect data about how objects appear when rendered.
@@ -513,6 +516,8 @@ package org.papervision3d.objects
 			Papervision3D.log( "DisplayObject3D: " + name );
 	
 			this.culled    = false;
+			
+			this.filters = new Array();
 			
 			this.transform = Matrix3D.IDENTITY;
 			this.world     = Matrix3D.IDENTITY;

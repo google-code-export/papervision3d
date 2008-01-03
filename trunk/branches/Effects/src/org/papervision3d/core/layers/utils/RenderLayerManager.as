@@ -11,6 +11,9 @@ package org.papervision3d.core.layers.utils {
 	
 	import org.papervision3d.core.layers.EffectLayer;
 	import org.papervision3d.core.layers.RenderLayer;
+	import org.papervision3d.core.proto.SceneObject3D;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.view.Viewport3D;
 	
 	public class RenderLayerManager extends EventDispatcher{
 		
@@ -19,6 +22,8 @@ package org.papervision3d.core.layers.utils {
 		public var effectLayers:Dictionary;
 		public var defaultLayer:RenderLayer;
 		public var sortMode:int = RenderLayerSortMode.Z_SORT;
+		private var containerLayers:Dictionary;
+		
 		
 		//reference to the scene
 				
@@ -26,6 +31,7 @@ package org.papervision3d.core.layers.utils {
 
 			layers = new Dictionary();
 			effectLayers = new Dictionary();
+			containerLayers = new Dictionary();
 			
 		}
 		
@@ -41,6 +47,36 @@ package org.papervision3d.core.layers.utils {
 				elayer.faceCount = 0;
 				elayer.screenDepth = 0;
 				elayer.graphics.clear();
+			}
+		}
+		
+		public function checkIndividualLayers(scene:SceneObject3D, viewport:Viewport3D):void{
+			
+			//get current list of containers in viewport
+	
+			var rl:RenderLayer;
+			for each(var do3d:DisplayObject3D in scene.children){
+				if(do3d.hasOwnRenderLayer){
+					if(do3d.renderLayer == null){
+						rl = new RenderLayer();
+						viewport.addRenderLayer(rl);
+						do3d.renderLayer = rl;
+						viewport.containers[do3d] = rl;
+						
+					}
+					
+					do3d.renderLayer.filters = do3d.filters;
+					
+				}else{
+					
+					//doesn't want own renderLayer - make sure its not on the containers list
+					if(viewport.containers[do3d]){
+						viewport.removeRenderLayer(viewport.containers[do3d]);
+						viewport.containers[do3d] = null;
+						delete viewport.containers[do3d];
+					}
+					
+				}
 			}
 		}
 		
