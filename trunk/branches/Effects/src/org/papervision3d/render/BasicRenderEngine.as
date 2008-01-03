@@ -78,7 +78,7 @@ package org.papervision3d.render
 			renderSessionData.container = viewPort.containerSprite;
 			renderSessionData.triangleCuller = viewPort.triangleCuller;
 			renderSessionData.particleCuller = viewPort.particleCuller;
-			renderSessionData.defaultRenderLayer = RenderLayerManager.getInstance().defaultLayer;
+			renderSessionData.defaultRenderLayer = viewPort.renderLayerManager.defaultLayer;
 			renderSessionData.renderStatistics.clear();
 			
 			//Project the Scene (this will fill up the renderlist).
