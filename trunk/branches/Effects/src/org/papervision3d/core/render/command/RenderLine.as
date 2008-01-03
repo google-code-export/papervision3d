@@ -28,7 +28,7 @@ package org.papervision3d.core.render.command
 		override public function render(renderSessionData:RenderSessionData):void
 		{
 			//container = line.instance.container;
-			container = line.instance.renderLayer || renderSessionData.defaultRenderLayer;
+			container =  line.instance.renderLayer || renderer.renderLayer || renderSessionData.defaultRenderLayer;
 			container.faceCount++;
 			container.screenDepth += this.screenDepth;			
 			renderer.drawLine(line, container.drawLayer.graphics, renderSessionData);
