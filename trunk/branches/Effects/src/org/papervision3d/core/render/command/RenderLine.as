@@ -5,9 +5,8 @@ package org.papervision3d.core.render.command
 	 * @Author Ralph Hauwert
 	 */
 	 
-	import flash.display.Sprite;
-	
 	import org.papervision3d.core.geom.renderables.Line3D;
+	import org.papervision3d.core.layers.RenderLayer;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.materials.special.LineMaterial;
 
@@ -16,7 +15,7 @@ package org.papervision3d.core.render.command
 		
 		public var line:Line3D;
 		public var renderer:LineMaterial;
-		public var container:Sprite;
+		public var container:RenderLayer;
 		
 		public function RenderLine(line:Line3D)
 		{
@@ -28,9 +27,11 @@ package org.papervision3d.core.render.command
 		
 		override public function render(renderSessionData:RenderSessionData):void
 		{
-			container = line.instance.container;
-			if( !container ) container = renderSessionData.container;
-			renderer.drawLine(line, container.graphics, renderSessionData);
+			//container = line.instance.container;
+			container = line.instance.renderLayer || renderSessionData.defaultRenderLayer;
+			container.faceCount++;
+			container.screenDepth += this.screenDepth;			
+			renderer.drawLine(line, container.drawLayer.graphics, renderSessionData);
 		}
 		
 	}
