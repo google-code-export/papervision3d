@@ -7,7 +7,6 @@ package org.papervision3d.view.stats
 	import org.papervision3d.core.render.AbstractRenderEngine;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.data.RenderStatistics;
-	import org.papervision3d.events.RendererEvent;
 
 	public class StatsView extends AbstractStatsView
 	{
@@ -18,7 +17,7 @@ package org.papervision3d.view.stats
 		protected var renderInfoTextField:TextField;
 		protected var cullingInfoTextField:TextField;
 		
-		public function SimpleStatsView(renderEngine:AbstractRenderEngine)
+		public function StatsView(renderEngine:AbstractRenderEngine)
 		{
 			super();
 			this.renderEngine = renderEngine;
