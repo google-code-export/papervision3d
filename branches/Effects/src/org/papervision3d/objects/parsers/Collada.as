@@ -56,7 +56,7 @@ package org.papervision3d.objects.parsers
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.BitmapFileMaterial;
-	import org.papervision3d.materials.MaterialsList;
+	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**

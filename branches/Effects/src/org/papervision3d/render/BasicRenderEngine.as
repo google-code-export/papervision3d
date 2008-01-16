@@ -4,13 +4,13 @@ package org.papervision3d.render
 	/**
 	 * @Author Ralph Hauwert
 	 */
-	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	
 	import org.papervision3d.core.culling.IObjectCuller;
 	import org.papervision3d.core.layers.utils.RenderLayerManager;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
+	import org.papervision3d.core.render.AbstractRenderEngine;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.data.RenderHitData;
@@ -26,7 +26,7 @@ package org.papervision3d.render
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
 	
-	public class BasicRenderEngine extends EventDispatcher implements IRenderEngine
+	public class BasicRenderEngine extends AbstractRenderEngine implements IRenderEngine
 	{
 		public var sorter:IRenderSorter;
 		public var filter:IRenderFilter;
@@ -55,8 +55,7 @@ package org.papervision3d.render
 			renderSessionData = new RenderSessionData();
 			renderSessionData.renderer = this;
 		}
-		
-		public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D):RenderStatistics
+		public override function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, updateAnimation:Boolean=true):RenderStatistics
 		{
 			//Clear the viewport.
 			viewPort.updateBeforeRender();
@@ -175,12 +174,12 @@ package org.papervision3d.render
 			return viewPort3D.hitTestPoint2D(point);
 		}
 		
-		public function addToRenderList(renderCommand:IRenderListItem):int
+		public override function addToRenderList(renderCommand:IRenderListItem):int
 		{
 			return renderList.push(renderCommand);
 		}
 		
-		public function removeFromRenderList(renderCommand:IRenderListItem):int
+		public override function removeFromRenderList(renderCommand:IRenderListItem):int
 		{
 			return renderList.splice(renderList.indexOf(renderCommand),1);
 		}
