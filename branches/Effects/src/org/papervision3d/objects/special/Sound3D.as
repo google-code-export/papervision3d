@@ -1,28 +1,21 @@
-﻿package org.papervision3d.objects.special
-{
-	import org.papervision3d.Papervision3D;
-	
-	import org.papervision3d.core.Number3D;
-	import org.papervision3d.core.Matrix3D;
-	
-	import org.papervision3d.core.proto.CameraObject3D;
-	
+﻿package org.papervision3d.objects.special {
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
-	import flash.net.URLRequest;
 	
-	import flash.display.Sprite;
-	
-	
-	public class Sound3D extends DisplayObject3D {
+	import org.papervision3d.core.proto.CameraObject3D;
+	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.objects.DisplayObject3D;		
+
+	public class Sound3D extends DisplayObject3D
+	{
 		
 		//any sound object
 		public var sound:Sound;
 		
 		//This is used for sound via SoundChannel, FLV or video to be transformed.
-		public var soundChannel:*;
-		
+		public var soundChannel : SoundChannel;
+
 		//maximum distance the sound can travel
 		public var maxSoundDistance:Number;
 		
@@ -51,7 +44,7 @@
 		}
 		
 		private function setPan(pan:Number):void {
-			var transform:SoundTransform = soundChannel.soundTransform;
+			var transform:SoundTransform = SoundTransform(soundChannel.soundTransform);
 			transform.pan = pan;
 			soundChannel.soundTransform = transform;
 		}
@@ -110,15 +103,15 @@
 			}
 		}
 		
-		public override function project( parent :DisplayObject3D, camera :CameraObject3D, sorted :Array=null ):Number
+		public override function project(parent:DisplayObject3D, renderSessionData:RenderSessionData):Number
 		{
 			//if( ! sorted ) this._sorted = sorted = new Array();
 	
 			if( this._transformDirty ) updateTransform();
 			
-			calculateScreenCoords( camera );
+			calculateScreenCoords( renderSessionData.camera );
 			
-			if (soundChannel) updateSound(camera);//Updates 3D Sound
+			if (soundChannel) updateSound(renderSessionData.camera);//Updates 3D Sound
 	
 			this.view.calculateMultiply( parent.view, this.transform );
 			this.world.calculateMultiply( parent.world, this.transform );

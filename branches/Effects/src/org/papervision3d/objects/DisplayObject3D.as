@@ -583,6 +583,25 @@ package org.papervision3d.objects
 			if( geometry )
 				this.geometry = geometry;	
 		}
+		
+		
+		 /**
+        * setRenderLayer
+        * <p/>
+        * Recursively set the renderlayer of this DisplayObject3D and all children.
+        * <p/>
+        * @param        rlayer          The RenderLayer to set recursively.
+        * @return       void
+        */
+        public function setRenderLayer(rlayer:RenderLayer):void
+        {
+                this.renderLayer = rlayer;
+                for each(var do3d:DisplayObject3D in this.children)
+                {
+                        do3d.setRenderLayer(rlayer);
+                }
+        }
+		
 	
 		// ___________________________________________________________________________________________________
 		//                                                                                   C O L L I S I O N

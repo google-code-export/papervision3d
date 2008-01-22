@@ -30,13 +30,13 @@ package org.papervision3d.core.culling
 			if(objects[object]){
 				if(_mode == ViewportObjectFilterMode.INCLUSIVE){
 					return 1;
-				}else if(_mode == ViewportObjectFilterMode.EXCLUSICE){
+				}else if(_mode == ViewportObjectFilterMode.EXCLUSIVE){
 					return 0;
 				}
 			}else{
 				if(_mode == ViewportObjectFilterMode.INCLUSIVE){
 					return 0;
-				}else if(_mode == ViewportObjectFilterMode.EXCLUSICE){
+				}else if(_mode == ViewportObjectFilterMode.EXCLUSIVE){
 					return 1;
 				}
 			}

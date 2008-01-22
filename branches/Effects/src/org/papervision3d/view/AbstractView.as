@@ -2,10 +2,9 @@ package org.papervision3d.view
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import org.papervision3d.core.layers.RenderLayer;
 	
 	import org.papervision3d.core.proto.CameraObject3D;
-	import org.papervision3d.core.render.BasicRenderEngine;
+	import org.papervision3d.render.BasicRenderEngine;
 	import org.papervision3d.scenes.Scene3D;
 	
 	/**
