@@ -35,21 +35,19 @@
 
 // ______________________________________________________________________
 //                                                  GeometryObject3D: Ase
-package org.papervision3d.objects.parsers
-{
-	import flash.display.BitmapData;
+package org.papervision3d.objects.parsers {
 	import flash.events.*;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
+	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.*;
-	import org.papervision3d.events.FileLoadEvent;
-	
+	import org.papervision3d.events.FileLoadEvent;	
+
 	/**
 	* The Ase class lets you load and parse ASE format objects exported from 3DS Max.
 	* <p/>
@@ -213,7 +211,7 @@ package org.papervision3d.objects.parsers
 								var drc: Array = mfl.split( ':' ); // separate here
 	
 								var con: String;
-								con = drc[2]
+								con = drc[2];
 								var a:Vertex3D = vertices[ int( con.substr( 0, con.lastIndexOf( ' ' ) ) ) ];
 	
 								con = drc[3];
@@ -306,7 +304,7 @@ package org.papervision3d.objects.parsers
 	
 		private var _scaleAse  :Number;
 	    private var _loaderAse :URLLoader;
-		private var _filename  :String
+		private var _filename  :String;
 	
 		//private var log:XrayLog = new XrayLog();
 		}
