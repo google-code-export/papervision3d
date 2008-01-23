@@ -1,7 +1,7 @@
 package org.papervision3d.view
 {
 	import org.papervision3d.cameras.*;
-	import org.papervision3d.core.render.BasicRenderEngine;
+	import org.papervision3d.render.BasicRenderEngine;
 	import org.papervision3d.scenes.Scene3D;
 	
 	/**
