@@ -270,7 +270,7 @@ package org.papervision3d.objects.parsers
 			var target:DisplayObject3D = child;
 			var geom:GeometryObject3D = null;
 			
-			while( !geom || ++cnt < maxRecurse ) {
+			while( !geom && ++cnt < maxRecurse ) {
 				if( target.geometry && target.geometry.faces && target.geometry.faces.length ) {
 					geom = target.geometry;
 				} else {
