@@ -31,8 +31,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.objects.parsers 
-{
+package org.papervision3d.objects.parsers {
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	import flash.net.URLLoader;
@@ -41,18 +40,15 @@ package org.papervision3d.objects.parsers
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	
-	import org.papervision3d.animation.controllers.MorphController;
-	import org.papervision3d.animation.controllers.SimpleController;
-	import org.papervision3d.animation.core.AnimationEngine;
-	import org.papervision3d.events.AnimationEvent;
-	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.animation.core.AnimationFrame;
-	import org.papervision3d.core.*;
+	import org.papervision3d.core.animation.controllers.MorphController;
+	import org.papervision3d.core.animation.core.AnimationEngine;
+	import org.papervision3d.core.animation.core.AnimationFrame;
 	import org.papervision3d.core.geom.AnimatedMesh3D;
 	import org.papervision3d.core.geom.renderables.*;
-	import org.papervision3d.core.proto.MaterialObject3D;
-	
+	import org.papervision3d.core.math.NumberUV;
+	import org.papervision3d.core.proto.MaterialObject3D;	
+
 	/**
 	 * Loades Quake 2 MD2 file with animation!
 	 * </p>
