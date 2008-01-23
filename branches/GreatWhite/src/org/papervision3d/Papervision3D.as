@@ -33,7 +33,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-// ______tim test svn from mac_________________________________________________________________ PAPERVISION3D
+// _______________________________________________________________________ PAPERVISION3D
 
 package org.papervision3d
 {
