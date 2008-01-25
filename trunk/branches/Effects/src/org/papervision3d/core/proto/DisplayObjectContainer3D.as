@@ -170,6 +170,9 @@ package org.papervision3d.core.proto
 			//removeChildByname(name:string) may return null // must check here
 			if(child){
 				delete this._childrenByName[ this._children[ child ] ];
+				
+				if(this._children[child]) _childrenTotal--;
+				
 				delete this._children[ child ];
 			
 				child.parent = null;
