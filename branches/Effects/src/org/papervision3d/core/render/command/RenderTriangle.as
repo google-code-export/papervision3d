@@ -40,7 +40,7 @@
 		{
 			
 			container = triangle.material.renderLayer || triangle.instance.renderLayer || renderSessionData.defaultRenderLayer;
-
+			
 			container.faceCount++;
 			container.screenDepth += this.screenDepth;
 						
