@@ -31,26 +31,28 @@ package org.papervision3d.view
 	
 	public class Viewport3D extends Sprite implements IViewport3D
 	{
-		private var _width:Number;
-		private var _hWidth:Number;
-		private var _height:Number;
-		private var _hHeight:Number;
+		//use namespace org.papervision3d.core.ns.pv3dview;
+		protected var _width:Number;
+		protected var _hWidth:Number;
+		protected var _height:Number;
+		protected var _hHeight:Number;
 		
-		private var _autoClipping:Boolean;
-		private var _autoCulling:Boolean;
-		private var _autoScaleToStage:Boolean;
-		private var _interactive:Boolean;
-		private var _lastRenderer:IRenderEngine;
+		protected var _autoClipping:Boolean;
+		protected var _autoCulling:Boolean;
+		protected var _autoScaleToStage:Boolean;
+		protected var _interactive:Boolean;
+		protected var _lastRenderer:IRenderEngine;
+		protected var _viewportObjectFilter:ViewportObjectFilter;
 		
 		public var sizeRectangle:Rectangle;
 		protected var cullingRectangle:Rectangle;
 		protected var _containerSprite:Sprite;
-		protected var _viewportObjectFilter:ViewportObjectFilter;
 		
 		public var triangleCuller:ITriangleCuller;
 		public var particleCuller:IParticleCuller;
 		public var lastRenderList:Array;
 		public var interactiveSceneManager:InteractiveSceneManager;
+		
 		public var containers:Dictionary;
 		
 		public var renderLayerManager:RenderLayerManager;
