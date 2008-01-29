@@ -1,11 +1,8 @@
-package org.papervision3d.objects.special
-{
-	import flash.display.Sprite;
-	
+package org.papervision3d.objects.special {
 	import org.papervision3d.core.geom.Particles;
 	import org.papervision3d.core.geom.renderables.Particle;
-	import org.papervision3d.materials.special.ParticleMaterial;
-	
+	import org.papervision3d.materials.special.ParticleMaterial;	
+
 	/**
 	 * @Author Ralph Hauwert
 	 */
@@ -28,13 +25,12 @@ package org.papervision3d.objects.special
 		* @param 	fieldHeight The height of the area
 		* @param	fieldDepth	The depth of the area 
 		*/
-		public function ParticleField(mat:ParticleMaterial, quantity:int = 200, container:Sprite = null, fieldWidth:Number = 2000, fieldHeight:Number = 2000, fieldDepth:Number = 2000)
+		public function ParticleField(mat:ParticleMaterial, quantity:int = 200, fieldWidth:Number = 2000, fieldHeight:Number = 2000, fieldDepth:Number = 2000)
 		{
 			super("ParticleField");
 			
 			this.material = mat;
 			this.quantity = quantity;
-			this.container = container;
 			
 			this.fieldWidth = fieldWidth;
 			this.fieldHeight = fieldHeight;
