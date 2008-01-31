@@ -251,6 +251,62 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Sets the material for a child DisplayObject3D.
+		 * 
+		 * @param child		A child DisplayObject3D of this DAE.
+		 * @param material	The new material for the child.
+		 * 
+		 * @return A Boolean value indicating success.
+		 */
+		public function setChildMaterial( child : DisplayObject3D, material : MaterialObject3D ) : Boolean {
+			
+			if( !child ) {
+				Papervision3D.log( "Object with name: '" + child.name + "' is not a child of this DAE!");
+				return false;
+			}
+			
+			var maxRecurse:uint = 10;
+			var cnt:uint = 0;
+			var target:DisplayObject3D = child;
+			var geom:GeometryObject3D = null;
+			
+			while( !geom && ++cnt < maxRecurse ) {
+				if( target.geometry && target.geometry.faces && target.geometry.faces.length ) {
+					geom = target.geometry;
+				} else {
+					for each( var c:DisplayObject3D in target.children ) {
+						target = c;
+						break;
+					}
+				}
+			}
+			
+			if( !geom ) {
+				Papervision3D.log( "Couldn't find any geometry!" );
+				return false;
+			}
+			
+			target.material = material
+			for each( var triangle:Triangle3D in geom.faces ) {
+				triangle.material = material;
+			}
+
+			return true;
+		}
+		
+		/**
+		 * Sets the material for a child DisplayObject3D by the child's name.
+		 * 
+		 * @param childName The name of the DisplayObject3D.
+		 * @param material	The new material for the child.
+		 * 
+		 * @return A Boolean value indicating success.
+		 */
+		public function setChildMaterialByName( childName : String, material : MaterialObject3D ) : Boolean {
+			return this.setChildMaterial( getChildByName(childName), material );
+		}
+		
+		/**
 		 * Bakes all transforms of a joint into single matrices.
 		 * 
 		 * @param	joint
