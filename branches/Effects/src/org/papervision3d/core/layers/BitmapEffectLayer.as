@@ -32,9 +32,13 @@ package org.papervision3d.core.layers {
 		public var bitmapContainer:Bitmap;
 		private var _width:Number;
 		private var _height:Number;
+		
 		public var trackingObject:DisplayObject3D;
+		public var trackingOffset:Point;
+		
 		public var scrollX:Number = 0;
 		public var scrollY:Number = 0;
+		
 		
 		public function BitmapEffectLayer(w:int, h:int, transparent:Boolean = true, fillColor:uint = 0, clearMode:String = "clear_pre", renderAbove:Boolean =  true, clearBeforeRender:Boolean = false){
 			
@@ -58,6 +62,7 @@ package org.papervision3d.core.layers {
 			
 			this.clearMode = clearMode;
 			
+			trackingOffset = new Point();
 			clippingPoint = new Point();
 			clippingRect = canvas.rect;
 			
@@ -80,8 +85,12 @@ package org.papervision3d.core.layers {
 			transMat.translate(-x, -y);
 		}
 		
-		public function setTracking(object:DisplayObject3D){
+		public function setTracking(object:DisplayObject3D, offset:Point = null){
 			trackingObject = object;
+			if(offset)
+				trackingOffset = offset;
+			else
+				trackingOffset = new Point();
 		}
 		
 		public function setScroll(x:Number = 0, y:Number = 0){
@@ -98,7 +107,7 @@ package org.papervision3d.core.layers {
 			var drawTarget:DisplayObject = drawLayer;
 			
 			if(trackingObject)
-				setBitmapOffset(trackingObject.screen.x, trackingObject.screen.y);			
+				setBitmapOffset(trackingObject.screen.x+trackingOffset.x, trackingObject.screen.y+trackingOffset.y);			
 			
 			if(drawCommand.drawContainer){
 				drawTarget = this;
