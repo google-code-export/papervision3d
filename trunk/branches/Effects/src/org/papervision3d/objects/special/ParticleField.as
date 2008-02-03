@@ -15,6 +15,7 @@ package org.papervision3d.objects.special {
 		private var fieldWidth:Number;
 		private var quantity:int;		
 		private var color:int;
+		private var particleSize:Number;
 		
 		/**
 		* The ParticleField class creates an object with an amount of particles randomly distributed over a specied 3d area.
@@ -25,13 +26,14 @@ package org.papervision3d.objects.special {
 		* @param 	fieldHeight The height of the area
 		* @param	fieldDepth	The depth of the area 
 		*/
-		public function ParticleField(mat:ParticleMaterial, quantity:int = 200, fieldWidth:Number = 2000, fieldHeight:Number = 2000, fieldDepth:Number = 2000)
+		public function ParticleField(mat:ParticleMaterial, quantity:int = 200, fieldWidth:Number = 2000, fieldHeight:Number = 2000, fieldDepth:Number = 2000, particleSize:Number = 64)
 		{
 			super("ParticleField");
 			
 			this.material = mat;
 			this.quantity = quantity;
 			
+			this.particleSize = particleSize;
 			this.fieldWidth = fieldWidth;
 			this.fieldHeight = fieldHeight;
 			this.fieldDepth = fieldDepth;
@@ -45,10 +47,10 @@ package org.papervision3d.objects.special {
 			var height2 :Number = fieldHeight /2;
 			var depth2  :Number = fieldDepth /2;
 			var c:int;
-			var r:int;
+			var r:int;z
 			for( var i:Number = 0; i < quantity; i++ )
 			{
-				addParticle(new Particle(material as ParticleMaterial, 64,Math.random() * fieldWidth  - width2, Math.random() * fieldHeight - height2, Math.random() * fieldDepth  - depth2 ));
+				addParticle(new Particle(material as ParticleMaterial, particleSize,Math.random() * fieldWidth  - width2, Math.random() * fieldHeight - height2, Math.random() * fieldDepth  - depth2 ));
 			}
 		}
 		
