@@ -51,11 +51,6 @@ package org.papervision3d.cameras
 	{
 		
 		public static const TYPE:String = "FRUSTRUMCAMERA3D";
-		/** constant used to set projection type. @see #projection */
-		public static const PERSPECTIVE_PROJECTION:uint = 0;
-		
-		/** constant used to set projection type. @see #projection */
-		public static const ORTHO_PROJECTION:uint = 1;
 		
 		public static const INSIDE:int = 1;
 		public static const OUTSIDE:int = -1;
@@ -92,33 +87,73 @@ package org.papervision3d.cameras
 			init();
 		}
 	
-		/** Gets or sets the projection type */
-		public function get projection():uint { return _projectionType; }
-		public function set projection( type:uint ):void
+		/** Gets or sets ortho projection or not. */
+		public function get ortho() : Boolean { return _ortho; }
+		public function set ortho( value : Boolean ) : void
 		{
-			_projectionType = type;
-			init();
+			if(_ortho != value)
+			{
+				_ortho = value;
+				init();
+			}
 		}
-				
+
+		/** Gets or sets the scale when in ortho mode. */
+		public function get orthoScale() : Number { return _orthoScale; }
+		public function set orthoScale( scale : Number ) : void
+		{
+			if(scale != _orthoScale && scale > 0)
+			{
+				_orthoScale = scale;
+				init();
+			}
+		}
+		
+		/** Gets or sets the projection matrix */
+		public function get projection() : Matrix3D { return _projection; }
+		public function set projection( matrix : Matrix3D ) : void
+		{
+			_projection = matrix;
+		}
+		
+		/**
+		 * Sets the viewport. @see org.papervision3d.view.Viewport3D
+		 */
+		public function set viewport3D(viewport3D:Viewport3D):void
+		{
+			_viewport3D = viewport3D;
+			viewport = viewport3D.sizeRectangle;
+		}
+		
+		/**
+		 * Gets the viewport. @see org.papervision3d.view.Viewport3D
+		 */
+		public function get viewport3D():Viewport3D
+		{
+			return _viewport3D;
+		}
+		
 		/** frustum planes */
 		public var planes:Array;
 		
 		/**
 		 * Constructor.
-		 * 
-		 * @param	fov	Field of view in degrees.
+		 *
+		 * @param	viewport	Viewport to render to. @see org.papervision3d.view.Viewport3D 
+		 * @param	fov		Field of view in degrees.
 		 * @param	near	Distance to near plane.
 		 * @param	far		Distance to far plane.
-		 * @param	viewport	Viewport to render to. @see flash.geom.Rectangle.
+		 * @param	target	Optional target for the camera.
 		 * @return
 		 */
-		public function FrustumCamera3D(viewport3D:Viewport3D, fov:Number = 90, near:Number = 10, far:Number = 2000):void
+		public function FrustumCamera3D(viewport3D:Viewport3D, fov:Number = 90, near:Number = 10, far:Number = 2000, target:DisplayObject3D = null):void
 		{			
 			super();
-			
+		
 			_fov = fov;
 			_near = near;
 			_far = far;
+			_target = target;
 			
 			this.viewport3D = viewport3D;
 			
@@ -128,15 +163,31 @@ package org.papervision3d.cameras
 		/**
 		 * [internal-use] Transforms world coordinates into camera space.
 		 */
-		override public function transformView( trans:Matrix3D=null ):void
+		override public function transformView( transform:Matrix3D = null ):void
 		{
-			super.transformView();
+			super.transformView(transform);
 			
 			this.eye.calculateMultiply4x4(_projection, this.eye);
-	
+
 			extractPlanes(this.eye);
 		}
-		
+
+		/**
+		 * Orbits the camera around a target.
+		 * 
+		 * @param target	The target to orbit around.
+		 * @param pitch		Pitch (up/down).
+		 * @param yaw		Yaw (left/right).
+		 * @param distance	Distance to target.
+		 */
+		public function orbit( target:DisplayObject3D, pitch:Number, yaw:Number, distance:Number=1000 ) : void
+		{
+			this.x = target.x + (Math.cos(yaw) * Math.sin(pitch) * distance);
+			this.z = target.z + (Math.sin(yaw) * Math.sin(pitch) * distance);
+			this.y = target.y + (Math.cos(pitch) * distance);
+			this.lookAt(target);
+		}
+				
 		/**
 		 * Checks whether a sphere is inside, outside or intersecting the frustum.
 		 * 
@@ -236,27 +287,29 @@ package org.papervision3d.cameras
 		 * 
 		 * @return
 		 */
-		private function init():void
+		public function init():void
 		{			
 			_objpos = new Vertex3D();
-			
-			_rotation = Quaternion.createFromMatrix(Matrix3D.IDENTITY);
 			
 			_viewport = this.viewport;
 			
 			_aspect = _viewport.width / _viewport.height;
 			
 			// setup projection
-			if( _projectionType == PERSPECTIVE_PROJECTION )
-			{
-				_projection = createPerspectiveMatrix(_fov, _aspect, _near, _far);
-			}
-			else
+			if( _ortho )
 			{
 				var w:Number = _viewport.width / 2;
 				var h:Number = _viewport.height / 2;
 				
 				_projection = createOrthoMatrix(-w, w, -h, h, -_far, _far);
+				
+				_orthoScaleMatrix = Matrix3D.scaleMatrix(_orthoScale, _orthoScale, _orthoScale);
+				
+				_projection = Matrix3D.multiply(_orthoScaleMatrix, _projection);
+			}
+			else
+			{
+				_projection = createPerspectiveMatrix(_fov, _aspect, _near, _far);
 			}
 			
 			// setup frustum planes
@@ -309,10 +362,7 @@ package org.papervision3d.cameras
 		
 		/** distance to far plane */
 		private var _far:Number = 1000;
-	
-		/** */
-		private var _projectionType:uint = 0;
-				
+		
 		/** viewport */
 		private var _viewport:Rectangle;
 		
@@ -322,27 +372,19 @@ package org.papervision3d.cameras
 		/** ortho projection? */
 		private var _ortho:Boolean = false;
 		
-		/** rotation */
-		private var _rotation:Quaternion;
-		
 		/** target */
-		private var _target:Vertex3D;
+		private var _target:DisplayObject3D;
 		
 		/** */
 		private var _objpos:Vertex3D;
 		
 		/** */
+		private var _orthoScale : Number = 0.1;
+		
+		/** */
+		private var _orthoScaleMatrix : Matrix3D;
+		
+		/** */
 		private var _viewport3D:Viewport3D;
-		
-		public function set viewport3D(viewport3D:Viewport3D):void
-		{
-			_viewport3D = viewport3D;
-			viewport = viewport3D.sizeRectangle;
-		}
-		
-		public function get viewport3D():Viewport3D
-		{
-			return _viewport3D;
-		}
 	}
 }
