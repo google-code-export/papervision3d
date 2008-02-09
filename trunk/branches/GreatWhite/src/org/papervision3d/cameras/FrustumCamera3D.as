@@ -143,17 +143,15 @@ package org.papervision3d.cameras
 		 * @param	fov		Field of view in degrees.
 		 * @param	near	Distance to near plane.
 		 * @param	far		Distance to far plane.
-		 * @param	target	Optional target for the camera.
-		 * @return
 		 */
-		public function FrustumCamera3D(viewport3D:Viewport3D, fov:Number = 90, near:Number = 10, far:Number = 2000, target:DisplayObject3D = null):void
+		public function FrustumCamera3D(viewport3D:Viewport3D, fov:Number = 90, near:Number = 10, far:Number = 1000):void
 		{			
 			super();
 		
 			_fov = fov;
 			_near = near;
 			_far = far;
-			_target = target;
+			_target = DisplayObject3D.ZERO;
 			
 			this.viewport3D = viewport3D;
 			
@@ -182,10 +180,19 @@ package org.papervision3d.cameras
 		 */
 		public function orbit( target:DisplayObject3D, pitch:Number, yaw:Number, distance:Number=1000 ) : void
 		{
-			this.x = target.x + (Math.cos(yaw) * Math.sin(pitch) * distance);
-			this.z = target.z + (Math.sin(yaw) * Math.sin(pitch) * distance);
-			this.y = target.y + (Math.cos(pitch) * distance);
-			this.lookAt(target);
+			var x : Number = Math.cos(yaw) * Math.sin(pitch);
+			var z : Number = Math.sin(yaw) * Math.sin(pitch);
+			var y : Number = Math.cos(pitch);
+			
+			this.x = target.x
+			this.y = target.y;
+			this.z = target.z;
+			
+			this.x += x * distance;
+			this.y += y * distance;
+			this.z += z * distance;
+				
+			this.lookAt(_target);
 		}
 				
 		/**
