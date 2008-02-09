@@ -171,7 +171,7 @@ package org.papervision3d.cameras
 		}
 
 		/**
-		 * Orbits the camera around a target.
+		 * Orbits the camera around a target (NOTE: only when #ortho is false).
 		 * 
 		 * @param target	The target to orbit around.
 		 * @param pitch		Pitch (up/down).
@@ -179,12 +179,12 @@ package org.papervision3d.cameras
 		 * @param distance	Distance to target.
 		 */
 		public function orbit( target:DisplayObject3D, pitch:Number, yaw:Number, distance:Number=1000 ) : void
-		{
+		{				
 			var x : Number = Math.cos(yaw) * Math.sin(pitch);
 			var z : Number = Math.sin(yaw) * Math.sin(pitch);
 			var y : Number = Math.cos(pitch);
 			
-			this.x = target.x
+			this.x = target.x;
 			this.y = target.y;
 			this.z = target.z;
 			
