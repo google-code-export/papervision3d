@@ -52,8 +52,8 @@ package org.papervision3d.materials.special
 				renderrect.width = particle.renderScale*particle.size;
 				renderrect.height = particle.renderScale*particle.size;
 			}
-			renderrect.left = particle.vertex3D.vertex3DInstance.x - (renderrect.width/2); 
-			renderrect.top = particle.vertex3D.vertex3DInstance.y - (renderrect.width/2);
+			renderrect.x = particle.vertex3D.vertex3DInstance.x - (renderrect.width/2); 
+			renderrect.y = particle.vertex3D.vertex3DInstance.y - (renderrect.width/2);
 			
 		}
 	}
