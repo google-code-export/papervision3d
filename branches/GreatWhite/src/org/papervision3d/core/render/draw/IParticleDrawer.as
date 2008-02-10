@@ -13,5 +13,7 @@ package org.papervision3d.core.render.draw
 	public interface IParticleDrawer
 	{
 		function drawParticle(particle:Particle, graphics:Graphics, renderSessionData:RenderSessionData):void;
+		function updateRenderRect(particle:Particle):void;  
+
 	}
 }

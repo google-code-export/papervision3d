@@ -21,12 +21,13 @@ package org.papervision3d.core.culling
 		public function testParticle(particle:Particle):Boolean
 		{
 			vInstance = particle.vertex3D.vertex3DInstance;
-			if(vInstance.visible){
-				testPoint.x = vInstance.x;
-				testPoint.y = vInstance.y;
-				if(cullingRectangle.containsPoint(testPoint)){
-					return true;
-				}
+			
+			// TODO I don't trust the speed of the built-in Rectangle.intersects function - 
+			// and have a fast algorithm so write a new one! [Seb]
+			
+			if(particle.renderRect.intersects(cullingRectangle))
+			{
+				return true; 
 			}
 			return false;
 		}

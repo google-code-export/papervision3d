@@ -10,7 +10,7 @@ package org.papervision3d.materials.special
 	public class LineMaterial extends MaterialObject3D implements ILineDrawer
 	{
 		
-		public function LineMaterial(color:Number = 0xFF0000, alpha:Number = 100)
+		public function LineMaterial(color:Number = 0xFF0000, alpha:Number = 1)
 		{
 			super();
 			this.lineColor = color;

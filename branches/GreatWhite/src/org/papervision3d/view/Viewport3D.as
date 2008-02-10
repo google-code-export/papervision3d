@@ -46,7 +46,7 @@ package org.papervision3d.view {
 		protected var _viewportObjectFilter:ViewportObjectFilter;
 		
 		public var sizeRectangle:Rectangle;
-		protected var cullingRectangle:Rectangle;
+		public var cullingRectangle:Rectangle;
 		protected var _containerSprite:ViewportBaseLayer;
 		
 		public var triangleCuller:ITriangleCuller;

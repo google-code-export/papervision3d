@@ -2,6 +2,9 @@
 {
 	/**
 	 * @Author Ralph Hauwert
+	 * 
+	 * - 	updated by Seb Lee-Delisle to allow the updating of a renderRect property of a particle
+	 * 		used for smart culling of particles
 	 */
 	
 	import org.papervision3d.core.geom.renderables.Particle;
@@ -36,9 +39,16 @@
 			super.project(parent,renderSessionData);
 			var p:Particle;
 			var fz:Number = (renderSessionData.camera.focus*renderSessionData.camera.zoom);
-			for each(p in particles){
+			 
+			for each(p in particles)
+			{
+				
+				p.renderScale = fz / (renderSessionData.camera.focus + p.vertex3D.vertex3DInstance.z);
+				p.updateRenderRect();
+					
+				
 				if(renderSessionData.viewPort.particleCuller.testParticle(p)){
-					p.renderScale = fz / (renderSessionData.camera.focus + p.vertex3D.vertex3DInstance.z);
+					
 					p.renderCommand.screenDepth = p.vertex3D.vertex3DInstance.z;
 					renderSessionData.renderer.addToRenderList(p.renderCommand);	
 				}else{
@@ -63,7 +73,7 @@
 		/**
 		 * removeParticle(particle);
 		 * 
-		 * @param	particle	partical to be removed from this VertexParticles Object.
+		 * @param	particle	particle to be removed from this VertexParticles Object.
 		 */
 		public function removeParticle(particle:Particle):void
 		{

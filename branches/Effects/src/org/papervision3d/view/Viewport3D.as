@@ -45,7 +45,7 @@ package org.papervision3d.view
 		protected var _viewportObjectFilter:ViewportObjectFilter;
 		
 		public var sizeRectangle:Rectangle;
-		protected var cullingRectangle:Rectangle;
+		public var cullingRectangle:Rectangle;
 		protected var _containerSprite:Sprite;
 		
 		public var triangleCuller:ITriangleCuller;
@@ -286,6 +286,7 @@ package org.papervision3d.view
 			renderLayerManager.updateAfterRender();
 			
 		}
+		
 		
 		//EFFECT LAYER STUFF
 		public function addRenderLayer(layer:RenderLayer):void{
