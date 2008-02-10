@@ -48,6 +48,15 @@ package org.papervision3d.core.layers {
 
 		}
 		
+		public function removeAllEffects():void
+		{
+			this.filters = [];
+			effects = []; 
+			
+			
+		
+		}
+		
 		public function updateBeforeRender():void
 		{
 			faceCount = 0;

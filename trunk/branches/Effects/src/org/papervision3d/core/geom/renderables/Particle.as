@@ -3,29 +3,42 @@ package org.papervision3d.core.geom.renderables
 	
 	/**
 	 * @author Ralph Hauwert.
+	 * 
+	 * updated by Seb Lee-Delisle : 
+	 *  - added renderRect to store the rectangle of our particle. 
 	 */
 	 
 	import org.papervision3d.core.geom.Particles;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderParticle;
 	import org.papervision3d.materials.special.ParticleMaterial;
-
-	public class Particle implements IRenderable
+	import flash.geom.Rectangle;			public class Particle implements IRenderable
 	{
 		
-		public var size:int;
+		public var size:Number;
 		public var vertex3D:Vertex3D;
 		public var material:ParticleMaterial;
 		public var renderCommand:RenderParticle;
 		public var instance:Particles;
 		public var renderScale:Number;
 		
-		public function Particle(material:ParticleMaterial, size:int=1, x:Number=0, y:Number=0, z:Number=0)
+		// this is the rectangular area encasing the particle graphic. 
+		public var renderRect:Rectangle;
+		
+		
+		public function Particle(material:ParticleMaterial, size:Number=1, x:Number=0, y:Number=0, z:Number=0)
 		{
 			this.material = material;
 			this.size = size;
 			this.renderCommand = new RenderParticle(this);
+			this.renderRect = new Rectangle();
 			vertex3D = new Vertex3D(x,y,z);
+		}
+		
+		public function updateRenderRect():void
+		{
+			material.updateRenderRect(this)
+			
 		}
 		
 		public function set x(x:Number):void

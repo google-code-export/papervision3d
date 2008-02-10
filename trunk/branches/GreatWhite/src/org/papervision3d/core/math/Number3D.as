@@ -88,7 +88,7 @@ public class Number3D
 	}
 	
 	/**
-	 * Copies the values of this number3d to the passed number3d.
+	 * Copies the values of this Number3d to the passed Number3d.
 	 * 
 	 */
 	public function copyTo(n:Number3D):void
@@ -97,8 +97,18 @@ public class Number3D
 		n.y = y;
 		n.z = z;
 	}
-
-
+	
+	/** 
+	 * Quick way to set the properties of the Number3D
+	 * 
+	 */
+	public function set(newx:Number, newy:Number, newz:Number):void
+	{
+		x = newx; 
+		y = newy; 
+		z = newz; 
+		
+	}
 
 	// ______________________________________________________________________ MATH
 
@@ -166,6 +176,7 @@ public class Number3D
 			this.z /= mod;
 		}
 	}
+
 
 
 	// ______________________________________________________________________
