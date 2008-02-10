@@ -171,7 +171,7 @@ package org.papervision3d.cameras
 		}
 
 		/**
-		 * Orbits the camera around a target (NOTE: only when #ortho is false).
+		 * Orbits the camera around a target.
 		 * 
 		 * @param target	The target to orbit around.
 		 * @param pitch		Pitch (up/down).
