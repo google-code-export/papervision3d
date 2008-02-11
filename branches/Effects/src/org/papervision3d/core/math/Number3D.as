@@ -120,6 +120,7 @@ public class Number3D
 		return Math.sqrt( this.x*this.x + this.y*this.y + this.z*this.z );
 	}
 
+	
 	/**
 	* Add
 	*/
@@ -177,8 +178,39 @@ public class Number3D
 		}
 	}
 
-
-
+	// ______________________________________________________________________
+	
+	/**
+	 * Super fast modulo(length, magnitude) comparisons.
+	 * 
+	 *  
+	 */
+	public function isModuloLessThan(v:Number):Boolean
+	{
+			
+		return (moduloSquared<(v*v)); 
+		
+	}
+	
+	public function isModuloGreaterThan(v:Number):Boolean
+	{
+			
+		return (moduloSquared>(v*v)); 
+		
+	}
+	public function isModuloEqualTo(v:Number):Boolean
+	{
+			
+		return (moduloSquared==(v*v)); 
+		
+	}
+		
+	public function get moduloSquared():Number
+	{
+		return ( this.x*this.x + this.y*this.y + this.z*this.z );
+	}
+	
+	
 	// ______________________________________________________________________
 
 
@@ -202,6 +234,6 @@ public class Number3D
 	public function toString(): String
 	{
 		return 'x:' + x + ' y:' + y + ' z:' + z;
+		}		
 	}
-}
 }
