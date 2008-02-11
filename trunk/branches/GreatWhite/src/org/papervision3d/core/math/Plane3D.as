@@ -42,7 +42,8 @@ import org.papervision3d.core.geom.renderables.Vertex3D;
 
 /**
 * The Plane3D class represents a plane in 3D space.
-*
+* 
+* @author Tim Knip
 */
 public class Plane3D
 {
@@ -52,24 +53,79 @@ public class Plane3D
 	public var normal: Number3D;
 
 	/**
-	* D.
-	*/
+	 * D.
+	 */
 	public var d: Number;
 
 
 	/**
-	* Creates a new Plane3D object.
-	*/
-	public function Plane3D()
+	 * Constructor.
+	 *
+	 * @param	normal		The plane normal.
+	 * @param	ptOnPlane	A point on the plane.
+	 */
+	public function Plane3D( normal : Number3D = null, ptOnPlane : Number3D = null ) : void
 	{
-		this.normal = new Number3D();
-		this.d = 0;
+		if(normal && ptOnPlane) 
+		{
+			this.normal = normal;
+			this.d = -Number3D.dot(normal, ptOnPlane);
+		}
+		else
+		{
+			this.normal = new Number3D();
+			this.d = 0;	
+		}
 	}
 	
-	public static function fromThreePoints( n0:*, n1:*, n2:* ):Plane3D
+	/**
+	 * Creates a plane from coefficients.
+	 *
+	 * @param	a
+	 * @param	b
+	 * @param	c
+	 * @param	d
+	 *
+	 * @return	The created plane.
+	 */
+	public static function fromCoefficients( a:Number, b:Number, c:Number, d:Number ) : Plane3D
 	{
 		var plane:Plane3D = new Plane3D();
-		plane.setThreePoints(new Number3D(n0.x,n0.y,n0.z), new Number3D(n1.x,n1.y,n1.z), new Number3D(n2.x,n2.y,n2.z));
+		plane.setCoefficients(a, b, c, d);
+		return plane;
+	}
+	
+	/**
+	 * Creates a plane from a normal and a point.
+	 *
+	 * @param	normal
+	 * @param	point
+	 *
+	 * @return	The created plane.
+	 */
+	public static function fromNormalAndPoint( normal : *, point : * ) : Plane3D 
+	{
+		var n : Number3D = normal is Number3D ? normal : new Number3D(normal.x, normal.y, normal.z);
+		var p : Number3D = point is Number3D ? point : new Number3D(point.x, point.y, point.z);
+		return new Plane3D(n, p);
+	}
+	
+	/**
+	 * Creates a plane from three points.
+	 *
+	 * @param	p0	First point.
+	 * @param	p1	Second point.
+	 * @param	p2	Third point.
+	 *
+	 * @return	The created plane.
+	 */
+	public static function fromThreePoints( p0:*, p1:*, p2:* ):Plane3D
+	{
+		var plane:Plane3D = new Plane3D();
+		var n0 : Number3D = p0 is Number3D ? p0 : new Number3D(p0.x, p0.y, p0.z);
+		var n1 : Number3D = p1 is Number3D ? p1 : new Number3D(p1.x, p1.y, p1.z);
+		var n2 : Number3D = p2 is Number3D ? p2 : new Number3D(p2.x, p2.y, p2.z);
+		plane.setThreePoints(n0, n1, n2);
 		return plane;
 	}
 	
@@ -105,12 +161,12 @@ public class Plane3D
 	}
 	
 	/**
-	 * 
+	 * Sets this plane from ABCD coefficients.
+	 *
 	 * @param	a
 	 * @param	b
 	 * @param	c
 	 * @param	d
-	 * @return
 	 */
 	public function setCoefficients( a:Number, b:Number, c:Number, d:Number ):void
 	{
@@ -124,10 +180,10 @@ public class Plane3D
 	}
 	
 	/**
-	 * 
+	 * Sets this plane from a normal and a point.
+	 *
 	 * @param	normal
 	 * @param	pt
-	 * @return
 	 */
 	public function setNormalAndPoint( normal:Number3D, pt:Number3D ):void
 	{
@@ -136,24 +192,78 @@ public class Plane3D
 	}
 	
 	/**
-	 * 
-	 * @param	n0
-	 * @param	n1
-	 * @param	n2
+	 * Sets this plane from three points.
+	 *
+	 * @param	p0
+	 * @param	p1
+	 * @param	p2
 	 */
-	public function setThreePoints( n0:Number3D, n1:Number3D, n2:Number3D ):void
+	public function setThreePoints( p0:Number3D, p1:Number3D, p2:Number3D ):void
 	{				
-		var ab:Number3D = Number3D.sub(n1, n0);
-		var ac:Number3D = Number3D.sub(n2, n0);
-			
+		var ab:Number3D = Number3D.sub(p1, p0);
+		var ac:Number3D = Number3D.sub(p2, p0);
 		this.normal = Number3D.cross(ab, ac);
 		this.normal.normalize();
-		this.d = -Number3D.dot(normal, n0);
+		this.d = -Number3D.dot(normal, p0);
+	}
+	
+	/**
+	 * Projects points onto this plane. 
+	 * <p>Passed points should be in the XY-plane. If the points have Z=0 then the points are
+	 * projected exactly on the plane. When however Z is greater then zero, the points are
+	 * moved 'out of the plane' by a distance Z. Negative values for Z move the points 'into the plane'.</p>
+	 *
+	 * @param	points	Array of points (any object with x, y, z props).
+	 * @param	origin	Where to move the points.
+	 */
+	public function projectPoints( points : Array, origin : Number3D = null ) : void {
+
+		// use other up-vector if angle between plane-normal and up-vector approaches zero.
+		var dot : Number = Number3D.dot(_yUP, this.normal);
+		
+		// when the dot-product approaches 1 the angle approaches 0
+		var up : Number3D = Math.abs(dot) > 0.99 ? _zUP : _yUP;
+		
+		// get side vector
+		var side:Number3D = Number3D.cross(up, normal);
+		side.normalize();
+
+		// adjust up vector
+		up = Number3D.cross(normal, side);
+		up.normalize();
+		
+		// create the matrix!
+		var matrix : Matrix3D = new Matrix3D([
+			side.x, up.x, normal.x, 0,
+			side.y, up.y, normal.y, 0,
+			side.z, up.z, normal.z, 0,
+			0, 0, 0, 1]);
+		
+		// translate if wanted	
+		if(origin)
+			matrix = Matrix3D.multiply(Matrix3D.translationMatrix(origin.x, origin.y, origin.z), matrix);
+		
+		// project!
+		var n : Number3D = new Number3D();
+		for each( var point:* in points ) {
+			n.x = point["x"];
+			n.y = point["y"];
+			n.z = point["z"];
+			
+			Matrix3D.multiplyVector(matrix, n);
+			
+			point["x"] = n.x;
+			point["y"] = n.y;
+			point["z"] = n.z;
+		}
 	}
 	
 	public function toString():String
 	{
 		return "[a:" + normal.x  +" b:" +normal.y + " c:" +normal.z + " d:" + d + "]";
 	}
+
+	private static var _yUP : Number3D = new Number3D(0, 1, 0);	
+	private static var _zUP : Number3D = new Number3D(0, 0, 1);
 }
 }
