@@ -89,6 +89,7 @@ package {
 			
 			var material:MovieMaterial = new InteractiveMovieMaterial( new canvas() );
 			material.smooth = true;
+			material.allowAutoResize = false;
 			
 			//Create gismo
 			gismo = new OldCube( new ColorMaterial(0x888888), 10, 10, 10 );

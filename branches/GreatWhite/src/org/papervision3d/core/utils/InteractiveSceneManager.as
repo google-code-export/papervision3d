@@ -181,6 +181,7 @@ package org.papervision3d.core.utils
 			if( e is IVirtualMouseEvent ) return;
 			MOUSE_IS_DOWN = true;
 			if( virtualMouse ) virtualMouse.press();
+			if( Mouse3D.enabled && renderHitData && renderHitData.renderable != null ) mouse3D.updatePosition(renderHitData);
 			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, currentDisplayObject3D);
 		}
 		/**
@@ -193,6 +194,7 @@ package org.papervision3d.core.utils
 			if( e is IVirtualMouseEvent ) return;
 			MOUSE_IS_DOWN = false;
 			if( virtualMouse ) virtualMouse.release();
+			if( Mouse3D.enabled && renderHitData && renderHitData.renderable != null ) mouse3D.updatePosition(renderHitData);
 			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, currentDisplayObject3D);
 		}
 		/**

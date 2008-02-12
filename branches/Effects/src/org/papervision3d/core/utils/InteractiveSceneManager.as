@@ -8,24 +8,18 @@ package org.papervision3d.core.utils
 {
 	import com.blitzagency.xray.logger.XrayLog;
 	
-	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
-	//import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.MaterialObject3D;
-	//import org.papervision3d.core.proto.SceneObject3D;
-	//import org.papervision3d.core.render.InteractiveRendererEngine;
 	import org.papervision3d.core.render.data.RenderHitData;
 	import org.papervision3d.core.utils.virtualmouse.IVirtualMouseEvent;
 	import org.papervision3d.core.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.events.InteractiveScene3DEvent;
-	import org.papervision3d.events.RendererEvent;
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
@@ -144,7 +138,7 @@ package org.papervision3d.core.utils
 		{
 			if( !enableOverOut ) return;
 			
-			if(renderHitData.hasHit)
+			if(renderHitData && renderHitData.hasHit)
 			{
 				if( !currentMouseDO3D && currentDisplayObject3D ) 
 				{
@@ -187,7 +181,8 @@ package org.papervision3d.core.utils
 			if( e is IVirtualMouseEvent ) return;
 			MOUSE_IS_DOWN = true;
 			if( virtualMouse ) virtualMouse.press();
-			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, currentDisplayObject3D);
+			if( Mouse3D.enabled && renderHitData && renderHitData.renderable != null ) mouse3D.updatePosition(renderHitData);
+			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, currentDisplayObject3D);
 		}
 		/**
 		 * Handles the MOUSE_UP event on an InteractiveSprite container
@@ -199,7 +194,8 @@ package org.papervision3d.core.utils
 			if( e is IVirtualMouseEvent ) return;
 			MOUSE_IS_DOWN = false;
 			if( virtualMouse ) virtualMouse.release();
-			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, currentDisplayObject3D);
+			if( Mouse3D.enabled && renderHitData && renderHitData.renderable != null ) mouse3D.updatePosition(renderHitData);
+			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_RELEASE, currentDisplayObject3D);
 		}
 		/**
 		 * Handles the MOUSE_CLICK event on an InteractiveSprite container
@@ -209,7 +205,7 @@ package org.papervision3d.core.utils
 		protected function handleMouseClick(e:MouseEvent):void
 		{
 			if( e is IVirtualMouseEvent ) return;
-			if( renderHitData ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, currentDisplayObject3D);
+			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, currentDisplayObject3D);
 		}
 		/**
 		 * Handles the MOUSE_OVER event on an InteractiveSprite container
@@ -262,11 +258,13 @@ package org.papervision3d.core.utils
 				if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
 				
 				// update the position mouse3D
-				if( Mouse3D.enabled && renderHitData.renderable != null ) mouse3D.updatePosition(renderHitData);
+				if( Mouse3D.enabled && renderHitData && renderHitData.renderable != null ) mouse3D.updatePosition(renderHitData);
 				
 				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
 
-			}else if( renderHitData.hasHit )
+
+			}
+			else if( renderHitData && renderHitData.hasHit )
 			{
 				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
 			}
@@ -284,7 +282,7 @@ package org.papervision3d.core.utils
 		{
 			if(debug) log.debug(event, DO3D.name);
 			
-			if(renderHitData.hasHit) 
+			if(renderHitData && renderHitData.hasHit) 
 			{
 				var x:Number = renderHitData.u ? renderHitData.u : 0;
 				var y:Number = renderHitData.v ? renderHitData.v : 0;
