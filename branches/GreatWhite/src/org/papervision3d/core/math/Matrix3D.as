@@ -496,7 +496,22 @@ public class Matrix3D
 		v.z = vx * m.n31 + vy * m.n32 + vz * m.n33;
 	}
 
-
+	public static function multiplyVector4x4( m:Matrix3D, v:Number3D ):void
+	{
+		var vx:Number = v.x;
+		var vy:Number = v.y;
+		var vz:Number = v.z;
+		var vw:Number = 1.0 / (vx * m.n41 + vy * m.n42 + vz * m.n43 + m.n44);
+		
+		v.x = vx * m.n11 + vy * m.n12 + vz * m.n13 + m.n14;
+		v.y = vx * m.n21 + vy * m.n22 + vz * m.n23 + m.n24;
+		v.z = vx * m.n31 + vy * m.n32 + vz * m.n33 + m.n34;
+		
+		v.x *= vw;
+		v.y *= vw;
+		v.z *= vw;
+	}
+	
 	public static function rotateAxis( m:Matrix3D, v:Number3D ):void
 	{
 		var vx:Number = v.x;
