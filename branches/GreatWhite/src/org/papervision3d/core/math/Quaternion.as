@@ -325,7 +325,44 @@ package org.papervision3d.core.math
 				w *= m;
 			}
 		}
-	
+
+		/**
+		 * SLERP (Spherical Linear intERPolation). @author Trevor Burton
+		 * 
+		 * @param	qa		start quaternion
+		 * @param	qb		end quaternion
+		 * @param	alpha	a value between 0 and 1
+		 * 
+		 * @return the interpolated quaternion.
+		 */	
+		public static function slerp( qa:Quaternion, qb:Quaternion, alpha:Number ):Quaternion
+		{
+			var s0:Number;
+			var s1:Number;
+		
+			var cosine:Number = qa.x * qb.x + qa.y * qb.y + qa.z * qb.z + qa.w * qb.w;		
+		
+			if ( cosine < 0.0 ) cosine = -cosine; 
+		
+			if ( (1.0 - cosine) > EPSILON ) 
+			{	
+				var omega:Number = Math.acos(cosine);
+				var sine:Number = Math.sin(omega);
+				s0 = Math.sin((1.0 - alpha) * omega) / sine;
+				s1 = Math.sin(alpha * omega) / sine;
+			} 
+			else 
+			{        
+		                s0 = 1.0 - alpha;
+		                s1 = alpha;
+			}
+			        
+			return new Quaternion(  s0 * qa.x + s1 * qb.x, 
+						s0 * qa.y + s1 * qb.y,
+						s0 * qa.z + s1 * qb.z,
+						s0 * qa.w + s1 * qb.w );
+		}
+		
 		/**
 		 * SLERP (Spherical Linear intERPolation).
 		 * 
@@ -335,7 +372,7 @@ package org.papervision3d.core.math
 		 * 
 		 * @return the interpolated quaternion.
 		 */
-		public static function slerp( qa:Quaternion, qb:Quaternion, alpha:Number ):Quaternion
+		public static function slerpOld( qa:Quaternion, qb:Quaternion, alpha:Number ):Quaternion
 		{
 			var qm:Quaternion = new Quaternion();
 			
