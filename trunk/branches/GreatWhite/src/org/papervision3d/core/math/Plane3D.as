@@ -130,6 +130,22 @@ public class Plane3D
 	}
 	
 	/**
+	 * Get the closest point on the plane.
+	 *
+	 * @param	point		The point to 'project'.
+	 * @param 	ptOnPlane	A known point on the plane.
+	 */
+	public function closestPointOnPlane( point : Number3D, ptOnPlane : Number3D ) : Number3D
+	{
+		var dist : Number = Number3D.dot(this.normal, Number3D.sub(point, ptOnPlane));
+		var ret : Number3D = point.clone();
+		ret.x -= (dist * this.normal.x);
+		ret.y -= (dist * this.normal.y);
+		ret.z -= (dist * this.normal.z);
+		return ret;
+	}
+	
+	/**
 	 * distance of point to plane.
 	 * 
 	 * @param	v
