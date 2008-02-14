@@ -5,24 +5,23 @@ package org.papervision3d.core.render.command
 	 * @Author Ralph Hauwert
 	 */
 	 
-	import org.papervision3d.core.geom.renderables.Line3D;
-	import org.papervision3d.core.render.data.RenderSessionData;
-	import org.papervision3d.materials.special.LineMaterial;
-	import org.papervision3d.core.math.Number3D;
-	import org.papervision3d.core.math.Number2D;
-	
 	import flash.geom.Point;
 	
-	import org.papervision3d.core.render.data.RenderHitData;	
-		public class RenderLine extends RenderableListItem implements IRenderListItem
+	import org.papervision3d.core.geom.renderables.Line3D;
+	import org.papervision3d.core.math.Number2D;
+	import org.papervision3d.core.math.Number3D;
+	import org.papervision3d.core.render.data.RenderHitData;
+	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.materials.special.LineMaterial;	
+	public class RenderLine extends RenderableListItem implements IRenderListItem
 	{
 		
 		public var line:Line3D;
 		public var renderer:LineMaterial;
 		
 		// rather that create and clean up vector objects, we'll store all our temp working vectors as statics
-		static var lineVector:Number3D = Number3D.ZERO; 
-		static var mouseVector:Number3D = Number3D.ZERO; 
+		private static var lineVector:Number3D = Number3D.ZERO; 
+		private static var mouseVector:Number3D = Number3D.ZERO; 
 		
 		public function RenderLine(line:Line3D)
 		{
@@ -38,7 +37,6 @@ package org.papervision3d.core.render.command
 			renderer.drawLine(line, renderSessionData.container.graphics, renderSessionData);
 			
 		}
-		
 		
 		override public function hitTestPoint2D(point:Point, rhd:RenderHitData):RenderHitData
 		{

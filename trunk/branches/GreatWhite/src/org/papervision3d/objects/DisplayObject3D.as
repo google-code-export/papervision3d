@@ -41,8 +41,10 @@ package org.papervision3d.objects
 	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.culling.IObjectCuller;
+	import org.papervision3d.core.data.UserData;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
+	import org.papervision3d.core.ns.pv3dview;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.DisplayObjectContainer3D;
 	import org.papervision3d.core.proto.GeometryObject3D;
@@ -51,7 +53,6 @@ package org.papervision3d.objects
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.view.layer.ViewportLayer;
-	import org.papervision3d.core.ns.pv3dview;
 	
 	/**
 	* The DisplayObject class represents instances of 3D objects that are contained in the scene.
@@ -1088,6 +1089,16 @@ package org.papervision3d.objects
 			//Register it here under the correct viewport.
 		}
 		
+		public function set userData(userData:UserData):void
+		{
+			_userData = userData;
+		}
+		
+		public function get userData():UserData
+		{
+			return _userData;	
+		}
+		
 		//Get bitmapcopyofcontainer....or something like that for andy's effects.
 	
 		// ___________________________________________________________________________________________________
@@ -1114,6 +1125,7 @@ package org.papervision3d.objects
 		protected var _containerSortMode:int;
 		protected var _containerBlendMode:int;
 		protected var _filters:Array;
+		protected var _userData:UserData;
 		
 		private var _material:MaterialObject3D;
 		

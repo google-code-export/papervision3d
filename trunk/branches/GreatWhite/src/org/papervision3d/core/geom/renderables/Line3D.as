@@ -10,7 +10,7 @@ package org.papervision3d.core.geom.renderables
 	import org.papervision3d.core.render.command.RenderLine;
 	import org.papervision3d.materials.special.LineMaterial;
 
-	public class Line3D implements IRenderable
+	public class Line3D extends AbstractRenderable implements IRenderable
 	{
 		
 		public var v0:Vertex3D;
@@ -30,7 +30,7 @@ package org.papervision3d.core.geom.renderables
 			this.renderCommand = new RenderLine(this);
 		}
 		
-		public function getRenderListItem():IRenderListItem
+		override public function getRenderListItem():IRenderListItem
 		{
 			return this.renderCommand;
 		}
