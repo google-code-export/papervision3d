@@ -48,7 +48,7 @@ package org.papervision3d.core.geom.renderables {
 	* The Face3D class lets you render linear textured triangles. It also supports solid colour fill and hairline outlines.
 	*
 	*/
-	public class Triangle3D implements IRenderable
+	public class Triangle3D extends AbstractRenderable implements IRenderable
 	{
 		/**
 		* An array of Vertex3D objects for the three vertices of the triangle.
@@ -182,7 +182,7 @@ package org.papervision3d.core.geom.renderables {
 			faceNormal.normalize();
 		}
 		
-		public function getRenderListItem():IRenderListItem
+		override public function getRenderListItem():IRenderListItem
 		{
 			return renderCommand;
 		}

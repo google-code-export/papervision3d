@@ -8,14 +8,14 @@ package org.papervision3d.core.geom.renderables
 	 *  - added renderRect to store the rectangle of our particle. 
 	 */
 	 
+	import flash.geom.Rectangle;
+	
 	import org.papervision3d.core.geom.Particles;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderParticle;
-	import org.papervision3d.materials.special.ParticleMaterial;
-
-	import flash.geom.Rectangle;	
+	import org.papervision3d.materials.special.ParticleMaterial;	
 	
-	public class Particle implements IRenderable
+	public class Particle extends AbstractRenderable implements IRenderable
 	{
 		
 		public var size:Number;
@@ -41,7 +41,6 @@ package org.papervision3d.core.geom.renderables
 		public function updateRenderRect():void
 		{
 			material.updateRenderRect(this)
-			
 		}
 		
 		public function set x(x:Number):void
@@ -74,7 +73,7 @@ package org.papervision3d.core.geom.renderables
 			return vertex3D.z;
 		}
 		
-		public function getRenderListItem():IRenderListItem
+		override public function getRenderListItem():IRenderListItem
 		{
 			return renderCommand;
 		}

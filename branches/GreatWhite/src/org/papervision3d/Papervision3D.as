@@ -75,12 +75,12 @@ package org.papervision3d
 		/**
 		* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var DATE     :String = '3.12.07';
+		static public var DATE     :String = '14.2.08';
 	
 		/**
 		* Enables copyright information to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var AUTHOR   :String = '(c) 2006-2007 Copyright by Carlos Ulloa - | John Grden | Ralph Hauwert | Tim Knip';
+		static public var AUTHOR   :String = '(c) 2006-2007 Copyright by Carlos Ulloa - | John Grden | Ralph Hauwert | Tim Knip | Andy Zupko';
 	
 		/**
 		* Determines whether debug printout is enabled. It also prints version information at startup.

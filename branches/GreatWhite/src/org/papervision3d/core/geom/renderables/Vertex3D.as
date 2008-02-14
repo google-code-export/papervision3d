@@ -46,7 +46,7 @@ package org.papervision3d.core.geom.renderables
 	/**
 	* The Vertex3D constructor lets you create 3D vertices.
 	*/
-	public class Vertex3D implements IRenderable
+	public class Vertex3D extends AbstractRenderable implements IRenderable
 	{
 		/**
 		* An Number that sets the X coordinate of a object relative to the scene coordinate system.
@@ -127,7 +127,7 @@ package org.papervision3d.core.geom.renderables
 			normal.normalize();
 		}
 		
-		public function getRenderListItem():IRenderListItem
+		override public function getRenderListItem():IRenderListItem
 		{
 			return null;
 		}
