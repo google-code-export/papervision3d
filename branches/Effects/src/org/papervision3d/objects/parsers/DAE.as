@@ -92,6 +92,9 @@ package org.papervision3d.objects.parsers
 		/** Base url. */
 		public var baseUrl:String;
 		
+		/** Path where the textures should be loaded from. */
+		public var texturePath:String;
+		
 		/** ASCollada document. @see org.ascollada.core.DaeDocument */
 		public var document:DaeDocument;
 		
@@ -743,6 +746,9 @@ package org.papervision3d.objects.parsers
 		 */
 		private function buildImagePath( meshFolderPath:String, imgPath:String ):String
 		{
+			if (texturePath != null)
+				imgPath = texturePath + imgPath.slice( imgPath.lastIndexOf("/") + 1 );
+			
 			var baseParts:Array = meshFolderPath.split("/");
 			var imgParts:Array = imgPath.split("/");
 			
@@ -805,8 +811,9 @@ package org.papervision3d.objects.parsers
 				{				
 					var img:DaeImage = document.images[effect.texture_url];
 					if( img )
-					{
-						var path:String = buildImagePath(this.baseUrl, img.init_from);
+					{						
+						var path	:String = buildImagePath(this.baseUrl, img.init_from);
+						
 						material = new BitmapFileMaterial( path );
 						material.tiled = true;
 						material.addEventListener( FileLoadEvent.LOAD_COMPLETE, materialCompleteHandler );
