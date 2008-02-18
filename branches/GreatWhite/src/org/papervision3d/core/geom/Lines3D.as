@@ -2,6 +2,9 @@ package org.papervision3d.core.geom
 {
 	/**
 	 * @Author Ralph Hauwert
+	 * 
+	 * update 18 Feb 08 by Seb Lee-Delisle : 
+	 * 		addNewLine now returns the line object
 	 */
 	 
 	import org.papervision3d.core.geom.renderables.Line3D;
@@ -62,10 +65,11 @@ package org.papervision3d.core.geom
 			}
 		}
 		
-		public function addNewLine(size:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):void
+		public function addNewLine(size:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number) : Line3D
 		{
 			var line:Line3D = new Line3D(this, material as LineMaterial, size, new Vertex3D(x0,y0,z0), new Vertex3D(x1,y1,z1));
 			addLine(line);
+			return line; 
 		}
 		
 		public function addNewSegmentedLine(size:Number, segments:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):void
