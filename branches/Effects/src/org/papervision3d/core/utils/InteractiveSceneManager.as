@@ -20,8 +20,17 @@ package org.papervision3d.core.utils
 	import org.papervision3d.core.utils.virtualmouse.IVirtualMouseEvent;
 	import org.papervision3d.core.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.events.InteractiveScene3DEvent;
+<<<<<<< .mine
+	import org.papervision3d.materials.MovieAssetMaterial;
+=======
+>>>>>>> .r430
 	import org.papervision3d.materials.MovieMaterial;
+<<<<<<< .mine
+	import org.papervision3d.materials.shaders.ShadedMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
+=======
+	import org.papervision3d.objects.DisplayObject3D;
+>>>>>>> .r430
 	import org.papervision3d.view.Viewport3D;
 
 	public class InteractiveSceneManager extends EventDispatcher
@@ -241,15 +250,16 @@ package org.papervision3d.core.utils
 		 */		
 		protected function handleMouseMove(e:MouseEvent):void
 		{
-			if( e is IVirtualMouseEvent ) return;
+			if( e is IVirtualMouseEvent || !renderHitData ) return;
 			if( virtualMouse && renderHitData )
 			{
+				//trace(0);
 				// locate the material's movie
-				var mat:MovieMaterial = currentMaterial as MovieMaterial;
-				
+				var mat:MovieMaterial = currentMaterial is ShadedMaterial ? ShadedMaterial(currentMaterial).material as MovieMaterial : currentMaterial as MovieMaterial;
+				//trace("is ShadedMaterial?", renderHitData.u, renderHitData.v);
 				if( mat )
 				{
-					//log.debug("found moviematerial, setting as container", container.name, mat.name);
+					//log.debug("found moviematerial, setting as container", mat.movie.name);
 					// set the location where the calcs should be performed
 					virtualMouse.container = mat.movie as Sprite;
 				}

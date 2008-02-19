@@ -46,6 +46,11 @@ package org.papervision3d.core.math
 */
 public class Number3D
 {
+	public static function scale( v : Number3D, s : Number ) : Number3D 
+	{
+		return new Number3D( v.x * s, v.y * s, v.z * s );
+	}
+	
 	/**
 	* The horizontal coordinate value.
 	*/

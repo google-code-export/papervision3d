@@ -6,12 +6,11 @@
 	 */
 
 	import flash.display.BitmapData;
-	import flash.display.Sprite;
 	import flash.geom.Point;
-	import org.papervision3d.core.layers.RenderLayer;
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
+	import org.papervision3d.core.layers.RenderLayer;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.proto.MaterialObject3D;
@@ -19,6 +18,7 @@
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.materials.BitmapMaterial;
+	import org.papervision3d.materials.shaders.ShadedMaterial;
 	
 	public class RenderTriangle extends RenderableListItem implements IRenderListItem
 	{
@@ -49,8 +49,8 @@
 		
 		override public function hitTestPoint2D(point:Point, renderhitData:RenderHitData):RenderHitData
 		{
-			renderMat = triangle.material;
-			if( !renderMat ) renderMat = triangle.instance.material;
+			renderMat = triangle.material is ShadedMaterial ? ShadedMaterial(triangle.material).material : triangle.material;
+			if( !renderMat ) renderMat = triangle.material is ShadedMaterial ? ShadedMaterial(triangle.instance.material).material : triangle.instance.material;
 			
 			if(renderMat.interactive){
 				
@@ -120,10 +120,14 @@
 			var v_x : Number = ( uu1 - uu0 ) * v +  ( uu2 - uu0 ) * u + uu0;
 			var v_y : Number = ( uv1 - uv0 ) * v +  ( uv2 - uv0 ) * u + uv0;
 			
-			if( triangle.material )
+			/* if( triangle.material )
 				renderMat = face.material;
 			else
-				renderMat = face.instance.material;
+				renderMat = face.instance.material; */
+				
+			renderMat = face.material is ShadedMaterial ? ShadedMaterial(face.material).material : face.material;
+			if( !renderMat ) renderMat = face.material is ShadedMaterial ? ShadedMaterial(face.instance.material).material : face.instance.material;
+			
 			
 			var bitmap:BitmapData = renderMat.bitmap;
 			var width:Number = 1;

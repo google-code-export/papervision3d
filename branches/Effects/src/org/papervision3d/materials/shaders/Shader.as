@@ -10,6 +10,7 @@ package org.papervision3d.materials.shaders
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.shader.ShaderObjectData;
+	import org.papervision3d.core.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
@@ -45,6 +46,8 @@ package org.papervision3d.materials.shaders
 		
 		public function setContainerForObject(object:DisplayObject3D, layer:Sprite):void
 		{
+			// FOR INTERACTIVITY, WE NEED TO TELL THE VIRTUAL MOUSE TO IGNORE THE SPRITE THAT THAT'S USED
+			VirtualMouse.ignore(layer);
 			layers[object] = layer;
 		}
 		

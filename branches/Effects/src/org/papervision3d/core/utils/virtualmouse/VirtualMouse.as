@@ -167,7 +167,7 @@ package org.papervision3d.core.utils.virtualmouse
 	 */
 	public class VirtualMouse extends EventDispatcher {
 		
-		public static const UPDATE:String = "update";
+		public static const UPDATE:String = "update"; 
 		
 		private var altKey:Boolean = false;
 		private var ctrlKey:Boolean = false;
@@ -185,7 +185,8 @@ package org.papervision3d.core.utils.virtualmouse
 		private static var _mouseIsDown:Boolean = false;
 		
 		private var disabledEvents:Object = new Object();
-		private var ignoredInstances:Dictionary = new Dictionary(true);
+		// made static for Shader objects to report their layers as ignored
+		private static var ignoredInstances:Dictionary = new Dictionary(true);
 		
 		private var _lastEvent:Event;
 		private var lastMouseDown:Boolean = false;
@@ -455,7 +456,7 @@ package org.papervision3d.core.utils.virtualmouse
 		 * 		DisplayObject instance to ignore.
 		 * @see unignore()
 		 */
-		public function ignore(instance:DisplayObject):void {
+		public static function ignore(instance:DisplayObject):void {
 			ignoredInstances[instance] = true;
 		}
 		
@@ -665,7 +666,10 @@ package org.papervision3d.core.utils.virtualmouse
 			
 			// if a currentTarget was not found
 			// the currentTarget is the stage
-			if (!currentTarget){
+			if (!currentTarget)
+			{
+				// was setting to stage straight away, but this worked when trying to fix interactivity with shaders
+				//currentTarget = container ? container : _stage;
 				currentTarget = _stage;
 				//log.debug("no new target found, using stage");
 			}
@@ -675,7 +679,7 @@ package org.papervision3d.core.utils.virtualmouse
 			var currentTargetLocal:Point = currentTarget.globalToLocal(location);
 			//trace("targetLocal");
 			//trace("currentTargetLocal");
-			
+			//trace("currentTarget", currentTarget is Stage, container.name);
 			// move event
 			if (lastLocation.x != location.x || lastLocation.y != location.y) 
 			{				
