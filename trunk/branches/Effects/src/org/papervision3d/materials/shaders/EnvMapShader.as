@@ -24,6 +24,8 @@ package org.papervision3d.materials.shaders
 	 */
 	public class EnvMapShader extends LightShader implements IShader
 	{
+		public static function get shaderLayer():Sprite { return ts; }	
+		
 		protected var lightmapHalfwidth:Number;
 	    protected var lightmapHalfheight:Number;
 		

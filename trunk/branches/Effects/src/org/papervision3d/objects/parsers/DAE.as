@@ -33,18 +33,11 @@
  
 package org.papervision3d.objects.parsers
 {
-	import flash.display.BitmapData;
+	import com.blitzagency.xray.logger.util.ObjectTools;
+	
 	import flash.events.*;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
-	import flash.utils.Timer;
-	import org.papervision3d.materials.shaders.FlatShader;
-	import org.papervision3d.materials.shaders.GouraudShader;
-	import org.papervision3d.materials.shaders.LightShader;
-	import org.papervision3d.materials.shaders.PhongShader;
-	import org.papervision3d.materials.shaders.ShadedMaterial;
-	import org.papervision3d.materials.shaders.Shader;
-	import org.papervision3d.Papervision3D;
 	
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.*;
@@ -52,6 +45,7 @@ package org.papervision3d.objects.parsers
 	import org.ascollada.io.DaeReader;
 	import org.ascollada.types.*;
 	import org.ascollada.utils.Logger;
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.*;
 	import org.papervision3d.core.animation.controllers.*;
 	import org.papervision3d.core.animation.core.*;
@@ -65,14 +59,7 @@ package org.papervision3d.objects.parsers
 	import org.papervision3d.materials.special.*;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
-
-
-	import org.papervision3d.objects.parsers.ascollada.Node3D;
-	import org.papervision3d.objects.parsers.ascollada.Skin3D;
-	import org.papervision3d.materials.special.LineMaterial;
-
 	import org.papervision3d.objects.parsers.ascollada.*;
-	import org.papervision3d.lights.PointLight3D;
 
 
 	/**
@@ -517,6 +504,7 @@ package org.papervision3d.objects.parsers
 				instance.materials.addMaterial(material, primitive.material);
 			}
 			*/
+			//trace("*** DAE ASSIGNED MATERIAL", instance.name, ObjectTools.getImmediateClassPath(material));
 			var texcoords:Array = new Array();
 			
 			// retreive correct texcoord-set for the material.
