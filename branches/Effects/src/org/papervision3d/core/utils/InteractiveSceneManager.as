@@ -20,17 +20,11 @@ package org.papervision3d.core.utils
 	import org.papervision3d.core.utils.virtualmouse.IVirtualMouseEvent;
 	import org.papervision3d.core.utils.virtualmouse.VirtualMouse;
 	import org.papervision3d.events.InteractiveScene3DEvent;
-<<<<<<< .mine
+
 	import org.papervision3d.materials.MovieAssetMaterial;
-=======
->>>>>>> .r430
 	import org.papervision3d.materials.MovieMaterial;
-<<<<<<< .mine
 	import org.papervision3d.materials.shaders.ShadedMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
-=======
-	import org.papervision3d.objects.DisplayObject3D;
->>>>>>> .r430
 	import org.papervision3d.view.Viewport3D;
 
 	public class InteractiveSceneManager extends EventDispatcher
