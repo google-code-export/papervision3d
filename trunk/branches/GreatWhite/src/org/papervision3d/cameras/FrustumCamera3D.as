@@ -163,8 +163,11 @@ package org.papervision3d.cameras
 		 */
 		override public function transformView( transform:Matrix3D = null ):void
 		{
-			super.transformView(transform);
-			
+			if(_rightHanded)
+				this.eye = Matrix3D.inverse(transform || this.transform);
+			else
+				super.transformView(transform);
+						
 			this.eye.calculateMultiply4x4(_projection, this.eye);
 
 			extractPlanes(this.eye);
@@ -393,5 +396,8 @@ package org.papervision3d.cameras
 		
 		/** */
 		private var _viewport3D:Viewport3D;
+		
+		/** */
+		private var _rightHanded:Boolean = false;
 	}
 }

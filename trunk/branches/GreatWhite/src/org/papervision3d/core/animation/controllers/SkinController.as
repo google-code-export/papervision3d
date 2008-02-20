@@ -33,8 +33,8 @@
  
 package org.papervision3d.core.animation.controllers
 {
-	import org.papervision3d.core.animation.core.KeyFrameController;
 	import org.papervision3d.core.*;
+	import org.papervision3d.core.animation.core.KeyFrameController;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
@@ -98,7 +98,7 @@ package org.papervision3d.core.animation.controllers
 			var i:int;
 			
 			_cached = new Array(vertices.length);
-				
+			
 			for( i = 0; i < vertices.length; i++ )
 			{
 				_cached[i] = new Number3D(vertices[i].x, vertices[i].y, vertices[i].z);
@@ -106,7 +106,7 @@ package org.papervision3d.core.animation.controllers
 				Matrix3D.multiplyVector(this.skin.bindPose, _cached[i]);
 			}
 		}
-		
+
 		/**
 		 * skins the mesh.
 		 * 
@@ -124,7 +124,7 @@ package org.papervision3d.core.animation.controllers
 			var blendVerts:Array = joint.blendVerts;
 			
 			var matrix:Matrix3D = Matrix3D.multiply(joint.world, joint.bindMatrix);
-			
+		
 			for( i = 0; i < blendVerts.length; i++ )
 			{
 				var weight:Number = blendVerts[i].weight;
@@ -144,8 +144,16 @@ package org.papervision3d.core.animation.controllers
 
 				//update the vertex
 				skinned.x += (pos.x * weight) ;
-				skinned.y += (pos.y * weight) ;
-				skinned.z -= (pos.z * weight) ;
+				if(_yUp) 
+				{
+					skinned.y += (pos.y * weight) ;
+					skinned.z += (pos.z * weight) ;
+				} 
+				else 
+				{
+					skinned.y += (pos.z * weight) ;
+					skinned.z += (pos.y * weight) ;
+				}
 			}
 		}
 		
