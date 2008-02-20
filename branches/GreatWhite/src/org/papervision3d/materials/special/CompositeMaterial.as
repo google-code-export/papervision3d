@@ -11,8 +11,7 @@ package org.papervision3d.materials.special
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
 	public class CompositeMaterial extends TriangleMaterial implements ITriangleDrawer
-	{
-		
+	{	
 		private var materials:Array;
 		
 		public function CompositeMaterial()
