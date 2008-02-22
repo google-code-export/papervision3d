@@ -86,8 +86,8 @@ package org.papervision3d.objects.parsers
 		/** Does the collada contain animations? */
 		public var hasAnimations:Boolean = false;
 		
-		/** The first skin found in the file. */
-		public var skin:Skin3D;
+		/** An Array of Skin3D. */
+		public var skins:Array;
 		
 		/** */
 		public function get yUp() : Boolean { return _yUp; }
@@ -108,7 +108,7 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
-		 * Clones this DAE. NOTE: only works for simple dae's. Skinning, animation, etc. is still unsupported.
+		 * Clones this DAE.
 		 * 
 		 * @return	The clone DAE.
 		 */
@@ -116,9 +116,69 @@ package org.papervision3d.objects.parsers
 		{
 			var dae:DAE = new DAE();
 			
-			cloneObj( dae, this._rootNode );
+			cloneObj( dae, this );
 			
-			_numClones++;
+			dae.skins = new Array();
+			
+			for each(var skin:Skin3D in this.skins)
+			{
+				// verify the skin was cloned OK...
+				var clonedSkin:Skin3D = dae.getChildByName(skin.name) as Skin3D;
+				if(!clonedSkin)
+					throw new Error("Clone error! Could not find the cloned skin...");
+					
+				clonedSkin.joints = new Array();
+				clonedSkin.skeletons = new Array();
+				
+				clonedSkin.addController(new SkinController(clonedSkin, _yUp));
+				
+				dae.skins.push(clonedSkin);
+				
+				clonedSkin.geometry.dirty = true;
+				
+				// verify all joints where cloned OK...
+				for each(var joint:Node3D in skin.joints)
+				{
+					var clonedJoint:Node3D = dae.getChildByName(joint.name) as Node3D;
+					if(!clonedJoint)
+						throw new Error("Clone error! Could not find the cloned joint...");
+					
+					for each(var ctl:AbstractController in joint.controllers)
+					{
+						if(ctl is SimpleController)
+						{
+							var prop:String = SimpleController(ctl).property;
+							var cctl:SimpleController = new SimpleController(clonedJoint, prop);
+							for(var i:int = 0; i < ctl.frames.length; i++)
+							{
+								var frame:AnimationFrame = ctl.frames[i];
+								var m:Matrix3D = frame.values[0] as Matrix3D;
+								
+								var frm:AnimationFrame = new AnimationFrame(frame.frame, frame.duration, [Matrix3D.clone(m)], "");
+								cctl.addFrame(frame);
+							
+							}
+							clonedJoint.addController(cctl);
+						}
+					}
+					
+					clonedSkin.joints.push(clonedJoint);
+				}
+				
+				// verify all skeleton where cloned OK...
+				for each(var skeleton:DisplayObject3D in skin.skeletons)
+				{
+					var clonedSkeleton:DisplayObject3D = dae.getChildByName(skeleton.name);
+					if(!clonedSkeleton)
+						throw new Error("Clone error! Could not find the cloned skeleton...");	
+						
+					clonedSkin.skeletons.push(clonedSkeleton);
+				}
+				
+				
+			}
+			
+			dae.copyTransform(this.transform);
 			
 			return dae;
 		}
@@ -184,9 +244,7 @@ package org.papervision3d.objects.parsers
 		public function replaceMaterialByName( material:MaterialObject3D, name:String ):void
 		{
 			if( !this.materials )
-			{
 				return;
-			}	
 			
 			var existingMaterial:MaterialObject3D = this.materials.getMaterialByName(name);
 			if( existingMaterial )
@@ -207,43 +265,18 @@ package org.papervision3d.objects.parsers
 		 * 
 		 * @param child		A child DisplayObject3D of this DAE.
 		 * @param material	The new material for the child.
-		 * 
-		 * @return A Boolean value indicating success.
 		 */
-		public function setChildMaterial( child : DisplayObject3D, material : MaterialObject3D ) : Boolean {
+		public function setChildMaterial( child : DisplayObject3D, material : MaterialObject3D ) : void 
+		{	
+			if( !child ) 
+				return;
 			
-			if( !child ) {
-				Papervision3D.log( "Object with name: '" + child.name + "' is not a child of this DAE!");
-				return false;
+			child.material = material;
+			if(child.geometry && child.geometry.faces)
+			{
+				for each( var triangle:Triangle3D in child.geometry.faces )
+					triangle.material = material;
 			}
-			
-			var maxRecurse:uint = 10;
-			var cnt:uint = 0;
-			var target:DisplayObject3D = child;
-			var geom:GeometryObject3D = null;
-			
-			while( !geom && ++cnt < maxRecurse ) {
-				if( target.geometry && target.geometry.faces && target.geometry.faces.length ) {
-					geom = target.geometry;
-				} else {
-					for each( var c:DisplayObject3D in target.children ) {
-						target = c;
-						break;
-					}
-				}
-			}
-			
-			if( !geom ) {
-				Papervision3D.log( "Couldn't find any geometry!" );
-				return false;
-			}
-			
-			target.material = material
-			for each( var triangle:Triangle3D in geom.faces ) {
-				triangle.material = material;
-			}
-
-			return true;
 		}
 		
 		/**
@@ -251,14 +284,13 @@ package org.papervision3d.objects.parsers
 		 * 
 		 * @param childName The name of the DisplayObject3D.
 		 * @param material	The new material for the child.
-		 * 
-		 * @return A Boolean value indicating success.
 		 */
-		public function setChildMaterialByName( childName : String, material : MaterialObject3D ) : Boolean {
-			return this.setChildMaterial( getChildByName(childName), material );
+		public function setChildMaterialByName( childName : String, material : MaterialObject3D ) : void 
+		{
+			setChildMaterial(getChildByName(childName), material);
 		}
 		
-		/**
+		/**vo
 		 * Bakes all transforms of a joint into single matrices.
 		 * 
 		 * @param	joint
@@ -1011,6 +1043,8 @@ package org.papervision3d.objects.parsers
 			_skins = new Dictionary();
 			_morphs = new Dictionary();
 			
+			this.skins = new Array();
+			
 			buildMaterials();
 			
 			buildVisualScene();
@@ -1021,7 +1055,6 @@ package org.papervision3d.objects.parsers
 			//	this.scale = DEFAULT_SCALE;
 			
 			// there may be animations left to parse...
-			
 			if( document.numQueuedAnimations )
 			{
 				hasAnimations = true;
@@ -1031,10 +1064,12 @@ package org.papervision3d.objects.parsers
 				_reader.readAnimations();
 			}
 			else
+			{
 				hasAnimations = false;
 			
-			// done with geometry
-			dispatchEvent(new Event(Event.COMPLETE));
+				// done with geometry
+				dispatchEvent(new Event(Event.COMPLETE));
+			}
 		}
 		
 		/**
@@ -1111,8 +1146,7 @@ package org.papervision3d.objects.parsers
 			
 			_skins[ obj ] = instance_controller;
 			
-			if( !this.skin )
-				this.skin = obj;
+			this.skins.push(obj);
 			
 			return obj;
 		}
@@ -1191,14 +1225,14 @@ package org.papervision3d.objects.parsers
 			
 			if( source === _rootNode )
 			{
-				o = new DisplayObject3D( source.name + "-" + _numClones );
+				o = new DisplayObject3D(source.name);
 				o.copyTransform( source.transform );
 				target = target.addChild(o);
 			}
-			else if( source is TriangleMesh3D )
+			else if( source is Skin3D )
 			{
-				o = new TriangleMesh3D(source.material, new Array(), new Array(), source.name + "-" + _numClones);
-				o.geometry = cloneGeometry(o, source.geometry);
+				o = Skin3D(source).clone();	
+				o.copyTransform( source.transform );
 				o.geometry.ready = true;
 				target = target.addChild(o);
 			}
@@ -1206,13 +1240,23 @@ package org.papervision3d.objects.parsers
 			{
 				var n:Node3D = source as Node3D;
 				
-				o = new Node3D(n.name + "-" + _numClones, n.daeID, n.daeSID);
+				o = n.clone();
 				o.copyTransform(n.transform);
+				o.geometry = cloneGeometry(o, source.geometry);
+				o.geometry.ready = true;
+				target = target.addChild(o);
+			}
+			else if( source is TriangleMesh3D )
+			{
+				o = new TriangleMesh3D(source.material, new Array(), new Array(), source.name);
+				o.copyTransform( source.transform );
+				o.geometry = cloneGeometry(o, source.geometry);
+				o.geometry.ready = true;
 				target = target.addChild(o);
 			}
 			else if( source is DisplayObject3D )
 			{
-				o = new DisplayObject3D(source.name + "-" + _numClones);
+				o = new DisplayObject3D(source.name);
 				o.copyTransform(source.transform);
 				target = target.addChild(o);
 			}
@@ -1627,9 +1671,7 @@ package org.papervision3d.objects.parsers
 		{
 			buildAnimations(this);
 			
-			//this.controller.frameTime = 10;
-			
-			//this.controller.play();
+			dispatchEvent(event);
 		}
 		
 		/**
@@ -1709,7 +1751,5 @@ package org.papervision3d.objects.parsers
 		
 		/** Boolean indicating the DAE's scale was set before load. */
 		private var _loadScaleSet:Boolean = false;
-		
-		private static var _numClones:uint = 0;
 	}
 }

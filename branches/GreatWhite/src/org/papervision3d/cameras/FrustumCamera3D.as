@@ -116,6 +116,10 @@ package org.papervision3d.cameras
 			_projection = matrix;
 		}
 		
+		/** */
+		public function get rightHanded():Boolean { return _rightHanded; }
+		public function set rightHanded( right:Boolean ):void { _rightHanded = right; }
+		
 		/**
 		 * Sets the viewport. @see org.papervision3d.view.Viewport3D
 		 */
