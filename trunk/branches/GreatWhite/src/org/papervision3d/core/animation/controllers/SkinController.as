@@ -60,6 +60,7 @@ package org.papervision3d.core.animation.controllers
 			super(skin.geometry);
 			
 			_yUp = yUp;
+			_cached = null;
 			
 			this.skin = skin;
 		}
@@ -71,7 +72,7 @@ package org.papervision3d.core.animation.controllers
 		 */
 		override public function tick( dt:Number ):void
 		{
-			if( this.skin && (!_cached || this.skin.geometry.dirty) )
+			if( this.skin && (!_cached/* || this.skin.geometry.dirty*/) )
 				cacheVertices();
 				
 			var joints:Array = this.skin.joints;
@@ -147,7 +148,7 @@ package org.papervision3d.core.animation.controllers
 				if(_yUp) 
 				{
 					skinned.y += (pos.y * weight) ;
-					skinned.z += (pos.z * weight) ;
+					skinned.z -= (pos.z * weight) ;
 				} 
 				else 
 				{

@@ -34,6 +34,7 @@
 package org.papervision3d.objects.parsers.ascollada
 {
 	// import papervision
+	import org.ascollada.core.DaeBlendWeight;
 	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.AnimatedMesh3D;
 	import org.papervision3d.core.math.*;
@@ -95,11 +96,32 @@ package org.papervision3d.objects.parsers.ascollada
 			
 			this.matrixStack = new Array();
 			this.transforms = new Array();
-			
+
 			if( showSphere )
 			{
 				addChild( new Sphere(new WireframeMaterial(DEBUG_SPHERE_COLOR), DEBUG_SPHERE_RADIUS, 4, 3) );
 			}
 		}
+		
+		/**
+		 * Clone.
+		 */ 
+		public function clone():Node3D
+		{
+			var node:Node3D = new Node3D(this.name, this.daeID, this.daeSID);
+			node.transform = Matrix3D.clone(this.transform);
+			node.bindMatrix = Matrix3D.clone(this.bindMatrix);
+			
+			for(var i:int = 0; i < this.blendVerts.length; i++ )
+			{
+				var bw:DaeBlendWeight = new DaeBlendWeight();
+				bw.weight = blendVerts[i].weight;
+				bw.vertexIndex = blendVerts[i].vertexIndex;
+				node.blendVerts.push(bw);
+			}
+			
+			return node;
+		}
+		
 	}
 }
