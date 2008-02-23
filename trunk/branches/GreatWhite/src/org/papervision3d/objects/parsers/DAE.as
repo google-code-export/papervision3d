@@ -90,6 +90,9 @@ package org.papervision3d.objects.parsers
 		public var skins:Array;
 		
 		/** */
+		public var animate:Boolean;
+		
+		/** */
 		public function get yUp() : Boolean { return _yUp; }
 		
 		/**
@@ -98,9 +101,11 @@ package org.papervision3d.objects.parsers
 		 * @param	async
 		 * @return
 		 */
-		public function DAE( async:Boolean = false ):void
+		public function DAE( async:Boolean = false, animate:Boolean = true ):void
 		{
 			super();
+			
+			this.animate = animate;
 			
 			_reader = new DaeReader(async);
 			
@@ -178,6 +183,10 @@ package org.papervision3d.objects.parsers
 				
 			}
 			
+			var rootNode:DisplayObject3D = dae.getChildByName("COLLADA_root");
+			if(rootNode)
+				rootNode.scaleX = -rootNode.scaleX;
+				
 			dae.copyTransform(this.transform);
 			
 			return dae;
@@ -715,9 +724,15 @@ package org.papervision3d.objects.parsers
 				geometry.vertices = geometry.vertices.concat(buildVertices(geom.mesh));
 				
 				for( var i:int = 0; i < geom.mesh.primitives.length; i++ )
+				{
 					buildFaces(geom.mesh.primitives[i], geometry, instance, material, vertexOffset);
-
+				}
 				return true;
+			}
+			else if(geom.spline)
+			{
+				for each(var spline:DaeSpline in geom.splines)
+					instance.addChild(buildSpline(spline));
 			}
 			
 			return false;
@@ -1669,8 +1684,8 @@ package org.papervision3d.objects.parsers
 		 */
 		private function animationCompleteHandler( event:Event ):void
 		{
-			buildAnimations(this);
-			
+			if(this.animate)
+				buildAnimations(this);
 			dispatchEvent(event);
 		}
 		
