@@ -13,8 +13,8 @@ package org.papervision3d.core.render.command
 	
 	import flash.geom.Point;
 	
-	import org.papervision3d.core.render.data.RenderHitData;	
-		public class RenderLine extends RenderableListItem implements IRenderListItem
+	import org.papervision3d.core.render.data.RenderHitData;	import org.papervision3d.Papervision3D;	
+	public class RenderLine extends RenderableListItem implements IRenderListItem
 	{
 		
 		public var line:Line3D;
@@ -46,6 +46,9 @@ package org.papervision3d.core.render.command
 		{
 			if(renderer.interactive)
 			{
+				
+				if((Papervision3D.VERBOSE) && (line.cV)) trace("WARNING interactivity on Line3D not fully implemented with curved lines"); 
+				
 				var linewidth:Number = line.size; 
 				
 				var p:Number2D = new Number2D(point.x, point.y); 
