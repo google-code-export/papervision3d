@@ -46,11 +46,6 @@ package org.papervision3d.core.math
 */
 public class Number3D
 {
-	public static function scale( v : Number3D, s : Number ) : Number3D 
-	{
-		return new Number3D( v.x * s, v.y * s, v.z * s );
-	}
-	
 	/**
 	* The horizontal coordinate value.
 	*/
@@ -182,6 +177,28 @@ public class Number3D
 			this.z /= mod;
 		}
 	}
+	/**
+	 * Multiplies the vector by a number. The same as the *= operator
+	 */
+	public function multiplyEq(n:Number):void
+	{
+		x*=n; 
+		y*=n;
+		z*=n; 	
+		
+		
+	}
+	/**
+	 * Adds the vector passed to this vector. The same as the += operator. 
+	 */
+	
+	public function plusEq(v:Number3D):void
+	{
+		x+=v.x; 
+		y+=v.y; 
+		z+=v.z; 	
+		
+	}
 
 	// ______________________________________________________________________
 	
@@ -239,6 +256,7 @@ public class Number3D
 	public function toString(): String
 	{
 		return 'x:' + x + ' y:' + y + ' z:' + z;
-		}		
+		}
+		
 	}
 }

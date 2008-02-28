@@ -177,6 +177,28 @@ public class Number3D
 			this.z /= mod;
 		}
 	}
+	/**
+	 * Multiplies the vector by a number. The same as the *= operator
+	 */
+	public function multiplyEq(n:Number):void
+	{
+		x*=n; 
+		y*=n;
+		z*=n; 	
+		
+		
+	}
+	/**
+	 * Adds the vector passed to this vector. The same as the += operator. 
+	 */
+	
+	public function plusEq(v:Number3D):void
+	{
+		x+=v.x; 
+		y+=v.y; 
+		z+=v.z; 	
+		
+	}
 
 	// ______________________________________________________________________
 	
