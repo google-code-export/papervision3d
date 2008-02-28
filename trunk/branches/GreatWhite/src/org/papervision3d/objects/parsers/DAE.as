@@ -363,8 +363,11 @@ package org.papervision3d.objects.parsers
 					var transform:DaeTransform = findTransformBySID(joint, channel.syntax.targetSID);
 				
 					if( !transform )
-						throw new Error( "no transform targeted by channel : " + channel.syntax.targetSID );
-					
+					{
+						Papervision3D.log("[WARNING] no transform targeted by channel : " + channel.syntax.targetSID);
+						continue;
+						//throw new Error( "no transform targeted by channel : " + channel.syntax.targetSID );
+					}
 					// build animation matrices (Array) from channel outputs
 					var matrices:Array = transform.buildAnimatedMatrices(channel);
 						
