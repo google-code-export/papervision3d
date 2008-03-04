@@ -29,7 +29,7 @@ package org.ascollada.types
 	import org.ascollada.core.DaeChannel;
 	import org.ascollada.utils.Logger;
 	import org.papervision3d.core.math.Matrix3D;
-	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.math.Number3D;
 	
 	/**
 	 * @author	Tim Knip 
@@ -209,6 +209,50 @@ package org.ascollada.types
 		private function bakedMatrix( values:Array ):Array
 		{
 			return values;
+			if(!this._yUp)
+			{
+				var m : Matrix3D = new Matrix3D(values);
+				
+				var neg : Boolean = (m.det < 0);
+				
+				var tx:Number = m.n14;
+				var ty:Number = m.n24;
+				var tz:Number = m.n34;
+				
+				var sx:Number3D = new Number3D(m.n11, m.n12, m.n13);
+				var sy:Number3D = new Number3D(m.n21, m.n22, m.n23);
+				var sz:Number3D = new Number3D(m.n31, m.n32, m.n33);
+				
+				var rot : Number3D = Matrix3D.matrix2euler(m);
+				rot.x *= (Math.PI/180);
+				rot.y *= (Math.PI/180); 
+				rot.z *= (Math.PI/180);  
+				
+			//	rot.x = neg ? -rot.x : rot.x;
+			//	rot.y = neg ? -rot.y : rot.y;
+			//	rot.z = neg ? -rot.z : rot.z;
+				var q:Object = Matrix3D.euler2quaternion( rot.x, rot.y, rot.z ); // Swappe
+				
+				m = Matrix3D.quaternion2matrix( q.x, q.y, q.z, q.w );
+				
+				var sm : Matrix3D = Matrix3D.scaleMatrix(sx.modulo, sy.modulo, sz.modulo);
+				
+				if(neg)
+				{
+					//sm.n11 = -sm.n11;
+					//sm.n22 = -sm.n22;
+					//sm.n33 = -sm.n33;
+				}
+				
+				m.calculateMultiply(m, sm);
+				
+				values = [
+					m.n11, m.n12, m.n13, tx,
+					m.n21, m.n22, m.n23, ty,
+					m.n31, m.n32, m.n33, tz,
+					m.n41, m.n42, m.n43, 0];
+			}
+			return values;
 		}
 
 		/**
@@ -264,15 +308,12 @@ package org.ascollada.types
 		private function scaleMatrix( x:Number, y:Number, z:Number ):Array
 		{
 			var m:Array = [
-				1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0
+				x, 0, 0, 0,
+				0, y, 0, 0,
+				0, 0, z, 0,
+				0, 0, 0, 1
 			];
-			
-			m[0]  = x;
-			m[5]  = y;
-			m[10] = z;
-				
+
 			return m;
 		}
 		
@@ -286,15 +327,11 @@ package org.ascollada.types
 		private function translationMatrix( x:Number, y:Number, z:Number ):Array
 		{
 			var m:Array = [
-				1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0
+				1, 0, 0, x,
+				0, 1, 0, y,
+				0, 0, 1, z,
+				0, 0, 0, 1
 			];
-			
-			m[3]  = x;
-			m[7]  = y;
-			m[11] = z;
-			
 			return m;
 		}
 			
