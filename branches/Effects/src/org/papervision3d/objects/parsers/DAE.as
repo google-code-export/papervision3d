@@ -33,8 +33,6 @@
  
 package org.papervision3d.objects.parsers
 {
-	import com.blitzagency.xray.logger.util.ObjectTools;
-	
 	import flash.events.*;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
@@ -88,8 +86,14 @@ package org.papervision3d.objects.parsers
 		/** Does the collada contain animations? */
 		public var hasAnimations:Boolean = false;
 		
-		/** The first skin found in the file. */
-		public var skin:Skin3D;
+		/** An Array of Skin3D. */
+		public var skins:Array;
+		
+		/** */
+		public var animate:Boolean;
+		
+		/** */
+		public function get yUp() : Boolean { return _yUp; }
 		
 		/**
 		 * 
@@ -97,9 +101,11 @@ package org.papervision3d.objects.parsers
 		 * @param	async
 		 * @return
 		 */
-		public function DAE( async:Boolean = false ):void
+		public function DAE( async:Boolean = false, animate:Boolean = true ):void
 		{
 			super();
+			
+			this.animate = animate;
 			
 			_reader = new DaeReader(async);
 			
@@ -107,46 +113,7 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
-		 * Sets the 3D scale as applied from the registration point of the object.
-		 */
-		override public function set scale( scale:Number ):void
-		{
-			super.scaleX = scale;
-			super.scaleY = scale;
-			super.scaleZ = -scale;
-			_loadScaleSet = true;
-		}
-		
-		/**
-		 * Gets the 3D scale as applied from the registration point of the object.
-		 */
-		override public function get scale():Number
-		{
-			if( super.scaleX == super.scaleY && super.scaleX == -super.scaleZ )
-				return super.scaleX;
-			else
-				return NaN;
-		}
-		
-		/**
-		 * Gets the scale along the local Z axis as applied from the registration point of the object.
-		 */
-		override public function get scaleZ():Number
-		{
-			return super.scaleZ;
-		}
-	
-		/**
-		 * Sets the scale along the local Z axis as applied from the registration point of the object.
-		 */
-		override public function set scaleZ( scale:Number ):void
-		{
-			super.scaleZ = -scale;
-			_loadScaleSet = true;
-		}
-		
-		/**
-		 * Clones this DAE. NOTE: only works for simple dae's. Skinning, animation, etc. is still unsupported.
+		 * Clones this DAE.
 		 * 
 		 * @return	The clone DAE.
 		 */
@@ -154,9 +121,73 @@ package org.papervision3d.objects.parsers
 		{
 			var dae:DAE = new DAE();
 			
-			cloneObj( dae, this._rootNode );
+			cloneObj( dae, this );
 			
-			_numClones++;
+			dae.skins = new Array();
+			
+			for each(var skin:Skin3D in this.skins)
+			{
+				// verify the skin was cloned OK...
+				var clonedSkin:Skin3D = dae.getChildByName(skin.name) as Skin3D;
+				if(!clonedSkin)
+					throw new Error("Clone error! Could not find the cloned skin...");
+					
+				clonedSkin.joints = new Array();
+				clonedSkin.skeletons = new Array();
+				
+				clonedSkin.addController(new SkinController(clonedSkin, _yUp));
+				
+				dae.skins.push(clonedSkin);
+				
+				clonedSkin.geometry.dirty = true;
+				
+				// verify all joints where cloned OK...
+				for each(var joint:Node3D in skin.joints)
+				{
+					var clonedJoint:Node3D = dae.getChildByName(joint.name) as Node3D;
+					if(!clonedJoint)
+						throw new Error("Clone error! Could not find the cloned joint...");
+					
+					for each(var ctl:AbstractController in joint.controllers)
+					{
+						if(ctl is SimpleController)
+						{
+							var prop:String = SimpleController(ctl).property;
+							var cctl:SimpleController = new SimpleController(clonedJoint, prop);
+							for(var i:int = 0; i < ctl.frames.length; i++)
+							{
+								var frame:AnimationFrame = ctl.frames[i];
+								var m:Matrix3D = frame.values[0] as Matrix3D;
+								
+								var frm:AnimationFrame = new AnimationFrame(frame.frame, frame.duration, [Matrix3D.clone(m)], "");
+								cctl.addFrame(frame);
+							
+							}
+							clonedJoint.addController(cctl);
+						}
+					}
+					
+					clonedSkin.joints.push(clonedJoint);
+				}
+				
+				// verify all skeleton where cloned OK...
+				for each(var skeleton:DisplayObject3D in skin.skeletons)
+				{
+					var clonedSkeleton:DisplayObject3D = dae.getChildByName(skeleton.name);
+					if(!clonedSkeleton)
+						throw new Error("Clone error! Could not find the cloned skeleton...");	
+						
+					clonedSkin.skeletons.push(clonedSkeleton);
+				}
+				
+				
+			}
+			
+			var rootNode:DisplayObject3D = dae.getChildByName("COLLADA_root");
+			if(rootNode)
+				rootNode.scaleX = -rootNode.scaleX;
+				
+			dae.copyTransform(this.transform);
 			
 			return dae;
 		}
@@ -222,9 +253,7 @@ package org.papervision3d.objects.parsers
 		public function replaceMaterialByName( material:MaterialObject3D, name:String ):void
 		{
 			if( !this.materials )
-			{
 				return;
-			}	
 			
 			var existingMaterial:MaterialObject3D = this.materials.getMaterialByName(name);
 			if( existingMaterial )
@@ -245,43 +274,18 @@ package org.papervision3d.objects.parsers
 		 * 
 		 * @param child		A child DisplayObject3D of this DAE.
 		 * @param material	The new material for the child.
-		 * 
-		 * @return A Boolean value indicating success.
 		 */
-		public function setChildMaterial( child : DisplayObject3D, material : MaterialObject3D ) : Boolean {
+		public function setChildMaterial( child : DisplayObject3D, material : MaterialObject3D ) : void 
+		{	
+			if( !child ) 
+				return;
 			
-			if( !child ) {
-				Papervision3D.log( "Object with name: '" + child.name + "' is not a child of this DAE!");
-				return false;
+			child.material = material;
+			if(child.geometry && child.geometry.faces)
+			{
+				for each( var triangle:Triangle3D in child.geometry.faces )
+					triangle.material = material;
 			}
-			
-			var maxRecurse:uint = 10;
-			var cnt:uint = 0;
-			var target:DisplayObject3D = child;
-			var geom:GeometryObject3D = null;
-			
-			while( !geom && ++cnt < maxRecurse ) {
-				if( target.geometry && target.geometry.faces && target.geometry.faces.length ) {
-					geom = target.geometry;
-				} else {
-					for each( var c:DisplayObject3D in target.children ) {
-						target = c;
-						break;
-					}
-				}
-			}
-			
-			if( !geom ) {
-				Papervision3D.log( "Couldn't find any geometry!" );
-				return false;
-			}
-			
-			target.material = material
-			for each( var triangle:Triangle3D in geom.faces ) {
-				triangle.material = material;
-			}
-
-			return true;
 		}
 		
 		/**
@@ -289,14 +293,13 @@ package org.papervision3d.objects.parsers
 		 * 
 		 * @param childName The name of the DisplayObject3D.
 		 * @param material	The new material for the child.
-		 * 
-		 * @return A Boolean value indicating success.
 		 */
-		public function setChildMaterialByName( childName : String, material : MaterialObject3D ) : Boolean {
-			return this.setChildMaterial( getChildByName(childName), material );
+		public function setChildMaterialByName( childName : String, material : MaterialObject3D ) : void 
+		{
+			setChildMaterial(getChildByName(childName), material);
 		}
 		
-		/**
+		/**vo
 		 * Bakes all transforms of a joint into single matrices.
 		 * 
 		 * @param	joint
@@ -488,13 +491,15 @@ package org.papervision3d.objects.parsers
 		 * 
 		 * @return
 		 */
-		private function buildFaces( primitive:DaePrimitive, geometry:GeometryObject3D, instance:DisplayObject3D, material:MaterialObject3D = null ):void
+		private function buildFaces( primitive:DaePrimitive, geometry:GeometryObject3D, instance:DisplayObject3D, material:MaterialObject3D = null, voffset:uint = 0 ):void
 		{
 			var i:int, j:int, k:int;
 			
 			material = _materialInstances[primitive.material] || material;
 			
 			material = material || MaterialObject3D.DEFAULT;
+			
+			Papervision3D.log(" => vertex offset : " + voffset);
 			/*
 			if( !instance.materials )
 				instance.materials = new MaterialsList();
@@ -504,7 +509,6 @@ package org.papervision3d.objects.parsers
 				instance.materials.addMaterial(material, primitive.material);
 			}
 			*/
-			//trace("*** DAE ASSIGNED MATERIAL", instance.name, ObjectTools.getImmediateClassPath(material));
 			var texcoords:Array = new Array();
 			
 			// retreive correct texcoord-set for the material.
@@ -559,9 +563,9 @@ package org.papervision3d.objects.parsers
 				case ASCollada.DAE_TRIANGLES_ELEMENT:
 					for( i = 0, j = 0; i < primitive.vertices.length; i += 3, j++ ) 
 					{
-						idx[0] = primitive.vertices[i];
-						idx[1] = primitive.vertices[i+1];
-						idx[2] = primitive.vertices[i+2];
+						idx[0] = voffset + primitive.vertices[i];
+						idx[1] = voffset + primitive.vertices[i+1];
+						idx[2] = voffset + primitive.vertices[i+2];
 						
 						v[0] = geometry.vertices[ idx[0] ];
 						v[1] = geometry.vertices[ idx[1] ];
@@ -604,9 +608,9 @@ package org.papervision3d.objects.parsers
 				// is formed from the first, second, and third vertices. Each subsequent triangle 
 				// is formed from the current vertex, reusing the previous two vertices.
 				case ASCollada.DAE_TRISTRIPS_ELEMENT:
-					v[0] = geometry.vertices[ primitive.vertices[0] ];
-					v[1] = geometry.vertices[ primitive.vertices[1] ];
-					v[2] = geometry.vertices[ primitive.vertices[2] ];
+					v[0] = geometry.vertices[ voffset + primitive.vertices[0] ];
+					v[1] = geometry.vertices[ voffset + primitive.vertices[1] ];
+					v[2] = geometry.vertices[ voffset + primitive.vertices[2] ];
 					uv[0] = hasUV ? texcoords[0] : new NumberUV();
 					uv[1] = hasUV ? texcoords[1] : new NumberUV();
 					uv[2] = hasUV ? texcoords[2] : new NumberUV();
@@ -615,9 +619,9 @@ package org.papervision3d.objects.parsers
 					
 					for( i = 3; i < primitive.vertices.length; i++ ) 
 					{
-						v[0] = geometry.vertices[ primitive.vertices[i-2] ];
-						v[1] = geometry.vertices[ primitive.vertices[i-1] ];
-						v[2] = geometry.vertices[ primitive.vertices[i] ];
+						v[0] = geometry.vertices[ voffset + primitive.vertices[i-2] ];
+						v[1] = geometry.vertices[ voffset + primitive.vertices[i-1] ];
+						v[2] = geometry.vertices[ voffset + primitive.vertices[i] ];
 						uv[0] = hasUV ? texcoords[i-2] : new NumberUV();
 						uv[1] = hasUV ? texcoords[i-1] : new NumberUV();
 						uv[2] = hasUV ? texcoords[i] : new NumberUV();
@@ -711,18 +715,24 @@ package org.papervision3d.objects.parsers
 				instance.geometry = instance.geometry ? instance.geometry : new GeometryObject3D();
 				
 				var geometry:GeometryObject3D = instance.geometry;
-					
-				geometry.vertices = buildVertices(geom.mesh);
-				geometry.faces = new Array();
+				
+				geometry.vertices = geometry.vertices || new Array();	
+				geometry.faces = geometry.faces || new Array();
+				
+				var vertexOffset : uint = geometry.vertices.length;
+				
+				geometry.vertices = geometry.vertices.concat(buildVertices(geom.mesh));
 				
 				for( var i:int = 0; i < geom.mesh.primitives.length; i++ )
-					buildFaces(geom.mesh.primitives[i], geometry, instance, material);
-					
-				geometry.ready = true;
-				
-				Logger.trace( "created geometry v:" + geometry.vertices.length + " f:" + geometry.faces.length );
-				
+				{
+					buildFaces(geom.mesh.primitives[i], geometry, instance, material, vertexOffset);
+				}
 				return true;
+			}
+			else if(geom.spline)
+			{
+				for each(var spline:DaeSpline in geom.splines)
+					instance.addChild(buildSpline(spline));
 			}
 			
 			return false;
@@ -803,7 +813,9 @@ package org.papervision3d.objects.parsers
 						var path	:String = buildImagePath(this.baseUrl, img.init_from);
 						
 						material = new BitmapFileMaterial( path );
-						material.tiled = true;
+					
+					//	material.tiled = true;
+					
 						material.addEventListener( FileLoadEvent.LOAD_COMPLETE, materialCompleteHandler );
 						material.addEventListener( FileLoadEvent.LOAD_ERROR, materialErrorHandler );
 						this.materials.addMaterial(material, mat.id );
@@ -969,6 +981,8 @@ package org.papervision3d.objects.parsers
 				
 				if( newNode )
 				{
+					flipFaceNormals(newNode.geometry);
+					
 					instance = parent.addChild(newNode);
 				}
 			}
@@ -980,6 +994,8 @@ package org.papervision3d.objects.parsers
 					
 				buildMorph(instance_ctl_morph, newNode as AnimatedMesh3D);
 	
+				flipFaceNormals(newNode.geometry);
+				
 				instance = parent.addChild(newNode);
 			}
 			else if( node.geometries.length )
@@ -989,12 +1005,13 @@ package org.papervision3d.objects.parsers
 				for each( var geomInst:DaeInstanceGeometry in node.geometries )
 				{
 					material = buildMaterialInstances(geomInst.materials);
-					
-					var inst:TriangleMesh3D = new TriangleMesh3D(material, new Array(), new Array());
-					
-					buildGeometry(geomInst.url, inst, material);
-					
-					newNode.addChild(inst);
+					buildGeometry(geomInst.url, newNode, material);
+				}
+				
+				if(newNode.geometry && newNode.geometry.vertices && newNode.geometry.faces)
+				{
+					newNode.geometry.ready = true;
+					flipFaceNormals(newNode.geometry);
 				}
 				
 				instance = parent.addChild(newNode);
@@ -1041,17 +1058,16 @@ package org.papervision3d.objects.parsers
 			_skins = new Dictionary();
 			_morphs = new Dictionary();
 			
+			this.skins = new Array();
+			
 			buildMaterials();
 			
 			buildVisualScene();
 			
 			linkSkins(this._rootNode);
 			
-			readySkins(this);
-			readyMorphs(this);
-			
-			if( !_loadScaleSet )
-				this.scale = DEFAULT_SCALE;
+			//if( !_loadScaleSet )
+			//	this.scale = DEFAULT_SCALE;
 			
 			// there may be animations left to parse...
 			if( document.numQueuedAnimations )
@@ -1063,10 +1079,12 @@ package org.papervision3d.objects.parsers
 				_reader.readAnimations();
 			}
 			else
+			{
 				hasAnimations = false;
 			
-			// done with geometry
-			dispatchEvent(new Event(Event.COMPLETE));
+				// done with geometry
+				dispatchEvent(new Event(Event.COMPLETE));
+			}
 		}
 		
 		/**
@@ -1143,8 +1161,7 @@ package org.papervision3d.objects.parsers
 			
 			_skins[ obj ] = instance_controller;
 			
-			if( !this.skin )
-				this.skin = obj;
+			this.skins.push(obj);
 			
 			return obj;
 		}
@@ -1196,6 +1213,18 @@ package org.papervision3d.objects.parsers
 			
 			for( var i:int = 0; i < document.vscene.nodes.length; i++ )
 				buildNode(document.vscene.nodes[i], this._rootNode);
+				
+			if(this._yUp)
+			{
+				
+			}
+			else
+			{
+				this._rootNode.rotationX = 90;
+				this._rootNode.rotationY = 180;
+			}
+			
+			this._rootNode.scaleX = -1;
 		}
 		
 		
@@ -1211,14 +1240,14 @@ package org.papervision3d.objects.parsers
 			
 			if( source === _rootNode )
 			{
-				o = new DisplayObject3D( source.name + "-" + _numClones );
+				o = new DisplayObject3D(source.name);
 				o.copyTransform( source.transform );
 				target = target.addChild(o);
 			}
-			else if( source is TriangleMesh3D )
+			else if( source is Skin3D )
 			{
-				o = new TriangleMesh3D(source.material, new Array(), new Array(), source.name + "-" + _numClones);
-				o.geometry = cloneGeometry(o, source.geometry);
+				o = Skin3D(source).clone();	
+				o.copyTransform( source.transform );
 				o.geometry.ready = true;
 				target = target.addChild(o);
 			}
@@ -1226,13 +1255,23 @@ package org.papervision3d.objects.parsers
 			{
 				var n:Node3D = source as Node3D;
 				
-				o = new Node3D(n.name + "-" + _numClones, n.daeID, n.daeSID);
+				o = n.clone();
 				o.copyTransform(n.transform);
+				o.geometry = cloneGeometry(o, source.geometry);
+				o.geometry.ready = true;
+				target = target.addChild(o);
+			}
+			else if( source is TriangleMesh3D )
+			{
+				o = new TriangleMesh3D(source.material, new Array(), new Array(), source.name);
+				o.copyTransform( source.transform );
+				o.geometry = cloneGeometry(o, source.geometry);
+				o.geometry.ready = true;
 				target = target.addChild(o);
 			}
 			else if( source is DisplayObject3D )
 			{
-				o = new DisplayObject3D(source.name + "-" + _numClones);
+				o = new DisplayObject3D(source.name);
 				o.copyTransform(source.transform);
 				target = target.addChild(o);
 			}
@@ -1478,6 +1517,29 @@ package org.papervision3d.objects.parsers
 		}
 			
 		/**
+		 * Flips all face normals of a geometry.
+		 * 
+		 * @param	geometry
+		 */ 
+		private function flipFaceNormals( geometry:GeometryObject3D ):void
+		{
+			if(!geometry || !geometry.faces)
+				return;
+				
+			for each(var triangle:Triangle3D in geometry.faces)
+			{
+				triangle.faceNormal.x = -triangle.faceNormal.x;
+				triangle.faceNormal.y = -triangle.faceNormal.y;
+				triangle.faceNormal.z = -triangle.faceNormal.z;	
+				
+				// recalculate vertex normals
+				triangle.v0.calculateNormal();
+				triangle.v1.calculateNormal();
+				triangle.v2.calculateNormal();
+			}	
+		}
+		
+		/**
 		 * Links a skin to its bones.
 		 * 
 		 * @param	skin	The Skin3D to link.
@@ -1587,34 +1649,6 @@ package org.papervision3d.objects.parsers
 			for each( var child:DisplayObject3D in do3d.children )
 				linkSkins(child);
 		}
-		
-		
-		
-		/**
-		 * 
-		 * @param	do3d
-		 * @return
-		 */
-		private function readyMorphs( do3d:DisplayObject3D ):void
-		{
-			//if( do3d is AnimatedMesh3D )
-			//	AnimatedMesh3D(do3d).play();
-			//for each( var child:DisplayObject3D in do3d.children )
-			//	readyMorphs(child);
-		}
-		
-		/**
-		 * 
-		 * @param	do3d
-		 * @return
-		 */
-		private function readySkins( do3d:DisplayObject3D ):void
-		{
-		//	if( do3d is Skin3D )
-		//		Skin3D(do3d).animate = true;
-		//	for each( var child:DisplayObject3D in do3d.children )
-		//		readySkins(child);
-		}
 				
 		/**
 		 * 
@@ -1650,11 +1684,9 @@ package org.papervision3d.objects.parsers
 		 */
 		private function animationCompleteHandler( event:Event ):void
 		{
-			buildAnimations(this);
-			
-			//this.controller.frameTime = 10;
-			
-			//this.controller.play();
+			if(this.animate)
+				buildAnimations(this);
+			dispatchEvent(event);
 		}
 		
 		/**
@@ -1734,7 +1766,5 @@ package org.papervision3d.objects.parsers
 		
 		/** Boolean indicating the DAE's scale was set before load. */
 		private var _loadScaleSet:Boolean = false;
-		
-		private static var _numClones:uint = 0;
 	}
 }
