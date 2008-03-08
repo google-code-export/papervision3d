@@ -50,10 +50,9 @@ package org.papervision3d.objects.parsers {
 	import org.papervision3d.core.proto.MaterialObject3D;	
 
 	/**
-	 * Loades Quake 2 MD2 file with animation!
-	 * </p>
-	 * Please feel free to use, but please mention me!
-	 * </p>
+	 * Loads Quake 2 MD2 file with animation!
+	 * </p>Please feel free to use, but please mention me!</p>
+	 * 
 	 * @author Philippe Ajoux (philippe.ajoux@gmail.com) adapted by Tim Knip(tim.knip at gmail.com).
 	 * @website www.d3s.net
 	 * @version 04.11.07:11:56
@@ -82,49 +81,63 @@ package org.papervision3d.objects.parsers {
 		private var fps:int;
 		
 		/**
-		 * <p>MD2 class lets you load a Quake 2 MD2 file with animation!</p>
+		 * Constructor.
 		 */
-		public function MD2(material:MaterialObject3D, filename:String, fps:int = 6, scale:Number = 1, initObject:Object = null)
+		public function MD2():void
 		{
-			super(material, new Array(), new Array());
-			
+			super(null, new Array(), new Array());
+		}
+		
+		/**
+		 * Loads the MD2.
+		 * 
+		 * @param	asset	URL or ByteArray
+		 * @param	material	The material for the MD2
+		 * @param	fps		Frames per second
+		 * @param	scale	Scale
+		 */
+		public function load(asset:*, material:MaterialObject3D = null, fps:int = 6, scale:Number = 1):void
+		{
 			this.loadScale = scale;
-			this.file = filename;
 			this.fps = Math.min(fps, 1000/AnimationEngine.TICK);
 			this.visible = false;
+			this.material = material || MaterialObject3D.DEFAULT;
 			
-			load(filename);
+			if(asset is ByteArray)
+			{
+				this.file = "";
+				parse(asset as ByteArray);
+			}
+			else
+			{
+				this.file = String(asset);
+				
+				loader = new URLLoader();
+				loader.dataFormat = URLLoaderDataFormat.BINARY;
+				loader.addEventListener(Event.COMPLETE, loadCompleteHandler);
+				loader.addEventListener(ProgressEvent.PROGRESS, loadProgressHandler);
+				
+				try
+				{
+		            loader.load(new URLRequest(this.file));
+				}
+				catch(e:Error)
+				{
+					Papervision3D.log("error in loading MD2 file (" + this.file + ")");
+				}
+			}
 		}
 		
 		/**
-		 * Mirrored from Ase, Wavefron, and Max3DS
-		 */
-		private function load(filename:String):void
-		{
-			loader = new URLLoader();
-			loader.dataFormat = URLLoaderDataFormat.BINARY;
-			loader.addEventListener(Event.COMPLETE, parse);
-			loader.addEventListener(ProgressEvent.PROGRESS, loadProgressHandler);
-			
-			try
-			{
-	            loader.load(new URLRequest(filename));
-			}
-			catch(e:Error)
-			{
-				Papervision3D.log("error in loading MD2 file (" + filename + ")");
-			}
-		}
-		
-		/**
-		 * Parse the MD2 file. This is actually pretty straight forward.
+		 * <p>Parses the MD2 file. This is actually pretty straight forward.
 		 * Only complicated parts (bit convoluded) are the frame loading
-		 * and "metaface" loading. Hey, it works, use it =)
+		 * and "metaface" loading. Hey, it works, use it =)</p>
+		 * 
+		 * @param	data	A ByteArray
 		 */
-		private function parse(event:Event):void
+		private function parse(data:ByteArray):void
 		{
 			var i:int, j:int, uvs:Array = new Array();
-			var data:ByteArray = loader.data;
 			var metaface:Object;
 			data.endian = Endian.LITTLE_ENDIAN;
 			
@@ -172,8 +185,7 @@ package org.papervision3d.objects.parsers {
 			}
 			
 			geometry.ready = true;
-			
-			loader.close();
+	
 			visible = true;
 						
 			Papervision3D.log("Parsed MD2: " + file + "\n vertices:" + 
@@ -263,6 +275,16 @@ package org.papervision3d.objects.parsers {
 			offset_frames = data.readInt();
 			offset_glcmds = data.readInt();
 			offset_end = data.readInt();
+		}
+
+		/**
+		 * 
+		 */ 
+		private function loadCompleteHandler(event:Event):void
+		{
+			var loader:URLLoader = event.target as URLLoader;
+			var data:ByteArray = loader.data;
+			parse(data);
 		}
 		
 		/**
