@@ -33,12 +33,13 @@
  
 package org.papervision3d.objects.parsers.ascollada
 {
+	import flash.utils.Dictionary;
+	
 	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
-	import org.papervision3d.objects.DisplayObject3D;
 
 	/**
 	 * @author Tim Knip 
@@ -65,6 +66,42 @@ package org.papervision3d.objects.parsers.ascollada
 			
 			this.bindPose = Matrix3D.IDENTITY;
 			this.joints = new Array();
+		}
+		
+		/**
+		 * 
+		 */ 
+		public function clone() : Skin3D
+		{
+			var skin : Skin3D = new Skin3D(this.material, [], [], this.name);
+				
+			skin.bindPose = Matrix3D.clone(this.bindPose);
+			
+			var vs:Dictionary = new Dictionary();
+			for each(var v:Vertex3D in this.geometry.vertices)
+			{
+				vs[ v ] = v.clone();
+				skin.geometry.vertices.push(vs[v]);
+			}
+			
+			for each(var f:Triangle3D in this.geometry.faces)
+			{
+				var v0:Vertex3D = vs[ f.v0 ];
+				var v1:Vertex3D = vs[ f.v1 ];
+				var v2:Vertex3D = vs[ f.v2 ];
+				
+				var t0:NumberUV = f.uv0.clone();
+				var t1:NumberUV = f.uv1.clone();
+				var t2:NumberUV = f.uv2.clone();
+				
+				var tri:Triangle3D = new Triangle3D(skin, [v0, v1, v2], f.material, [t0, t1, t2]);
+				
+				skin.geometry.faces.push(tri);
+			}
+			
+			skin.geometry.ready = true;
+			
+			return skin;
 		}
 	}
 }
