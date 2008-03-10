@@ -1,6 +1,14 @@
 /*
- * Copyright 2007 (c) Tim Knip, ascollada.org.
+ * PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
+ * AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
+ * PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
+ * ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
+ * RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
+ * ______________________________________________________________________
+ * papervision3d.org + blog.papervision3d.org + osflash.org/papervision3d
  *
+ * Copyright 2006 (c) Carlos Ulloa Matesanz, noventaynueve.com.
+ * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -26,36 +34,56 @@
 package org.papervision3d.objects.parsers.ascollada
 {
 	// import papervision
+	import org.ascollada.core.DaeBlendWeight;
 	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.AnimatedMesh3D;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.objects.*;
-	
+	import org.papervision3d.objects.primitives.Sphere;
+
+	/**
+	 * <p>The Node3D class is used by the DAE class, and represents a node in a collada file.
+	 * </p>
+	 * @author Tim Knip
+	 */	
 	public class Node3D extends AnimatedMesh3D 
 	{	
+		/** */
+		public static var DEBUG_SPHERE_COLOR:uint = 0xffff00;
+		
+		/** */
+		public static var DEBUG_SPHERE_RADIUS:Number = 100;
+		
+		/** the collada ID. */
 		public var daeID:String;
 		
+		/** the collada SID. */
 		public var daeSID:String;
 		
+		/** array of blendvertices */
 		public var blendVerts:Array;
 		
+		/** bindmatrix */
 		public var bindMatrix:Matrix3D;
 		
+		/** */
 		public var matrixStack:Array;
 		
+		/** */
 		public var transforms:Array;
 		
 		/**
-		 * 
-		 * @param	daeName
-		 * @param	daeID
-		 * @param	daeSID
-		 * @param	c
+		 * Constructor.
+		 *
+		 * @param	daeName		The collada / DisplayObject3D name.
+		 * @param	daeID		The collada ID for this node.
+		 * @param	daeSID		The collada SID for this node.
+		 * @param	showSphere	A boolean value indication whether to show a sphere to help debugging.
 		 * @return
 		 */
-		public function Node3D( daeName:String, daeID:String, daeSID:String = null, c:uint = 0xffff00 ):void 
+		public function Node3D( daeName:String, daeID:String, daeSID:String = null, showSphere:Boolean = false ):void 
 		{
 			super(new WireframeMaterial(), new Array(), new Array(), daeName);
 			
@@ -68,6 +96,32 @@ package org.papervision3d.objects.parsers.ascollada
 			
 			this.matrixStack = new Array();
 			this.transforms = new Array();
+
+			if( showSphere )
+			{
+				addChild( new Sphere(new WireframeMaterial(DEBUG_SPHERE_COLOR), DEBUG_SPHERE_RADIUS, 4, 3) );
+			}
 		}
+		
+		/**
+		 * Clone.
+		 */ 
+		public function clone():Node3D
+		{
+			var node:Node3D = new Node3D(this.name, this.daeID, this.daeSID);
+			node.transform = Matrix3D.clone(this.transform);
+			node.bindMatrix = Matrix3D.clone(this.bindMatrix);
+			
+			for(var i:int = 0; i < this.blendVerts.length; i++ )
+			{
+				var bw:DaeBlendWeight = new DaeBlendWeight();
+				bw.weight = blendVerts[i].weight;
+				bw.vertexIndex = blendVerts[i].vertexIndex;
+				node.blendVerts.push(bw);
+			}
+			
+			return node;
+		}
+		
 	}
 }
