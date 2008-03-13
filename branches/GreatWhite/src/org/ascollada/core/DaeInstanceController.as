@@ -80,7 +80,8 @@ package org.ascollada.core
 				switch( child.localName() )
 				{		
 					case ASCollada.DAE_SKELETON_ELEMENT:
-						nodeID = getNodeContent(child).split("#")[1];
+						nodeID = getNodeContent(child).toString();
+						nodeID = nodeID.indexOf("#") != -1 ? nodeID.substr(1) : nodeID;
 						this.skeletons.push( nodeID );
 						if( !this.skeleton )
 							this.skeleton = nodeID;
