@@ -168,6 +168,7 @@ package org.papervision3d.core.geom {
 		 */
 		public function projectFrustum( parent :DisplayObject3D, renderSessionData:RenderSessionData ):Number 
 		{
+			
 			var view:Matrix3D = this.view,
 				viewport:Rectangle = renderSessionData.camera.viewport,
 				m11 :Number = view.n11,
@@ -309,15 +310,5 @@ package org.papervision3d.core.geom {
 				vertex.z = tz;
 			}
 		}
-
-		// ___________________________________________________________________________________________________
-		//                                                                                         R E N D E R
-		// RRRRR  EEEEEE NN  NN DDDDD  EEEEEE RRRRR
-		// RR  RR EE     NNN NN DD  DD EE     RR  RR
-		// RRRRR  EEEE   NNNNNN DD  DD EEEE   RRRRR
-		// RR  RR EE     NN NNN DD  DD EE     RR  RR
-		// RR  RR EEEEEE NN  NN DDDDD  EEEEEE RR  RR
-
-		// public function render() {}
 	}
 }

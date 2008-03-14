@@ -67,8 +67,13 @@ package org.papervision3d.objects
 	*/
 	public class DisplayObject3D extends DisplayObjectContainer3D
 	{
+		
+		/**
+		 * Defines how the object should be frustum-checked.
+		 */
+		 public var frustumTestMethod:int = 0;
+		
 		// ___________________________________________________________________ P O S I T I O N
-	
 		/**
 		* An Number that sets the X coordinate of a object relative to the origin of its parent.
 		*/
@@ -497,9 +502,10 @@ package org.papervision3d.objects
 		public function DisplayObject3D( name:String=null, geometry:GeometryObject3D=null, initObject:Object=null ):void
 		{
 			super();
-	
-			Papervision3D.log( "DisplayObject3D: " + name );
-	
+			
+			if(name!=null){
+				Papervision3D.log( "DisplayObject3D: " + name );
+			}
 			this.culled    = false;
 			
 			this.transform = Matrix3D.IDENTITY;
