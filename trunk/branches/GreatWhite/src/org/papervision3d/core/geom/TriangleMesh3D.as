@@ -113,6 +113,7 @@ package org.papervision3d.core.geom {
 			super.project(parent, renderSessionData);
 			if(!this.culled){
 				// Faces
+				
 				var faces:Array  = this.geometry.faces, 
 									screenZs:Number = 0, 
 									visibleFaces :Number = 0, 

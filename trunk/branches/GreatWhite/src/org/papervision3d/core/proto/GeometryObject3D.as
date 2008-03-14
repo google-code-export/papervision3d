@@ -51,17 +51,11 @@ package org.papervision3d.core.proto
 	public class GeometryObject3D extends EventDispatcher
 	{
 		
-		/**
-		* Radius square of the mesh bounding sphere
-		*/
-		public function get boundingSphere2():Number
-		{
-			if( _boundingSphereDirty )
-				return getBoundingSphere2();
-			else
-				return _boundingSphere2;
-		}
-	
+		protected var _boundingSphere2     :Number;
+		protected var _boundingSphereDirty :Boolean = true;
+		protected var _aabb:Array;
+		protected var _aabbDirty:Boolean = true;
+		
 		/**
 		 * 
 		 */
@@ -78,33 +72,14 @@ package org.papervision3d.core.proto
 		public var vertices :Array;
 		public var _ready:Boolean = false;
 		
-		public function transformVertices( transformation:Matrix3D ):void {}
-	
-		// ___________________________________________________________________________________________________
-		//                                                                                               N E W
-		// NN  NN EEEEEE WW    WW
-		// NNN NN EE     WW WW WW
-		// NNNNNN EEEE   WWWWWWWW
-		// NN NNN EE     WWW  WWW
-		// NN  NN EEEEEE WW    WW
-	
+			
 		public function GeometryObject3D( initObject:Object=null ):void
 		{
-	
 			this.dirty = true;
 		}
-	
-	
-		/**
-		* Returns a string value representing the three-dimensional values in the specified Number3D object.
-		*
-		* @return	A string.
-		*/
-		//public function toString():String
-		//{
-			//return 'x:' + Math.floor(this.x) + ' y:' + Math.floor(this.y) + ' z:' + Math.floor(this.z);
-		//}
-	
+		
+		public function transformVertices( transformation:Matrix3D ):void {}
+		
 		public function transformUV( material:MaterialObject3D ):void
 		{
 			if( material.bitmap )
@@ -120,10 +95,9 @@ package org.papervision3d.core.proto
 			for each( var v:Vertex3D in this.vertices )
 			{
 				d = v.x*v.x + v.y*v.y + v.z*v.z;
-	
 				max = (d > max)? d : max;
 			}
-	
+			
 			this._boundingSphereDirty = false;
 	
 			return _boundingSphere2 = max;
@@ -160,10 +134,60 @@ package org.papervision3d.core.proto
 		{
 			return _ready;
 		}
-	
-		// ___________________________________________________________________________________________________
-		//                                                                                       P R I V A T E
-		protected var _boundingSphere2     :Number;
-		protected var _boundingSphereDirty :Boolean = true;
+		
+		/**
+		* Radius square of the mesh bounding sphere
+		*/
+		public function get boundingSphere2():Number
+		{
+			if( _boundingSphereDirty ){
+				return getBoundingSphere2();
+			}
+			return _boundingSphere2;
+		}
+		
+		/**
+		 * Returns an axis aligned bounding box, not world oriented.
+		 * 
+		 * 
+		 * @Author Ralph Hauwert - Added as an initial test.
+		 */
+		public function get aabb():Array
+		{
+			
+			if(_aabbDirty){
+				var minX:Number = 0;
+				var maxX:Number = 0;
+				var minY:Number = 0;
+				var maxY:Number = 0;
+				var minZ:Number = 0;
+				var maxZ:Number = 0;
+				var v:Vertex3D;
+				for each( v in this.vertices )
+				{
+					minX = (v.x < minX) ? v.x : minX;
+					minY = (v.y < minY) ? v.y : minY;
+					minZ = (v.z < minZ) ? v.z : minZ;
+					maxX = (v.x > maxX) ? v.x : maxX;
+					maxY = (v.y > maxY) ? v.y : maxY;
+					maxZ = (v.z > maxZ) ? v.z : maxZ;
+					
+				}
+				_aabb = new Array();
+				//near top left
+				_aabb.push(new Vertex3D(minX, minY, minZ));
+				_aabb.push(new Vertex3D(minX, minY, maxZ));
+				_aabb.push(new Vertex3D(minX, maxY, minZ));
+				_aabb.push(new Vertex3D(minX, maxY, maxZ));
+				_aabb.push(new Vertex3D(maxX, minY, minZ));
+				_aabb.push(new Vertex3D(maxX, minY, maxZ));
+				_aabb.push(new Vertex3D(maxX, maxY, minZ));
+				_aabb.push(new Vertex3D(maxX, maxY, maxZ));
+				trace(minX,minY,minZ,maxX,maxY,maxZ);
+				_aabbDirty = false;
+			}
+			return _aabb;
+		}
+
 	}
 }

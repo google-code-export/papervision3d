@@ -95,5 +95,10 @@ package org.papervision3d.core.geom
 			lines.splice(lines.indexOf(line),1);	
 		}
 		
+		public function removeAllLines():void
+		{
+			//TODO
+		}
+		
 	}
 }

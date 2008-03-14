@@ -47,6 +47,10 @@ import org.papervision3d.core.geom.renderables.Vertex3D;
 */
 public class Plane3D
 {
+	public static const VERTEX_IS_BEHIND:int = 0;
+	public static const VERTEX_IS_INFRONT:int = 1;
+	public static const VERTEX_IS_COINCIDING:int = 2;
+	
 	/**
 	* The plane normal (A, B, C).
 	*/
@@ -222,6 +226,21 @@ public class Plane3D
 		this.normal.normalize();
 		this.d = -Number3D.dot(normal, p0);
 	}
+	
+	
+	/**
+	 * Gets the side a vertex is on.
+	 */
+	 public function pointOnSide(num:Number3D):int
+	 {
+	 	var distance:Number = distance(num);
+		if(distance < 0){
+			return VERTEX_IS_BEHIND;
+		}else if(distance > 0){
+			return VERTEX_IS_INFRONT;
+		}
+		return VERTEX_IS_COINCIDING;
+	 }
 	
 	/**
 	 * Projects points onto this plane. 

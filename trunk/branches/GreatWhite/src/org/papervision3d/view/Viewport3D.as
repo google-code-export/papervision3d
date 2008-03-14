@@ -154,13 +154,13 @@ package org.papervision3d.view {
 			_hWidth = width/2;
 			containerSprite.x = _hWidth;
 			
-			
-			sizeRectangle.width = width;
-			
 			cullingRectangle.x = -_hWidth;
 			cullingRectangle.width = width;
 			
-			scrollRect = sizeRectangle;
+			sizeRectangle.width = width;
+			if(_autoClipping){
+				scrollRect = sizeRectangle;
+			}
 		}
 		
 		public function get viewportWidth():Number
@@ -174,12 +174,13 @@ package org.papervision3d.view {
 			_hHeight = height/2;
 			containerSprite.y = _hHeight;
 			
-			sizeRectangle.height = height;
-			
 			cullingRectangle.y = -_hHeight;
 			cullingRectangle.height = height;
 			
-			scrollRect = sizeRectangle;
+			sizeRectangle.height = height;
+			if(_autoClipping){
+				scrollRect = sizeRectangle;
+			}
 		}
 		
 		public function get viewportHeight():Number
