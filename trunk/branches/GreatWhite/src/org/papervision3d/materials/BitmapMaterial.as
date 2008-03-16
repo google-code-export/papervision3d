@@ -167,7 +167,6 @@ package org.papervision3d.materials
 				//Render the bitmap using 'precise' texturing - @Author Alexander Zahdorsky
 				_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
 				focus = renderSessionData.camera.focus;
-				
 				renderRec(graphics, _triMap.a, _triMap.b, _triMap.c, _triMap.d, _triMap.tx, _triMap.ty, face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y, face3D.v0.vertex3DInstance.z, face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y, face3D.v1.vertex3DInstance.z, face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y, face3D.v2.vertex3DInstance.z,0, renderSessionData, altBitmap ? altBitmap : bitmap);	 
 			}
 		}
