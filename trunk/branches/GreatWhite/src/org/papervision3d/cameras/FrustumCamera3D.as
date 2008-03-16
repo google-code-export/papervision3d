@@ -37,6 +37,7 @@ package org.papervision3d.cameras
 {
 	import flash.geom.Rectangle;
 	
+	import org.papervision3d.core.culling.FrustumTestMethod;
 	import org.papervision3d.core.culling.IObjectCuller;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.*;
@@ -213,16 +214,15 @@ package org.papervision3d.cameras
 			if(!obj.geometry || !obj.geometry.vertices || !obj.geometry.vertices.length)
 				return INSIDE;		
 			
-			var radius:Number = Math.sqrt(obj.geometry.boundingSphere2);
-			_objpos.x = obj.world.n14;
-			_objpos.y = obj.world.n24;
-			_objpos.z = obj.world.n34;
+			
 			
 			switch(obj.frustumTestMethod){
-				case 1:
-					return aabbInFrustum(obj, _objpos, obj.geometry.aabb);
+				case FrustumTestMethod.BOUNDING_SPHERE:
+					return sphereInFrustum(obj, obj.geometry.boundingSphere);
+				case FrustumTestMethod.BOUNDING_BOX:
+					return aabbInFrustum(obj, obj.geometry.aabb);
 				default:
-					return sphereInFrustum(_objpos, radius);
+					return sphereInFrustum(obj, obj.geometry.boundingSphere);
 			}
 			
 			return INSIDE;
@@ -236,8 +236,10 @@ package org.papervision3d.cameras
 		 * 
 		 * @return
 		 */
-		public function sphereInFrustum( center:Vertex3D, radius:Number ):int
+		public function sphereInFrustum( object:DisplayObject3D, boundingSphere:BoundingSphere ):int
 		{
+			var center:Vertex3D = new Vertex3D(object.world.n14,object.world.n24,object.world.n34);
+			var radius:Number = boundingSphere.radius;
 			var result:int = INSIDE;
 			for( var i:int = 0; i < planes.length; i++ )
 			{
@@ -254,9 +256,9 @@ package org.papervision3d.cameras
 		
 		
 		/**
-		 * Checks whether a boundingbox is inside, outside or intersecting the frustum.
+		 * Checks whether an axis aligned boundingbox is inside, outside or intersecting the frustum.
 		 */
-		public function aabbInFrustum(object:DisplayObject3D, center:Vertex3D, aabb:Array):int
+		public function aabbInFrustum(object:DisplayObject3D, aabb:AxisAlignedBoundingBox):int
 		{
 			var plane:Plane3D;
 			var vertex:Vertex3D;
@@ -266,10 +268,11 @@ package org.papervision3d.cameras
 			var waabb:Array = new Array();
 			var num:Number3D;
 			
+			var vertices:Array = aabb.getBoxVertices();
 			/**
 			 * Transform the boundingbox to world
 			 */
-			for each(vertex in aabb){
+			for each(vertex in vertices){
 				num = vertex.toNumber3D();
 				Matrix3D.multiplyVector4x4(object.world, num);
 				waabb.push(num);
