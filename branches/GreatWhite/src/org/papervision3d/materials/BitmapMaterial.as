@@ -61,7 +61,7 @@ package org.papervision3d.materials
 	{
 		
 		private var _precise:Boolean;
-		public var focus:Number = 100;
+		public var focus:Number = 200;
 		public var minimumRenderSize:Number = 2;
 		public var precision:Number = 8;
 		
@@ -166,7 +166,8 @@ package org.papervision3d.materials
 				
 				//Render the bitmap using 'precise' texturing - @Author Alexander Zahdorsky
 				_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
-				focus = renderSessionData.camera.focus;
+				//focus = renderSessionData.camera.focus;
+				
 				renderRec(graphics, _triMap.a, _triMap.b, _triMap.c, _triMap.d, _triMap.tx, _triMap.ty, face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y, face3D.v0.vertex3DInstance.z, face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y, face3D.v1.vertex3DInstance.z, face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y, face3D.v2.vertex3DInstance.z,0, renderSessionData, altBitmap ? altBitmap : bitmap);	 
 			}
 		}
@@ -234,7 +235,7 @@ package org.papervision3d.materials
 		 public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
 		 ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number, index:Number, renderSessionData:RenderSessionData, bitmap:BitmapData):void
         {
-			
+    	
             if ((az <= 0) && (bz <= 0) && (cz <= 0))
                 return;
 			
@@ -245,11 +246,13 @@ package org.papervision3d.materials
                 renderSessionData.renderStatistics.triangles++;
                 return;
             }
-
+			
             var faz:Number = focus + az;
             var fbz:Number = focus + bz;
             var fcz:Number = focus + cz;
-
+			
+			
+			
 			var mabz:Number = 2 / (faz + fbz);
             var mbcz:Number = 2 / (fbz + fcz);
             var mcaz:Number = 2 / (fcz + faz);
@@ -276,7 +279,7 @@ package org.papervision3d.materials
             {
                renderTriangleBitmap(graphics, ta, tb, tc, td, tx, ty, ax, ay, bx, by, cx, cy, smooth, tiled,bitmap);
                renderSessionData.renderStatistics.triangles++;
-                return;
+               return;
             }
 
             if ((dsab > precision) && (dsca > precision) && (dsbc > precision))
@@ -339,6 +342,7 @@ package org.papervision3d.materials
             var b2:Number = v1y - v0y;
             var c2:Number = v2x - v0x;
             var d2:Number = v2y - v0y;
+
           	
             tempTriangleMatrix.a = a*a2 + b*c2;
             tempTriangleMatrix.b = a*b2 + b*d2;
@@ -348,6 +352,7 @@ package org.papervision3d.materials
             tempTriangleMatrix.ty = tx*b2 + ty*d2 + v0y;       
                     
 			graphics.beginBitmapFill(bitmapData, tempTriangleMatrix, repeat, smooth);
+
             graphics.moveTo(v0x, v0y);
             graphics.lineTo(v1x, v1y);
             graphics.lineTo(v2x, v2y);
