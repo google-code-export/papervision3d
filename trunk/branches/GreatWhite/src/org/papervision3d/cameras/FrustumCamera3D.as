@@ -41,6 +41,7 @@ package org.papervision3d.cameras
 	import org.papervision3d.core.culling.IObjectCuller;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.*;
+	import org.papervision3d.core.math.util.ClassificationUtil;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
@@ -287,7 +288,7 @@ package org.papervision3d.cameras
 				for(var p:int = 0; p < waabb.length; p++){
 					num = waabb[p];
 					side = plane.pointOnSide(num);
-					if(side == Plane3D.VERTEX_IS_INFRONT){
+					if(side == ClassificationUtil.FRONT){
 						perPlaneInside++;
 					}
 				}
