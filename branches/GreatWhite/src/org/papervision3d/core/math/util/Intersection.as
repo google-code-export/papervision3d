@@ -11,6 +11,7 @@ package org.papervision3d.core.math.util
 		public static const PARALLEL:int = 2;
 		
 		public var point:Number3D = new Number3D();
+		public var vert:Vertex3D = new Vertex3D();
 		public var alpha:Number = 0;
 		public var status:int;
 		
@@ -51,6 +52,10 @@ package org.papervision3d.core.math.util
 				pt.x += x1;
 				pt.y += y1;
 				pt.z += z1;
+				
+				intersection.vert.x = pt.x;
+				intersection.vert.y = pt.y;
+				intersection.vert.z = pt.z;
 			}else{
 				intersection.status = Intersection.NONE;
 			}

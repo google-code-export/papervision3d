@@ -39,9 +39,9 @@ package org.papervision3d.core.math.util
 						if( isect.status != Intersection.INTERSECTION )
 							throw new Error( "no intersection" );
 						
-						triangle.instance.geometry.vertices.push( isect.point );
-						triA.push( isect.point );
-						triB.push( isect.point );
+						triangle.instance.geometry.vertices.push( isect.vert );
+						triA.push( isect.vert );
+						triB.push( isect.vert );
 						
 						newUV = InterpolationUtil.interpolateUV(uvA, uvB, isect.alpha);
 						
@@ -59,10 +59,10 @@ package org.papervision3d.core.math.util
 						if( isect.status != Intersection.INTERSECTION )
 							throw new Error( "no intersection" );
 						
-						triangle.instance.geometry.vertices.push( isect.point );
+						triangle.instance.geometry.vertices.push( isect.vert );
 						
-						triA.push( isect.point );
-						triB.push( isect.point );
+						triA.push( isect.vert );
+						triB.push( isect.vert );
 						
 						newUV = InterpolationUtil.interpolateUV(uvA, uvB, isect.alpha);
 						
