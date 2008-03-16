@@ -225,11 +225,12 @@ package org.papervision3d.core.geom {
 					
 					// project to viewport.
 					screen.x = s_x * vpw;
+					
 					screen.y = s_y * vph;
 					
 					//Papervision3D.logger.debug( "sx:" + screen.x + " " +screen.y );
 					// NOTE: z not lineair, value increases when nearing far-plane.
-					screen.z = s_z;
+					screen.z = s_z*s_w;
 				}
 			}
 			

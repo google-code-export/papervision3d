@@ -653,14 +653,12 @@ package org.papervision3d.objects
 		public function getMaterialByName( name:String ):MaterialObject3D
 		{
 			var material:MaterialObject3D = this.materials.getMaterialByName( name );
-			
 			if( material )
 				return material;
 			else
 				for each( var child :DisplayObject3D in this._childrenByName )
 				{
 					material = child.getMaterialByName( name );
-	
 					if( material ) return material;
 				}
 	
