@@ -327,6 +327,11 @@ package org.papervision3d.materials
                 ax, ay, az, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, cx, cy, cz, index+1, renderSessionData, bitmap);
         }
 		
+		/**
+		*	Used to avoid new in renderTriangleBitmap
+		*/
+		protected var tempTriangleMatrix:Matrix = new Matrix();
+		
 		public function renderTriangleBitmap(graphics:Graphics,a:Number, b:Number, c:Number, d:Number, tx:Number, ty:Number, 
             v0x:Number, v0y:Number, v1x:Number, v1y:Number, v2x:Number, v2y:Number, smooth:Boolean, repeat:Boolean, bitmapData:BitmapData):void
         {
@@ -334,14 +339,15 @@ package org.papervision3d.materials
             var b2:Number = v1y - v0y;
             var c2:Number = v2x - v0x;
             var d2:Number = v2y - v0y;
-                                   
-            var matrix:Matrix = new Matrix(a*a2 + b*c2, 
-                                           a*b2 + b*d2, 
-                                           c*a2 + d*c2, 
-                                           c*b2 + d*d2,
-                                           tx*a2 + ty*c2 + v0x, 
-                                           tx*b2 + ty*d2 + v0y);            
-			graphics.beginBitmapFill(bitmapData, matrix, repeat, smooth);
+          	
+            tempTriangleMatrix.a = a*a2 + b*c2;
+            tempTriangleMatrix.b = a*b2 + b*d2;
+            tempTriangleMatrix.c = c*a2 + d*c2;
+            tempTriangleMatrix.d = c*b2 + d*d2;
+            tempTriangleMatrix.tx = tx*a2 + ty*c2 + v0x;   
+            tempTriangleMatrix.ty = tx*b2 + ty*d2 + v0y;       
+                    
+			graphics.beginBitmapFill(bitmapData, tempTriangleMatrix, repeat, smooth);
             graphics.moveTo(v0x, v0y);
             graphics.lineTo(v1x, v1y);
             graphics.lineTo(v2x, v2y);
