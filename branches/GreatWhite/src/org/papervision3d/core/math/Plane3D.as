@@ -39,6 +39,7 @@
 package org.papervision3d.core.math
 {
 import org.papervision3d.core.geom.renderables.Vertex3D;
+import org.papervision3d.core.math.util.ClassificationUtil;
 
 /**
 * The Plane3D class represents a plane in 3D space.
@@ -47,10 +48,7 @@ import org.papervision3d.core.geom.renderables.Vertex3D;
 */
 public class Plane3D
 {
-	public static const VERTEX_IS_BEHIND:int = 0;
-	public static const VERTEX_IS_INFRONT:int = 1;
-	public static const VERTEX_IS_COINCIDING:int = 2;
-	
+
 	/**
 	* The plane normal (A, B, C).
 	*/
@@ -129,6 +127,7 @@ public class Plane3D
 		var n0 : Number3D = p0 is Number3D ? p0 : new Number3D(p0.x, p0.y, p0.z);
 		var n1 : Number3D = p1 is Number3D ? p1 : new Number3D(p1.x, p1.y, p1.z);
 		var n2 : Number3D = p2 is Number3D ? p2 : new Number3D(p2.x, p2.y, p2.z);
+		
 		plane.setThreePoints(n0, n1, n2);
 		return plane;
 	}
@@ -235,11 +234,11 @@ public class Plane3D
 	 {
 	 	var distance:Number = distance(num);
 		if(distance < 0){
-			return VERTEX_IS_BEHIND;
+			return ClassificationUtil.BACK;
 		}else if(distance > 0){
-			return VERTEX_IS_INFRONT;
+			return ClassificationUtil.FRONT;
 		}
-		return VERTEX_IS_COINCIDING;
+		return ClassificationUtil.COINCIDING;
 	 }
 	
 	/**
