@@ -16,6 +16,7 @@ package org.papervision3d.view
 		public var bitmapData		:BitmapData;
 		
 		protected var _containerBitmap	:Bitmap;
+		protected var _fillBeforeRender:Boolean = true;
 		protected var bgColor			:int;
 		protected var bitmapTransparent:Boolean;
 		
@@ -40,7 +41,9 @@ package org.papervision3d.view
 			}
 			else
 			{
-				bitmapData.fillRect(bitmapData.rect, bgColor);
+				if(_fillBeforeRender){
+					bitmapData.fillRect(bitmapData.rect, bgColor);
+				}
 			}
 
 			var mat:Matrix = new Matrix();
@@ -55,6 +58,16 @@ package org.papervision3d.view
 				viewportWidth = stage.stageWidth;
 				viewportHeight = stage.stageHeight;
 			}
+		}
+		
+		public function set fillBeforeRender(value:Boolean):void
+		{
+			_fillBeforeRender = value;	
+		}
+		
+		public function get fillBeforeRender():Boolean
+		{
+			return _fillBeforeRender;
 		}
 		
 		override public function set autoClipping(clip:Boolean):void
