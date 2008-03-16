@@ -40,6 +40,7 @@ package org.papervision3d.objects
 	import com.blitzagency.xray.logger.XrayLog;
 	
 	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.culling.FrustumTestMethod;
 	import org.papervision3d.core.culling.IObjectCuller;
 	import org.papervision3d.core.data.UserData;
 	import org.papervision3d.core.math.Matrix3D;
@@ -71,7 +72,7 @@ package org.papervision3d.objects
 		/**
 		 * Defines how the object should be frustum-checked.
 		 */
-		 public var frustumTestMethod:int = 0;
+		public var frustumTestMethod:int = FrustumTestMethod.BOUNDING_SPHERE;
 		
 		// ___________________________________________________________________ P O S I T I O N
 		/**
@@ -609,7 +610,7 @@ package org.papervision3d.objects
 	
 			var d2 :Number = dx*dx + dy*dy + dz*dz;
 	
-			var sA :Number = this.geometry? this.geometry.boundingSphere2 : 0;
+			var sA :Number = this.geometry? this.geometry.boundingSphere.maxDistance : 0;
 	
 			return sA > d2;
 		}
@@ -630,8 +631,8 @@ package org.papervision3d.objects
 	
 			var d2 :Number = dx*dx + dy*dy + dz*dz;
 	
-			var sA :Number = this.geometry? this.geometry.boundingSphere2 : 0;
-			var sB :Number = obj.geometry?  obj.geometry.boundingSphere2  : 0;
+			var sA :Number = this.geometry? this.geometry.boundingSphere.maxDistance : 0;
+			var sB :Number = obj.geometry?  obj.geometry.boundingSphere.maxDistance  : 0;
 			
 			sA = sA * multiplier;
 	
