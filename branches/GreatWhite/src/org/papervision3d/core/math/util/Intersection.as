@@ -20,7 +20,7 @@ package org.papervision3d.core.math.util
 			
 		}
 
-		public static function linePlane(pA:Vertex3D, pB:Vertex3D, plane:Plane3D):Intersection
+		public static function linePlane(pA:Vertex3D, pB:Vertex3D, plane:Plane3D, e:Number=0.001):Intersection
 		{
 			var intersection:Intersection = new Intersection();
 			var a:Number = plane.normal.x;
@@ -38,7 +38,7 @@ package org.papervision3d.core.math.util
 			var r1:Number = a*(x1-x2) + b*(y1-y2) + c*(z1-z2);
 			var u:Number = r0 / r1;
 			
-			if( Math.abs(u) < 0.00001 ) {
+			if( Math.abs(u) < e ) {
 				intersection.status = Intersection.PARALLEL;
 			} else if( (u > 0 && u < 1 ) ) {
 				intersection.status = Intersection.INTERSECTION;
