@@ -12,7 +12,7 @@ package org.papervision3d.core.math.util
 		{
 			var side:uint = ClassificationUtil.classifyTriangle(triangle, plane);
 			if(side != ClassificationUtil.STRADDLE){
-				return  [triangle];
+				return null;
 			}
 
 			var points:Array = [triangle.v0, triangle.v1, triangle.v2];
@@ -43,7 +43,7 @@ package org.papervision3d.core.math.util
 					{
 						isect = Intersection.linePlane( pA, pB, plane );
 						if( isect.status != Intersection.INTERSECTION )
-							throw new Error( "no intersection" );
+							return null;
 						
 						triangle.instance.geometry.vertices.push( isect.vert );
 						triA.push( isect.vert );
@@ -62,7 +62,7 @@ package org.papervision3d.core.math.util
 					{
 						isect = Intersection.linePlane( pA, pB, plane );
 						if( isect.status != Intersection.INTERSECTION )
-							throw new Error( "no intersection" );
+							return null;
 						
 						triangle.instance.geometry.vertices.push( isect.vert );
 						

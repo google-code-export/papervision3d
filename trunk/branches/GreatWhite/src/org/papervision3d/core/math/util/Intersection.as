@@ -38,7 +38,7 @@ package org.papervision3d.core.math.util
 			var r1:Number = a*(x1-x2) + b*(y1-y2) + c*(z1-z2);
 			var u:Number = r0 / r1;
 			
-			if( Math.abs(u) < 0 ) {
+			if( Math.abs(u) < 0.00001 ) {
 				intersection.status = Intersection.PARALLEL;
 			} else if( (u > 0 && u < 1 ) ) {
 				intersection.status = Intersection.INTERSECTION;
