@@ -536,6 +536,8 @@ package org.papervision3d.objects
 			this.id = _totalDisplayObjects++;
 			this.name = name || String( this.id );
 	
+			_numClones = 0;
+			
 			if( geometry ) addGeometry( geometry );
 		}
 	
@@ -572,7 +574,32 @@ package org.papervision3d.objects
 			if( geometry )
 				this.geometry = geometry;	
 		}
-	
+		
+		/**
+		 * Clones this object.
+		 * 
+		 * @return	The cloned DisplayObject3D.
+		 */ 
+		public function clone():DisplayObject3D
+		{
+			var name:String = this.name + "_" + (_numClones++);
+			var object:DisplayObject3D = new DisplayObject3D(name);
+
+			object.material = this.material;
+			if(this.materials)
+				object.materials = this.materials.clone();
+				
+			if(this.geometry)
+			{
+				object.geometry = this.geometry.clone(object);
+				object.geometry.ready = true;
+			}
+			
+			object.copyTransform(this.transform);
+			
+			return object;
+		}
+		
 		// ___________________________________________________________________________________________________
 		//                                                                                   C O L L I S I O N
 	
@@ -1124,6 +1151,8 @@ package org.papervision3d.objects
 		private var _scaleZ         :Number;
 		private var _scaleDirty     :Boolean = false;
 	
+		private var _numClones		:uint	= 0;
+		
 		protected var _sorted       :Array;
 		
 		protected var _useOwnContainer:Boolean;

@@ -34,7 +34,7 @@
  */
 
 // ______________________________________________________________________
-//                                               DisplayObjectContainer3D
+//                                                       GeometryObject3D
 
 package org.papervision3d.core.proto
 {
@@ -46,6 +46,7 @@ package org.papervision3d.core.proto
 	import org.papervision3d.core.math.AxisAlignedBoundingBox;
 	import org.papervision3d.core.math.BoundingSphere;
 	import org.papervision3d.core.math.Matrix3D;
+	import org.papervision3d.objects.DisplayObject3D;
 
 	/**
 	* The GeometryObject3D class contains the mesh definition of an object.
@@ -146,5 +147,45 @@ package org.papervision3d.core.proto
 			return _aabb;
 		}
 
+		/**
+		 * Clones this object.
+		 * 
+		 * @param	parent
+		 * 
+		 * @return	The cloned GeometryObject3D.
+		 */ 
+		public function clone(parent:DisplayObject3D = null):GeometryObject3D
+		{
+			var verts:Dictionary = new Dictionary();
+			var geom:GeometryObject3D = new GeometryObject3D();
+			var i:int;
+			
+			geom.vertices = new Array();			
+			geom.faces = new Array();
+
+			// clone vertices
+			for(i = 0; i < this.vertices.length; i++)
+			{
+				var v:Vertex3D = this.vertices[i];
+				verts[ v ] = v.clone();
+				geom.vertices.push(verts[v]);
+			}
+			
+			// clone triangles
+			for(i = 0; i < this.faces.length; i++)
+			{
+				var f:Triangle3D = this.faces[i];
+			
+				var v0:Vertex3D = verts[ f.v0 ];
+				var v1:Vertex3D = verts[ f.v1 ];	
+				var v2:Vertex3D = verts[ f.v2 ];
+				
+				geom.faces.push(new Triangle3D(parent, [v0, v1, v2], f.material, f.uv));
+			}
+			
+			return geom;
+		}
+		
+		private var _numInstances:uint = 0;
 	}
 }
