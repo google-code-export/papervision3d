@@ -10,8 +10,9 @@ package org.papervision3d.core.math.util
 		
 		public static function splitTriangleWithPlane(triangle:Triangle3D, plane:Plane3D, e:Number=0.01 ):Array
 		{
-			var side:uint = ClassificationUtil.classifyTriangle(triangle, plane);
+			var side:uint = ClassificationUtil.classifyTriangle(triangle, plane,e);
 			if(side != ClassificationUtil.STRADDLE){
+				
 				return null;
 			}
 

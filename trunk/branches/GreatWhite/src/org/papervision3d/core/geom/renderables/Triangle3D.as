@@ -186,5 +186,14 @@ package org.papervision3d.core.geom.renderables {
 		{
 			return renderCommand;
 		}
+		
+		public function updateVertices():void
+		{
+			v0 = vertices[0];
+			v1 = vertices[1];
+			v2 = vertices[2];
+		}
+		
+		
 	}
 }
