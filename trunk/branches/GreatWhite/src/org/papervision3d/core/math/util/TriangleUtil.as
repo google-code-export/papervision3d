@@ -8,10 +8,15 @@ package org.papervision3d.core.math.util
 	public class TriangleUtil
 	{
 		
-		public static function splitTriangleWithPlane( triangle:Triangle3D, plane:Plane3D, e:Number=0.01 ):Array
+		public static function splitTriangleWithPlane(triangle:Triangle3D, plane:Plane3D, e:Number=0.01 ):Array
 		{
+			var side:uint = ClassificationUtil.classifyTriangle(triangle, plane);
+			if(side != ClassificationUtil.STRADDLE){
+				return  [triangle];
+			}
+
 			var points:Array = [triangle.v0, triangle.v1, triangle.v2];
-			var uvs:Array = [triangle.uv[0], triangle.uv[1], triangle.uv[2]];
+			var uvs:Array = [triangle.uv0, triangle.uv1, triangle.uv2];
 			var triA:Array = new Array();
 			var triB:Array = new Array();
 			var uvsA:Array = new Array();
@@ -23,6 +28,7 @@ package org.papervision3d.core.math.util
 				
 				var pA:Vertex3D = points[i];
 				var pB:Vertex3D = points[j];
+				
 				var uvA:NumberUV = uvs[i];
 				var uvB:NumberUV = uvs[j];
 				
@@ -42,7 +48,6 @@ package org.papervision3d.core.math.util
 						triangle.instance.geometry.vertices.push( isect.vert );
 						triA.push( isect.vert );
 						triB.push( isect.vert );
-						
 						newUV = InterpolationUtil.interpolateUV(uvA, uvB, isect.alpha);
 						
 						uvsA.push(newUV);
@@ -80,9 +85,12 @@ package org.papervision3d.core.math.util
 					uvsB.push( uvB );
 				}
 			}
+			
+			
 			var tris:Array = new Array();
 			tris.push( new Triangle3D(triangle.instance, [triA[0], triA[1], triA[2]], triangle.material, [uvsA[0], uvsA[1], uvsA[2]]) );
 			tris.push( new Triangle3D(triangle.instance, [triB[0], triB[1], triB[2]], triangle.material, [uvsB[0], uvsB[1], uvsB[2]]) );
+			
 			if( triA.length > 3 )
 				tris.push( new Triangle3D(triangle.instance, [triA[0], triA[2], triA[3]], triangle.material, [uvsA[0], uvsA[2], uvsA[3]]) );
 			else if( triB.length > 3 )
