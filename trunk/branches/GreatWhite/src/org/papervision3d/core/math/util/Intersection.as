@@ -53,6 +53,8 @@ package org.papervision3d.core.math.util
 				pt.y += y1;
 				pt.z += z1;
 				
+				intersection.alpha = u;
+				
 				intersection.vert.x = pt.x;
 				intersection.vert.y = pt.y;
 				intersection.vert.z = pt.z;
