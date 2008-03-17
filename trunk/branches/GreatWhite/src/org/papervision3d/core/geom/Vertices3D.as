@@ -80,6 +80,28 @@ package org.papervision3d.core.geom {
 			this.geometry.vertices = vertices || new Array();
 		}
 
+		/**
+		 * Clones this object.
+		 * 
+		 * @return	The cloned DisplayObject3D.
+		 */ 
+		public override function clone():DisplayObject3D
+		{
+			var object:DisplayObject3D = super.clone();
+			var verts:Vertices3D = new Vertices3D(null, object.name);
+			
+			verts.material = object.material;
+			if(object.materials)
+				verts.materials = object.materials.clone();
+				
+			if(this.geometry)
+				verts.geometry = this.geometry.clone(verts);
+				
+			verts.copyTransform(this.transform);
+			
+			return verts;
+		}
+		
 		// ___________________________________________________________________________________________________
 		//                                                                                   T R A N S F O R M
 		// TTTTTT RRRRR    AA   NN  NN  SSSSS FFFFFF OOOO  RRRRR  MM   MM

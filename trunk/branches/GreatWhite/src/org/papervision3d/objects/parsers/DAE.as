@@ -117,7 +117,7 @@ package org.papervision3d.objects.parsers
 		 * 
 		 * @return	The clone DAE.
 		 */
-		public function clone():DAE
+		public override function clone():DisplayObject3D
 		{
 			var dae:DAE = new DAE();
 			

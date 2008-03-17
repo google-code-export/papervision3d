@@ -92,6 +92,27 @@ package org.papervision3d.core.geom {
 			this.material       = material || MaterialObject3D.DEFAULT;
 		}
 	
+		/**
+		 * Clones this object.
+		 * 
+		 * @return	The cloned DisplayObject3D.
+		 */ 
+		public override function clone():DisplayObject3D
+		{
+			var object:DisplayObject3D = super.clone();
+			var mesh:TriangleMesh3D = new TriangleMesh3D(this.material, [], [], object.name);
+			
+			if(this.materials)
+				mesh.materials = this.materials.clone();
+				
+			if(object.geometry)
+				mesh.geometry = object.geometry.clone(mesh);
+				
+			mesh.copyTransform(this.transform);
+			
+			return mesh;
+		}
+		
 		// ___________________________________________________________________________________________________
 		//                                                                                       P R O J E C T
 		// PPPPP  RRRRR   OOOO      JJ EEEEEE  CCCC  TTTTTT

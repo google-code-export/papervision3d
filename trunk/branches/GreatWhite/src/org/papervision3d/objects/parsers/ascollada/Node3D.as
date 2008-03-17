@@ -106,7 +106,7 @@ package org.papervision3d.objects.parsers.ascollada
 		/**
 		 * Clone.
 		 */ 
-		public function clone():Node3D
+		public override function clone():DisplayObject3D
 		{
 			var node:Node3D = new Node3D(this.name, this.daeID, this.daeSID);
 			node.transform = Matrix3D.clone(this.transform);

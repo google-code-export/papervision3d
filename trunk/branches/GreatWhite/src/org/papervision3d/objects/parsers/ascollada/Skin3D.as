@@ -40,6 +40,7 @@ package org.papervision3d.objects.parsers.ascollada
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
+	import org.papervision3d.objects.DisplayObject3D;
 
 	/**
 	 * @author Tim Knip 
@@ -71,7 +72,7 @@ package org.papervision3d.objects.parsers.ascollada
 		/**
 		 * 
 		 */ 
-		public function clone() : Skin3D
+		public override function clone():DisplayObject3D
 		{
 			var skin : Skin3D = new Skin3D(this.material, [], [], this.name);
 				
