@@ -39,7 +39,6 @@
 package org.papervision3d.core.proto
 {
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.animation.core.AnimationEngine;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
 	
@@ -67,18 +66,6 @@ package org.papervision3d.core.proto
 		* It contains a list of materials in the scene.
 		*/
 		public var materials :MaterialsList;
-		
-		/**
-		 * A boolean flag indicating whether or not to use animation.
-		 */
-		public var animated:Boolean = false;
-	
-		/**
-		 * A reference to the AnimationEngine. Only available if the scene3d is set to animated. @see org.papervision3d.animation.core.AnimationEngine 
-		 */
-		public var animationEngine:AnimationEngine;
-		
-		
 		
 		// ___________________________________________________________________ N E W
 		//

@@ -38,7 +38,6 @@
 
 package org.papervision3d.scenes
 {
-	import org.papervision3d.core.animation.core.AnimationEngine;
 	import org.papervision3d.core.proto.*;
 
 	/**
@@ -58,18 +57,9 @@ package org.papervision3d.scenes
 		
 		/**
 		* The Scene3D class lets you create a scene where all objects are rendered in the same container.
-		*
-		* @param	container	The Sprite that you draw into when rendering.
-		* @param	interactive A boolean value indicating whether this scene is interactive or not.
-		* @param	animated	A boolean value indicating whether this scene is animated or not.
 		*/
-		public function Scene3D(animated:Boolean=false )
+		public function Scene3D()
 		{
-			this.animated = animated;
-			if( animated )
-			{
-				this.animationEngine = AnimationEngine.getInstance();
-			}
 		}
 	}
 }

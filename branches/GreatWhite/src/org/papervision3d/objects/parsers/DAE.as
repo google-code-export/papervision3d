@@ -33,1741 +33,1119 @@
  
 package org.papervision3d.objects.parsers
 {
-	import flash.events.*;
+	import flash.events.Event;
+	import flash.events.TimerEvent;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
+	import flash.utils.Timer;
 	
-	import org.ascollada.ASCollada;
 	import org.ascollada.core.*;
-	import org.ascollada.fx.*;
-	import org.ascollada.io.DaeReader;
-	import org.ascollada.types.*;
-	import org.ascollada.utils.Logger;
-	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.*;
-	import org.papervision3d.core.animation.controllers.*;
-	import org.papervision3d.core.animation.core.*;
-	import org.papervision3d.core.geom.*;
+	import org.ascollada.namespaces.*;
+	import org.papervision3d.core.animation.AnimationChannel3D;
+	import org.papervision3d.core.animation.AnimationKeyFrame3D;
+	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
-	import org.papervision3d.events.*;
+	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.*;
-	import org.papervision3d.materials.shadematerials.*;
-	import org.papervision3d.materials.special.*;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.objects.parsers.ascollada.*;
-
 
 	/**
 	 * @author Tim Knip
-	 */
+	 */ 
 	public class DAE extends DisplayObject3D
-	{		
-		/** Default scale, used when no scale was set. */
-		public static var DEFAULT_SCALE:Number = 100;
+	{
+		use namespace collada;
 		
-		/** Full filename. */
+		/** */
+		public var COLLADA:XML;
+		
+		/** */
 		public var filename:String;
 		
-		/** File title. */
-		public var fileTitle:String;
-		
-		/** Base url. */
-		public var baseUrl:String;
-		
-		/** Path where the textures should be loaded from. */
-		public var texturePath:String;
-		
-		/** ASCollada document. @see org.ascollada.core.DaeDocument */
-		public var document:DaeDocument;
-		
-		/** Does the collada contain animations? */
-		public var hasAnimations:Boolean = false;
-		
-		/** An Array of Skin3D. */
-		public var skins:Array;
-		
-		/** */
-		public var animate:Boolean;
-		
-		/** */
-		public function get yUp() : Boolean { return _yUp; }
-		
 		/**
-		 * 
-		 * @param	asset
-		 * @param	async
-		 * @return
-		 */
-		public function DAE( async:Boolean = false, animate:Boolean = true ):void
+		 * Constructor.
+		 */ 
+		public function DAE()
 		{
 			super();
-			
-			this.animate = animate;
-			
-			_reader = new DaeReader(async);
-			
-			this.name = "DAE_" + this.id;
 		}
 		
 		/**
-		 * Clones this DAE.
+		 * Gets an Array of animated children.
 		 * 
-		 * @return	The clone DAE.
-		 */
-		public override function clone():DisplayObject3D
+		 * @return Array.
+		 */ 
+		public function getAnimatedChildren():Array
 		{
-			var dae:DAE = new DAE();
-			
-			cloneObj( dae, this );
-			
-			dae.skins = new Array();
-			
-			for each(var skin:Skin3D in this.skins)
-			{
-				// verify the skin was cloned OK...
-				var clonedSkin:Skin3D = dae.getChildByName(skin.name) as Skin3D;
-				if(!clonedSkin)
-					throw new Error("Clone error! Could not find the cloned skin...");
-					
-				clonedSkin.joints = new Array();
-				clonedSkin.skeletons = new Array();
-				
-				clonedSkin.addController(new SkinController(clonedSkin, _yUp));
-				
-				dae.skins.push(clonedSkin);
-				
-				clonedSkin.geometry.dirty = true;
-				
-				// verify all joints where cloned OK...
-				for each(var joint:Node3D in skin.joints)
-				{
-					var clonedJoint:Node3D = dae.getChildByName(joint.name) as Node3D;
-					if(!clonedJoint)
-						throw new Error("Clone error! Could not find the cloned joint...");
-					
-					for each(var ctl:AbstractController in joint.controllers)
-					{
-						if(ctl is SimpleController)
-						{
-							var prop:String = SimpleController(ctl).property;
-							var cctl:SimpleController = new SimpleController(clonedJoint, prop);
-							for(var i:int = 0; i < ctl.frames.length; i++)
-							{
-								var frame:AnimationFrame = ctl.frames[i];
-								var m:Matrix3D = frame.values[0] as Matrix3D;
-								
-								var frm:AnimationFrame = new AnimationFrame(frame.frame, frame.duration, [Matrix3D.clone(m)], "");
-								cctl.addFrame(frame);
-							
-							}
-							clonedJoint.addController(cctl);
-						}
-					}
-					
-					clonedSkin.joints.push(clonedJoint);
-				}
-				
-				// verify all skeleton where cloned OK...
-				for each(var skeleton:DisplayObject3D in skin.skeletons)
-				{
-					var clonedSkeleton:DisplayObject3D = dae.getChildByName(skeleton.name);
-					if(!clonedSkeleton)
-						throw new Error("Clone error! Could not find the cloned skeleton...");	
-						
-					clonedSkin.skeletons.push(clonedSkeleton);
-				}
-				
-				
-			}
-			
-			var rootNode:DisplayObject3D = dae.getChildByName("COLLADA_root");
-			if(rootNode)
-				rootNode.scaleX = -rootNode.scaleX;
-				
-			dae.copyTransform(this.transform);
-			
-			return dae;
+			var animatables:Array = new Array();
+			for each(var child:DisplayObject3D in _animatedObjects)
+				animatables.push(child);
+			return animatables;	
 		}
 		
 		/**
-		 * Loads a Collada file from url, xml or bytearray.
+		 * Gets a child by its name.
 		 * 
-		 * @param	asset		Url, XML or ByteArray
-		 * @param	materials	Optional MaterialsList.
-		 */
-		public function load(asset:*, materials:MaterialsList = null ):void
+		 * @param	name	The name of the object to find.
+		 */ 
+		override public function getChildByName(name:String):DisplayObject3D
+		{
+			return findChildByName(name, this);
+		}
+
+		/**
+		 * Gets one of the transforms of a child by COLLADA sid. Used by animation.
+		 * 
+		 * @param	child
+		 * @param	sid
+		 * 
+		 * @return 	The found Matrix3D or null on failure.
+		 */ 
+		public function getTransformBySID(child:DisplayObject3D, sid:String):Matrix3D
+		{
+			var sids:Array = _transformSID[ child ];
+			var transforms:Array = _transformStack[ child ];
+			
+			if(sids && transforms && sids.length == transforms.length)
+			{
+				for(var i:int = 0; i < sids.length; i++)
+				{
+					if(sid == sids[i])
+						return transforms[i];
+				}
+			}
+			return null;
+		}
+		
+		/**
+		 * Gets the transform type of a child by COLLADA sid. Used by animation.
+		 * 
+		 * @param	child
+		 * @param	sid
+		 * 
+		 * @return 	The found Matrix3D or null on failure.
+		 */ 
+		public function getTransformTypeBySID(child:DisplayObject3D, sid:String):Matrix3D
+		{
+			var sids:Array = _transformSID[ child ];
+			var types:Array = _transformTypes[ child ];
+			
+			if(sids && types && sids.length == types.length)
+			{
+				for(var i:int = 0; i < sids.length; i++)
+				{
+					if(sid == sids[i])
+						return types[i];
+				}
+			}
+			return null;
+		}
+		
+		/**
+		 * Gets all transforms for a child. Used by animation.
+		 * 
+		 * @param	child
+		 * 
+		 * @return	An array of Matrix3D. @see org.papervision3d.core.math.Matrix3D
+		 */ 
+		public function getTransforms(child:DisplayObject3D):Array
+		{
+			return _transformStack[child];
+		}
+		
+		/**
+		 * Removes a child.
+		 * 
+		 * @param	child	The child to remove
+		 * 
+		 * @return	The removed child
+		 */ 
+		override public function removeChild(child:DisplayObject3D):DisplayObject3D
+		{
+			var object:DisplayObject3D = getChildByName(child.name);
+			
+			if(object)
+			{
+				var parent:DisplayObject3D = DisplayObject3D(object.parent);
+				if(parent)
+				{
+					var removed:DisplayObject3D = parent.removeChild(object);
+					if(removed)
+						return removed;
+				}
+			}
+			return null;	
+		}
+		
+		/**
+		 * Loads the COLLADA.
+		 * 
+		 * @param	asset The url, an XML object or a ByteArray specifying the COLLADA file.
+		 * @param	materials	An optional materialsList.
+		 */ 
+		public function load(asset:*, materials:MaterialsList = null):void
 		{
 			this.materials = materials || new MaterialsList();
-			this.buildFileInfo(asset);
-			_asset = asset;
+			this.filename = "nofile";
 			
-			if( _asset is ByteArray || _asset is XML )
+			if(asset is XML)
 			{
-				if( !this._reader.hasEventListener(Event.COMPLETE) )
-					this._reader.addEventListener(Event.COMPLETE, buildScene);
-					
-				this._reader.loadDocument(_asset);
+				this.COLLADA = asset as XML;
+				parse();
+			}
+			else if(asset is ByteArray)
+			{
+				this.COLLADA = new XML(ByteArray(asset));
+				parse();
+			}
+			else if(asset is String)
+			{
+				this.loadFile(String(asset));
 			}
 			else
 			{
-				doLoad( String(_asset) );
+				throw new Error("load : unknown asset type!");
 			}
 		}
 		
-		/**
-		 * 
-		 * @param	url
-		 * @return
-		 */
-		protected function doLoad( url:String ):void
+		public function updateChannel(channel:AnimationChannel3D):void
 		{
-			this.filename = url;
-			
-			_reader.addEventListener( Event.COMPLETE, buildScene );
-			_reader.addEventListener( ProgressEvent.PROGRESS, loadProgressHandler );
-			_reader.addEventListener( IOErrorEvent.IO_ERROR, handleIOError,false, 0, true );
-			_reader.read(filename);
+			var target:DisplayObject3D = channel.target;
+		//	var type:String = this.g
 		}
 		
 		/**
-		 * Gets a child by name recursively.
+		 * Recursively finds a child by its name.
 		 * 
 		 * @param	name
-		 * @return
-		 */
-		override public function getChildByName( name:String ):DisplayObject3D
-		{
-			return findChildByName(this, name);
-		}
-		
-		/**
-		 * Replaces a material by its name.
+		 * @param	parent
 		 * 
-		 * @param	material
-		 * @param	name
-		 * @return
-		 */
-		public function replaceMaterialByName( material:MaterialObject3D, name:String ):void
+		 * @return 	The found child.
+		 */ 
+		private function findChildByName(name:String, parent:DisplayObject3D = null):DisplayObject3D
 		{
-			if( !this.materials )
-				return;
+			parent = parent || this;
 			
-			var existingMaterial:MaterialObject3D = this.materials.getMaterialByName(name);
-			if( existingMaterial )
+			if(parent.name == name)
+				return parent;
+				
+			for each(var child:DisplayObject3D in parent.children)	
 			{
-				if( this.material === existingMaterial )
-					this.material = material;
-				existingMaterial = this.materials.removeMaterial(existingMaterial);
-				existingMaterial.unregisterObject(this);
-				
-				material = this.materials.addMaterial(material, name);
-				
-				updateMaterials(this, existingMaterial, material);
+				var obj:DisplayObject3D = findChildByName(name, child);
+				if(obj)
+					return obj;
 			}
+			return null
 		}
 		
 		/**
-		 * Sets the material for a child DisplayObject3D.
+		 * Links a skin to a PV3D object.
 		 * 
-		 * @param child		A child DisplayObject3D of this DAE.
-		 * @param material	The new material for the child.
-		 */
-		public function setChildMaterial( child : DisplayObject3D, material : MaterialObject3D ) : void 
-		{	
-			if( !child ) 
-				return;
+		 * @param	instance	The object to be skinned.
+		 * @param	skin	The COLLADA skin controller.
+		 *
+		private function linkSkin(instance:SkinnedMesh3D, skin:ColladaSkin):void
+		{
+			instance.joints = new Array();
+			instance.skeletons = new Array();
 			
-			child.material = material;
-			if(child.geometry && child.geometry.faces)
+			for(var j:int = 0; j < skin.skeletons.length; j++)
 			{
-				for each( var triangle:Triangle3D in child.geometry.faces )
-					triangle.material = material;
-			}
-		}
-		
-		/**
-		 * Sets the material for a child DisplayObject3D by the child's name.
-		 * 
-		 * @param childName The name of the DisplayObject3D.
-		 * @param material	The new material for the child.
-		 */
-		public function setChildMaterialByName( childName : String, material : MaterialObject3D ) : void 
-		{
-			setChildMaterial(getChildByName(childName), material);
-		}
-		
-		/**vo
-		 * Bakes all transforms of a joint into single matrices.
-		 * 
-		 * @param	joint
-		 * @param	channels
-		 * @return
-		 */
-		private function bakeJointMatrices( joint:Node3D, keys:Array, channels:Array ):Array
-		{
-			var matrices:Array = new Array();
-						
-			for( var i:int = 0; i < keys.length; i++ )
-			{
-				var matrix:Matrix3D = Matrix3D.IDENTITY;
+				var skeletonName:String = skin.skeletons[j];
+				var skeleton:Joint3D = _idToObject[skeletonName] || _sidToObject[skeletonName];
 				
-				for( var j:int = 0; j < joint.transforms.length; j++ )
-				{
-					var transform:DaeTransform = joint.transforms[j];
+				if(!skeleton)
+					throw new Error("Could not find skeleton with name = '" + skeletonName + "'");
 					
-					// check for a key at this time
-					var m:Matrix3D = findChannelMatrix(channels, transform.sid, keys[i]);
-					
-					if( m )
-						matrix = Matrix3D.multiply(matrix, m);
-					else
-						matrix = Matrix3D.multiply(matrix, new Matrix3D(transform.matrix));
-				}
-							
-				matrices.push(matrix);
+				instance.skeletons.push(skeleton);
 			}
+			
+			for(var i:int = 0; i < skin.joints.length; i++)
+			{
+				var name:String = skin.joints[i];
+				
+				var joint:Joint3D = _idToObject[name] || _sidToObject[name];
 
-			return matrices;
-		}
-		
-		/**
-		 * 
-		 * @param	joint
-		 * @return
-		 */
-		private function buildAnimations( node:DisplayObject3D ):void
-		{				
-			var joint:Node3D = node as Node3D;
-			
-			var channels:Array = null;
-			if( joint )
-			{
-				channels = findAnimationChannelsByID(joint.daeSID);
-				if( !channels.length )
-					channels = findAnimationChannelsByID(joint.daeID);
-			}
-
-			if( channels && channels.length )
-			{
-				var keys:Array = buildAnimationKeys(channels);
-				var baked:Boolean = false;
+				if(!joint)
+					throw new Error("Could not find joint with name = '" + name + "'");
+					
+				joint.inverse_bind_matrix = new Matrix3D(skin.inverse_bind_matrices[i]);
+				joint.vertexWeights = skin.getJointVertexWeights(i);
 				
-				for( var i:int = 0; i < channels.length; i++ )
-				{
-					var channel:DaeChannel = channels[i];
-					
-					// fetch the transform this channel is targeting
-					var transform:DaeTransform = findTransformBySID(joint, channel.syntax.targetSID);
+				instance.joints.push(joint);
 				
-					if( !transform )
-					{
-						Papervision3D.log("[WARNING] no transform targeted by channel : " + channel.syntax.targetSID);
-						continue;
-						//throw new Error( "no transform targeted by channel : " + channel.syntax.targetSID );
-					}
-					// build animation matrices (Array) from channel outputs
-					var matrices:Array = transform.buildAnimatedMatrices(channel);
-						
-					// #keys and #matrices *should* be equal
-					if( matrices.length != channel.input.length )
-						continue;
-						//throw new Error( "matrices.length != channel.input.length" );
-
-					channel.output = matrices;		
-					
-					if( channels.length == 1 && transform.type == ASCollada.DAE_MATRIX_ELEMENT )
-					{
-						// dealing with a matrix node, no need to bake!
-						try
-						{
-							buildAnimationController(joint, keys, matrices);
-						}
-						catch( e:Error )
-						{
-							Logger.error( "[ERROR] " + joint.name + "\n" + channel.syntax  );
-						}
-						baked = true;
-						break;
-					}
-				}
-				
-				if( !baked )
-				{
-					// need to bake matrices
-					var ms:Array = bakeJointMatrices(joint, keys, channels);
-					
-					joint.copyTransform(ms[0]);
-					
-					buildAnimationController(joint, keys, ms);
-				}
+				// remove the joints
+				removeChild(joint);
 			}
 			
-			for each( var child:DisplayObject3D in node.children )
-				buildAnimations( child );
+			instance.bind_shape_matrix = new Matrix3D(skin.bind_shape_matrix);
 		}
+		*/
 		
 		/**
-		 * 
-		 * @param	joint
-		 * @param	keys
-		 * @param	matrices
-		 * @return
-		 */
-		private function buildAnimationController( joint:Node3D, keys:Array, matrices:Array ):void
+		 * Link all skins to their object.
+		 */ 
+		private function linkSkins():void
 		{
-			var mats:Array = new Array(matrices.length);
-			
-			var ctl:SimpleController = new SimpleController(joint, SimpleController.TRANSFORM);
-			
-			for(var i:int = 0; i < matrices.length; i++)
-			{
-				var j:int = (i+1) % matrices.length;
-				
-				mats[i] = matrices[i] is Matrix3D ? matrices[i] : new Matrix3D(matrices[i]);
-				
-				var keyframe0:int = AnimationEngine.secondsToFrame(keys[i]);
-				var keyframe1:int = AnimationEngine.secondsToFrame(keys[j]);
-				var duration:uint = j > 0 ? keyframe1 - keyframe0 : 10;
-				
-				var frame:AnimationFrame = new AnimationFrame(keyframe0, duration, [mats[i]]);
-				
-				ctl.addFrame(frame);
-			}
-			
-			joint.addController(ctl);
-		}
-		
-		/**
-		 * 
-		 * @param	channels
-		 * @return
-		 */
-		private function buildAnimationKeys( channels:Array ):Array
-		{
-			var keys:Array = new Array();
-			var tmp:Array = new Array();
-			var obj:Object = new Object();
-			var i:int, j:int;
-			
-			for( i = 0; i < channels.length; i++ )
-			{
-				var channel:DaeChannel = channels[i];
-				for( j = 0; j < channel.input.length; j++ )
-				{
-					if( !(obj[ channel.input[j] ]) )
-					{
-						obj[ channel.input[j] ] = true;
-						tmp.push( {time:channel.input[j]} );
-					}
-				}
-			}
-			
-			tmp.sortOn("time", Array.NUMERIC);
-			
-			for( i = 0; i < tmp.length; i++ )
-				keys.push( tmp[i].time );
-				
-			return keys;
-		}
-		
-		/**
-		 * 
-		 * @return
-		 */
-		private function buildColor( daeColor:Array ):uint
-		{
-			var r:uint = daeColor[0] * 0xff;
-			var g:uint = daeColor[1] * 0xff;
-			var b:uint = daeColor[2] * 0xff;
-			return (r<<16|g<<8|b);
-		}
-		
-		/**
-		 * 
-		 * @param	primitive
-		 * @param	geometry
-		 * @param	instance
-		 * @param	material
-		 * 
-		 * @return
-		 */
-		private function buildFaces( primitive:DaePrimitive, geometry:GeometryObject3D, instance:DisplayObject3D, material:MaterialObject3D = null, voffset:uint = 0 ):void
-		{
-			var i:int, j:int, k:int;
-			
-			material = _materialInstances[primitive.material] || material;
-			
-			material = material || MaterialObject3D.DEFAULT;
-			
-			Papervision3D.log(" => vertex offset : " + voffset);
 			/*
-			if( !instance.materials )
-				instance.materials = new MaterialsList();
-				
-			if( !instance.materials.getMaterialByName(primitive.material) )
+			for each(var object:SkinnedMesh3D in _skinnedObjects)
 			{
-				instance.materials.addMaterial(material, primitive.material);
+				var controllers:Array = _controllers[ object ];
+
+				for each(var controller:ColladaController in controllers)
+				{
+				//	if(controller.skin)
+				//		linkSkin(object, controller.skin);
+				}
 			}
 			*/
-			var texcoords:Array = new Array();
-			
-			// retreive correct texcoord-set for the material.
-			var obj:DaeBindVertexInput = _materialTextureSets[primitive.material] is DaeBindVertexInput ? _materialTextureSets[primitive.material] : null;
-			var setID:int = (obj is DaeBindVertexInput) ? obj.input_set : 0;
-			var texCoordSet:Array = primitive.getTexCoords(setID); 
-			
-			// texture coords
-			for( i = 0; i < texCoordSet.length; i++ ) 
-			{
-				var t:Array = texCoordSet[i];
-				texcoords.push( new NumberUV( t[0], t[1] ) );
-			}
-			
-			var hasUV:Boolean = (texcoords.length == primitive.vertices.length);
-
-			var idx:Array = new Array();
-			var v:Array = new Array();
-			var uv:Array = new Array();
-			
-			switch( primitive.type ) 
-			{
-				// Each line described by the mesh has two vertices. The first line is formed 
-				// from first and second vertices. The second line is formed from the third and fourth 
-				// vertices and so on.
-				case ASCollada.DAE_LINES_ELEMENT:
-					for( i = 0; i < primitive.vertices.length; i += 2 ) 
-					{
-						v[0] = geometry.vertices[ primitive.vertices[i] ];
-						v[1] = geometry.vertices[ primitive.vertices[i+1] ];
-						uv[0] = hasUV ? texcoords[  i  ] : new NumberUV();
-						uv[1] = hasUV ? texcoords[ i+1 ] : new NumberUV();
-						//geometry.faces.push( new Triangle3D(instance, [v[0], v[1], v[1]], material, [uv[0], uv[1], uv[1]]) );
-					}
-					break;
-					
-				// Each line-strip described by the mesh has an arbitrary number of vertices. Each line 
-				// segment within the line-strip is formed from the current vertex and the preceding 
-				// vertex.
-				case ASCollada.DAE_LINESTRIPS_ELEMENT:
-					for( i = 1; i < primitive.vertices.length; i++ ) 
-					{
-						v[0] = geometry.vertices[ primitive.vertices[i-1] ];
-						v[1] = geometry.vertices[ primitive.vertices[i] ];
-						uv[0] = hasUV ? texcoords[i-1] : new NumberUV();
-						uv[1] = hasUV ? texcoords[i] : new NumberUV();
-						//geometry.faces.push( new Triangle3D(instance, [v[0], v[1], v[1]], material, [uv[0], uv[1], uv[1]]) );
-					}
-					break;
-					
-				// simple triangles
-				case ASCollada.DAE_TRIANGLES_ELEMENT:
-					for( i = 0, j = 0; i < primitive.vertices.length; i += 3, j++ ) 
-					{
-						idx[0] = voffset + primitive.vertices[i];
-						idx[1] = voffset + primitive.vertices[i+1];
-						idx[2] = voffset + primitive.vertices[i+2];
-						
-						v[0] = geometry.vertices[ idx[0] ];
-						v[1] = geometry.vertices[ idx[1] ];
-						v[2] = geometry.vertices[ idx[2] ];
-						
-						uv[0] = hasUV ? texcoords[ i+0 ] : new NumberUV();
-						uv[1] = hasUV ? texcoords[ i+1 ] : new NumberUV();
-						uv[2] = hasUV ? texcoords[ i+2 ] : new NumberUV();
-						
-						geometry.faces.push( new Triangle3D(instance, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]) );
-					}
-					break;
-				
-				// Each triangle described by the mesh has three vertices. 
-				// The first triangle is formed from the first, second, and third vertices. 
-				// Each subsequent triangle is formed from the current vertex, reusing the 
-				// first and the previous vertices.
-				case ASCollada.DAE_TRIFANS_ELEMENT:
-					v[0] = geometry.vertices[ primitive.vertices[0] ];
-					v[1] = geometry.vertices[ primitive.vertices[1] ];
-					v[2] = geometry.vertices[ primitive.vertices[2] ];
-					uv[0] = hasUV ? texcoords[0] : new NumberUV();
-					uv[1] = hasUV ? texcoords[1] : new NumberUV();
-					uv[2] = hasUV ? texcoords[2] : new NumberUV();
-					
-					geometry.faces.push( new Triangle3D(instance, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]) );
-					
-					for( i = 3; i < primitive.vertices.length; i++ ) 
-					{
-						v[1] = geometry.vertices[ primitive.vertices[i-1] ];
-						v[2] = geometry.vertices[ primitive.vertices[i] ];
-						uv[1] = hasUV ? texcoords[i-1] : new NumberUV();
-						uv[2] = hasUV ? texcoords[i] : new NumberUV();
-						
-						geometry.faces.push( new Triangle3D(instance, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]) );
-					}
-					break;
-				
-				// Each triangle described by the mesh has three vertices. The first triangle 
-				// is formed from the first, second, and third vertices. Each subsequent triangle 
-				// is formed from the current vertex, reusing the previous two vertices.
-				case ASCollada.DAE_TRISTRIPS_ELEMENT:
-					v[0] = geometry.vertices[ voffset + primitive.vertices[0] ];
-					v[1] = geometry.vertices[ voffset + primitive.vertices[1] ];
-					v[2] = geometry.vertices[ voffset + primitive.vertices[2] ];
-					uv[0] = hasUV ? texcoords[0] : new NumberUV();
-					uv[1] = hasUV ? texcoords[1] : new NumberUV();
-					uv[2] = hasUV ? texcoords[2] : new NumberUV();
-					
-					geometry.faces.push( new Triangle3D(instance, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]) );
-					
-					for( i = 3; i < primitive.vertices.length; i++ ) 
-					{
-						v[0] = geometry.vertices[ voffset + primitive.vertices[i-2] ];
-						v[1] = geometry.vertices[ voffset + primitive.vertices[i-1] ];
-						v[2] = geometry.vertices[ voffset + primitive.vertices[i] ];
-						uv[0] = hasUV ? texcoords[i-2] : new NumberUV();
-						uv[1] = hasUV ? texcoords[i-1] : new NumberUV();
-						uv[2] = hasUV ? texcoords[i] : new NumberUV();
-						
-						geometry.faces.push( new Triangle3D(instance, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]) );
-					}
-					break;
-					
-				// polygon with *no* holes
-				case ASCollada.DAE_POLYLIST_ELEMENT:
-					for( i = 0, k = 0; i < primitive.vcount.length; i++ ) 
-					{
-						var poly:Array = new Array();
-						var uvs:Array = new Array();
-						for( j = 0; j < primitive.vcount[i]; j++ ) 
-						{
-							uvs.push( (hasUV ? texcoords[ k ] : new NumberUV()) );
-							poly.push( geometry.vertices[primitive.vertices[k++]] );
-						}
-						
-						if( !geometry || !geometry.faces || !geometry.vertices )
-							throw new Error( "no geomotry" );
-						if( !instance )
-							throw new Error( "no instance" );
-							
-						v[0] = poly[0];
-						uv[0] = uvs[0];
-						
-						for( j = 1; j < poly.length - 1; j++ )
-						{
-							v[1] = poly[j];
-							v[2] = poly[j+1];
-							uv[1] = uvs[j];
-							uv[2] = uvs[j+1];
-							geometry.faces.push( new Triangle3D( instance, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]) );
-						}
-					}
-					break;
-				
-				// polygon with holes...
-				case ASCollada.DAE_POLYGONS_ELEMENT:
-					break;
-					
-				default:
-					break;
-			}
 		}
 		
 		/**
+		 * Loads the COLLADA XML from file.
 		 * 
-		 * @param	asset
-		 * @return
-		 */
-		private function buildFileInfo( asset:* ):void
+		 * @param	filename
+		 */ 
+		private function loadFile(filename:String):void
 		{
-			this.filename = asset is String ? String(asset) : "./meshes/rawdata_dae";
+			this.filename = filename;	
 			
-			// make sure we've got forward slashes!
-			this.filename = this.filename.split("\\").join("/");
-				
-			if( this.filename.indexOf("/") != -1 )
-			{
-				// dae is located in a sub-directory of the swf.
-				var parts:Array = this.filename.split("/");
-				this.fileTitle = String( parts.pop() );
-				this.baseUrl = parts.join("/");
-			}
-			else
-			{
-				// dae is located in root directory of swf.
-				this.fileTitle = this.filename;
-				this.baseUrl = "";
-			}
-		}
-		
-		/**
-		 * 
-		 * @param	daeId
-		 * @param	instance
-		 * @return
-		 */
-		private function buildGeometry( daeId:String, instance:DisplayObject3D, material:MaterialObject3D = null ):Boolean
-		{
-			var geom:DaeGeometry = document.geometries[ daeId ];
-			
-			if( !geom )
-				return false;
-				
-			if( geom.mesh )
-			{
-				instance.geometry = instance.geometry ? instance.geometry : new GeometryObject3D();
-				
-				var geometry:GeometryObject3D = instance.geometry;
-				
-				geometry.vertices = geometry.vertices || new Array();	
-				geometry.faces = geometry.faces || new Array();
-				
-				var vertexOffset : uint = geometry.vertices.length;
-				
-				geometry.vertices = geometry.vertices.concat(buildVertices(geom.mesh));
-				
-				for( var i:int = 0; i < geom.mesh.primitives.length; i++ )
-				{
-					buildFaces(geom.mesh.primitives[i], geometry, instance, material, vertexOffset);
-				}
-				return true;
-			}
-			else if(geom.spline)
-			{
-				for each(var spline:DaeSpline in geom.splines)
-					instance.addChild(buildSpline(spline));
-			}
-			
-			return false;
+			var loader:URLLoader = new URLLoader();
+			loader.addEventListener(Event.COMPLETE, onFileLoadComplete);
+			loader.load(new URLRequest(this.filename));
 		}
 		
 		/**
 		 *
-		 * @return
-		 */
-		private function buildImagePath( meshFolderPath:String, imgPath:String ):String
+		 * @param	event 
+		 */ 
+		private function loadNextAnimation(event:TimerEvent = null):void
 		{
-			if (texturePath != null)
-				imgPath = texturePath + imgPath.slice( imgPath.lastIndexOf("/") + 1 );
-			
-			var baseParts:Array = meshFolderPath.split("/");
-			var imgParts:Array = imgPath.split("/");
-			
-			while( baseParts[0] == "." )
-				baseParts.shift();
-				
-			while( imgParts[0] == "." )
-				imgParts.shift();
-				
-			while( imgParts[0] == ".." )
+			if(_queuedAnimations.length)
 			{
-				imgParts.shift();
-				baseParts.pop();
+				var cur:uint = _numAnimations - _queuedAnimations.length + 1;
+				var message:String = "Loading animation #" + cur + " of " + _numAnimations + ".";
+				
+				var animation:ColladaAnimation = _queuedAnimations.shift() as ColladaAnimation;
+
+				var animationNode:XML = this.COLLADA..animation.(@id == animation.id)[0];
+				
+				animation.parseAsync(animationNode);
+								
+				for(var i:int = 0; i < animation.channels.length; i++)
+				{
+					var channel:ColladaChannel = animation.channels[i];
+					var target:DisplayObject3D = _idToObject[ channel.targetID ] || _sidToObject[ channel.targetID ];
+					
+					if(!target)
+						throw new Error("Can't find the animated object for channel with id='" + channel.id + "'");
+					
+					if(!_channels[target])
+						_channels[target] = new Array();
+						
+					var matrix:Matrix3D = getTransformBySID(target, channel.transformSID);
+					
+					if(!matrix)
+						throw new Error("Can't find the targeted transform for channel with id='" + channel.id + "'");
+						
+					var pv3dChannel:AnimationChannel3D = new AnimationChannel3D(target, matrix);
+					
+				//	pv3dChannel.targetIndices = channel.transformMembers;
+					
+					for(var j:int = 0; j < channel.input.length; j++)
+					{
+						var keyFrame:AnimationKeyFrame3D = new AnimationKeyFrame3D(channel.input[j], channel.output[j]);
+						
+						if(channel.interpolations && channel.interpolations[j] is String)
+							keyFrame.interpolation = channel.interpolations[j];
+						if(channel.inTangents && channel.inTangents[j] is String)
+							keyFrame.inTangent = channel.inTangents[j];
+						if(channel.outTangents && channel.outTangents[j] is String)
+							keyFrame.outTangent = channel.outTangents[j];
+							
+						pv3dChannel.addKeyFrame(keyFrame);
+					}
+	
+					if(!_animatedObjects[target])
+						_animatedObjects[target] = target;
+				}
+				
+				dispatchEvent(new FileLoadEvent(FileLoadEvent.ANIMATIONS_PROGRESS, this.filename, cur, _numAnimations, message));
 			}
-						
-			var imgUrl:String = baseParts.length > 1 ? baseParts.join("/") : (baseParts.length?baseParts[0]:"");
-						
-			imgUrl = imgUrl != "" ? imgUrl + "/" + imgParts.join("/") : imgParts.join("/");
+			else
+			{
+				var timer:Timer = event.target as Timer;
+				timer.stop();
+				dispatchEvent(new FileLoadEvent(FileLoadEvent.ANIMATIONS_COMPLETE, this.filename));
+			}
+		}
+		
+		/**
+		 * Called when the COLLADA xml was loaded.
+		 */ 
+		private function onFileLoadComplete(event:Event):void
+		{
+			var loader:URLLoader = event.target as URLLoader;
+			this.COLLADA = new XML(loader.data);
+			parse();
+		}
+		
+		/**
+		 * Called when a bitmap material was loaded.
+		 * 
+		 * @param 	event
+		 */
+		private function onMaterialComplete(event:FileLoadEvent):void
+		{
+			var material:MaterialObject3D = event.target as MaterialObject3D;
 			
-			return imgUrl;
+			this.materials.addMaterial(material, _queuedMaterials[event.file]);
+			
+			_loadedBitmaps++;
+			if(_loadedBitmaps == _numBitmaps)
+				parseAfterMaterials();
+		}
+		
+		/**
+		 * Called when a bitmap material failed to load.
+		 * 
+		 * @param 	event
+		 */
+		private function onMaterialError(event:FileLoadEvent):void
+		{
+			this.materials.addMaterial(MaterialObject3D.DEFAULT, _queuedMaterials[event.file]);
+			
+			_loadedBitmaps++;
+			if(_loadedBitmaps == _numBitmaps)
+				parseAfterMaterials();
+		}
+		
+		/**
+		 * Parses the COLLADA XML.
+		 */ 
+		private function parse():void
+		{	
+			parseInstanceMaterials();
+			
+			if(_numBitmaps > 0)
+			{
+				for(var imageUrl:String in _queuedMaterials)
+				{
+					var material:BitmapFileMaterial = new BitmapFileMaterial();
+					material.addEventListener(FileLoadEvent.LOAD_COMPLETE, onMaterialComplete);
+					material.addEventListener(FileLoadEvent.LOAD_ERROR, onMaterialError);
+					material.texture = imageUrl;
+					
+				}
+			}
+			else
+			{
+				parseAfterMaterials();
+			}
+		}
+		
+		/**
+		 * Continues parsing when all materials are available.
+		 */ 
+		private function parseAfterMaterials():void
+		{
+			_queuedAnimations = new Array();
+			_transformStack = new Dictionary();
+			_transformSID = new Dictionary();
+			_transformTypes = new Dictionary();
+			_animatedObjects = new Dictionary();
+			_skinnedObjects = new Dictionary();
+			_idToObject = new Object();
+			_objectToID = new Dictionary();
+			_sidToObject = new Object();
+			_objectToSID = new Dictionary();
+			_controllers = new Dictionary();
+			_channels = new Dictionary();
+			
+			parseLibraryVisualScenes();
+			parseScene();
+			parseAnimations(false);
+
+			_numAnimations = _queuedAnimations.length;
+			
+			linkSkins();
+			
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_COMPLETE, this.filename));	
+
+			var timer:Timer = new Timer(50, _queuedAnimations.length + 1);
+			timer.addEventListener(TimerEvent.TIMER, loadNextAnimation);
+			timer.start();
+		}
+		
+		/**
+		 * Parses all COLLADA animation elements.
+		 * 
+		 * @param	parseData	A Boolean indicating whether to parse all animation data (defaults to false).
+		 */ 
+		private function parseAnimations(parseData:Boolean = false):void
+		{
+			var anims:XMLList = this.COLLADA..animation;
+			for(var j:int = 0; j < anims.length(); j++)
+			{
+				var anim:ColladaAnimation = new ColladaAnimation(anims[j], parseData);
+				_queuedAnimations.push(anim);
+			}
+		}
+		
+		/**
+		 * Parses a COLLADA bind_material element.
+		 * 
+		 * @param	node	The XML node to parse
+		 * 
+		 * @return	The created MaterialObject3D.
+		 */
+		private function parseBindMaterial(node:XML):MaterialObject3D
+		{
+			var material:MaterialObject3D = null;
+			
+			var instances:XMLList = node..instance_material;
+			
+			for(var i:int = 0; i < instances.length(); i++)
+			{
+				var instance:XML = instances[i];
+				var symbol:String = instance.@symbol.toString();
+				material = this.getMaterialByName(symbol);
+				if(material)
+				{
+					return material;
+				}
+			}
+			
+			return material;
+		}
+		
+		/**
+		 * Parses a COLLADA effect element.
+		 * 
+		 * @param	id	The id of the effect.
+		 * @param	materialName	The name for the new material
+		 */
+		private function parseEffect(id:String, materialName:String):void
+		{
+			var effectNode:XML = this.COLLADA..effect.(@id == id)[0];
+			if(!effectNode)
+				throw new Error("Can't find the effect element with id='" + id + "'");
+				
+			var technique:XML = effectNode.profile_COMMON.technique.(@sid == "common")[0];
+			if(!technique)
+				throw new Error("Can't find the technique element for effect with id='" + id + "'");
+				
+			// technique sid="common" should have at least one of these shaders:
+			// <constant>, <lambert>, <phong> or <blinn> 
+			var shaderNode:XML = technique.constant[0];
+			if(!shaderNode)
+			{
+				shaderNode = technique.lambert[0];
+				if(!shaderNode)
+				{
+					shaderNode = technique.phong[0];
+					if(!shaderNode)
+						shaderNode = technique.blinn[0];
+				}
+			}
+			
+			// no shader found, throw!
+			if(!shaderNode)
+				throw new Error("Can't find a shader for effect with id='" + id + "'");
+				
+			// only handle diffuse...
+			var diffuseNode:XML = shaderNode.diffuse[0];
+			if(!diffuseNode)
+				throw new Error("Can't find the diffuse element for effect with id='" + id + "'");
+				
+			var textureNode:XML = diffuseNode.texture[0];
+			if(textureNode)
+			{
+				var texture:String = textureNode.@texture.toString();
+				var texCoord:String = textureNode.@texcoord.toString();
+				
+				var samplerNode:XML = effectNode..newparam.(@sid == texture).sampler2D.source[0];
+				if(!samplerNode)
+					throw new Error("Can't find the sampler2D element for texture '" + texture + "'");
+					
+				var surfaceID:String = samplerNode.text().toString();
+				
+				var surfaceNode:XML = effectNode..newparam.(@sid == surfaceID).surface[0];
+				if(!surfaceNode)
+					throw new Error("Can't find the surface element for texture '" + texture + "'");
+				
+				var init_fromNode:XML = surfaceNode.init_from[0];
+				if(!init_fromNode)
+					throw new Error("Can't find the init_from element for texture '" + texture + "'");
+					
+				var init_from:String = init_fromNode.text().toString();
+				
+				// try to find the image element specified by 'init_from'
+				var imageNode:XML = this.COLLADA.library_images.image.(@id == init_from)[0];
+				if(!imageNode)
+					throw new Error("Can't find the image element for texture '" + texture + "'");
+					
+				var imageUrl:String = imageNode.init_from.text().toString();
+				
+				_numBitmaps++;
+				
+				_queuedMaterials[imageUrl] = materialName;
+			}
+			else
+			{
+				var colorNode:XML = diffuseNode.color[0];
+				if(!colorNode)
+					throw new Error("Can't find a color element on the diffuse element.");
+					
+				var colorValues:Array = ColladaElement.parseStringArray(colorNode);
+				var r:int = int(parseFloat(colorValues[0]) * 0xff);
+				var g:int = int(parseFloat(colorValues[1]) * 0xff);
+				var b:int = int(parseFloat(colorValues[2]) * 0xff);
+				var color:uint = r << 16 | g << 8 | b;
+				
+				this.materials.addMaterial(new ColorMaterial(color), materialName);
+			}
+		}
+		
+		/**
+		 * Parses a COLLADA geometry element.
+		 * 
+		 * @param	node
+		 * @param	instance
+		 */
+		private function parseGeometry(node:XML, instance:DisplayObject3D):void
+		{
+			var children:XMLList = node.children();
+			var num:int = children.length();
+			
+			for(var i:int = 0; i < num; i++)
+			{
+				var child:XML = children[i];
+				
+				switch(String(child.localName()))
+				{
+					case "convex_mesh":
+						break;
+						
+					case "mesh":
+						parseMesh(child, instance);
+						break;
+						
+					case "spline":
+						break;
+					
+					case "extra":
+						break;	
+						
+					default:
+						trace("unknown node: " + String(child.localName()));
+						break;	
+				}
+			}
 		}
 		
 		/**
 		 * 
-		 * @return
-		 */
-		private function buildMaterials():void
+		 */ 
+		private function parseInstanceController(node:XML, instance:DisplayObject3D):void
 		{
-			var symbol2target:Object = document.materialSymbolToTarget;
+			if(String(node.localName()) != "instance_controller")
+				throw new Error("Not a instance_controller element!");
+			
+			var url:String = node.@url.toString().substr(1);
+			
+			var controllerNode:XML = this.COLLADA..controller.(@id == url)[0];
+			if(!controllerNode)
+				throw new Error("Could not find controller with id='" + url + "'");
 				
-			for( var materialId:String in document.materials )
+			var controller:ColladaController = new ColladaController(controllerNode);
+			
+			if(controller.skin)
 			{
-				var mat:DaeMaterial = document.materials[ materialId ];
-				var exists:Boolean = false;
+				var bindMaterialNode:XML = node.bind_material[0];
+				if(bindMaterialNode)
+					instance.material = parseBindMaterial(bindMaterialNode);
+				parseGeometry(this.COLLADA..geometry.(@id == controller.skin.source)[0], instance); 
 				
-				for ( var name:String in this.materials.materialsByName )
+				_skinnedObjects[instance] = instance;
+				
+				controller.skin.skeletons = new Array();
+				var skeletonList:XMLList = node.skeleton;
+				for(var i:int = 0; i < skeletonList.length(); i++)
 				{
-					if( symbol2target[name] == mat.id )
-					{
-						exists = true;
-						break;
-					}
+					var skeletonId:String = skeletonList[i].text().toString();
+					skeletonId = skeletonId.indexOf("#") != -1 ? skeletonId.substr(1) : skeletonId;
+					
+					controller.skin.skeletons.push(skeletonId);
 				}
+			}
+			else if(controller.morph)
+			{
 				
-				if( exists )
+			}
+			else
+				throw new Error("A COLLADA controller needs one of <skin> or <morph> elements!");
+				
+			if(!_controllers[instance])
+				_controllers[instance] = new Array();
+			_controllers[instance].push(controller);
+		}
+		
+		/**
+		 * Parses all COLLADA instance_material elements to prepare for PV3D materials.
+		 */ 
+		private function parseInstanceMaterials():void
+		{
+			_numBitmaps = 0;
+			_loadedBitmaps = 0;
+			_queuedMaterials = new Object();
+			_materialSymbol = new Object();
+			_materialTarget = new Object();
+			
+			var instances:XMLList = this.COLLADA..instance_material;
+			for(var i:int = 0; i < instances.length(); i++)
+			{
+				var instance:XML = instances[i];
+				var symbol:String = instance.@symbol.toString();
+				var target:String = instance.@target.toString().substr(1);
+				
+				var material:MaterialObject3D = this.materials.getMaterialByName(symbol);
+				if(material)
 					continue;
+					
+				_materialTarget[symbol] = target;
+				_materialSymbol[target] = symbol;
+			}
+			
+			for(var materialID:String in _materialSymbol)
+				parseMaterial(materialID, _materialSymbol[materialID]);
+		}
+		
+		/**
+		 * Parses the COLLADA library_visual_scenes element.
+		 */
+		private function parseLibraryVisualScenes():void
+		{
+			var node:XMLList = this.COLLADA.library_visual_scenes.visual_scene;
+			
+			this._visual_scene = new Object();
+			
+			for(var i:int = 0; i < node.length(); i++)
+			{
+				var vscene:ColladaVisualScene = new ColladaVisualScene(node[i]);
 				
-				var effect:DaeEffect = document.effects[ mat.effect ];
+				this._visual_scene[vscene.id] = vscene;
+			}
+		}
+		
+		/**
+		 * Parses a COLLADA material element.
+		 * 
+		 * @param	id
+		 * @param	symbol
+		 */ 
+		private function parseMaterial(id:String, symbol:String):void
+		{
+			var materialNode:XML = this.COLLADA.library_materials.material.(@id == id)[0];
+			if(!materialNode)
+				throw new Error("Can't find material element with id='" + id + "'");
 				
-				var lambert:DaeLambert = effect.color as DaeLambert;
+			var instanceEffectNode:XML = materialNode.instance_effect[0];
+			if(!instanceEffectNode)
+				throw new Error("Can't find instance_effect element for material with id='" + id + "'");
 				
-				if(lambert && lambert.diffuse.texture)
-				{
-					_materialTextureSets[mat.id] = lambert.diffuse.texture.texcoord;
+			var effectUrl:String = instanceEffectNode.@url.toString().substr(1);
+			
+			parseEffect(effectUrl, symbol);
+		}	
+		
+		/**
+		 * Parses a COLLADA mesh element.
+		 * 
+		 * @param	node
+		 * @param	instance
+		 */
+		private function parseMesh(node:XML, instance:DisplayObject3D):void
+		{
+			var children:XMLList = node.children();
+			var num:int = children.length();
+
+			for(var i:int = 0; i < num; i++)
+			{
+				var child:XML = children[i];
+				switch(String(child.localName()))
+				{	
+					case "triangles":
+						parseTriangles(child, instance);
+						break;
+							
+					default:
+						break;	
 				}
+			}
+		}
+		
+		/**
+		 * 
+		 */ 
+		private function buildNode(node:XML, name:String):DisplayObject3D
+		{
+			var controller:XML = node.instance_controller[0];
+			
+			if(controller)
+			{
+				if(String(controller.localName()) != "instance_controller")
+				throw new Error("Not a instance_controller element!");
+			
+				var url:String = controller.@url.toString().substr(1);
 				
-				var material:MaterialObject3D;
-				
-				if( effect && effect.texture_url )
-				{				
-					var img:DaeImage = document.images[effect.texture_url];
-					if( img )
-					{						
-						var path	:String = buildImagePath(this.baseUrl, img.init_from);
-						
-						material = new BitmapFileMaterial( path );
+				var controllerNode:XML = this.COLLADA..controller.(@id == url)[0];
+				if(!controllerNode)
+					throw new Error("Could not find controller with id='" + url + "'");
 					
-					//	material.tiled = true;
-					
-						material.addEventListener( FileLoadEvent.LOAD_COMPLETE, materialCompleteHandler );
-						material.addEventListener( FileLoadEvent.LOAD_ERROR, materialErrorHandler );
-						this.materials.addMaterial(material, mat.id );
-						continue;
-					}
-				}					
+				var ctrl:ColladaController = new ColladaController(controllerNode);
 				
-				if( lambert && lambert.diffuse.color )
+				if(ctrl.skin)
 				{
-					material = new ColorMaterial( buildColor(lambert.diffuse.color)/*, lambert.transparency*/ );
+					return null;
 				}
 				else
 				{
-					material = MaterialObject3D.DEFAULT;
+					return null;
 				}
-				
-				this.materials.addMaterial(material, mat.id );
-			}
-		}
-		
-		/**
-		 * builds material instances from loaded materials.
-		 * 
-		 * @param 	instances	Array of DaeInstanceMaterial. @see org.ascollada.fx.DaeInstanceMaterial
-		 * @return
-		 */
-		private function buildMaterialInstances(instances:Array):MaterialObject3D
-		{
-			var firstMaterial:MaterialObject3D;
-			
-			for each( var instance_material:DaeInstanceMaterial in instances )
-			{
-				var material:MaterialObject3D = this.materials.getMaterialByName(instance_material.symbol);
-					
-				if( !material )
-					material = this.materials.getMaterialByName(instance_material.target);
-				
-				if( !material )
-					continue;
-					
-				_materialInstances[instance_material.symbol] = material;
-				
-				if( !firstMaterial )
-					firstMaterial = material;
-					
-				// setup texcoord-set for the material.
-				if(	_materialTextureSets[instance_material.target] )
-				{
-					var semantic:String = _materialTextureSets[instance_material.target];			
-					var obj:DaeBindVertexInput = instance_material.findBindVertexInput(semantic);	
-					if( obj )
-						_materialTextureSets[instance_material.symbol] = obj;
-				}
-			}
-			
-			return firstMaterial;
-		}
-		
-		/**
-		 * builds a papervision Matrix3D from a node's matrices array. @see org.ascollada.core.DaeNode#transforms
-		 * 
-		 * @param	node
-		 * 
-		 * @return
-		 */
-		private function buildMatrix( node:DaeNode ):Matrix3D 
-		{
-			var matrix:Matrix3D = Matrix3D.IDENTITY;
-			for( var i:int = 0; i < node.transforms.length; i++ ) 
-			{
-				var transform:DaeTransform = node.transforms[i];
-				
-				matrix = Matrix3D.multiply( matrix, new Matrix3D(transform.matrix) );
 			}	
-			return matrix;
-		}
-		
-		/**
-		 * 
-		 * @param	node
-		 * @return
-		 */
-		private function buildMatrixStack( node:DaeNode ):Array
-		{
-			var stack:Array = new Array();
-			for( var i:int = 0; i < node.transforms.length; i++ ) 
+			else if(node.instance_geometry[0])
 			{
-				var transform:DaeTransform = node.transforms[i];				
-				var matrix:Matrix3D = new Matrix3D(transform.matrix);
-				stack.push(matrix);
-			}
-			return stack;
-		}
-		
-		/**
-		 * 
-		 * @param	instance_controller
-		 * @param	instance
-		 * @return
-		 */
-		private function buildMorph( instance_controller:DaeInstanceController, instance:AnimatedMesh3D ):void
-		{
-			var controller:DaeController = document.controllers[instance_controller.url];
-			var morph:DaeMorph = controller.morph;
-		
-			var success:Boolean = buildGeometry(morph.source, instance);
-			
-			if( !success )
-			{
-				Logger.error("[ERROR] could not find geometry for morph!");
-				throw new Error("could not find geometry for morph!");
-			}
-
-			var ctl:MorphController = new MorphController(instance.geometry);
-			
-			var target0:DisplayObject3D = new DisplayObject3D();
-			buildGeometry(morph.source, target0);
-			
-			var frame:uint = 0;
-			var duration:uint = AnimationEngine.NUM_FRAMES / morph.targets.length;
-			
-			// use a copy of the original vertices!
-			ctl.addFrame(new AnimationFrame(frame, duration, target0.geometry.vertices, "start"));
-			
-			frame += duration;
-			
-			for( var i:int = 0; i < morph.targets.length; i++ )
-			{
-				var obj:DisplayObject3D = new DisplayObject3D();
-							
-				var target:String = morph.targets[i];
-				var weight:Number = morph.weights[i];
-				
-				buildGeometry(target, obj);
-				
-				ctl.addFrame(new AnimationFrame(frame, duration, obj.geometry.vertices, target));
-				frame += duration;
-			}
-			
-			instance.addController(ctl);
-			
-			_morphs[ instance ] = true;
-		}
-		
-		/**
-		 * 
-		 * @param	node
-		 * @return
-		 */
-		private function buildNode( node:DaeNode, parent:DisplayObject3D ):void
-		{				
-			var instance_controller :DaeInstanceController = findSkinController(node);
-			var instance_ctl_morph :DaeInstanceController = findMorphController(node);
-			
-			var newNode:DisplayObject3D;
-			var instance:DisplayObject3D;
-			var material:MaterialObject3D;
-						
-			if( instance_controller )
-			{
-				buildMaterialInstances(instance_controller.materials);
-				newNode = buildSkin(instance_controller, material);
-				
-				if( newNode )
-				{
-					flipFaceNormals(newNode.geometry);
-					
-					instance = parent.addChild(newNode);
-				}
-			}
-			else if( instance_ctl_morph ) 
-			{
-				buildMaterialInstances(instance_ctl_morph.materials);
-				
-				newNode = new AnimatedMesh3D(material, new Array(), new Array(), node.id);
-					
-				buildMorph(instance_ctl_morph, newNode as AnimatedMesh3D);
-	
-				flipFaceNormals(newNode.geometry);
-				
-				instance = parent.addChild(newNode);
-			}
-			else if( node.geometries.length )
-			{
-				newNode = new Node3D(node.name, node.id, node.sid);
-
-				for each( var geomInst:DaeInstanceGeometry in node.geometries )
-				{
-					material = buildMaterialInstances(geomInst.materials);
-					buildGeometry(geomInst.url, newNode, material);
-				}
-				
-				if(newNode.geometry && newNode.geometry.vertices && newNode.geometry.faces)
-				{
-					newNode.geometry.ready = true;
-					flipFaceNormals(newNode.geometry);
-				}
-				
-				instance = parent.addChild(newNode);
-				Node3D(instance).matrixStack = buildMatrixStack(node);
-				Node3D(instance).transforms = node.transforms;
-			}
-			else
-			{
-				instance = parent.addChild(new Node3D(node.name, node.id, node.sid));
-				Node3D(instance).matrixStack = buildMatrixStack(node);
-				Node3D(instance).transforms = node.transforms;
-			}
-			
-			for( var j:int = 0; j < node.instance_nodes.length; j++ )
-			{
-				var instance_node:DaeInstanceNode = node.instance_nodes[j];
-				var dae_node:DaeNode = document.getDaeNodeById(instance_node.url);
-				buildNode(dae_node, instance);
-			}
-			
-			for( var i:int = 0; i < node.nodes.length; i++ )
-				buildNode(node.nodes[i], instance);
-				
-			var matrix:Matrix3D = buildMatrix(node);
-						
-			instance.copyTransform( matrix );
-		}
-		
-		/**
-		 * 
-		 * @param	event
-		 * @return
-		 */
-		private function buildScene( event:Event ):void
-		{
-			if( _reader.hasEventListener(Event.COMPLETE) )
-				_reader.removeEventListener(Event.COMPLETE, buildScene);
-				
-			this.document = _reader.document;
-			
-			_yUp = (this.document.asset.yUp == ASCollada.DAE_Y_UP);
-			_materialInstances = new Object();
-			_materialTextureSets = new Object();
-			_skins = new Dictionary();
-			_morphs = new Dictionary();
-			
-			this.skins = new Array();
-			
-			buildMaterials();
-			
-			buildVisualScene();
-			
-			linkSkins(this._rootNode);
-			
-			//if( !_loadScaleSet )
-			//	this.scale = DEFAULT_SCALE;
-			
-			// there may be animations left to parse...
-			if( document.numQueuedAnimations )
-			{
-				hasAnimations = true;
-				_reader.addEventListener( Event.COMPLETE, animationCompleteHandler );
-				_reader.addEventListener( ProgressEvent.PROGRESS, animationProgressHandler );
-				
-				_reader.readAnimations();
-			}
-			else
-			{
-				hasAnimations = false;
-			
-				// done with geometry
-				dispatchEvent(new Event(Event.COMPLETE));
-			}
-		}
-		
-		/**
-		 * 
-		 * @param	instance_controller
-		 * @return
-		 */
-		private function buildSkin( instance_controller:DaeInstanceController, material:MaterialObject3D = null ):TriangleMesh3D
-		{
-			var controller:DaeController = document.controllers[ instance_controller.url ];
-			
-			if( !controller || !controller.skin )
-			{
-				Logger.trace( "[WARNING] no skin controller!" );
 				return null;
 			}
-			
-			var skin:DaeSkin = controller.skin;
-			
-			var obj:Skin3D = new Skin3D(material, new Array(), new Array(), skin.source, (document.yUp == DaeDocument.Y_UP));
-			
-			obj.bindPose = new Matrix3D(skin.bind_shape_matrix);	
-
-			obj.joints = new Array();
-			
-			var success:Boolean = buildGeometry(skin.source, obj);
-				
-			// geometry could reside in a morph controller
-			if( !success && document.controllers[skin.source] )
-			{
-				var morph_controller:DaeController = document.controllers[skin.source];
-				if( morph_controller.morph )
-				{
-					success = buildGeometry(morph_controller.morph.source, obj);
-					
-					if( success )
-					{
-						var ctl:MorphController = new MorphController(obj.geometry);
-						
-						var method:String = morph_controller.morph.method;
-						var duration:int = AnimationEngine.NUM_FRAMES / morph_controller.morph.targets.length;
-						var frame:uint = 0;
-						
-						for( var i:int = 0; i < morph_controller.morph.targets.length; i++ )
-						{
-							var morph:DisplayObject3D = new DisplayObject3D();
-							
-							var target:String = morph_controller.morph.targets[i];
-							var weight:Number = morph_controller.morph.weights[i];
-							
-							var morph_succes:Boolean = buildGeometry(target, morph);
-							
-							if( morph_succes )
-							{
-								ctl.addFrame(new AnimationFrame(frame, duration, morph.geometry.vertices, target));
-								frame += duration;
-								//obj.morph_targets.push( morph.geometry );
-								//obj.morph_weights.push( weight );
-							}
-						}
-						
-						obj.addController(ctl);
-					}
-				}
-			}
-			
-			if( !success )
-			{
-				Logger.error( "[ERROR] could not find geometry for skin!" );
-				throw new Error( "could not find geometry for skin!" );
-			}
-			
-			obj.geometry.ready = true;
-			
-			_skins[ obj ] = instance_controller;
-			
-			this.skins.push(obj);
-			
-			return obj;
-		}
-				
-		/**
-		 * 
-		 * @param	spline
-		 * @return
-		 */
-		private function buildSpline( spline:DaeSpline ):DisplayObject3D
-		{
-			var lines:Lines3D = new Lines3D(new LineMaterial(0xffff00, 0.5));
-					
-			for( var i:int = 0; i < spline.vertices.length; i++ )
-			{
-				var v0:Array = spline.vertices[i];
-				var v1:Array = spline.vertices[(i+1) % spline.vertices.length];
-				lines.addNewLine(0, v0[0], v0[1], v0[2], v1[0], v1[1], v1[2]);
-			}
-			
-			return lines;
-		}
-		
-		/**
-		 * 
-		 * @param	mesh
-		 * @return
-		 */
-		private function buildVertices( mesh:DaeMesh ):Array
-		{
-			var vertices:Array = new Array();
-			
-			for( var i:int = 0; i < mesh.vertices.length; i++ )
-			{
-				var v:Array = mesh.vertices[i];
-				
-				vertices.push(new Vertex3D(v[0], v[1], v[2]));
-			}
-			
-			return vertices;
-		}
-
-		/**
-		 * Builds the visual scene (scenegraph).
-		 */
-		private function buildVisualScene():void
-		{
-			this._rootNode = addChild(new DisplayObject3D("COLLADA_root"));
-			
-			for( var i:int = 0; i < document.vscene.nodes.length; i++ )
-				buildNode(document.vscene.nodes[i], this._rootNode);
-				
-			if(this._yUp)
-			{
-				
-			}
 			else
 			{
-				this._rootNode.rotationX = 90;
-				this._rootNode.rotationY = 180;
+				return null;
 			}
-			
-			this._rootNode.scaleX = -1;
 		}
 		
-		
 		/**
-		 * Clones the source and append the clone to target. Then recurse...
+		 * Parses a COLLADA <node> element.
 		 * 
-		 * @param	target
-		 * @param	source
-		 */
-		private function cloneObj( target:DisplayObject3D, source:DisplayObject3D ):void
+		 * @param	node	The node to parse
+		 * @param	instance
+		 */ 
+		private function parseNode(node:XML, parent:DisplayObject3D = null):void
 		{
-			var o:DisplayObject3D;
+			var id:String = node.@id.toString();
+			var sid:String = node.@sid.toString();
+			var name:String = node.@name.toString();
+			var type:String = node.@type.toString();
 			
-			if( source === _rootNode )
-			{
-				o = new DisplayObject3D(source.name);
-				o.copyTransform( source.transform );
-				target = target.addChild(o);
-			}
-			else if( source is Skin3D )
-			{
-				o = Skin3D(source).clone();	
-				o.copyTransform( source.transform );
-				o.geometry.ready = true;
-				target = target.addChild(o);
-			}
-			else if( source is Node3D )
-			{
-				var n:Node3D = source as Node3D;
-				
-				o = n.clone();
-				o.copyTransform(n.transform);
-				o.geometry = cloneGeometry(o, source.geometry);
-				o.geometry.ready = true;
-				target = target.addChild(o);
-			}
-			else if( source is TriangleMesh3D )
-			{
-				o = new TriangleMesh3D(source.material, new Array(), new Array(), source.name);
-				o.copyTransform( source.transform );
-				o.geometry = cloneGeometry(o, source.geometry);
-				o.geometry.ready = true;
-				target = target.addChild(o);
-			}
-			else if( source is DisplayObject3D )
-			{
-				o = new DisplayObject3D(source.name);
-				o.copyTransform(source.transform);
-				target = target.addChild(o);
-			}
-			
-			for each( var child:DisplayObject3D in source.children )
-			{
-				cloneObj(target, child);
-			}
-		}
-		
-		/**
-		 * Clones a GeometryObject3D an sets up the faces for target.
-		 * 
-		 * @param	target	The target for the cloned faces and vertices.
-		 * @param	source	The source GeometryObject3D.
-		 * 
-		 * @return	GeometryObject3D
-		 */
-		private function cloneGeometry( target:DisplayObject3D, source:GeometryObject3D ):GeometryObject3D
-		{			
-			var geom:GeometryObject3D = new GeometryObject3D();
-			
-			var vertices:Array = source.vertices;
-			var faces:Array = source.faces;
 			var i:int;
-			var newVerts:Dictionary = new Dictionary();
+			var values:Array;
+			var transformStack:Array = new Array();
+			var transformSID:Array = new Array();
+			var transformTypes:Array = new Array();
 			
-			geom.vertices = new Array();
-			geom.faces = new Array();
+			type = type == "JOINT" ? type : "NODE";
 			
-			for( i = 0; i < vertices.length; i++ )
+			var instance:DisplayObject3D = parent.addChild(buildNode(node, name));
+			
+			// loop over children
+			var children:XMLList = node.children();
+			var num:int = children.length();
+			
+			for(i = 0; i < num; i++)
 			{
-				var v:Vertex3D = vertices[i];
-				newVerts[ v ] = v.clone();
-				geom.vertices.push( newVerts[ v ] );
+				var child:XML = children[i];
+				var nodeName:String = String(child.localName());
+				
+				var csid:String = child.@sid.toString();
+				
+				switch(nodeName)
+				{
+					case "asset":
+						break;
+					case "lookat":
+						break;
+					case "matrix":
+						values = ColladaElement.parseStringArray(child);
+						transformStack.push(new Matrix3D(values));
+						transformSID.push(csid);
+						transformTypes.push("matrix");
+						break;
+					case "rotate":
+						values = ColladaElement.parseStringArray(child);
+						transformStack.push(Matrix3D.rotationMatrix(values[0], values[1], values[2], values[3]*(Math.PI/180)));
+						transformSID.push(csid);
+						transformTypes.push("rotate");
+						break;
+					case "scale":
+						values = ColladaElement.parseStringArray(child);
+						transformStack.push(Matrix3D.scaleMatrix(values[0], values[1], values[2]));
+						transformSID.push(csid);
+						transformTypes.push("scale");
+						break;
+					case "skew":
+						break;
+					case "translate":
+						values = ColladaElement.parseStringArray(child);
+						transformStack.push(Matrix3D.translationMatrix(values[0], values[1], values[2]));
+						transformSID.push(csid);
+						transformTypes.push("translate");
+						break;
+					case "instance_camera":
+						break;
+					case "instance_controller":
+						parseInstanceController(child, instance);
+						break;
+					case "instance_geometry":
+						var geomId:String = child.@url.toString().substr(1);
+						var bindMaterialNode:XML = child.bind_material[0];
+						if(bindMaterialNode)
+							instance.material = parseBindMaterial(bindMaterialNode);
+						parseGeometry(this.COLLADA..geometry.(@id == geomId)[0], instance); 
+						break;
+					case "instance_light":
+						break;
+					case "instance_node": // Allows the node to instantiate a hierarchy of other nodes.  0 or more.
+						break;
+					case "node":
+						parseNode(child, instance);
+						break;
+					case "extra":
+						break;
+					default:
+						trace("[WARNING] DAE#parseNode => unknown childnode: " + nodeName);
+						break;
+				}
 			}
 			
-			for( i = 0; i < faces.length; i++ )
+			var matrix:Matrix3D = Matrix3D.IDENTITY;
+			for(i = 0; i < transformStack.length; i++)
+				matrix = Matrix3D.multiply(matrix, transformStack[i]);
+				
+			instance.copyTransform(matrix);
+			if(instance is TriangleMesh3D)
 			{
-				var f:Triangle3D = faces[i];
-				
-				var v0:Vertex3D = newVerts[ f.v0 ];
-				var v1:Vertex3D = newVerts[ f.v1 ];
-				var v2:Vertex3D = newVerts[ f.v2 ];
-				
-				var uv0:NumberUV = f.uv[0].clone();
-				var uv1:NumberUV = f.uv[1].clone();
-				var uv2:NumberUV = f.uv[2].clone();
-				
-				var newTri:Triangle3D = new Triangle3D(target, [v0, v1, v2], f.material, [uv0, uv1, uv2]);
-				
-				geom.faces.push( newTri );
+				TriangleMesh3D(instance).geometry.ready = true;
 			}
 			
-			return geom;
+			// save COLLADA id and sid
+			_objectToID[ instance ] = id;
+			_objectToSID[ instance ] = sid;
+			_idToObject[ id ] = instance;
+			_sidToObject[ sid ] = instance;
+			
+			// save the matrix stack
+			_transformStack[ instance ] = transformStack;
+			
+			// save the SID's for each matrix in the stack
+			_transformSID[ instance ] = transformSID;
+			
+			_transformTypes[ instance ] = transformTypes;
 		}
 		
 		/**
-		 * 
-		 * @param	id
-		 * @return
-		 */
-		private function findAnimationChannelsByID( id:String ):Array
+		 * Parses the COLLADA scene element
+		 */ 
+		private function parseScene():void
 		{
-			var channels:Array = new Array();
+			var sceneList:XMLList = this.COLLADA..instance_visual_scene;
+			if(sceneList == new XMLList())
+				throw new Error("DAE#parseScene: can't find a <instance_visual_scene> element!");
+			
+			var vscene:ColladaVisualScene = this._visual_scene[ sceneList[0].@url.toString().substr(1) ];
+			
+			parseVisualScene(vscene);
+		}
 		
-			try
+		/**
+		 * Parses a visual scene.
+		 *
+		 * @param	vscene	The vscene to parse. @see org.ascollada.core.DaeVisualScene
+		 */  
+		private function parseVisualScene(vscene:ColladaVisualScene):void
+		{
+			var scene:DisplayObject3D = new DisplayObject3D(vscene.id);
+			
+			var children:XMLList = vscene.node.children();
+			var num:int = children.length();
+
+			for(var i:int = 0; i < num; i++)
 			{
-				for each( var animation:DaeAnimation in document.animations )
+				var child:XML = children[i];
+				var nodeName:String = String(child.localName());
+				
+				switch(nodeName)
+				{	
+					case "node":
+						parseNode(child, scene);
+						break;
+					
+					case "extra":
+						break;
+						
+					default:
+						trace("" + nodeName);
+						break;	
+				}
+			}
+
+			this.addChild(scene);
+		}
+		
+		/**
+		 * Parses a COLLADA triangles element.
+		 * 
+		 * @param	node
+		 * @param	instance
+		 * @param	material
+		 */
+		private function parseTriangles(node:XML, instance:DisplayObject3D, material:MaterialObject3D = null):void
+		{
+			instance.geometry = instance.geometry || new GeometryObject3D();
+			instance.geometry.vertices = instance.geometry.vertices || new Array();
+			instance.geometry.faces = instance.geometry.faces || new Array();
+			
+			material = material || instance.material;
+
+			var startVertex:uint = instance.geometry.vertices.length;
+			var uvs:Array = new Array();
+			var normals:Array = new Array();
+			var inputList:XMLList = node..input;
+			var input:ColladaInput;
+			var inputs:Array = new Array();
+			var maxOffset:uint = 0;
+			var i:int, j:int;
+			
+			for(i = 0; i < inputList.length(); i++)
+			{
+				input = new ColladaInput(inputList[i]);
+				
+				inputs.push(input);
+				
+				maxOffset = Math.max(maxOffset, input.offset);
+
+				var sourceList:XMLList = node.parent()..source.(@id == input.source);				
+				if(sourceList == new XMLList())
 				{
-					for each( var channel:DaeChannel in animation.channels )
+					if(input.semantic == "VERTEX")
 					{
-						var target:String = channel.target.split("/").shift() as String;
-						if( target == id )
-							channels.push(channel);
+						input = new ColladaInput(node.parent()..vertices[0].input[0]);
+						input.semantic = "VERTEX";
+					}
+				}
+				
+				sourceList = node.parent()..source.(@id == input.source);
+				
+				var source:ColladaSource = new ColladaSource(sourceList[0]);
+				for(j = 0; j < source.data.length; j++)
+				{
+					var data:Array = source.data[j];
+					 
+					switch(input.semantic)
+					{
+						case "NORMAL":
+							normals.push(new Vertex3D(data[0], data[1], data[2]));
+							break;
+						case "TEXCOORD":
+							uvs.push(new NumberUV(data[0], data[1]));
+							break;
+						case "VERTEX":
+							var v:Vertex3D = new Vertex3D(data[0], data[1], data[2]);
+							instance.geometry.vertices.push(v);
+							break;
+						default:
+							break;
 					}
 				}
 			}
-			catch( e:Error )
+			
+			// build triangles!
+			var pList:XMLList = node..p;
+			
+			for(i = 0; i < pList.length(); i++)
 			{
+				var p:Array = ColladaElement.parseStringArray(pList[i]);
 				
-			}
-			return channels;
-		}
-		
-		/**
-		 * 
-		 * @param	channels
-		 * @param	sid
-		 * @param	time
-		 * @return
-		 */
-		private function findChannelMatrix( channels:Array, sid:String, time:Number = 0 ):Matrix3D
-		{
-			try
-			{
-				for( var i:int = 0; i < channels.length; i++ )
-				{
-					var channel:DaeChannel = channels[i];
-					if( channel.syntax.targetSID == sid )
+				var tri:Array = new Array();
+				var uv:Array = new Array();
+					
+				for(j = 0; j < p.length; j += (maxOffset+1))
+				{	
+					for(var k:int = 0; k < inputs.length; k++)
 					{
-						for( var j:int = 0; j < channel.input.length; j++ )
+						input = inputs[k];
+						var idx:int = parseInt(p[j+input.offset], 10);
+	
+						switch(input.semantic)
 						{
-							var t:Number = channel.input[j];
-													
-							if( t == time )
-								return new Matrix3D(channel.output[j]);
-								
-							if( t > time )
+							case "NORMAL":
+								break;
+							case "TEXCOORD":
+								uv.push(uvs[idx]);
+								break;
+							case "VERTEX":
+								tri.push(instance.geometry.vertices[startVertex+idx]);
+								break;
+							default:
 								break;
 						}
 					}
-				}
-			}
-			catch( e:Error )
-			{
-				Papervision3D.log( "[WARNING] Could not find channel matrix for SID=" + sid );
-			}
-			return null;
-		}
-		
-		/**
-		 * Finds a child by dae-ID or dae-SID.
-		 * 
-		 * @param	node
-		 * @param	daeID
-		 * @param	bySID
-		 * @return
-		 */
-		private function findChildByID(node:DisplayObject3D, daeID:String, bySID:Boolean = false):DisplayObject3D
-		{	
-			if( node is Node3D )
-			{
-				if( bySID && Node3D(node).daeSID == daeID )
-					return node;
-				else if( !bySID && Node3D(node).daeID == daeID )
-					return node;
-			}
-			for each(var child:DisplayObject3D in node.children ) 
-			{
-				var n:DisplayObject3D = findChildByID(child, daeID, bySID);
-				if( n )
-					return n;
-			}
-			
-			return null;			
-		}
-		
-		/**
-		 * Finds a child by name.
-		 * 
-		 * @param	node
-		 * @param	name
-		 * @return
-		 */
-		private function findChildByName(node:DisplayObject3D, name:String):DisplayObject3D
-		{
-			if( node.name == name )
-				return node;
-
-			for each(var child:DisplayObject3D in node.children ) 
-			{
-				var n:DisplayObject3D = findChildByName(child, name);
-				if( n )
-					return n;
-			}
-			
-			return null;
-		}
-		
-		/**
-		 * Finds the top-most Node3D in the scenegraph.
-		 * 
-		 * @param	node The node to start searching.
-		 * 
-		 * @return The found Node3D or null on failure.
-		 */
-		private function findRootNode(node:DisplayObject3D):Node3D
-		{
-			if( node is Node3D )
-				return Node3D(node);
-				
-			for each(var child:DisplayObject3D in node.children ) 
-			{
-				var n:DisplayObject3D = findRootNode(child);
-				if( n is Node3D )
-					return Node3D(n);
-			}
-			
-			return null;
-		}
-		
-		/**
-		 * 
-		 * @param	node
-		 * @param	sid
-		 * @return
-		 */
-		private function findTransformBySID( node:Node3D, sid:String ):DaeTransform
-		{
-			for each( var transform:DaeTransform in node.transforms )
-			{
-				if( transform.sid == sid )
-					return transform;
-			}
-			return null;
-		}
-		
-		/**
-		 * Attempts to find a morph-controller for a node.
-		 * 
-		 * @param	node	The DaeNode. @see org.ascollada.core.DaeNode
-		 * 
-		 * @return The controller found, or null if not found. @see org.ascollada.core.DaeInstanceController
-		 */
-		private function findMorphController( node:DaeNode ):DaeInstanceController
-		{
-			for each( var controller:DaeInstanceController in node.controllers )
-			{
-				var control:DaeController = document.controllers[controller.url];
-				if( control.morph )
-					return controller;
-			}
-			return null;
-		}
-		
-		/**
-		 * Attempts to find a skin-controller for a node.
-		 * 
-		 * @param	node	The DaeNode. @see org.ascollada.core.DaeNode
-		 * 
-		 * @return The controller found, or null if not found. @see org.ascollada.core.DaeInstanceController
-		 */
-		private function findSkinController( node:DaeNode ):DaeInstanceController
-		{
-			for each( var controller:DaeInstanceController in node.controllers )
-			{
-				var control:DaeController = document.controllers[controller.url];
-				if( control.skin )
-					return controller;
-			}
-			return null;
-		}
-			
-		/**
-		 * Flips all face normals of a geometry.
-		 * 
-		 * @param	geometry
-		 */ 
-		private function flipFaceNormals( geometry:GeometryObject3D ):void
-		{
-			if(!geometry || !geometry.faces)
-				return;
-				
-			for each(var triangle:Triangle3D in geometry.faces)
-			{
-				triangle.faceNormal.x = -triangle.faceNormal.x;
-				triangle.faceNormal.y = -triangle.faceNormal.y;
-				triangle.faceNormal.z = -triangle.faceNormal.z;	
-				
-				// recalculate vertex normals
-				triangle.v0.calculateNormal();
-				triangle.v1.calculateNormal();
-				triangle.v2.calculateNormal();
-			}	
-		}
-		
-		/**
-		 * Links a skin to its bones.
-		 * 
-		 * @param	skin	The Skin3D to link.
-		 * @param	instance_controller
-		 * @return
-		 */
-		private function linkSkin(skin:Skin3D, instance_controller:DaeInstanceController):void
-		{
-			var controller:DaeController = document.controllers[ instance_controller.url ];
-			
-			var daeSkin:DaeSkin = controller.skin;
-
-			var found:Object = new Object();
-			
-			skin.joints = new Array();
-			skin.skeletons = new Array();
-
-			// <instance_controller> node can have 0 <skeleton> nodes...
-			// so we simply push the 'top' node ID into the skeletons array.
-			if( !instance_controller.skeletons.length )
-			{
-				var node:Node3D = findRootNode(this);
-				
-				if( node )
-					instance_controller.skeletons.push(node.daeID);
-				else
-					throw new Error( "instance_controller doesn't have a skeleton node, and no _rootNode could be found!" );
-			}
-			
-			// the skeletons array contains the ID of nodes to start searching for our bones.
-			for(var i:int = 0; i < instance_controller.skeletons.length; i++ )
-			{				
-				var skeletonId:String = instance_controller.skeletons[i];
-				var skeletonNode:DisplayObject3D;
-				
-				// there should be a DO3D in our scenegraph
-				skeletonNode = findChildByID(this, skeletonId);
-				if( !skeletonNode )
-				{
-					Papervision3D.log( "[ERROR] could not find skeleton: " + skeletonId );
-					throw new Error( "could not find skeleton: " + skeletonId);
-				}		
-				
-				// save a reference of the skeleton to Skin3D
-				skin.skeletons.push(skeletonNode);
-
-				// loop over all bones for this skin
-				for( var j:int = 0; j < daeSkin.joints.length; j++ )
-				{
-					var jointId:String = daeSkin.joints[j];
 					
-					// make sure we don't add this bone twice
-					if( found[jointId] )
-						continue;
+					if(tri.length == 3)
+					{
+						if(uv.length < 3)
+							uv = [new NumberUV(), new NumberUV(), new NumberUV()];
+
+						instance.geometry.faces.push(new Triangle3D(instance, tri, material, uv));	
 						
-					// the bone *should* be a child of the skeleton
-					var joint:Node3D = findChildByID(skeletonNode, jointId) as Node3D;
-					if( !joint )
-						joint = findChildByID(skeletonNode, jointId, true) as Node3D;
-					if( !joint )
-						joint = findChildByID(this, jointId, true) as Node3D;
-					if( !joint )
-					{
-						Papervision3D.log( "[ERROR] could not find joint: " + jointId + " " + skeletonId);
-						throw new Error( "could not find joint: " + jointId + " " + skeletonId);
+						tri = new Array();
+						uv = new Array();
 					}
-					
-					// the bone *should* have a bindmatrix
-					var bindMatrix:Array = daeSkin.findJointBindMatrix2(jointId);
-					if( !bindMatrix )
-					{
-						Papervision3D.log( "[ERROR] could not find bindmatrix for joint: " + jointId);
-						throw new Error( "could not find bindmatrix for joint: " + jointId );
-					}	
-					joint.bindMatrix = new Matrix3D(bindMatrix);
-					
-					// the bone *should* have vertex weights
-					joint.blendVerts = daeSkin.findJointVertexWeightsByIDOrSID(jointId);
-					if( !joint.blendVerts )
-					{
-						Papervision3D.log( "[ERROR] could not find influences for joint: " + jointId );
-						throw new Error( "could not find influences for joint: " + jointId );
-					}	
-					
-					skin.joints.push(joint);
-					
-					found[jointId] = joint;
 				}
 			}
-			
-			var ctl:SkinController = new SkinController(skin, _yUp);
-			
-			skin.addController(ctl);
 		}
-		
-		/**
-		 * Links all skins with its bones etc.
-		 * 
-		 * @param	do3d
-		 * @return
-		 */
-		private function linkSkins( do3d:DisplayObject3D ):void
-		{
-			if( _skins[ do3d ] is DaeInstanceController && do3d is Skin3D )
-				linkSkin(do3d as Skin3D, _skins[do3d]);
-				
-			for each( var child:DisplayObject3D in do3d.children )
-				linkSkins(child);
-		}
-				
-		/**
-		 * 
-		 * @param	do3d
-		 * @param	existingMaterial
-		 * @param	newMaterial
-		 * @return
-		 */
-		private function updateMaterials( do3d:DisplayObject3D, existingMaterial:MaterialObject3D, newMaterial:MaterialObject3D ):void
-		{
-			existingMaterial.unregisterObject(do3d);
-			
-			if( do3d.material === existingMaterial )
-				do3d.material = newMaterial;
-					
-			if( do3d.geometry && do3d.geometry.faces && do3d.geometry.faces.length )
-			{
-				for each( var triangle:Triangle3D in do3d.geometry.faces )
-				{
-					if( triangle.material === existingMaterial )
-						triangle.material = newMaterial;
-				}
-			}
-			
-			for each( var child:DisplayObject3D in do3d.children )
-				updateMaterials( child, existingMaterial, newMaterial );
-		}
-		
-		/**
-		 * 
-		 * @param	event
-		 * @return
-		 */
-		private function animationCompleteHandler( event:Event ):void
-		{
-			if(this.animate)
-				buildAnimations(this);
-			dispatchEvent(event);
-		}
-		
-		/**
-		 * Fired when an animation was loaded.
-		 * 
-		 * @param	event
-		 */
-		private function animationProgressHandler( event:ProgressEvent ):void
-		{
-			dispatchEvent(event);
-		}
-		
-		/**
-		 * Fired on collada file load progress.
-		 * 
-		 * @param	event
-		 */
-		private function loadProgressHandler( event:ProgressEvent ):void
-		{
-			dispatchEvent(event);
-		}
-		
-		/**
-		 * Fired when a material was succesfully loaded.
-		 * 
-		 * @param	event
-		 */
-		private function materialCompleteHandler( event:FileLoadEvent ):void
-		{
-			dispatchEvent(event);
-		}
-		
-		/**
-		 * Fired when an IOErrorEvent occured.
-		 * 
-		 * @param	event
-		 */
-		private function handleIOError( event:IOErrorEvent ):void
-		{
-			dispatchEvent(event);
-		}
-		
-		/**
-		 * Fired when a material failed to load.
-		 * 
-		 * @param	event
-		 */
-		private function materialErrorHandler( event:FileLoadEvent ):void
-		{
-			Logger.error( "[ERROR] a texture failed to load: " + event.file );
-			dispatchEvent( event );
-		}
-		
-		/** Parses the Collada file. @see org.ascollada.io.DaeReader. */
-		private var _reader:DaeReader;
-		
-		/** Morphs. */
-		private var _morphs:Dictionary;
-		
-		/** Skins. */
-		private var _skins:Dictionary;
+
+		private var _scenes:Object;
+		private var _visual_scene:Object;
+		private var _materialSymbol:Object;
+		private var _materialTarget:Object;
+		private var _numBitmaps:uint;
+		private var _loadedBitmaps:uint;
+		private var _queuedMaterials:Object;
+		private var _animatedObjects:Dictionary;
+		private var _queuedAnimations:Array;
+		private var _numAnimations:uint;
+		private var _skinnedObjects:Dictionary;
 		
 		/** */
-		private var _materialInstances:Object;
+		private var _channels:Dictionary;
 		
 		/** */
-		private var _materialTextureSets:Object;
+		private var _controllers:Dictionary;
 		
-		/** Boolean indicating the Collada file's UP-axis is Y-up or not. */
-		private var _yUp:Boolean;
+		/** ID to object. */
+		private var _idToObject:Object;
 		
-		/** The asset passed to load. @see #load */
-		private var _asset:*;
+		/** Object to ID */
+		private var _objectToID:Dictionary;
 		
-		/** */
-		private var _rootNode:DisplayObject3D;
+		/** SID to object. */
+		private var _sidToObject:Object;
 		
-		/** Boolean indicating the DAE's scale was set before load. */
-		private var _loadScaleSet:Boolean = false;
+		/** Object to SID */
+		private var _objectToSID:Dictionary;
+		
+		/** Stack of matrices for each child. Used by animations. */
+		private var _transformStack:Dictionary;
+		
+		/** SID of each matrix in the stack. Used by animation. */
+		private var _transformSID:Dictionary;
+		
+		/** Type of transform for each matrix in the stack. Used by animation. */
+		private var _transformTypes:Dictionary;
 	}
 }

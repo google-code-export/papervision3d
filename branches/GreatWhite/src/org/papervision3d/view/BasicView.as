@@ -16,7 +16,7 @@ package org.papervision3d.view
 		{
 			super();
 			
-			scene = new Scene3D(false);
+			scene = new Scene3D();
 			viewport = new Viewport3D(viewportWidth, viewportHeight, scaleToStage, interactive);
 			addChild(viewport);
 			renderer = new BasicRenderEngine();
