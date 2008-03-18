@@ -536,7 +536,7 @@ package org.papervision3d.objects.parsers
 			if(!effectNode)
 				throw new Error("Can't find the effect element with id='" + id + "'");
 				
-			var technique:XML = effectNode.profile_COMMON.technique.(@sid == "common")[0];
+			var technique:XML = effectNode..technique[0];
 			if(!technique)
 				throw new Error("Can't find the technique element for effect with id='" + id + "'");
 				
@@ -821,11 +821,11 @@ package org.papervision3d.objects.parsers
 			}	
 			else if(node.instance_geometry[0])
 			{
-				return null;
+				return new TriangleMesh3D(null, [], [], name);
 			}
 			else
 			{
-				return null;
+				return new DisplayObject3D(name);
 			}
 		}
 		

@@ -39,17 +39,15 @@ package org.papervision3d.objects.parsers {
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.utils.*;
-
+	
 	import nochump.util.zip.*;
-
+	
 	import org.ascollada.namespaces.*;
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.*;
+	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.materials.utils.*;
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.objects.parsers.DAE;
 	
 	/**
 	 * @author Tim Knip
@@ -175,7 +173,7 @@ package org.papervision3d.objects.parsers {
 			
 			if(_loadedTextures == _totalTextures) {
 				this.dae = new DAE();
-				this.dae.addEventListener(Event.COMPLETE, onColladaComplete);
+				this.dae.addEventListener(FileLoadEvent.LOAD_COMPLETE, onColladaComplete);
 				this.dae.load(_loadedDAE, this.materials);
 			}
 		}

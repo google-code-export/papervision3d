@@ -41,10 +41,7 @@ package org.papervision3d.objects.parsers {
 	import flash.utils.Endian;
 	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.animation.controllers.MorphController;
-	import org.papervision3d.core.animation.core.AnimationEngine;
-	import org.papervision3d.core.animation.core.AnimationFrame;
-	import org.papervision3d.core.geom.AnimatedMesh3D;
+	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.MaterialObject3D;	
@@ -57,7 +54,7 @@ package org.papervision3d.objects.parsers {
 	 * @website www.d3s.net
 	 * @version 04.11.07:11:56
 	 */
-	public class MD2 extends AnimatedMesh3D
+	public class MD2 extends TriangleMesh3D
 	{
 		/**
 		 * Variables used in the loading of the file
@@ -99,7 +96,7 @@ package org.papervision3d.objects.parsers {
 		public function load(asset:*, material:MaterialObject3D = null, fps:int = 6, scale:Number = 1):void
 		{
 			this.loadScale = scale;
-			this.fps = Math.min(fps, 1000/AnimationEngine.TICK);
+			this.fps = fps;
 			this.visible = false;
 			this.material = material || MaterialObject3D.DEFAULT;
 			
@@ -202,19 +199,13 @@ package org.papervision3d.objects.parsers {
 		{
 			var sx:Number, sy:Number, sz:Number;
 			var tx:Number, ty:Number, tz:Number;
-			var verts:Array, frame:AnimationFrame;
+			var verts:Array
 			var i:int, j:int, char:int;
-			
-			var engineFPS:Number = 1000 / AnimationEngine.TICK;
-			var duration:uint = Math.floor(engineFPS / this.fps);
-			
-			var controller:MorphController = new MorphController( this.geometry );
+
 			var t:uint = 0;
 			
-			for (i = 0; i < num_frames; i++, t += duration)
+			for (i = 0; i < num_frames; i++)
 			{				
-				frame = new AnimationFrame(t, duration);
-				
 				sx = data.readFloat();
 				sy = data.readFloat();
 				sz = data.readFloat();
@@ -223,9 +214,11 @@ package org.papervision3d.objects.parsers {
 				ty = data.readFloat();
 				tz = data.readFloat();
 				
+				var frameName:String = "";
+				
 				for (j = 0; j < 16; j++)
 					if ((char = data.readUnsignedByte()) != 0)
-						frame.name += String.fromCharCode(char);
+						frameName += String.fromCharCode(char);
 				
 				// Note, the extra data.position++ in the for loop is there 
 				// to skip over a byte that holds the "vertex normal index"
@@ -242,14 +235,8 @@ package org.papervision3d.objects.parsers {
 						this.geometry.vertices[j].y = v.y;
 						this.geometry.vertices[j].z = v.z;
 					}
-					
-					frame.values.push(v);
 				}
-				
-				controller.addFrame( frame );
 			}
-						
-			this.addController(controller);
 		}
 		
 		/**
