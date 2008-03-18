@@ -52,15 +52,19 @@ package org.papervision3d.core.animation
 		/** */
 		public var maxTime:Number;
 		
+		/** */
+		public var interpolate:Boolean;
+		
 		/**
 		 * Constructor.
 		 * 
 		 * @param	target
 		 */ 
-		public function Animation3D(target:DisplayObject3D)
+		public function Animation3D(target:DisplayObject3D, interpolate:Boolean = true)
 		{
 			this.target = target;
 			this.minTime = this.maxTime = 0;
+			this.interpolate = interpolate;
 			
 			_channels = new Array();
 			
@@ -95,6 +99,8 @@ package org.papervision3d.core.animation
 			if(!_channels.length)
 				return;
 			
+			var toRadians:Number = (Math.PI/180);
+			
 			for each(var channel:AnimationChannel3D in _channels)
 			{
 				var target:Joint3D = channel.target as Joint3D;
@@ -110,11 +116,62 @@ package org.papervision3d.core.animation
 				// the channel's current keyframe
 				var cur:AnimationKeyFrame3D = keyframes[channel.current];
 
-				// build matrix (this can be more efficient if AnimationKeyFrame3D#output is of type Matrix3D)
-				var matrix:Matrix3D = new Matrix3D(cur.output);
+				// get the output array
+				var output:Array = cur.output.concat();
 				
-				// update the object's transform
-				target.updateTransformByID(matrix, channel.transformID);
+				if(!output || !output.length)
+					continue;
+					
+				if(interpolate)
+				{
+					var next:AnimationKeyFrame3D = keyframes[channel.current+1];
+					var noutput:Array = next.output;
+					
+					var t:Number = time % channel.maxTime;
+					
+					var elapsed:Number = t > cur.time ? t - cur.time : 0;
+					var total:Number = next.time - cur.time;
+					var change:Number = elapsed/total;
+					
+					for(var i:int = 0; i < output.length; i++)
+					{
+						output[i] = output[i] + (change * (noutput[i] - output[i]));
+					}
+				}
+				
+				if(channel.type == AnimationChannel3D.TYPE_SINGLE_PROPERTY)
+				{
+					
+				}
+				else if(channel.type == AnimationChannel3D.TYPE_MORPH)
+				{
+					
+				}
+				else
+				{
+					// build matrix (this can be more efficient if AnimationKeyFrame3D#output is of type Matrix3D)
+					var matrix:Matrix3D = null;
+		
+					switch(channel.type)
+					{
+						case AnimationChannel3D.TYPE_ROTATE:
+							matrix = Matrix3D.rotationMatrix(output[0], output[1], output[2], output[3] * toRadians);
+							break;
+						case AnimationChannel3D.TYPE_SCALE:
+							matrix = Matrix3D.scaleMatrix(output[0], output[1], output[2]);
+							break;
+						case AnimationChannel3D.TYPE_TRANSLATE:
+							matrix = Matrix3D.translationMatrix(output[0], output[1], output[2]);
+							break;
+						case AnimationChannel3D.TYPE_MATRIX:
+						default:
+							matrix = new Matrix3D(output);
+							break;
+					}
+									
+					// update the object's transform
+					target.updateTransformByID(matrix, channel.transformID);
+				}
 			}
 		}
 		
