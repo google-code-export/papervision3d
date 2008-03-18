@@ -42,6 +42,9 @@ package org.papervision3d.core.animation
 		public static const INTERPOLATION_BEZIER:String = "BEZIER";
 		
 		/** */
+		public var name:String;
+		
+		/** */
 		public var time:Number;
 		
 		/** */
@@ -59,14 +62,16 @@ package org.papervision3d.core.animation
 		/**
 		 * Constructor.
 		 * 
+		 * @param 	name
 		 * @param	time
 		 * @param	output
 		 * @param	interpolation
 		 * @param	inTangent
 		 * @param	outTangent
 		 */ 
-		public function AnimationKeyFrame3D(time:Number, output:Array = null, interpolation:String = null, inTangent:Array = null, outTangent:Array = null)
+		public function AnimationKeyFrame3D(name:String, time:Number, output:Array = null, interpolation:String = null, inTangent:Array = null, outTangent:Array = null)
 		{
+			this.name = name;
 			this.time = time;
 			this.output = output || new Array();
 			this.interpolation = interpolation || INTERPOLATION_LINEAR;

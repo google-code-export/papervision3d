@@ -45,6 +45,8 @@ package org.papervision3d.objects.parsers
 	import org.ascollada.namespaces.*;
 	import org.papervision3d.core.animation.AnimationChannel3D;
 	import org.papervision3d.core.animation.AnimationKeyFrame3D;
+	import org.papervision3d.core.geom.Joint3D;
+	import org.papervision3d.core.geom.SkinnedMesh3D;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.*;
@@ -83,7 +85,7 @@ package org.papervision3d.objects.parsers
 		public function getAnimatedChildren():Array
 		{
 			var animatables:Array = new Array();
-			for each(var child:DisplayObject3D in _animatedObjects)
+			for each(var child:Joint3D in _animatedObjects)
 				animatables.push(child);
 			return animatables;	
 		}
@@ -96,66 +98,6 @@ package org.papervision3d.objects.parsers
 		override public function getChildByName(name:String):DisplayObject3D
 		{
 			return findChildByName(name, this);
-		}
-
-		/**
-		 * Gets one of the transforms of a child by COLLADA sid. Used by animation.
-		 * 
-		 * @param	child
-		 * @param	sid
-		 * 
-		 * @return 	The found Matrix3D or null on failure.
-		 */ 
-		public function getTransformBySID(child:DisplayObject3D, sid:String):Matrix3D
-		{
-			var sids:Array = _transformSID[ child ];
-			var transforms:Array = _transformStack[ child ];
-			
-			if(sids && transforms && sids.length == transforms.length)
-			{
-				for(var i:int = 0; i < sids.length; i++)
-				{
-					if(sid == sids[i])
-						return transforms[i];
-				}
-			}
-			return null;
-		}
-		
-		/**
-		 * Gets the transform type of a child by COLLADA sid. Used by animation.
-		 * 
-		 * @param	child
-		 * @param	sid
-		 * 
-		 * @return 	The found Matrix3D or null on failure.
-		 */ 
-		public function getTransformTypeBySID(child:DisplayObject3D, sid:String):Matrix3D
-		{
-			var sids:Array = _transformSID[ child ];
-			var types:Array = _transformTypes[ child ];
-			
-			if(sids && types && sids.length == types.length)
-			{
-				for(var i:int = 0; i < sids.length; i++)
-				{
-					if(sid == sids[i])
-						return types[i];
-				}
-			}
-			return null;
-		}
-		
-		/**
-		 * Gets all transforms for a child. Used by animation.
-		 * 
-		 * @param	child
-		 * 
-		 * @return	An array of Matrix3D. @see org.papervision3d.core.math.Matrix3D
-		 */ 
-		public function getTransforms(child:DisplayObject3D):Array
-		{
-			return _transformStack[child];
 		}
 		
 		/**
@@ -213,12 +155,6 @@ package org.papervision3d.objects.parsers
 			}
 		}
 		
-		public function updateChannel(channel:AnimationChannel3D):void
-		{
-			var target:DisplayObject3D = channel.target;
-		//	var type:String = this.g
-		}
-		
 		/**
 		 * Recursively finds a child by its name.
 		 * 
@@ -248,7 +184,7 @@ package org.papervision3d.objects.parsers
 		 * 
 		 * @param	instance	The object to be skinned.
 		 * @param	skin	The COLLADA skin controller.
-		 *
+		 */
 		private function linkSkin(instance:SkinnedMesh3D, skin:ColladaSkin):void
 		{
 			instance.joints = new Array();
@@ -274,7 +210,7 @@ package org.papervision3d.objects.parsers
 				if(!joint)
 					throw new Error("Could not find joint with name = '" + name + "'");
 					
-				joint.inverse_bind_matrix = new Matrix3D(skin.inverse_bind_matrices[i]);
+				joint.inverseBindMatrix = new Matrix3D(skin.inverse_bind_matrices[i]);
 				joint.vertexWeights = skin.getJointVertexWeights(i);
 				
 				instance.joints.push(joint);
@@ -283,27 +219,24 @@ package org.papervision3d.objects.parsers
 				removeChild(joint);
 			}
 			
-			instance.bind_shape_matrix = new Matrix3D(skin.bind_shape_matrix);
+			instance.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
 		}
-		*/
 		
 		/**
 		 * Link all skins to their object.
 		 */ 
 		private function linkSkins():void
 		{
-			/*
 			for each(var object:SkinnedMesh3D in _skinnedObjects)
 			{
 				var controllers:Array = _controllers[ object ];
 
 				for each(var controller:ColladaController in controllers)
 				{
-				//	if(controller.skin)
-				//		linkSkin(object, controller.skin);
+					if(controller.skin)
+						linkSkin(object, controller.skin);
 				}
 			}
-			*/
 		}
 		
 		/**
@@ -340,26 +273,31 @@ package org.papervision3d.objects.parsers
 				for(var i:int = 0; i < animation.channels.length; i++)
 				{
 					var channel:ColladaChannel = animation.channels[i];
-					var target:DisplayObject3D = _idToObject[ channel.targetID ] || _sidToObject[ channel.targetID ];
+					var target:Joint3D = _idToObject[ channel.targetID ] || _sidToObject[ channel.targetID ];
 					
 					if(!target)
 						throw new Error("Can't find the animated object for channel with id='" + channel.id + "'");
-					
-					if(!_channels[target])
-						_channels[target] = new Array();
 						
-					var matrix:Matrix3D = getTransformBySID(target, channel.transformSID);
-					
+					var matrix:Matrix3D = target.getTransformByID(channel.transformSID);
+									
 					if(!matrix)
 						throw new Error("Can't find the targeted transform for channel with id='" + channel.id + "'");
-						
-					var pv3dChannel:AnimationChannel3D = new AnimationChannel3D(target, matrix);
 					
+					var type:String = target.getTransformTypeByID(channel.transformSID);
+					if(!type)
+						throw new Error("Can't find the targeted transform's type!");
+
+					var pv3dChannel:AnimationChannel3D = new AnimationChannel3D(target, matrix, type, channel.transformSID);
+					
+					if(channel.transformMembers.length)
+						continue;
+				
 				//	pv3dChannel.targetIndices = channel.transformMembers;
+				//	trace(type);
 					
 					for(var j:int = 0; j < channel.input.length; j++)
 					{
-						var keyFrame:AnimationKeyFrame3D = new AnimationKeyFrame3D(channel.input[j], channel.output[j]);
+						var keyFrame:AnimationKeyFrame3D = new AnimationKeyFrame3D(type, channel.input[j], channel.output[j]);
 						
 						if(channel.interpolations && channel.interpolations[j] is String)
 							keyFrame.interpolation = channel.interpolations[j];
@@ -371,6 +309,8 @@ package org.papervision3d.objects.parsers
 						pv3dChannel.addKeyFrame(keyFrame);
 					}
 	
+					target.channels.push(pv3dChannel);
+					
 					if(!_animatedObjects[target])
 						_animatedObjects[target] = target;
 				}
@@ -455,9 +395,6 @@ package org.papervision3d.objects.parsers
 		private function parseAfterMaterials():void
 		{
 			_queuedAnimations = new Array();
-			_transformStack = new Dictionary();
-			_transformSID = new Dictionary();
-			_transformTypes = new Dictionary();
 			_animatedObjects = new Dictionary();
 			_skinnedObjects = new Dictionary();
 			_idToObject = new Object();
@@ -465,8 +402,7 @@ package org.papervision3d.objects.parsers
 			_sidToObject = new Object();
 			_objectToSID = new Dictionary();
 			_controllers = new Dictionary();
-			_channels = new Dictionary();
-			
+
 			parseLibraryVisualScenes();
 			parseScene();
 			parseAnimations(false);
@@ -793,7 +729,7 @@ package org.papervision3d.objects.parsers
 		/**
 		 * 
 		 */ 
-		private function buildNode(node:XML, name:String):DisplayObject3D
+		private function buildNode(node:XML, name:String):Joint3D
 		{
 			var controller:XML = node.instance_controller[0];
 			
@@ -812,20 +748,16 @@ package org.papervision3d.objects.parsers
 				
 				if(ctrl.skin)
 				{
-					return null;
+					return new SkinnedMesh3D(null, [], [], name);
 				}
 				else
 				{
-					return null;
+					return new Joint3D(null, [], [], name);
 				}
 			}	
-			else if(node.instance_geometry[0])
-			{
-				return new TriangleMesh3D(null, [], [], name);
-			}
 			else
 			{
-				return new DisplayObject3D(name);
+				return new Joint3D(null, [], [], name);
 			}
 		}
 		
@@ -844,13 +776,10 @@ package org.papervision3d.objects.parsers
 			
 			var i:int;
 			var values:Array;
-			var transformStack:Array = new Array();
-			var transformSID:Array = new Array();
-			var transformTypes:Array = new Array();
-			
+
 			type = type == "JOINT" ? type : "NODE";
 			
-			var instance:DisplayObject3D = parent.addChild(buildNode(node, name));
+			var instance:Joint3D = parent.addChild(buildNode(node, name)) as Joint3D;
 			
 			// loop over children
 			var children:XMLList = node.children();
@@ -871,29 +800,21 @@ package org.papervision3d.objects.parsers
 						break;
 					case "matrix":
 						values = ColladaElement.parseStringArray(child);
-						transformStack.push(new Matrix3D(values));
-						transformSID.push(csid);
-						transformTypes.push("matrix");
+						instance.addTransform(new Matrix3D(values), nodeName, csid);
 						break;
 					case "rotate":
 						values = ColladaElement.parseStringArray(child);
-						transformStack.push(Matrix3D.rotationMatrix(values[0], values[1], values[2], values[3]*(Math.PI/180)));
-						transformSID.push(csid);
-						transformTypes.push("rotate");
+						instance.addTransform(Matrix3D.rotationMatrix(values[0], values[1], values[2], values[3]*(Math.PI/180)), nodeName, csid);
 						break;
 					case "scale":
 						values = ColladaElement.parseStringArray(child);
-						transformStack.push(Matrix3D.scaleMatrix(values[0], values[1], values[2]));
-						transformSID.push(csid);
-						transformTypes.push("scale");
+						instance.addTransform(new Matrix3D(values), nodeName, csid);
 						break;
 					case "skew":
 						break;
 					case "translate":
 						values = ColladaElement.parseStringArray(child);
-						transformStack.push(Matrix3D.translationMatrix(values[0], values[1], values[2]));
-						transformSID.push(csid);
-						transformTypes.push("translate");
+						instance.addTransform(Matrix3D.translationMatrix(values[0], values[1], values[2]), nodeName, csid);
 						break;
 					case "instance_camera":
 						break;
@@ -921,12 +842,7 @@ package org.papervision3d.objects.parsers
 						break;
 				}
 			}
-			
-			var matrix:Matrix3D = Matrix3D.IDENTITY;
-			for(i = 0; i < transformStack.length; i++)
-				matrix = Matrix3D.multiply(matrix, transformStack[i]);
-				
-			instance.copyTransform(matrix);
+
 			if(instance is TriangleMesh3D)
 			{
 				TriangleMesh3D(instance).geometry.ready = true;
@@ -937,14 +853,6 @@ package org.papervision3d.objects.parsers
 			_objectToSID[ instance ] = sid;
 			_idToObject[ id ] = instance;
 			_sidToObject[ sid ] = instance;
-			
-			// save the matrix stack
-			_transformStack[ instance ] = transformStack;
-			
-			// save the SID's for each matrix in the stack
-			_transformSID[ instance ] = transformSID;
-			
-			_transformTypes[ instance ] = transformTypes;
 		}
 		
 		/**
@@ -1122,9 +1030,6 @@ package org.papervision3d.objects.parsers
 		private var _skinnedObjects:Dictionary;
 		
 		/** */
-		private var _channels:Dictionary;
-		
-		/** */
 		private var _controllers:Dictionary;
 		
 		/** ID to object. */
@@ -1138,14 +1043,5 @@ package org.papervision3d.objects.parsers
 		
 		/** Object to SID */
 		private var _objectToSID:Dictionary;
-		
-		/** Stack of matrices for each child. Used by animations. */
-		private var _transformStack:Dictionary;
-		
-		/** SID of each matrix in the stack. Used by animation. */
-		private var _transformSID:Dictionary;
-		
-		/** Type of transform for each matrix in the stack. Used by animation. */
-		private var _transformTypes:Dictionary;
 	}
 }

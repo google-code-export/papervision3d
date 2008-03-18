@@ -41,6 +41,8 @@ package org.papervision3d.objects.parsers {
 	import flash.utils.Endian;
 	
 	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.animation.AnimationChannel3D;
+	import org.papervision3d.core.animation.AnimationKeyFrame3D;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.NumberUV;
@@ -56,6 +58,8 @@ package org.papervision3d.objects.parsers {
 	 */
 	public class MD2 extends TriangleMesh3D
 	{
+		public var channel:AnimationChannel3D;
+		
 		/**
 		 * Variables used in the loading of the file
 		 */
@@ -187,7 +191,7 @@ package org.papervision3d.objects.parsers {
 						
 			Papervision3D.log("Parsed MD2: " + file + "\n vertices:" + 
 							  geometry.vertices.length + "\n texture vertices:" + uvs.length +
-							  "\n faces:" + geometry.faces.length + "\n frames: " );
+							  "\n faces:" + geometry.faces.length + "\n frames: " + this.channel.keyframes.length);
 	
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
@@ -201,7 +205,10 @@ package org.papervision3d.objects.parsers {
 			var tx:Number, ty:Number, tz:Number;
 			var verts:Array
 			var i:int, j:int, char:int;
-
+			var duration:Number = 1 / this.fps;
+			
+			this.channel = new AnimationChannel3D(this, null, AnimationChannel3D.TYPE_MORPH);
+			
 			var t:uint = 0;
 			
 			for (i = 0; i < num_frames; i++)
@@ -220,6 +227,8 @@ package org.papervision3d.objects.parsers {
 					if ((char = data.readUnsignedByte()) != 0)
 						frameName += String.fromCharCode(char);
 				
+				var vertices:Array = new Array();
+				
 				// Note, the extra data.position++ in the for loop is there 
 				// to skip over a byte that holds the "vertex normal index"
 				for (j = 0; j < num_vertices; j++, data.position++)
@@ -235,7 +244,11 @@ package org.papervision3d.objects.parsers {
 						this.geometry.vertices[j].y = v.y;
 						this.geometry.vertices[j].z = v.z;
 					}
+					
+					vertices.push(v);
 				}
+				
+				this.channel.addKeyFrame(new AnimationKeyFrame3D(frameName, i / this.fps, vertices));
 			}
 		}
 		
