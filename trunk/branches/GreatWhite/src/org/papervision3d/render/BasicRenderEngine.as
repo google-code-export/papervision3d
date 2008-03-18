@@ -63,11 +63,6 @@ package org.papervision3d.render
 			// update the viewports reference to the lastRenderer - the ISM needs this to receive render done events
 			viewPort.lastRenderer = this;
 			
-			//Update animationEngine.
-			if( scene.animationEngine && updateAnimation == true){
-				scene.animationEngine.tick();
-			}
-			
 			//Update the renderSessionData object.
 			renderSessionData.scene = scene;
 			renderSessionData.camera = camera;
