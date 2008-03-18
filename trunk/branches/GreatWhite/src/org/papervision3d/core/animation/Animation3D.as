@@ -33,7 +33,10 @@
  
 package org.papervision3d.core.animation
 {
+	import org.papervision3d.core.geom.Joint3D;
+	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.parsers.*;
 	
 	/**
 	 * @author	Tim Knip
@@ -43,6 +46,12 @@ package org.papervision3d.core.animation
 		/** The target for this animation */
 		public var target:DisplayObject3D;
 		
+		/** */
+		public var minTime:Number;
+		
+		/** */
+		public var maxTime:Number;
+		
 		/**
 		 * Constructor.
 		 * 
@@ -51,8 +60,62 @@ package org.papervision3d.core.animation
 		public function Animation3D(target:DisplayObject3D)
 		{
 			this.target = target;
+			this.minTime = this.maxTime = 0;
 			
 			_channels = new Array();
+			
+			if(this.target is MD2)
+			{
+				var md2:MD2 = this.target as MD2;
+				
+				if(!md2.channel)
+					throw new Error("MD2 wasn't loaded completely, please wait for Event.COMPLETE...");
+					
+				addChannel(md2.channel);
+			}
+			else if(this.target is DAE)
+			{
+				var dae:DAE = this.target as DAE;
+				
+				var animatables:Array = dae.getAnimatedChildren();
+				
+				for each(var joint:Joint3D in animatables)
+				{
+					for(var i:int = 0; i < joint.channels.length; i++)
+						addChannel(joint.channels[i]);
+				}
+			}
+			
+			_currentKeyFrame = 0;
+			_nextKeyFrame = 0;
+		}
+		
+		public function tick(time:Number = 0):void
+		{
+			if(!_channels.length)
+				return;
+			
+			for each(var channel:AnimationChannel3D in _channels)
+			{
+				var target:Joint3D = channel.target as Joint3D;
+				if(!target)
+					continue;
+				
+				// move channel to correct keyframe
+				channel.tick(time);
+				
+				// the channel's keyframes
+				var keyframes:Array = channel.keyframes;
+				
+				// the channel's current keyframe
+				var cur:AnimationKeyFrame3D = keyframes[channel.current];
+
+				// build matrix (this can be more efficient if AnimationKeyFrame3D#output is of type Matrix3D)
+				var matrix:Matrix3D = new Matrix3D(cur.output);
+				
+				// update the object's transform
+				target.updateTransformByID(matrix, channel.transformID);
+			}
 		}
 		
 		/**
@@ -64,9 +127,16 @@ package org.papervision3d.core.animation
 		 */ 
 		public function addChannel(channel:AnimationChannel3D):AnimationChannel3D
 		{
-			channel.target = this.target;
-			
 			_channels.push(channel);
+			
+			this.minTime = AnimationChannel3D(_channels[0]).minTime;
+			this.maxTime = AnimationChannel3D(_channels[0]).maxTime;
+			
+			for(var i:int = 0; i < _channels.length; i++)
+			{
+				this.minTime = Math.min(this.minTime, _channels[i].minTime);
+				this.maxTime = Math.max(this.maxTime, _channels[i].maxTime);
+			}
 			
 			return channel;
 		}
@@ -92,10 +162,31 @@ package org.papervision3d.core.animation
 					break;	
 				}
 			}
+			
+			if(_channels.length)
+			{
+				this.minTime = AnimationChannel3D(_channels[0]).minTime;
+				this.maxTime = AnimationChannel3D(_channels[0]).maxTime;
+			}
+			else
+			{
+				this.minTime = this.maxTime = 0;
+			}
+			
+			for(var j:int = 0; j < _channels.length; j++)
+			{
+				this.minTime = Math.min(this.minTime, _channels[j].minTime);
+				this.maxTime = Math.max(this.maxTime, _channels[j].maxTime);
+			}
+			
 			return removed;	
 		}
 		
 		/** */
 		private var _channels:Array;
+		
+		private var _currentKeyFrame:int;
+		
+		private var _nextKeyFrame:int;
 	}
 }

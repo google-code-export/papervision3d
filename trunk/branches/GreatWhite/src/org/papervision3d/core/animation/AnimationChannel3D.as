@@ -41,9 +41,12 @@ package org.papervision3d.core.animation
 	 */ 
 	public class AnimationChannel3D
 	{		
-		public static const TYPE_SINGLE_PROPERTY:uint = 0;
-		public static const TYPE_BAKED_TRANSFORM:uint = 1;
-		public static const TYPE_MULTI_TRANSFORM:uint = 2;
+		public static const TYPE_SINGLE_PROPERTY:String = "single_prop";
+		public static const TYPE_MATRIX:String = "matrix";
+		public static const TYPE_TRANSLATE:String = "translate";
+		public static const TYPE_ROTATE:String = "rotate";
+		public static const TYPE_SCALE:String = "scale";
+		public static const TYPE_MORPH:String = "morph";
 		
 		/** The target for this animation */
 		public var target:DisplayObject3D;
@@ -55,21 +58,75 @@ package org.papervision3d.core.animation
 		public var maxTime:Number;
 		
 		/** */
-		public function get keyFrames():Array { return _keyframes; }
+		public var transformID:String;
+		
+		/** */
+		public function get current():int { return _current; }
+		
+		/** */
+		public function get next():int { return (_current+1) % _keyframes.length; }
+		
+		/** */
+		public function get keyframes():Array { return _keyframes; }
+		
+		/** */
+		public function get type():String { return _type; }
 		
 		/**
 		 * Constructor.
 		 * 
 		 * @param	target
 		 */ 
-		public function AnimationChannel3D(target:DisplayObject3D, property:*, type:uint = TYPE_SINGLE_PROPERTY)
+		public function AnimationChannel3D(target:DisplayObject3D, property:*, type:String = TYPE_SINGLE_PROPERTY, transformID:String = null)
 		{
 			this.target = target;
 			this.minTime = this.maxTime = 0;
+			this.transformID = transformID;
 			
 			_keyframes = new Array();
+			_current = 0;
 			
 			setTargetProperty(property, type);
+		}
+		
+		public function tick(time:Number):void
+		{
+			time = time % this.maxTime;
+			
+			var cur:int = _current;
+			for(var i:int = cur; i < _keyframes.length; i++, _current++)
+			{
+				if(_keyframes[i].time >= time)
+					break;
+			}
+			_current = _current < _keyframes.length - 2 ? _current : 0;
+			
+			_currentKeyFrame = _keyframes[_current];
+			_nextKeyFrame = _keyframes[(_current+1)%_keyframes.length];			
+		}
+		
+		public function getOutputForTime(time:Number):Array
+		{
+			var cur:int = _current;
+			for(var i:int = cur; i < _keyframes.length; i++, _current++)
+			{
+				if(_keyframes[i].time >= time)
+					break;
+			}
+			_current = _current < _keyframes.length - 2 ? _current : 0;
+			
+			_currentKeyFrame = _keyframes[_current];
+			_nextKeyFrame = _keyframes[(_current+1)%_keyframes.length];
+			
+			switch(_type)
+			{
+				case TYPE_MATRIX:
+					return _currentKeyFrame.output;
+				default:
+					break;
+			}
+			
+			return null;
 		}
 		
 		/**
@@ -81,6 +138,38 @@ package org.papervision3d.core.animation
 		 */ 
 		public function addKeyFrame(keyframe:AnimationKeyFrame3D):AnimationKeyFrame3D
 		{
+			switch(_type)
+			{
+				case TYPE_MATRIX:
+					if(keyframe.output.length < 12)
+						throw new Error("Expected at least 12 values! " + keyframe.output);
+					break;
+					
+				case TYPE_MORPH:
+					break;
+				
+				case TYPE_ROTATE:
+					if(keyframe.output.length != 4)
+						throw new Error("Expected exactly 4 values! " + keyframe.output);
+					break;
+					
+				case TYPE_SCALE:
+					if(keyframe.output.length != 3)
+						throw new Error("Expected exactly 3 values! " + keyframe.output);
+					break;
+					
+				case TYPE_TRANSLATE:
+					if(keyframe.output.length != 3)
+						throw new Error("Expected exactly 3 values! " + keyframe.output);
+					break;
+							
+				case TYPE_SINGLE_PROPERTY:
+				default:
+					if(keyframe.output.length != 1)
+						throw new Error("Expected a single value!");
+					break;
+			}
+			
 			if(_keyframes.length)
 			{
 				this.minTime = Math.min(this.minTime, keyframe.time);
@@ -92,6 +181,11 @@ package org.papervision3d.core.animation
 			}
 			
 			_keyframes.push(keyframe);
+			_keyframes.sortOn("time", Array.NUMERIC);
+			
+			_current = 0;
+			_currentKeyFrame = _keyframes[_current];
+			_nextKeyFrame = _keyframes.length > 1 ? _keyframes[1] : _keyframes[_current];
 			
 			return keyframe;
 		}
@@ -102,29 +196,26 @@ package org.papervision3d.core.animation
 		 * @param	property
 		 * @param	type
 		 */ 
-		public function setTargetProperty(property:*, type:uint = TYPE_SINGLE_PROPERTY):void
+		public function setTargetProperty(property:*, type:String = TYPE_SINGLE_PROPERTY):void
 		{
+			var prop:*;
+			
 			_type = type;
 			
 			switch(_type)
 			{
-				case TYPE_BAKED_TRANSFORM:
+				case TYPE_MATRIX:
+				case TYPE_ROTATE:
+				case TYPE_SCALE:
+				case TYPE_TRANSLATE:
 					if(!(property is Matrix3D))
 						throw new Error("passed in property should be of type Matrix3D!");
 					_matrixProperty = property as Matrix3D;
 					break;
-				
-				case TYPE_MULTI_TRANSFORM:
-					if(!(property is Array))
-						throw new Error("passed in property should be of type Array!");
-					_arrayProperty = property as Array;
-					for each(var prop:* in _arrayProperty)
-					{
-						if(!(prop is Matrix3D))
-							throw new Error("The passed in Array should contain only objects with type Matrix3D!");	
-					}
+
+				case TYPE_MORPH:
 					break;
-						
+							
 				case TYPE_SINGLE_PROPERTY:
 				default:
 					if(!(property is String))
@@ -136,7 +227,7 @@ package org.papervision3d.core.animation
 		}
 		
 		/** */
-		private var _type:uint;
+		private var _type:String;
 		
 		/** */
 		private var _keyframes:Array;
@@ -149,5 +240,14 @@ package org.papervision3d.core.animation
 		
 		/** */
 		private var _matrixProperty:Matrix3D;
+		
+		/** */
+		private var _currentKeyFrame:AnimationKeyFrame3D;
+		
+		/** */
+		private var _nextKeyFrame:AnimationKeyFrame3D;
+		
+		/** */
+		private var _current:uint;
 	}
 }
