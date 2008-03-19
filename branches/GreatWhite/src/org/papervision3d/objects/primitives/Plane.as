@@ -179,7 +179,7 @@ package org.papervision3d.objects.primitives {
 					uvC =  new NumberUV( ix     / gridX, (iy+1) / gridY );
 					uvB =  new NumberUV( (ix+1) / gridX, iy     / gridY );
 	
-					faces.push(new Triangle3D(this, [ a, b, c ], null, [ uvA, uvB, uvC ] ) );
+					faces.push(new Triangle3D(this, [ a, b, c ], material, [ uvA, uvB, uvC ] ) );
 	
 					// Triangle B
 					a = vertices[ (ix+1) * gridY1 + (iy+1) ];
@@ -189,8 +189,8 @@ package org.papervision3d.objects.primitives {
 					uvA =  new NumberUV( (ix+1) / gridX, (iy+1) / gridY );
 					uvC =  new NumberUV( (ix+1) / gridX, iy      / gridY );
 					uvB =  new NumberUV( ix      / gridX, (iy+1) / gridY );
-	
-					faces.push(new Triangle3D(this, [ a, b, c ], null, [ uvA, uvB, uvC ] ) );
+					
+					faces.push(new Triangle3D(this, [ a, b, c ], material, [ uvA, uvB, uvC ] ) );
 				}
 			}
 	

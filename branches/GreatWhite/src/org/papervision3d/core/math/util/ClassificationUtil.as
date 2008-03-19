@@ -13,6 +13,7 @@ package org.papervision3d.core.math.util
 		
 		public function ClassificationUtil()
 		{
+			
 		}
 		
 		public static function classifyPoint( point:Vertex3D, plane:Plane3D, e:Number = 0.01 ):uint
@@ -33,13 +34,10 @@ package org.papervision3d.core.math.util
 			var numneg:uint = 0;
 			for each( var point:Vertex3D in points )
 			{
-			
 				var side:uint = classifyPoint(point, plane, e);
 				if( side == FRONT ){
-						
 					numpos++;
 				}else if( side == BACK ){
-					
 					numneg++;
 				}
 			}
