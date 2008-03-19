@@ -89,6 +89,9 @@ package org.papervision3d.core.animation
 			setTargetProperty(property, type);
 		}
 		
+		/** Gets the animated property of the target object as String. */
+		public function get propertyAsString():String { return _stringProperty; }
+		
 		public function tick(time:Number):void
 		{
 			time = time % this.maxTime;
@@ -96,7 +99,7 @@ package org.papervision3d.core.animation
 			var cur:int = _current;
 			for(var i:int = cur; i < _keyframes.length; i++, _current++)
 			{
-				if(_keyframes[i].time >= time)
+				if(_keyframes[i].time > time)
 					break;
 			}
 			_current = _current < _keyframes.length - 2 ? _current : 0;

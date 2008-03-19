@@ -34,7 +34,9 @@
 package org.papervision3d.core.animation
 {
 	import org.papervision3d.core.geom.Joint3D;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.Matrix3D;
+	import org.papervision3d.core.proto.GeometryObject3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.objects.parsers.*;
 	
@@ -103,7 +105,7 @@ package org.papervision3d.core.animation
 			
 			for each(var channel:AnimationChannel3D in _channels)
 			{
-				var target:Joint3D = channel.target as Joint3D;
+				var target:DisplayObject3D = channel.target;
 				if(!target)
 					continue;
 				
@@ -127,27 +129,44 @@ package org.papervision3d.core.animation
 					var next:AnimationKeyFrame3D = keyframes[channel.current+1];
 					var noutput:Array = next.output;
 					
-					var t:Number = time % channel.maxTime;
-					
-					var elapsed:Number = t > cur.time ? t - cur.time : 0;
 					var total:Number = next.time - cur.time;
-					var change:Number = elapsed/total;
+					var t:Number = time % total;
 					
+					////var elapsed:Number = t > cur.time ? t - cur.time : 0;
+					var change:Number = t/total;
+		
 					for(var i:int = 0; i < output.length; i++)
 					{
-						output[i] = output[i] + (change * (noutput[i] - output[i]));
+						if(output[i] is Vertex3D)
+						{
+							output[i] = output[i].clone();
+							output[i].x = output[i].x + (change * (noutput[i].x - output[i].x));
+							output[i].y = output[i].y + (change * (noutput[i].y - output[i].y));
+							output[i].z = output[i].z + (change * (noutput[i].z - output[i].z));
+						}
+						else
+							output[i] = output[i] + (change * (noutput[i] - output[i]));
 					}
 				}
 				
 				if(channel.type == AnimationChannel3D.TYPE_SINGLE_PROPERTY)
 				{
-					
+					target[channel.propertyAsString] = output[0];
 				}
 				else if(channel.type == AnimationChannel3D.TYPE_MORPH)
 				{
-					
+					var geometry:GeometryObject3D = target.geometry;
+					if(!geometry || !geometry.vertices || geometry.vertices.length != output.length)
+						continue;
+						
+					for(var j:int = 0; j < geometry.vertices.length; j++)
+					{
+						geometry.vertices[j].x = output[j].x;
+						geometry.vertices[j].y = output[j].y;
+						geometry.vertices[j].z = output[j].z;
+					}
 				}
-				else
+				else if(target is Joint3D)
 				{
 					// build matrix (this can be more efficient if AnimationKeyFrame3D#output is of type Matrix3D)
 					var matrix:Matrix3D = null;
@@ -170,7 +189,7 @@ package org.papervision3d.core.animation
 					}
 									
 					// update the object's transform
-					target.updateTransformByID(matrix, channel.transformID);
+					Joint3D(target).updateTransformByID(matrix, channel.transformID);
 				}
 			}
 		}
