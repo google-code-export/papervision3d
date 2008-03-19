@@ -75,9 +75,11 @@ package org.papervision3d.core.geom.renderables {
 		*/
 		public function set uv(uv:Array):void
 		{
-			uv0 = NumberUV(uv[0]);
-			uv1 = NumberUV(uv[1]);
-			uv2 = NumberUV(uv[2]);
+			if(uv){
+				uv0 = NumberUV(uv[0]);
+				uv1 = NumberUV(uv[1]);
+				uv2 = NumberUV(uv[2]);
+			}
 			_uvArray = uv;
 		}
 		
