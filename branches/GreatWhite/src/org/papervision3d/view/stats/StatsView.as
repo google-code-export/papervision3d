@@ -1,5 +1,6 @@
 package org.papervision3d.view.stats
 {
+	import flash.system.System;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
@@ -12,6 +13,7 @@ package org.papervision3d.view.stats
 	{
 		protected var statsFormat:TextFormat;
 		
+		protected var memInfoTestField:TextField;
 		protected var fpsInfoTextField:TextField;
 		protected var objectInfoTextField:TextField;
 		protected var renderInfoTextField:TextField;
@@ -38,22 +40,32 @@ package org.papervision3d.view.stats
 			fpsInfoTextField = new TextField();
 			fpsInfoTextField.y = 0;
 			fpsInfoTextField.autoSize = TextFieldAutoSize.LEFT;
+			fpsInfoTextField.defaultTextFormat = statsFormat;
 			addChild(fpsInfoTextField);
 			
 			objectInfoTextField = new TextField();
 			objectInfoTextField.y = 12;
 			objectInfoTextField.autoSize = TextFieldAutoSize.LEFT;
+			objectInfoTextField.defaultTextFormat = statsFormat;
 			addChild(objectInfoTextField);
 			
 			renderInfoTextField = new TextField();
 			renderInfoTextField.y = 24;
 			renderInfoTextField.autoSize = TextFieldAutoSize.LEFT;
+			objectInfoTextField.defaultTextFormat = statsFormat;
 			addChild(renderInfoTextField);
 			
 			cullingInfoTextField = new TextField();
 			cullingInfoTextField.y = 36;
 			cullingInfoTextField.autoSize = TextFieldAutoSize.LEFT;
+			cullingInfoTextField.defaultTextFormat = statsFormat;
 			addChild(cullingInfoTextField);
+			
+			memInfoTestField = new TextField();
+			memInfoTestField.y = 48;
+			memInfoTestField.autoSize = TextFieldAutoSize.LEFT;
+			memInfoTestField.defaultTextFormat = statsFormat;
+			addChild(memInfoTestField);
 		}
 		
 		override public function set renderSessionData(renderSessionData:RenderSessionData):void
@@ -63,10 +75,10 @@ package org.papervision3d.view.stats
 			objectInfoTextField.text = "Tri : "+stats.triangles+" Sha : "+stats.shadedTriangles+" Lin : "+stats.lines+" Par : "+stats.particles;
 			renderInfoTextField.text = "Ren: "+stats.rendered+" RT : "+stats.renderTime+" PT : "+stats.projectionTime;
 			cullingInfoTextField.text = "COb : "+stats.culledObjects+ " CTr : "+stats.culledTriangles+" CPa : "+stats.culledParticles+" FOb : "+stats.filteredObjects;
-		
-			objectInfoTextField.setTextFormat(statsFormat);
-			renderInfoTextField.setTextFormat(statsFormat);
-			cullingInfoTextField.setTextFormat(statsFormat);
+			
+			memInfoTestField.text = "Mem : "+System.totalMemory;
+			
+			
 		}
 		
 		override public function set fps(fps:int):void
