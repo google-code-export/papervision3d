@@ -228,7 +228,7 @@ package org.papervision3d.objects.parsers {
 						frameName += String.fromCharCode(char);
 				
 				var vertices:Array = new Array();
-				
+
 				// Note, the extra data.position++ in the for loop is there 
 				// to skip over a byte that holds the "vertex normal index"
 				for (j = 0; j < num_vertices; j++, data.position++)
@@ -248,7 +248,7 @@ package org.papervision3d.objects.parsers {
 					vertices.push(v);
 				}
 				
-				this.channel.addKeyFrame(new AnimationKeyFrame3D(frameName, i / this.fps, vertices));
+				this.channel.addKeyFrame(new AnimationKeyFrame3D(frameName, i * duration, vertices));
 			}
 		}
 		
