@@ -2,13 +2,12 @@ package org.papervision3d.core.render.sort
 {
 	
 	/**
-	 * @Author Ralph Hauwert
+	 * @author Ralph Hauwert
 	 */
-
-	
-	
 	public class BasicRenderSorter implements IRenderSorter
 	{
+		
+		//Sorts the renderlist by screenDepth.
 		public function sort(array:Array):void
 		{
 			array.sortOn("screenDepth", Array.NUMERIC);

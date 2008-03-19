@@ -10,9 +10,8 @@ package org.papervision3d.core.math.util
 		
 		public static function splitTriangleWithPlane(triangle:Triangle3D, plane:Plane3D, e:Number=0.01 ):Array
 		{
-			var side:uint = ClassificationUtil.classifyTriangle(triangle, plane,e);
+			var side:uint = ClassificationUtil.classifyTriangle(triangle, plane);
 			if(side != ClassificationUtil.STRADDLE){
-				
 				return null;
 			}
 
@@ -44,6 +43,7 @@ package org.papervision3d.core.math.util
 					{
 						isect = Intersection.linePlane( pA, pB, plane );
 						if( isect.status != Intersection.INTERSECTION )
+							
 							return null;
 						
 						triangle.instance.geometry.vertices.push( isect.vert );
@@ -63,6 +63,7 @@ package org.papervision3d.core.math.util
 					{
 						isect = Intersection.linePlane( pA, pB, plane );
 						if( isect.status != Intersection.INTERSECTION )
+							
 							return null;
 						
 						triangle.instance.geometry.vertices.push( isect.vert );
