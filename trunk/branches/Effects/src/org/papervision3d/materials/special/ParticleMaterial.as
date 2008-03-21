@@ -20,10 +20,13 @@ package org.papervision3d.materials.special
 	public class ParticleMaterial extends MaterialObject3D implements IParticleDrawer
 	{
 		
-		
-		public function ParticleMaterial(color:Number, alpha:Number)
+		public static var SHAPE_SQUARE:int = 0; 
+		public static var SHAPE_CIRCLE:int = 1;
+				public var shape : int; 
+		public function ParticleMaterial(color:Number, alpha:Number, shape:int = 0 )
 		{
 			super();
+			this.shape = shape; 
 			this.fillAlpha = alpha;
 			this.fillColor = color;
 		}
@@ -34,8 +37,12 @@ package org.papervision3d.materials.special
 			
 			var renderrect:Rectangle = particle.renderRect; 
 			
-			graphics.drawRect(renderrect.x, renderrect.y, renderrect.width, renderrect.height);
-
+			if(shape == SHAPE_SQUARE) graphics.drawRect(renderrect.x, renderrect.y, renderrect.width, renderrect.height);
+			else if(shape == SHAPE_CIRCLE) graphics.drawCircle(renderrect.x, renderrect.y, renderrect.width/2);
+			else trace("warning - Particle material has no valid shape - Must be ParticleMaterial.SHAPE_SQUARE or ParticleMaterial.SHAPE_CIRCLE");
+			
+			//trace(renderrect.width, particle.size, particle.renderScale);
+			
 			graphics.endFill();
 			renderSessionData.renderStatistics.particles++;
 		}
@@ -54,7 +61,6 @@ package org.papervision3d.materials.special
 			}
 			renderrect.x = particle.vertex3D.vertex3DInstance.x - (renderrect.width/2); 
 			renderrect.y = particle.vertex3D.vertex3DInstance.y - (renderrect.width/2);
-			
 			
 		}
 	}

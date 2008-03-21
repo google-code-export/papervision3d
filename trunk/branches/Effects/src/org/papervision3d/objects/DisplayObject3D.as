@@ -1,11 +1,11 @@
-﻿/*
+/*
  *  PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
  *  AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
  *  PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
  *  ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
  *  RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
  *  ______________________________________________________________________
- *  papervision3d.org • blog.papervision3d.org • osflash.org/papervision3d
+ *  papervision3d.org � blog.papervision3d.org � osflash.org/papervision3d
  */
 
 /*
@@ -39,11 +39,8 @@ package org.papervision3d.objects
 {
 	import com.blitzagency.xray.logger.XrayLog;
 	
-	import flash.display.Sprite;
-	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.culling.IObjectCuller;
-	import org.papervision3d.core.layers.RenderLayer;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.proto.CameraObject3D;
@@ -53,9 +50,13 @@ package org.papervision3d.objects
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.materials.utils.MaterialsList;
+	import flash.display.Sprite;
 	
+	import org.papervision3d.core.layers.RenderLayer;
+	import org.papervision3d.core.math.Quaternion;	
+
 	/**
-	* The DisplayObject class represents instances of 3D objects that are contained in the scene.
+	 * The DisplayObject class represents instances of 3D objects that are contained in the scene.
 	* <p/>
 	* That includes all objects in the scene, not only those that can be rendered, but also the camera and its target.
 	* <p/>
@@ -65,10 +66,10 @@ package org.papervision3d.objects
 	* DisplayObject3D is not an abstract base class; therefore, you can call DisplayObject3D directly. Invoking new DisplayObject() creates a new empty object in 3D space, like when you used createEmptyMovieClip().
 	*
 	*/
+	
 	public class DisplayObject3D extends DisplayObjectContainer3D
 	{
 		// ___________________________________________________________________ P O S I T I O N
-	
 		/**
 		* An Number that sets the X coordinate of a object relative to the origin of its parent.
 		*/
@@ -81,8 +82,7 @@ package org.papervision3d.objects
 		{
 			this.transform.n14 = value;
 		}
-	
-	
+		
 		/**
 		* An Number that sets the Y coordinate of a object relative to the origin of its parent.
 		*/
@@ -167,10 +167,11 @@ package org.papervision3d.objects
 		// Update rotation values
 		private function updateRotation():void
 		{
-			var rot:Number3D = Matrix3D.matrix2euler( this.transform );
-			this._rotationX = rot.x * toRADIANS;
-			this._rotationY = rot.y * toRADIANS;
-			this._rotationZ = rot.z * toRADIANS;
+			
+			_rotation = Matrix3D.matrix2euler( this.transform, _rotation);
+			this._rotationX = _rotation.x * toRADIANS;
+			this._rotationY = _rotation.y * toRADIANS;
+			this._rotationZ = _rotation.z * toRADIANS;
 	
 			this._rotationDirty = false;
 		}
@@ -462,6 +463,9 @@ package org.papervision3d.objects
 		*/
 		public var culled:Boolean;
 		
+		
+
+		
 		// ___________________________________________________________________________________________________
 		//                                                                                               N E W
 		// NN  NN EEEEEE WW    WW
@@ -552,7 +556,6 @@ package org.papervision3d.objects
 	
 		// ___________________________________________________________________________________________________
 		//                                                                                           U T I L S
-		
 		/**
 		* Adds a child DisplayObject3D instance to this DisplayObjectContainer instance.
 		*
@@ -584,7 +587,7 @@ package org.papervision3d.objects
 				this.geometry = geometry;	
 		}
 		
-		
+	
 		 /**
         * setRenderLayer
         * <p/>
@@ -684,14 +687,12 @@ package org.papervision3d.objects
 		public function getMaterialByName( name:String ):MaterialObject3D
 		{
 			var material:MaterialObject3D = this.materials.getMaterialByName( name );
-			
 			if( material )
 				return material;
 			else
 				for each( var child :DisplayObject3D in this._childrenByName )
 				{
 					material = child.getMaterialByName( name );
-	
 					if( material ) return material;
 				}
 	
@@ -749,17 +750,22 @@ package org.papervision3d.objects
 					this.culled = true;
 				else
 					this.culled = (IObjectCuller(renderSessionData.camera).testObject(this) < 0);
-				if( this.culled ) return 0;
+				if( this.culled ){
+					renderSessionData.renderStatistics.culledObjects ++ ;
+					return 0;
+				} 
 				if( parent !== renderSessionData.camera )
 					this.view.calculateMultiply4x4( parent.view, this.transform );
 			}
 			else if( parent !== renderSessionData.camera )
 				this.view.calculateMultiply( parent.view, this.transform );
-					
+			
+			//Do we still need this?		
 			calculateScreenCoords( renderSessionData.camera );
 	
 			var screenZs :Number = 0;
 			var children :Number = 0;
+
 
 			for each( var child:DisplayObject3D in this._childrenByName )
 			{
@@ -845,7 +851,7 @@ package org.papervision3d.objects
 	
 			if( this._transformDirty ) updateTransform();
 	
-			Matrix3D.rotateAxis( transform, vector )
+			Matrix3D.rotateAxis( transform, vector );
 	
 			this.x += distance * vector.x;
 			this.y += distance * vector.y;
@@ -856,7 +862,7 @@ package org.papervision3d.objects
 		//                                                                         L O C A L   R O T A T I O N
 	
 		/**
-		* Rotate the display object around its lateral or transverse axis —an axis running from the pilot's left to right in piloted aircraft, and parallel to the wings of a winged aircraft; thus the nose pitches up and the tail down, or vice-versa.
+		* Rotate the display object around its lateral or transverse axis �an axis running from the pilot's left to right in piloted aircraft, and parallel to the wings of a winged aircraft; thus the nose pitches up and the tail down, or vice-versa.
 		*
 		* @param	angle	The angle to rotate.
 		*/
@@ -869,17 +875,16 @@ package org.papervision3d.objects
 			if( this._transformDirty ) updateTransform();
 	
 			Matrix3D.rotateAxis( transform, vector );
-			var m:Matrix3D = Matrix3D.rotationMatrix( vector.x, vector.y, vector.z, angle );
+			_tempMatrix = Matrix3D.rotationMatrix( vector.x, vector.y, vector.z, angle, _tempMatrix );
 	
-	//		this.transform.copy3x3( Matrix3D.multiply3x3( m ,transform ) );
-			this.transform.calculateMultiply3x3( m ,transform );
+			this.transform.calculateMultiply3x3( _tempMatrix ,transform );
 	
 			this._rotationDirty = true;
 		}
 	
 	
 		/**
-		* Rotate the display object around about the vertical axis —an axis drawn from top to bottom.
+		* Rotate the display object around about the vertical axis �an axis drawn from top to bottom.
 		*
 		* @param	angle	The angle to rotate.
 		*/
@@ -892,16 +897,16 @@ package org.papervision3d.objects
 			if( this._transformDirty ) updateTransform();
 	
 			Matrix3D.rotateAxis( transform, vector );
-			var m:Matrix3D = Matrix3D.rotationMatrix( vector.x, vector.y, vector.z, angle );
+			_tempMatrix = Matrix3D.rotationMatrix( vector.x, vector.y, vector.z, angle, _tempMatrix );
 	
-			this.transform.calculateMultiply3x3( m ,transform );
+			this.transform.calculateMultiply3x3( _tempMatrix ,transform );
 	
 			this._rotationDirty = true;
 		}
 	
 	
 		/**
-		* Rotate the display object around the longitudinal axis —an axis drawn through the body of the vehicle from tail to nose in the normal direction of flight, or the direction the object is facing.
+		* Rotate the display object around the longitudinal axis �an axis drawn through the body of the vehicle from tail to nose in the normal direction of flight, or the direction the object is facing.
 		*
 		* @param	angle
 		*/
@@ -914,9 +919,9 @@ package org.papervision3d.objects
 			if( this._transformDirty ) updateTransform();
 	
 			Matrix3D.rotateAxis( transform, vector );
-			var m:Matrix3D = Matrix3D.rotationMatrix( vector.x, vector.y, vector.z, angle );
+			_tempMatrix = Matrix3D.rotationMatrix( vector.x, vector.y, vector.z, angle, _tempMatrix );
 	
-			this.transform.calculateMultiply3x3( m ,transform );
+			this.transform.calculateMultiply3x3( _tempMatrix ,transform );
 	
 			this._rotationDirty = true;
 		}
@@ -930,18 +935,20 @@ package org.papervision3d.objects
 		*/
 		public function lookAt( targetObject:DisplayObject3D, upAxis:Number3D=null ):void
 		{
-			var position :Number3D = new Number3D( this.x, this.y, this.z );
-			var target   :Number3D = new Number3D( targetObject.x, targetObject.y, targetObject.z );
+		
+			position.reset( this.x, this.y, this.z );
+			target.reset( targetObject.x, targetObject.y, targetObject.z );
 	
-			var zAxis    :Number3D = Number3D.sub( target, position );
+			zAxis.copyFrom(target); 
+			zAxis.minusEq(position); 
 			zAxis.normalize();
 	
 			if( zAxis.modulo > 0.1 )
 			{
-				var xAxis :Number3D = Number3D.cross( zAxis, upAxis || UP );
+				xAxis = Number3D.cross( zAxis, upAxis || UP, xAxis );
 				xAxis.normalize();
 	
-				var yAxis :Number3D = Number3D.cross( zAxis, xAxis );
+				yAxis = Number3D.cross( zAxis, xAxis, yAxis );
 				yAxis.normalize();
 	
 				var look  :Matrix3D = this.transform;
@@ -1022,28 +1029,30 @@ package org.papervision3d.objects
 		// TODO OPTIMIZE (HIGH)
 		protected function updateTransform():void
 		{
-			var q:Object = Matrix3D.euler2quaternion( -this._rotationY, -this._rotationZ, this._rotationX ); // Swapped
-
-			var m:Matrix3D = Matrix3D.quaternion2matrix( q.x, q.y, q.z, q.w );
 			
+			_tempQuat = Matrix3D.euler2quaternion( -this._rotationY, -this._rotationZ, this._rotationX, _tempQuat ); // Swapped
+
+			//var m:Matrix3D = Matrix3D.quaternion2matrix( q.x, q.y, q.z, q.w );
+			_tempMatrix = Matrix3D.quaternion2matrix( _tempQuat.x, _tempQuat.y, _tempQuat.z, _tempQuat.w, _tempMatrix );
 			//var q:Quaternion = Quaternion.createFromEuler( -this._rotationY, -this._rotationZ, this._rotationX );
 			//var m:Matrix3D = q.toMatrix();
 			
 			var transform:Matrix3D = this.transform;
 	
-			m.n14 = transform.n14;
-			m.n24 = transform.n24;
-			m.n34 = transform.n34;
+			_tempMatrix.n14 = transform.n14;
+			_tempMatrix.n24 = transform.n24;
+			_tempMatrix.n34 = transform.n34;
 	
-			transform.copy( m );
+			transform.copy( _tempMatrix );
 	
 			// Scale
-			var scaleM:Matrix3D = Matrix3D.IDENTITY;
-			scaleM.n11 = this._scaleX;
-			scaleM.n22 = this._scaleY;
-			scaleM.n33 = this._scaleZ;
+			//var scaleM:Matrix3D = Matrix3D.IDENTITY;
+			_tempMatrix.reset(); 
+			_tempMatrix.n11 = this._scaleX;
+			_tempMatrix.n22 = this._scaleY;
+			_tempMatrix.n33 = this._scaleZ;
 	
-			this.transform.calculateMultiply( transform, scaleM );
+			this.transform.calculateMultiply( transform, _tempMatrix );
 	
 			this._transformDirty = false;
 		}
@@ -1062,7 +1071,7 @@ package org.papervision3d.objects
 		}
 	
 		// ___________________________________________________________________________________________________
-		//                                                                                       P R I V A T E
+		//                                                                                  P R I V A T E
 	
 		/**
 		* [internal-use]
@@ -1072,6 +1081,26 @@ package org.papervision3d.objects
 		private var _rotationX      :Number;
 		private var _rotationY      :Number;
 		private var _rotationZ      :Number;
+		
+		
+		/**
+		 * pre-made Number3Ds and Matrix3Ds for use in the lookAt function
+		 * and others
+		 * 
+		 */
+		 
+		
+		private	var position : Number3D = Number3D.ZERO;
+		private	var target   : Number3D = Number3D.ZERO;
+	
+		private	var zAxis : Number3D = Number3D.ZERO;
+		private	var xAxis : Number3D = Number3D.ZERO;
+		private	var yAxis : Number3D = Number3D.ZERO;
+		
+		private var _rotation		:Number3D  = Number3D.ZERO; 
+		private static var _tempMatrix		:Matrix3D = Matrix3D.IDENTITY; 
+		private static var _tempQuat		:Quaternion = new Quaternion(); 
+		
 		private var _rotationDirty  :Boolean = false;
 	
 		private var _scaleX         :Number;
@@ -1080,6 +1109,11 @@ package org.papervision3d.objects
 		private var _scaleDirty     :Boolean = false;
 	
 		protected var _sorted       :Array;
+		
+		protected var _useOwnContainer:Boolean;
+		protected var _containerSortMode:int;
+		protected var _containerBlendMode:int;
+		protected var _filters:Array;
 		
 		private var _material:MaterialObject3D;
 		

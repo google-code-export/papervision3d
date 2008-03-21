@@ -10,8 +10,8 @@
 	import org.papervision3d.core.geom.renderables.Particle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
-	
-	public class Particles extends Vertices3D
+	import org.papervision3d.core.culling.IObjectCuller;	
+	public class Particles extends Vertices3D
 	{
 		
 		private var vertices:Array;
@@ -37,9 +37,17 @@
 		public override function project( parent :DisplayObject3D, renderSessionData:RenderSessionData ):Number
 		{
 			super.project(parent,renderSessionData);
+			
+			// TODO (MEDIUM) implement Frustum camera rendering for Particles
+			/*if( renderSessionData.camera is IObjectCuller )
+				return projectFrustum(parent, renderSessionData);*/
+			
+
 			var p:Particle;
+			
+			
 			var fz:Number = (renderSessionData.camera.focus*renderSessionData.camera.zoom);
-			 
+		
 			for each(p in particles)
 			{
 				
@@ -57,6 +65,11 @@
 			}
 			return 1;
 		}
+		
+		
+		
+		
+		
 		
 		/**
 		 * addParticle(particle);
