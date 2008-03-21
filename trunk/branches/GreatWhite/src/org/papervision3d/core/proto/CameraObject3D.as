@@ -153,7 +153,10 @@ package org.papervision3d.core.proto
 		// TODO: OPTIMIZE (LOW) Resolve + inline
 		public function transformView( transform:Matrix3D=null ):void
 		{
-			this.eye = Matrix3D.inverse( Matrix3D.multiply( transform || this.transform, _flipY ) );
+			eye.calculateMultiply(transform || this.transform, _flipY );
+			eye.invert(); 
+			
+			//this.eye = Matrix3D.inverse( Matrix3D.multiply( transform || this.transform, _flipY ) );
 		}
 	
 		static private var _flipY :Matrix3D = Matrix3D.scaleMatrix( 1, -1, 1 );
