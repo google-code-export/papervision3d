@@ -194,7 +194,7 @@ package org.papervision3d.core.proto
 		{
 			this.id = _totalMaterialObjects++;
 			MaterialManager.registerMaterial(this);
-			objects = new Dictionary();
+			objects = new Dictionary(true);
 		}
 
 		/**
@@ -288,6 +288,7 @@ package org.papervision3d.core.proto
 		public function registerObject(displayObject3D:DisplayObject3D):void
 		{
 			objects[displayObject3D] = displayObject3D;
+
 		}
 		
 		public function unregisterObject(displayObject3D:DisplayObject3D):void

@@ -24,12 +24,13 @@ package org.papervision3d.core.render.material
 		
 		private function init():void
 		{
-			materials = new Dictionary();
+			materials = new Dictionary(true);
 		}
 		
 		private function _registerMaterial(material:MaterialObject3D):void
 		{
 			materials[material] = material;
+		
 		}
 		
 		private function _unRegisterMaterial(material:MaterialObject3D):void
