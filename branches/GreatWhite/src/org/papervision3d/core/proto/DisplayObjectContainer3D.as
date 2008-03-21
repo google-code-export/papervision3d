@@ -162,19 +162,20 @@ package org.papervision3d.core.proto
 		*/
 	
 		/**
-		* @private
+		* @public
 		* Added from Bug #10 by John Grden 8/22/2007
 		*/
 		public function removeChild( child:DisplayObject3D ):DisplayObject3D
 		{
 			//removeChildByname(name:string) may return null // must check here
+			
 			if(child){
 				delete this._childrenByName[ this._children[ child ] ];
 				delete this._children[ child ];
 			
 				child.parent = null;
 				child.root = null;
-	
+					
 				return child;
 			}
 			return null;
