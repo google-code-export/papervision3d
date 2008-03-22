@@ -78,7 +78,7 @@ package org.papervision3d.objects.parsers {
 		private var num_tris:int, num_glcmds:int, num_frames:int;
 		private var offset_skins:int, offset_st:int, offset_tris:int;
 		private var offset_frames:int, offset_glcmds:int, offset_end:int;
-		private var fps:int;
+		private var _fps:int;
 		
 		/**
 		 * Constructor.
@@ -86,6 +86,14 @@ package org.papervision3d.objects.parsers {
 		public function MD2():void
 		{
 			super(null, new Array(), new Array());
+		}
+		
+		/**
+		 * Gets the default FPS.
+		 */ 
+		public function get fps():uint
+		{
+			return _fps;
 		}
 		
 		/**
@@ -142,7 +150,7 @@ package org.papervision3d.objects.parsers {
 		public function load(asset:*, material:MaterialObject3D = null, fps:int = 6, scale:Number = 1):void
 		{
 			this.loadScale = scale;
-			this.fps = fps;
+			this._fps = fps;
 			this.visible = false;
 			this.material = material || MaterialObject3D.DEFAULT;
 			
@@ -250,7 +258,7 @@ package org.papervision3d.objects.parsers {
 			var tx:Number, ty:Number, tz:Number;
 			var verts:Array
 			var i:int, j:int, char:int;
-			var duration:Number = 1 / this.fps;
+			var duration:Number = 1 / _fps;
 			
 			var channel:AbstractChannel3D = new MorphChannel3D(this, "all");
 			

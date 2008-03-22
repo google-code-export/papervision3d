@@ -125,7 +125,6 @@ package org.ascollada.core
 							
 						case "OUTPUT":
 							channel.output = sampler.values;
-							numCurves = Math.min(source.accessor.stride, 12);
 							break;
 							
 						default:
@@ -133,18 +132,7 @@ package org.ascollada.core
 					}
 				}
 				
-				try
-				{	
-					channel.createCurves(numCurves);
-					this.channels.push( channel );
-				}
-				catch( e:Error )
-				{
-					Logger.error( "error creating channel:\n" + channel.target + "\n" + e.toString() + "\n" + e.getStackTrace() );
-				}
-				//Logger.trace( " => => channel @source=" + channel.source + " => => channel @target=" + channel.target );
-				
-				
+				this.channels.push( channel );
 			}
 		}
 	}

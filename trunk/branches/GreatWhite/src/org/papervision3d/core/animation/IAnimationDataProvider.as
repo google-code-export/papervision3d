@@ -6,6 +6,11 @@ package org.papervision3d.core.animation
 	public interface IAnimationDataProvider
 	{
 		/**
+		 * Gets the default FPS.
+		 */ 
+		function get fps():uint;
+		
+		/**
 		 * Gets a animation channel by its name.
 		 * 
 		 * @param	name
