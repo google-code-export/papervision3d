@@ -38,7 +38,7 @@ package org.papervision3d.core.animation
 	/**
 	 * @author Tim Knip
 	 */ 
-	public class AnimationChannel3D
+	public class AbstractChannel3D
 	{	
 		/** */
 		public var name:String;
@@ -64,7 +64,7 @@ package org.papervision3d.core.animation
 		 * @param	defaultTarget
 		 * @param	name
 		 */ 
-		public function AnimationChannel3D(defaultTarget:DisplayObject3D, name:String = null)
+		public function AbstractChannel3D(defaultTarget:DisplayObject3D, name:String = null)
 		{
 			_defaultTarget = defaultTarget;
 			this.name = name;

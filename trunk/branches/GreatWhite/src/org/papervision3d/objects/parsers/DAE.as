@@ -79,7 +79,7 @@ package org.papervision3d.objects.parsers
 			throw new Error("Sorry all, did a wrong commit to the repo.\nDAE is out of order, please revert to rev #445...\nWorking on it hard! Tim Knip");
 		}
 		
-		public function getAnimationChannelByName(name:String):AnimationChannel3D
+		public function getAnimationChannelByName(name:String):AbstractChannel3D
 		{
 			return null;	
 		}
