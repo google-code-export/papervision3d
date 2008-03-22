@@ -60,7 +60,7 @@ package org.ascollada.fx
 			
 			this.init_from = getNodeContent( getNode(node, ASCollada.DAE_INITFROM_ELEMENT) );
 			
-			Logger.trace( " => => surface type: " + this.type + " init_from: " + this.init_from );
+			Logger.log( " => => surface type: " + this.type + " init_from: " + this.init_from );
 		}
 	}	
 }

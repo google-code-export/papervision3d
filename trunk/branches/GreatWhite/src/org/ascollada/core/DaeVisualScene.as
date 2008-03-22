@@ -82,7 +82,7 @@ package org.ascollada.core
 				
 			super.read( node );
 			
-			Logger.trace( "reading visual scene: " + this.id );
+			Logger.log( "reading visual scene: " + this.id );
 			
 			var nodeList:XMLList = getNodeList(node, ASCollada.DAE_NODE_ELEMENT);
 			if( !nodeList.length() )

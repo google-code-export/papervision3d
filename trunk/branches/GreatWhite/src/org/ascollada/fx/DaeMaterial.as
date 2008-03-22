@@ -56,7 +56,7 @@ package org.ascollada.fx
 		{			
 			super.read( node );
 			
-			Logger.trace( "reading material: " + this.id  );
+			Logger.log( "reading material: " + this.id  );
 			
 			var assetNode:XML = getNode(node, ASCollada.DAE_ASSET_ELEMENT);
 			
@@ -67,7 +67,7 @@ package org.ascollada.fx
 			var effectRef:XML = getNode( node, ASCollada.DAE_INSTANCE_EFFECT_ELEMENT );
 			this.effect = getAttribute( effectRef, ASCollada.DAE_URL_ATTRIBUTE);
 			
-			Logger.trace( " => effect url: " + this.effect );
+			Logger.log( " => effect url: " + this.effect );
 			
 			return;
 			// get extra's
@@ -78,7 +78,7 @@ package org.ascollada.fx
 				var tec:XML = getNode( node, ASCollada.DAE_TECHNIQUE_ELEMENT );
 				
 				this.extras.push("extra");
-				Logger.trace( " => technique " + tec.attribute("profile") );
+				Logger.log( " => technique " + tec.attribute("profile") );
 			}
 		}
 	}	

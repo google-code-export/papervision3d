@@ -66,7 +66,7 @@ package org.ascollada.io
 		 */
 		public function read( filename:String ):void
 		{
-			Logger.trace( "reading: " + filename );
+			Logger.log( "reading: " + filename );
 			
 			if( _animTimer.running )
 				_animTimer.stop();
@@ -86,13 +86,13 @@ package org.ascollada.io
 		{
 			if( this.document.numQueuedAnimations > 0 )
 			{
-				Logger.trace( "START READING #" +this.document.numQueuedAnimations+" ANIMATIONS" );
+				Logger.log( "START READING #" +this.document.numQueuedAnimations+" ANIMATIONS" );
 				_animTimer.repeatCount = this.document.numQueuedAnimations + 1;
 				_animTimer.delay = 100;
 				_animTimer.start();
 			}
 			else
-				Logger.trace( "NO ANIMATIONS" );
+				Logger.log( "NO ANIMATIONS" );
 		}
 		
 		/**
@@ -103,13 +103,13 @@ package org.ascollada.io
 		{
 			if( this.document.numQueuedGeometries > 0 )
 			{
-				Logger.trace( "START READING #" +this.document.numQueuedGeometries+" GEOMETRIES" );
+				Logger.log( "START READING #" +this.document.numQueuedGeometries+" GEOMETRIES" );
 				_geomTimer.repeatCount = this.document.numQueuedGeometries + 1;
 				_geomTimer.delay = 100;
 				_geomTimer.start();
 			}
 			else
-				Logger.trace( "NO GEOMETRIES" );
+				Logger.log( "NO GEOMETRIES" );
 		}
 		
 		/**
@@ -138,7 +138,7 @@ package org.ascollada.io
 		{
 			var loader:URLLoader = event.target as URLLoader;
 			
-			Logger.trace( "complete!" );
+			Logger.log( "complete!" );
 
 			loadDocument( loader.data );
 		}
@@ -180,14 +180,14 @@ package org.ascollada.io
 		{
 			if( !this.document.readNextGeometry() )
 			{
-				Logger.trace( "geometries complete" );
+				Logger.log( "geometries complete" );
 				
 				_geomTimer.stop();
 				dispatchEvent( new Event(Event.COMPLETE) );
 			}
 			else
 			{
-				Logger.trace( "reading next geometry" );
+				Logger.log( "reading next geometry" );
 				dispatchEvent( new ProgressEvent(ProgressEvent.PROGRESS, false, false, _numGeometries - this.document.numQueuedGeometries, _numGeometries) );
 			}
 		}

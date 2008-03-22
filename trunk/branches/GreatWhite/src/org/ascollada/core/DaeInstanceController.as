@@ -64,7 +64,7 @@ package org.ascollada.core
 			
 			this.materials = new Array();
 			
-			Logger.trace( " => " + this.url );
+			Logger.log( " => " + this.url );
 			
 			this.skeleton = null;
 			this.skeletons = new Array();
@@ -85,7 +85,7 @@ package org.ascollada.core
 						this.skeletons.push( nodeID );
 						if( !this.skeleton )
 							this.skeleton = nodeID;
-						Logger.trace( " => skeleton: " + nodeID );
+						Logger.log( " => skeleton: " + nodeID );
 						break;
 						
 					case ASCollada.DAE_BINDMATERIAL_ELEMENT:

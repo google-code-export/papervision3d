@@ -64,7 +64,7 @@ package org.ascollada.types
 			
 			if( !validateValues() )
 			{
-				Logger.trace( "[ERROR] invalid values for this transform!" );
+				Logger.log( "[ERROR] invalid values for this transform!" );
 				throw new Error( "[ERROR] invalid values for this transform!" );
 			}
 			
@@ -92,7 +92,7 @@ package org.ascollada.types
 							matrices.push( rotationMatrix(values[0], values[1], values[2], output[i]) );
 					}
 					else
-						Logger.trace( " => => " + this.type + " " + channel.syntax );
+						Logger.log( " => => " + this.type + " " + channel.syntax );
 					break;
 				case ASCollada.DAE_TRANSLATE_ELEMENT:
 					if( channel.syntax.isFullAccess )
@@ -117,11 +117,11 @@ package org.ascollada.types
 					}
 					else
 					{
-						Logger.trace( " => => " + this.type + " " + channel.syntax );
+						Logger.log( " => => " + this.type + " " + channel.syntax );
 					}
 					break;
 				case ASCollada.DAE_SCALE_ELEMENT:
-					Logger.trace( " => buildAnimatedMatrices " + this.type );
+					Logger.log( " => buildAnimatedMatrices " + this.type );
 					break;
 				case ASCollada.DAE_MATRIX_ELEMENT:
 					if( channel.syntax.isFullAccess )
@@ -131,7 +131,7 @@ package org.ascollada.types
 					}
 					break;
 				default:
-					Logger.trace( " => unknown type " + this.type );
+					Logger.log( " => unknown type " + this.type );
 					break;
 			}
 			
@@ -161,7 +161,7 @@ package org.ascollada.types
 					matrix = bakedMatrix(values);
 					break;
 				default:
-					Logger.trace( "[ERROR] don't know how to create a matrix with type=" + this.type );
+					Logger.log( "[ERROR] don't know how to create a matrix with type=" + this.type );
 					throw new Error( "don't know how to create a matrix with type=" + this.type );
 					break;
 			}

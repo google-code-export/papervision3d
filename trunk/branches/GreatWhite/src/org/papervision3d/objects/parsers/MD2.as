@@ -41,12 +41,13 @@ package org.papervision3d.objects.parsers {
 	import flash.utils.Endian;
 	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.animation.AnimationChannel3D;
-	import org.papervision3d.core.animation.AnimationKeyFrame3D;
+	import org.papervision3d.core.animation.*;
+	import org.papervision3d.core.animation.channel.MorphChannel3D;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.NumberUV;
-	import org.papervision3d.core.proto.MaterialObject3D;	
+	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.objects.DisplayObject3D;	
 
 	/**
 	 * Loads Quake 2 MD2 file with animation!
@@ -56,10 +57,8 @@ package org.papervision3d.objects.parsers {
 	 * @website www.d3s.net
 	 * @version 04.11.07:11:56
 	 */
-	public class MD2 extends TriangleMesh3D
+	public class MD2 extends TriangleMesh3D implements IAnimationDataProvider
 	{
-		public var channel:AnimationChannel3D;
-		
 		/**
 		 * Variables used in the loading of the file
 		 */
@@ -87,6 +86,49 @@ package org.papervision3d.objects.parsers {
 		public function MD2():void
 		{
 			super(null, new Array(), new Array());
+		}
+		
+		/**
+		 * Gets a animation channel by its name.
+		 * 
+		 * @param	name
+		 * 
+		 * @return the found channel.
+		 */ 
+		public function getAnimationChannelByName(name:String):AnimationChannel3D
+		{
+			return _channelByName[name];	
+		}
+		
+		/**
+		 * Gets all animation channels for a target. NOTE: when target is null, 'this' object is used.
+		 * 
+		 * @param	target	The target to get the channels for.
+		 * 
+		 * @return	Array of AnimationChannel3D.
+		 */ 
+		public function getAnimationChannelsByTarget(target:DisplayObject3D=null):Array
+		{
+			target = target || this;
+			if(target === this)
+			{
+				return [_channels[0]];
+			}
+			return null;
+		}
+		
+		/**
+		 * Gets animation channels by clip name.
+		 * 
+		 * @param	name	The clip name
+		 * 
+		 * @return	Array of AnimationChannel3D.
+		 */ 
+		public function getAnimationChannelsByClip(name:String):Array
+		{
+			if(_channelByName[name])
+				return [_channelByName[name]];
+			return null;	
 		}
 		
 		/**
@@ -142,6 +184,9 @@ package org.papervision3d.objects.parsers {
 			var metaface:Object;
 			data.endian = Endian.LITTLE_ENDIAN;
 			
+			_channels = new Array();
+			_channelByName = new Object();
+			
 			// Read the header and make sure it is valid MD2 file
 			readMd2Header(data);
 			if (ident != 844121161 || version != 8)
@@ -191,7 +236,7 @@ package org.papervision3d.objects.parsers {
 						
 			Papervision3D.log("Parsed MD2: " + file + "\n vertices:" + 
 							  geometry.vertices.length + "\n texture vertices:" + uvs.length +
-							  "\n faces:" + geometry.faces.length + "\n frames: " + this.channel.keyframes.length);
+							  "\n faces:" + geometry.faces.length + "\n frames: " + _channels.length);
 	
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
@@ -207,9 +252,12 @@ package org.papervision3d.objects.parsers {
 			var i:int, j:int, char:int;
 			var duration:Number = 1 / this.fps;
 			
-			this.channel = new AnimationChannel3D(this, null, AnimationChannel3D.TYPE_MORPH);
+			var channel:AnimationChannel3D = new MorphChannel3D(this, "all");
 			
 			var t:uint = 0;
+			
+			var curName:String = "all";
+			var clip:AnimationChannel3D;
 			
 			for (i = 0; i < num_frames; i++)
 			{				
@@ -226,6 +274,20 @@ package org.papervision3d.objects.parsers {
 				for (j = 0; j < 16; j++)
 					if ((char = data.readUnsignedByte()) != 0)
 						frameName += String.fromCharCode(char);
+				
+				var shortName:String = frameName.replace(/\d+/, "");
+				
+				if(curName != shortName)
+				{
+					if(clip)
+					{
+						_channels.push(clip);
+						_channelByName[clip.name] = clip;
+					}
+					
+					clip = new MorphChannel3D(this, shortName);
+					curName = shortName;
+				}
 				
 				var vertices:Array = new Array();
 
@@ -248,7 +310,18 @@ package org.papervision3d.objects.parsers {
 					vertices.push(v);
 				}
 				
-				this.channel.addKeyFrame(new AnimationKeyFrame3D(frameName, i * duration, vertices));
+				clip.addKeyFrame(new AnimationKeyFrame3D(frameName, i * duration, vertices));
+				
+				channel.addKeyFrame(new AnimationKeyFrame3D(frameName, i * duration, vertices));
+			}
+			
+			_channels.unshift(channel);
+			_channelByName[channel.name] = channel;
+			
+			if(clip)
+			{
+				_channels.push(clip);
+				_channelByName[clip.name] = clip;
 			}
 		}
 		
@@ -296,5 +369,8 @@ package org.papervision3d.objects.parsers {
 		{
 			dispatchEvent(event);
 		}
+		
+		private var _channels:Array;
+		private var _channelByName:Object;
 	}
 }

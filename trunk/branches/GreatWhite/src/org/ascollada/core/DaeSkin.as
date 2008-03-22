@@ -158,7 +158,7 @@ package org.ascollada.core
 			// required - ref to skin's geometry
 			this.source = getAttribute(node, ASCollada.DAE_SOURCE_ATTRIBUTE);
 			
-			Logger.trace( "reading skin, source: " + this.source );
+			Logger.log( "reading skin, source: " + this.source );
 						
 			// optional - bind_shape_matrix, defaults to identity matrix
 			var bindList:XMLList = getNodeList(node, ASCollada.DAE_BINDSHAPEMX_SKIN_PARAMETER);	
@@ -279,7 +279,7 @@ package org.ascollada.core
 				this.vertex_weights[i] = tmp;
 			}
 			
-			Logger.trace( " => => #vertex_weights " + vertex_weights.length );
+			Logger.log( " => => #vertex_weights " + vertex_weights.length );
 		}
 		
 		/**

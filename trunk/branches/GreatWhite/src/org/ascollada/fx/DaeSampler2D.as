@@ -57,7 +57,7 @@ package org.ascollada.fx
 			
 			this.source = getNodeContent(getNode(node, ASCollada.DAE_SOURCE_ELEMENT));
 			
-			Logger.trace( " => => sampler2D source: " + this.source );
+			Logger.log( " => => sampler2D source: " + this.source );
 		}
 	}	
 }

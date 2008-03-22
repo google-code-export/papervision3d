@@ -73,7 +73,7 @@ package org.ascollada.core
 			// defaults to METHOD_NORMALIZED
 			this.method = getAttribute(node, ASCollada.DAE_METHOD_ATTRIBUTE) == METHOD_RELATIVE ? METHOD_RELATIVE : METHOD_NORMALIZED;
 			
-			Logger.trace( "reading morph, source: " + this.source + " method: " + this.method);
+			Logger.log( "reading morph, source: " + this.source + " method: " + this.method);
 			
 			// exactly one targets element
 			var targetNode:XML = getNode(node, ASCollada.DAE_TARGETS_ELEMENT);

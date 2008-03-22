@@ -72,7 +72,7 @@ package org.ascollada.core
 			
 			this.count = getAttributeAsInt(node,ASCollada.DAE_COUNT_ATTRIBUTE);
 			
-			Logger.trace( " => reading vertex_weights" );
+			Logger.log( " => reading vertex_weights" );
 			
 			// require 2 or more <input> elements
 			var inputList:XMLList = getNodeList(node, ASCollada.DAE_INPUT_ELEMENT);
