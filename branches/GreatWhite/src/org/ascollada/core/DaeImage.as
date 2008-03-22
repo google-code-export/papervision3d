@@ -89,7 +89,7 @@ package org.ascollada.core
 							this.init_from = urlParts.join("/");
 						}
 						*/
-						Logger.trace( " => " + this.id + " init_from: " + this.init_from );
+						Logger.log( " => " + this.id + " init_from: " + this.init_from );
 						break;
 					
 					case ASCollada.DAE_EXTRA_ELEMENT:

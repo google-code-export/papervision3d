@@ -72,7 +72,7 @@ package org.ascollada.fx
 						
 					case ASCollada.DAE_SHININESS_MATERIAL_PARAMETER:
 						this.shininess = parseFloat( getNodeContent( getNode(child, "float") ) );
-						Logger.trace( " => shininess: " + this.shininess );
+						Logger.log( " => shininess: " + this.shininess );
 						break;
 						
 					default:

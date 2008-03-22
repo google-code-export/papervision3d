@@ -58,7 +58,7 @@ package org.ascollada.core
 		override public function read( node:XML ):void {
 			super.read( node );
 			
-			Logger.trace( "reading geometry: " + this.id );
+			Logger.log( "reading geometry: " + this.id );
 			
 			this.mesh = null;
 			this.convex_mesh = null;

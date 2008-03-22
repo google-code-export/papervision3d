@@ -70,7 +70,7 @@ package org.ascollada.core
 				
 			super.read( node );
 			
-			Logger.trace( "reading animation_clip: " + this.id );
+			Logger.log( "reading animation_clip: " + this.id );
 			
 			this.instance_animation = new Array();			
 			this.start = getAttributeAsFloat( node, ASCollada.DAE_START_ATTRIBUTE );

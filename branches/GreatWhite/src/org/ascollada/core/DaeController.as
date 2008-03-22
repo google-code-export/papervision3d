@@ -69,7 +69,7 @@ package org.ascollada.core
 			
 			super.read( node );
 			
-			Logger.trace( "reading controller: " + this.id );
+			Logger.log( "reading controller: " + this.id );
 			
 			// <skin> or <morph> 
 			var skinNode:XML = getNode(node, ASCollada.DAE_CONTROLLER_SKIN_ELEMENT);			

@@ -25,33 +25,29 @@
  
 package org.ascollada.utils
 {
-	import com.blitzagency.xray.logger.XrayLog;
-	
 	public class Logger
 	{
-		private static var log:XrayLog = new XrayLog();
-		
-		public static var VERBOSE:Boolean = false;
+		public static var VERBOSE:Boolean = true;
 		
 		public static function debug( o:String ):void
 		{
-			if(VERBOSE) log.debug( o );
+			if(VERBOSE) trace( o );
 		}
 		public static function error( o:String ):void
 		{
-			log.error( o );
+			trace( o );
 		}		
 		public static function fatal( o:String ):void
 		{
-			log.fatal( o );
+			trace( o );
 		}
 		public static function info( o:String ):void
 		{
-			if(VERBOSE) log.info( o );
+			if(VERBOSE) trace( o );
 		}
-		public static function trace( o:String ):void
+		public static function log( o:String ):void
 		{
-			if(VERBOSE) log.debug( o );
+			if(VERBOSE) trace( o );
 		}
 	}
 }

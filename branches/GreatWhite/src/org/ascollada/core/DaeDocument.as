@@ -25,17 +25,11 @@
  
 package org.ascollada.core
 {
-	import flash.display.Bitmap;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.display.Loader;
-	import flash.net.URLRequest;
-	import org.ascollada.physics.DaePhysicsScene;
-	
 	import org.ascollada.ASCollada;
 	import org.ascollada.fx.DaeEffect;
 	import org.ascollada.fx.DaeMaterial;
 	import org.ascollada.namespaces.*;
+	import org.ascollada.physics.DaePhysicsScene;
 	import org.ascollada.utils.Logger;
 	
 	/**
@@ -69,6 +63,7 @@ package org.ascollada.core
 		public var yUp:uint;
 		
 		public var materialSymbolToTarget:Object;
+		public var materialTargetToSymbol:Object;
 		
 		/**
 		 * 
@@ -92,6 +87,7 @@ package org.ascollada.core
 		private function buildMaterialTable():void
 		{
 			materialSymbolToTarget = new Object();
+			materialTargetToSymbol = new Object();
 			
 			var nodes:XMLList = this.COLLADA..collada::[ASCollada.DAE_INSTANCE_MATERIAL_ELEMENT];
 			
@@ -101,6 +97,7 @@ package org.ascollada.core
 				var symbol:String = getAttribute(child, ASCollada.DAE_SYMBOL_ATTRIBUTE);
 				
 				materialSymbolToTarget[symbol] = target;
+				materialTargetToSymbol[target] = symbol;
 			}
 		}
 		
@@ -154,7 +151,7 @@ package org.ascollada.core
 				
 				if( n )
 				{
-					//Logger.trace( "found '" + id + "' " + useSID + " ID:" + n.id + " Name:" + n.name + " SID:" + n.sid );
+					//Logger.log( "found '" + id + "' " + useSID + " ID:" + n.id + " Name:" + n.name + " SID:" + n.sid );
 			
 					return n;
 				}
@@ -243,17 +240,17 @@ package org.ascollada.core
 		{
 			this.version = node.attribute(ASCollada.DAE_VERSION_ATTRIBUTE).toString();
 			
-			Logger.trace( "version: " + this.version );
+			Logger.log( "version: " + this.version );
 			
 			// required!
 			this.asset = new DaeAsset( getNode(this.COLLADA, ASCollada.DAE_ASSET_ELEMENT) );
 			
-			Logger.trace( "author: " + this.asset.contributors[0].author );
-			Logger.trace( "created: " + this.asset.created );
-			Logger.trace( "modified: " + this.asset.modified );
-			Logger.trace( "y-up: " + this.asset.yUp );
-			Logger.trace( "unit_meter: " + this.asset.unit_meter );
-			Logger.trace( "unit_name: " + this.asset.unit_name );
+			Logger.log( "author: " + this.asset.contributors[0].author );
+			Logger.log( "created: " + this.asset.created );
+			Logger.log( "modified: " + this.asset.modified );
+			Logger.log( "y-up: " + this.asset.yUp );
+			Logger.log( "unit_meter: " + this.asset.unit_meter );
+			Logger.log( "unit_name: " + this.asset.unit_name );
 			
 			if( this.asset.yUp == ASCollada.DAE_Y_UP )
 				this.yUp = Y_UP;
@@ -295,7 +292,7 @@ package org.ascollada.core
 					var ent:DaeAnimation = new DaeAnimation();
 					ent.id = item.attribute(ASCollada.DAE_ID_ATTRIBUTE).toString();
 					this.animations[ ent.id ] = ent;
-					//Logger.trace( "reading animation: " + ent.id );
+					//Logger.log( "reading animation: " + ent.id );
 					_waitingAnimations.push( ent );
 				}
 			}
@@ -522,13 +519,13 @@ package org.ascollada.core
 					var vurl:String = getAttribute( vsceneNode, ASCollada.DAE_URL_ATTRIBUTE );
 					if( this.visual_scenes[vurl] is DaeVisualScene )
 					{
-						Logger.trace( "found visual scene: " + vurl );
+						Logger.log( "found visual scene: " + vurl );
 						
 						this.vscene = this.visual_scenes[ vurl ];
 						
-						Logger.trace( " -> frameRate: " + this.vscene.frameRate );
-						Logger.trace( " -> startTime: " + this.vscene.startTime );
-						Logger.trace( " -> endTime: " + this.vscene.endTime );
+						Logger.log( " -> frameRate: " + this.vscene.frameRate );
+						Logger.log( " -> startTime: " + this.vscene.startTime );
+						Logger.log( " -> endTime: " + this.vscene.endTime );
 					}
 				}
 				
@@ -538,7 +535,7 @@ package org.ascollada.core
 					var purl:String = getAttribute( psceneNode, ASCollada.DAE_URL_ATTRIBUTE );
 					if( this.physics_scenes[purl] is DaePhysicsScene )
 					{
-						Logger.trace( "found physics scene: " + purl );
+						Logger.log( "found physics scene: " + purl );
 						this.pscene = this.physics_scenes[ purl ];
 					}
 				}

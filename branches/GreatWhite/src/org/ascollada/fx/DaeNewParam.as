@@ -58,7 +58,7 @@ package org.ascollada.fx
 				
 			super.read( node );
 			
-			Logger.trace( " => newparam @sid=" + this.sid );
+			Logger.log( " => newparam @sid=" + this.sid );
 			
 			var children:XMLList = node.children();
 			var numChildren:int = children.length();

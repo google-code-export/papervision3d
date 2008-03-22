@@ -75,7 +75,7 @@ package org.ascollada.fx
 			var images:XMLList = getNodeList( profile, ASCollada.DAE_IMAGE_ELEMENT );
 			
 			// Creates a new parameter from a constrained set of
-			// types recognizable by all platforms – <float>,
+			// types recognizable by all platforms ï¿½ <float>,
 			// <float2>, <float3>, <float4>, <surface>, and
 			// <sampler2D>, with an additional semantic. 0 or more.
 			var newparams:XMLList = getNodeList( profile, ASCollada.DAE_FXCMN_NEWPARAM_ELEMENT );
@@ -89,10 +89,10 @@ package org.ascollada.fx
 			// check for a SID
 			var techSID:String = technique.attribute(ASCollada.DAE_SID_ATTRIBUTE);
 			
-			Logger.trace( "reading effect: " + this.id );
-			Logger.trace( " => #images: " + images.length() );
-			Logger.trace( " => #newparams: " + newparams.length() );
-			Logger.trace( " => technique sid: " + techSID );
+			Logger.log( "reading effect: " + this.id );
+			Logger.log( " => #images: " + images.length() );
+			Logger.log( " => #newparams: " + newparams.length() );
+			Logger.log( " => technique sid: " + techSID );
 			
 			this.newparams = new Object();
 			for each( var paramNode:XML in newparams )
@@ -108,22 +108,22 @@ package org.ascollada.fx
 			var constant:XML = getNode( technique, ASCollada.DAE_FXSTD_CONSTANT_ELEMENT );
 			if( phong )
 			{
-				Logger.trace( " => shader: phong" );
+				Logger.log( " => shader: phong" );
 				this.color = new DaePhong( phong );
 			}
 			else if( lambert )
 			{
-				Logger.trace( " => shader: lambert" );
+				Logger.log( " => shader: lambert" );
 				this.color = new DaeLambert( lambert );
 			}
 			else if( blinn )
 			{
-				Logger.trace( " => shader: blinn" );
+				Logger.log( " => shader: blinn" );
 				this.color = new DaeBlinn( blinn );
 			}
 			else if( constant )
 			{
-				Logger.trace( " => shader: constant" );
+				Logger.log( " => shader: constant" );
 				this.color = new DaeConstant( constant );
 			}
 			
