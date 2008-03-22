@@ -42,7 +42,7 @@ package org.papervision3d.objects.parsers {
 	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.animation.*;
-	import org.papervision3d.core.animation.channel.MorphChannel3D;
+	import org.papervision3d.core.animation.channel.*;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.NumberUV;
