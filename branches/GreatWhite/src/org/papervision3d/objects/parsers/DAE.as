@@ -43,6 +43,7 @@ package org.papervision3d.objects.parsers
 	import org.ascollada.namespaces.*;
 	import org.ascollada.types.*;
 	import org.papervision3d.core.animation.*;
+	import org.papervision3d.core.animation.channel.*;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;

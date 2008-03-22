@@ -31,8 +31,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.papervision3d.core.animation
+package org.papervision3d.core.animation.channel
 {
+	import org.papervision3d.core.animation.AnimationKeyFrame3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**

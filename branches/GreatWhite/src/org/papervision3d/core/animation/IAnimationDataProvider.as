@@ -1,6 +1,6 @@
 package org.papervision3d.core.animation
 {
-	//import org.papervision3d.core.animation.channel
+	import org.papervision3d.core.animation.channel.AbstractChannel3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	public interface IAnimationDataProvider
