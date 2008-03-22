@@ -1,5 +1,6 @@
 package org.papervision3d.core.animation
 {
+	//import org.papervision3d.core.animation.channel
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	public interface IAnimationDataProvider
@@ -11,7 +12,7 @@ package org.papervision3d.core.animation
 		 * 
 		 * @return the found channel.
 		 */ 
-		function getAnimationChannelByName(name:String):AnimationChannel3D;
+		function getAnimationChannelByName(name:String):AbstractChannel3D;
 		
 		/**
 		 * Gets all animation channels for a target. NOTE: when target is null, the object with this interface is used.

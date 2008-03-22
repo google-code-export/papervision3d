@@ -95,7 +95,7 @@ package org.papervision3d.objects.parsers {
 		 * 
 		 * @return the found channel.
 		 */ 
-		public function getAnimationChannelByName(name:String):AnimationChannel3D
+		public function getAnimationChannelByName(name:String):AbstractChannel3D
 		{
 			return _channelByName[name];	
 		}
@@ -252,12 +252,12 @@ package org.papervision3d.objects.parsers {
 			var i:int, j:int, char:int;
 			var duration:Number = 1 / this.fps;
 			
-			var channel:AnimationChannel3D = new MorphChannel3D(this, "all");
+			var channel:AbstractChannel3D = new MorphChannel3D(this, "all");
 			
 			var t:uint = 0;
 			
 			var curName:String = "all";
-			var clip:AnimationChannel3D;
+			var clip:AbstractChannel3D;
 			
 			for (i = 0; i < num_frames; i++)
 			{				
