@@ -88,10 +88,6 @@ package org.papervision3d.core.render.project
 		protected function projectObject(object:DisplayObject3D, renderSessionData:RenderSessionData):void
 		{
 			object.project(object, renderSessionData);
-			var child:DisplayObject3D;
-			for each(child in object.children){
-				child.project(object, renderSessionData);
-			}
 		}
 		
 	}
