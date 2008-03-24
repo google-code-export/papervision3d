@@ -1,6 +1,8 @@
 package org.papervision3d.core.render.project
 {
 	import org.papervision3d.core.culling.IObjectCuller;
+	import org.papervision3d.core.geom.TriangleMesh3D;
+	import org.papervision3d.core.geom.Vertices3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
 	
@@ -34,7 +36,7 @@ package org.papervision3d.core.render.project
 			var objects:Array = renderSessionData.scene.objects;
 			var p:DisplayObject3D;
 			var i:Number = objects.length;
-			
+	
 			//The frustum camera requires 4x4 matrices.
 			if( renderSessionData.camera is IObjectCuller){
 				for each(p in objects){
@@ -87,7 +89,8 @@ package org.papervision3d.core.render.project
 		
 		protected function projectObject(object:DisplayObject3D, renderSessionData:RenderSessionData):void
 		{
-			object.project(object, renderSessionData);
+			//Collect everything from the object
+			object.project(renderSessionData.camera, renderSessionData);
 		}
 		
 	}
