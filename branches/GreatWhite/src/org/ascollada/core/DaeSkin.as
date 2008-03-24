@@ -205,12 +205,12 @@ package org.ascollada.core
 					case ASCollada.DAE_JOINT_SKIN_INPUT:
 						this.joints = src.values;
 						this.jointsType = src.accessor.params[ASCollada.DAE_JOINT_SKIN_INPUT];
-						//Logger.trace( " => => joints: " + this.joints );
+						//Logger.log( " => => joints: " + this.joints );
 						break;
 						
 					case ASCollada.DAE_BINDMATRIX_SKIN_INPUT:
 						this.bind_matrices = src.values;
-						//Logger.trace( " => => bind_matrices: " + this.bind_matrices );
+						//Logger.log( " => => bind_matrices: " + this.bind_matrices );
 						break;
 						
 					default:

@@ -187,12 +187,15 @@ package org.papervision3d.core.proto
 		* </p>
 		* If more that one child display object has the specified name, the method returns the first object in the child list.
 		* </p>
-		* @param	name	The name of the child to return.
+		* @param	name	The name of the child to return.* 
 		* @return	The child display object with the specified name.
 		*/
-		public function getChildByName( name:String ):DisplayObject3D
+		public function getChildByName( name:String, recursive:Boolean = false ):DisplayObject3D
 		{
-			return this._childrenByName[ name ];
+			if(recursive)
+				return findChildByName(name);
+			else
+				return this._childrenByName[ name ];
 		}
 	
 	
@@ -244,6 +247,30 @@ package org.papervision3d.core.proto
 		}
 	
 	
+		/**
+		 * Recursively finds a child by its name.
+		 * 
+		 * @param	name
+		 * @param	parent
+		 * 
+		 * @return 	The found child.
+		 */ 
+		private function findChildByName(name:String, parent:DisplayObject3D = null):DisplayObject3D
+		{
+			parent = parent || DisplayObject3D(this);
+			if(!parent)
+				return null;
+			if(parent.name == name)
+				return parent;
+			for each(var child:DisplayObject3D in parent.children)	
+			{
+				var obj:DisplayObject3D = findChildByName(name, child);
+				if(obj) 
+					return obj;
+			}
+			return null
+		}
+		
 		// ___________________________________________________________________ P R O T E C T E D
 	
 		/**

@@ -5,7 +5,7 @@ package org.papervision3d.core.geom
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
 
-	public class Joint3D extends TriangleMesh3D
+	public class Joint3D extends DisplayObject3D
 	{
 		/**
 		 * Array of animation channels. @see org.papervision3d.core.animation.AnimationChannel3D
@@ -35,15 +35,11 @@ package org.papervision3d.core.geom
 		/**
 		 * Constructor.
 		 * 
-		 * @param	material
-		 * @param	vertices
-		 * @param	faces
 		 * @param	name
-		 * @param	initObject
 		 */ 
-		public function Joint3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null)
+		public function Joint3D(name:String=null)
 		{
-			super(material, vertices, faces, name, initObject);
+			super(name);
 
 			this.channels = new Array();
 			this.vertexWeights = new Array();
@@ -125,8 +121,8 @@ package org.papervision3d.core.geom
 		 */ 
 		public override function project(parent:DisplayObject3D, renderSessionData:RenderSessionData):Number
 		{
-			if(!_baked && _transformsDirty)
-				bake();
+			//if(!_baked && _transformsDirty)
+			//	bake();
 				
 			return super.project(parent, renderSessionData);
 		}

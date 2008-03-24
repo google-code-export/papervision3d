@@ -145,19 +145,19 @@ package org.ascollada.core
 						
 					case ASCollada.DAE_ROTATE_ELEMENT:			
 						floats = getFloats(child);
-						transform = new DaeTransform(ASCollada.DAE_ROTATE_ELEMENT, csid, floats, yUp);
+						transform = new DaeTransform(ASCollada.DAE_ROTATE_ELEMENT, csid, floats);
 						this.transforms.push( transform );
 						break;
 						
 					case ASCollada.DAE_TRANSLATE_ELEMENT:
 						floats = getFloats(child);
-						transform = new DaeTransform(ASCollada.DAE_TRANSLATE_ELEMENT, csid, floats, yUp);
+						transform = new DaeTransform(ASCollada.DAE_TRANSLATE_ELEMENT, csid, floats);
 						this.transforms.push( transform );
 						break;
 						
 					case ASCollada.DAE_SCALE_ELEMENT:
 						floats = getFloats(child);
-						transform = new DaeTransform(ASCollada.DAE_SCALE_ELEMENT, csid, floats, yUp);
+						transform = new DaeTransform(ASCollada.DAE_SCALE_ELEMENT, csid, floats);
 						this.transforms.push( transform );
 						break;
 						
@@ -171,7 +171,7 @@ package org.ascollada.core
 						
 					case ASCollada.DAE_MATRIX_ELEMENT:
 						floats = getFloats(child);
-						transform = new DaeTransform(ASCollada.DAE_MATRIX_ELEMENT, csid, floats, yUp);
+						transform = new DaeTransform(ASCollada.DAE_MATRIX_ELEMENT, csid, floats);
 						this.transforms.push( transform);
 						break;
 						

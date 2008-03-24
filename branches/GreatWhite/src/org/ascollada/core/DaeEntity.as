@@ -119,7 +119,7 @@ package org.ascollada.core {
 		public function getFloats( node:XML ):Array {
 			var arr:Array = getStrings( node );
 			for( var i:int = 0; i < arr.length; i++ )
-				arr[i] = parseFloat( StringUtil.trim(arr[i]) );
+				arr[i] = parseFloat(arr[i]);
 			return arr;
 		}
 		
