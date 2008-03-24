@@ -18,43 +18,20 @@
 		* [read-only] [read-only] The scene, which is the top-most displayObjectContainer3D in the tree structure.
 		*/
 		public var root :DisplayObjectContainer3D;
-	
-		// ___________________________________________________________________ C O L L A D A
+		
+		/**
+		* [internal-use] Names indexed by children.
+		*/
+		protected var _children       :Dictionary;
 	
 		/**
-		* This method has been deprecated.
+		* [internal-use] Children indexed by name.
 		*/
-		public function addCollada( filename :String, materials :MaterialsList=null, scale :Number=1 ):void
-		{
-			Papervision3D.log( "The addCollada() method has been deprecated. Use addChildren( new Collada( filename ) )" );
-		}
+		protected var _childrenByName :Object;
 	
-	
-	
-		/**
-		* Returns the number of children of this object.
-		*/
-		public function get numChildren():int
-		{
-			return this._childrenTotal;
-		}
-	
-		/**
-		* Returns the children object.
-		*/
-		public function get children():Object
-		{
-			return this._childrenByName;
-		}
-	
-		// ___________________________________________________________________ N E W
-	
-		// NN  NN EEEEEE WW    WW
-		// NNN NN EE     WW WW WW
-		// NNNNNN EEEE   WWWWWWWW
-		// NN NNN EE     WWW  WWW
-		// NN  NN EEEEEE WW    WW
-	
+		private   var _childrenTotal  :int;
+		
+
 		/**
 		* Creates a new DisplayObjectContainer3D object.
 		*/
@@ -64,9 +41,6 @@
 			this._childrenByName = new Dictionary( true );
 			this._childrenTotal  = 0;
 		}
-	
-	
-		// ___________________________________________________________________ C H I L D R E N
 	
 		/**
 		* Adds a child DisplayObject3D instance to this DisplayObjectContainer instance.
@@ -179,10 +153,6 @@
 			return removeChild( getChildByName( name ) );
 		}
 	
-	
-	
-		// ___________________________________________________________________ D E B U G
-	
 		/**
 		* Returns a string value with the list of objects.
 		*
@@ -192,8 +162,7 @@
 		{
 			return childrenList();
 		}
-	
-	
+		
 		/**
 		* Returns a string value with the list of objects.
 		*
@@ -208,8 +177,7 @@
 	
 			return list;
 		}
-	
-	
+		
 		/**
 		 * Recursively finds a child by its name.
 		 * 
@@ -234,21 +202,21 @@
 			return null
 		}
 		
-		// ___________________________________________________________________ P R O T E C T E D
+		/**
+		* Returns the number of children of this object.
+		*/
+		public function get numChildren():int
+		{
+			return this._childrenTotal;
+		}
 	
 		/**
-		* [internal-use] Names indexed by children.
+		* Returns the children object.
 		*/
-		protected var _children       :Dictionary;
+		public function get children():Object
+		{
+			return this._childrenByName;
+		}
 	
-		/**
-		* [internal-use] Children indexed by name.
-		*/
-		protected var _childrenByName :Object;
-	
-	
-		// ___________________________________________________________________ P R I V A T E
-	
-		private   var _childrenTotal  :int;
 	}
 }
