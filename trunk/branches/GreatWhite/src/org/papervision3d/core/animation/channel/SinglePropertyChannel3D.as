@@ -45,13 +45,14 @@ package org.papervision3d.core.animation.channel
 		/**
 		 * Constructor.
 		 * 
+		 * @param	parent
 		 * @param	defaultTarget
 		 * @param	targetProperty
 		 * @param	name
 		 */ 
-		public function SinglePropertyChannel3D(defaultTarget:DisplayObject3D, targetProperty:String, name:String=null)
+		public function SinglePropertyChannel3D(parent:IAnimationDataProvider, defaultTarget:DisplayObject3D, targetProperty:String, name:String=null)
 		{
-			super(defaultTarget, name);
+			super(parent, defaultTarget, name);
 			this.targetProperty = targetProperty;
 		}
 		

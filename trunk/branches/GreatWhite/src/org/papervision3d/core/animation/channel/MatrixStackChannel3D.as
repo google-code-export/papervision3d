@@ -35,34 +35,14 @@ package org.papervision3d.core.animation.channel
 {
 	import org.papervision3d.core.animation.AnimationKeyFrame3D;
 	import org.papervision3d.core.animation.IAnimationDataProvider;
+	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.objects.DisplayObject3D;
-	
+
 	/**
 	 * @author Tim Knip
 	 */ 
-	public class AbstractChannel3D
-	{	
-		/** */
-		public var parent:IAnimationDataProvider;
-		
-		/** */
-		public var name:String;
-		
-		/** */	
-		public var keyFrames:Array;
-		
-		/** */
-		public var minTime:Number;
-		
-		/** */
-		public var maxTime:Number;
-		
-		/** */
-		public var output:Array;
-		
-		/** */
-		public function get defaultTarget():DisplayObject3D { return _defaultTarget; }
-		
+	public class MatrixStackChannel3D extends AbstractChannel3D
+	{
 		/**
 		 * Constructor.
 		 * 
@@ -70,13 +50,32 @@ package org.papervision3d.core.animation.channel
 		 * @param	defaultTarget
 		 * @param	name
 		 */ 
-		public function AbstractChannel3D(parent:IAnimationDataProvider, defaultTarget:DisplayObject3D, name:String = null)
+		public function MatrixStackChannel3D(parent:IAnimationDataProvider, defaultTarget:DisplayObject3D, name:String=null)
 		{
-			this.parent = parent;
-			_defaultTarget = defaultTarget;
-			this.name = name;
-			this.minTime = this.maxTime = 0;
-			this.keyFrames = new Array();
+			super(parent, defaultTarget, name);
+			
+			_matrixStack = new Array();
+		}
+		
+		/**
+		 * Adds a MatrixChannel3D to this channel.
+		 *  
+		 * @param	channel
+		 */
+		public function addMatrixChannel(channel:MatrixChannel3D):void
+		{
+			if(_matrixStack.length)
+			{
+				this.minTime = Math.min(this.minTime, channel.minTime);
+				this.maxTime = Math.max(this.maxTime, channel.maxTime);
+			}
+			else
+			{
+				this.minTime = channel.minTime;
+				this.maxTime = channel.maxTime;
+			}
+
+			_matrixStack.push(channel);
 		}
 		
 		/**
@@ -86,22 +85,9 @@ package org.papervision3d.core.animation.channel
 		 * 
 		 * @return	The added keyframe.
 		 */ 
-		public function addKeyFrame(keyframe:AnimationKeyFrame3D):AnimationKeyFrame3D
+		public override function addKeyFrame(keyframe:AnimationKeyFrame3D):AnimationKeyFrame3D
 		{
-			if(this.keyFrames.length)
-			{
-				this.minTime = Math.min(this.minTime, keyframe.time);
-				this.maxTime = Math.max(this.maxTime, keyframe.time);
-			}
-			else
-			{
-				this.minTime = this.maxTime = keyframe.time;
-			}
-			
-			this.keyFrames.push(keyframe);
-			this.keyFrames.sortOn("time", Array.NUMERIC);
-			
-			return keyframe;
+			throw new Error("You can't add keyframes to a MatrixStackChannel3D!");
 		}
 		
 		/**
@@ -110,19 +96,28 @@ package org.papervision3d.core.animation.channel
 		 * @param	keyframe
 		 * @param	target
 		 */ 
-		public function updateToFrame(keyframe:uint, target:DisplayObject3D=null):void
+		public override function updateToFrame(keyframe:uint, target:DisplayObject3D=null):void
 		{
-			if(!this.keyFrames.length)
-			{
-				this.output = new Array();
-				return;
-			}
-				
-			var kf:AnimationKeyFrame3D = keyframe < this.keyFrames.length ? this.keyFrames[keyframe] : this.keyFrames[0];
+			super.updateToFrame(keyframe, target);	
 			
-			this.output = kf.output;
+			target = target || this.defaultTarget;
+			
+			var matrix:Matrix3D = Matrix3D.IDENTITY;
+			
+			for(var i:int = 0; i < _matrixStack.length; i++)
+			{
+				var channel:MatrixChannel3D = _matrixStack[i];
+				
+				channel.updateToFrame(keyframe, target);
+				
+				matrix = Matrix3D.multiply(matrix, channel.output[0]);
+			}
+			
+			this.output = [matrix];
+			
+			target.copyTransform(this.output[0]);
 		}
 		
-		private var _defaultTarget:DisplayObject3D;
+		private var _matrixStack:Array;
 	}
 }

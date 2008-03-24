@@ -33,7 +33,7 @@
  
 package org.papervision3d.core.animation.channel
 {
-	import org.papervision3d.core.animation.channel.AbstractChannel3D;
+	import org.papervision3d.core.animation.IAnimationDataProvider;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.objects.DisplayObject3D;
 
@@ -45,12 +45,13 @@ package org.papervision3d.core.animation.channel
 		/**
 		 * Constructor.
 		 * 
+		 * @param	parent
 		 * @param	defaultTarget
 		 * @param	name
 		 */ 
-		public function MorphChannel3D(defaultTarget:DisplayObject3D, name:String=null)
+		public function MorphChannel3D(parent:IAnimationDataProvider, defaultTarget:DisplayObject3D, name:String=null)
 		{
-			super(defaultTarget, name);
+			super(parent, defaultTarget, name);
 		}	
 		
 		/**

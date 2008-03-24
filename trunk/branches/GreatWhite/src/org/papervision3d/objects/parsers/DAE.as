@@ -34,9 +34,11 @@
 package org.papervision3d.objects.parsers
 {
 	import flash.events.Event;
+	import flash.events.ProgressEvent;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	
+	import org.ascollada.ASCollada;
 	import org.ascollada.core.*;
 	import org.ascollada.fx.*;
 	import org.ascollada.io.DaeReader;
@@ -44,14 +46,14 @@ package org.papervision3d.objects.parsers
 	import org.ascollada.types.*;
 	import org.papervision3d.core.animation.*;
 	import org.papervision3d.core.animation.channel.*;
-	import org.papervision3d.core.geom.TriangleMesh3D;
-	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import org.papervision3d.core.geom.renderables.Vertex3D;
-	import org.papervision3d.core.math.Matrix3D;
-	import org.papervision3d.core.math.NumberUV;
+	import org.papervision3d.core.geom.*;
+	import org.papervision3d.core.geom.controller.*;
+	import org.papervision3d.core.geom.renderables.*;
+	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.*;
+	import org.papervision3d.materials.special.CompositeMaterial;
 	import org.papervision3d.materials.utils.*;
 	import org.papervision3d.objects.DisplayObject3D;
 	
@@ -69,6 +71,9 @@ package org.papervision3d.objects.parsers
 		public var filename:String;
 		
 		/** */
+		public var parser:DaeReader;
+		
+		/** */
 		public var document:DaeDocument;
 		
 		/**
@@ -77,32 +82,63 @@ package org.papervision3d.objects.parsers
 		public function DAE()
 		{
 			super();
-			throw new Error("Sorry all, did a wrong commit to the repo.\nDAE is out of order, please revert to rev #445...\nWorking on it hard! Tim Knip");
 		}
 		
+		/**
+		 * Gets the default FPS.
+		 */ 
+		public function get fps():uint
+		{
+			return 20;
+		}
+		
+		/**
+		 * Gets a animation channel by its name.
+		 * 
+		 * @param	name
+		 * 
+		 * @return the found channel.
+		 */ 
 		public function getAnimationChannelByName(name:String):AbstractChannel3D
 		{
 			return null;	
 		}
 		
+		/**
+		 * Gets all animation channels for a target. NOTE: when target is null, 'this' object is used.
+		 * 
+		 * @param	target	The target to get the channels for.
+		 * 
+		 * @return	Array of AnimationChannel3D.
+		 */ 
 		public function getAnimationChannelsByTarget(target:DisplayObject3D=null):Array
 		{
-			return null;
-		}
-		
-		public function getAnimationChannelsByClip(name:String):Array
-		{
-			return null;	
+			var channels:Array = new Array();
+			if(target == null)
+			{
+				for each(var array:Array in _channelsByTarget)
+					channels = channels.concat(array);
+			}
+			else if(_channelsByTarget[target])
+			{
+				channels = channels.concat(_channelsByTarget[target]);
+			}
+			else
+				return null;
+					
+			return channels;
 		}
 		
 		/**
-		 * Gets a child by its name.
+		 * Gets animation channels by clip name.
 		 * 
-		 * @param	name	The name of the object to find.
+		 * @param	name	The clip name
+		 * 
+		 * @return	Array of AnimationChannel3D.
 		 */ 
-		override public function getChildByName(name:String):DisplayObject3D
+		public function getAnimationChannelsByClip(name:String):Array
 		{
-			return findChildByName(name, this);
+			return null;	
 		}
 		
 		/**
@@ -114,7 +150,7 @@ package org.papervision3d.objects.parsers
 		 */ 
 		override public function removeChild(child:DisplayObject3D):DisplayObject3D
 		{
-			var object:DisplayObject3D = getChildByName(child.name);
+			var object:DisplayObject3D = getChildByName(child.name, true);
 			
 			if(object)
 			{
@@ -140,23 +176,24 @@ package org.papervision3d.objects.parsers
 			this.materials = materials || new MaterialsList();
 			this.filename = "nofile";
 			
-			var reader:DaeReader = new DaeReader();
-			reader.addEventListener(Event.COMPLETE, onParseComplete);
+			this.parser = new DaeReader();
+			this.parser.addEventListener(Event.COMPLETE, onParseComplete);
+			this.parser.addEventListener(ProgressEvent.PROGRESS, onParseProgress);
 			
 			if(asset is XML)
 			{
 				this.COLLADA = asset as XML;
-				reader.loadDocument(asset);
+				this.parser.loadDocument(asset);
 			}
 			else if(asset is ByteArray)
 			{
 				this.COLLADA = new XML(ByteArray(asset));
-				reader.loadDocument(asset);
+				this.parser.loadDocument(asset);
 			}
 			else if(asset is String)
 			{
 				this.filename = String(asset);
-				reader.read(this.filename);
+				this.parser.read(this.filename);
 			}
 			else
 			{
@@ -165,13 +202,220 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Builds a animation channel for an object.
 		 * 
+		 * @param	matrixStackChannel	the target object's channel
+		 * @param	target	The target object
+		 * @param	channel	The DaeChannel
+		 */ 
+		private function buildAnimationChannel(matrixStackChannel:MatrixStackChannel3D, target:DisplayObject3D, channel:DaeChannel):void
+		{
+			//if(channel.syntax.isArrayAccess)
+			//	return;
+				
+			var node:DaeNode = _objectToNode[target];
+					
+			if(!node)
+				throw new Error("Couldn't find the targeted object!");
+					
+			var matrixChannel:MatrixChannel3D = new MatrixChannel3D(this, target, channel.syntax.targetSID);
+			
+			var transform:DaeTransform = node.findMatrixBySID(channel.syntax.targetSID);
+					
+			if(!transform)
+				throw new Error("Couldn't find the targeted object's transform!");
+			
+			var matrix:Matrix3D;
+			var matrixProp:String;
+			var arrayMember:String;
+			var data:Array;
+			var i:int;
+						
+			if(channel.syntax.isArrayAccess)
+			{
+				arrayMember = channel.syntax.arrayMember.join("");
+				
+				switch(arrayMember)
+				{
+					case "(0)(0)":
+						matrixProp = "n11";
+						break;
+					case "(1)(0)":
+						matrixProp = "n12";
+						break;
+					case "(2)(0)":
+						matrixProp = "n13";
+						break;
+					case "(3)(0)":
+						matrixProp = "n14";
+						break;
+					case "(0)(1)":
+						matrixProp = "n21";
+						break;
+					case "(1)(1)":
+						matrixProp = "n22";
+						break;
+					case "(2)(1)":
+						matrixProp = "n23";
+						break;
+					case "(3)(1)":
+						matrixProp = "n24";
+						break;
+					case "(0)(2)":
+						matrixProp = "n31";
+						break;
+					case "(1)(2)":
+						matrixProp = "n32";
+						break;
+					case "(2)(2)":
+						matrixProp = "n33";
+						break;
+					case "(3)(2)":
+						matrixProp = "n34";
+						break;
+					default:
+						throw new Error(arrayMember);
+				}
+			}
+					
+			switch(transform.type)
+			{
+				case "matrix":
+					if(channel.syntax.isFullAccess)
+					{
+						for(i = 0; i < channel.input.length; i++)
+						{
+							data = channel.output[i];
+							matrix = new Matrix3D(data);
+							matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+						}
+					}
+					else if(channel.syntax.isArrayAccess)
+					{
+						matrix = Matrix3D.clone(target.transform);
+						
+						for(i = 0; i < channel.input.length; i++)
+						{
+							matrix[matrixProp] = channel.output[i];
+							matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+						}
+					}
+					else
+					{
+						throw new Error("Don't know how to handle this channel: " + channel.syntax);
+					}
+					break;
+				case "rotate":
+					if(channel.syntax.isFullAccess)
+					{
+						for(i = 0; i < channel.input.length; i++)
+						{
+							data = channel.output[i];
+							matrix = Matrix3D.rotationMatrix(data[0], data[1], data[2], data[3] * (Math.PI/180));
+							matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+						}
+					}
+					else if(channel.syntax.isDotAccess)
+					{
+						switch(channel.syntax.member)
+						{
+							case "ANGLE":
+								for(i = 0; i < channel.input.length; i++)
+								{
+									var angle:Number = channel.output[i] * (Math.PI/180);
+									matrix = Matrix3D.rotationMatrix(transform.values[0], transform.values[1], transform.values[2], angle);
+									matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+								}
+								break;
+							default:
+								throw new Error("Don't know how to handle this channel: " + channel.syntax);
+						}
+					}
+					else
+					{
+						throw new Error("Don't know how to handle this channel: " + channel.syntax);
+					}	
+					break;
+				case "scale":
+					if(channel.syntax.isFullAccess)
+					{
+						for(i = 0; i < channel.input.length; i++)
+						{
+							data = channel.output[i];
+							matrix = Matrix3D.scaleMatrix(data[0], data[1], data[2]);
+							matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+						}
+					}
+					else
+					{
+						throw new Error("Don't know how to handle this channel: " + channel.syntax);
+					}
+					break;
+				case "translate":
+					if(channel.syntax.isFullAccess)
+					{
+						for(i = 0; i < channel.input.length; i++)
+						{
+							data = channel.output[i];
+							matrix = Matrix3D.translationMatrix(data[0], data[1], data[2]);
+							matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+						}
+					}	
+					else
+					{
+						throw new Error("Don't know how to handle this channel: " + channel.syntax);
+					}		
+					break;
+				default:
+					throw new Error("Unknown transform type!");	
+			}
+			
+			matrixStackChannel.addMatrixChannel(matrixChannel);
+		}
+		
+		/**
+		 * Build all animation channels.
 		 */ 
 		private function buildAnimationChannels():void
 		{
+			var target:DisplayObject3D;
+			var channel:DaeChannel;
+			var channelsByObject:Dictionary = new Dictionary(true);
+			var i:int;
+			
+			_channelsByTarget = new Dictionary(true);
+			
 			for each(var animation:DaeAnimation in this.document.animations)
 			{
-				trace("=>"+animation.id);
+				for(i = 0; i < animation.channels.length; i++)
+				{
+					channel = animation.channels[i];
+					
+					target = _colladaIDToObject[channel.syntax.targetID];
+					if(!target)
+						throw new Error("damn");
+						
+					if(!channelsByObject[target])
+						channelsByObject[target] = new Array();
+					
+					channelsByObject[target].push(channel);
+				}
+			}
+			
+			for(var object:* in channelsByObject)
+			{
+				target = object as DisplayObject3D;
+							
+				trace(target.name);
+				
+				var matrixStackChannel:MatrixStackChannel3D = new MatrixStackChannel3D(this, target, target.name);
+							
+				var channels:Array = channelsByObject[object];
+
+				for(i = 0; i < channels.length; i++)
+					buildAnimationChannel(matrixStackChannel, target, channels[i]);
+					
+				_channelsByTarget[target] = [matrixStackChannel];
 			}
 		}
 		
@@ -202,7 +446,10 @@ package org.papervision3d.objects.parsers
 		private function buildFaces(primitive:DaePrimitive, geometry:GeometryObject3D, voffset:uint):void
 		{
 			var faces:Array = new Array();
-			var material:MaterialObject3D = MaterialObject3D.DEFAULT;
+			var material:MaterialObject3D = new CompositeMaterial();
+			
+			CompositeMaterial(material).addMaterial(new ColorMaterial(0xff0000, 0.5));
+			CompositeMaterial(material).addMaterial(new WireframeMaterial(0));
 			
 			// retreive correct texcoord-set for the material.
 			var obj:DaeBindVertexInput = _textureSets[primitive.material] is DaeBindVertexInput ? _textureSets[primitive.material] : null;
@@ -239,7 +486,7 @@ package org.papervision3d.objects.parsers
 						uv[1] = hasUV ? texcoords[ i+1 ] : new NumberUV();
 						uv[2] = hasUV ? texcoords[ i+2 ] : new NumberUV();
 						
-						geometry.faces.push(new Triangle3D(null, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]) );
+						geometry.faces.push(new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]) );
 					}
 					break;
 					
@@ -326,9 +573,10 @@ package org.papervision3d.objects.parsers
 		 */
 		private function buildMatrix(node:DaeNode):Matrix3D 
 		{
+			var stack:Array = buildMatrixStack(node);
 			var matrix:Matrix3D = Matrix3D.IDENTITY;
-			for( var i:int = 0; i < node.transforms.length; i++ ) 
-				matrix = Matrix3D.multiply(matrix, new Matrix3D(node.transforms[i].matrix));	
+			for( var i:int = 0; i < stack.length; i++ ) 
+				matrix.calculateMultiply4x4(matrix, stack[i]);
 			return matrix;
 		}
 		
@@ -337,13 +585,35 @@ package org.papervision3d.objects.parsers
 		 * @param	node
 		 * @return
 		 */
-		private function buildMatrixStack( node:DaeNode ):Array
+		private function buildMatrixStack(node:DaeNode):Array
 		{
+			var toRadians:Number = Math.PI/180;
 			var stack:Array = new Array();
+			
 			for( var i:int = 0; i < node.transforms.length; i++ ) 
 			{
-				var transform:DaeTransform = node.transforms[i];				
-				var matrix:Matrix3D = new Matrix3D(transform.matrix);
+				var transform:DaeTransform = node.transforms[i];
+				var v:Array = transform.values;				
+				var matrix:Matrix3D;
+				
+				switch(transform.type)
+				{
+					case ASCollada.DAE_ROTATE_ELEMENT:
+						matrix = Matrix3D.rotationMatrix(v[0], v[1], v[2], v[3] * toRadians);
+						break;
+					case ASCollada.DAE_SCALE_ELEMENT:
+						matrix = Matrix3D.scaleMatrix(v[0], v[1], v[2]);
+						break;
+					case ASCollada.DAE_TRANSLATE_ELEMENT:
+						matrix = Matrix3D.translationMatrix(v[0], v[1], v[2]);
+						break;
+					case ASCollada.DAE_MATRIX_ELEMENT:
+						matrix = new Matrix3D(v);
+						break;
+					default:
+						throw new Error("Unknown transform type: " + transform.type);
+				}
+				
 				stack.push(matrix);
 			}
 			return stack;
@@ -363,16 +633,33 @@ package org.papervision3d.objects.parsers
 			
 			if(node.controllers.length)
 			{
+				instance = new ControllerMesh3D(null, [], [], node.name);
+				
+				var controllerMesh:ControllerMesh3D = instance as ControllerMesh3D;
+				
 				// controllers, can be of type 'skin' or 'morph'
 				for(i = 0; i < node.controllers.length; i++)
 				{
-					
+					var instanceController:DaeInstanceController = node.controllers[i];
+					var colladaController:DaeController = document.controllers[instanceController.url];
+
+					if(colladaController.skin)
+					{
+						buildSkin(controllerMesh, colladaController.skin, instanceController.skeletons);
+					}
+					else if(colladaController.morph)
+					{
+					}
+					else
+						throw new Error("A COLLADA controller should be of type <skin> or <morph>!");
+					// dunnu yet how to handle multiple controllers.
+					break;
 				}
 			}
 			else if(node.geometries.length)
 			{
 				// got geometry, so create a TriangleMesh3D
-				instance = parent.addChild(new TriangleMesh3D(null, [], [], node.name));
+				instance = new TriangleMesh3D(null, [], [], node.name);
 				
 				// add all COLLADA geometries to the TriangleMesh3D
 				for each(var geom:DaeInstanceGeometry in node.geometries)
@@ -385,8 +672,8 @@ package org.papervision3d.objects.parsers
 			}
 			else
 			{
-				// no geometry, simply create a DisplayObject3D
-				instance = parent.addChild(new DisplayObject3D(node.name));
+				// no geometry, simply create a Joint3D
+				instance = new Joint3D(node.name);
 			}
 			
 			// recurse node instances
@@ -395,17 +682,22 @@ package org.papervision3d.objects.parsers
 				var dae_node:DaeNode = document.getDaeNodeById(node.instance_nodes[i].url);
 				buildNode(dae_node, instance);
 			}
-			
+
+			// setup the initial transform
+			instance.copyTransform(buildMatrix(node));	
+						
 			// recurse node children
 			for(i = 0; i < node.nodes.length; i++)
 				buildNode(node.nodes[i], instance);
 					
-			// setup the initial transform
-			instance.copyTransform(buildMatrix(node));	
-			
 			// save COLLADA id, sid
 			_colladaID[instance] = node.id;
 			_colladaSID[instance] = node.sid;
+			_colladaIDToObject[node.id] = instance;
+			_colladaSIDToObject[node.sid] = instance;
+			_objectToNode[instance] = node;
+			
+			parent.addChild(instance);
 		}
 		
 		/**
@@ -413,6 +705,11 @@ package org.papervision3d.objects.parsers
 		 */ 
 		private function buildScene():void
 		{
+			if(this.parser.hasEventListener(Event.COMPLETE))
+				this.parser.removeEventListener(Event.COMPLETE, onParseComplete);
+			if(this.parser.hasEventListener(ProgressEvent.PROGRESS))
+				this.parser.removeEventListener(ProgressEvent.PROGRESS, onParseProgress);
+					
 			buildGeometries();
 			
 			var scene:DisplayObject3D = this.addChild(new DisplayObject3D("COLLADA_Scene"));
@@ -422,11 +719,52 @@ package org.papervision3d.objects.parsers
 				buildNode(this.document.vscene.nodes[i], scene);
 			}
 			
+			// link the skins
+			linkSkins();
+			
 			this.addChild(scene);
 			
-			buildAnimationChannels();
+			// may have animations to be parsed.
+			if(document.numQueuedAnimations)
+			{
+				this.parser.addEventListener(Event.COMPLETE, onParseAnimationsComplete);
+				this.parser.addEventListener(ProgressEvent.PROGRESS, onParseAnimationsProgress);
+				this.parser.readAnimations();
+			}
 			
-			trace("COMPLETE, author: " + DaeContributor(document.asset.contributors[0]).author);
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_COMPLETE, this.filename));
+		}
+		
+		/**
+		 * Builds a skin.
+		 * 
+		 * @param	instance
+		 * @param	colladaSkin
+		 */ 
+		private function buildSkin(instance:ControllerMesh3D, colladaSkin:DaeSkin, skeletons:Array):void
+		{
+			var skin:GeometryObject3D = _geometries[ colladaSkin.source ];
+			if(!skin)
+				throw new Error("no geometry?");
+							
+			mergeGeometries(instance.geometry, skin.clone(instance));
+			
+			var yUp:Boolean = (this.document.asset.yUp == ASCollada.DAE_Y_UP);
+			
+			var controller:SkinController = new SkinController(instance, yUp);
+			
+			controller.joints = new Array();
+			controller.skeletons = new Array();
+			
+			for each(var skeletonId:String in skeletons)
+				controller.skeletons.push(skeletonId)
+			
+			for(var i:int = 0; i < colladaSkin.joints.length; i++)
+				controller.joints.push(colladaSkin.joints[i]);
+
+			instance.addController(controller);
+			
+			_skins[ instance ] = colladaSkin;
 		}
 		
 		/**
@@ -467,29 +805,7 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
-		 * Recursively finds a child by its name.
-		 * 
-		 * @param	name
-		 * @param	parent
-		 * 
-		 * @return 	The found child.
-		 */ 
-		private function findChildByName(name:String, parent:DisplayObject3D = null):DisplayObject3D
-		{
-			parent = parent || this;
-			if(parent.name == name)
-				return parent;
-			for each(var child:DisplayObject3D in parent.children)	
-			{
-				var obj:DisplayObject3D = findChildByName(name, child);
-				if(obj) 
-					return obj;
-			}
-			return null
-		}
-		
-		/**
-		 * Recursively finds a child by its name.
+		 * Recursively finds a child by its SID.
 		 * 
 		 * @param	name
 		 * @param	parent
@@ -508,6 +824,96 @@ package org.papervision3d.objects.parsers
 					return obj;
 			}
 			return null
+		}
+		
+		/**
+		 * Setup the skin controllers.
+		 */ 
+		private function linkSkin(instance:ControllerMesh3D, skin:DaeSkin):void
+		{
+			var skinController:SkinController;
+			for each(var controller:AbstractController in instance.controllers)
+			{
+				if(controller is SkinController)
+				{
+					skinController = controller as SkinController;
+					break;
+				}
+			}
+			
+			if(!skinController)
+				return;	
+			
+			var i:int;
+			var found:Object = new Object();
+			
+			for(i = 0; i < skinController.joints.length; i++)
+			{
+				var jointId:String = skinController.joints[i];
+				
+				if(found[jointId])
+					continue;
+					
+				var joint:Joint3D = _colladaIDToObject[jointId];
+				if(!joint)
+					joint = _colladaSIDToObject[jointId];
+				if(!joint)
+					throw new Error("Couldn't find the joint id = " + jointId);
+				
+				joint = this.getChildByName(joint.name, true) as Joint3D;
+				 
+				var vertexWeights:Array = skin.findJointVertexWeightsByIDOrSID(jointId);
+				if(!vertexWeights)
+					throw new Error("Could not find vertex weights for joint with id = " + jointId);
+					
+				joint.vertexWeights = vertexWeights;
+				
+				var bindMatrix:Array = skin.findJointBindMatrix2(jointId);
+				if(!bindMatrix || bindMatrix.length != 16)
+					throw new Error("Could not find inverse bind matrix for joint with id = " + jointId);
+				
+				joint.inverseBindMatrix = new Matrix3D(bindMatrix);
+				
+				skinController.joints[i] = joint;
+				
+				found[jointId] = true;
+			}
+			
+			for(i = 0; i < skinController.skeletons.length; i++)
+			{
+				var skeletonId:String = skinController.skeletons[i];
+				
+				var skeleton:Joint3D = _colladaIDToObject[skeletonId];
+				if(!skeleton)
+					skeleton = _colladaSIDToObject[skeletonId];	
+				if(!skeleton)
+					throw new Error("Couldn't find the skeleton with id = " + skeletonId);
+					
+				skeleton = this.getChildByName(skeleton.name, true) as Joint3D;
+				
+				if(!skeleton)
+					throw new Error("Couldn't find the skeleton with id = " + skeletonId);
+					
+				skinController.skeletons[i] = skeleton;
+				
+				this.removeChild(skeleton);
+			}
+			
+			skinController.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
+		}
+		
+		/**
+		 * Setup the skin controllers.
+		 */ 
+		private function linkSkins():void
+		{
+			for(var object:* in _skins)
+			{
+				var instance:ControllerMesh3D = object as ControllerMesh3D;
+				if(!instance)
+					throw new Error("Not a ControllerMesh3D?");
+				linkSkin(instance, _skins[object]);
+			}
 		}
 		
 		/**
@@ -556,7 +962,33 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * Called when the parser completed parsing animations.
+		 * 
+		 * @param	event
+		 */ 
+		private function onParseAnimationsComplete(event:Event):void
+		{
+			trace( "animations COMPLETE");
+			
+			buildAnimationChannels();
+						
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.ANIMATIONS_COMPLETE, this.filename));
+		}
+		
+		/**
+		 * Called on parse animations progress.
+		 * 
+		 * @param	event
+		 */ 
+		private function onParseAnimationsProgress(event:ProgressEvent):void
+		{
+			trace( "animations #" + event.bytesLoaded + " of " + event.bytesTotal);
+		}
+		
+		/**
 		 * Called when the DaeReader completed parsing.
+		 * 
+		 * @param	event
 		 */ 
 		private function onParseComplete(event:Event):void
 		{
@@ -567,16 +999,42 @@ package org.papervision3d.objects.parsers
 			_textureSets = new Object();
 			_colladaID = new Dictionary(true);
 			_colladaSID = new Dictionary(true);
+			_colladaIDToObject = new Object();
+			_colladaSIDToObject = new Object();
+			_objectToNode = new Object();
+			_skins = new Dictionary(true);
 			
 			buildMaterials();
 			loadNextMaterial();
 		}
 
+		/**
+		 * Called on parsing progress.
+		 * 
+		 * @param	event
+		 */ 
+		private function onParseProgress(event:ProgressEvent):void
+		{
+			
+		}
+		
 		/** */
 		private var _colladaID:Dictionary;
 		
 		/** */
 		private var _colladaSID:Dictionary;
+		
+		/** */
+		private var _colladaIDToObject:Object;
+		
+		/** */
+		private var _colladaSIDToObject:Object;
+		
+		/** */
+		private var _objectToNode:Object;
+		
+		/** */
+		private var _channelsByTarget:Dictionary;
 		
 		/** */
 		private var _geometries:Object;
@@ -586,5 +1044,12 @@ package org.papervision3d.objects.parsers
 		
 		/** */
 		private var _textureSets:Object;
+		
+		/** */
+		private var _channels:Array;
+		
+		/** */
+		private var _skins:Dictionary;
 	}
 }
+
