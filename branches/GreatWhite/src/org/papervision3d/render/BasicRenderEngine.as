@@ -6,7 +6,6 @@ package org.papervision3d.render
 	 */
 	import flash.geom.Point;
 	
-	import org.papervision3d.core.culling.IObjectCuller;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.AbstractRenderEngine;
@@ -18,15 +17,19 @@ package org.papervision3d.render
 	import org.papervision3d.core.render.filter.BasicRenderFilter;
 	import org.papervision3d.core.render.filter.IRenderFilter;
 	import org.papervision3d.core.render.material.MaterialManager;
+	import org.papervision3d.core.render.project.BasicProjectionPipeline;
+	import org.papervision3d.core.render.project.ProjectionPipeline;
 	import org.papervision3d.core.render.sort.BasicRenderSorter;
 	import org.papervision3d.core.render.sort.IRenderSorter;
 	import org.papervision3d.core.utils.StopWatch;
 	import org.papervision3d.events.RendererEvent;
-	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
 	
 	public class BasicRenderEngine extends AbstractRenderEngine implements IRenderEngine
 	{
+		
+		public var projectionPipeline:ProjectionPipeline;
+		
 		public var sorter:IRenderSorter;
 		public var filter:IRenderFilter;
 		
@@ -44,6 +47,9 @@ package org.papervision3d.render
 		protected function init():void
 		{
 			renderStatistics = new RenderStatistics();
+			
+			projectionPipeline = new BasicProjectionPipeline();
+			
 			stopWatch = new StopWatch();
 				
 			sorter = new BasicRenderSorter();
@@ -73,63 +79,15 @@ package org.papervision3d.render
 			renderSessionData.renderStatistics.clear();
 			
 			//Project the Scene (this will fill up the renderlist).
-			doProject(renderSessionData);
+			projectionPipeline.project(renderSessionData);
 			
 			//Render the Scene.
 			doRender(renderSessionData);
-			dispatchEvent(new RendererEvent(RendererEvent.RENDER_DONE, renderSessionData));
 			
+			dispatchEvent(new RendererEvent(RendererEvent.RENDER_DONE, renderSessionData));
 			return renderSessionData.renderStatistics;
 		}
-		
-		protected function doProject(renderSessionData:RenderSessionData):void
-		{
-			stopWatch.reset();
-			stopWatch.start();
-			
-			// Transform camera
-			renderSessionData.camera.transformView();
-			
-			// Project objects
-			var objects:Array = renderSessionData.scene.objects;
-			var p:DisplayObject3D;
-			var i:Number = objects.length;
-			if( renderSessionData.camera is IObjectCuller){
-				for each(p in objects){
-					if(p.visible){
-						if(renderSessionData.viewPort.viewportObjectFilter){
-							if(renderSessionData.viewPort.viewportObjectFilter.testObject(p)){
-								p.view.calculateMultiply4x4(renderSessionData.camera.eye, p.transform);
-								p.project(renderSessionData.camera, renderSessionData);
-							}else{
-								renderSessionData.renderStatistics.filteredObjects++;
-							}
-						}else{
-							p.view.calculateMultiply4x4(renderSessionData.camera.eye, p.transform);
-							p.project(renderSessionData.camera, renderSessionData);
-						}
-					}
-				}
-			}else{
-				for each(p in objects){
-					if( p.visible){
-						if(renderSessionData.viewPort.viewportObjectFilter){
-							if(renderSessionData.viewPort.viewportObjectFilter.testObject(p)){
-								p.view.calculateMultiply(renderSessionData.camera.eye, p.transform);
-								p.project(renderSessionData.camera, renderSessionData);
-							}else{
-								renderSessionData.renderStatistics.filteredObjects++;
-							}
-						}else{
-							p.view.calculateMultiply(renderSessionData.camera.eye, p.transform);
-							p.project(renderSessionData.camera, renderSessionData);
-						}
-					}
-				}
-			}
-			renderSessionData.renderStatistics.projectionTime = stopWatch.stop();
-		}
-		
+	
 		protected function doRender(renderSessionData:RenderSessionData):RenderStatistics
 		{
 			stopWatch.reset();

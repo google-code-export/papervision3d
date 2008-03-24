@@ -139,7 +139,7 @@ package org.papervision3d.cameras
 			_objpos = new Vertex3D();
 			
 			_viewport = this.viewport;
-			
+			trace(_viewport);
 			_aspect = _viewport.width / _viewport.height;
 			
 			// setup projection
@@ -273,6 +273,7 @@ package org.papervision3d.cameras
 			/**
 			 * Transform the boundingbox to world
 			 */
+			
 			for each(vertex in vertices){
 				num = vertex.toNumber3D();
 				Matrix3D.multiplyVector4x4(object.world, num);
@@ -459,8 +460,11 @@ package org.papervision3d.cameras
 		 */
 		public function set viewport3D(viewport3D:Viewport3D):void
 		{
+			if(viewport3D){
+				viewport = viewport3D.sizeRectangle;
+			}
 			_viewport3D = viewport3D;
-			viewport = viewport3D.sizeRectangle;
+			
 		}
 		
 		/**

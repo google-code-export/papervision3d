@@ -1,42 +1,4 @@
-﻿/*
- *  PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
- *  AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
- *  PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
- *  ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
- *  RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
- *  ______________________________________________________________________
- *  papervision3d.org • blog.papervision3d.org • osflash.org/papervision3d
- */
-
-/*
- * Copyright 2006 (c) Carlos Ulloa Matesanz, noventaynueve.com.
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- */
-
-// ______________________________________________________________________
-//                                                          SceneObject3D
-
-package org.papervision3d.core.proto
+﻿package org.papervision3d.core.proto
 {
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.materials.utils.MaterialsList;
@@ -53,28 +15,16 @@ package org.papervision3d.core.proto
 	*/
 	public class SceneObject3D extends DisplayObjectContainer3D
 	{		
-		// __________________________________________________________________________
-		//                                                                     STATIC
-		
-	
 		/**
-		* It contains a list of DisplayObject3D objects in the scene.
+		* Contains a list of DisplayObject3D objects in the scene.
 		*/
 		public var objects :Array;
 	
 		/**
 		* It contains a list of materials in the scene.
 		*/
-		public var materials :MaterialsList;
+		public var materials:MaterialsList;
 		
-		// ___________________________________________________________________ N E W
-		//
-		// NN  NN EEEEEE WW    WW
-		// NNN NN EE     WW WW WW
-		// NNNNNN EEEE   WWWWWWWW
-		// NN NNN EE     WWW  WWW
-		// NN  NN EEEEEE WW    WW
-	
 		/**
 		* The SceneObject3D class lets you create scene classes.
 		*
@@ -86,18 +36,9 @@ package org.papervision3d.core.proto
 			this.materials = new MaterialsList();
 	
 			Papervision3D.log( Papervision3D.NAME + " " + Papervision3D.VERSION + " (" + Papervision3D.DATE + ")\n" );
-			trace("PV3D 2.0a WARNING : DO NOT USE WITH BETA 9 PLAYERS. ONLY WITH OFFICIAL TO TEST.");
-			trace("CHECK YOUR VERSION!");
+
 			this.root = this;
 		}
-	
-		// ___________________________________________________________________ A D D C H I L D
-		//
-		//   AA   DDDDD  DDDDD   CCCC  HH  HH II LL     DDDDD
-		//  AAAA  DD  DD DD  DD CC  CC HH  HH II LL     DD  DD
-		// AA  AA DD  DD DD  DD CC     HHHHHH II LL     DD  DD
-		// AAAAAA DD  DD DD  DD CC  CC HH  HH II LL     DD  DD
-		// AA  AA DDDDD  DDDDD   CCCC  HH  HH II LLLLLL DDDDD
 	
 		/**
 		* Adds a child DisplayObject3D instance to the scene.
