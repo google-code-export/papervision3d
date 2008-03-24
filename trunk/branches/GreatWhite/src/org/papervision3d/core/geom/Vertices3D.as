@@ -1,41 +1,4 @@
-﻿/*
- *  PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
- *  AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
- *  PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
- *  ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
- *  RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
- *  ______________________________________________________________________
- *  papervision3d.org � blog.papervision3d.org � osflash.org/papervision3d
- */
-
-/*
- * Copyright 2006 (c) Carlos Ulloa Matesanz, noventaynueve.com.
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- */
-
-// ______________________________________________________________________
-//                                               GeometryObject3D: Points
-package org.papervision3d.core.geom {
+﻿package org.papervision3d.core.geom {
 	import flash.geom.Rectangle;
 	
 	import org.papervision3d.core.culling.IObjectCuller;
@@ -53,18 +16,11 @@ package org.papervision3d.core.geom {
 	*/
 	public class Vertices3D extends DisplayObject3D
 	{
-		// ___________________________________________________________________________________________________
-		//                                                                                               N E W
-		// NN  NN EEEEEE WW    WW
-		// NNN NN EE     WW WW WW
-		// NNNNNN EEEE   WWWWWWWW
-		// NN NNN EE     WWW  WWW
-		// NN  NN EEEEEE WW    WW
+
 
 		/**
-		* Creates a new Points object.
+		* Creates a new Vertices3D object.
 		*
-		* The Points GeometryObject3D class lets you create and manipulate groups of vertices.
 		*
 		* @param	vertices	An array of Vertex3D objects for the vertices of the mesh.
 		* <p/>
@@ -102,14 +58,6 @@ package org.papervision3d.core.geom {
 			return verts;
 		}
 		
-		// ___________________________________________________________________________________________________
-		//                                                                                   T R A N S F O R M
-		// TTTTTT RRRRR    AA   NN  NN  SSSSS FFFFFF OOOO  RRRRR  MM   MM
-		//   TT   RR  RR  AAAA  NNN NN SS     FF    OO  OO RR  RR MMM MMM
-		//   TT   RRRRR  AA  AA NNNNNN  SSSS  FFFF  OO  OO RRRRR  MMMMMMM
-		//   TT   RR  RR AAAAAA NN NNN     SS FF    OO  OO RR  RR MM M MM
-		//   TT   RR  RR AA  AA NN  NN SSSSS  FF     OOOO  RR  RR MM   MM
-
 		/**
 		* Projects three dimensional coordinates onto a two dimensional plane to simulate the relationship of the camera to subject.
 		*
