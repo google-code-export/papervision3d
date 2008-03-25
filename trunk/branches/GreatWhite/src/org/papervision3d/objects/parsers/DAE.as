@@ -20,7 +20,7 @@
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.*;
-	import org.papervision3d.materials.special.CompositeMaterial;
+	import org.papervision3d.materials.special.*;
 	import org.papervision3d.materials.utils.*;
 	import org.papervision3d.objects.DisplayObject3D;
 	
@@ -36,6 +36,15 @@
 	
 		/** */
 		public var filename:String;
+		
+		/** */
+		public var fileTitle:String;
+		
+		/** */
+		public var baseUrl:String;
+		
+		/** Path where the textures should be loaded from. */
+		public var texturePath:String;
 		
 		/** */
 		public var parser:DaeReader;
@@ -141,7 +150,8 @@
 		public function load(asset:*, materials:MaterialsList = null):void
 		{
 			this.materials = materials || new MaterialsList();
-			this.filename = "nofile";
+			
+			buildFileInfo(asset);
 			
 			this.parser = new DaeReader();
 			this.parser.addEventListener(Event.COMPLETE, onParseComplete);
@@ -413,17 +423,23 @@
 		private function buildFaces(primitive:DaePrimitive, geometry:GeometryObject3D, voffset:uint):void
 		{
 			var faces:Array = new Array();
-			var material:MaterialObject3D = new CompositeMaterial();
+			var material:MaterialObject3D = this.materials.getMaterialByName(primitive.material);
 			
-			CompositeMaterial(material).addMaterial(new ColorMaterial(0xff0000, 0.5));
-			CompositeMaterial(material).addMaterial(new WireframeMaterial(0));
+			trace( "MATERIAL: " + material + " " + primitive.material);
+			
+			if(!material)
+			{
+				material = new CompositeMaterial();
+				CompositeMaterial(material).addMaterial(new ColorMaterial(0xff0000, 0.5));
+				CompositeMaterial(material).addMaterial(new WireframeMaterial(0));
+			}
 			
 			// retreive correct texcoord-set for the material.
 			var obj:DaeBindVertexInput = _textureSets[primitive.material] is DaeBindVertexInput ? _textureSets[primitive.material] : null;
 			var setID:int = (obj is DaeBindVertexInput) ? obj.input_set : 0;
 			var texCoordSet:Array = primitive.getTexCoords(setID); 
 			var texcoords:Array = new Array();
-			var i:int, j:int = 0;
+			var i:int, j:int = 0, k:int;
 			
 			// texture coords
 			for( i = 0; i < texCoordSet.length; i++ ) 
@@ -456,9 +472,64 @@
 						geometry.faces.push(new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]) );
 					}
 					break;
-					
+				// polygon with *no* holes
+				case ASCollada.DAE_POLYLIST_ELEMENT:
+					for( i = 0, k = 0; i < primitive.vcount.length; i++ ) 
+					{
+						var poly:Array = new Array();
+						var uvs:Array = new Array();
+						for( j = 0; j < primitive.vcount[i]; j++ ) 
+						{
+							uvs.push( (hasUV ? texcoords[ k ] : new NumberUV()) );
+							poly.push( geometry.vertices[primitive.vertices[k++]] );
+						}
+						
+						if( !geometry || !geometry.faces || !geometry.vertices )
+							throw new Error( "no geomotry" );
+							
+						v[0] = poly[0];
+						uv[0] = uvs[0];
+						
+						for( j = 1; j < poly.length - 1; j++ )
+						{
+							v[1] = poly[j];
+							v[2] = poly[j+1];
+							uv[1] = uvs[j];
+							uv[2] = uvs[j+1];
+							geometry.faces.push( new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]) );
+						}
+					}
+					break;
+						
 				default:
 					throw new Error("Don't know how to create face for a DaePrimitive with type = " + primitive.type);
+			}
+		}
+		
+				/**
+		 * 
+		 * @param	asset
+		 * @return
+		 */
+		private function buildFileInfo( asset:* ):void
+		{
+			this.filename = asset is String ? String(asset) : "./meshes/rawdata_dae";
+			
+			// make sure we've got forward slashes!
+			this.filename = this.filename.split("\\").join("/");
+				
+			if( this.filename.indexOf("/") != -1 )
+			{
+				// dae is located in a sub-directory of the swf.
+				var parts:Array = this.filename.split("/");
+				this.fileTitle = String( parts.pop() );
+				this.baseUrl = parts.join("/");
+			}
+			else
+			{
+				// dae is located in root directory of swf.
+				this.fileTitle = this.filename;
+				this.baseUrl = "";
 			}
 		}
 		
@@ -486,6 +557,37 @@
 					_geometries[geometry.id] = g;
 				}
 			}	
+		}
+		
+/**
+		 *
+		 * @return
+		 */
+		private function buildImagePath( meshFolderPath:String, imgPath:String ):String
+		{
+			if (texturePath != null)
+				imgPath = texturePath + imgPath.slice( imgPath.lastIndexOf("/") + 1 );
+			
+			var baseParts:Array = meshFolderPath.split("/");
+			var imgParts:Array = imgPath.split("/");
+			
+			while( baseParts[0] == "." )
+				baseParts.shift();
+				
+			while( imgParts[0] == "." )
+				imgParts.shift();
+				
+			while( imgParts[0] == ".." )
+			{
+				imgParts.shift();
+				baseParts.pop();
+			}
+						
+			var imgUrl:String = baseParts.length > 1 ? baseParts.join("/") : (baseParts.length?baseParts[0]:"");
+						
+			imgUrl = imgUrl != "" ? imgUrl + "/" + imgParts.join("/") : imgParts.join("/");
+			
+			return imgUrl;
 		}
 		
 		/**
@@ -519,7 +621,9 @@
 					var image:DaeImage = document.images[effect.texture_url];
 					if(image)
 					{
-						_queuedMaterials.push({symbol:symbol, url:image.init_from});
+						var imageUrl:String = buildImagePath(this.baseUrl, image.init_from);
+						
+						_queuedMaterials.push({symbol:symbol, url:imageUrl});
 						continue;
 					}
 				}
@@ -863,7 +967,16 @@
 					
 				skinController.skeletons[i] = skeleton;
 				
-				this.removeChild(skeleton);
+				//this.removeChild(skeleton);
+			}
+			
+			for each(var triangle:Triangle3D in instance.geometry.faces)
+			{
+				var tmp:Vertex3D = triangle.v0;
+				triangle.v0 = triangle.v2;
+				triangle.v2 = tmp;
+				
+				triangle.uv = [triangle.uv2, triangle.uv1, triangle.uv0];
 			}
 			
 			skinController.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
@@ -956,7 +1069,7 @@
 		 * Called when the DaeReader completed parsing.
 		 * 
 		 * @param	event
-		 */ 
+		 */
 		private function onParseComplete(event:Event):void
 		{
 			var reader:DaeReader = event.target as DaeReader;
