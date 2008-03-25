@@ -69,7 +69,7 @@ package org.papervision3d.core.geom.controller
 				//_root.transform = Matrix3D.IDENTITY;
 				//skeletons[i].transform = Matrix3D.IDENTITY;
 					
-				skeletons[i].project(_root, renderSessionData);
+				//skeletons[i].project(_root, renderSessionData);
 			}
 			
 			// skin the mesh!
@@ -114,8 +114,6 @@ package org.papervision3d.core.geom.controller
 				
 			var matrix:Matrix3D = Matrix3D.multiply(joint.world, joint.inverseBindMatrix);
 			
-		//	matrix = Matrix3D.multiply(Matrix3D.inverse(this.bindShapeMatrix), matrix);
-			
 			for( i = 0; i < vertexWeights.length; i++ )
 			{
 				var weight:Number = vertexWeights[i].weight;
@@ -134,16 +132,17 @@ package org.papervision3d.core.geom.controller
 				Matrix3D.multiplyVector(matrix, pos);	
 
 				//update the vertex
-				skinned.x += (pos.x * weight);
 				if(yUp)
 				{
+					skinned.x += (pos.x * weight);
 					skinned.y += (pos.y * weight);
 					skinned.z += (pos.z * weight);
 				}
 				else
 				{
+					skinned.x += (pos.x * weight);
 					skinned.y += (pos.z * weight);
-					skinned.z -= (pos.y * weight);
+					skinned.z += (pos.y * weight);
 				}
 			}
 		}
