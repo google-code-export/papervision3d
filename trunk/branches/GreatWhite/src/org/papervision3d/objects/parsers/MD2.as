@@ -211,7 +211,7 @@ package org.papervision3d.objects.parsers {
 						
 			Papervision3D.log("Parsed MD2: " + file + "\n vertices:" + 
 							  geometry.vertices.length + "\n texture vertices:" + uvs.length +
-							  "\n faces:" + geometry.faces.length + "\n frames: " + _channels.length);
+							  "\n faces:" + geometry.faces.length + "\n frames: " + num_frames);
 	
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
