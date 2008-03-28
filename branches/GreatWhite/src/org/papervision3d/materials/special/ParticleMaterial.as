@@ -38,7 +38,7 @@ package org.papervision3d.materials.special
 			var renderrect:Rectangle = particle.renderRect; 
 			
 			if(shape == SHAPE_SQUARE) graphics.drawRect(renderrect.x, renderrect.y, renderrect.width, renderrect.height);
-			else if(shape == SHAPE_CIRCLE) graphics.drawCircle(renderrect.x, renderrect.y, renderrect.width/2);
+			else if(shape == SHAPE_CIRCLE) graphics.drawCircle(renderrect.x+renderrect.width/2, renderrect.y+renderrect.width/2, renderrect.width/2);
 			else trace("warning - Particle material has no valid shape - Must be ParticleMaterial.SHAPE_SQUARE or ParticleMaterial.SHAPE_CIRCLE");
 			
 			//trace(renderrect.width, particle.size, particle.renderScale);
