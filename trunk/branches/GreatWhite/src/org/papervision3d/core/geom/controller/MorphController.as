@@ -4,10 +4,18 @@ package org.papervision3d.core.geom.controller
 
 	public class MorphController extends AbstractController
 	{
+		public var morphTargets:Array;
+		
+		/**
+		 * Constructor.
+		 * 
+		 * @param	target
+		 */ 
 		public function MorphController(target:DisplayObject3D)
 		{
 			super(target);
+			
+			this.morphTargets = new Array();
 		}
-		
 	}
 }

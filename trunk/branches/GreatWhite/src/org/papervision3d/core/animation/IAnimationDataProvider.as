@@ -26,7 +26,7 @@ package org.papervision3d.core.animation
 		 * 
 		 * @return	Array of AnimationChannel3D.
 		 */ 
-		function getAnimationChannelsByTarget(target:DisplayObject3D=null):Array;
+		function getAnimationChannels(target:DisplayObject3D=null):Array;
 		
 		/**
 		 * Gets animation channels by clip name.

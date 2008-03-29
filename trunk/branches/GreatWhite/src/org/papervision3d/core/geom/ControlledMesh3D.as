@@ -34,6 +34,7 @@
 package org.papervision3d.core.geom
 {
 	import org.papervision3d.core.geom.controller.AbstractController;
+	import org.papervision3d.core.geom.controller.IControlledObject3D;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
@@ -41,10 +42,12 @@ package org.papervision3d.core.geom
 	/**
 	 * @author Tim Knip
 	 */ 
-	public class ControllerMesh3D extends TriangleMesh3D
-	{
-		/** */
-		public var controllers:Array;
+	public class ControlledMesh3D extends TriangleMesh3D implements IControlledObject3D
+	{	
+		/**
+		 * Gets all controllers.
+		 */ 
+		public function get controllers():Array { return _controllers; }
 		
 		/**
 		 * Constructor.
@@ -55,21 +58,33 @@ package org.papervision3d.core.geom
 		 * @param	name
 		 * @param	initObject
 		 */ 
-		public function ControllerMesh3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null)
+		public function ControlledMesh3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null)
 		{
 			super(material, vertices, faces, name, initObject);
 			
-			controllers = new Array();
+			_controllers = new Array();
 		}
 		
 		/**
 		 * Adds a controller.
 		 * 
-		 * @param	controller
+		 * @param	controller	The controller to add.
+		 * 
+		 * return	The added controller or null on failure.
 		 */ 
-		public function addController(controller:AbstractController):void
+		public function addController(controller:AbstractController):AbstractController
 		{
-			controllers.push(controller);
+			_controllers.push(controller);
+			return controller;
+		}
+		
+		/**
+		 * Applies all controllers on the object.
+		 */ 
+		public function applyControllers():void
+		{
+			for(var i:int = 0; i < _controllers.length; i++)
+				_controllers[i].apply();
 		}
 		
 		/**
@@ -82,18 +97,23 @@ package org.papervision3d.core.geom
 		 */
 		public override function project(parent:DisplayObject3D, renderSessionData:RenderSessionData):Number
 		{
-			var num:Number = super.project(parent, renderSessionData);
-			
-			try
-			{
-				for(var i:int = 0; i < controllers.length; i++)
-					controllers[i].apply(this, renderSessionData);
-			}
-			catch(e:Error)
-			{
-				
-			}
-			return num; //super.project(parent, renderSessionData);
+			applyControllers();
+			return super.project(parent, renderSessionData);
 		}
+		
+		/**
+		 * Removes the specified controller.
+		 * 
+		 * @param	controller
+		 * 
+		 * return	The removed controller or null on failure.
+		 */ 
+		public function removeController(controller:AbstractController):AbstractController
+		{
+			return null;
+		}
+		
+		/** */
+		private var _controllers:Array;
 	}
 }
