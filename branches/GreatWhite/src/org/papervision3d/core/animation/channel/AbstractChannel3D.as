@@ -27,6 +27,12 @@ package org.papervision3d.core.animation.channel
 		/** */
 		public var output:Array;
 		
+		/** Position. Use by time based animations. */
+		public var position:Number;
+		
+		/** Tolerance. Use by time based animations. */
+		public var tolerance:Number;
+		
 		/** */
 		public function get defaultTarget():DisplayObject3D { return _defaultTarget; }
 		
@@ -89,6 +95,41 @@ package org.papervision3d.core.animation.channel
 			
 			this.output = kf.output;
 		}
+		
+		/**
+		 * Updates this channel by time.
+		 * 
+		 */ 
+		public function updateToTime(startTime:Number, endTime:Number, position:Number, tolerance:Number=0):void
+		{
+			this.position = position;
+			this.tolerance = tolerance;
+			
+			var cur:int = -1;
+			var next:int = -1;
+			
+			// find interval
+			for(var i:int = 0; i < this.keyFrames.length; i++)
+			{
+				var kf:AnimationKeyFrame3D = this.keyFrames[i];
+				if(kf.time > startTime && kf.time < endTime)
+				{
+					cur = i;
+					next = (cur+1) % this.keyFrames.length;
+					break;
+				}
+			}
+			if(cur < 0)
+				return;
+			
+			var curKF:AnimationKeyFrame3D = this.keyFrames[cur];
+			var nxtKF:AnimationKeyFrame3D = this.keyFrames[next];
+			
+			this.output = curKF.output;
+			_nextOutput = nxtKF.output;
+		}
+		
+		protected var _nextOutput:Array;
 		
 		private var _defaultTarget:DisplayObject3D;
 	}

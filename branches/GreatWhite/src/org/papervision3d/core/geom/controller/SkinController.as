@@ -41,9 +41,8 @@ package org.papervision3d.core.geom.controller
 		/**
 		 * Applies the controller to the target. @see #target
 		 * 
-		 * @param	renderSessionData
 		 */ 
-		public override function apply(parent:DisplayObject3D, renderSessionData:RenderSessionData):void
+		public override function apply():void
 		{		
 			if(!this.bindShapeMatrix || !this.joints || !this.joints.length || !this.skeletons.length)
 				return;

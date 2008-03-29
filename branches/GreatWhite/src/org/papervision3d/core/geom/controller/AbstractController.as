@@ -12,7 +12,7 @@ package org.papervision3d.core.geom.controller
 			this.target = target;
 		}
 		
-		public function apply(parent:DisplayObject3D, renderSessionData:RenderSessionData):void
+		public function apply():void
 		{
 			
 		}
