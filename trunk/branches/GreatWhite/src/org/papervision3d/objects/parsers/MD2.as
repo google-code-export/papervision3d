@@ -82,7 +82,7 @@ package org.papervision3d.objects.parsers {
 		 * 
 		 * @return	Array of AnimationChannel3D.
 		 */ 
-		public function getAnimationChannelsByTarget(target:DisplayObject3D=null):Array
+		public function getAnimationChannels(target:DisplayObject3D=null):Array
 		{
 			target = target || this;
 			if(target === this)
