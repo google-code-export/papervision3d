@@ -81,13 +81,14 @@
 		}
 		
 		/**
-		 * Gets all animation channels for a target. NOTE: when target is null, 'this' object is used.
+		 * Gets all animation channels for a target. 
+		 * <p>NOTE: when target is null, all channels for this object are returned.</p>
 		 * 
 		 * @param	target	The target to get the channels for.
 		 * 
 		 * @return	Array of AnimationChannel3D.
 		 */ 
-		public function getAnimationChannelsByTarget(target:DisplayObject3D=null):Array
+		public function getAnimationChannels(target:DisplayObject3D=null):Array
 		{
 			var channels:Array = new Array();
 			if(target == null)
@@ -114,30 +115,6 @@
 		 */ 
 		public function getAnimationChannelsByClip(name:String):Array
 		{
-			return null;	
-		}
-		
-		/**
-		 * Removes a child.
-		 * 
-		 * @param	child	The child to remove
-		 * 
-		 * @return	The removed child
-		 */ 
-		override public function removeChild(child:DisplayObject3D):DisplayObject3D
-		{
-			var object:DisplayObject3D = getChildByName(child.name, true);
-			
-			if(object)
-			{
-				var parent:DisplayObject3D = DisplayObject3D(object.parent);
-				if(parent)
-				{
-					var removed:DisplayObject3D = parent.removeChild(object);
-					if(removed)
-						return removed;
-				}
-			}
 			return null;	
 		}
 		
@@ -176,6 +153,95 @@
 			{
 				throw new Error("load : unknown asset type!");
 			}
+		}
+		
+		/**
+		 * Removes a child.
+		 * 
+		 * @param	child	The child to remove
+		 * 
+		 * @return	The removed child
+		 */ 
+		override public function removeChild(child:DisplayObject3D):DisplayObject3D
+		{
+			var object:DisplayObject3D = getChildByName(child.name, true);
+			
+			if(object)
+			{
+				var parent:DisplayObject3D = DisplayObject3D(object.parent);
+				if(parent)
+				{
+					var removed:DisplayObject3D = parent.removeChild(object);
+					if(removed)
+						return removed;
+				}
+			}
+			return null;	
+		}
+		
+		/**
+		 * Replaces a material by its name.
+		 * 
+		 * @param	material
+		 * @param	name
+		 * @return
+		 */
+		public function replaceMaterialByName(material:MaterialObject3D, name:String):void
+		{
+			if(!this.materials)
+				return;
+			
+			var existingMaterial:MaterialObject3D = this.materials.getMaterialByName(name);
+			if(!existingMaterial)
+				return;
+				
+			if(this.material === existingMaterial)
+				this.material = material;
+			existingMaterial = this.materials.removeMaterial(existingMaterial);
+			existingMaterial.unregisterObject(this);
+				
+			material = this.materials.addMaterial(material, name);
+				
+			updateMaterials(this, existingMaterial, material);
+		}
+		
+		/**
+		 * Replaces materials by its name.
+		 * 
+		 * @param	materials
+		 */
+		public function replaceMaterials(materials:MaterialsList):void
+		{
+			
+		}
+		
+		/**
+		 * Sets the material for a child DisplayObject3D.
+		 * 
+		 * @param child		A child DisplayObject3D of this DAE.
+		 * @param material	The new material for the child.
+		 */
+		public function setChildMaterial(child:DisplayObject3D, material:MaterialObject3D ):void 
+		{	
+			if(!child) 
+				return;	
+			child.material = material;
+			if(child.geometry && child.geometry.faces)
+			{
+				for each( var triangle:Triangle3D in child.geometry.faces )
+					triangle.material = material;
+			}
+		}
+		
+		/**
+		 * Sets the material for a child DisplayObject3D by the child's name.
+		 * 
+		 * @param childName The name of the DisplayObject3D.
+		 * @param material	The new material for the child.
+		 */
+		public function setChildMaterialByName(childName:String, material:MaterialObject3D):void 
+		{
+			setChildMaterial(getChildByName(childName, true), material);
 		}
 		
 		/**
@@ -383,8 +449,6 @@
 			{
 				target = object as DisplayObject3D;
 							
-				trace(target.name);
-				
 				var matrixStackChannel:MatrixStackChannel3D = new MatrixStackChannel3D(this, target, target.name);
 							
 				var channels:Array = channelsByObject[object];
@@ -425,8 +489,6 @@
 			var faces:Array = new Array();
 			var material:MaterialObject3D = this.materials.getMaterialByName(primitive.material);
 			
-			trace( "MATERIAL: " + material + " " + primitive.material);
-			
 			if(!material)
 			{
 				material = new CompositeMaterial();
@@ -453,8 +515,22 @@
 			
 			switch( primitive.type ) 
 			{
+				// Each line described by the mesh has two vertices. The first line is formed 
+				// from first and second vertices. The second line is formed from the third and fourth 
+				// vertices and so on.
+				case ASCollada.DAE_LINES_ELEMENT:
+					for( i = 0; i < primitive.vertices.length; i += 2 ) 
+					{
+						v[0] = geometry.vertices[ primitive.vertices[i] ];
+						v[1] = geometry.vertices[ primitive.vertices[i+1] ];
+						uv[0] = hasUV ? texcoords[  i  ] : new NumberUV();
+						uv[1] = hasUV ? texcoords[ i+1 ] : new NumberUV();
+						//geometry.faces.push( new Triangle3D(instance, [v[0], v[1], v[1]], material, [uv[0], uv[1], uv[1]]) );
+					}
+					break;
+					
 				// simple triangles
-				case "triangles":
+				case ASCollada.DAE_TRIANGLES_ELEMENT:
 					for(i = 0, j = 0; i < primitive.vertices.length; i += 3, j++) 
 					{
 						idx[0] = voffset + primitive.vertices[i];
@@ -469,7 +545,7 @@
 						uv[1] = hasUV ? texcoords[ i+1 ] : new NumberUV();
 						uv[2] = hasUV ? texcoords[ i+2 ] : new NumberUV();
 						
-						geometry.faces.push(new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]) );
+						geometry.faces.push(new Triangle3D(null, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]));
 					}
 					break;
 				// polygon with *no* holes
@@ -496,7 +572,7 @@
 							v[2] = poly[j+1];
 							uv[1] = uvs[j];
 							uv[2] = uvs[j+1];
-							geometry.faces.push( new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]) );
+							geometry.faces.push(new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]));
 						}
 					}
 					break;
@@ -506,7 +582,7 @@
 			}
 		}
 		
-				/**
+		/**
 		 * 
 		 * @param	asset
 		 * @return
@@ -559,7 +635,7 @@
 			}	
 		}
 		
-/**
+		/**
 		 *
 		 * @return
 		 */
@@ -627,7 +703,7 @@
 						continue;
 					}
 				}
-				
+
 				if(lambert && lambert.diffuse.color)
 					this.materials.addMaterial(new ColorMaterial(buildColor(lambert.diffuse.color)), symbol);
 				else
@@ -700,13 +776,15 @@
 		private function buildNode(node:DaeNode, parent:DisplayObject3D):void
 		{
 			var instance:DisplayObject3D;
+			var material:MaterialObject3D;
 			var i:int;
 			
+		
 			if(node.controllers.length)
 			{
-				instance = new ControllerMesh3D(null, [], [], node.name);
+				instance = new ControlledMesh3D(null, [], [], node.name);
 				
-				var controllerMesh:ControllerMesh3D = instance as ControllerMesh3D;
+				var controllerMesh:ControlledMesh3D = instance as ControlledMesh3D;
 				
 				// controllers, can be of type 'skin' or 'morph'
 				for(i = 0; i < node.controllers.length; i++)
@@ -720,9 +798,11 @@
 					}
 					else if(colladaController.morph)
 					{
+						throw new Error("morph!");
 					}
 					else
 						throw new Error("A COLLADA controller should be of type <skin> or <morph>!");
+				
 					// dunnu yet how to handle multiple controllers.
 					break;
 				}
@@ -735,10 +815,16 @@
 				// add all COLLADA geometries to the TriangleMesh3D
 				for each(var geom:DaeInstanceGeometry in node.geometries)
 				{
+					var instanceMaterial:DaeInstanceMaterial = geom.materials.length ? geom.materials[0] : null;
+					
 					var geometry:GeometryObject3D = _geometries[ geom.url ];		
 					if(!geometry)
 						continue;
-					mergeGeometries(instance.geometry, geometry.clone(instance));
+					
+					if(instanceMaterial)
+						material = this.materials.getMaterialByName(instanceMaterial.symbol);
+					
+					mergeGeometries(instance.geometry, geometry.clone(instance), material);
 				}
 			}
 			else
@@ -790,6 +876,8 @@
 				buildNode(this.document.vscene.nodes[i], scene);
 			}
 			
+			scene.scaleX = -this.scaleX;
+			
 			// link the skins
 			linkSkins();
 			
@@ -811,13 +899,44 @@
 		 * 
 		 * @param	instance
 		 * @param	colladaSkin
+		 * @param	skeletons
+		 * @param	reverseFaces
 		 */ 
-		private function buildSkin(instance:ControllerMesh3D, colladaSkin:DaeSkin, skeletons:Array):void
+		private function buildSkin(instance:ControlledMesh3D, colladaSkin:DaeSkin, skeletons:Array, reverseFaces:Boolean=true):void
 		{
 			var skin:GeometryObject3D = _geometries[ colladaSkin.source ];
 			if(!skin)
-				throw new Error("no geometry?");
+			{
+				// geometry can be inside a morph controller
+				var morphController:DaeController = this.document.controllers[colladaSkin.source];
+				if(morphController && morphController.morph)
+				{
+					var morph:DaeMorph = morphController.morph;
+					
+					// fetch geometry
+					skin = _geometries[morph.source];
+
+					// fetch target geometries
+					for(var j:int = 0; j < morph.targets.length; j++)
+					{
+						var targetGeometry:GeometryObject3D = _geometries[morph.targets[j]];
+					}
+				}
+				if(!skin)
+					throw new Error("no geometry for source: " + colladaSkin.source);
+			}
 							
+			if(reverseFaces)
+			{
+				for each(var triangle:Triangle3D in skin.faces)
+				{
+					var tmp:Vertex3D = triangle.v0;
+					triangle.v0 = triangle.v2;
+					triangle.v2 = tmp;
+					triangle.uv = [triangle.uv2, triangle.uv1, triangle.uv0];
+				}
+			}
+			
 			mergeGeometries(instance.geometry, skin.clone(instance));
 			
 			var yUp:Boolean = (this.document.asset.yUp == ASCollada.DAE_Y_UP);
@@ -900,7 +1019,7 @@
 		/**
 		 * Setup the skin controllers.
 		 */ 
-		private function linkSkin(instance:ControllerMesh3D, skin:DaeSkin):void
+		private function linkSkin(instance:ControlledMesh3D, skin:DaeSkin):void
 		{
 			var skinController:SkinController;
 			for each(var controller:AbstractController in instance.controllers)
@@ -944,7 +1063,7 @@
 					throw new Error("Could not find inverse bind matrix for joint with id = " + jointId);
 				
 				joint.inverseBindMatrix = new Matrix3D(bindMatrix);
-				
+
 				skinController.joints[i] = joint;
 				
 				found[jointId] = true;
@@ -989,9 +1108,9 @@
 		{
 			for(var object:* in _skins)
 			{
-				var instance:ControllerMesh3D = object as ControllerMesh3D;
+				var instance:ControlledMesh3D = object as ControlledMesh3D;
 				if(!instance)
-					throw new Error("Not a ControllerMesh3D?");
+					throw new Error("Not a ControlledMesh3D?");
 				linkSkin(instance, _skins[object]);
 			}
 		}
@@ -1013,7 +1132,7 @@
 				material.addEventListener(FileLoadEvent.LOAD_COMPLETE, loadNextMaterial);
 				material.addEventListener(FileLoadEvent.LOAD_ERROR, onMaterialError);
 				material.texture = url;
-				
+			
 				this.materials.addMaterial(material, symbol);
 			}
 			else
@@ -1025,8 +1144,13 @@
 			}
 		}
 		
-		private function mergeGeometries(target:GeometryObject3D, source:GeometryObject3D):void
+		private function mergeGeometries(target:GeometryObject3D, source:GeometryObject3D, material:MaterialObject3D=null):void
 		{
+			if(material)
+			{
+				for each(var triangle:Triangle3D in source.faces)
+					triangle.material = material;
+			}
 			target.vertices = target.vertices.concat(source.vertices);
 			target.faces = target.faces.concat(source.faces);
 		}
@@ -1096,6 +1220,32 @@
 		private function onParseProgress(event:ProgressEvent):void
 		{
 			
+		}
+		
+		/**
+		 * 
+		 * @param	do3d
+		 * @param	existingMaterial
+		 * @param	newMaterial
+		 */
+		private function updateMaterials(do3d:DisplayObject3D, existingMaterial:MaterialObject3D, newMaterial:MaterialObject3D):void
+		{
+			existingMaterial.unregisterObject(do3d);
+			
+			if( do3d.material === existingMaterial )
+				do3d.material = newMaterial;
+					
+			if( do3d.geometry && do3d.geometry.faces && do3d.geometry.faces.length )
+			{
+				for each( var triangle:Triangle3D in do3d.geometry.faces )
+				{
+					if( triangle.material === existingMaterial )
+						triangle.material = newMaterial;
+				}
+			}
+			
+			for each(var child:DisplayObject3D in do3d.children)
+				updateMaterials(child, existingMaterial, newMaterial);
 		}
 		
 		/** */
