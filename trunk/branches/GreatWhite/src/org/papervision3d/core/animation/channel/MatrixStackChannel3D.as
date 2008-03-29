@@ -21,6 +21,8 @@ package org.papervision3d.core.animation.channel
 		{
 			super(parent, defaultTarget, name);
 			
+			this.keyFrames = new Array();
+			
 			_matrixStack = new Array();
 		}
 		
@@ -40,6 +42,7 @@ package org.papervision3d.core.animation.channel
 			{
 				this.minTime = channel.minTime;
 				this.maxTime = channel.maxTime;
+				this.keyFrames = channel.keyFrames;
 			}
 
 			_matrixStack.push(channel);
