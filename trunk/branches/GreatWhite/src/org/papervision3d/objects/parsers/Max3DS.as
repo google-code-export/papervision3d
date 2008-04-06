@@ -20,7 +20,7 @@ package org.papervision3d.objects.parsers
 	/**
 	 * 3DS File parser.
 	 * 
-	 * @author Tim Knip
+	 * @author Tim Knip (based on Away3D's Max3DS class : http://away3d.com)
 	 */ 
 	public class Max3DS extends DisplayObject3D
 	{
