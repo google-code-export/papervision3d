@@ -14,7 +14,6 @@
 	import org.papervision3d.core.animation.*;
 	import org.papervision3d.core.animation.channel.*;
 	import org.papervision3d.core.geom.*;
-	import org.papervision3d.core.geom.controller.*;
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
@@ -24,6 +23,7 @@
 	import org.papervision3d.materials.utils.*;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.objects.special.Joint3D;
+	import org.papervision3d.objects.special.Skin3D;
 	
 	/**
 	 * @author Tim Knip
@@ -826,15 +826,10 @@
 		{
 			var instance:DisplayObject3D;
 			var material:MaterialObject3D;
-			var msc:MatrixStackController;
 			var i:int;
 			
 			if(node.controllers.length)
 			{
-				instance = new ControlledMesh3D(null, [], [], node.name);
-				
-				var controllerMesh:ControlledMesh3D = instance as ControlledMesh3D;
-				
 				// controllers, can be of type 'skin' or 'morph'
 				for(i = 0; i < node.controllers.length; i++)
 				{
@@ -843,7 +838,9 @@
 
 					if(colladaController.skin)
 					{
-						buildSkin(controllerMesh, colladaController.skin, instanceController.skeletons);
+						instance = new Skin3D(null, [], [], node.name);
+						
+						buildSkin(instance as Skin3D, colladaController.skin, instanceController.skeletons);
 					}
 					else if(colladaController.morph)
 					{
@@ -951,7 +948,7 @@
 		 * @param	skeletons
 		 * @param	reverseFaces
 		 */ 
-		private function buildSkin(instance:ControlledMesh3D, colladaSkin:DaeSkin, skeletons:Array, reverseFaces:Boolean=true):void
+		private function buildSkin(instance:Skin3D, colladaSkin:DaeSkin, skeletons:Array, reverseFaces:Boolean=true):void
 		{
 			var skin:GeometryObject3D = _geometries[ colladaSkin.source ];
 			if(!skin)
@@ -990,19 +987,15 @@
 			
 			var yUp:Boolean = (this.document.asset.yUp == ASCollada.DAE_Y_UP);
 			
-			var controller:SkinController = new SkinController(instance, yUp);
-			
-			controller.joints = new Array();
-			controller.skeletons = new Array();
+			instance.joints = new Array();
+			instance.skeletons = new Array();
 			
 			for each(var skeletonId:String in skeletons)
-				controller.skeletons.push(skeletonId)
+				instance.skeletons.push(skeletonId)
 			
 			for(var i:int = 0; i < colladaSkin.joints.length; i++)
-				controller.joints.push(colladaSkin.joints[i]);
+				instance.joints.push(colladaSkin.joints[i]);
 
-			instance.addController(controller);
-			
 			_skins[ instance ] = colladaSkin;
 		}
 		
@@ -1081,27 +1074,14 @@
 		/**
 		 * Setup the skin controllers.
 		 */ 
-		private function linkSkin(instance:ControlledMesh3D, skin:DaeSkin):void
-		{
-			var skinController:SkinController;
-			for each(var controller:AbstractController in instance.controllers)
-			{
-				if(controller is SkinController)
-				{
-					skinController = controller as SkinController;
-					break;
-				}
-			}
-			
-			if(!skinController)
-				return;	
-			
+		private function linkSkin(instance:Skin3D, skin:DaeSkin):void
+		{			
 			var i:int;
 			var found:Object = new Object();
 			
-			for(i = 0; i < skinController.joints.length; i++)
+			for(i = 0; i < instance.joints.length; i++)
 			{
-				var jointId:String = skinController.joints[i];
+				var jointId:String = instance.joints[i];
 				
 				if(found[jointId])
 					continue;
@@ -1126,14 +1106,14 @@
 				
 				joint.inverseBindMatrix = new Matrix3D(bindMatrix);
 
-				skinController.joints[i] = joint;
+				instance.joints[i] = joint;
 				
 				found[jointId] = true;
 			}
 			
-			for(i = 0; i < skinController.skeletons.length; i++)
+			for(i = 0; i < instance.skeletons.length; i++)
 			{
-				var skeletonId:String = skinController.skeletons[i];
+				var skeletonId:String = instance.skeletons[i];
 				
 				var skeleton:Joint3D = _colladaIDToObject[skeletonId];
 				if(!skeleton)
@@ -1146,7 +1126,7 @@
 				if(!skeleton)
 					throw new Error("Couldn't find the skeleton with id = " + skeletonId);
 					
-				skinController.skeletons[i] = skeleton;
+				instance.skeletons[i] = skeleton;
 				
 				//this.removeChild(skeleton);
 			}
@@ -1160,7 +1140,7 @@
 				triangle.uv = [triangle.uv2, triangle.uv1, triangle.uv0];
 			}
 			*/
-			skinController.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
+			instance.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
 		}
 		
 		/**
@@ -1170,9 +1150,9 @@
 		{
 			for(var object:* in _skins)
 			{
-				var instance:ControlledMesh3D = object as ControlledMesh3D;
+				var instance:Skin3D = object as Skin3D;
 				if(!instance)
-					throw new Error("Not a ControlledMesh3D?");
+					throw new Error("Not a Skin3D?");
 				linkSkin(instance, _skins[object]);
 			}
 		}
