@@ -17,6 +17,11 @@ package org.papervision3d.objects.parsers
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
 
+	/**
+	 * 3DS File parser.
+	 * 
+	 * @author Tim Knip
+	 */ 
 	public class Max3DS extends DisplayObject3D
 	{
 		/** */
@@ -99,8 +104,9 @@ package org.papervision3d.objects.parsers
 				}
 			}
 			
-			mesh.scaleX = -mesh.scaleX;
 			mesh.geometry.ready = true;
+			mesh.rotationX = 90;
+			mesh.rotationY = 180;
 			
 			addChild(mesh);
 		}
@@ -254,7 +260,7 @@ package org.papervision3d.objects.parsers
 				chunk.bytesRead += subChunk.length;
 			}
 			
-			if(mat.name)
+			if(mat.name && !this.materials.getMaterialByName(mat.name))
 			{
 				if(mat.textures.length)
 				{
@@ -312,9 +318,9 @@ package org.papervision3d.objects.parsers
 			
 			for (var i:int = 0; i < numFaces; i++)
 			{
-				var v0:uint = _data.readUnsignedShort();
-				var v1:uint = _data.readUnsignedShort();
 				var v2:uint = _data.readUnsignedShort();
+				var v1:uint = _data.readUnsignedShort();
+				var v0:uint = _data.readUnsignedShort();
 				var visible:Boolean = (_data.readUnsignedShort() as Boolean);
 				chunk.bytesRead += 8;
 				
