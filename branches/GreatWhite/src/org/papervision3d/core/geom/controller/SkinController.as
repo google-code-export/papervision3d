@@ -1,11 +1,11 @@
 package org.papervision3d.core.geom.controller
 {
-	import org.papervision3d.core.geom.Joint3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
-	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.special.Joint3D;
+	import org.papervision3d.objects.special.Skin3D;
 
 	public class SkinController extends AbstractController
 	{
@@ -105,6 +105,7 @@ package org.papervision3d.core.geom.controller
 		 */
 		private function skin(joint:Joint3D, meshVerts:Array, skinnedVerts:Array):void
 		{
+			var sk:Skin3D;
 			var i:int;
 			var pos:Number3D = new Number3D();
 			var original:Number3D;

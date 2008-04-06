@@ -23,6 +23,7 @@
 	import org.papervision3d.materials.special.*;
 	import org.papervision3d.materials.utils.*;
 	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.special.Joint3D;
 	
 	/**
 	 * @author Tim Knip
@@ -251,7 +252,7 @@
 		 * @param	target	The target object
 		 * @param	channel	The DaeChannel
 		 */ 
-		private function buildAnimationChannel(matrixStackChannel:MatrixStackChannel3D, target:DisplayObject3D, channel:DaeChannel):void
+		private function buildAnimationChannel(target:DisplayObject3D, channel:DaeChannel):MatrixChannel3D
 		{
 			//if(channel.syntax.isArrayAccess)
 			//	return;
@@ -413,7 +414,7 @@
 					throw new Error("Unknown transform type!");	
 			}
 			
-			matrixStackChannel.addMatrixChannel(matrixChannel);
+			return matrixChannel;
 		}
 		
 		/**
@@ -449,15 +450,63 @@
 			{
 				target = object as DisplayObject3D;
 							
-				var matrixStackChannel:MatrixStackChannel3D = new MatrixStackChannel3D(this, target, target.name);
-							
 				var channels:Array = channelsByObject[object];
-
-				for(i = 0; i < channels.length; i++)
-					buildAnimationChannel(matrixStackChannel, target, channels[i]);
+				var node:DaeNode = _objectToNode[target];
 					
-				_channelsByTarget[target] = [matrixStackChannel];
+				if(!node)
+					throw new Error("Couldn't find the targeted object!");
+					
+				node.channels = channels;
+							
+				if(channels.length == 1)
+				{
+					channel = channels[0];
+							
+					var transform:DaeTransform = node.findMatrixBySID(channel.syntax.targetSID);
+					if(!transform)
+						throw new Error("Couldn't find the targeted object's transform!");
+					
+					if(transform.type == ASCollada.DAE_MATRIX_ELEMENT)
+					{	
+						_channelsByTarget[target] = [buildAnimationChannel(target, channel)];
+						continue;
+					}
+				}
+				
+				bakeAnimationChannels(node, target);
 			}
+		}
+		
+		private function bakeAnimationChannels(node:DaeNode, target:DisplayObject3D):void
+		{
+			var i:int, j:int;
+			var stack:Array = buildMatrixStack(node);
+			var channels:Array = new Array();
+			
+			for(i = 0; i < node.channels.length; i++)
+				channels.push(buildAnimationChannel(target, node.channels[i]));
+				
+			var outputs:Array = new Array(channels.length);
+			var keyFrames:Array = new Array();
+			var dummy:DisplayObject3D = DisplayObject3D.ZERO;
+			var times:Array = new Array();
+			
+			for(i = 0; i < channels.length; i++)
+			{
+				var matrixChannel:MatrixChannel3D = channels[i];
+				
+				outputs[i] = new Array(matrixChannel.keyFrames.length);
+				
+				for(j = 0; j < matrixChannel.keyFrames.length; j++)
+				{
+					matrixChannel.updateToFrame(j, dummy);
+					outputs[i][j] = matrixChannel.output[0];
+				
+					times.push(matrixChannel.keyFrames[j].time);
+				}
+			}
+			
+			trace("TIMES: " + times);
 		}
 		
 		/**
@@ -777,9 +826,9 @@
 		{
 			var instance:DisplayObject3D;
 			var material:MaterialObject3D;
+			var msc:MatrixStackController;
 			var i:int;
 			
-		
 			if(node.controllers.length)
 			{
 				instance = new ControlledMesh3D(null, [], [], node.name);
@@ -842,7 +891,7 @@
 
 			// setup the initial transform
 			instance.copyTransform(buildMatrix(node));	
-						
+			
 			// recurse node children
 			for(i = 0; i < node.nodes.length; i++)
 				buildNode(node.nodes[i], instance);
@@ -1017,6 +1066,19 @@
 		}
 		
 		/**
+		 * Tests whether a node has a baked transform
+		 * 
+		 * @param	node
+		 */ 
+		private function isBakedMatrix(node:DaeNode):Boolean
+		{
+			if(!node.transforms.length || node.transforms.length > 1)
+				return false;
+			var transform:DaeTransform = node.transforms[0];
+			return (transform.type == ASCollada.DAE_MATERIAL_ELEMENT);
+		}
+		
+		/**
 		 * Setup the skin controllers.
 		 */ 
 		private function linkSkin(instance:ControlledMesh3D, skin:DaeSkin):void
@@ -1088,7 +1150,7 @@
 				
 				//this.removeChild(skeleton);
 			}
-			
+			/*
 			for each(var triangle:Triangle3D in instance.geometry.faces)
 			{
 				var tmp:Vertex3D = triangle.v0;
@@ -1097,7 +1159,7 @@
 				
 				triangle.uv = [triangle.uv2, triangle.uv1, triangle.uv0];
 			}
-			
+			*/
 			skinController.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
 		}
 		

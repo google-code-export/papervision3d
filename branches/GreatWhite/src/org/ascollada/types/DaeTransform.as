@@ -26,10 +26,7 @@
 package org.ascollada.types 
 {
 	import org.ascollada.ASCollada;
-	import org.ascollada.core.DaeChannel;
 	import org.ascollada.utils.Logger;
-	import org.papervision3d.core.math.Matrix3D;
-	import org.papervision3d.core.math.Number3D;
 	
 	/**
 	 * @author	Tim Knip 
@@ -45,6 +42,9 @@ package org.ascollada.types
 		/** */
 		public var values:Array;
 		
+		/** */
+		public var animated:Boolean;
+		
 		/**
 		 * 
 		 * @param	type
@@ -56,7 +56,8 @@ package org.ascollada.types
 			this.type = type;
 			this.sid = sid;
 			this.values = values;
-
+			this.animated = false;
+			
 			if( !validateValues() )
 			{
 				Logger.log( "[ERROR] invalid values for this transform!" );

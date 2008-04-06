@@ -22,5 +22,20 @@ package org.papervision3d.core.animation.channel
 			super(parent, defaultTarget, name);
 			this.member = null;
 		}
+		
+		/**
+		 * Updates this channel.
+		 * 
+		 * @param	keyframe
+		 * @param	target
+		 */ 
+		public override function updateToFrame(keyframe:uint, target:DisplayObject3D=null):void
+		{
+			super.updateToFrame(keyframe, target);	
+			
+			target = target || this.defaultTarget;
+			
+			target.copyTransform(this.output[0]);
+		}
 	}
 }
