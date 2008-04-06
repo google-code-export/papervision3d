@@ -62,6 +62,9 @@ package org.ascollada.core
 		/** array of instance_cameras */
 		public var instance_cameras:Array;
 		
+		/** */
+		public var channels:Array;
+		
 		private var _yUp:uint;
 		
 		/**

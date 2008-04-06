@@ -100,33 +100,33 @@ package org.papervision3d.core.animation.channel
 		 * Updates this channel by time.
 		 * 
 		 */ 
-		public function updateToTime(startTime:Number, endTime:Number, position:Number, tolerance:Number=0):void
-		{
-			this.position = position;
-			this.tolerance = tolerance;
+		public function updateToTime(time:Number, frameSnap:Number=0):void
+		{	
+			var cur:int = 0;
 			
-			var cur:int = -1;
-			var next:int = -1;
-			
-			// find interval
-			for(var i:int = 0; i < this.keyFrames.length; i++)
+			if(time < this.minTime)
 			{
-				var kf:AnimationKeyFrame3D = this.keyFrames[i];
-				if(kf.time > startTime && kf.time < endTime)
+				cur = 0;
+			}
+			else if(time > this.maxTime)
+			{
+				cur = this.keyFrames.length - 1;
+			}
+			else
+			{
+				for(var i:int = 0; i < this.keyFrames.length; i++)
 				{
-					cur = i;
-					next = (cur+1) % this.keyFrames.length;
-					break;
+					if(time > this.keyFrames[i].time)
+					{
+						cur = i;
+						break;
+					}
 				}
 			}
-			if(cur < 0)
-				return;
 			
 			var curKF:AnimationKeyFrame3D = this.keyFrames[cur];
-			var nxtKF:AnimationKeyFrame3D = this.keyFrames[next];
-			
+
 			this.output = curKF.output;
-			_nextOutput = nxtKF.output;
 		}
 		
 		protected var _nextOutput:Array;

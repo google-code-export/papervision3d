@@ -93,60 +93,6 @@ package org.ascollada.core
 		
 		/**
 		 * 
-		 */
-		public function createCurves(numCurves:uint = 12):void
-		{
-			var i:int, j:int;
-			
-			this.curves = new Array();
-				
-			var targetObject:String = this.target.split("/")[1];
-			if( targetObject.indexOf(".") != -1 )
-				targetObject = targetObject.split(".")[0];
-				
-			switch( targetObject )
-			{
-				case "transform":
-					break;
-				case "rotateX":
-					numCurves = 1;
-					break;
-				case "rotateY":
-					numCurves = 1;
-					break;
-				case "rotateZ":
-					numCurves = 1;
-					break;
-				default:
-					return;
-			}
-			
-			for( i = 0; i < numCurves; i++ )
-				this.curves.push( new DaeAnimationCurve() );
-				
-			if( this.output[0] is Array )
-			{
-				for( i = 0; i < this.output.length; i++ )
-				{				
-					for( j = 0; j < this.curves.length; j++ )
-					{
-						this.curves[j].keys[i] = this.input[i];
-						this.curves[j].keyValues[i] = this.output[i][j];
-					}
-				}
-			}
-			else if( numCurves == 1 )
-			{
-				for( i = 0; i < this.output.length; i++ )
-				{				
-					this.curves[0].keys[i] = this.input[i];
-					this.curves[0].keyValues[i] = this.output[i];
-				}
-			}
-		}
-		
-		/**
-		 * 
 		 * @param	dt
 		 */
 		public function update( dt:Number ):Array
