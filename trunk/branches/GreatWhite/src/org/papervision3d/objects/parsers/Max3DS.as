@@ -69,7 +69,12 @@ package org.papervision3d.objects.parsers
 				throw new Error("Need String or ByteArray!");
 		}
 		
-		private function buildMesh(meshData:Object):void
+		/**
+		 * Build a mesh
+		 * 
+		 * @param	meshData
+		 */ 
+		private function buildMesh(meshData:MeshData):void
 		{
 			var i:int;
 			var mesh:TriangleMesh3D = new TriangleMesh3D(null, meshData.vertices, [], meshData.name);
@@ -93,7 +98,7 @@ package org.papervision3d.objects.parsers
 			
 			for(i = 0; i < meshData.materials.length; i++)
 			{
-				var mat:Object = meshData.materials[i];
+				var mat:MaterialData = meshData.materials[i];
 				var material:MaterialObject3D = this.materials.getMaterialByName(mat.name) || MaterialObject3D.DEFAULT;
 				
 				for(var j:int = 0; j < mat.faces.length; j++)
@@ -186,7 +191,7 @@ package org.papervision3d.objects.parsers
 						parseMaterial(subChunk);
 						break;
 					case MESH:
-						var meshData:Object = new Object();
+						var meshData:MeshData = new MeshData();
 						meshData.name = readASCIIZString(_data);
 						
 						subChunk.bytesRead += meshData.name.length + 1;
@@ -275,7 +280,7 @@ package org.papervision3d.objects.parsers
 			return ret;
 		}
 		
-		private function parseMesh(chunk:Chunk3ds, meshData:Object):void
+		private function parseMesh(chunk:Chunk3ds, meshData:MeshData):void
 		{
 			while (chunk.bytesRead < chunk.length)
 			{
@@ -334,9 +339,9 @@ package org.papervision3d.objects.parsers
 		 * 
 		 * @param chunk
 		 */
-		private function readMeshMaterial(chunk:Chunk3ds, meshData:Object):void
+		private function readMeshMaterial(chunk:Chunk3ds, meshData:MeshData):void
 		{
-			var material:Object = new Object();
+			var material:MaterialData = new MaterialData();
 			
 			material.name = readASCIIZString(_data);
 			material.faces = new Array();
@@ -546,4 +551,19 @@ class Chunk3ds
 	public var id:int;
 	public var length:int;
 	public var bytesRead:int;	 
+}
+
+class MeshData
+{
+	public var name:String;
+	public var vertices:Array;
+	public var faces:Array;
+	public var uvs:Array;
+	public var materials:Array;
+}
+
+class MaterialData
+{
+	public var name:String;
+	public var faces:Array;
 }
