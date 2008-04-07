@@ -241,6 +241,9 @@ package org.papervision3d.core.utils
 		 */		
 		protected function handleMouseMove(e:MouseEvent):void
 		{
+			// fixes issue with having to re-render just to get hitest data
+			updateRenderHitData();
+			
 			if( e is IVirtualMouseEvent ) return;
 			if( virtualMouse && renderHitData )
 			{
