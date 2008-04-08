@@ -193,16 +193,17 @@ package org.papervision3d.cameras
 			var x : Number = Math.cos(yaw) * Math.sin(pitch);
 			var z : Number = Math.sin(yaw) * Math.sin(pitch);
 			var y : Number = Math.cos(pitch);
-			
-			this.x = target.x;
-			this.y = target.y;
-			this.z = target.z;
-			
+
+			this.x = target.world.n14;
+			this.y = target.world.n24;
+			this.z = target.world.n34;
+
 			this.x += x * distance;
 			this.y += y * distance;
 			this.z += z * distance;
-				
+
 			this.lookAt(target);
+			
 		}
 		
 		/**
