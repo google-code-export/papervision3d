@@ -139,7 +139,7 @@ package org.papervision3d.cameras
 			_objpos = new Vertex3D();
 			
 			_viewport = this.viewport;
-			trace(_viewport);
+
 			_aspect = _viewport.width / _viewport.height;
 			
 			// setup projection
@@ -202,7 +202,7 @@ package org.papervision3d.cameras
 			this.y += y * distance;
 			this.z += z * distance;
 				
-			this.lookAt(_target);
+			this.lookAt(target);
 		}
 		
 		/**

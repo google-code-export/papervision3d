@@ -19,7 +19,7 @@ package org.papervision3d.objects.special
 		/** Array of joints influencing the skin. @see org.papervision3d.core.geom.Joint3D */
 		public var joints:Array;
 
-		/** */
+		/** Array of skeletons. */
 		public var skeletons:Array;
 		
 		/** The skin's bindshape matrix. */
