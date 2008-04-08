@@ -248,5 +248,13 @@ package org.papervision3d.core.geom {
 				f.v2 = uniqueDic[ f.v2 ];
 			}
 		}
+		
+		override public function set material(material:MaterialObject3D):void
+		{
+			super.material = material;
+			for each(var triangle:Triangle3D in geometry.faces){
+				triangle.material = material;
+			}
+		}
 	}
 }

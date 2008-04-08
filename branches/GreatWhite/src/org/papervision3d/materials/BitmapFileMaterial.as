@@ -322,7 +322,6 @@ package org.papervision3d.materials
 				
 				renderSessionData.renderStatistics.triangles++;
 			}
-			
 			super.drawTriangle(face3D, graphics, renderSessionData);
 		}
 		

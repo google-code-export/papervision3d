@@ -25,6 +25,7 @@ package org.papervision3d.materials.shadematerials
 		public function FlatShadeMaterial(light:LightObject3D, diffuse:uint=0xffffff, ambient:uint=0x000000)
 		{
 			super();
+			this.fillAlpha = 1;
 			this.light = light;
 			_colors = LightMaps.getFlatMapArray(diffuse,ambient,1);
 		}
@@ -45,7 +46,7 @@ package org.papervision3d.materials.shadematerials
 			zAngle = zd*0xff;
 			currentColor = _colors[zAngle];
 			
-			graphics.beginFill(currentColor,1);
+			graphics.beginFill(currentColor,fillAlpha);
 			graphics.moveTo(x0, y0);
 			graphics.lineTo(face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y);
 			graphics.lineTo(face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y);

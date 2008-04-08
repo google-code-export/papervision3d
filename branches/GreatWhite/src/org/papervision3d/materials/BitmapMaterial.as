@@ -126,8 +126,6 @@
 					graphics.lineStyle();
 				renderSessionData.renderStatistics.triangles++;
 			}else{
-				
-				//Render the bitmap using 'precise' texturing - @Author Alexander Zahdorsky
 				_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
 				focus = renderSessionData.camera.focus;
 				renderRec(graphics, _triMap.a, _triMap.b, _triMap.c, _triMap.d, _triMap.tx, _triMap.ty, face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y, face3D.v0.vertex3DInstance.z, face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y, face3D.v1.vertex3DInstance.z, face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y, face3D.v2.vertex3DInstance.z,0, renderSessionData, altBitmap ? altBitmap : bitmap);	 
@@ -457,7 +455,18 @@
 		}
 
 		// ______________________________________________________________________
-
+		
+		
+		/**
+		 * resetUVMatrices();
+		 * 
+		 * Resets the precalculated uvmatrices, so they can be recalculated
+		 */
+		 public function resetUVS():void
+		 {
+		 	uvMatrices = new Dictionary(false);
+		 }
+		
 		/**
 		* Copies the properties of a material.
 		*

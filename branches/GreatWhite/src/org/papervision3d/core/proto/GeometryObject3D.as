@@ -20,6 +20,7 @@
 		protected var _boundingSphereDirty :Boolean = true;
 		protected var _aabb:AxisAlignedBoundingBox;
 		protected var _aabbDirty:Boolean = true;
+		private var _numInstances:uint = 0;
 		
 		/**
 		 * 
@@ -29,7 +30,7 @@
 		/**
 		* An array of Face3D objects for the faces of the mesh.
 		*/
-		public var faces    :Array;
+		public var faces:Array;
 	
 		/**
 		* An array of vertices.
@@ -148,6 +149,6 @@
 			return geom;
 		}
 		
-		private var _numInstances:uint = 0;
+		
 	}
 }
