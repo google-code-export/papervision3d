@@ -6,7 +6,7 @@ package org.papervision3d.events
 
 	public class RendererEvent extends Event
 	{
-		public static var RENDER_DONE:String = "onRenderDone";
+		public static const RENDER_DONE:String = "renderDone";
 		
 		public var renderSessionData:RenderSessionData;
 		
