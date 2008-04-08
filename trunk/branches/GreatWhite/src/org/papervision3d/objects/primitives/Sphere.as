@@ -15,12 +15,12 @@ package org.papervision3d.objects.primitives {
 		/**
 		* Number of segments horizontally. Defaults to 8.
 		*/
-		public var segmentsW :Number;
+		private var segmentsW :Number;
 	
 		/**
 		* Number of segments vertically. Defaults to 6.
 		*/
-		public var segmentsH :Number;
+		private var segmentsH :Number;
 	
 		/**
 		* Default radius of Sphere if not defined.
