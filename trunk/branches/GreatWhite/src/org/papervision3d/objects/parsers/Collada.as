@@ -327,10 +327,7 @@ package org.papervision3d.objects.parsers
 		private function buildObject( semantics:Object, instance:DisplayObject3D, matrix:Matrix3D=null ):void
 		{
 			matrix = matrix || Matrix3D.IDENTITY;
-	
-	//		var mesh :Mesh3D = new Mesh3D( null, new Array(), new Array() )
 			instance.addGeometry( new GeometryObject3D() );
-	
 			// Vertices
 			var vertices :Array    = instance.geometry.vertices = new Array();
 			var scaling  :Number   = this._scaling;
@@ -361,10 +358,7 @@ package org.papervision3d.objects.parsers
 			var faces    :Array = instance.geometry.faces = new Array();
 			var semFaces :Array = semantics.triangles;
 			len = semFaces.length;
-	
-			// DEBUG
-			//trace( "Faces: " + len );
-	
+		
 			for( i=0; i < len; i++ )
 			{
 				// Triangle
@@ -392,7 +386,6 @@ package org.papervision3d.objects.parsers
 
 				var materialName:String = semFaces[i].material || null;
 				var face:Triangle3D = new Triangle3D(instance, faceList, _materials.getMaterialByName(materialName), uvList );
-
 				faces.push( face );
 			}
 			
@@ -404,7 +397,7 @@ package org.papervision3d.objects.parsers
 			matrix.n24 *= scaling;
 			matrix.n34 *= scaling;
 	
-			instance.material = MaterialObject3D.DEFAULT;
+			//instance.material = MaterialObject3D.DEFAULT;
 	
 			instance.visible  = true;
 		}
@@ -428,7 +421,7 @@ package org.papervision3d.objects.parsers
 		{
 			//trace( "Collada: addMaterial: " + instance.name + " > " + name ); // DEBUG
 			var material:MaterialObject3D;
-			
+		
 			if( this._materials ){
 				material = this._materials.getMaterialByName( name );
 			}else{
@@ -462,7 +455,7 @@ package org.papervision3d.objects.parsers
 			_materials.addMaterial(material);
 	
 			if( ! instance.materials ) instance.materials = new MaterialsList();
-			
+			material.registerObject(instance);
 			instance.materials.addMaterial( material, name );
 		}
 		
