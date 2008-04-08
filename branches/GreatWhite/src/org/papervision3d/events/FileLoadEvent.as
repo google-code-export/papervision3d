@@ -7,13 +7,13 @@ package org.papervision3d.events
 	*/
 	public class FileLoadEvent extends Event
 	{
-		public static var LOAD_COMPLETE 				:String = "loadComplete";
-		public static var LOAD_ERROR    				:String = "loadError";
-		public static var SECURITY_LOAD_ERROR			:String = "securityLoadError";
-		public static var COLLADA_MATERIALS_DONE		:String = "colladaMaterialsDone";
-		public static var LOAD_PROGRESS 				:String = "loadProgress";
-		public static var ANIMATIONS_COMPLETE			:String = "animationsComplete";
-		public static var ANIMATIONS_PROGRESS			:String = "animationsProgress";
+		public static const LOAD_COMPLETE 				:String = "loadComplete";
+		public static const LOAD_ERROR    				:String = "loadError";
+		public static const SECURITY_LOAD_ERROR			:String = "securityLoadError";
+		public static const COLLADA_MATERIALS_DONE		:String = "colladaMaterialsDone";
+		public static const LOAD_PROGRESS 				:String = "loadProgress";
+		public static const ANIMATIONS_COMPLETE			:String = "animationsComplete";
+		public static const ANIMATIONS_PROGRESS			:String = "animationsProgress";
 			
 		public var file:String = "";
 		public var bytesLoaded:Number = -1;

@@ -7,9 +7,9 @@ package org.papervision3d.events
 	*/
 	public class AnimationEvent extends Event
 	{
-		public static var ANIMATION_COMPLETE 			:String = "animationComplete";
-		public static var ANIMATION_ERROR    			:String = "animationError";
-		public static var ANIMATION_NEXT_FRAME			:String = "animationNextFrame";
+		public static const ANIMATION_COMPLETE 			:String = "animationComplete";
+		public static const ANIMATION_ERROR    			:String = "animationError";
+		public static const ANIMATION_NEXT_FRAME		:String = "animationNextFrame";
 		
 		public var currentFrame:uint;
 		public var totalFrames:uint;
