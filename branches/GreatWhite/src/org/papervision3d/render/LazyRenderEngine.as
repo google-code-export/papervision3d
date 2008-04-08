@@ -3,6 +3,7 @@ package org.papervision3d.render
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.data.RenderStatistics;
+	import org.papervision3d.core.utils.InteractiveSceneManager;
 	import org.papervision3d.scenes.Scene3D;
 	import org.papervision3d.view.Viewport3D;
 	
