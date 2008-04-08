@@ -31,12 +31,15 @@
 		public var soundPan       :Number;
 		
 		//Works only for sound
-		public function play(startTime:Number = 0, loops:int = 0, sndTransform:SoundTransform = null):void
+		public function play(startTime:Number = 0, loops:int = 0,sndTransform:SoundTransform = null):void
 		{
-			soundChannel = sound.play(startTime, loops, sndTransform);
-			setVolume(0);
-			setPan(0);
+    		soundChannel = sound.play(startTime, loops, sndTransform);
+    		if (soundChannel){
+        		setVolume(0);
+        		setPan(0);
+   			}
 		}
+
 		
 		public function stop(startTime:Number = 0, loops:int = 0, sndTransform:SoundTransform = null):void
 		{
