@@ -3,8 +3,6 @@
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.Papervision3D;
-	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
@@ -55,7 +53,7 @@
 		{
 			// Choose name
 			name = name || child.name || String( child.id );
-	
+			
 			this._children[ child ] = name;
 			this._childrenByName[ name ] = child;
 			this._childrenTotal++;
