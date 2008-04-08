@@ -1,6 +1,6 @@
 package org.papervision3d.render
 {
-	import org.papervision3d.cameras.Camera3D;
+	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.data.RenderStatistics;
 	import org.papervision3d.scenes.Scene3D;
@@ -12,11 +12,11 @@ package org.papervision3d.render
 	public class LazyRenderEngine extends BasicRenderEngine implements IRenderEngine
 	{
 		
-		protected var _camera:Camera3D;
+		protected var _camera:CameraObject3D;
 		protected var _scene:Scene3D;
 		protected var _viewport:Viewport3D;
 		
-		public function LazyRenderEngine(scene:Scene3D, camera:Camera3D, viewport:Viewport3D)
+		public function LazyRenderEngine(scene:Scene3D, camera:CameraObject3D, viewport:Viewport3D)
 		{
 			super();
 			this.scene = scene;
@@ -29,12 +29,12 @@ package org.papervision3d.render
 			return renderScene(scene,camera,viewport);	
 		}
 		
-		public function set camera(camera:Camera3D):void
+		public function set camera(camera:CameraObject3D):void
 		{
 			_camera = camera;
 		}
 		
-		public function get camera():Camera3D
+		public function get camera():CameraObject3D
 		{
 			return _camera;	
 		}
