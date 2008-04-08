@@ -251,7 +251,6 @@
 		public function registerObject(displayObject3D:DisplayObject3D):void
 		{
 			objects[displayObject3D] = displayObject3D;
-
 		}
 		
 		public function unregisterObject(displayObject3D:DisplayObject3D):void

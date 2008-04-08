@@ -111,8 +111,8 @@ package org.papervision3d.render
 			
 			//Update Materials
 			MaterialManager.getInstance().updateMaterialsAfterRender(renderSessionData);
-			renderSessionData.renderStatistics.renderTime = stopWatch.stop();
 			
+			renderSessionData.renderStatistics.renderTime = stopWatch.stop();
 			renderSessionData.viewPort.updateAfterRender();
 			return renderStatistics;
 		}
