@@ -18,6 +18,7 @@
 	import org.papervision3d.core.material.AbstractLightShadeMaterial;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
+	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.materials.shaders.ShadedMaterial;
@@ -923,17 +924,17 @@
 					
 			buildGeometries();
 			
-			var scene:DisplayObject3D = this.addChild(new DisplayObject3D("COLLADA_Scene"));
+			_rootNode = this.addChild(new DisplayObject3D("COLLADA_Scene"));
 			
 			for(var i:int = 0; i < this.document.vscene.nodes.length; i++)
 			{
-				buildNode(this.document.vscene.nodes[i], scene);
+				buildNode(this.document.vscene.nodes[i], _rootNode);
 			}
 			
 			// link the skins
 			linkSkins();
 			
-			this.addChild(scene);
+			this.addChild(_rootNode);
 			
 			// may have animations to be parsed.
 			if(document.numQueuedAnimations)
@@ -1134,18 +1135,9 @@
 					
 				instance.skeletons[i] = skeleton;
 				
-				//this.removeChild(skeleton);
+				this.removeChild(skeleton);
 			}
-			/*
-			for each(var triangle:Triangle3D in instance.geometry.faces)
-			{
-				var tmp:Vertex3D = triangle.v0;
-				triangle.v0 = triangle.v2;
-				triangle.v2 = tmp;
 				
-				triangle.uv = [triangle.uv2, triangle.uv1, triangle.uv0];
-			}
-			*/
 			instance.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
 		}
 		
@@ -1328,6 +1320,9 @@
 		
 		/** */
 		private var _skins:Dictionary;
+		
+		/** */
+		private var _rootNode:DisplayObject3D;
 	}
 }
 
