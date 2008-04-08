@@ -1,7 +1,6 @@
 package org.papervision3d.objects.special
 {
 	import org.papervision3d.core.geom.TriangleMesh3D;
-	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
@@ -61,6 +60,9 @@ package org.papervision3d.objects.special
 				for(i = 0; i < vertices.length; i++)
 					vertices[i].x = vertices[i].y = vertices[i].z = 0;
 					
+				for each(var joint:Joint3D in this.skeletons)
+					joint.project(renderSessionData.camera, renderSessionData);
+					
 				for(i = 0; i < joints.length; i++)
 					skinMesh(joints[i], _cached, vertices);
 			}
@@ -76,7 +78,7 @@ package org.papervision3d.objects.special
 			var vertices:Array = this.geometry.vertices;
 
 			_cached = new Array(vertices.length);
-						
+			
 			for(var i:int = 0; i < vertices.length; i++)
 			{
 				_cached[i] = new Number3D(vertices[i].x, vertices[i].y, vertices[i].z);
@@ -84,15 +86,8 @@ package org.papervision3d.objects.special
 				// move vertices to the bind pose.
 				Matrix3D.multiplyVector(this.bindShapeMatrix, _cached[i]);
 			}
-			/*
-			for each(var triangle:Triangle3D in this.geometry.faces)
-			{
-				var tmp:Vertex3D = triangle.v0;
-				triangle.v0 = triangle.v2;
-				triangle.v2 = tmp;
-				triangle.uv = [triangle.uv2, triangle.uv1, triangle.uv0];
-			}
-			*/
+			
+			
 		}
 		
 		/**
@@ -109,7 +104,7 @@ package org.papervision3d.objects.special
 			var original:Number3D;
 			var skinned:Vertex3D;
 			var vertexWeights:Array = joint.vertexWeights;
-				
+
 			var matrix:Matrix3D = Matrix3D.multiply(joint.world, joint.inverseBindMatrix);
 			
 			for( i = 0; i < vertexWeights.length; i++ )
@@ -132,7 +127,7 @@ package org.papervision3d.objects.special
 				//update the vertex
 				skinned.x += (pos.x * weight);
 				skinned.y += (pos.y * weight);
-				skinned.z += (pos.z * weight);
+				skinned.z -= (pos.z * weight);
 			}
 		}
 		
