@@ -15,10 +15,12 @@
 	import org.papervision3d.core.animation.channel.*;
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.*;
+	import org.papervision3d.core.material.AbstractLightShadeMaterial;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.*;
+	import org.papervision3d.materials.shaders.ShadedMaterial;
 	import org.papervision3d.materials.special.*;
 	import org.papervision3d.materials.utils.*;
 	import org.papervision3d.objects.DisplayObject3D;
@@ -594,7 +596,7 @@
 						uv[1] = hasUV ? texcoords[ i+1 ] : new NumberUV();
 						uv[2] = hasUV ? texcoords[ i+2 ] : new NumberUV();
 						
-						geometry.faces.push(new Triangle3D(null, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]));
+						geometry.faces.push(new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]));
 					}
 					break;
 				// polygon with *no* holes
@@ -610,7 +612,7 @@
 						}
 						
 						if( !geometry || !geometry.faces || !geometry.vertices )
-							throw new Error( "no geomotry" );
+							throw new Error( "no geometry" );
 							
 						v[0] = poly[0];
 						uv[0] = uvs[0];
@@ -870,6 +872,12 @@
 					if(instanceMaterial)
 						material = this.materials.getMaterialByName(instanceMaterial.symbol);
 					
+					// register shaded materials with its object
+					if(material is AbstractLightShadeMaterial || material is ShadedMaterial)
+					{
+						material.registerObject(instance);
+					}
+					
 					mergeGeometries(instance.geometry, geometry.clone(instance), material);
 				}
 			}
@@ -921,8 +929,6 @@
 			{
 				buildNode(this.document.vscene.nodes[i], scene);
 			}
-			
-			scene.scaleX = -this.scaleX;
 			
 			// link the skins
 			linkSkins();
