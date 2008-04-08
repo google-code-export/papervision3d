@@ -1,6 +1,7 @@
 package org.papervision3d.objects.special
 {
 	import org.papervision3d.core.geom.TriangleMesh3D;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
@@ -63,7 +64,7 @@ package org.papervision3d.objects.special
 				for(i = 0; i < joints.length; i++)
 					skinMesh(joints[i], _cached, vertices);
 			}
-				
+			
 			return super.project(parent, renderSessionData);
 		}
 		
@@ -83,6 +84,15 @@ package org.papervision3d.objects.special
 				// move vertices to the bind pose.
 				Matrix3D.multiplyVector(this.bindShapeMatrix, _cached[i]);
 			}
+			/*
+			for each(var triangle:Triangle3D in this.geometry.faces)
+			{
+				var tmp:Vertex3D = triangle.v0;
+				triangle.v0 = triangle.v2;
+				triangle.v2 = tmp;
+				triangle.uv = [triangle.uv2, triangle.uv1, triangle.uv0];
+			}
+			*/
 		}
 		
 		/**
