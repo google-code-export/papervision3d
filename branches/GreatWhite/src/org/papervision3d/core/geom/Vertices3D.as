@@ -214,25 +214,22 @@
 		*/
 		public function boundingBox():Object
 		{
-			var vertices :Object = this.geometry.vertices;
+			var vertices :Array = this.geometry.vertices;
 			var bBox     :Object = new Object();
 
-			bBox.min  = new Number3D();
-			bBox.max  = new Number3D();
+			bBox.min  = new Number3D(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE);
+			bBox.max  = new Number3D(Number.MIN_VALUE, Number.MIN_VALUE, Number.MIN_VALUE);
 			bBox.size = new Number3D();
 
-			for( var i:String in vertices )
+			for each(var v:Vertex3D in vertices)
 			{
-				var v:org.papervision3d.core.geom.renderables.Vertex3D = vertices[Number(i)];
-
-				bBox.min.x = (bBox.min.x == undefined)? v.x : Math.min( v.x, bBox.min.x );
-				bBox.max.x = (bBox.max.x == undefined)? v.x : Math.max( v.x, bBox.max.x );
-
-				bBox.min.y = (bBox.min.y == undefined)? v.y : Math.min( v.y, bBox.min.y );
-				bBox.max.y = (bBox.max.y == undefined)? v.y : Math.max( v.y, bBox.max.y );
-
-				bBox.min.z = (bBox.min.z == undefined)? v.z : Math.min( v.z, bBox.min.z );
-				bBox.max.z = (bBox.max.z == undefined)? v.z : Math.max( v.z, bBox.max.z );
+				bBox.min.x = Math.min( v.x, bBox.min.x );
+				bBox.min.y = Math.min( v.y, bBox.min.y );
+				bBox.min.z = Math.min( v.z, bBox.min.z );
+				
+				bBox.max.x = Math.max( v.x, bBox.max.x );
+				bBox.max.y = Math.max( v.y, bBox.max.y );
+				bBox.max.z = Math.max( v.z, bBox.max.z );
 			}
 
 			bBox.size.x = bBox.max.x - bBox.min.x;
