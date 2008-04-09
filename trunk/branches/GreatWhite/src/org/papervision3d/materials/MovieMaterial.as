@@ -167,12 +167,7 @@ package org.papervision3d.materials
 			bitmap.draw( movie, mtx, movie.transform.colorTransform );
 		}
 		
-		override protected function destroy():void
-		{
-			super.destroy();
-			bitmap.dispose();
-		}
-		
+				
 		
 	}
 }

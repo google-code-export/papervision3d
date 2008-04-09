@@ -19,6 +19,10 @@ package org.papervision3d.materials
 	*/
 	public class MovieAssetMaterial extends MovieMaterial implements ITriangleDrawer
 	{
+		
+		private static var _library :Object = new Object();
+		private static var _count   :Object = new Object();
+		
 		/**
 		 * By default, a MovieAssetMaterial is stored and resused, but there are times where a user may want a unique copy.  set to true if you want a unique instance
 		 * created
@@ -118,13 +122,5 @@ package org.papervision3d.materials
 			return  movie;
 		}
 		
-		override protected function destroy():void
-		{
-			super.destroy();
-			bitmap.dispose();
-		}
-
-		static private var _library :Object = new Object();
-		static private var _count   :Object = new Object();
 	}
 }

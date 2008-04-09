@@ -127,7 +127,7 @@ package org.papervision3d.materials.shaders
 			return null;
 		}
 		
-		override protected function destroy():void
+		override public function destroy():void
 		{
 			super.destroy();
 			var sod:ShaderObjectData;

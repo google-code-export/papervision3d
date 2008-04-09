@@ -111,11 +111,7 @@ package org.papervision3d.materials
 			uvMatrix.invert();
 		}
 		
-		override protected function destroy():void
-		{
-			super.destroy();
-			bitmap.dispose();
-		}
+		
 		
 	}
 }

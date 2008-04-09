@@ -28,6 +28,8 @@
 		public var minimumRenderSize:Number = 2;
 		public var precision:Number = 8;
 		
+		protected var _texture :Object;
+		
 		/**
 		 * Indicates if mip mapping is forced.
 		 */
@@ -37,11 +39,6 @@
 		 * Levels of mip mapping to force.
 		 */
 		static public var MIP_MAP_DEPTH :Number = 8;
-
-
-
-		protected var _texture :Object;
-		
 
 		public var uvMatrices:Dictionary = new Dictionary();
 		
@@ -528,7 +525,16 @@
 			_texture = asset;
 		}
 		
-		
+		override public function destroy():void
+		{
+			super.destroy();
+			if(uvMatrices){
+				uvMatrices = null;
+			}
+			if(bitmap){
+				bitmap.dispose();
+			}
+		}
 			
 	}
 }

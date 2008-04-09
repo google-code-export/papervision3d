@@ -324,13 +324,6 @@ package org.papervision3d.materials
 			}
 			super.drawTriangle(face3D, graphics, renderSessionData);
 		}
-		
-		override protected function destroy():void
-		{
-			super.destroy();
-			bitmap.dispose();
-		}
-		
 
 
 		// ___________________________________________________________________ PRIVATE

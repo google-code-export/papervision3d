@@ -15,6 +15,9 @@
 	*/
 	public class BitmapAssetMaterial extends BitmapMaterial implements ITriangleDrawer
 	{
+		private static var _library :Object = new Object();
+		private static var _count   :Object = new Object();
+		
 		/**
 		* A texture object.
 		*/		
@@ -105,13 +108,6 @@
 			return bitmapOk;
 		}
 		
-		override protected function destroy():void
-		{
-			super.destroy();
-			bitmap.dispose();
-		}
-
-		static private var _library :Object = new Object();
-		static private var _count   :Object = new Object();
+		
 	}
 }
