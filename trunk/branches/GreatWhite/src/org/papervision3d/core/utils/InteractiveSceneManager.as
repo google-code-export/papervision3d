@@ -1,10 +1,4 @@
-﻿/**
-* ...
-* @author John Grden
-* @version 0.1
-*/
-
-package org.papervision3d.core.utils
+﻿package org.papervision3d.core.utils
 {
 	import com.blitzagency.xray.logger.XrayLog;
 	
@@ -23,13 +17,16 @@ package org.papervision3d.core.utils
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
-
+	
+	/**
+	* @author John Grden
+	*/
 	public class InteractiveSceneManager extends EventDispatcher
 	{
 		/**
 		* MOUSE_IS_DOWN is a quick static property to check and is maintained by the ISM
 		*/
-		public static var MOUSE_IS_DOWN								:Boolean = false;
+		public static var MOUSE_IS_DOWN:Boolean = false;
 		
 		/**
 		* VirtualMouse is used with faceLevelMode of ISM or DO3D's.  Its a virtual mouse that causes the objects in your materials movieclip containers to fire off their mouse events such as click, over, out, release, press etc
@@ -37,43 +34,31 @@ package org.papervision3d.core.utils
 		 * <p>
 		 * Using these events requires you only to do what you normally do - establish listeners with your objects like you normally would, and you'll receive them!
 		*/		
-		public var virtualMouse										:VirtualMouse = new VirtualMouse();
-		
-		public var mouse3D											:Mouse3D = new Mouse3D();
-		
-		//public var scene											:SceneObject3D;
-		//public var camera											:CameraObject3D;
-		public var viewport											:Viewport3D;
+		public var virtualMouse:VirtualMouse = new VirtualMouse();
+		public var mouse3D:Mouse3D = new Mouse3D();
+		public var viewport:Viewport3D;
 		
 		/**
 		* Main container for ISM to create the sub InteractiveSprite containers for the faces and DO3D objects passed in during the render loop
 		*/		
-		public var container										:Sprite;
+		public var container:Sprite;
 		
-		public var renderHitData									:RenderHitData;	
-		
-		public var currentDisplayObject3D							:DisplayObject3D;
-		
-		public var currentMaterial									:MaterialObject3D;
-		
-		public var enableOverOut									:Boolean = true;
-		
-		public var currentMouseDO3D									:DisplayObject3D = null;
-		
-		public var debug											:Boolean = false;
-		
-		//protected var point											:Point = new Point();
+		public var renderHitData:RenderHitData;	
+		public var currentDisplayObject3D:DisplayObject3D;
+		public var currentMaterial:MaterialObject3D;
+		public var enableOverOut:Boolean = true;
+		public var currentMouseDO3D:DisplayObject3D = null;
+		public var debug:Boolean = false;
 		
 		/**
 		* @private
 		*/		
-		protected var log											:XrayLog = new XrayLog();
+		protected var log:XrayLog = new XrayLog();
 		
 		public function InteractiveSceneManager(viewport:Viewport3D) 
 		{
 			this.viewport = viewport;
 			this.container = viewport.containerSprite;
-			
 			init();
 		}
 		
@@ -118,8 +103,6 @@ package org.papervision3d.core.utils
 				container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
 				container.addEventListener(MouseEvent.CLICK, handleMouseClick);
 				container.stage.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
-			
-				//if( viewport.lastRenderer ) viewport.lastRenderer.addEventListener(RendererEvent.RENDER_DONE, handleRenderDone);
 			}
 		}
 		
@@ -167,7 +150,6 @@ package org.papervision3d.core.utils
 			var point:Point = new Point();
 			point.x = container.mouseX;
 			point.y = container.mouseY;
-
 			renderHitData = viewport.hitTestPoint2D(point) as RenderHitData;
 		}
 		
@@ -228,7 +210,6 @@ package org.papervision3d.core.utils
 			if( DO3D ) 
 			{
 				var mat:MovieMaterial = DO3D.material as MovieMaterial;
-				
 				if( mat ) virtualMouse.exitContainer();
 			}
 			
@@ -264,8 +245,6 @@ package org.papervision3d.core.utils
 				if( Mouse3D.enabled && renderHitData && renderHitData.hasHit ) mouse3D.updatePosition(renderHitData);
 				
 				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
-
-
 			}
 			else if( renderHitData && renderHitData.hasHit )
 			{
@@ -280,11 +259,9 @@ package org.papervision3d.core.utils
 		 * @param currentTarget
 		 * 
 		 */		
-		
 		protected function dispatchObjectEvent(event:String, DO3D:DisplayObject3D):void
 		{
 			if(debug) log.debug(event, DO3D.name);
-			
 			if(renderHitData && renderHitData.hasHit) 
 			{
 				var x:Number = renderHitData.u ? renderHitData.u : 0;
