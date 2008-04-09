@@ -18,7 +18,6 @@
 	import org.papervision3d.core.material.AbstractLightShadeMaterial;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
-	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.materials.shaders.ShadedMaterial;
@@ -1118,6 +1117,8 @@
 				found[jointId] = true;
 			}
 			
+			var remove:Array = new Array();
+			
 			for(i = 0; i < instance.skeletons.length; i++)
 			{
 				var skeletonId:String = instance.skeletons[i];
@@ -1135,9 +1136,13 @@
 					
 				instance.skeletons[i] = skeleton;
 				
-				this.removeChild(skeleton);
+				remove.push(skeleton);
 			}
-				
+			
+			// remove the joints from the scenegraph!
+			for each(var jnt:Joint3D in remove)
+				this.removeChild(skeleton);
+					
 			instance.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
 		}
 		
