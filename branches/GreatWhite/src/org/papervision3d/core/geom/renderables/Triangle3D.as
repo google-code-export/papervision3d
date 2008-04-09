@@ -70,24 +70,6 @@ package org.papervision3d.core.geom.renderables {
 		public var uv2:NumberUV;
 		
 		private var _uvArray:Array;
-		/**
-		* An array of {x,y} objects for the corresponding UV pixel coordinates of each triangle vertex.
-		*/
-		public function set uv(uv:Array):void
-		{
-			if(uv){
-				uv0 = NumberUV(uv[0]);
-				uv1 = NumberUV(uv[1]);
-				uv2 = NumberUV(uv[2]);
-			}
-			_uvArray = uv;
-		}
-		
-		public function get uv():Array
-		{
-			return _uvArray;	
-		}
-	
 		// ______________________________________________________________________
 	
 		/**
@@ -98,14 +80,7 @@ package org.papervision3d.core.geom.renderables {
 		/**
 		* [read-only] A Boolean value that indicates that the face is visible, i.e. it's vertices are in front of the camera.
 		*/
-		public var visible :Boolean;
-	
-	
-		/**
-		* The object where the face belongs.
-		*/
-	//	public var object :Mesh3D;
-	
+		public var visible :Boolean;	
 	
 		/**
 		* [read-only] Unique id of this instance.
@@ -160,17 +135,19 @@ package org.papervision3d.core.geom.renderables {
 			face3DInstance = new Triangle3DInstance(this, do3dInstance);
 			
 			// Vertices
-			this.vertices = vertices;
-			v0 = vertices[0];
-			v1 = vertices[1];
-			v2 = vertices[2];
+			if(vertices && vertices.length == 3){
+				this.vertices = vertices;
+				v0 = vertices[0];
+				v1 = vertices[1];
+				v2 = vertices[2];
+				createNormal();
+			}
+			
 			
 			// Material, if passed from a materials list.
 			this.material = material;
 			this.uv = uv;
 			this.id = _totalFaces++;
-			
-			createNormal();
 		}
 		
 		public function createNormal():void
@@ -194,6 +171,24 @@ package org.papervision3d.core.geom.renderables {
 			v0 = vertices[0];
 			v1 = vertices[1];
 			v2 = vertices[2];
+		}
+		
+		/**
+		* An array of {x,y} objects for the corresponding UV pixel coordinates of each triangle vertex.
+		*/
+		public function set uv(uv:Array):void
+		{
+			if(uv){
+				uv0 = NumberUV(uv[0]);
+				uv1 = NumberUV(uv[1]);
+				uv2 = NumberUV(uv[2]);
+			}
+			_uvArray = uv;
+		}
+		
+		public function get uv():Array
+		{
+			return _uvArray;	
 		}
 		
 		

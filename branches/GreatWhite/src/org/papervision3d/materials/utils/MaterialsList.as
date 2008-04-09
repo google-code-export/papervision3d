@@ -72,7 +72,7 @@
 		public function addMaterial( material:MaterialObject3D, name:String=null ):MaterialObject3D
 		{
 			name = name || material.name || String( material.id );
-	
+		
 			this._materials[ material ] = name;
 			this.materialsByName[ name ] = material;
 			this._materialsTotal++;
