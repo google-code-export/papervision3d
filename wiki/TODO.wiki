@@ -1,17 +1,12 @@
 #summary The list of things that need to be done.
 
-== RC1 ==
+GreatWhite 2.0 Beta
 === Bugs ===
  * *Scale.* Fix private scale values. constrainedScale read only property, to maintain aspect ratio. Keep scaling on lookAt.
 
 === Review ===
- * *License.* Off the header and into a separate file. Update copyright info.
  * *Javadocs.* Review also comments.
 
-=== Review contributions ===
- * *Phil's object formats* 3DS and MD2. Check MD2 for animation.
-
-== Post release ==
 === Scenes ===
  * *Layers.* Numbered layers that are rendered in separate containers. Scene.container should contain layers, and inside of those the individual object containers.
  * *Containers on children.* 
@@ -20,26 +15,15 @@
 
 === Cameras ===
  * *Field of view.* Property to adjust zoom and focus at once.
- * *Viewport.* With fustrum clipping at object and face level.
  * *Optical conversion.* To translate common camera settings.
 
 === Objects ===
- * *Tim's COLLADA* Integrate his classes.
  * *Polygon support* For non bitmap rendering.
- * *Face and vertex normals.* And UV sets.
  * *Texture interaction.* Covert screen to texture coordinates. Translate object events.
- * *Tessellation.* Review Alexander's work and incorporate into the engine.
  * *Extrude, revolution.* Check Joa and Sole's work.
 
-=== Materials ===
- * *renderTriangle and renderPoly* Rendering now inside the materials to prepare for Ralph's materials.
- * *Ralph materials.* Flat, phong, bump mapping, environment mapping...
-
 === Tween animation ===
- * *Test Tweener.* In real production.
  * *Jim's 3D splines.* Check out his work.
- * *Parse COLLADA tweens.* From Tim's classes.
 
 === Skeleton animation ===
  * *Check out Tim and Jim's work.*
-
