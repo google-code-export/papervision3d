@@ -572,8 +572,8 @@ package org.papervision3d.objects.parsers
 	
 			// Source?
 			var acc:XMLList = geo..source.(@id == id).technique_common.accessor;
-	
-			if( acc != new XMLList() )
+			
+			if( acc != new XMLList(null) )
 			{
 				// Build source floats array
 				var floId  :String  = acc.@source.split("#")[1];
