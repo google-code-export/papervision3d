@@ -99,11 +99,7 @@
 			uvMatrix.invert();
 		}
 		
-		override protected function destroy():void
-		{
-			super.destroy();
-			bitmap.dispose();
-		}
+		
 
 	}
 }

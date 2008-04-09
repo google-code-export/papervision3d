@@ -29,7 +29,8 @@
 	*/
 	public class MaterialObject3D extends EventDispatcher implements ITriangleDrawer
 	{
-				
+		static private var _totalMaterialObjects :Number = 0;
+		
 		/**
 		* A transparent or opaque BitmapData texture.
 		*/
@@ -71,19 +72,6 @@
 		public var fillAlpha :Number = 0;
 
 		/**
-		* A Boolean value that indicates whether the faces are double sided.
-		*/
-		public function get doubleSided():Boolean
-		{
-			return ! this.oneSide;
-		}
-
-		public function set doubleSided( double:Boolean ):void
-		{
-			this.oneSide = ! double;
-		}
-
-		/**
 		* A Boolean value that indicates whether the faces are single sided. It has preference over doubleSided.
 		*/
 		public var oneSide :Boolean = true;
@@ -97,11 +85,6 @@
 		* A Boolean value that indicates whether the face is flipped. Only used if doubleSided or not singeSided.
 		*/
 		public var opposite :Boolean = false;
-
-		/**
-		* The scene where the object belongs.
-		*/
-		public var scene :SceneObject3D;
 
 		/**
 		* Color used for DEFAULT material.
@@ -229,7 +212,6 @@
 			this.opposite  = material.opposite;
 
 			this.invisible = material.invisible;
-			this.scene     = material.scene;
 			this.name      = material.name;
 			
 			this.maxU      = material.maxU;
@@ -255,13 +237,15 @@
 		
 		public function unregisterObject(displayObject3D:DisplayObject3D):void
 		{
-			if(objects[displayObject3D] != null){
+			if(objects && objects[displayObject3D] != null){
 				delete objects[displayObject3D];
 			}
 		}
 		
-		protected function destroy():void
+		public function destroy():void
 		{
+			objects = null;
+			bitmap = null;
 			MaterialManager.unRegisterMaterial(this);
 		}
 
@@ -274,7 +258,19 @@
 		{
 			return '[MaterialObject3D] bitmap:' + this.bitmap + ' lineColor:' + this.lineColor + ' fillColor:' + fillColor;
 		}
+		
+		/**
+		* A Boolean value that indicates whether the faces are double sided.
+		*/
+		public function get doubleSided():Boolean
+		{
+			return ! this.oneSide;
+		}
 
-		static private var _totalMaterialObjects :Number = 0;
+		public function set doubleSided( double:Boolean ):void
+		{
+			this.oneSide = ! double;
+		}
+		
 	}
 }

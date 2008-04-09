@@ -179,10 +179,6 @@ package org.papervision3d.materials
 			return 'Texture:' + this.texture;
 		}
 		
-		override protected function destroy():void
-		{
-			super.destroy();
-			bitmap.dispose();
-		}	
+		
 	}
 }
