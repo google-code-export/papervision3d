@@ -16,14 +16,20 @@ package org.papervision3d.objects.special
 	 */ 
 	public class Skin3D extends TriangleMesh3D
 	{
-		/** Array of joints influencing the skin. @see org.papervision3d.core.geom.Joint3D */
+		/** A boolean indicating the default value for #swapAxisZ, defaults to true. @see #swapAxisZ */
+		public static var DEFAULT_SWAP_Z:Boolean = true;
+		
+		/** Array of joints influencing this mesh. @see org.papervision3d.objects.special.Joint3D */
 		public var joints:Array;
 
-		/** Array of skeletons. */
+		/** Array of skeletons, a 'skeleton' is the root of a joint hierarchy. @see org.papervision3d.objects.special.Joint3D */
 		public var skeletons:Array;
 		
 		/** The skin's bindshape matrix. */
 		public var bindShapeMatrix:Matrix3D;
+		
+		/** Whether to swap Z in the skinning algorithm. Defaults to DEFAULT_SWAP_Z. @see #DEFAULT_SWAP_Z */
+		public var swapAxisZ:Boolean;
 		
 		/**
 		 * Constructor.
@@ -37,6 +43,11 @@ package org.papervision3d.objects.special
 		public function Skin3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null)
 		{
 			super(material, vertices, faces, name, initObject);
+			
+			this.joints = new Array();
+			this.skeletons = new Array();
+			
+			this.swapAxisZ = DEFAULT_SWAP_Z;
 		}
 		
 		/**
@@ -47,7 +58,7 @@ package org.papervision3d.objects.special
 		 */ 
 		public override function project(parent:DisplayObject3D, renderSessionData:RenderSessionData):Number
 		{
-			if(this.bindShapeMatrix && this.joints && this.joints.length)
+			if(this.bindShapeMatrix && this.skeletons.length && this.joints.length)
 			{
 				if(!_cached)
 					cacheVertices();
@@ -55,14 +66,17 @@ package org.papervision3d.objects.special
 				var i:int;	
 				var vertices:Array = this.geometry.vertices;
 				var joints:Array = this.joints;
-					
+				var skeletons:Array = this.skeletons;
+				
 				// reset mesh's vertices to 0
 				for(i = 0; i < vertices.length; i++)
 					vertices[i].x = vertices[i].y = vertices[i].z = 0;
 					
-				for each(var joint:Joint3D in this.skeletons)
+				// project skeleton(s)
+				for each(var joint:Joint3D in skeletons)
 					joint.project(renderSessionData.camera, renderSessionData);
 					
+				// skin the mesh!
 				for(i = 0; i < joints.length; i++)
 					skinMesh(joints[i], _cached, vertices);
 			}
@@ -86,8 +100,6 @@ package org.papervision3d.objects.special
 				// move vertices to the bind pose.
 				Matrix3D.multiplyVector(this.bindShapeMatrix, _cached[i]);
 			}
-			
-			
 		}
 		
 		/**
@@ -127,7 +139,10 @@ package org.papervision3d.objects.special
 				//update the vertex
 				skinned.x += (pos.x * weight);
 				skinned.y += (pos.y * weight);
-				skinned.z -= (pos.z * weight);
+				if(swapAxisZ)
+					skinned.z -= (pos.z * weight);
+				else
+					skinned.z += (pos.z * weight);
 			}
 		}
 		
