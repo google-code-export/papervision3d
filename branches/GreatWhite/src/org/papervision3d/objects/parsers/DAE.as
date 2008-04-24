@@ -34,6 +34,12 @@
 	{
 		use namespace collada;
 		
+		/** Default line color for splines. */
+		public static var DEFAULT_LINE_COLOR:uint = 0xffff00;
+		
+		/** Default line width for splines */
+		public static var DEFAULT_LINE_WIDTH:Number = 0;
+		
 		/** */
 		public var COLLADA:XML;
 	
@@ -665,6 +671,8 @@
 		 */ 
 		private function buildGeometries():void
 		{
+			var i:int, j:int, k:int;
+			
 			_geometries = new Object();
 			
 			for each(var geometry:DaeGeometry in this.document.geometries)
@@ -676,12 +684,35 @@
 					g.vertices = buildVertices(geometry.mesh);
 					g.faces = new Array();
 					
-					for(var i:int = 0; i < geometry.mesh.primitives.length; i++)
+					for(i = 0; i < geometry.mesh.primitives.length; i++)
 					{
 						buildFaces(geometry.mesh.primitives[i], g, 0);
 					}
 					
 					_geometries[geometry.id] = g;
+				}
+				else if(geometry.spline && geometry.splines)
+				{
+					var lines:Lines3D = new Lines3D(new LineMaterial(DEFAULT_LINE_COLOR), geometry.id);
+					
+					for(i = 0; i < geometry.splines.length; i++)
+					{
+						var spline:DaeSpline = geometry.splines[i];
+						
+						for(j = 0; j < spline.vertices.length; j++)
+						{
+							k = (j+1) % spline.vertices.length;
+							
+							var v0:Vertex3D = new Vertex3D(spline.vertices[j][0], spline.vertices[j][1], spline.vertices[j][2]);
+							var v1:Vertex3D = new Vertex3D(spline.vertices[k][0], spline.vertices[k][1], spline.vertices[k][2]);
+						
+							var line:Line3D = new Line3D(lines, lines.material as LineMaterial, DEFAULT_LINE_WIDTH, v0, v1);
+							
+							lines.addLine(line);
+						}
+					}
+					
+					_geometries[geometry.id] = lines;
 				}
 			}	
 		}
@@ -864,6 +895,12 @@
 				for each(var geom:DaeInstanceGeometry in node.geometries)
 				{
 					var instanceMaterial:DaeInstanceMaterial = geom.materials.length ? geom.materials[0] : null;
+					
+					if(_geometries[ geom.url ] is Lines3D)
+					{
+						instance.addChild(_geometries[ geom.url ]);
+						continue;
+					}
 					
 					var geometry:GeometryObject3D = _geometries[ geom.url ];		
 					if(!geometry)
