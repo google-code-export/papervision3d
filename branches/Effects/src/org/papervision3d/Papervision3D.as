@@ -68,7 +68,7 @@ package org.papervision3d
 		/**
 		* Enables version to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var VERSION  :String = 'Alpha 2.0 - Great White';
+		static public var VERSION  :String = 'Alpha 2.0 - Effects';
 	
 		/**
 		* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
