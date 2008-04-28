@@ -7,7 +7,97 @@ package org.papervision3d.core.math.util
 	
 	public class TriangleUtil
 	{
+		/**
+		 * Clips a triangle to a plane.
+		 * 
+		 * @param	tri		Triangle to be clipped.
+		 * @param	plane	Plane to clip to.
+		 * @param	e	Epsilon
+		 */ 
+		public static function clipTriangleWithPlane(tri:Triangle3D, plane:Plane3D, e:Number=0.01):Array
+		{
+			var points:Array = [tri.v0, tri.v1, tri.v2];
+			var uvs:Array = [tri.uv0, tri.uv1, tri.uv2];
+			
+			var out:Array = new Array();
+			var outuv:Array = new Array();
+			
+			var isect:Intersection;
+			
+			var s:Vertex3D = points[points.length-1];
+			var p:Vertex3D;
+			var suv:NumberUV = uvs[points.length-1];
+			var puv:NumberUV;
+			
+			for(var i:int = 0; i < points.length; i++)
+			{
+				p = points[i];	
+				puv = uvs[i];
+					
+				var cp:uint = ClassificationUtil.classifyPoint(p, plane, e);
+				var cs:uint = ClassificationUtil.classifyPoint(s, plane, e);
+				
+				if(cp == ClassificationUtil.FRONT)
+				{
+					if(cs == ClassificationUtil.FRONT)
+					{
+						// output p
+						out.push(p);
+						outuv.push(puv);
+					}	
+					else
+					{
+						// compute intersection	s, p, plane
+						isect = Intersection.linePlane(s, p, plane, e);
+						if( isect.status != Intersection.INTERSECTION )
+						{
+							plane.d += 1;
+							return clipTriangleWithPlane(tri, plane, e);
+						}
+						
+						tri.instance.geometry.vertices.push(isect.vert);
+						
+						out.push(isect.vert);
+						outuv.push(InterpolationUtil.interpolateUV(suv, puv, isect.alpha));
+					
+						// output p
+						out.push(p);
+						outuv.push(puv);
+					}
+				}
+				else if(cs == ClassificationUtil.FRONT)
+				{
+					isect = Intersection.linePlane(p, s, plane, e);
+					if( isect.status != Intersection.INTERSECTION )
+					{
+						plane.d += 1;
+						return clipTriangleWithPlane(tri, plane, e);
+					}
+					
+					tri.instance.geometry.vertices.push(isect.vert);
+							
+					out.push(isect.vert); 
+					outuv.push(InterpolationUtil.interpolateUV(puv, suv, isect.alpha));
+				}
+
+				s = p;
+				suv = puv;
+			}
+				
+			if(out.length == 3)
+			{
+				return [new Triangle3D(tri.instance, [out[0], out[1], out[2]], tri.material, [outuv[0], outuv[1], outuv[2]])];
+			}
+			else if(out.length == 4)
+			{
+				return [new Triangle3D(tri.instance, [out[0], out[1], out[2]], tri.material, [outuv[0], outuv[1], outuv[2]]),
+						new Triangle3D(tri.instance, [out[0], out[2], out[3]], tri.material, [outuv[0], outuv[2], outuv[3]])];
+			}
+			
+			return null;
+		}
 		
+		/*
 		public static function clipTriangleWithPlane(triangle:Triangle3D, plane:Plane3D, e:Number=0.01):Array
 		{
 			var side:uint = ClassificationUtil.classifyTriangle(triangle, plane);
@@ -56,7 +146,7 @@ package org.papervision3d.core.math.util
 					triA.push( pB );
 					uvsA.push( uvB );
 				}
-				/*else if(sideB < -e) 
+				else if(sideB < -e) 
 				{
 					if(sideA > e) 
 					{
@@ -84,7 +174,7 @@ package org.papervision3d.core.math.util
 					triB.push( pB );
 					uvsA.push( uvB );
 					uvsB.push( uvB );
-				}*/
+				}
 			}
 			
 			
@@ -101,6 +191,7 @@ package org.papervision3d.core.math.util
 				tris.push( new Triangle3D(triangle.instance, [triB[0], triB[2], triB[3]], triangle.material, [uvsB[0], uvsB[2], uvsB[3]]) );
 			return tris;
 		}
+		*/
 		
 		public static function splitTriangleWithPlane(triangle:Triangle3D, plane:Plane3D, e:Number=0.01 ):Array
 		{
