@@ -1,7 +1,6 @@
 package org.papervision3d.core.animation.channel
 {
 	import org.papervision3d.core.animation.AnimationKeyFrame3D;
-	import org.papervision3d.core.animation.IAnimationDataProvider;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
@@ -9,47 +8,61 @@ package org.papervision3d.core.animation.channel
 	 */ 
 	public class AbstractChannel3D
 	{	
-		/** */
-		public var parent:IAnimationDataProvider;
+		/** The target for this animation channel. */
+		public var target:DisplayObject3D;
 		
-		/** */
+		/** Name of the channel. */
 		public var name:String;
 		
-		/** */	
+		/** Array of keyframes. */	
 		public var keyFrames:Array;
 		
-		/** */
-		public var minTime:Number;
+		/** Start time in seconds. */
+		public var startTime:Number;
 		
-		/** */
-		public var maxTime:Number;
+		/** End time in seconds. */
+		public var endTime:Number;
 		
-		/** */
-		public var output:Array;
+		/** Current time in seconds. */
+		public var currentTime:Number;
 		
-		/** Position. Use by time based animations. */
-		public var position:Number;
+		/** Current keyframe as index into keyFrames array. */
+		public var currentIndex:int;
 		
-		/** Tolerance. Use by time based animations. */
-		public var tolerance:Number;
+		/** Next keyframe as index into keyFrames array. */
+		public var nextIndex:int;
 		
-		/** */
-		public function get defaultTarget():DisplayObject3D { return _defaultTarget; }
+		/** Current keyframe. */
+		public var currentKeyFrame:AnimationKeyFrame3D;
+		
+		/** Next keyframe. */
+		public var nextKeyFrame:AnimationKeyFrame3D;
+		
+		/** Total duration in seconds. */
+		public var duration:Number;
+		
+		/** Value between 0 and 1 indicating current position inbetween current and next keyframe. */
+		public var frameAlpha:Number;
+		
+		/** Duration of the interval between current and next frame in seconds. */
+		public var frameDuration:Number;
 		
 		/**
 		 * Constructor.
 		 * 
 		 * @param	parent
-		 * @param	defaultTarget
+		 * @param	target
 		 * @param	name
 		 */ 
-		public function AbstractChannel3D(parent:IAnimationDataProvider, defaultTarget:DisplayObject3D, name:String = null)
+		public function AbstractChannel3D(target:DisplayObject3D, name:String = null)
 		{
-			this.parent = parent;
-			_defaultTarget = defaultTarget;
+			this.target = target;
 			this.name = name;
-			this.minTime = this.maxTime = 0;
+			this.startTime = this.endTime = 0;
 			this.keyFrames = new Array();
+			this.currentKeyFrame =this.nextKeyFrame = null;
+			this.currentIndex = this.nextIndex = -1;
+			this.frameAlpha = 0;
 		}
 		
 		/**
@@ -63,17 +76,19 @@ package org.papervision3d.core.animation.channel
 		{
 			if(this.keyFrames.length)
 			{
-				this.minTime = Math.min(this.minTime, keyframe.time);
-				this.maxTime = Math.max(this.maxTime, keyframe.time);
+				this.startTime = Math.min(this.startTime, keyframe.time);
+				this.endTime = Math.max(this.endTime, keyframe.time);
 			}
 			else
 			{
-				this.minTime = this.maxTime = keyframe.time;
+				this.startTime = this.endTime = keyframe.time;
 			}
+			
+			this.duration = this.endTime - this.startTime;
 			
 			this.keyFrames.push(keyframe);
 			this.keyFrames.sortOn("time", Array.NUMERIC);
-			
+				
 			return keyframe;
 		}
 		
@@ -81,56 +96,48 @@ package org.papervision3d.core.animation.channel
 		 * Updates this channel.
 		 * 
 		 * @param	keyframe
-		 * @param	target
 		 */ 
-		public function updateToFrame(keyframe:uint, target:DisplayObject3D=null):void
-		{
+		public function updateToFrame(keyframe:uint):void
+		{	
 			if(!this.keyFrames.length)
 			{
-				this.output = new Array();
 				return;
 			}
-				
-			var kf:AnimationKeyFrame3D = keyframe < this.keyFrames.length ? this.keyFrames[keyframe] : this.keyFrames[0];
 			
-			this.output = kf.output;
+			currentIndex = keyframe;
+			currentIndex = currentIndex < this.keyFrames.length - 1 ? currentIndex : 0;
+			nextIndex = currentIndex + 1;
+			
+			currentKeyFrame = this.keyFrames[currentIndex];
+			nextKeyFrame = this.keyFrames[nextIndex];
+			
+			frameDuration = nextKeyFrame.time - currentKeyFrame.time;
+			frameAlpha = 0;
+			currentTime = currentKeyFrame.time;
 		}
 		
 		/**
 		 * Updates this channel by time.
 		 * 
 		 */ 
-		public function updateToTime(time:Number, frameSnap:Number=0):void
+		public function updateToTime(time:Number):void
 		{	
-			var cur:int = 0;
+			currentIndex = Math.floor((this.keyFrames.length-1) * time);
+			currentIndex = currentIndex < this.keyFrames.length - 1 ? currentIndex : 0;
+			nextIndex = currentIndex + 1;
 			
-			if(time < this.minTime)
-			{
-				cur = 0;
-			}
-			else if(time > this.maxTime)
-			{
-				cur = this.keyFrames.length - 1;
-			}
-			else
-			{
-				for(var i:int = 0; i < this.keyFrames.length; i++)
-				{
-					if(time > this.keyFrames[i].time)
-					{
-						cur = i;
-						break;
-					}
-				}
-			}
+			currentKeyFrame = this.keyFrames[currentIndex];
+			nextKeyFrame = this.keyFrames[nextIndex];
 			
-			var curKF:AnimationKeyFrame3D = this.keyFrames[cur];
-
-			this.output = curKF.output;
+			frameDuration = nextKeyFrame.time - currentKeyFrame.time;
+			
+			currentTime = time * this.duration;
+			
+			frameAlpha = (currentTime - currentKeyFrame.time) / frameDuration;
+			
+			// clamp between 0 and 1
+			frameAlpha = frameAlpha < 0 ? 0 : frameAlpha;
+			frameAlpha = frameAlpha > 1 ? 1 : frameAlpha;
 		}
-		
-		protected var _nextOutput:Array;
-		
-		private var _defaultTarget:DisplayObject3D;
 	}
 }

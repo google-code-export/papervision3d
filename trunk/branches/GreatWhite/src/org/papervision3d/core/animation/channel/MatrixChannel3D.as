@@ -13,13 +13,12 @@ package org.papervision3d.core.animation.channel
 		/**
 		 * Constructor.
 		 * 
-		 * @param	parent
-		 * @param	defaultTarget
+		 * @param	target
 		 * @param	name
 		 */ 
-		public function MatrixChannel3D(parent:IAnimationDataProvider, defaultTarget:DisplayObject3D, name:String=null)
+		public function MatrixChannel3D(target:DisplayObject3D, name:String=null)
 		{
-			super(parent, defaultTarget, name);
+			super(target, name);
 			this.member = null;
 		}
 		
@@ -29,13 +28,18 @@ package org.papervision3d.core.animation.channel
 		 * @param	keyframe
 		 * @param	target
 		 */ 
-		public override function updateToFrame(keyframe:uint, target:DisplayObject3D=null):void
+		public override function updateToFrame(keyframe:uint):void
 		{
-			super.updateToFrame(keyframe, target);	
+			super.updateToFrame(keyframe);	
 			
-			target = target || this.defaultTarget;
+			target.copyTransform(currentKeyFrame.output[0]);
+		}
+		
+		public override function updateToTime(time:Number):void
+		{
+			super.updateToTime(time);
 			
-			target.copyTransform(this.output[0]);
+			target.copyTransform(currentKeyFrame.output[0]);
 		}
 	}
 }

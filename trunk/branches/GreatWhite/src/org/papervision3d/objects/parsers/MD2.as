@@ -227,7 +227,7 @@ package org.papervision3d.objects.parsers {
 			var i:int, j:int, char:int;
 			var duration:Number = 1 / _fps;
 			
-			var channel:AbstractChannel3D = new MorphChannel3D(this, this, "all");
+			var channel:AbstractChannel3D = new MorphChannel3D(this, "all");
 			
 			var t:uint = 0;
 			
@@ -260,7 +260,7 @@ package org.papervision3d.objects.parsers {
 						_channelByName[clip.name] = clip;
 					}
 					
-					clip = new MorphChannel3D(this, this, shortName);
+					clip = new MorphChannel3D(this, shortName);
 					curName = shortName;
 				}
 				

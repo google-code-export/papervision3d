@@ -12,13 +12,12 @@ package org.papervision3d.core.animation.channel
 		/**
 		 * Constructor.
 		 * 
-		 * @param	parent
-		 * @param	defaultTarget
+		 * @param	target
 		 * @param	name
 		 */ 
-		public function MorphChannel3D(parent:IAnimationDataProvider, defaultTarget:DisplayObject3D, name:String=null)
+		public function MorphChannel3D(target:DisplayObject3D, name:String=null)
 		{
-			super(parent, defaultTarget, name);
+			super(target, name);
 		}	
 		
 		/**
@@ -27,26 +26,56 @@ package org.papervision3d.core.animation.channel
 		 * @param	keyframe
 		 * @param	target
 		 */ 
-		override public function updateToFrame(keyframe:uint, target:DisplayObject3D=null):void
+		override public function updateToFrame(keyframe:uint):void
 		{
-			super.updateToFrame(keyframe, target);	
-			
-			target = target || this.defaultTarget;
-			
+			super.updateToFrame(keyframe);	
+
 			if(!target.geometry || !target.geometry.vertices)
 				return;
+			
+			var curOutput:Array = currentKeyFrame.output;
 				
-			if(this.output.length != target.geometry.vertices.length)
+			if(curOutput.length != target.geometry.vertices.length)
 				return;
 				
 			for(var i:int = 0; i < target.geometry.vertices.length; i++)
 			{
 				var v:Vertex3D = target.geometry.vertices[i];
-				var w:Vertex3D = this.output[i];
+				var w:Vertex3D = curOutput[i];
 				
 				v.x = w.x;
 				v.y = w.y;
 				v.z = w.z;
+			}
+		}
+		
+		/**
+		 * Updates this channel by time.
+		 * 
+		 * @param	time	Value between 0 and 1 indicating position between #startTime and #endTime.
+		 */ 
+		public override function updateToTime(time:Number):void
+		{
+			super.updateToTime(time);
+			
+			var curOutput:Array = currentKeyFrame.output;
+			var nxtOutput:Array = nextKeyFrame.output;
+			
+			if(!target.geometry || !target.geometry.vertices)
+				return;
+				
+			if(curOutput.length != target.geometry.vertices.length)
+				return;
+				
+			for(var i:int = 0; i < target.geometry.vertices.length; i++)
+			{
+				var u:Vertex3D = target.geometry.vertices[i];
+				var v:Vertex3D = curOutput[i];
+				var w:Vertex3D = nxtOutput[i];
+				
+				u.x = v.x + frameAlpha * (w.x - v.x);
+				u.y = v.y + frameAlpha * (w.y - v.y);
+				u.z = v.z + frameAlpha * (w.z - v.z);
 			}
 		}
 	}

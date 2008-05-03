@@ -15,10 +15,7 @@ package org.papervision3d.objects.special
 	 * @author Tim Knip
 	 */ 
 	public class Skin3D extends TriangleMesh3D
-	{
-		/** A boolean indicating the default value for #swapAxisZ, defaults to true. @see #swapAxisZ */
-		public static var DEFAULT_SWAP_Z:Boolean = true;
-		
+	{		
 		/** Array of joints influencing this mesh. @see org.papervision3d.objects.special.Joint3D */
 		public var joints:Array;
 
@@ -28,8 +25,8 @@ package org.papervision3d.objects.special
 		/** The skin's bindshape matrix. */
 		public var bindShapeMatrix:Matrix3D;
 		
-		/** Whether to swap Z in the skinning algorithm. Defaults to DEFAULT_SWAP_Z. @see #DEFAULT_SWAP_Z */
-		public var swapAxisZ:Boolean;
+		/** Y up? */
+		public var yUp:Boolean;
 		
 		/**
 		 * Constructor.
@@ -40,14 +37,13 @@ package org.papervision3d.objects.special
 		 * @param	name
 		 * @param	initObject
 		 */ 
-		public function Skin3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null)
+		public function Skin3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, yUp:Boolean=false)
 		{
-			super(material, vertices, faces, name, initObject);
+			super(material, vertices, faces, name);
 			
+			this.yUp = yUp;
 			this.joints = new Array();
 			this.skeletons = new Array();
-			
-			this.swapAxisZ = DEFAULT_SWAP_Z;
 		}
 		
 		/**
@@ -74,7 +70,7 @@ package org.papervision3d.objects.special
 					
 				// project skeleton(s)
 				for each(var joint:Joint3D in skeletons)
-					joint.project(renderSessionData.camera, renderSessionData);
+					joint.project(this, renderSessionData);
 					
 				// skin the mesh!
 				for(i = 0; i < joints.length; i++)
@@ -138,11 +134,16 @@ package org.papervision3d.objects.special
 
 				//update the vertex
 				skinned.x += (pos.x * weight);
-				skinned.y += (pos.y * weight);
-				if(swapAxisZ)
-					skinned.z -= (pos.z * weight);
-				else
+				if(yUp)
+				{
+					skinned.y += (pos.y * weight);
 					skinned.z += (pos.z * weight);
+				}
+				else
+				{
+					skinned.y += (pos.z * weight);
+					skinned.z += (pos.y * weight);
+				}
 			}
 		}
 		
