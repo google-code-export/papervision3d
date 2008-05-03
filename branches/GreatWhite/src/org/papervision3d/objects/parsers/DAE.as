@@ -215,30 +215,27 @@
 		}
 		
 		/**
-		 * Replaces materials by its name.
-		 * 
-		 * @param	materials
-		 */
-		public function replaceMaterials(materials:MaterialsList):void
-		{
-			
-		}
-		
-		/**
 		 * Sets the material for a child DisplayObject3D.
 		 * 
 		 * @param child		A child DisplayObject3D of this DAE.
 		 * @param material	The new material for the child.
+		 * @param existingMaterial Optional existing material to be replaced.
 		 */
-		public function setChildMaterial(child:DisplayObject3D, material:MaterialObject3D ):void 
+		public function setChildMaterial(child:DisplayObject3D, material:MaterialObject3D, existingMaterial:MaterialObject3D=null):void 
 		{	
 			if(!child) 
 				return;	
-			child.material = material;
+			
+			if(!existingMaterial || child.material === existingMaterial)
+				child.material = material;
+				
 			if(child.geometry && child.geometry.faces)
 			{
 				for each( var triangle:Triangle3D in child.geometry.faces )
-					triangle.material = material;
+				{
+					if(!existingMaterial || triangle.material === existingMaterial)
+						triangle.material = material;
+				}
 			}
 		}
 		
