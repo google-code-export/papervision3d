@@ -61,6 +61,15 @@
 		/** */
 		public var document:DaeDocument;
 		
+		/** */
+		public function get yUp():Boolean
+		{
+			if(this.document)
+				return (this.document.asset.yUp == ASCollada.DAE_Y_UP)
+			else
+				return false;
+		}
+		
 		/**
 		 * Constructor.
 		 */ 
@@ -267,7 +276,7 @@
 			if(!node)
 				throw new Error("Couldn't find the targeted object!");
 					
-			var matrixChannel:MatrixChannel3D = new MatrixChannel3D(this, target, channel.syntax.targetSID);
+			var matrixChannel:MatrixChannel3D = new MatrixChannel3D(target, channel.syntax.targetSID);
 			
 			var transform:DaeTransform = node.findMatrixBySID(channel.syntax.targetSID);
 					
@@ -477,41 +486,7 @@
 						continue;
 					}
 				}
-				
-				bakeAnimationChannels(node, target);
 			}
-		}
-		
-		private function bakeAnimationChannels(node:DaeNode, target:DisplayObject3D):void
-		{
-			var i:int, j:int;
-			var stack:Array = buildMatrixStack(node);
-			var channels:Array = new Array();
-			
-			for(i = 0; i < node.channels.length; i++)
-				channels.push(buildAnimationChannel(target, node.channels[i]));
-				
-			var outputs:Array = new Array(channels.length);
-			var keyFrames:Array = new Array();
-			var dummy:DisplayObject3D = DisplayObject3D.ZERO;
-			var times:Array = new Array();
-			
-			for(i = 0; i < channels.length; i++)
-			{
-				var matrixChannel:MatrixChannel3D = channels[i];
-				
-				outputs[i] = new Array(matrixChannel.keyFrames.length);
-				
-				for(j = 0; j < matrixChannel.keyFrames.length; j++)
-				{
-					matrixChannel.updateToFrame(j, dummy);
-					outputs[i][j] = matrixChannel.output[0];
-				
-					times.push(matrixChannel.keyFrames[j].time);
-				}
-			}
-			
-			trace("TIMES: " + times);
 		}
 		
 		/**
@@ -868,7 +843,7 @@
 
 					if(colladaController.skin)
 					{
-						instance = new Skin3D(null, [], [], node.name);
+						instance = new Skin3D(null, [], [], node.name, this.yUp);
 						
 						buildSkin(instance as Skin3D, colladaController.skin, instanceController.skeletons);
 					}
@@ -969,13 +944,11 @@
 			
 			this.addChild(_rootNode);
 			
-			var yUp:Boolean = (this.document.asset.yUp == ASCollada.DAE_Y_UP);
-			
-			if(yUp)
+			if(this.yUp)
 			{
 				
 			}
-			else
+			else if(!_numSkins)
 			{
 				_rootNode.rotationX = 90;
 				_rootNode.rotationY = 180;
@@ -1197,12 +1170,15 @@
 		 */ 
 		private function linkSkins():void
 		{
+			_numSkins = 0;
+			
 			for(var object:* in _skins)
 			{
 				var instance:Skin3D = object as Skin3D;
 				if(!instance)
 					throw new Error("Not a Skin3D?");
 				linkSkin(instance, _skins[object]);
+				_numSkins++;
 			}
 		}
 		
@@ -1371,6 +1347,9 @@
 		
 		/** */
 		private var _skins:Dictionary;
+		
+		/** */
+		private var _numSkins:uint;
 		
 		/** */
 		private var _rootNode:DisplayObject3D;

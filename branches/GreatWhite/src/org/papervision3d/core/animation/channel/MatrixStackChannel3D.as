@@ -13,13 +13,12 @@ package org.papervision3d.core.animation.channel
 		/**
 		 * Constructor.
 		 * 
-		 * @param	parent
-		 * @param	defaultTarget
+		 * @param	target
 		 * @param	name
 		 */ 
-		public function MatrixStackChannel3D(parent:IAnimationDataProvider, defaultTarget:DisplayObject3D, name:String=null)
+		public function MatrixStackChannel3D(target:DisplayObject3D, name:String=null)
 		{
-			super(parent, defaultTarget, name);
+			super(target, name);
 			
 			this.keyFrames = new Array();
 			
@@ -35,13 +34,13 @@ package org.papervision3d.core.animation.channel
 		{
 			if(_matrixStack.length)
 			{
-				this.minTime = Math.min(this.minTime, channel.minTime);
-				this.maxTime = Math.max(this.maxTime, channel.maxTime);
+				this.startTime = Math.min(this.startTime, channel.startTime);
+				this.endTime = Math.max(this.endTime, channel.endTime);
 			}
 			else
 			{
-				this.minTime = channel.minTime;
-				this.maxTime = channel.maxTime;
+				this.startTime = channel.startTime;
+				this.endTime = channel.endTime;
 				this.keyFrames = channel.keyFrames;
 			}
 
@@ -66,26 +65,25 @@ package org.papervision3d.core.animation.channel
 		 * @param	keyframe
 		 * @param	target
 		 */ 
-		public override function updateToFrame(keyframe:uint, target:DisplayObject3D=null):void
+		public override function updateToFrame(keyframe:uint):void
 		{
-			super.updateToFrame(keyframe, target);	
+			super.updateToFrame(keyframe);	
 			
-			target = target || this.defaultTarget;
-			
+
 			var matrix:Matrix3D = Matrix3D.IDENTITY;
 			
 			for(var i:int = 0; i < _matrixStack.length; i++)
 			{
 				var channel:MatrixChannel3D = _matrixStack[i];
 				
-				channel.updateToFrame(keyframe, target);
+				channel.updateToFrame(keyframe);
 				
-				matrix = Matrix3D.multiply(matrix, channel.output[0]);
+				matrix = Matrix3D.multiply(matrix, channel.currentKeyFrame.output[0]);
 			}
 			
-			this.output = [matrix];
+	//		this.output = [matrix];
 			
-			target.copyTransform(this.output[0]);
+	//		target.copyTransform(this.output[0]);
 		}
 		
 		private var _matrixStack:Array;

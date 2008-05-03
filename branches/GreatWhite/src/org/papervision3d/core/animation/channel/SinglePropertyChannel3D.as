@@ -13,14 +13,13 @@ package org.papervision3d.core.animation.channel
 		/**
 		 * Constructor.
 		 * 
-		 * @param	parent
-		 * @param	defaultTarget
+		 * @param	target
 		 * @param	targetProperty
 		 * @param	name
 		 */ 
-		public function SinglePropertyChannel3D(parent:IAnimationDataProvider, defaultTarget:DisplayObject3D, targetProperty:String, name:String=null)
+		public function SinglePropertyChannel3D(target:DisplayObject3D, targetProperty:String, name:String=null)
 		{
-			super(parent, defaultTarget, name);
+			super(target, name);
 			this.targetProperty = targetProperty;
 		}
 		
@@ -30,16 +29,14 @@ package org.papervision3d.core.animation.channel
 		 * @param	keyframe
 		 * @param	target
 		 */ 
-		override public function updateToFrame(keyframe:uint, target:DisplayObject3D=null):void
+		override public function updateToFrame(keyframe:uint):void
 		{
-			super.updateToFrame(keyframe, target);	
-			
-			target = target || this.defaultTarget;
+			super.updateToFrame(keyframe);	
 			
 			if(!target[this.targetProperty])
 				return;
 				
-			target[this.targetProperty] = this.output[0];
+			target[this.targetProperty] = currentKeyFrame.output[0];
 		}	
 	}
 }
