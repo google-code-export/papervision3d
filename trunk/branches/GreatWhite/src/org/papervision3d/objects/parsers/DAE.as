@@ -969,6 +969,18 @@
 			
 			this.addChild(_rootNode);
 			
+			var yUp:Boolean = (this.document.asset.yUp == ASCollada.DAE_Y_UP);
+			
+			if(yUp)
+			{
+				
+			}
+			else
+			{
+				_rootNode.rotationX = 90;
+				_rootNode.rotationY = 180;
+			}
+			
 			// may have animations to be parsed.
 			if(document.numQueuedAnimations)
 			{
