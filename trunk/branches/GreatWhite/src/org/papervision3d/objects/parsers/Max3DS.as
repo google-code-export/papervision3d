@@ -1,6 +1,7 @@
 package org.papervision3d.objects.parsers
 {
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
@@ -12,6 +13,7 @@ package org.papervision3d.objects.parsers
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.BitmapFileMaterial;
 	import org.papervision3d.materials.ColorMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
@@ -63,6 +65,7 @@ package org.papervision3d.objects.parsers
 				
 				loader.dataFormat = URLLoaderDataFormat.BINARY;
 				loader.addEventListener(Event.COMPLETE, onFileLoadComplete);
+				loader.addEventListener(IOErrorEvent.IO_ERROR, onFileLoadError);
 				loader.load(new URLRequest(this.filename));
 			}
 			else
@@ -128,6 +131,15 @@ package org.papervision3d.objects.parsers
 		}
 		
 		/**
+		 * 
+		 * @param	event
+		 */ 
+		private function onFileLoadError(event:IOErrorEvent):void
+		{
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_ERROR, this.filename));
+		}
+		
+		/**
 		 * Parse.
 		 * 
 		 * @param	data
@@ -145,6 +157,8 @@ package org.papervision3d.objects.parsers
 			var chunk:Chunk3ds = new Chunk3ds();
 			readChunk(chunk);
 			parse3DS(chunk);
+			
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_COMPLETE, this.filename));
 		}
 		
 		/**
