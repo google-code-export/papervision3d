@@ -35,5 +35,17 @@ package org.papervision3d.core.render.data
 			this.renderStatistics = new RenderStatistics();
 		}
 		
+		public function destroy():void
+		{
+			triangleCuller = null;
+			particleCuller = null;
+			viewPort = null;
+			container = null;
+			scene = null;
+			camera = null;
+			renderer = null;
+			renderStatistics = null;
+		}
+		
 	}
 }

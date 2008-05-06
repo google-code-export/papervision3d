@@ -69,6 +69,13 @@ package org.papervision3d.view {
 			this.autoScaleToStage = autoScaleToStage;
 		}
 		
+		public function destroy():void
+		{
+			interactiveSceneManager.destroy();
+			interactiveSceneManager = null;
+			lastRenderList = null;
+		}
+		
 		protected function init():void
 		{
 			lastRenderList = new Array();
