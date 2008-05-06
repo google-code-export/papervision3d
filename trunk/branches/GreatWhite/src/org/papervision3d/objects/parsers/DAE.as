@@ -478,7 +478,10 @@
 							
 					var transform:DaeTransform = node.findMatrixBySID(channel.syntax.targetSID);
 					if(!transform)
-						throw new Error("Couldn't find the targeted object's transform!");
+					{
+						continue;
+						//throw new Error("Couldn't find the targeted object's transform!");
+					}
 					
 					if(transform.type == ASCollada.DAE_MATRIX_ELEMENT)
 					{	
