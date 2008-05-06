@@ -44,6 +44,19 @@ package org.papervision3d.render
 			init();			 
 		}
 		
+		public function destroy():void
+		{
+			projectionPipeline = null;
+			sorter = null;
+			filter = null;
+			renderStatistics = null;
+			renderList = null;
+			renderSessionData.destroy();
+			renderSessionData = null;
+			cleanRHD = null;
+			stopWatch = null;
+		}
+		
 		protected function init():void
 		{
 			renderStatistics = new RenderStatistics();

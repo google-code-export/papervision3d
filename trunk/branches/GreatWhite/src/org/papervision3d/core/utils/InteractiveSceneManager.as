@@ -62,6 +62,23 @@
 			init();
 		}
 		
+		public function destroy():void
+		{
+			viewport = null;
+			renderHitData = null;
+			currentDisplayObject3D = null;
+			currentMaterial = null;
+			currentMouseDO3D = null;
+			
+			container.removeEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
+			container.removeEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
+			container.removeEventListener(MouseEvent.CLICK, handleMouseClick);
+			if (container.stage)
+				container.stage.removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+				
+			container = null;
+		}
+		
 		public function init():void
 		{		
 			if( container )

@@ -25,37 +25,37 @@
 		/**
 		* Default radius of Cylinder if not defined.
 		*/
-		static public var DEFAULT_RADIUS :Number = 100;
+		static public const DEFAULT_RADIUS :Number = 100;
 	
 		/**
 		* Default height if not defined.
 		*/
-		static public var DEFAULT_HEIGHT :Number = 100;
+		static public const DEFAULT_HEIGHT :Number = 100;
 	
 		/**
 		* Default scale of Cylinder texture if not defined.
 		*/
-		static public var DEFAULT_SCALE :Number = 1;
+		static public const DEFAULT_SCALE :Number = 1;
 	
 		/**
 		* Default value of gridX if not defined.
 		*/
-		static public var DEFAULT_SEGMENTSW :Number = 8;
+		static public const DEFAULT_SEGMENTSW :Number = 8;
 	
 		/**
 		* Default value of gridY if not defined.
 		*/
-		static public var DEFAULT_SEGMENTSH :Number = 6;
+		static public const DEFAULT_SEGMENTSH :Number = 6;
 	
 		/**
 		* Minimum value of gridX.
 		*/
-		static public var MIN_SEGMENTSW :Number = 3;
+		static public const MIN_SEGMENTSW :Number = 3;
 	
 		/**
 		* Minimum value of gridY.
 		*/
-		static public var MIN_SEGMENTSH :Number = 2;
+		static public const MIN_SEGMENTSH :Number = 1;
 	
 	
 		// ___________________________________________________________________________________________________
@@ -77,7 +77,11 @@
 		* <p/>
 		* @param	segmentsH	[optional] - Number of segments vertically. Defaults to 6.
 		* <p/>
-		* @param	topRadius	[optional] - An optional parameter for con- or diverging cylinders
+		* @param	topRadius	[optional] - An optional parameter for con- or diverging cylinders.
+		* <p/>
+		* @param	topFace		[optional] - An optional parameter specifying if the top face of the cylinder should be drawn.
+		* <p/>
+		* @param	bottomFace	[optional] - An optional parameter specifying if the bottom face of the cylinder should be drawn.
 		* <p/>
 		* @param	initObject	[optional] - An object that contains user defined properties with which to populate the newly created GeometryObject3D.
 		* <p/>
@@ -85,7 +89,7 @@
 		* <p/>
 		* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
 		*/
-		public function Cylinder( material:MaterialObject3D=null, radius:Number=100, height:Number=100, segmentsW:int=8, segmentsH:int=6, topRadius:Number=-1, initObject:Object=null )
+		public function Cylinder( material:MaterialObject3D=null, radius:Number=100, height:Number=100, segmentsW:int=8, segmentsH:int=6, topRadius:Number=-1, topFace:Boolean=true, bottomFace:Boolean=true, initObject:Object=null )
 		{
 			super( material, new Array(), new Array(), null, initObject );
 	
@@ -98,17 +102,17 @@
 	
 			var scale :Number = DEFAULT_SCALE;
 	
-			buildCylinder( radius, height, topRadius );
+			buildCylinder( radius, height, topRadius, topFace, bottomFace );
 		}
 	
-		private function buildCylinder( fRadius:Number, fHeight:Number,  fTopRadius:Number ):void
+		private function buildCylinder( fRadius:Number, fHeight:Number, fTopRadius:Number, fTopFace:Boolean, fBottomFace:Boolean ):void
 		{
 			var matInstance:MaterialObject3D = material;
 			
 			var i:Number, j:Number, k:Number;
 	
-			var iHor:Number = Math.max(3,this.segmentsW);
-			var iVer:Number = Math.max(2,this.segmentsH);
+			var iHor:Number = Math.max(MIN_SEGMENTSW, this.segmentsW);
+			var iVer:Number = Math.max(MIN_SEGMENTSH, this.segmentsH);
 			var aVertice:Array = this.geometry.vertices;
 			var aFace:Array = this.geometry.faces;
 			var aVtc:Array = new Array();
@@ -173,8 +177,12 @@
 						aP3uv = new NumberUV( (bTop?1:0)+(bTop?-1:1)*(aP3.x/fRadius/2+.5), aP3.z/fRadius/2+.5 );
 	
 						// face
-						if (j==0)	aFace.push( new Triangle3D(this, [aP1,aP3,aP2], matInstance, [aP1uv,aP3uv,aP2uv]) );
-						else		aFace.push( new Triangle3D(this, [aP1,aP2,aP3], matInstance, [aP1uv,aP2uv,aP3uv]) );
+						if (j == 0) {
+							if (fBottomFace) aFace.push( new Triangle3D(this, [aP1, aP3, aP2], matInstance, [aP1uv, aP3uv, aP2uv]) );
+						}
+						else {
+							if (fTopFace) aFace.push( new Triangle3D(this, [aP1, aP2, aP3], matInstance, [aP1uv, aP2uv, aP3uv]) );
+						}
 					}
 				}
 			}
