@@ -130,7 +130,11 @@ package org.papervision3d.materials
 				bitmap.dispose();
 
 			// Create new bitmap
-			bitmap = new BitmapData( asset.width, asset.height, this.movieTransparent );
+			if(asset.width == 0 || asset.height == 0){
+				bitmap = new BitmapData(255,255,movieTransparent, fillColor);
+			}else{
+				bitmap = new BitmapData( asset.width, asset.height, this.movieTransparent );
+			}
 		}
 
 		// ______________________________________________________________________ UPDATE
