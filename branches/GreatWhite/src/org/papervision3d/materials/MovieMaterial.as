@@ -131,7 +131,7 @@ package org.papervision3d.materials
 
 			// Create new bitmap
 			if(asset.width == 0 || asset.height == 0){
-				bitmap = new BitmapData(255,255,movieTransparent, fillColor);
+				bitmap = new BitmapData(256,256,movieTransparent, fillColor);
 			}else{
 				bitmap = new BitmapData( asset.width, asset.height, this.movieTransparent );
 			}
