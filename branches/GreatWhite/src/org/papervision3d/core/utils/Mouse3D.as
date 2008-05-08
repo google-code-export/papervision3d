@@ -16,6 +16,9 @@ package org.papervision3d.core.utils
 		
 		static public var enabled							:Boolean = false;
 		
+		private var position:Number3D = new Number3D(0, 0, 0);
+		private var target:Number3D = new Number3D();
+		
 		public function Mouse3D(initObject:Object=null):void
 		{
 			
@@ -25,8 +28,9 @@ package org.papervision3d.core.utils
 		{			
 			var face3d:Triangle3D = rhd.renderable as Triangle3D;
 			
-			var position:Number3D = new Number3D(0, 0, 0);
-			var target:Number3D = new Number3D(face3d.faceNormal.x, face3d.faceNormal.y, face3d.faceNormal.z);
+			target.x = face3d.faceNormal.x; 
+			target.y = face3d.faceNormal.y; 
+			target.z = face3d.faceNormal.z;
 				
 			var zAxis:Number3D = Number3D.sub(target, position);
 			zAxis.normalize();
