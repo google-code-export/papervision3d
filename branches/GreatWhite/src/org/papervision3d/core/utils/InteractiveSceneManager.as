@@ -85,9 +85,12 @@
 			{
 				if( container.stage )
 				{
+					trace("container had stage");
 					initVirtualMouse();
+					initListeners();
 				}else
 				{
+					trace("container had no stage");
 					container.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
 				}				
 			}

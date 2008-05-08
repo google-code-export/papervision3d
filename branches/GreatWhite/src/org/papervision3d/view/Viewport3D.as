@@ -19,7 +19,6 @@ package org.papervision3d.view {
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.utils.InteractiveSceneManager;
 	import org.papervision3d.core.view.IViewport3D;
-	import org.papervision3d.events.RendererEvent;
 	import org.papervision3d.view.layer.ViewportBaseLayer;
 	import org.papervision3d.view.layer.ViewportLayer;	
 
@@ -59,8 +58,9 @@ package org.papervision3d.view {
 		public function Viewport3D(viewportWidth:Number = 640, viewportHeight:Number = 480, autoScaleToStage:Boolean = false, interactive:Boolean = false, autoClipping:Boolean = true, autoCulling:Boolean = true)
 		{
 			super();
-			this.interactive = interactive;
 			init();
+			
+			this.interactive = interactive;
 			
 			this.viewportWidth = viewportWidth;
 			this.viewportHeight = viewportHeight;
@@ -73,8 +73,10 @@ package org.papervision3d.view {
 		
 		public function destroy():void
 		{
-			interactiveSceneManager.destroy();
-			interactiveSceneManager = null;
+			if(interactiveSceneManager){
+				interactiveSceneManager.destroy();
+				interactiveSceneManager = null;
+			}
 			lastRenderList = null;
 		}
 		
@@ -88,10 +90,7 @@ package org.papervision3d.view {
 			
 			_containerSprite = new ViewportBaseLayer(this);
 			addChild(_containerSprite);
-			
-			// ISM must be created AFTER adding containerSprite to the stage
-			if( interactive ) interactiveSceneManager = new InteractiveSceneManager(this);
-			
+		
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 		}
@@ -237,7 +236,16 @@ package org.papervision3d.view {
 		
 		public function set interactive(b:Boolean):void
 		{
-			_interactive = b;
+			if(b != _interactive){
+				if(_interactive && interactiveSceneManager){
+					interactiveSceneManager.destroy();
+					interactiveSceneManager = null;
+				}
+				_interactive = b;
+				if(b){
+					interactiveSceneManager = new InteractiveSceneManager(this);
+				}
+			}
 		}
 		
 		public function get interactive():Boolean
