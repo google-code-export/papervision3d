@@ -158,9 +158,13 @@ package org.papervision3d.materials
 				{
 					// Init new bitmap size
 					initBitmap( movie );
+					var recreateBitmapInSuper:Boolean = true;
 				}
 				
 				drawBitmap();
+				
+				if (recreateBitmapInSuper)
+					bitmap = super.createBitmap( bitmap );
 			}		
 		}
 		
