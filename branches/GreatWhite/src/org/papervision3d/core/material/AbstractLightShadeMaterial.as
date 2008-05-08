@@ -33,7 +33,7 @@ package org.papervision3d.core.material
 		{	
 			var object:DisplayObject3D;
 			for each(object in objects){
-				lightMatrices[object] = LightMatrix.getLightMatrix(light, object,renderSessionData);
+				lightMatrices[object] = LightMatrix.getLightMatrix(light, object,renderSessionData,lightMatrices[object]);
 			}
 		}
 		

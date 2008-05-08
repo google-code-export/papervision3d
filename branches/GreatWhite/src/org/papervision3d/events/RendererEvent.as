@@ -14,6 +14,7 @@ package org.papervision3d.events
 		public function RendererEvent(type:String, renderSessionData:RenderSessionData)
 		{
 			super(type);
+			trace("newed");
 			this.renderSessionData = renderSessionData;
 		}
 		

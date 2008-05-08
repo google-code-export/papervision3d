@@ -16,10 +16,10 @@ package org.papervision3d.view {
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.core.render.data.RenderHitData;
+	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.utils.InteractiveSceneManager;
 	import org.papervision3d.core.view.IViewport3D;
 	import org.papervision3d.events.RendererEvent;
-	import org.papervision3d.render.BasicRenderEngine;
 	import org.papervision3d.view.layer.ViewportBaseLayer;
 	import org.papervision3d.view.layer.ViewportLayer;	
 
@@ -145,18 +145,6 @@ package org.papervision3d.view {
 			}
 		}
 		
-		protected function handleRenderDone(e:RendererEvent):void
-		{
-			interactiveSceneManager.updateRenderHitData();
-		}
-		
-		public function set lastRenderer(value:BasicRenderEngine):void
-		{
-			if( !interactive ) return;
-			value.removeEventListener(RendererEvent.RENDER_DONE, handleRenderDone);
-			value.addEventListener(RendererEvent.RENDER_DONE, handleRenderDone);
-		}
-		
 		public function set viewportWidth(width:Number):void
 		{
 			_width = width;
@@ -257,16 +245,18 @@ package org.papervision3d.view {
 			return _interactive;
 		}
 		
-		public function updateBeforeRender():void
+		public function updateBeforeRender(renderSessionData:RenderSessionData):void
 		{
 			lastRenderList.length = 0;
 			use namespace pv3dview;
 			_containerSprite.clear();
 		}
 		
-		public function updateAfterRender():void
+		public function updateAfterRender(renderSessionData:RenderSessionData):void
 		{
-			
+			if(interactive){
+				interactiveSceneManager.updateRenderHitData();
+			}
 		}
 		
 		public function set viewportObjectFilter(vof:ViewportObjectFilter):void

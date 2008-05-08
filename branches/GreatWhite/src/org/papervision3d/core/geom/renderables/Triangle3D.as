@@ -134,6 +134,7 @@ package org.papervision3d.core.geom.renderables {
 			//Setup this instance
 			face3DInstance = new Triangle3DInstance(this, do3dInstance);
 			
+			faceNormal = new Number3D();
 			// Vertices
 			if(vertices && vertices.length == 3){
 				this.vertices = vertices;
@@ -152,12 +153,12 @@ package org.papervision3d.core.geom.renderables {
 		
 		public function createNormal():void
 		{
-			var vn0:Number3D = v0.toNumber3D(),
-				vn1:Number3D = v1.toNumber3D(),
-				vn2:Number3D = v2.toNumber3D(),
-				vt1:Number3D = Number3D.sub(vn1,vn0),
-				vt2:Number3D = Number3D.sub(vn2,vn0);
-			faceNormal = Number3D.cross(vt1,vt2);
+			var vn0:Number3D = v0.getPosition();
+			var vn1:Number3D = v1.getPosition();
+			var vn2:Number3D = v2.getPosition();	
+			vn1.minusEq(vn0);
+			vn2.minusEq(vn0);
+			faceNormal = Number3D.cross(vn1,vn2,faceNormal);
 			faceNormal.normalize();
 		}
 		

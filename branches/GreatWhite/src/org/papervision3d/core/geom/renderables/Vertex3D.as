@@ -71,11 +71,13 @@ package org.papervision3d.core.geom.renderables
 		/**
 		 * Vertex2D instance 
 		 */
-		 public var vertex3DInstance:Vertex3DInstance;
+		public var vertex3DInstance:Vertex3DInstance;
 		
 		//To be docced
 		public var normal:Number3D;
 		public var connectedFaces:Dictionary;
+		
+		protected var position:Number3D = new Number3D();
 	
 		/**
 		* Creates a new Vertex3D object whose three-dimensional values are specified by the x, y and z parameters.
@@ -87,13 +89,21 @@ package org.papervision3d.core.geom.renderables
 		* */
 		public function Vertex3D( x:Number=0, y:Number=0, z:Number=0 )
 		{
-			this.x = x;
-			this.y = y;
-			this.z = z;
+			this.x = position.x = x;
+			this.y = position.y = y;
+			this.z = position.z = z;
 			
 			this.vertex3DInstance = new Vertex3DInstance();
 			this.normal = new Number3D();
 			this.connectedFaces = new Dictionary();
+		}
+		
+		public function getPosition():Number3D
+		{
+			position.x = x;
+			position.y = y;
+			position.z = z;
+			return position;
 		}
 		
 		public function toNumber3D():Number3D
@@ -107,19 +117,20 @@ package org.papervision3d.core.geom.renderables
 			clone.extra = extra;
 			clone.vertex3DInstance = vertex3DInstance.clone();
 			clone.normal = normal.clone();
-			
 			return clone;
 		}
 		
 		public function calculateNormal():void
 		{
 			var face:Triangle3D;
-			normal = new Number3D();
 			var count:Number = 0;
+			normal.reset();
 			for each(face in connectedFaces)
 			{	
-				count++;
-				normal = Number3D.add(face.faceNormal, normal);
+				if(face.faceNormal){
+					count++;
+					normal.plusEq(face.faceNormal);
+				}
 			}
 			normal.x/=count;
 			normal.y/=count;

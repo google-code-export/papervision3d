@@ -5,6 +5,7 @@ package org.papervision3d.view
 	import flash.events.Event;
 	import flash.geom.Matrix;
 	
+	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.view.IViewport3D;
 	
 	/**
@@ -24,7 +25,6 @@ package org.papervision3d.view
 		{
 			super(viewportWidth, viewportHeight, autoScaleToStage, interactive, true, autoCulling);
 			this.bgColor = bgColor;
-			
 			_containerBitmap = new Bitmap();
 			
 			bitmapData = _containerBitmap.bitmapData = new BitmapData(Math.round(viewportWidth), Math.round(viewportHeight), bitmapTransparent, bgColor);
@@ -33,8 +33,9 @@ package org.papervision3d.view
 			removeChild(_containerSprite);
 		}
 		
-		override public function updateAfterRender():void
+		override public function updateAfterRender(renderSessionData:RenderSessionData):void
 		{
+			super.updateAfterRender(renderSessionData);
 			if(bitmapData.width != Math.round(viewportWidth) || bitmapData.height != Math.round(viewportHeight))
 			{
 				bitmapData = _containerBitmap.bitmapData = new BitmapData(Math.round(viewportWidth), Math.round(viewportHeight), false, bgColor);
