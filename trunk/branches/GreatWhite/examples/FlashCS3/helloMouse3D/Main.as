@@ -70,7 +70,7 @@ package {
 			renderer = new BasicRenderEngine();
 			
 			// Create scene
-			scene = new Scene3D(true);
+			scene = new Scene3D();
 			
 			camera = new Camera3D();
 			
