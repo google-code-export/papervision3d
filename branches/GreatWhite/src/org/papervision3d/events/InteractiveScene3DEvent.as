@@ -72,6 +72,11 @@ package org.papervision3d.events
 			this.x = x;
 			this.y = y;
 			this.renderHitData = renderhitData;
-		}		
+		}
+		
+		override public function toString():String
+		{
+			return "Type : "+type+", DO3D : "+displayObject3D+" Sprite : "+sprite+" Face : "+face3d;
+		}
 	}
 }
