@@ -76,7 +76,7 @@ package org.papervision3d.view.stats
 			renderInfoTextField.text = "Ren: "+stats.rendered+" RT : "+stats.renderTime+" PT : "+stats.projectionTime;
 			cullingInfoTextField.text = "COb : "+stats.culledObjects+ " CTr : "+stats.culledTriangles+" CPa : "+stats.culledParticles+" FOb : "+stats.filteredObjects;
 			
-			memInfoTestField.text = "Mem : "+System.totalMemory;
+			memInfoTestField.text = "Mem : "+(System.totalMemory/1024/1024).toFixed(2) + "MB";
 			
 			
 		}
