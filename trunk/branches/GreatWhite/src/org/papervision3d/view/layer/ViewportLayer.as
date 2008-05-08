@@ -11,6 +11,7 @@ package org.papervision3d.view.layer {
 	public class ViewportLayer extends Sprite
 	{
 		use namespace pv3dview;
+		
 		private var childLayers:Array;
 		protected var viewport:Viewport3D;
 		protected var _displayObject3D:DisplayObject3D;

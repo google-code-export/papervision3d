@@ -44,15 +44,17 @@ package org.papervision3d.view {
 		protected var _interactive:Boolean;
 		protected var _lastRenderer:IRenderEngine;
 		protected var _viewportObjectFilter:ViewportObjectFilter;
+		protected var _containerSprite:ViewportBaseLayer;
 		
 		public var sizeRectangle:Rectangle;
 		public var cullingRectangle:Rectangle;
-		protected var _containerSprite:ViewportBaseLayer;
 		
 		public var triangleCuller:ITriangleCuller;
 		public var particleCuller:IParticleCuller;
 		public var lastRenderList:Array;
 		public var interactiveSceneManager:InteractiveSceneManager;
+		
+		protected var renderHitData:RenderHitData;
 		
 		public function Viewport3D(viewportWidth:Number = 640, viewportHeight:Number = 480, autoScaleToStage:Boolean = false, interactive:Boolean = false, autoClipping:Boolean = true, autoCulling:Boolean = true)
 		{
@@ -78,12 +80,13 @@ package org.papervision3d.view {
 		
 		protected function init():void
 		{
+			this.renderHitData = new RenderHitData();
+			
 			lastRenderList = new Array();
 			sizeRectangle = new Rectangle();
 			cullingRectangle = new Rectangle();
 			
 			_containerSprite = new ViewportBaseLayer(this);
-			
 			addChild(_containerSprite);
 			
 			// ISM must be created AFTER adding containerSprite to the stage
@@ -101,9 +104,10 @@ package org.papervision3d.view {
 		
 		public function hitTestPoint2D(point:Point):RenderHitData
 		{
+			renderHitData.clear();
 			if(interactive){
 				var rli:RenderableListItem;
-				var rhd:RenderHitData = new RenderHitData();
+				var rhd:RenderHitData = renderHitData;
 				var rc:IRenderListItem;
 				for(var i:uint = lastRenderList.length; rc = lastRenderList[--i]; )
 				{
@@ -111,7 +115,6 @@ package org.papervision3d.view {
 					{
 						rli = rc as RenderableListItem;
 						rhd = rli.hitTestPoint2D(point, rhd);
-						
 						if(rhd.hasHit)
 						{				
 							return rhd;
@@ -119,8 +122,7 @@ package org.papervision3d.view {
 					}
 				}
 			}
-			
-			return new RenderHitData();
+			return renderHitData;
 		}
 		
 		protected function onAddedToStage(event:Event):void

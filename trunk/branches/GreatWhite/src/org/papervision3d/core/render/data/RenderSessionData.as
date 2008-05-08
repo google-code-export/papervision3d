@@ -47,5 +47,19 @@ package org.papervision3d.core.render.data
 			renderStatistics = null;
 		}
 		
+		public function clone():RenderSessionData
+		{
+			var c:RenderSessionData = new RenderSessionData();
+			c.triangleCuller = triangleCuller;
+			c.particleCuller = particleCuller;
+			c.viewPort = viewPort;
+			c.container = container;
+			c.scene = scene;
+			c.camera = camera;
+			c.renderer = renderer;
+			c.renderStatistics = renderStatistics.clone();
+			return c;
+		}
+		
 	}
 }

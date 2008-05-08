@@ -7,6 +7,7 @@ package org.papervision3d.events
 	public class RendererEvent extends Event
 	{
 		public static const RENDER_DONE:String = "renderDone";
+		public static const PROJECTION_DONE:String = "projectionDone";
 		
 		public var renderSessionData:RenderSessionData;
 		
@@ -14,6 +15,16 @@ package org.papervision3d.events
 		{
 			super(type);
 			this.renderSessionData = renderSessionData;
+		}
+		
+		public function clear():void
+		{
+			renderSessionData = null;
+		}
+		
+		override public function clone():Event
+		{
+			return new RendererEvent(type, renderSessionData);
 		}
 		
 	}
