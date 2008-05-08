@@ -14,12 +14,13 @@ package org.papervision3d.materials.utils
 	{
 		
 		private static var lightMatrix:Matrix3D = Matrix3D.IDENTITY;
+		private static var invMatrix:Matrix3D = Matrix3D.IDENTITY;
 	
-		private static var _targetPos:Number3D;
-		private static var _lightPos:Number3D;
-		private static var _lightDir:Number3D;
-		private static var _lightUp:Number3D;
-		private static var _lightSide:Number3D;
+		private static var _targetPos:Number3D = new Number3D();
+		private static var _lightPos:Number3D = new Number3D();
+		private static var _lightDir:Number3D = new Number3D();
+		private static var _lightUp:Number3D = new Number3D();
+		private static var _lightSide:Number3D = new Number3D();
 		
 		protected static var UP:Number3D = new Number3D(0, 1, 0);
 		
@@ -30,18 +31,18 @@ package org.papervision3d.materials.utils
 		 * @param	object
 		 * @return
 		 */
-		public static function getLightMatrix(light:LightObject3D, object:DisplayObject3D, renderSessionData:RenderSessionData):Matrix3D
+		public static function getLightMatrix(light:LightObject3D, object:DisplayObject3D, renderSessionData:RenderSessionData, objectLightMatrix:Matrix3D):Matrix3D
 		{
-			var lightMatrix:Matrix3D = Matrix3D.IDENTITY;
+			var lightMatrix:Matrix3D = objectLightMatrix ? objectLightMatrix : Matrix3D.IDENTITY;
 			if(light == null){
 				light = new PointLight3D();
 				light.copyPosition(renderSessionData.camera);
 			}
-			_targetPos = new Number3D();
-			_lightPos = new Number3D();
-			_lightDir = new Number3D();
-			_lightUp = new Number3D();
-			_lightSide = new Number3D();
+			_targetPos.reset();
+			_lightPos.reset();
+			_lightDir.reset();
+			_lightUp.reset();
+			_lightSide.reset();
 				
 				
 				// NOTE: we basically perform a lookAt.
@@ -64,7 +65,8 @@ package org.papervision3d.materials.utils
 				_lightDir.z = _targetPos.z - _lightPos.z;
 	
 				// account for object's transformation
-				Matrix3D.multiplyVector3x3(Matrix3D.inverse(object.world), _lightDir);
+				invMatrix.calculateInverse(object.world);
+				Matrix3D.multiplyVector3x3(invMatrix, _lightDir);
 			   
 				// normalize!
 				_lightDir.normalize();

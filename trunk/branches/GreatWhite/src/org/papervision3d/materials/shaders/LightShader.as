@@ -28,7 +28,7 @@ package org.papervision3d.materials.shaders
 		
 		public function updateLightMatrix(sod:ShaderObjectData, renderSessionData:RenderSessionData):void
 		{
-			sod.lightMatrices[this] = LightMatrix.getLightMatrix(light, sod.object, renderSessionData);
+			sod.lightMatrices[this] = LightMatrix.getLightMatrix(light, sod.object, renderSessionData,sod.lightMatrices[this]);
 		}
 		
 		private var _light:LightObject3D;

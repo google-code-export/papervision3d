@@ -267,12 +267,12 @@ package org.papervision3d.cameras
 			var num:Number3D;
 			
 			var vertices:Array = aabb.getBoxVertices();
+			
 			/**
 			 * Transform the boundingbox to world
 			 */
-			
 			for each(vertex in vertices){
-				num = vertex.toNumber3D();
+				num = vertex.getPosition();
 				Matrix3D.multiplyVector4x4(object.world, num);
 				waabb.push(num);
 			}

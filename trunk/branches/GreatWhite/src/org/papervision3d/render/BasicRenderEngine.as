@@ -84,12 +84,6 @@ package org.papervision3d.render
 		
 		override public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, updateAnimation:Boolean = true):RenderStatistics
 		{
-			//Clear the viewport.
-			viewPort.updateBeforeRender();
-			
-			// update the viewports reference to the lastRenderer - the ISM needs this to receive render done events
-			viewPort.lastRenderer = this;
-			
 			//Update the renderSessionData object.
 			renderSessionData.scene = scene;
 			renderSessionData.camera = camera;
@@ -99,13 +93,20 @@ package org.papervision3d.render
 			renderSessionData.particleCuller = viewPort.particleCuller;
 			renderSessionData.renderStatistics.clear();
 			
+			//Clear the viewport.
+			viewPort.updateBeforeRender(renderSessionData);
+			
 			//Project the Scene (this will fill up the renderlist).
 			projectionPipeline.project(renderSessionData);
-			dispatchEvent(projectionDoneEvent);
+			if(hasEventListener(RendererEvent.PROJECTION_DONE)){
+				dispatchEvent(projectionDoneEvent);
+			}
 			
 			//Render the Scene.
 			doRender(renderSessionData);
-			dispatchEvent(renderDoneEvent);
+			if(hasEventListener(RendererEvent.RENDER_DONE)){
+				dispatchEvent(renderDoneEvent);
+			}
 			
 			return renderSessionData.renderStatistics;
 		}
@@ -135,7 +136,7 @@ package org.papervision3d.render
 			MaterialManager.getInstance().updateMaterialsAfterRender(renderSessionData);
 			
 			renderSessionData.renderStatistics.renderTime = stopWatch.stop();
-			renderSessionData.viewPort.updateAfterRender();
+			renderSessionData.viewPort.updateAfterRender(renderSessionData);
 			return renderStatistics;
 		}
 		
