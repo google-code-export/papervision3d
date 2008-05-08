@@ -90,8 +90,8 @@
 		public function removeParticle(particle:Particle):void
 		{
 			particle.instance = null;
-			particles.splice(particles.indexOf(particle,0));
-			vertices.splice(vertices.indexOf(particle.vertex3D,0));
+			particles.splice(particles.indexOf(particle,0), 1);
+			vertices.splice(vertices.indexOf(particle.vertex3D,0), 1);
 		}
 		
 		/**
