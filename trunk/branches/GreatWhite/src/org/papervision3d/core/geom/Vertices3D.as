@@ -16,8 +16,6 @@
 	*/
 	public class Vertices3D extends DisplayObject3D
 	{
-
-
 		/**
 		* Creates a new Vertices3D object.
 		*
