@@ -61,22 +61,26 @@ package org.papervision3d.core.render.shader
 				}
 				else
 				{
-					var txWidth:Number = material.bitmap.width;
-					var txHeight:Number = material.bitmap.height;
-					var x0:Number = triangle.uv[0].u * txWidth;
-					var y0:Number = (1-triangle.uv[0].v) * txHeight;
-					var x1:Number = triangle.uv[1].u * txWidth;
-					var y1:Number = (1-triangle.uv[1].v) * txHeight;
-					var x2:Number = triangle.uv[2].u * txWidth;
-					var y2:Number = (1-triangle.uv[2].v) * txHeight;
-					mat.tx = x0;
-					mat.ty = y0;
-					mat.a = (x1 - x0);
-					mat.b = (y1 - y0);
-					mat.c = (x2 - x0);
-					mat.d = (y2 - y0);
-				}				
-				uvMatrices[triangle] = mat;	
+					if(material.bitmap){
+						var txWidth:Number = material.bitmap.width;
+						var txHeight:Number = material.bitmap.height;
+						var x0:Number = triangle.uv[0].u * txWidth;
+						var y0:Number = (1-triangle.uv[0].v) * txHeight;
+						var x1:Number = triangle.uv[1].u * txWidth;
+						var y1:Number = (1-triangle.uv[1].v) * txHeight;
+						var x2:Number = triangle.uv[2].u * txWidth;
+						var y2:Number = (1-triangle.uv[2].v) * txHeight;
+						mat.tx = x0;
+						mat.ty = y0;
+						mat.a = (x1 - x0);
+						mat.b = (y1 - y0);
+						mat.c = (x2 - x0);
+						mat.d = (y2 - y0);
+					}
+				}
+				if(material.bitmap){			
+					uvMatrices[triangle] = mat;	
+				}
 			}
 			return mat;
 		}

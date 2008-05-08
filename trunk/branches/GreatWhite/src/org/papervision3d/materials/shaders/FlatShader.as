@@ -32,7 +32,7 @@ package org.papervision3d.materials.shaders
 		private var _colors:Array;
 		private var _colorRamp:BitmapData;
 		
-		public function FlatShader(light:LightObject3D, lightColor:int, ambientColor:int)
+		public function FlatShader(light:LightObject3D, lightColor:int = 0xFFFFFF, ambientColor:int = 0x000000)
 		{
 			super();
 			this.light = light;

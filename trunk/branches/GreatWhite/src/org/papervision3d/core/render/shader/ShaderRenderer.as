@@ -15,6 +15,8 @@ package org.papervision3d.core.render.shader
 	 */
 	public class ShaderRenderer extends EventDispatcher implements IShaderRenderer
 	{
+		
+		public var resizedInput:Boolean = false;
 		public var bitmapLayer:Sprite;
 		public var container:Sprite;
 		public var bitmapContainer:Bitmap;
@@ -39,19 +41,23 @@ package org.papervision3d.core.render.shader
 		
 		public function render(renderSessionData:RenderSessionData):void
 		{
-			outputBitmap.fillRect(outputBitmap.rect, 0x000000);
-			bitmapContainer.bitmapData = inputBitmap;
-			outputBitmap.draw(container, null, null, null, outputBitmap.rect, false);
+			if(outputBitmap){
+				outputBitmap.fillRect(outputBitmap.rect, 0x000000);
+				bitmapContainer.bitmapData = inputBitmap;
+				outputBitmap.draw(container, null, null, null, outputBitmap.rect, false);
+			}
 		}
 		
 		public function clear():void
 		{
 			var sprite:Sprite;
 			for each(sprite in shadeLayers){
-				sprite.graphics.clear();
-				sprite.graphics.beginFill(0,1);
-				sprite.graphics.drawRect(0,0,inputBitmap.width, inputBitmap.height);
-				sprite.graphics.endFill();
+				if(inputBitmap && inputBitmap.width > 0 && inputBitmap.height > 0){
+					sprite.graphics.clear();
+					sprite.graphics.beginFill(0,1);
+					sprite.graphics.drawRect(0,0,inputBitmap.width, inputBitmap.height);
+					sprite.graphics.endFill();
+				}
 			}
 		}
 		
@@ -68,12 +74,13 @@ package org.papervision3d.core.render.shader
 			shadeLayers[shader] = layer;
 			var rect:Sprite = new Sprite();
 			layer.addChild(rect);
-			rect.graphics.beginFill(0,0);
-			rect.graphics.drawRect(0,0,inputBitmap.width, inputBitmap.height);
-			rect.graphics.endFill();
+			if(inputBitmap != null){
+				rect.graphics.beginFill(0,0);
+				rect.graphics.drawRect(0,0,inputBitmap.width, inputBitmap.height);
+				rect.graphics.endFill();
+			}
 			
 			container.addChild(layer);
-		
 			layer.blendMode = shader.layerBlendMode;
 			
 			return layer;
@@ -81,8 +88,21 @@ package org.papervision3d.core.render.shader
 		
 		public function set inputBitmap(bitmapData:BitmapData):void
 		{
-			_inputBitmapData = bitmapData;
-			outputBitmap = _inputBitmapData.clone();
+			if(bitmapData != null){
+				if(_inputBitmapData != bitmapData){
+					_inputBitmapData = bitmapData;
+					if(outputBitmap){
+						if(_inputBitmapData.width != outputBitmap.width || _inputBitmapData.height != outputBitmap.height){
+							resizedInput = true;
+							outputBitmap.dispose();
+							outputBitmap = _inputBitmapData.clone();
+						}
+					}else{
+						resizedInput = true;
+						outputBitmap = _inputBitmapData.clone();
+					}
+				}
+			}
 		}
 		
 		public function get inputBitmap():BitmapData

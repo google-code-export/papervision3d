@@ -292,7 +292,7 @@ package org.papervision3d.materials
 			this.fillAlpha = 0;
 			this.fillColor = 0;
 			this.loaded = true;
-
+			
 			// Dispatch event
 			var fileEvent:FileLoadEvent = new FileLoadEvent( FileLoadEvent.LOAD_COMPLETE, this.url );
 			this.dispatchEvent( fileEvent );
