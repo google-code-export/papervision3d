@@ -122,5 +122,11 @@ package org.papervision3d.core.geom.renderables
 			);
 		}
 		
+		public static function subTo(v0:Vertex3DInstance, v1:Vertex3DInstance, o:Vertex3DInstance):void
+		{
+			o.x = v1.x - v0.x;
+			o.y = v1.y - v0.y;
+		}
+		
 	}
 }
