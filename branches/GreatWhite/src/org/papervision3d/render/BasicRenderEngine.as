@@ -33,6 +33,9 @@ package org.papervision3d.render
 		public var sorter:IRenderSorter;
 		public var filter:IRenderFilter;
 		
+		protected var renderDoneEvent:RendererEvent;
+		protected var projectionDoneEvent:RendererEvent;
+		
 		protected var renderStatistics:RenderStatistics;
 		protected var renderList:Array;
 		protected var renderSessionData:RenderSessionData;
@@ -46,6 +49,8 @@ package org.papervision3d.render
 		
 		public function destroy():void
 		{
+			renderDoneEvent = null;
+			projectionDoneEvent = null;
 			projectionPipeline = null;
 			sorter = null;
 			filter = null;
@@ -72,6 +77,9 @@ package org.papervision3d.render
 			
 			renderSessionData = new RenderSessionData();
 			renderSessionData.renderer = this;
+			
+			projectionDoneEvent = new RendererEvent(RendererEvent.PROJECTION_DONE, renderSessionData);
+			renderDoneEvent = new RendererEvent(RendererEvent.RENDER_DONE, renderSessionData);
 		}
 		
 		override public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, updateAnimation:Boolean = true):RenderStatistics
@@ -93,11 +101,12 @@ package org.papervision3d.render
 			
 			//Project the Scene (this will fill up the renderlist).
 			projectionPipeline.project(renderSessionData);
+			dispatchEvent(projectionDoneEvent);
 			
 			//Render the Scene.
 			doRender(renderSessionData);
+			dispatchEvent(renderDoneEvent);
 			
-			dispatchEvent(new RendererEvent(RendererEvent.RENDER_DONE, renderSessionData));
 			return renderSessionData.renderStatistics;
 		}
 	
