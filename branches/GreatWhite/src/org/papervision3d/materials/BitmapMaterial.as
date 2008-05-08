@@ -13,6 +13,7 @@
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
+	import org.papervision3d.materials.shaders.ShadedMaterial;
 
 	/**
 	* The BitmapMaterial class creates a texture from a BitmapData object.
@@ -22,6 +23,7 @@
 	*/
 	public class BitmapMaterial extends TriangleMaterial implements ITriangleDrawer
 	{
+		
 		
 		private var _precise:Boolean;
 		public var focus:Number = 200;

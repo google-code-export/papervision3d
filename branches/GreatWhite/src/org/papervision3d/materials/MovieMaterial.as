@@ -128,13 +128,16 @@ package org.papervision3d.materials
 			// Cleanup previous bitmap if needed
 			if( bitmap )
 				bitmap.dispose();
-
+			
+		
+			
 			// Create new bitmap
 			if(asset.width == 0 || asset.height == 0){
 				bitmap = new BitmapData(256,256,movieTransparent, fillColor);
 			}else{
 				bitmap = new BitmapData( asset.width, asset.height, this.movieTransparent );
 			}
+			
 		}
 
 		// ______________________________________________________________________ UPDATE

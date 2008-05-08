@@ -45,7 +45,7 @@ package org.papervision3d.materials.shaders
 		 private static var bmp:BitmapData;
 		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
-			var sod:ShaderObjectData = shaderObjectData[face3D.instance];
+			var sod:ShaderObjectData = ShaderObjectData(shaderObjectData[face3D.instance]);
 			if(shaderCompositeMode == ShaderCompositeModes.PER_LAYER){
 				//Render shader to layer.
 				material.drawTriangle(face3D, graphics, renderSessionData, sod.shaderRenderer.outputBitmap);
@@ -62,7 +62,12 @@ package org.papervision3d.materials.shaders
 		{
 			var sod:ShaderObjectData;
 			for each(sod in shaderObjectData){
+				sod.shaderRenderer.inputBitmap = material.bitmap;
 				if(shaderCompositeMode == ShaderCompositeModes.PER_LAYER){
+					if(sod.shaderRenderer.resizedInput){
+						sod.shaderRenderer.resizedInput = false;
+						sod.uvMatrices = new Dictionary();
+					}
 					sod.shaderRenderer.clear();	
 				}
 				if(shader is ILightShader){
@@ -116,7 +121,7 @@ package org.papervision3d.materials.shaders
 		{
 			if(shaderCompositeMode == ShaderCompositeModes.PER_LAYER){
 				if(shaderObjectData[object]){
-					var sod:ShaderObjectData = shaderObjectData[object];
+					var sod:ShaderObjectData = ShaderObjectData(shaderObjectData[object]);
 					return sod.shaderRenderer.outputBitmap;
 				}else{
 					trace("object not registered with shaded material");
@@ -126,6 +131,8 @@ package org.papervision3d.materials.shaders
 			}
 			return null;
 		}
+		
+		
 		
 		override public function destroy():void
 		{
