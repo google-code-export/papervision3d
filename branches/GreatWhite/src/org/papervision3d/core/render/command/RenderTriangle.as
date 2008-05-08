@@ -21,6 +21,11 @@
 	
 	public class RenderTriangle extends RenderableListItem implements IRenderListItem
 	{
+		protected static var resBA:Vertex3DInstance = new Vertex3DInstance();
+		protected static var resPA:Vertex3DInstance = new Vertex3DInstance();
+		protected static var resRA:Vertex3DInstance = new Vertex3DInstance();
+		protected static var vPoint:Vertex3DInstance = new Vertex3DInstance();
+		
 		private var position:Number3D = new Number3D();
 		
 		public var triangle:Triangle3D;
@@ -46,7 +51,9 @@
 			if( !renderMat ) renderMat = triangle.instance.material;
 			
 			if(renderMat.interactive){
-				var vPoint:Vertex3DInstance = new Vertex3DInstance(point.x, point.y);
+				var vPoint:Vertex3DInstance = RenderTriangle.vPoint;
+				vPoint.x = point.x;
+				vPoint.y = point.y;
 				var vx0:Vertex3DInstance = triangle.v0.vertex3DInstance;
 				var vx1:Vertex3DInstance = triangle.v1.vertex3DInstance;
 				var vx2:Vertex3DInstance = triangle.v2.vertex3DInstance;
@@ -63,8 +70,10 @@
 		
 		public function sameSide(point:Vertex3DInstance, ref:Vertex3DInstance, a:Vertex3DInstance, b:Vertex3DInstance):Boolean
 		{
-			var n:Number =  Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(point,a))*Vertex3DInstance.cross(Vertex3DInstance.sub(b,a), Vertex3DInstance.sub(ref,a));
-			return n>0;
+			Vertex3DInstance.subTo(b,a,resBA);
+			Vertex3DInstance.subTo(point,a,resPA);
+			Vertex3DInstance.subTo(ref, a, resRA);
+			return Vertex3DInstance.cross(resBA, resPA)*Vertex3DInstance.cross(resBA, resRA) > 0;
 		}
 		
 		private function deepHitTest(face:Triangle3D, vPoint:Vertex3DInstance, rhd:RenderHitData):RenderHitData
