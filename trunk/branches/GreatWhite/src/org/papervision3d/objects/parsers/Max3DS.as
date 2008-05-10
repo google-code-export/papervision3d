@@ -203,6 +203,7 @@ package org.papervision3d.objects.parsers
 				{
 					case MATERIAL:
 						parseMaterial(subChunk);
+						//skipChunk(subChunk);
 						break;
 					case MESH:
 						var meshData:MeshData = new MeshData();
@@ -245,26 +246,38 @@ package org.papervision3d.objects.parsers
 				var colorChunk:Chunk3ds;
 				
 				readChunk(subChunk);
+				var p:uint = 0;
+				
 				switch(subChunk.id)
 				{
 					case MAT_NAME:
 						mat.name = readASCIIZString(_data);
+					//	trace(mat.name);
 						subChunk.bytesRead = subChunk.length;
 						break;
 					case MAT_AMBIENT:
+						p = _data.position;
 						colorChunk = new Chunk3ds();
 						readChunk(colorChunk);
 						mat.ambient = readColorRGB(colorChunk);
+						_data.position = p;
+					//	trace("ambient:"+mat.ambient.toString(16));
 						break;
 					case MAT_DIFFUSE:
+						p = _data.position;
 						colorChunk = new Chunk3ds();
 						readChunk(colorChunk);
 						mat.diffuse = readColorRGB(colorChunk);
+						_data.position = p;
+						//trace("diffuse:"+mat.diffuse.toString(16));
 						break;
 					case MAT_SPECULAR:
+						p = _data.position;
 						colorChunk = new Chunk3ds();
 						readChunk(colorChunk);
 						mat.specular = readColorRGB(colorChunk);
+						_data.position = p;
+						//trace("specular:"+mat.specular.toString(16));
 						break;
 					case MAT_TEXMAP:
 						mat.textures.push(parseMaterial(subChunk));
