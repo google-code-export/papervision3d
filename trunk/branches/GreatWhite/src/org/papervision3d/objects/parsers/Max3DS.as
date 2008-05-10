@@ -37,6 +37,7 @@ package org.papervision3d.objects.parsers
 		public function Max3DS(name:String=null)
 		{
 			super(name);
+			_textureExtensionReplacements = new Object();
 		}
 		
 		/**
@@ -70,6 +71,17 @@ package org.papervision3d.objects.parsers
 			}
 			else
 				throw new Error("Need String or ByteArray!");
+		}
+		
+		/**
+		 * Replaces a texture extension with an alternative extension.
+		 * 
+		 * @param	originalExtension	For example "bmp", "gif", etc
+		 * @param	preferredExtension	For example "png"
+		 */ 
+		public function replaceTextureExtension(originalExtension:String, preferredExtension:String="png"):void
+		{
+			_textureExtensionReplacements[originalExtension] = preferredExtension;
 		}
 		
 		/**
@@ -296,7 +308,17 @@ package org.papervision3d.objects.parsers
 			{
 				if(mat.textures.length)
 				{
-					this.materials.addMaterial(new BitmapFileMaterial(_textureDir+mat.textures[0]), mat.name);
+					var bitmap:String = mat.textures[0].toLowerCase();
+					
+					for(var ext:String in _textureExtensionReplacements)
+					{
+						if(bitmap.indexOf("."+ext) == -1)
+							continue;
+						var pattern:RegExp = new RegExp("\."+ext, "i");
+						bitmap = bitmap.replace(pattern, "."+_textureExtensionReplacements[ext]);
+					}
+					
+					this.materials.addMaterial(new BitmapFileMaterial(_textureDir+bitmap), mat.name);
 				}
 				else if(mat.diffuse)
 				{
@@ -570,6 +592,7 @@ package org.papervision3d.objects.parsers
 		private var _data		:ByteArray;
 		
 		private var _textureDir	:String = "./image/";
+		private var _textureExtensionReplacements:Object;
 	}
 }
 
