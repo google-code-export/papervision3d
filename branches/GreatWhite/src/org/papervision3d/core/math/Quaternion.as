@@ -294,6 +294,19 @@ package org.papervision3d.core.math
 				w *= m;
 			}
 		}
+		
+		/**
+		 * Dot.
+		 * 
+		 * @param	other
+		 */ 
+		public function dot(other:Quaternion):Number
+		{
+	        return (  w * other.w
+	                + x * other.x
+	                + y * other.y
+	                + z * other.z ); 
+		}
 
 		/**
 		 * SLERP (Spherical Linear intERPolation). @author Trevor Burton
@@ -306,30 +319,50 @@ package org.papervision3d.core.math
 		 */	
 		public static function slerp( qa:Quaternion, qb:Quaternion, alpha:Number ):Quaternion
 		{
-			var s0:Number;
-			var s1:Number;
-		
-			var cosine:Number = qa.x * qb.x + qa.y * qb.y + qa.z * qb.z + qa.w * qb.w;		
-		
-			if ( cosine < 0.0 ) cosine = -cosine; 
-		
-			if ( (1.0 - cosine) > EPSILON ) 
-			{	
-				var omega:Number = Math.acos(cosine);
-				var sine:Number = Math.sin(omega);
-				s0 = Math.sin((1.0 - alpha) * omega) / sine;
-				s1 = Math.sin(alpha * omega) / sine;
-			} 
-			else 
-			{        
-		                s0 = 1.0 - alpha;
-		                s1 = alpha;
-			}
-			        
-			return new Quaternion(  s0 * qa.x + s1 * qb.x, 
-						s0 * qa.y + s1 * qb.y,
-						s0 * qa.z + s1 * qb.z,
-						s0 * qa.w + s1 * qb.w );
+			var angle:Number = qa.w * qb.w + qa.x * qb.x + qa.y * qb.y + qa.z * qb.z
+ 
+	         if (angle < 0.0)
+	         {
+	                 qa.x *= -1.0;
+	                 qa.y *= -1.0;
+	                 qa.z *= -1.0;
+	                 qa.w *= -1.0;
+	                 angle *= -1.0;
+	         }
+	 
+	         var scale:Number;
+	         var invscale:Number;
+	 
+	         if ((angle + 1.0) > EPSILON) // Take the shortest path
+	         {
+	                 if ((1.0 - angle) >= EPSILON)  // spherical interpolation
+	                 {
+	                         var theta:Number = Math.acos(angle);
+	                         var invsintheta:Number = 1.0 / Math.sin(theta);
+	                         scale = Math.sin(theta * (1.0-alpha)) * invsintheta;
+	                         invscale = Math.sin(theta * alpha) * invsintheta;
+	                 }
+	                 else // linear interploation
+	                 {
+	                         scale = 1.0 - alpha;
+	                         invscale = alpha;
+	                 }
+	         }
+	         else // long way to go...
+	         {
+				 qb.y = -qa.y;
+				 qb.x = qa.x;
+				 qb.w = -qa.w;
+				 qb.z = qa.z;
+
+                 scale = Math.sin(Math.PI * (0.5 - alpha));
+                 invscale = Math.sin(Math.PI * alpha);
+	         }
+	 
+			return new Quaternion(  scale * qa.x + invscale * qb.x, 
+									scale * qa.y + invscale * qb.y,
+									scale * qa.z + invscale * qb.z,
+									scale * qa.w + invscale * qb.w );
 		}
 		
 		/**
@@ -417,6 +450,14 @@ package org.papervision3d.core.math
 			return _matrix;
 		}
 		
+		public static function sub(a:Quaternion, b:Quaternion):Quaternion
+		{
+			return new Quaternion(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);	
+		}
 		
+		public static function add(a:Quaternion, b:Quaternion):Quaternion
+		{
+			return new Quaternion(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);	
+		}
 	}
 }
