@@ -13,7 +13,6 @@
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
-	import org.papervision3d.materials.shaders.ShadedMaterial;
 
 	/**
 	* The BitmapMaterial class creates a texture from a BitmapData object.
@@ -24,23 +23,26 @@
 	public class BitmapMaterial extends TriangleMaterial implements ITriangleDrawer
 	{
 		
+		protected static const DEFAULT_FOCUS:Number = 200;
+		protected static var hitRect:Rectangle = new Rectangle();
 		
-		private var _precise:Boolean;
-		public var focus:Number = 200;
-		public var minimumRenderSize:Number = 2;
-		public var precision:Number = 8;
+		protected var focus:Number = 200;
+		protected var _precise:Boolean;
+		protected var _precision:int = 8;
+		protected var _perPixelPrecision:int = 8;
+		public var minimumRenderSize:Number = 4;
 		
 		protected var _texture :Object;
 		
 		/**
 		 * Indicates if mip mapping is forced.
 		 */
-		static public var AUTO_MIP_MAPPING :Boolean = false;
+		public static var AUTO_MIP_MAPPING :Boolean = false;
 
 		/**
 		 * Levels of mip mapping to force.
 		 */
-		static public var MIP_MAP_DEPTH :Number = 8;
+		public static var MIP_MAP_DEPTH :Number = 8;
 
 		public var uvMatrices:Dictionary = new Dictionary();
 		
@@ -54,8 +56,7 @@
 		* @private
 		*/
 		protected static var _localMatrix:Matrix = new Matrix();
-		// ______________________________________________________________________ NEW
-
+		
 		/**
 		* The BitmapMaterial class creates a texture from a BitmapData object.
 		*
@@ -77,26 +78,32 @@
 		{
 			uvMatrices = new Dictionary();
 		}
-
+		
+		//Local storage. Avoid var's in high usage functions.
+		private var x0:Number;
+		private var y0:Number;
+		private var x1:Number;
+		private var y1:Number;
+		private var x2:Number;
+		private var y2:Number;
 		/**
 		 *  drawTriangle
 		 */
 		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
 			if(!_precise){
-				//Render the bitmap using linear texturing.
 				if( lineAlpha )
 					graphics.lineStyle( lineThickness, lineColor, lineAlpha );
 				if( bitmap )
 				{
 					_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
 					
-					var x0:Number = face3D.v0.vertex3DInstance.x,
-					y0:Number = face3D.v0.vertex3DInstance.y,
-					x1:Number = face3D.v1.vertex3DInstance.x,
-					y1:Number = face3D.v1.vertex3DInstance.y,
-					x2:Number = face3D.v2.vertex3DInstance.x,
-					y2:Number = face3D.v2.vertex3DInstance.y;
+					x0 = face3D.v0.vertex3DInstance.x;
+					y0 = face3D.v0.vertex3DInstance.y;
+					x1 = face3D.v1.vertex3DInstance.x;
+					y1 = face3D.v1.vertex3DInstance.y;
+					x2 = face3D.v2.vertex3DInstance.x;
+					y2 = face3D.v2.vertex3DInstance.y;
 	
 					_triMatrix.a = x1 - x0;
 					_triMatrix.b = y1 - y0;
@@ -147,9 +154,6 @@
 				
 				var w  :Number = bitmap.width * maxU;
 				var h  :Number = bitmap.height * maxV;
-				
-				
-				
 				var u0 :Number = w * face3D.uv0.u;
 				var v0 :Number = h * ( 1 - face3D.uv0.v );
 				var u1 :Number = w * face3D.uv1.u;
@@ -191,13 +195,14 @@
 			return mapping;
 		}
 		
-		
-		
-		private static var hitRect:Rectangle = new Rectangle();
-		
 		 public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
 		 ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number, index:Number, renderSessionData:RenderSessionData, bitmap:BitmapData):void
         {
+        	//Cull if a vertex behind near.
+            if ((az <= 0) && (bz <= 0) && (cz <= 0))
+                return;
+        	
+        	//Cull if outside of viewport.
         	if(renderSessionData.viewPort.cullingRectangle){
 	    		hitRect.x = Math.min(cx, Math.min(bx, ax));
 				hitRect.width = Math.max(cx, Math.max(bx, ax)) + Math.abs(hitRect.x);
@@ -207,11 +212,8 @@
 					return;
 				}
         	}
-
-            if ((az <= 0) && (bz <= 0) && (cz <= 0))
-                return;
 			
-           
+			//cull if max iterations is reached, focus is invalid or if tesselation is to small.
             if (index >= 100 || (focus == Infinity) || (Math.max(Math.max(ax, bx), cx) - Math.min(Math.min(ax, bx), cx) < minimumRenderSize) || (Math.max(Math.max(ay, by), cy) - Math.min(Math.min(ay, by), cy) < minimumRenderSize))
             {
                 renderTriangleBitmap(graphics, ta, tb, tc, td, tx, ty, ax, ay, bx, by, cx, cy, smooth, tiled, bitmap);
@@ -222,8 +224,6 @@
             var faz:Number = focus + az;
             var fbz:Number = focus + bz;
             var fcz:Number = focus + cz;
-			
-			
 			
 			var mabz:Number = 2 / (faz + fbz);
             var mbcz:Number = 2 / (fbz + fcz);
@@ -247,14 +247,14 @@
             var dsbc:Number = (dbcx*dbcx + dbcy*dbcy);
             var dsca:Number = (dcax*dcax + dcay*dcay);
 
-            if ((dsab <= precision) && (dsca <= precision) && (dsbc <= precision))
+            if ((dsab <= _precision) && (dsca <= _precision) && (dsbc <= _precision))
             {
                renderTriangleBitmap(graphics, ta, tb, tc, td, tx, ty, ax, ay, bx, by, cx, cy, smooth, tiled,bitmap);
                renderSessionData.renderStatistics.triangles++;
                return;
             }
 
-            if ((dsab > precision) && (dsca > precision) && (dsbc > precision))
+            if ((dsab > _precision) && (dsca > _precision) && (dsbc > _precision))
             {
                 renderRec(graphics, ta*2, tb*2, tc*2, td*2, tx*2, ty*2,
                     ax, ay, az, mabx * 0.5, maby * 0.5, (az+bz) * 0.5, mcax * 0.5, mcay * 0.5, (cz+az) * 0.5, index+1, renderSessionData, bitmap);
@@ -293,8 +293,6 @@
             
                 return;
             }
-
-
             renderRec(graphics, ta-tb, tb*2, tc-td, td*2, tx-ty, ty*2,
                 ax, ay, az, bx, by, bz, mbcx * 0.5, mbcy * 0.5, (bz+cz) * 0.5, index+1, renderSessionData, bitmap);
 
@@ -307,15 +305,18 @@
 		*/
 		protected var tempTriangleMatrix:Matrix = new Matrix();
 		
+		private var a2:Number;
+		private var b2:Number;
+		private var c2:Number;
+		private var d2:Number;
 		public function renderTriangleBitmap(graphics:Graphics,a:Number, b:Number, c:Number, d:Number, tx:Number, ty:Number, 
             v0x:Number, v0y:Number, v1x:Number, v1y:Number, v2x:Number, v2y:Number, smooth:Boolean, repeat:Boolean, bitmapData:BitmapData):void
         {
-            var a2:Number = v1x - v0x;
-            var b2:Number = v1y - v0y;
-            var c2:Number = v2x - v0x;
-            var d2:Number = v2y - v0y;
-
-          	
+            a2 = v1x - v0x;
+            b2 = v1y - v0y;
+            c2 = v2x - v0x;
+            d2 = v2y - v0y;
+                      	
             tempTriangleMatrix.a = a*a2 + b*c2;
             tempTriangleMatrix.b = a*b2 + b*d2;
             tempTriangleMatrix.c = c*a2 + d*c2;
@@ -324,14 +325,12 @@
             tempTriangleMatrix.ty = tx*b2 + ty*d2 + v0y;       
                     
 			graphics.beginBitmapFill(bitmapData, tempTriangleMatrix, repeat, smooth);
-
             graphics.moveTo(v0x, v0y);
             graphics.lineTo(v1x, v1y);
             graphics.lineTo(v2x, v2y);
             graphics.endFill();
         }
-		
-		// ______________________________________________________________________ TO STRING
+	
 
 		/**
 		* Returns a string value representing the material properties in the specified BitmapMaterial object.
@@ -506,7 +505,10 @@
 
 			return cloned;
 		}
-
+		
+		/**
+		 * Sets the material's precise rendering mode. If set to true, material will adaptively render triangles to conquer texture distortion. 
+		 */
 		public function set precise(boolean:Boolean):void
 		{
 			_precise = boolean;
@@ -515,6 +517,35 @@
 		public function get precise():Boolean
 		{
 			return _precise;
+		}
+		
+		/**
+		 * If the material is rendering with @see precise to true, this sets tesselation per pixel ratio.
+		 */
+		public function set precision(precision:int):void
+		{
+			_precision = precision;
+		}
+		
+		public function get precision():int
+		{
+			return _precision;
+		}
+		
+		/**
+		 * If the material is rendering with @see precise to true, this sets tesselation per pixel ratio.
+		 * 
+		 * corrected to set per pixel precision exactly.
+		 */
+		public function set pixelPrecision(precision:int):void
+		{
+			_precision = precision*precision*1.4;
+			_perPixelPrecision = precision;
+		}
+		
+		public function get pixelPrecision():int
+		{
+			return _perPixelPrecision;
 		}
 		
 		/**
