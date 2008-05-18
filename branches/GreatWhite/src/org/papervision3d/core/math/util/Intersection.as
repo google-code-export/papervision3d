@@ -10,19 +10,30 @@ package org.papervision3d.core.math.util
 		public static const INTERSECTION:int=1;
 		public static const PARALLEL:int = 2;
 		
-		public var point:Number3D = new Number3D();
-		public var vert:Vertex3D = new Vertex3D();
+		public var point:Number3D;
+		public var vert:Vertex3D;
 		public var alpha:Number = 0;
 		public var status:int;
 		
-		public function Intersection()
+		public function Intersection(point:Number3D = null, vert:Vertex3D = null)
 		{
-			
+			if(point != null){
+				this.point = point;
+			}else{
+				this.point = new Number3D();
+			}
+			if(vert != null){
+				this.vert = vert;
+			}else{
+				this.vert = new Vertex3D();
+			}
 		}
 
-		public static function linePlane(pA:Vertex3D, pB:Vertex3D, plane:Plane3D, e:Number=0.001):Intersection
+		public static function linePlane(pA:Vertex3D, pB:Vertex3D, plane:Plane3D, e:Number=0.001, dst:Intersection = null):Intersection
 		{
-			var intersection:Intersection = new Intersection();
+			if(dst == null){
+				dst = new Intersection();
+			}
 			var a:Number = plane.normal.x;
 			var b:Number = plane.normal.y;
 			var c:Number = plane.normal.z;
@@ -39,10 +50,10 @@ package org.papervision3d.core.math.util
 			var u:Number = r0 / r1;
 			
 			if( Math.abs(u) < e ) {
-				intersection.status = Intersection.PARALLEL;
+				dst.status = Intersection.PARALLEL;
 			} else if( (u > 0 && u < 1 ) ) {
-				intersection.status = Intersection.INTERSECTION;
-				var pt:Number3D = intersection.point;
+				dst.status = Intersection.INTERSECTION;
+				var pt:Number3D = dst.point;
 				pt.x = x2 - x1;
 				pt.y = y2 - y1;
 				pt.z = z2 - z1;
@@ -53,16 +64,16 @@ package org.papervision3d.core.math.util
 				pt.y += y1;
 				pt.z += z1;
 				
-				intersection.alpha = u;
+				dst.alpha = u;
 				
-				intersection.vert.x = pt.x;
-				intersection.vert.y = pt.y;
-				intersection.vert.z = pt.z;
+				dst.vert.x = pt.x;
+				dst.vert.y = pt.y;
+				dst.vert.z = pt.z;
 			}else{
-				intersection.status = Intersection.NONE;
+				dst.status = Intersection.NONE;
 			}
 			
-			return intersection;
+			return dst;
 		}
 
 	}

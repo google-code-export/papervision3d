@@ -64,6 +64,7 @@ package org.papervision3d.core.render.project
 			}else{
 				for each(p in objects){
 					//Test if the object is set to visible
+					
 					if( p.visible){
 						//If we filter objects per viewport..then....
 						if(renderSessionData.viewPort.viewportObjectFilter){

@@ -18,24 +18,22 @@ package org.papervision3d.core.math.util
 		{
 			var points:Array = [tri.v0, tri.v1, tri.v2];
 			var uvs:Array = [tri.uv0, tri.uv1, tri.uv2];
-			
 			var out:Array = new Array();
 			var outuv:Array = new Array();
-			
 			var isect:Intersection;
-			
 			var s:Vertex3D = points[points.length-1];
 			var p:Vertex3D;
 			var suv:NumberUV = uvs[points.length-1];
 			var puv:NumberUV;
-			
+			var cp:uint;
+			var cs:uint;
 			for(var i:int = 0; i < points.length; i++)
 			{
 				p = points[i];	
 				puv = uvs[i];
 					
-				var cp:uint = ClassificationUtil.classifyPoint(p, plane, e);
-				var cs:uint = ClassificationUtil.classifyPoint(s, plane, e);
+				cp = ClassificationUtil.classifyPoint(p, plane, e);
+				cs = ClassificationUtil.classifyPoint(s, plane, e);
 				
 				if(cp == ClassificationUtil.FRONT)
 				{
@@ -96,110 +94,23 @@ package org.papervision3d.core.math.util
 			
 			return null;
 		}
-		
-		/*
-		public static function clipTriangleWithPlane(triangle:Triangle3D, plane:Plane3D, e:Number=0.01):Array
-		{
-			var side:uint = ClassificationUtil.classifyTriangle(triangle, plane);
-			if(side != ClassificationUtil.STRADDLE){
-				return null;
-			}
-			
-			var points:Array = [triangle.v0, triangle.v1, triangle.v2];
-			var uvs:Array = [triangle.uv0, triangle.uv1, triangle.uv2];
-			var triA:Array = new Array();
-			var triB:Array = new Array();
-			var uvsA:Array = new Array();
-			var uvsB:Array = new Array();
-			
-			for( var i:int = 0; i < points.length; i++ )
-			{
-				var j:int = (i+1) % points.length;
-				
-				var pA:Vertex3D = points[i];
-				var pB:Vertex3D = points[j];
-				
-				var uvA:NumberUV = uvs[i];
-				var uvB:NumberUV = uvs[j];
-				
-				var sideA:Number = plane.distance(pA);
-				var sideB:Number = plane.distance(pB);
-				var isect:Intersection;
-				var newUV:NumberUV;
-				
-				if(sideB < -e) 
-				{
-					if(sideA > e) 
-					{
-						isect = Intersection.linePlane( pA, pB, plane );
-						if( isect.status != Intersection.INTERSECTION )
-							return null;
 						
-						triangle.instance.geometry.vertices.push( isect.vert );
-						triA.push( isect.vert );
-						triB.push( isect.vert );
-						newUV = InterpolationUtil.interpolateUV(uvA, uvB, isect.alpha);
-						
-						uvsA.push(newUV);
-						uvsB.push(newUV);
-					}
-					triA.push( pB );
-					uvsA.push( uvB );
-				}
-				else if(sideB < -e) 
-				{
-					if(sideA > e) 
-					{
-						isect = Intersection.linePlane( pA, pB, plane );
-						if( isect.status != Intersection.INTERSECTION )
-							
-							return null;
-						
-						triangle.instance.geometry.vertices.push( isect.vert );
-						
-						triA.push( isect.vert );
-						triB.push( isect.vert );
-						
-						newUV = InterpolationUtil.interpolateUV(uvA, uvB, isect.alpha);
-						
-						uvsA.push(newUV);
-						uvsB.push(newUV);
-					}
-					triB.push( pB );
-					uvsB.push( uvB );
-				}
-				else
-				{
-					triA.push( pB );
-					triB.push( pB );
-					uvsA.push( uvB );
-					uvsB.push( uvB );
-				}
-			}
-			
-			
-			var tris:Array = new Array();
-			if(triA.length == 3){
-				tris.push( new Triangle3D(triangle.instance, [triA[0], triA[1], triA[2]], triangle.material, [uvsA[0], uvsA[1], uvsA[2]]) );
-			}
-			if(triB.length == 3){
-				tris.push( new Triangle3D(triangle.instance, [triB[0], triB[1], triB[2]], triangle.material, [uvsB[0], uvsB[1], uvsB[2]]) );
-			}
-			if( triA.length > 3 )
-				tris.push( new Triangle3D(triangle.instance, [triA[0], triA[2], triA[3]], triangle.material, [uvsA[0], uvsA[2], uvsA[3]]) );
-			else if( triB.length > 3 )
-				tris.push( new Triangle3D(triangle.instance, [triB[0], triB[2], triB[3]], triangle.material, [uvsB[0], uvsB[2], uvsB[3]]) );
-			return tris;
-		}
-		*/
-		
 		public static function splitTriangleWithPlane(triangle:Triangle3D, plane:Plane3D, e:Number=0.01 ):Array
 		{
 			var side:uint = ClassificationUtil.classifyTriangle(triangle, plane);
 			if(side != ClassificationUtil.STRADDLE){
 				return null;
 			}
-
+			
+			var pA:Vertex3D;
+			var pB:Vertex3D;
+			var uvA:NumberUV;
+			var uvB:NumberUV;
+			var sideA:Number;
+			var sideB:Number;
+			var isect:Intersection;
+			var newUV:NumberUV;
+			
 			var points:Array = [triangle.v0, triangle.v1, triangle.v2];
 			var uvs:Array = [triangle.uv0, triangle.uv1, triangle.uv2];
 			var triA:Array = new Array();
@@ -207,30 +118,23 @@ package org.papervision3d.core.math.util
 			var uvsA:Array = new Array();
 			var uvsB:Array = new Array();
 			
-			for( var i:int = 0; i < points.length; i++ )
-			{
+			for( var i:int = 0; i < points.length; i++ ){
 				var j:int = (i+1) % points.length;
 				
-				var pA:Vertex3D = points[i];
-				var pB:Vertex3D = points[j];
+				pA = points[i];
+				pB = points[j];
 				
-				var uvA:NumberUV = uvs[i];
-				var uvB:NumberUV = uvs[j];
+				uvA = uvs[i];
+				uvB = uvs[j];
 				
-				var sideA:Number = plane.distance(pA);
-				var sideB:Number = plane.distance(pB);
-				var isect:Intersection;
-				var newUV:NumberUV;
-				
-				if(sideB > e) 
-				{
-					if(sideA < -e) 
-					{
+				sideA = plane.distance(pA);
+				sideB = plane.distance(pB);
+				if(sideB > e){
+					if(sideA < -e){
 						isect = Intersection.linePlane( pA, pB, plane );
-						if( isect.status != Intersection.INTERSECTION )
-							
+						if( isect.status != Intersection.INTERSECTION ){
 							return null;
-						
+						}
 						triangle.instance.geometry.vertices.push( isect.vert );
 						triA.push( isect.vert );
 						triB.push( isect.vert );
@@ -244,28 +148,21 @@ package org.papervision3d.core.math.util
 				}
 				else if(sideB < -e) 
 				{
-					if(sideA > e) 
-					{
+					if(sideA > e){
 						isect = Intersection.linePlane( pA, pB, plane );
-						if( isect.status != Intersection.INTERSECTION )
-							
+						if( isect.status != Intersection.INTERSECTION ){
 							return null;
-						
+						}
 						triangle.instance.geometry.vertices.push( isect.vert );
-						
 						triA.push( isect.vert );
 						triB.push( isect.vert );
-						
 						newUV = InterpolationUtil.interpolateUV(uvA, uvB, isect.alpha);
-						
 						uvsA.push(newUV);
 						uvsB.push(newUV);
 					}
 					triB.push( pB );
 					uvsB.push( uvB );
-				}
-				else
-				{
+				}else{
 					triA.push( pB );
 					triB.push( pB );
 					uvsA.push( uvB );

@@ -7,12 +7,12 @@ package org.papervision3d.core.culling {
 	public class DefaultTriangleCuller implements ITriangleCuller
 	{
 		
-		private static var x0:Number;
-		private static var y0:Number;
-		private static var x1:Number;
-		private static var y1:Number;
-		private static var x2:Number;
-		private static var y2:Number;
+		protected static var x0:Number;
+		protected static var y0:Number;
+		protected static var x1:Number;
+		protected static var y1:Number;
+		protected static var x2:Number;
+		protected static var y2:Number;
 		
 		public function DefaultTriangleCuller()
 		{
