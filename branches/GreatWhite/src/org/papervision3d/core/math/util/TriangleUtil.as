@@ -94,6 +94,24 @@ package org.papervision3d.core.math.util
 			
 			return null;
 		}
+		
+		public static function clipSplitTriangleWithPlane(triangle:Triangle3D, plane:Plane3D, e:Number=0.01):Array
+		{
+			var outArr:Array = new Array();
+			var a1:Array = clipTriangleWithPlane(triangle, plane, e);
+			var a2:Array = clipTriangleWithPlane(triangle, plane.getTempFlip(), e);
+			if(a1 == null && a2 ==null){
+				return null;
+			}else{
+				if(a1 != null && a1.length){
+					outArr = outArr.concat(a1);
+				}
+				if(a2 != null && a2.length){
+					outArr = outArr.concat(a2);
+				}
+			}
+			return outArr;
+		}
 						
 		public static function splitTriangleWithPlane(triangle:Triangle3D, plane:Plane3D, e:Number=0.01 ):Array
 		{
@@ -101,7 +119,6 @@ package org.papervision3d.core.math.util
 			if(side != ClassificationUtil.STRADDLE){
 				return null;
 			}
-			
 			var pA:Vertex3D;
 			var pB:Vertex3D;
 			var uvA:NumberUV;
@@ -131,15 +148,15 @@ package org.papervision3d.core.math.util
 				sideB = plane.distance(pB);
 				if(sideB > e){
 					if(sideA < -e){
-						isect = Intersection.linePlane( pA, pB, plane );
+						isect = Intersection.linePlane( pA, pB, plane,e);
 						if( isect.status != Intersection.INTERSECTION ){
-							return null;
+							plane.d += 1;
+							return splitTriangleWithPlane(triangle, plane, e);
 						}
 						triangle.instance.geometry.vertices.push( isect.vert );
 						triA.push( isect.vert );
 						triB.push( isect.vert );
 						newUV = InterpolationUtil.interpolateUV(uvA, uvB, isect.alpha);
-						
 						uvsA.push(newUV);
 						uvsB.push(newUV);
 					}
@@ -149,9 +166,10 @@ package org.papervision3d.core.math.util
 				else if(sideB < -e) 
 				{
 					if(sideA > e){
-						isect = Intersection.linePlane( pA, pB, plane );
+						isect = Intersection.linePlane( pA, pB, plane,e);
 						if( isect.status != Intersection.INTERSECTION ){
-							return null;
+							plane.d += 1;
+							return splitTriangleWithPlane(triangle, plane, e);
 						}
 						triangle.instance.geometry.vertices.push( isect.vert );
 						triA.push( isect.vert );
@@ -169,8 +187,6 @@ package org.papervision3d.core.math.util
 					uvsB.push( uvB );
 				}
 			}
-			
-			
 			var tris:Array = new Array();
 			tris.push( new Triangle3D(triangle.instance, [triA[0], triA[1], triA[2]], triangle.material, [uvsA[0], uvsA[1], uvsA[2]]) );
 			tris.push( new Triangle3D(triangle.instance, [triB[0], triB[1], triB[2]], triangle.material, [uvsB[0], uvsB[1], uvsB[2]]) );

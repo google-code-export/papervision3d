@@ -28,11 +28,12 @@ package org.papervision3d.core.math.util
 			}
 		}
 		
+		protected static var point:Vertex3D;
 		public static function classifyPoints( points:Array, plane:Plane3D, e:Number = 0.01 ):uint
 		{
 			var numpos:uint = 0;
 			var numneg:uint = 0;
-			for each(var point:Vertex3D in points )
+			for each(point in points )
 			{
 				var side:uint = classifyPoint(point, plane, e);
 				if( side == FRONT ){

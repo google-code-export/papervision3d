@@ -60,19 +60,24 @@ package org.papervision3d.core.math
 			return flipPlane.isCoplanar( plane );
 		}
 		
-		/**
-		 * From AS3D by Joa Ebert & Andre Michelle
-		 */
 		public function getFlip(): Plane3D
 		{
 			var plane: Plane3D = Plane3D.fromThreePoints(new Number3D(), new Number3D(), new Number3D());
-			
 			plane.normal.z = -normal.z;
 			plane.normal.y = -normal.y;
 			plane.normal.x = -normal.x;
 			plane.d =  d;
 			
 			return plane;
+		}
+		
+		public function getTempFlip():Plane3D
+		{
+			flipPlane.normal.z = -normal.z;
+			flipPlane.normal.y = -normal.y;
+			flipPlane.normal.x = -normal.x;
+			flipPlane.d = d;
+			return flipPlane;
 		}
 		
 		public function getIntersectionLine( v0: Vertex3D, v1: Vertex3D ): Vertex3D
