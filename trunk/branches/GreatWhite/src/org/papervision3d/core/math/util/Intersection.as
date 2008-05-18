@@ -29,7 +29,7 @@ package org.papervision3d.core.math.util
 			}
 		}
 
-		public static function linePlane(pA:Vertex3D, pB:Vertex3D, plane:Plane3D, e:Number=0.001, dst:Intersection = null):Intersection
+		public static function linePlane(pA:Vertex3D, pB:Vertex3D, plane:Plane3D, e:Number=0.01, dst:Intersection = null):Intersection
 		{
 			if(dst == null){
 				dst = new Intersection();
