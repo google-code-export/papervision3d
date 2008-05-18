@@ -379,7 +379,6 @@ package org.papervision3d.objects.parsers
 					uvA = new NumberUV( tex[ uv[0] ].S, tex[ uv[0] ].T );
 					uvB = new NumberUV( tex[ uv[1] ].S, tex[ uv[1] ].T );
 					uvC = new NumberUV( tex[ uv[2] ].S, tex[ uv[2] ].T );
-	
 					uvList = [ uvA, uvB, uvC ];
 				}
 				else uvList = null;

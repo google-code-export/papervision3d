@@ -18,8 +18,8 @@ package org.papervision3d.core.math.util
 		
 		public static function classifyPoint( point:Vertex3D, plane:Plane3D, e:Number = 0.01 ):uint
 		{
-			var distance:Number = plane.distance( point );
-			if(distance < -e){ 
+			var distance:Number = plane.vertDistance( point );
+			if(distance < -e){
 				return BACK;
 			}else if(distance > e){
 				return FRONT;
@@ -32,7 +32,7 @@ package org.papervision3d.core.math.util
 		{
 			var numpos:uint = 0;
 			var numneg:uint = 0;
-			for each( var point:Vertex3D in points )
+			for each(var point:Vertex3D in points )
 			{
 				var side:uint = classifyPoint(point, plane, e);
 				if( side == FRONT ){
@@ -54,6 +54,9 @@ package org.papervision3d.core.math.util
 		
 		public static function classifyTriangle(triangle:Triangle3D, plane:Plane3D, e:Number=0.01 ):uint
 		{			
+			if(!triangle){
+				return null;
+			}
 			return classifyPoints([triangle.v0, triangle.v1, triangle.v2], plane, e);
 		}
 		

@@ -178,7 +178,7 @@
 				
 				var m :Matrix = new Matrix( at, bt, ct, dt, u0, v0 );
 				m.invert();
-				var mapping:Matrix = uvMatrices[face3D] || (uvMatrices[face3D] = m.clone() );
+				var mapping:Matrix = uvMatrices[face3D] ? uvMatrices[face3D] : uvMatrices[face3D] = m.clone();
 				mapping.a  = m.a;
 				mapping.b  = m.b;
 				mapping.c  = m.c;
@@ -191,10 +191,22 @@
 			return mapping;
 		}
 		
+		
+		
+		private static var hitRect:Rectangle = new Rectangle();
+		
 		 public function renderRec(graphics:Graphics, ta:Number, tb:Number, tc:Number, td:Number, tx:Number, ty:Number, 
 		 ax:Number, ay:Number, az:Number, bx:Number, by:Number, bz:Number, cx:Number, cy:Number, cz:Number, index:Number, renderSessionData:RenderSessionData, bitmap:BitmapData):void
         {
-    	
+        	
+    		hitRect.x = Math.min(cx, Math.min(bx, ax));
+			hitRect.width = Math.max(cx, Math.max(bx, ax)) + Math.abs(hitRect.x);
+			hitRect.y = Math.min(cy, Math.min(by, ay));
+			hitRect.height = Math.max(cy, Math.max(by, ay)) + Math.abs(hitRect.y);
+			if(!renderSessionData.viewPort.cullingRectangle.intersects(hitRect)){
+				return;
+			}	
+
             if ((az <= 0) && (bz <= 0) && (cz <= 0))
                 return;
 			

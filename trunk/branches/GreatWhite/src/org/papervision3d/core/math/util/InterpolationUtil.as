@@ -14,6 +14,12 @@ package org.papervision3d.core.math.util
 			return dst;
 		}
 		
+		public static function interpolatePointTo(a:Vertex3D, b:Vertex3D, alpha:Number, dst:Vertex3D):void
+		{
+			dst.x = a.x + alpha * (b.x - a.x);
+			dst.y = a.y + alpha * (b.y - a.y);
+			dst.z = a.z + alpha * (b.z - a.z);
+		}
 		
 		public static function interpolateUV( a:NumberUV, b:NumberUV, alpha:Number ):NumberUV
 		{
@@ -22,5 +28,13 @@ package org.papervision3d.core.math.util
 			dst.v = a.v + alpha * (b.v - a.v);
 			return dst;
 		}
+		
+		public static function interpolateUVTo( a:NumberUV, b:NumberUV, alpha:Number, dst:NumberUV):NumberUV
+		{
+			dst.u = a.u + alpha * (b.u - a.u);
+			dst.v = a.v + alpha * (b.v - a.v);
+			return dst;
+		}
+		
 	}
 }

@@ -44,6 +44,54 @@ package org.papervision3d.core.math
 			}
 		}
 		
+		internal var eps:Number = 0.01;
+		public function isCoplanar( plane: Plane3D ): Boolean
+		{
+			return ( Math.abs( normal.x - plane.normal.x ) < eps && Math.abs( normal.y - plane.normal.y ) < eps && Math.abs( normal.z - plane.normal.z ) < eps && Math.abs( d - plane.d ) < eps ); 
+		}
+		
+		protected static var flipPlane:Plane3D = new Plane3D();
+		public function isCoplanarOpposite( plane: Plane3D ): Boolean
+		{
+			flipPlane.normal.z = -plane.normal.z;
+			flipPlane.normal.y = -plane.normal.y;
+			flipPlane.normal.x = -plane.normal.x;
+			flipPlane.d = plane.d;
+			return flipPlane.isCoplanar( plane );
+		}
+		
+		/**
+		 * From AS3D by Joa Ebert & Andre Michelle
+		 */
+		public function getFlip(): Plane3D
+		{
+			var plane: Plane3D = Plane3D.fromThreePoints(new Number3D(), new Number3D(), new Number3D());
+			
+			plane.normal.z = -normal.z;
+			plane.normal.y = -normal.y;
+			plane.normal.x = -normal.x;
+			plane.d =  d;
+			
+			return plane;
+		}
+		
+		public function getIntersectionLine( v0: Vertex3D, v1: Vertex3D ): Vertex3D
+		{
+			var d0: Number = normal.x * v0.x + normal.y * v0.y + normal.z * v0.z - d;
+			var d1: Number = normal.x * v1.x + normal.y * v1.y + normal.z * v1.z - d;
+			var m: Number = d1 / ( d1 - d0 );
+			return new Vertex3D(
+
+					v1.x + ( v0.x - v1.x ) * m,
+
+					v1.y + ( v0.y - v1.y ) * m,
+
+					v1.z + ( v0.z - v1.z ) * m
+
+				);
+
+		}
+		
 		/**
 		 * Creates a plane from coefficients.
 		 *
@@ -122,6 +170,18 @@ package org.papervision3d.core.math
 		{
 			var p:Number3D = pt is Vertex3D ? pt.toNumber3D() : pt;
 			return Number3D.dot(p, normal) + d;
+		}
+		
+		/**
+		 * distance of vertex to plane, optimized.
+		 * 
+		 * @param	v
+		 * @return
+		 */
+		
+		public function vertDistance(pt:Vertex3D):Number
+		{
+			return ( pt.x * normal.x + normal.y * pt.y + pt.z * normal.z )+d;
 		}
 		
 		/**

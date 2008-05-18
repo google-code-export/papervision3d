@@ -69,7 +69,7 @@ package org.papervision3d.core.geom.renderables {
 		public var uv1:NumberUV;
 		public var uv2:NumberUV;
 		
-		private var _uvArray:Array;
+		public var _uvArray:Array;
 		// ______________________________________________________________________
 	
 		/**
@@ -142,6 +142,11 @@ package org.papervision3d.core.geom.renderables {
 				v1 = vertices[1];
 				v2 = vertices[2];
 				createNormal();
+			}else{
+				vertices = new Array();
+				v0 = vertices[0] = new Vertex3D();
+				v1 = vertices[1] = new Vertex3D();
+				v2 = vertices[2] = new Vertex3D();
 			}
 			
 			
@@ -179,7 +184,7 @@ package org.papervision3d.core.geom.renderables {
 		*/
 		public function set uv(uv:Array):void
 		{
-			if(uv){
+			if(uv && uv.length == 3){
 				uv0 = NumberUV(uv[0]);
 				uv1 = NumberUV(uv[1]);
 				uv2 = NumberUV(uv[2]);
