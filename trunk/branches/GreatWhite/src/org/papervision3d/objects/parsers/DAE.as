@@ -472,13 +472,12 @@
 					
 				node.channels = channels;
 							
-				if(channels.length == 1)
-				{
-					channel = channels[0];
-							
+				for each(channel in channels)
+				{			
 					var transform:DaeTransform = node.findMatrixBySID(channel.syntax.targetSID);
 					if(!transform)
 					{
+						trace("Couldn't find the targeted object's transform! " + channel.syntax.targetSID);
 						continue;
 						//throw new Error("Couldn't find the targeted object's transform!");
 					}
@@ -488,6 +487,8 @@
 						_channelsByTarget[target] = [buildAnimationChannel(target, channel)];
 						continue;
 					}
+					
+					trace("Not a Matrix transform! " + channel.syntax.targetSID);
 				}
 			}
 		}
