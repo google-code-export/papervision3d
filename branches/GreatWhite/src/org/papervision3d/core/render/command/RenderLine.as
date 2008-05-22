@@ -21,14 +21,29 @@ package org.papervision3d.core.render.command
 		
 		// rather that create and clean up vector objects, we'll store all our temp working vectors as statics
 		private static var lineVector:Number3D = Number3D.ZERO; 
-		private static var mouseVector:Number3D = Number3D.ZERO; 
+		private static var mouseVector:Number3D = Number3D.ZERO;
 		
+		//premade Number2Ds for hittest function		private var p : Number2D;
+		private var l1 : Number2D;
+		private var l2 : Number2D;
+		private var v : Number2D;
+		private var cp3d : Number3D; 
+
 		public function RenderLine(line:Line3D)
 		{
 			super();
 			this.renderable = Line3D;
 			this.renderableInstance = line;
 			this.line = line;
+			
+			
+			// pre-made for hittest
+			p = new Number2D(); 
+			l1 = new Number2D(); 
+			l2 = new Number2D(); 
+			v = new Number2D(); 	
+			cp3d = new Number3D(); 		
+			
 		}
 		
 		override public function render(renderSessionData:RenderSessionData):void
@@ -44,13 +59,14 @@ package org.papervision3d.core.render.command
 			{
 				var linewidth:Number = line.size; 
 				
-				var p:Number2D = new Number2D(point.x, point.y); 
+				p.reset(point.x, point.y); 
 				
-				var l1:Number2D = new Number2D(line.v0.vertex3DInstance.x, line.v0.vertex3DInstance.y);
-				var l2:Number2D = new Number2D(line.v1.vertex3DInstance.x, line.v1.vertex3DInstance.y);
+				l1.reset(line.v0.vertex3DInstance.x, line.v0.vertex3DInstance.y);
+				l2.reset(line.v1.vertex3DInstance.x, line.v1.vertex3DInstance.y);
 		
 				// get the vector for the line
-				var v:Number2D = Number2D.subtract(l2, l1); 
+				v.copyFrom(l2); 
+				v.minusEq(l1); 
 				
 				// magic formula for calculating how how far along the line a perpendicular 
 				// coming from the line to the point would hit. If this number is between 0 and 1 
@@ -61,14 +77,15 @@ package org.papervision3d.core.render.command
 				{
 				
 					// so then to work out that collision point multiply v by u and add it to l1
-					var cp:Number2D = Number2D.multiplyScalar(v, u); 
-					cp = Number2D.add(cp, l1); 
+					v.multiplyEq(u); 
+					v.plusEq(l1); 
 					
 					// then get the vector between the collision point and the mousepoint
-					var dist:Number2D = Number2D.subtract(cp, p); 
+					v.minusEq(p); 
+					//var dist:Number2D = Number2D.subtract(cp, p); 
 					
 					// and get the magnitude of that distance vector, squared
-					var d:Number =  (dist.x*dist.x)+(dist.y*dist.y);
+					var d:Number =  (v.x*v.x)+(v.y*v.y);
 					
 					// and if it's less than the linewidth squared we have a hit
 					if(d<(linewidth*linewidth))
@@ -80,7 +97,7 @@ package org.papervision3d.core.render.command
 						
 						//TODO UPDATE 3D hit point and UV
 						// currently we're just moving u along the 3D line, but this isn't accurate.
-						var cp3d:Number3D = new Number3D(line.v1.x-line.v0.x, line.v1.y-line.v0.y, line.v1.x-line.v0.x);
+						cp3d.reset(line.v1.x-line.v0.x, line.v1.y-line.v0.y, line.v1.x-line.v0.x);
 						cp3d.x*=u; 
 						cp3d.y*=u; 
 						cp3d.z*=u; 
