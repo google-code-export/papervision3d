@@ -294,19 +294,6 @@ package org.papervision3d.core.math
 				w *= m;
 			}
 		}
-		
-		/**
-		 * Dot.
-		 * 
-		 * @param	other
-		 */ 
-		public function dot(other:Quaternion):Number
-		{
-	        return (  w * other.w
-	                + x * other.x
-	                + y * other.y
-	                + z * other.z ); 
-		}
 
 		/**
 		 * SLERP (Spherical Linear intERPolation). @author Trevor Burton
