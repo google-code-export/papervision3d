@@ -239,42 +239,9 @@
 
 		public function transformVertices( transformation:Matrix3D ):void
 		{
-			var m11 :Number = transformation.n11,
-			m12 :Number = transformation.n12,
-			m13 :Number = transformation.n13,
-			m21 :Number = transformation.n21,
-			m22 :Number = transformation.n22,
-			m23 :Number = transformation.n23,
-			m31 :Number = transformation.n31,
-			m32 :Number = transformation.n32,
-			m33 :Number = transformation.n33,
+			
+			geometry.transformVertices(transformation);
 
-			m14 :Number = transformation.n14,
-			m24 :Number = transformation.n24,
-			m34 :Number = transformation.n34,
-
-			vertices :Array  = this.geometry.vertices,
-			i        :int    = vertices.length,
-
-			vertex   :org.papervision3d.core.geom.renderables.Vertex3D;
-
-			// trace( "transformed " + i ); // DEBUG
-
-			while( vertex = vertices[--i] )
-			{
-				// Center position
-				var vx :Number = vertex.x;
-				var vy :Number = vertex.y;
-				var vz :Number = vertex.z;
-
-				var tx :Number = vx * m11 + vy * m12 + vz * m13 + m14;
-				var ty :Number = vx * m21 + vy * m22 + vz * m23 + m24;
-				var tz :Number = vx * m31 + vy * m32 + vz * m33 + m34;
-
-				vertex.x = tx;
-				vertex.y = ty;
-				vertex.z = tz;
-			}
 		}
 	}
 }

@@ -20,7 +20,7 @@
 		protected var _boundingSphereDirty :Boolean = true;
 		protected var _aabb:AxisAlignedBoundingBox;
 		protected var _aabbDirty:Boolean = true;
-		private var _numInstances:uint = 0;
+		private var _numInstances:uint = 0; // TODO - pretty sure this is never used... obsolete? 
 		
 		/**
 		 * 
@@ -43,7 +43,43 @@
 			dirty = true;
 		}
 		
-		public function transformVertices( transformation:Matrix3D ):void {}
+		public function transformVertices(transformation:Matrix3D ):void
+		{
+			var m11 :Number = transformation.n11,
+			m12 :Number = transformation.n12,
+			m13 :Number = transformation.n13,
+			m21 :Number = transformation.n21,
+			m22 :Number = transformation.n22,
+			m23 :Number = transformation.n23,
+			m31 :Number = transformation.n31,
+			m32 :Number = transformation.n32,
+			m33 :Number = transformation.n33,
+
+			m14 :Number = transformation.n14,
+			m24 :Number = transformation.n24,
+			m34 :Number = transformation.n34,
+
+			i        :int    = vertices.length,
+
+			vertex   :org.papervision3d.core.geom.renderables.Vertex3D;
+
+
+			while( vertex = vertices[--i] )
+			{
+				// Center position
+				var vx :Number = vertex.x;
+				var vy :Number = vertex.y;
+				var vz :Number = vertex.z;
+
+				var tx :Number = vx * m11 + vy * m12 + vz * m13 + m14;
+				var ty :Number = vx * m21 + vy * m22 + vz * m23 + m24;
+				var tz :Number = vx * m31 + vy * m32 + vz * m33 + m34;
+
+				vertex.x = tx;
+				vertex.y = ty;
+				vertex.z = tz;
+			}
+		}
 		
 		public function transformUV( material:MaterialObject3D ):void
 		{
