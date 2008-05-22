@@ -286,9 +286,10 @@ package org.papervision3d.objects.parsers {
 							  "\n faces:" + geometry.faces.length + "\n frames: " + num_frames);
 
 			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_COMPLETE, this.file));
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.ANIMATIONS_COMPLETE, this.file));
 			
 			if(_autoPlay)
-				play("wave");
+				play();
 		}
 		
 		/**
