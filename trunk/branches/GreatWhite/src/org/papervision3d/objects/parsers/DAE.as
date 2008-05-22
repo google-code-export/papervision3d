@@ -4,6 +4,7 @@
 	import flash.events.ProgressEvent;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
+	import flash.utils.getTimer;
 	
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.*;
@@ -18,6 +19,7 @@
 	import org.papervision3d.core.material.AbstractLightShadeMaterial;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
+	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.materials.shaders.ShadedMaterial;
@@ -30,7 +32,7 @@
 	/**
 	 * @author Tim Knip
 	 */ 
-	public class DAE extends DisplayObject3D implements IAnimationDataProvider
+	public class DAE extends DisplayObject3D implements IAnimationDataProvider, IAnimatable
 	{
 		use namespace collada;
 		
@@ -72,11 +74,36 @@
 		
 		/**
 		 * Constructor.
+		 * 
+		 * @param	autoPlay	Whether to start the animation automatically.
 		 */ 
-		public function DAE()
+		public function DAE(autoPlay:Boolean=true)
 		{
 			super();
+			
+			_autoPlay = autoPlay;
 		}
+		
+		/**
+		 * Plays the animation.
+		 * 
+		 * @param 	clip	Optional clip name.
+		 */ 
+		public function play(clip:String=null):void
+		{
+			_currentFrame = 0;
+			_currentTime = getTimer();
+			_isPlaying = (_isAnimated && _channels && _channels.length);
+		}
+		
+		/**
+		 * Stops the animation.
+		 */ 
+		public function stop():void
+		{
+			_isPlaying = false;	
+		}
+		
 		
 		/**
 		 * Gets the default FPS.
@@ -257,6 +284,38 @@
 		public function setChildMaterialByName(childName:String, material:MaterialObject3D):void 
 		{
 			setChildMaterial(getChildByName(childName, true), material);
+		}
+		
+		/**
+		 * Project.
+		 * 
+		 * @param	parent
+		 * @param	renderSessionData
+		 * 
+		 * @return	Number
+		 */ 
+		public override function project(parent:DisplayObject3D, renderSessionData:RenderSessionData):Number
+		{
+			if(_isPlaying && _channels)
+			{
+				var secs:Number = _currentTime / 1000;
+				var duration:Number = _endTime - _startTime;
+				var elapsed:Number = (getTimer()/1000) - secs;
+				
+				if(elapsed > duration)
+				{
+					_currentTime = getTimer();
+					secs = _currentTime / 1000;
+					elapsed = 0;
+				}
+				var time:Number = elapsed / duration;
+
+				for each(var channel:AbstractChannel3D in _channels)
+				{
+					channel.updateToTime(time);	
+				}
+			}
+			return super.project(parent, renderSessionData);	
 		}
 		
 		/**
@@ -468,7 +527,7 @@
 				var node:DaeNode = _objectToNode[target];
 					
 				if(!node)
-					throw new Error("Couldn't find the targeted object!");
+					throw new Error("Couldn't find the targeted object with name '" + node.name + "'");
 					
 				node.channels = channels;
 							
@@ -477,7 +536,7 @@
 					var transform:DaeTransform = node.findMatrixBySID(channel.syntax.targetSID);
 					if(!transform)
 					{
-						trace("Couldn't find the targeted object's transform! " + channel.syntax.targetSID);
+						trace("Could not find a transform with SID=" + channel.syntax.targetSID);
 						continue;
 						//throw new Error("Couldn't find the targeted object's transform!");
 					}
@@ -488,7 +547,7 @@
 						continue;
 					}
 					
-					trace("Not a Matrix transform! " + channel.syntax.targetSID);
+					trace("Animation channel with target SID='" + channel.syntax.targetSID + "' does not target a matrix!");
 				}
 			}
 		}
@@ -577,7 +636,7 @@
 						uv[0] = hasUV ? texcoords[ i+0 ] : new NumberUV();
 						uv[1] = hasUV ? texcoords[ i+1 ] : new NumberUV();
 						uv[2] = hasUV ? texcoords[ i+2 ] : new NumberUV();
-						
+				
 						geometry.faces.push(new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]));
 					}
 					break;
@@ -958,9 +1017,19 @@
 				_rootNode.rotationY = 180;
 			}
 			
+			// animation stuff
+			_currentFrame = 0;
+			_totalFrames = 0;
+			_startTime = _endTime = 0;
+			_channels = new Array();
+			_isAnimated = false;
+			_isPlaying = false;
+			
 			// may have animations to be parsed.
 			if(document.numQueuedAnimations)
 			{
+				_isAnimated = true;
+				
 				this.parser.addEventListener(Event.COMPLETE, onParseAnimationsComplete);
 				this.parser.addEventListener(ProgressEvent.PROGRESS, onParseAnimationsProgress);
 				this.parser.readAnimations();
@@ -1000,7 +1069,7 @@
 				if(!skin)
 					throw new Error("no geometry for source: " + colladaSkin.source);
 			}
-							
+					
 			if(reverseFaces)
 			{
 				for each(var triangle:Triangle3D in skin.faces)
@@ -1209,8 +1278,7 @@
 			else
 			{
 				dispatchEvent(new FileLoadEvent(FileLoadEvent.COLLADA_MATERIALS_DONE, this.filename));
-				trace("materials complete!");
-				
+
 				buildScene();
 			}
 		}
@@ -1242,12 +1310,26 @@
 		 * @param	event
 		 */ 
 		private function onParseAnimationsComplete(event:Event):void
-		{
-			trace( "animations COMPLETE");
-			
+		{	
 			buildAnimationChannels();
-						
+					
+			_channels = this.getAnimationChannels() || new Array();	
+			_currentFrame = _totalFrames = 0;
+			_startTime = _endTime = 0;
+			
+			for each(var channel:AbstractChannel3D in _channels)
+			{
+				_totalFrames = Math.max(_totalFrames, channel.keyFrames.length);	
+				_startTime = Math.min(_startTime, channel.startTime);
+				_endTime = Math.max(_endTime, channel.endTime);
+			}
+			
+			trace( "animations COMPLETE (#channels: " + _channels.length + " #rames: " + _totalFrames + ", startTime: " + _startTime + " endTime: " + _endTime+ ")");
+			
 			dispatchEvent(new FileLoadEvent(FileLoadEvent.ANIMATIONS_COMPLETE, this.filename));
+			
+			if(_autoPlay)
+				play();
 		}
 		
 		/**
@@ -1357,6 +1439,30 @@
 		
 		/** */
 		private var _rootNode:DisplayObject3D;
+		
+		/** */
+		private var _currentFrame:int = 0;
+		
+		/** */
+		private var _currentTime:int;
+		
+		/** */
+		private var _totalFrames:int = 0;
+		
+		/** */
+		private var _startTime:Number;
+		
+		/** */
+		private var _endTime:Number;
+		
+		/** */
+		private var _isAnimated:Boolean = false;
+		
+		/** */
+		private var _isPlaying:Boolean = false;
+		
+		/** */
+		private var _autoPlay:Boolean;
 	}
 }
 
