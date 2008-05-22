@@ -1,9 +1,9 @@
-package org.papervision3d.core.data.qTree
-{
+package org.papervision3d.core.data.qTree {
+	
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
+	import org.papervision3d.core.math.util.FastRectangleTools;	
 	
 	/**
 	 * @Author Ralph Hauwert
@@ -123,12 +123,12 @@ package org.papervision3d.core.data.qTree
 		
 		public function queryRectangle(rectangle:Rectangle, array:Array):void
 		{
-			if(rectangle.intersects(boundingRectangle)){
+			if(FastRectangleTools.intersects(rectangle, boundingRectangle)){
 				//Check own items
 				if(hasItems){
 					var i:QuadTreeItem;
 					for each(i in items){
-						if(i.rectangle.intersects(rectangle)){
+						if(FastRectangleTools.intersects(i.rectangle, rectangle)){
 							array.push(i);
 						}
 					}
@@ -138,7 +138,7 @@ package org.papervision3d.core.data.qTree
 					var c:QuadTreeNode;
 					for each(c in children){
 						if(c.hasItems || c.hasActiveChildren){
-							if(c.boundingRectangle.intersects(rectangle)){
+							if(FastRectangleTools.intersects(c.boundingRectangle, rectangle)){
 								c.queryRectangle(rectangle,array);
 							}
 						}

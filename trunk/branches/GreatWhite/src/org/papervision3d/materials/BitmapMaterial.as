@@ -1,5 +1,5 @@
-﻿package org.papervision3d.materials
-{
+﻿package org.papervision3d.materials {
+	
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
 	import flash.geom.Matrix;
@@ -11,6 +11,7 @@
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.material.TriangleMaterial;
+	import org.papervision3d.core.math.util.FastRectangleTools;	
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
@@ -263,7 +264,7 @@
 				hitRect.width = Math.max(cx, Math.max(bx, ax)) + Math.abs(hitRect.x);
 				hitRect.y = Math.min(cy, Math.min(by, ay));
 				hitRect.height = Math.max(cy, Math.max(by, ay)) + Math.abs(hitRect.y);
-				if(!hitRect.intersects(renderSessionData.viewPort.cullingRectangle)){
+				if(!FastRectangleTools.intersects(hitRect, renderSessionData.viewPort.cullingRectangle)){
 					return;
 				}
         	}

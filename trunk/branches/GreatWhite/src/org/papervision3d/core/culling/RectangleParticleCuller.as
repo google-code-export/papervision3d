@@ -1,14 +1,13 @@
-package org.papervision3d.core.culling
-{
+package org.papervision3d.core.culling {
+	
 	import org.papervision3d.core.geom.renderables.Particle;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
+	import org.papervision3d.core.geom.renderables.Vertex3D;	
 	import flash.geom.Rectangle;
 	import flash.geom.Point;
-	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
+	import org.papervision3d.core.math.util.FastRectangleTools;	
 
-	import flash.utils.getTimer;
 	
-	import org.papervision3d.core.geom.renderables.Vertex3D;	
-
 	public class RectangleParticleCuller implements IParticleCuller
 	{
 		private static var vInstance:Vertex3DInstance;
@@ -32,7 +31,7 @@ package org.papervision3d.core.culling
 			if(particle.material.invisible == false){
 				if(vInstance.visible)
 				{
-					if(particle.renderRect.intersects(cullingRectangle))
+					if(FastRectangleTools.intersects(particle.renderRect, cullingRectangle))
 					{
 						return true; 
 					}

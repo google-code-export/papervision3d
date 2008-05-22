@@ -1,8 +1,10 @@
 package org.papervision3d.core.culling {
+	
 	import flash.geom.Rectangle;
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;	
+	import org.papervision3d.core.math.util.FastRectangleTools;	
 
 	public class RectangleTriangleCuller extends DefaultTriangleCuller implements ITriangleCuller
 	{
@@ -37,7 +39,7 @@ package org.papervision3d.core.culling {
 				hitRect.width = Math.max(vertex2.x, Math.max(vertex1.x, vertex0.x)) + Math.abs(hitRect.x);
 				hitRect.y = Math.min(vertex2.y, Math.min(vertex1.y, vertex0.y));
 				hitRect.height = Math.max(vertex2.y, Math.max(vertex1.y, vertex0.y)) + Math.abs(hitRect.y);
-				return cullingRectangle.intersects(hitRect);	
+				return FastRectangleTools.intersects(cullingRectangle,hitRect);	
 			}
 			return false;
 		}
