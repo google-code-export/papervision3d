@@ -70,8 +70,8 @@ package org.papervision3d.objects.special
 					
 				// project skeleton(s)
 				for each(var joint:Joint3D in skeletons)
-					joint.project(this, renderSessionData);
-					
+					joint.project(renderSessionData.camera, renderSessionData);
+				
 				// skin the mesh!
 				for(i = 0; i < joints.length; i++)
 					skinMesh(joints[i], _cached, vertices);
@@ -96,6 +96,7 @@ package org.papervision3d.objects.special
 				// move vertices to the bind pose.
 				Matrix3D.multiplyVector(this.bindShapeMatrix, _cached[i]);
 			}
+			
 		}
 		
 		/**
@@ -137,12 +138,12 @@ package org.papervision3d.objects.special
 				if(yUp)
 				{
 					skinned.y += (pos.y * weight);
-					skinned.z += (pos.z * weight);
+					skinned.z -= (pos.z * weight);
 				}
 				else
 				{
-					skinned.y += (pos.z * weight);
-					skinned.z += (pos.y * weight);
+					skinned.y += (pos.y * weight);
+					skinned.z -= (pos.z * weight);
 				}
 			}
 		}

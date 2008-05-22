@@ -6,6 +6,7 @@ package org.papervision3d.objects.parsers {
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
+	import flash.utils.getTimer;
 	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.animation.*;
@@ -14,6 +15,8 @@ package org.papervision3d.objects.parsers {
 	import org.papervision3d.core.geom.renderables.*;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.objects.DisplayObject3D;	
 
 	/**
@@ -24,7 +27,7 @@ package org.papervision3d.objects.parsers {
 	 * @website www.d3s.net
 	 * @version 04.11.07:11:56
 	 */
-	public class MD2 extends TriangleMesh3D implements IAnimationDataProvider
+	public class MD2 extends TriangleMesh3D implements IAnimationDataProvider, IAnimatable
 	{
 		/**
 		 * Variables used in the loading of the file
@@ -46,13 +49,52 @@ package org.papervision3d.objects.parsers {
 		private var offset_skins:int, offset_st:int, offset_tris:int;
 		private var offset_frames:int, offset_glcmds:int, offset_end:int;
 		private var _fps:int;
+		private var _autoPlay:Boolean;
 		
 		/**
 		 * Constructor.
+		 * 
+		 * @param	autoPlay	Whether to start the animation automatically.
 		 */
-		public function MD2():void
+		public function MD2(autoPlay:Boolean=true):void
 		{
 			super(null, new Array(), new Array());
+			
+			_autoPlay = autoPlay;
+		}
+		
+		/**
+		 * Plays the animation.
+		 * 
+		 * @param 	clip	Optional clip name.
+		 */ 
+		public function play(clip:String=null):void
+		{
+			if(clip && _channelByName[clip])
+			{
+				_currentChannel = _channelByName[clip];
+			}
+			else if(_channels && _channels.length)
+			{
+				_currentChannel = _channels[0];
+			}
+			else
+			{
+				_isPlaying = false;
+				Papervision3D.log("[MD2 ERROR] Can't find a animation channel to play!");
+				return;
+			}
+			
+			_currentTime = getTimer();
+			_isPlaying = true;
+		}
+		
+		/**
+		 * Stops the animation.
+		 */ 
+		public function stop():void
+		{
+			_isPlaying = false;
 		}
 		
 		/**
@@ -147,6 +189,36 @@ package org.papervision3d.objects.parsers {
 		}
 		
 		/**
+		 * Project.
+		 * 
+		 * @param	parent
+		 * @param	renderSessionData
+		 * 
+		 * @return	Number
+		 */ 
+		public override function project(parent:DisplayObject3D, renderSessionData:RenderSessionData):Number
+		{
+			if(_isPlaying && _currentChannel)
+			{
+				var secs:Number = _currentTime / 1000;
+				var duration:Number = _currentChannel.duration;
+				var elapsed:Number = (getTimer()/1000) - secs;
+				
+				if(elapsed > duration)
+				{
+					_currentTime = getTimer();
+					secs = _currentTime / 1000;
+					elapsed = 0;
+				}
+				var time:Number = elapsed / duration;
+				
+				_currentChannel.updateToTime(time);
+			}
+			
+			return super.project(parent, renderSessionData);
+		}
+		
+		/**
 		 * <p>Parses the MD2 file. This is actually pretty straight forward.
 		 * Only complicated parts (bit convoluded) are the frame loading
 		 * and "metaface" loading. Hey, it works, use it =)</p>
@@ -212,8 +284,11 @@ package org.papervision3d.objects.parsers {
 			Papervision3D.log("Parsed MD2: " + file + "\n vertices:" + 
 							  geometry.vertices.length + "\n texture vertices:" + uvs.length +
 							  "\n faces:" + geometry.faces.length + "\n frames: " + num_frames);
-	
-			dispatchEvent(new Event(Event.COMPLETE));
+
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_COMPLETE, this.file));
+			
+			if(_autoPlay)
+				play("wave");
 		}
 		
 		/**
@@ -233,6 +308,7 @@ package org.papervision3d.objects.parsers {
 			
 			var curName:String = "all";
 			var clip:AbstractChannel3D;
+			var clipPos:int = 0;
 			
 			for (i = 0; i < num_frames; i++)
 			{				
@@ -262,6 +338,7 @@ package org.papervision3d.objects.parsers {
 					
 					clip = new MorphChannel3D(this, shortName);
 					curName = shortName;
+					clipPos = 0;
 				}
 				
 				var vertices:Array = new Array();
@@ -285,9 +362,11 @@ package org.papervision3d.objects.parsers {
 					vertices.push(v);
 				}
 				
-				clip.addKeyFrame(new AnimationKeyFrame3D(frameName, i * duration, vertices));
+				clip.addKeyFrame(new AnimationKeyFrame3D(frameName, clipPos * duration, vertices));
 				
 				channel.addKeyFrame(new AnimationKeyFrame3D(frameName, i * duration, vertices));
+				
+				clipPos++;
 			}
 			
 			_channels.unshift(channel);
@@ -347,5 +426,9 @@ package org.papervision3d.objects.parsers {
 		
 		private var _channels:Array;
 		private var _channelByName:Object;
+		
+		private var _isPlaying:Boolean = false;
+		private var _currentChannel:AbstractChannel3D;
+		private var _currentTime:Number = 0;
 	}
 }
