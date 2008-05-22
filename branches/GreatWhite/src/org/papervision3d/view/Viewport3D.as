@@ -1,4 +1,5 @@
 package org.papervision3d.view {
+
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
@@ -6,10 +7,13 @@ package org.papervision3d.view {
 	
 	import org.papervision3d.core.culling.DefaultParticleCuller;
 	import org.papervision3d.core.culling.DefaultTriangleCuller;
+	import org.papervision3d.core.culling.DefaultLineCuller;	
 	import org.papervision3d.core.culling.IParticleCuller;
 	import org.papervision3d.core.culling.ITriangleCuller;
+	import org.papervision3d.core.culling.ILineCuller;	
 	import org.papervision3d.core.culling.RectangleParticleCuller;
 	import org.papervision3d.core.culling.RectangleTriangleCuller;
+	import org.papervision3d.core.culling.RectangleLineCuller;	
 	import org.papervision3d.core.culling.ViewportObjectFilter;
 	import org.papervision3d.core.ns.pv3dview;
 	import org.papervision3d.core.render.IRenderEngine;
@@ -27,6 +31,7 @@ package org.papervision3d.view {
 	 */
 	 
 	/* Changed to protected methods on 11/27/2007 by John */
+	/* Added LineCulling on 22 May 08 by Seb Lee-Delisle */
 	
 	public class Viewport3D extends Sprite implements IViewport3D
 	{
@@ -50,7 +55,8 @@ package org.papervision3d.view {
 		
 		public var triangleCuller:ITriangleCuller;
 		public var particleCuller:IParticleCuller;
-		public var lastRenderList:Array;
+		public var lineCuller : ILineCuller;
+				public var lastRenderList:Array;
 		public var interactiveSceneManager:InteractiveSceneManager;
 		
 		protected var renderHitData:RenderHitData;
@@ -209,9 +215,11 @@ package org.papervision3d.view {
 			if(culling){
 				triangleCuller = new RectangleTriangleCuller(cullingRectangle);
 				particleCuller = new RectangleParticleCuller(cullingRectangle);
+				lineCuller     = new RectangleLineCuller(cullingRectangle);
 			}else if(!culling){
 				triangleCuller = new DefaultTriangleCuller();
 				particleCuller = new DefaultParticleCuller();
+				lineCuller 	   = new DefaultLineCuller();
 			}
 			_autoCulling = culling;	
 		}

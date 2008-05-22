@@ -40,7 +40,7 @@ package org.papervision3d.core.geom.renderables
 		
 		public function updateRenderRect():void
 		{
-			material.updateRenderRect(this)
+			material.updateRenderRect(this);
 		}
 		
 		public function set x(x:Number):void

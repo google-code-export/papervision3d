@@ -1,7 +1,9 @@
-package org.papervision3d.core.data.qTree
-{
-	import flash.display.Graphics;
+package org.papervision3d.core.data.qTree {
+		import flash.display.Graphics;
 	import flash.geom.Rectangle;
+	
+	import org.papervision3d.core.math.util.FastRectangleTools;	
+		
 	
 	/**
 	 * @Author Ralph Hauwert
@@ -25,9 +27,9 @@ package org.papervision3d.core.data.qTree
 			graphics.endFill();
 		}
 		
-		public function clipRectangleWith(brectangle:Rectangle):void
+		public function clipRectangleWith(brectangle:Rectangle):void 
 		{
-			this.rectangle = this.rectangle.intersection(brectangle);
+			FastRectangleTools.intersection(this.rectangle, brectangle, this.rectangle);
 		}
 	}
 }
