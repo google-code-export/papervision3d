@@ -1,7 +1,8 @@
-package org.papervision3d.core.data.qTree
-{
+package org.papervision3d.core.data.qTree {
+	
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import org.papervision3d.core.math.util.FastRectangleTools;	
 	
 	/**
 	 * @Author Ralph Hauwert
@@ -18,7 +19,7 @@ package org.papervision3d.core.data.qTree
 		
 		public function insertItem(item:QuadTreeItem):Boolean
 		{
-			if(item.rectangle.intersects(baseNode.boundingRectangle)){
+			if(FastRectangleTools.intersects(item.rectangle, baseNode.boundingRectangle)){
 				if(baseNode.boundingRectangle.containsRect(item.rectangle)){
 					//It falls within the quadtree, cool..back to normal..
 					baseNode.insertItem(item);
