@@ -547,7 +547,7 @@
 						continue;
 					}
 					
-					trace("Animation channel with target SID='" + channel.syntax.targetSID + "' does not target a matrix!");
+					trace("Animation channel with target SID='" + channel.syntax.targetSID + "' does not target a matrix! (type=" + transform.type +")");
 				}
 			}
 		}
@@ -906,7 +906,7 @@
 
 					if(colladaController.skin)
 					{
-						instance = new Skin3D(null, [], [], node.name, this.yUp);
+						instance = new Skin3D(null, [], [], node.name, true);
 						
 						buildSkin(instance as Skin3D, colladaController.skin, instanceController.skeletons);
 					}
@@ -1324,7 +1324,7 @@
 				_endTime = Math.max(_endTime, channel.endTime);
 			}
 			
-			trace( "animations COMPLETE (#channels: " + _channels.length + " #rames: " + _totalFrames + ", startTime: " + _startTime + " endTime: " + _endTime+ ")");
+			trace( "animations COMPLETE (#channels: " + _channels.length + " #frames: " + _totalFrames + ", startTime: " + _startTime + " endTime: " + _endTime+ ")");
 			
 			dispatchEvent(new FileLoadEvent(FileLoadEvent.ANIMATIONS_COMPLETE, this.filename));
 			
