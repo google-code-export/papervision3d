@@ -25,8 +25,8 @@ package org.papervision3d.objects.special
 		/** The skin's bindshape matrix. */
 		public var bindShapeMatrix:Matrix3D;
 		
-		/** Y up? */
-		public var yUp:Boolean;
+		/** Negate Z-axis in the skinning algo? (DAE needs true)*/
+		public var negateZ:Boolean;
 		
 		/**
 		 * Constructor.
@@ -35,13 +35,13 @@ package org.papervision3d.objects.special
 		 * @param	vertices
 		 * @param	faces
 		 * @param	name
-		 * @param	initObject
+		 * @param	negateZ Whether to negate Z in the skinning algorithm.
 		 */ 
-		public function Skin3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, yUp:Boolean=false)
+		public function Skin3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, negateZ:Boolean=false)
 		{
 			super(material, vertices, faces, name);
 			
-			this.yUp = yUp;
+			this.negateZ = negateZ;
 			this.joints = new Array();
 			this.skeletons = new Array();
 		}
@@ -135,7 +135,7 @@ package org.papervision3d.objects.special
 
 				//update the vertex
 				skinned.x += (pos.x * weight);
-				if(yUp)
+				if(negateZ)
 				{
 					skinned.y += (pos.y * weight);
 					skinned.z -= (pos.z * weight);
@@ -143,7 +143,7 @@ package org.papervision3d.objects.special
 				else
 				{
 					skinned.y += (pos.y * weight);
-					skinned.z -= (pos.z * weight);
+					skinned.z += (pos.z * weight);
 				}
 			}
 		}
