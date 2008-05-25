@@ -249,14 +249,13 @@ package org.papervision3d.objects.parsers
 		{
 			var ret:String = null;
 			var mat:Object = new Object();
-			
+			var subChunk:Chunk3ds = new Chunk3ds();
+			var colorChunk:Chunk3ds = new Chunk3ds();
+				
 			mat.textures = new Array();
 			
 			while (chunk.bytesRead < chunk.length)
-			{
-				var subChunk:Chunk3ds = new Chunk3ds();
-				var colorChunk:Chunk3ds;
-				
+			{				
 				readChunk(subChunk);
 				var p:uint = 0;
 				
@@ -264,31 +263,28 @@ package org.papervision3d.objects.parsers
 				{
 					case MAT_NAME:
 						mat.name = readASCIIZString(_data);
-					//	trace(mat.name);
+						//trace(mat.name);
 						subChunk.bytesRead = subChunk.length;
 						break;
 					case MAT_AMBIENT:
 						p = _data.position;
-						colorChunk = new Chunk3ds();
 						readChunk(colorChunk);
-						mat.ambient = readColorRGB(colorChunk);
-						_data.position = p;
-					//	trace("ambient:"+mat.ambient.toString(16));
+						mat.ambient = readColor(colorChunk);
+						_data.position = p + colorChunk.length;
+						//trace("ambient:"+mat.ambient.toString(16));
 						break;
 					case MAT_DIFFUSE:
 						p = _data.position;
-						colorChunk = new Chunk3ds();
 						readChunk(colorChunk);
-						mat.diffuse = readColorRGB(colorChunk);
-						_data.position = p;
+						mat.diffuse = readColor(colorChunk);
+						_data.position = p + colorChunk.length;
 						//trace("diffuse:"+mat.diffuse.toString(16));
 						break;
 					case MAT_SPECULAR:
 						p = _data.position;
-						colorChunk = new Chunk3ds();
 						readChunk(colorChunk);
-						mat.specular = readColorRGB(colorChunk);
-						_data.position = p;
+						mat.specular = readColor(colorChunk);
+						_data.position = p + colorChunk.length;
 						//trace("specular:"+mat.specular.toString(16));
 						break;
 					case MAT_TEXMAP:
@@ -478,6 +474,47 @@ package org.papervision3d.objects.parsers
 				asciiz += String.fromCharCode(tempByteArray.readByte());
 			}
 			return asciiz;
+		}
+		
+		/**
+		 * 
+		 */ 
+		private function readColor(colorChunk:Chunk3ds):int
+		{
+			var color:int = 0;
+			switch(colorChunk.id) 
+			{
+				case COLOR_RGB:
+					color = readColorRGB(colorChunk);
+					break;
+				case COLOR_F:
+					color = readColorScale(colorChunk);
+					break;
+				default:
+					throw new Error("Unknown color chunk: " + colorChunk.id);
+			}
+			return color;
+		}
+		
+		/**
+		 * Read Scaled Color
+		 * 
+		 * @param	chunk
+		 */ 
+		private function readColorScale(chunk:Chunk3ds):int
+		{
+			var color:int = 0;
+
+			for (var i:int = 0; i < 3; i++)
+			{
+				var c:Number = _data.readFloat();
+				var bv:int = 255 * c;
+				bv <<= (8 * (2 - i));
+				color |= bv;													 
+				chunk.bytesRead += 4;
+			}
+			
+			return color;
 		}
 		
 		/**
