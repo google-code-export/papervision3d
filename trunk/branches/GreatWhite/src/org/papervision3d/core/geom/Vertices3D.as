@@ -216,7 +216,7 @@
 			var bBox     :Object = new Object();
 
 			bBox.min  = new Number3D(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE);
-			bBox.max  = new Number3D(Number.MIN_VALUE, Number.MIN_VALUE, Number.MIN_VALUE);
+			bBox.max  = new Number3D(-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE);
 			bBox.size = new Number3D();
 
 			for each(var v:Vertex3D in vertices)
