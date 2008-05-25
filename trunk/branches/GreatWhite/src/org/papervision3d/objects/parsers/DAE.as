@@ -1292,6 +1292,7 @@
 			}
 			target.vertices = target.vertices.concat(source.vertices);
 			target.faces = target.faces.concat(source.faces);
+			target.ready = true;
 		}
 		
 		/**
@@ -1385,6 +1386,12 @@
 		{
 			existingMaterial.unregisterObject(do3d);
 			
+			// register shaded materials with its object
+			if(newMaterial is AbstractLightShadeMaterial || newMaterial is ShadedMaterial)
+			{
+				newMaterial.registerObject(do3d);
+			}
+					
 			if( do3d.material === existingMaterial )
 				do3d.material = newMaterial;
 					
