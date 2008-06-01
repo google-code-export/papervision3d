@@ -107,7 +107,7 @@ package org.papervision3d.core.geom.renderables {
 		/**
 		 * The do3d instance this triangle belongs too.
 		 */
-		 public var instance:DisplayObject3D;
+		//public var instance:DisplayObject3D;
 		
 		/**
 		 * stores the material for this face.

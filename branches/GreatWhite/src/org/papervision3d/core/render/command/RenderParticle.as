@@ -8,6 +8,7 @@ package org.papervision3d.core.render.command
 	 *  - added HitTestPoint2D so that it works with interactivity.
 	 */
 	 
+	import flash.display.Graphics;
 	import flash.geom.Point;
 	
 	import org.papervision3d.core.geom.renderables.Particle;
@@ -26,11 +27,13 @@ package org.papervision3d.core.render.command
 		{
 			super();
 			this.particle = particle;
+			this.renderableInstance = particle;
+			this.renderable = Particle;
 		}
 		
-		override public function render(renderSessionData:RenderSessionData):void
+		override public function render(renderSessionData:RenderSessionData, graphics:Graphics):void
 		{
-			particle.material.drawParticle(particle, renderSessionData.container.graphics, renderSessionData);
+			particle.material.drawParticle(particle, graphics, renderSessionData);
 		}
 		
 		override public function hitTestPoint2D(point:Point, rhd:RenderHitData):RenderHitData

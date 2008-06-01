@@ -22,7 +22,7 @@ package org.papervision3d.core.geom.renderables
 		public var vertex3D:Vertex3D;
 		public var material:ParticleMaterial;
 		public var renderCommand:RenderParticle;
-		public var instance:Particles;
+	//	public var instance:Particles;
 		public var renderScale:Number;
 		
 		// this is the rectangular area encasing the particle graphic. 

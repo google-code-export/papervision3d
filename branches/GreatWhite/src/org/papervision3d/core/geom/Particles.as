@@ -28,6 +28,7 @@
 		{
 			this.vertices = new Array();
 			this.particles = new Array();
+			
 			super(vertices, name);
 		}
 		

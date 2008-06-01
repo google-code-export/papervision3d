@@ -6,6 +6,7 @@
 	 */
 
 	import flash.display.BitmapData;
+	import flash.display.Graphics;
 	import flash.display.Sprite;
 	import flash.geom.Point;
 	
@@ -38,11 +39,12 @@
 			this.triangle = triangle;
 			renderableInstance = triangle;
 			renderable = Triangle3D;
+				
 		}
 		
-		override public function render(renderSessionData:RenderSessionData):void
+		override public function render(renderSessionData:RenderSessionData, graphics:Graphics):void
 		{
-			renderer.drawTriangle(triangle, renderSessionData.container.graphics, renderSessionData);
+			renderer.drawTriangle(triangle, graphics, renderSessionData);
 		}
 		
 		override public function hitTestPoint2D(point:Point, renderhitData:RenderHitData):RenderHitData

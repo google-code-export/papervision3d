@@ -25,7 +25,7 @@ package org.papervision3d.objects.special {
 		* @param 	fieldHeight The height of the area
 		* @param	fieldDepth	The depth of the area 
 		*/
-		public function ParticleField(mat:ParticleMaterial, quantity:int = 200, fieldWidth:Number = 2000, fieldHeight:Number = 2000, fieldDepth:Number = 2000)
+		public function ParticleField(mat:ParticleMaterial, quantity:int = 200, particleSize:Number=4, fieldWidth:Number = 2000, fieldHeight:Number = 2000, fieldDepth:Number = 2000)
 		{
 			super("ParticleField");
 			
@@ -36,10 +36,10 @@ package org.papervision3d.objects.special {
 			this.fieldHeight = fieldHeight;
 			this.fieldDepth = fieldDepth;
 			
-			createParticles();
+			createParticles(particleSize);
 		}
 		
-		private function createParticles():void
+		private function createParticles(size:Number):void
 		{
 			var width2  :Number = fieldWidth /2;
 			var height2 :Number = fieldHeight /2;
@@ -48,7 +48,7 @@ package org.papervision3d.objects.special {
 			var r:int;
 			for( var i:Number = 0; i < quantity; i++ )
 			{
-				addParticle(new Particle(material as ParticleMaterial, 64,Math.random() * fieldWidth  - width2, Math.random() * fieldHeight - height2, Math.random() * fieldDepth  - depth2 ));
+				addParticle(new Particle(material as ParticleMaterial, size,Math.random() * fieldWidth  - width2, Math.random() * fieldHeight - height2, Math.random() * fieldDepth  - depth2 ));
 			}
 		}
 		

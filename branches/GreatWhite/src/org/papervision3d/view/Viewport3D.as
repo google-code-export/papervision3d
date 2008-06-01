@@ -4,18 +4,18 @@ package org.papervision3d.view {
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.utils.Dictionary;
 	
+	import org.papervision3d.core.culling.DefaultLineCuller;
 	import org.papervision3d.core.culling.DefaultParticleCuller;
 	import org.papervision3d.core.culling.DefaultTriangleCuller;
-	import org.papervision3d.core.culling.DefaultLineCuller;	
+	import org.papervision3d.core.culling.ILineCuller;
 	import org.papervision3d.core.culling.IParticleCuller;
 	import org.papervision3d.core.culling.ITriangleCuller;
-	import org.papervision3d.core.culling.ILineCuller;	
+	import org.papervision3d.core.culling.RectangleLineCuller;
 	import org.papervision3d.core.culling.RectangleParticleCuller;
 	import org.papervision3d.core.culling.RectangleTriangleCuller;
-	import org.papervision3d.core.culling.RectangleLineCuller;	
 	import org.papervision3d.core.culling.ViewportObjectFilter;
-	import org.papervision3d.core.ns.pv3dview;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderableListItem;
@@ -23,6 +23,7 @@ package org.papervision3d.view {
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.utils.InteractiveSceneManager;
 	import org.papervision3d.core.view.IViewport3D;
+	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.layer.ViewportBaseLayer;
 	import org.papervision3d.view.layer.ViewportLayer;	
 
@@ -49,6 +50,7 @@ package org.papervision3d.view {
 		protected var _lastRenderer:IRenderEngine;
 		protected var _viewportObjectFilter:ViewportObjectFilter;
 		protected var _containerSprite:ViewportBaseLayer;
+		protected var _layerInstances:Dictionary;
 		
 		public var sizeRectangle:Rectangle;
 		public var cullingRectangle:Rectangle;
@@ -75,6 +77,8 @@ package org.papervision3d.view {
 			this.autoCulling = autoCulling;
 			
 			this.autoScaleToStage = autoScaleToStage;
+			
+			this._layerInstances = new Dictionary(true);
 		}
 		
 		public function destroy():void
@@ -128,6 +132,28 @@ package org.papervision3d.view {
 				}
 			}
 			return renderHitData;
+		}
+		
+		public function getChildLayer(do3d:DisplayObject3D, createNew:Boolean=true, recurse:Boolean = true):ViewportLayer{
+			return containerSprite.getChildLayer(do3d, createNew, recurse);
+		}
+		
+		public function accessLayerFor(do3d:DisplayObject3D, setInstance:Boolean = false):ViewportLayer{
+			
+			
+			do3d = do3d.parentContainer?do3d.parentContainer:do3d;
+		
+			 if(_layerInstances[do3d])
+			 	return _layerInstances[do3d];
+			 
+			 _layerInstances[do3d] = containerSprite.getChildLayer(do3d, true, true);
+			 
+			 if(setInstance){
+			 	do3d.container = _layerInstances[do3d];
+			 }
+			 			 			 			 
+			 return _layerInstances[do3d];
+		
 		}
 		
 		protected function onAddedToStage(event:Event):void
@@ -264,14 +290,34 @@ package org.papervision3d.view {
 		public function updateBeforeRender(renderSessionData:RenderSessionData):void
 		{
 			lastRenderList.length = 0;
-			use namespace pv3dview;
-			_containerSprite.clear();
+			
+			if(renderSessionData.renderLayers){
+				for each(var vpl:ViewportLayer in renderSessionData.renderLayers){ 
+					vpl.updateBeforeRender();
+				}
+			}else{
+				_containerSprite.updateBeforeRender();
+			}
+			
+			_layerInstances = new Dictionary(true);
 		}
 		
 		public function updateAfterRender(renderSessionData:RenderSessionData):void
 		{
 			if(interactive){
 				interactiveSceneManager.updateRenderHitData();
+			}
+			
+			if(renderSessionData.renderLayers){
+				for each(var vpl:ViewportLayer in renderSessionData.renderLayers) {
+					vpl.updateInfo();
+					vpl.sortChildLayers();
+					vpl.updateAfterRender();
+				}
+			}else{
+				containerSprite.updateInfo();
+				containerSprite.sortChildLayers();
+				containerSprite.updateAfterRender();
 			}
 		}
 		

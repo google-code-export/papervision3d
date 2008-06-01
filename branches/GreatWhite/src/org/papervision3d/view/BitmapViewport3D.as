@@ -33,9 +33,9 @@ package org.papervision3d.view
 			removeChild(_containerSprite);
 		}
 		
-		override public function updateAfterRender(renderSessionData:RenderSessionData):void
+		override public function updateAfterRender(renderSessionData:RenderSessionData, layers:Array = null):void
 		{
-			super.updateAfterRender(renderSessionData);
+			super.updateAfterRender(renderSessionData, layers);
 			if(bitmapData.width != Math.round(viewportWidth) || bitmapData.height != Math.round(viewportHeight))
 			{
 				bitmapData = _containerBitmap.bitmapData = new BitmapData(Math.round(viewportWidth), Math.round(viewportHeight), false, bgColor);
