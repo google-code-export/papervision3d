@@ -6,13 +6,15 @@ package org.papervision3d.core.render.command
 	 */	
 	import flash.geom.Point;
 	
-	import org.papervision3d.core.geom.renderables.IRenderable;
+	import org.papervision3d.core.geom.renderables.AbstractRenderable;
 	import org.papervision3d.core.render.data.RenderHitData;
+	import org.papervision3d.objects.DisplayObject3D;
 	
 	public class RenderableListItem extends AbstractRenderListItem
 	{
 		public var renderable:Class;
-		public var renderableInstance:IRenderable;
+		public var renderableInstance:AbstractRenderable;
+		public var instance:DisplayObject3D;
 		
 		public function RenderableListItem()
 		{

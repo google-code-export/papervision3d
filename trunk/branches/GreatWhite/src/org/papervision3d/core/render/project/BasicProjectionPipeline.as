@@ -33,7 +33,7 @@ package org.papervision3d.core.render.project
 			renderSessionData.camera.transformView();
 			
 			//Start looping through all objects in the scene.
-			var objects:Array = renderSessionData.scene.objects;
+			var objects:Array = renderSessionData.renderObjects;
 			var p:DisplayObject3D;
 			var i:Number = objects.length;
 	

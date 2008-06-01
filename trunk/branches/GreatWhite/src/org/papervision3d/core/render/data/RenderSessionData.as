@@ -29,6 +29,8 @@ package org.papervision3d.core.render.data
 		public var camera:CameraObject3D;
 		public var renderer:IRenderEngine;
 		public var renderStatistics:RenderStatistics;
+		public var renderObjects:Array;
+		public var renderLayers:Array;
 		
 		public function RenderSessionData():void
 		{
@@ -45,6 +47,8 @@ package org.papervision3d.core.render.data
 			camera = null;
 			renderer = null;
 			renderStatistics = null;
+			renderObjects = null;
+			renderLayers = null;
 		}
 		
 		public function clone():RenderSessionData

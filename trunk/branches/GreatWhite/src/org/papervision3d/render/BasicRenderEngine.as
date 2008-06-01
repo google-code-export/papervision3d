@@ -11,6 +11,7 @@ package org.papervision3d.render
 	import org.papervision3d.core.render.AbstractRenderEngine;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.command.IRenderListItem;
+	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.core.render.data.RenderHitData;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.data.RenderStatistics;
@@ -24,6 +25,7 @@ package org.papervision3d.render
 	import org.papervision3d.core.utils.StopWatch;
 	import org.papervision3d.events.RendererEvent;
 	import org.papervision3d.view.Viewport3D;
+	import org.papervision3d.view.layer.ViewportLayer;
 	
 	public class BasicRenderEngine extends AbstractRenderEngine implements IRenderEngine
 	{
@@ -91,9 +93,43 @@ package org.papervision3d.render
 			renderSessionData.container = viewPort.containerSprite;
 			renderSessionData.triangleCuller = viewPort.triangleCuller;
 			renderSessionData.particleCuller = viewPort.particleCuller;
+			renderSessionData.renderObjects = scene.objects;
+			renderSessionData.renderLayers = null;
 			renderSessionData.renderStatistics.clear();
 			
 			//Clear the viewport.
+			viewPort.updateBeforeRender(renderSessionData);
+			
+			//Project the Scene (this will fill up the renderlist).
+			projectionPipeline.project(renderSessionData);
+			if(hasEventListener(RendererEvent.PROJECTION_DONE)){
+				dispatchEvent(projectionDoneEvent);
+			}
+			
+			//Render the Scene.
+			doRender(renderSessionData, null);
+			if(hasEventListener(RendererEvent.RENDER_DONE)){
+				dispatchEvent(renderDoneEvent);
+			}
+			
+			return renderSessionData.renderStatistics;
+		}
+		
+		public function renderLayers(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, layers:Array = null, updateAnimation:Boolean = true):RenderStatistics
+		{
+			//Update the renderSessionData object.
+			renderSessionData.scene = scene;
+			renderSessionData.camera = camera;
+			renderSessionData.viewPort = viewPort;
+			renderSessionData.container = viewPort.containerSprite;
+			renderSessionData.triangleCuller = viewPort.triangleCuller;
+			renderSessionData.particleCuller = viewPort.particleCuller;
+			renderSessionData.renderObjects = getLayerObjects(layers);
+			renderSessionData.renderLayers = layers;
+			renderSessionData.renderStatistics.clear();
+					
+			//Clear the viewport.
+		
 			viewPort.updateBeforeRender(renderSessionData);
 			
 			//Project the Scene (this will fill up the renderlist).
@@ -110,8 +146,19 @@ package org.papervision3d.render
 			
 			return renderSessionData.renderStatistics;
 		}
+		
+		private function getLayerObjects(layers:Array):Array{
+			var array:Array = new Array();
+			
+			for each (var vpl:ViewportLayer in layers){
+				array = array.concat(vpl.getLayerObjects());
+			}
+			return array;
+		}
+		
+		
 	
-		protected function doRender(renderSessionData:RenderSessionData):RenderStatistics
+		protected function doRender(renderSessionData:RenderSessionData, layers:Array = null):RenderStatistics
 		{
 			stopWatch.reset();
 			stopWatch.start();
@@ -125,11 +172,18 @@ package org.papervision3d.render
 			//Sort entire list.
 			sorter.sort(renderList);
 			
-			var rc:IRenderListItem;
+			var rc:RenderableListItem;
+			var viewport:Viewport3D = renderSessionData.viewPort;
+			var vpl:ViewportLayer;
+			
 			while(rc = renderList.pop())
 			{
-				rc.render(renderSessionData);
-				renderSessionData.viewPort.lastRenderList.push(rc);
+				
+				vpl = viewport.accessLayerFor(rc.renderableInstance.instance, true);
+				rc.render(renderSessionData, vpl.graphicsChannel);
+				viewport.lastRenderList.push(rc);
+				vpl.processRenderItem(rc);
+				
 			}
 			
 			//Update Materials

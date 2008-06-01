@@ -5,6 +5,7 @@ package org.papervision3d.core.render.command
 	 * @Author Ralph Hauwert
 	 */
 	 
+	import flash.display.Graphics;
 	import flash.geom.Point;
 	
 	import org.papervision3d.core.geom.renderables.Line3D;
@@ -13,6 +14,7 @@ package org.papervision3d.core.render.command
 	import org.papervision3d.core.render.data.RenderHitData;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.materials.special.LineMaterial;	
+	
 	public class RenderLine extends RenderableListItem implements IRenderListItem
 	{
 		
@@ -46,10 +48,10 @@ package org.papervision3d.core.render.command
 			
 		}
 		
-		override public function render(renderSessionData:RenderSessionData):void
+		override public function render(renderSessionData:RenderSessionData, graphics:Graphics):void
 		{
 
-			renderer.drawLine(line, renderSessionData.container.graphics, renderSessionData);
+			renderer.drawLine(line, graphics, renderSessionData);
 			
 		}
 		

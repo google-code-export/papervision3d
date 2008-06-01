@@ -5,6 +5,8 @@ package org.papervision3d.core.render.command
 	 * @Author Ralph Hauwert
 	 */
 	 
+	import flash.display.Graphics;
+	
 	import org.papervision3d.core.render.data.RenderSessionData;
 	
 	public class AbstractRenderListItem implements IRenderListItem
@@ -16,7 +18,7 @@ package org.papervision3d.core.render.command
 			
 		}
 	
-		public function render(renderSessionData:RenderSessionData):void
+		public function render(renderSessionData:RenderSessionData, graphics:Graphics):void
 		{
 			
 		}
