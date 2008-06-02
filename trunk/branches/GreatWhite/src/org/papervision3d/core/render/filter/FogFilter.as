@@ -46,7 +46,8 @@ package org.papervision3d.core.render.filter
 			var segOffset:Number = (_maxDepth-_minDepth)/segments;
 			var segDepth:Number = _minDepth;
 			var cSeg:Number = 0;
-			var alphaOffset:Number = 1/segments; 
+			var alpha:Number = 1-(segments/100);
+			var alphaOffset:Number = alpha/segments; 
 	
 			
 			for(var i:int=array.length-1;i>=0;i--){
@@ -55,7 +56,7 @@ package org.papervision3d.core.render.filter
 			} 		
 				
 			for(var ii:int=0;ii<segments;ii++){
-				array.push(new RenderFog(material, ((1/segments)*(ii+1)), segDepth));
+				array.push(new RenderFog(material, ((alpha/segments)*ii+((ii)/100)), segDepth));
 				segDepth += segOffset;			
 			}
 			
