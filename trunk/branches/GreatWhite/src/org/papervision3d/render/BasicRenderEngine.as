@@ -26,6 +26,7 @@ package org.papervision3d.render
 	import org.papervision3d.events.RendererEvent;
 	import org.papervision3d.view.Viewport3D;
 	import org.papervision3d.view.layer.ViewportLayer;
+	import org.papervision3d.core.render.command.RenderFog;
 	
 	public class BasicRenderEngine extends AbstractRenderEngine implements IRenderEngine
 	{
@@ -165,7 +166,7 @@ package org.papervision3d.render
 			
 			//Update Materials.
 			MaterialManager.getInstance().updateMaterialsBeforeRender(renderSessionData);
-			
+
 			//Filter the list
 			filter.filter(renderList);
 			
@@ -179,7 +180,7 @@ package org.papervision3d.render
 			while(rc = renderList.pop())
 			{
 				
-				vpl = viewport.accessLayerFor(rc.renderableInstance.instance, true);
+				vpl = viewport.accessLayerFor(rc, true);
 				rc.render(renderSessionData, vpl.graphicsChannel);
 				viewport.lastRenderList.push(rc);
 				vpl.processRenderItem(rc);

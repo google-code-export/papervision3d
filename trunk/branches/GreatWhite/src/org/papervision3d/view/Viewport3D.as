@@ -138,21 +138,31 @@ package org.papervision3d.view {
 			return containerSprite.getChildLayer(do3d, createNew, recurse);
 		}
 		
-		public function accessLayerFor(do3d:DisplayObject3D, setInstance:Boolean = false):ViewportLayer{
+		public function accessLayerFor(rc:RenderableListItem, setInstance:Boolean = false):ViewportLayer{
 			
 			
-			do3d = do3d.parentContainer?do3d.parentContainer:do3d;
-		
-			 if(_layerInstances[do3d])
-			 	return _layerInstances[do3d];
+			var do3d:DisplayObject3D;
+			
+			if(rc.renderableInstance){
+				do3d = rc.renderableInstance.instance;
+			
+			
+				do3d = do3d.parentContainer?do3d.parentContainer:do3d;
+			
+				 if(_layerInstances[do3d])
+				 	return _layerInstances[do3d];
+				 
+				 _layerInstances[do3d] = containerSprite.getChildLayer(do3d, false, true);
+				 
+				 if(setInstance){
+				 	do3d.container = _layerInstances[do3d];
+				 }
+				 			 			 			 
+				 return _layerInstances[do3d];
 			 
-			 _layerInstances[do3d] = containerSprite.getChildLayer(do3d, true, true);
-			 
-			 if(setInstance){
-			 	do3d.container = _layerInstances[do3d];
-			 }
-			 			 			 			 
-			 return _layerInstances[do3d];
+			 }else{
+				return containerSprite;
+			}
 		
 		}
 		
