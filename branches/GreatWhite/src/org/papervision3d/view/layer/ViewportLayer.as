@@ -37,6 +37,7 @@ package org.papervision3d.view.layer {
 			this.dynamicLayer = isDynamic;
 			this.graphicsChannel = this.graphics;
 			
+			
 			if(isDynamic){
 				this.filters = do3d.filters;
 				this.blendMode = do3d.blendMode;
