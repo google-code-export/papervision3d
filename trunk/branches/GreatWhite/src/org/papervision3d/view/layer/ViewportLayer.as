@@ -51,6 +51,9 @@ package org.papervision3d.view.layer {
 		}
 		
 		public function addDisplayObject3D(do3d:DisplayObject3D, recurse:Boolean = true):void{
+			
+			if(!do3d) return;
+			
 			displayObjects[do3d] = do3d;
 			if(recurse)
 				do3d.addChildrenToLayer(do3d, this);
