@@ -137,13 +137,13 @@ package org.papervision3d.objects.special
 				skinned.x += (pos.x * weight);
 				if(negateZ)
 				{
-					skinned.y += (pos.y * weight);
-					skinned.z -= (pos.z * weight);
+					skinned.z += (pos.y * weight);
+					skinned.y += (pos.z * weight);
 				}
 				else
 				{
 					skinned.y += (pos.y * weight);
-					skinned.z += (pos.z * weight);
+					skinned.z -= (pos.z * weight);
 				}
 			}
 		}
