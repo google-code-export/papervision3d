@@ -637,7 +637,7 @@
 						uv[1] = hasUV ? texcoords[ i+1 ] : new NumberUV();
 						uv[2] = hasUV ? texcoords[ i+2 ] : new NumberUV();
 				
-						geometry.faces.push(new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]));
+						geometry.faces.push(new Triangle3D(null, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]));
 					}
 					break;
 				// polygon with *no* holes
@@ -1017,6 +1017,8 @@
 				_rootNode.rotationY = 180;
 			}
 			
+			_rootNode.scaleX = -_rootNode.scaleX;
+			
 			// animation stuff
 			_currentFrame = 0;
 			_totalFrames = 0;
@@ -1283,12 +1285,19 @@
 			}
 		}
 		
+		/**
+		 * Merge geometries.
+		 * 
+		 * @param target The target geometry to merge to.
+		 * @param source The source geometry
+		 * @param material Optional material for triangles, only used when a triangle has no material.
+		 */ 
 		private function mergeGeometries(target:GeometryObject3D, source:GeometryObject3D, material:MaterialObject3D=null):void
 		{
 			if(material)
 			{
 				for each(var triangle:Triangle3D in source.faces)
-					triangle.material = material;
+					triangle.material = triangle.material || material;
 			}
 			target.vertices = target.vertices.concat(source.vertices);
 			target.faces = target.faces.concat(source.faces);
