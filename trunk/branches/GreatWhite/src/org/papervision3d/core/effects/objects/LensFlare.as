@@ -3,10 +3,11 @@
 	import flash.display.BlendMode;
 	import flash.display.DisplayObject;
 	
-	import org.papervision3d.core.layers.RenderLayer;
 	import org.papervision3d.core.proto.LightObject3D;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.view.layer.ViewportLayer;
 	
-	public class LensFlare extends RenderLayer
+	public class LensFlare extends ViewportLayer
 	{
 		
 		public var light:LightObject3D;
@@ -20,7 +21,7 @@
 		
 		public function LensFlare(light:LightObject3D, flareArray:Array, width:Number, height:Number, positions:Array = null)
 		{
-			
+			super(null, light, false);	
 			this.light = light;
 			flareWidth = width;
 			flareHeight = height;
@@ -32,20 +33,20 @@
 	
 		}
 		
-		public function setFlareArray(flareArray:Array){
+		public function setFlareArray(flareArray:Array):void{
 			emptyFlareArray();
 			this.flareArray = flareArray;
 			buildFlareArray();
 		}
 		
-		private function emptyFlareArray(){
+		private function emptyFlareArray():void{
 			for each(var f:DisplayObject in flareArray){
 				this.removeChild(f);
 			}
 			flareArray = null;
 		}
 		
-		private function buildFlareArray(){
+		private function buildFlareArray():void{
 
 			
 			for each(var f:DisplayObject in flareArray){
@@ -55,7 +56,7 @@
 			}
 		}
 		
-		public function updateFlare(showFlare:Boolean = true, testHit:DisplayObject = null){
+		public function updateFlare(showFlare:Boolean = true, testHit:DisplayObject = null):void{
 			if(showFlare){
 			
 				//check to see if it hits anything
@@ -73,14 +74,14 @@
 				hideFlare();
 		}
 		
-		public function hideFlare(){
+		public function hideFlare():void{
 			
 			for each(var f:DisplayObject in flareArray){
 				f.visible = false;
 			}
 		}
 		
-		private function drawFlare(){
+		private function drawFlare():void{
 			
 			
 			//don't draw light if behind camera
@@ -96,6 +97,8 @@
 			
 			var alx:Number = Math.abs(lx);
 			var aly:Number = Math.abs(ly);
+			
+			
 			
 			if(alx > w*edgeOffset || aly > h*edgeOffset){
 				hideFlare();
@@ -143,6 +146,8 @@
 				
 				f.x = dx;
 				f.y = dy;
+				
+				trace(f.x, f.y);
 				
 				if(pos.alpha)
 					f.alpha = 1 - Math.max(alx/w, aly/h)*pos.alpha;
