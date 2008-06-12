@@ -150,7 +150,8 @@ package org.papervision3d.objects.parsers {
 		 */
 		private function onColladaComplete( event : Event ) : void {
 			this.addChild(this.dae);
-			dispatchEvent(event);
+			
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_COMPLETE));
 		}
 		
 		/**
