@@ -1192,7 +1192,7 @@
 				if(!joint)
 					throw new Error("Couldn't find the joint id = " + jointId);
 				
-				joint = this.getChildByName(joint.name, true) as Joint3D;
+				//joint = this.getChildByName(joint.name, true) as Joint3D;
 				 
 				var vertexWeights:Array = skin.findJointVertexWeightsByIDOrSID(jointId);
 				if(!vertexWeights)
@@ -1235,7 +1235,7 @@
 			
 			// remove the joints from the scenegraph!
 			for each(var jnt:Joint3D in remove)
-				this.removeChild(skeleton);
+				this.removeChild(jnt);
 					
 			instance.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
 		}
