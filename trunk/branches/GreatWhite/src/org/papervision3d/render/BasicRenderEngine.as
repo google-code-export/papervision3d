@@ -184,7 +184,6 @@ package org.papervision3d.render
 				rc.render(renderSessionData, vpl.graphicsChannel);
 				viewport.lastRenderList.push(rc);
 				vpl.processRenderItem(rc);
-				
 			}
 			
 			//Update Materials

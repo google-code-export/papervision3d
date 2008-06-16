@@ -17,6 +17,7 @@ package org.papervision3d.view.layer {
 		use namespace pv3dview;
 		
 		public var childLayers			:Array;
+		public var layers				:Dictionary = new Dictionary(true);
 		protected var viewport			:Viewport3D;
 		public var displayObject3D		:DisplayObject3D;
 		public var displayObjects		:Dictionary = new Dictionary(true);
@@ -55,12 +56,15 @@ package org.papervision3d.view.layer {
 			if(!do3d) return;
 			
 			displayObjects[do3d] = do3d;
+			dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_ADDED, do3d, this));
+			
 			if(recurse)
 				do3d.addChildrenToLayer(do3d, this);
 		}
 		
 		public function removeDisplayObject3D(do3d:DisplayObject3D):void{
 			displayObjects[do3d] = null;
+			dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_REMOVED, do3d, this));
 		}
 		
 		public function hasDisplayObject3D(do3d:DisplayObject3D):Boolean{
@@ -76,7 +80,7 @@ package org.papervision3d.view.layer {
 			
 			do3d = do3d.parentContainer?do3d.parentContainer:do3d;	
 			
-			var index:Number = childLayerIndex(do3d);
+			/* var index:Number = childLayerIndex(do3d);
 			
 			if(index > -1)
 				return childLayers[index];
@@ -86,7 +90,14 @@ package org.papervision3d.view.layer {
 				if(tmpLayer)
 					return tmpLayer;
 			}	
-			
+			 */
+			 
+			if(layers[do3d]){
+				return layers[do3d];
+			}
+				
+				
+			 
 			//no layer found = return a new one
 			if(createNew)
 				return getChildLayerFor(do3d, recurse);
@@ -99,8 +110,7 @@ package org.papervision3d.view.layer {
 			
 			if(displayObject3D){
 				var vpl:ViewportLayer = new ViewportLayer(viewport,displayObject3D, displayObject3D.useOwnContainer);
-				childLayers.push(vpl);
-				addChild(vpl);
+				addLayer(vpl);
 				
 				if(recurse)
 					displayObject3D.addChildrenToLayer(displayObject3D, vpl);
@@ -125,8 +135,52 @@ package org.papervision3d.view.layer {
 		}
 		
 		public function addLayer(vpl:ViewportLayer):void{
+			
+			
 			childLayers.push(vpl);
 			addChild(vpl);
+			
+			vpl.addEventListener(ViewportLayerEvent.CHILD_ADDED, onChildAdded);
+			vpl.addEventListener(ViewportLayerEvent.CHILD_REMOVED, onChildRemoved);
+			
+			for each(var do3d:DisplayObject3D in vpl.displayObjects){
+				linkChild(do3d, vpl);
+			}
+			
+			for each(var v:ViewportLayer in vpl.layers){
+				for each(var do3d:DisplayObject3D in v.displayObjects){
+					linkChild(do3d, v);
+				}
+			}
+		}
+		
+		private function linkChild(do3d:DisplayObject3D, vpl:ViewportLayer, e:ViewportLayerEvent = null):void{
+			layers[do3d] = vpl;
+			if(e)
+				dispatchEvent(e);
+			else
+				dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_ADDED, do3d, vpl));
+			
+		}
+		
+		private function unlinkChild(do3d:DisplayObject3D, e:ViewportLayerEvent = null):void{
+			layers[do3d ] = null;
+			if(e)
+				dispatchEvent(e);
+			else
+				dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_REMOVED, do3d));
+		}
+		
+		private function onChildAdded(e:ViewportLayerEvent):void{
+			if(e.do3d){
+				linkChild(e.do3d, e.layer, e);
+			}
+		}
+		
+		private function onChildRemoved(e:ViewportLayerEvent):void{
+			if(e.do3d){
+				unlinkChild(e.do3d, e);
+			}
 		}
 		
 		public function updateBeforeRender():void{
@@ -143,6 +197,11 @@ package org.papervision3d.view.layer {
 		}
 		
 		public function removeLayer(vpl:ViewportLayer):void{
+			
+			for each(var do3d:DisplayObject3D in vpl.displayObjects){
+				unlinkChild(do3d);
+			}
+			
 			var index:int = getChildIndex(vpl);
 			if(index >-1){
 				childLayers.splice(index, 1);
@@ -150,6 +209,10 @@ package org.papervision3d.view.layer {
 		}
 		
 		public function removeLayerAt(index:Number):void{
+			
+			for each(var do3d:DisplayObject3D in childLayers[index].displayObjects){
+				unlinkChild(do3d);
+			}
 			removeChild(childLayers[index]);
 			childLayers.splice(index, 1);
 			
