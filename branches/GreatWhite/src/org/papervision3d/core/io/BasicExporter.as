@@ -28,7 +28,7 @@ package org.papervision3d.core.io
 		 * 
 		 * @return ByteArray
 		 */ 
-		public static function export( object : DisplayObjectContainer3D, exportFileFormat : uint = ExportFileFormat.COLLADA ):ByteArray
+		public static function export( object : DisplayObjectContainer3D, exportFileFormat : uint = 0 ):ByteArray
 		{
 			var ba:ByteArray = new ByteArray();
 			var root:DisplayObject3D;
