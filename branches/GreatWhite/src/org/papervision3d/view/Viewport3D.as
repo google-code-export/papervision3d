@@ -25,7 +25,8 @@ package org.papervision3d.view {
 	import org.papervision3d.core.view.IViewport3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.layer.ViewportBaseLayer;
-	import org.papervision3d.view.layer.ViewportLayer;	
+	import org.papervision3d.view.layer.ViewportLayer;
+	
 
 	/**
 	 * @Author Ralph Hauwert
@@ -145,9 +146,11 @@ package org.papervision3d.view {
 			
 			if(rc.renderableInstance){
 				do3d = rc.renderableInstance.instance;
-			
-			
+
 				do3d = do3d.parentContainer?do3d.parentContainer:do3d;
+				
+				if(containerSprite.layers[do3d])
+					return containerSprite.layers[do3d];
 			
 				 if(_layerInstances[do3d])
 				 	return _layerInstances[do3d];

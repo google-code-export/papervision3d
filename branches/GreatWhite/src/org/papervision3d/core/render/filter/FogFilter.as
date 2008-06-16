@@ -3,6 +3,9 @@ package org.papervision3d.core.render.filter
 	import org.papervision3d.core.render.command.RenderFog;
 	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.materials.special.FogMaterial;
+	import org.papervision3d.view.layer.ViewportLayer;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.core.geom.renderables.AbstractRenderable;
 	
 	public class FogFilter extends BasicRenderFilter
 	{
@@ -31,14 +34,20 @@ package org.papervision3d.core.render.filter
 		
 		public var segments:Number;
 		public var material:FogMaterial;
-		
-		public function FogFilter(material:FogMaterial, segments:uint=8, minDepth:Number=200, maxDepth:Number=4000)
+		public var viewportLayer:ViewportLayer;
+		private var do3ds:Array = new Array();
+		public function FogFilter(material:FogMaterial, segments:uint=8, minDepth:Number=200, maxDepth:Number=4000, useViewportLayer:ViewportLayer = null)
 		{
 			super();
 			this.material = material;
 			this.segments = segments;
 			this.minDepth = minDepth;
 			this.maxDepth = maxDepth;
+			this.viewportLayer = useViewportLayer;
+			
+			for(var i:int = 0;i<segments;i++){
+				do3ds[i] = new DisplayObject3D();
+			}
 		}
 			
 		public override function filter(array:Array):int{
@@ -51,12 +60,25 @@ package org.papervision3d.core.render.filter
 	
 			
 			for(var i:int=array.length-1;i>=0;i--){
+				trace(array[i].screenDepth);
 				if(array[i].screenDepth >= maxDepth)
 					removeRenderItem(array, i);
 			} 		
 				
 			for(var ii:int=0;ii<segments;ii++){
-				array.push(new RenderFog(material, ((alpha/segments)*ii+((ii)/100)), segDepth));
+				
+				if(this.viewportLayer){
+					
+					array.push(new RenderFog(material, ((alpha/segments)*ii+((ii)/100)), segDepth, do3ds[ii]));
+					var vpl:ViewportLayer = new ViewportLayer(null, do3ds[ii], true);
+					vpl.forceDepth = true;
+					vpl.screenDepth = segDepth;
+					viewportLayer.addLayer(vpl);
+					//trace(viewportLayer.getChildLayer(do3d, false));
+				}else{
+					array.push(new RenderFog(material, ((alpha/segments)*ii+((ii)/100)), segDepth));
+				}
+					
 				segDepth += segOffset;			
 			}
 			
