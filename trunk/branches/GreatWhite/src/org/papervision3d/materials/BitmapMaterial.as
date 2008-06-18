@@ -11,7 +11,7 @@
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.material.TriangleMaterial;
-	import org.papervision3d.core.math.util.FastRectangleTools;	
+	import org.papervision3d.core.math.util.FastRectangleTools;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
@@ -170,11 +170,11 @@
 				
 				var w  :Number = bitmap.width * maxU;
 				var h  :Number = bitmap.height * maxV;
-				var u0 :Number = w * face3D.uv0.u;
+				var u0 :Number = w * (Papervision3D.useRIGHTHANDED ? (1-face3D.uv0.u) : face3D.uv0.u);
 				var v0 :Number = h * ( 1 - face3D.uv0.v );
-				var u1 :Number = w * face3D.uv1.u;
+				var u1 :Number = w * (Papervision3D.useRIGHTHANDED ? (1-face3D.uv1.u) : face3D.uv1.u);
 				var v1 :Number = h * ( 1 - face3D.uv1.v);
-				var u2 :Number = w * face3D.uv2.u;
+				var u2 :Number = w * (Papervision3D.useRIGHTHANDED ? (1-face3D.uv2.u) : face3D.uv2.u);
 				var v2 :Number = h * ( 1 - face3D.uv2.v );
 				
 				// Fix perpendicular projections
