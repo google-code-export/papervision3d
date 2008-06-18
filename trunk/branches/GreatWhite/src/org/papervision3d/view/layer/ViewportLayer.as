@@ -136,6 +136,7 @@ package org.papervision3d.view.layer {
 		
 		public function addLayer(vpl:ViewportLayer):void{
 			
+			var do3d:DisplayObject3D;
 			
 			childLayers.push(vpl);
 			addChild(vpl);
@@ -143,12 +144,12 @@ package org.papervision3d.view.layer {
 			vpl.addEventListener(ViewportLayerEvent.CHILD_ADDED, onChildAdded);
 			vpl.addEventListener(ViewportLayerEvent.CHILD_REMOVED, onChildRemoved);
 			
-			for each(var do3d:DisplayObject3D in vpl.displayObjects){
+			for each(do3d in vpl.displayObjects){
 				linkChild(do3d, vpl);
 			}
 			
 			for each(var v:ViewportLayer in vpl.layers){
-				for each(var do3d:DisplayObject3D in v.displayObjects){
+				for each(do3d in v.displayObjects){
 					linkChild(do3d, v);
 				}
 			}
