@@ -2,6 +2,7 @@ package org.papervision3d.core.proto
 {
 	import flash.geom.Rectangle;
 	
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.objects.DisplayObject3D;
@@ -52,11 +53,20 @@ package org.papervision3d.core.proto
 		public var viewport:Rectangle;
 		
 		/**
+		 * 
+		 */
+		public var yUP:Boolean;
+		 
+		/**
 		* The default position for new cameras.
 		*/
 		public static var DEFAULT_POS :Number3D = new Number3D( 0, 0, -1000 );
 	
-	
+		/**
+		 * The default UP vector for this camera.
+		 */ 
+		public static var DEFAULT_UP:Number3D = new Number3D(0, 1, 0);
+		
 		// __________________________________________________________________________
 		//                                                                      N E W
 		// NN  NN EEEEEE WW    WW
@@ -99,8 +109,35 @@ package org.papervision3d.core.proto
 			this.eye = Matrix3D.IDENTITY;
 			
 			this.sort = initObject? (initObject.sort != false) : true;
-		}
 			
+			if(Papervision3D.useRIGHTHANDED)
+			{
+				DEFAULT_UP.y = -1;
+				this.yUP = false;
+				this.lookAt(DisplayObject3D.ZERO);
+			}
+			else
+				this.yUP = true;
+		}
+		
+		/**
+		 * Lookat.
+		 * 
+		 * @param targetObject
+		 * @param upAxis
+		 */ 
+		public override function lookAt(targetObject:DisplayObject3D, upAxis:Number3D=null):void
+		{
+			if(this.yUP)
+			{
+				super.lookAt(targetObject, upAxis);
+			}	
+			else
+			{
+				super.lookAt(targetObject, upAxis || DEFAULT_UP);
+			}
+		}
+		
 		// ___________________________________________________________________________________________________
 		//                                                                                   T R A N S F O R M
 		// TTTTTT RRRRR    AA   NN  NN  SSSSS FFFFFF OOOO  RRRRR  MM   MM
@@ -115,10 +152,15 @@ package org.papervision3d.core.proto
 		// TODO: OPTIMIZE (LOW) Resolve + inline
 		public function transformView( transform:Matrix3D=null ):void
 		{
-			eye.calculateMultiply(transform || this.transform, _flipY );
-			eye.invert(); 
-			
-			//this.eye = Matrix3D.inverse( Matrix3D.multiply( transform || this.transform, _flipY ) );
+			if(this.yUP)
+			{
+				eye.calculateMultiply(transform || this.transform, _flipY );
+				eye.invert(); 
+			}
+			else
+			{
+				eye.calculateInverse(transform || this.transform);
+			}
 		}
 	
 		static private var _flipY :Matrix3D = Matrix3D.scaleMatrix( 1, -1, 1 );

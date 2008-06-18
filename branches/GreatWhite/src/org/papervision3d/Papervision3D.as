@@ -20,7 +20,11 @@
 		*/
 		static public var usePERCENT  :Boolean = false;
 	
-	
+		/**
+		 * 
+		 */
+		static public var useRIGHTHANDED :Boolean = false;
+		 
 		// ___________________________________________________________________ STATIC
 	
 		/**

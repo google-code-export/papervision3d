@@ -1,4 +1,5 @@
 package org.papervision3d.objects.primitives {
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
@@ -148,6 +149,9 @@ package org.papervision3d.objects.primitives {
 				}
 			}
 			this.geometry.ready = true;
+			
+			if(Papervision3D.useRIGHTHANDED)
+				this.geometry.flipFaces();
 		}
 	}
 }

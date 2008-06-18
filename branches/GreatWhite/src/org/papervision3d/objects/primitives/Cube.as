@@ -158,6 +158,9 @@ package org.papervision3d.objects.primitives {
 			mergeVertices();
 	
 			this.geometry.ready = true;
+			
+			if(Papervision3D.useRIGHTHANDED)
+				this.geometry.flipFaces();
 		}
 	
 		private function buildPlane( mat:String, u:String, v:String, width:Number, height:Number, depth:Number, reverse:Boolean=false ):void

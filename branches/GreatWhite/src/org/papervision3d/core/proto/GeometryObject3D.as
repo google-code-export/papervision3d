@@ -185,6 +185,19 @@
 			return geom;
 		}
 		
-		
+		/**
+		 * Flips the winding of faces.
+		 */ 
+		public function flipFaces():void
+		{
+			for each(var f:Triangle3D in this.faces)
+			{
+				var tmp:Vertex3D = f.v0;
+				f.v0 = f.v2;
+				f.v2 = tmp;
+				f.uv = [f.uv2, f.uv1, f.uv0];
+			}
+			this.ready = true;
+		}
 	}
 }
