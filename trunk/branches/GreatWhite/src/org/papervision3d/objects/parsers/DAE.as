@@ -12,6 +12,7 @@
 	import org.ascollada.io.DaeReader;
 	import org.ascollada.namespaces.*;
 	import org.ascollada.types.*;
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.animation.*;
 	import org.papervision3d.core.animation.channel.*;
 	import org.papervision3d.core.geom.*;
@@ -82,6 +83,7 @@
 			super();
 			
 			_autoPlay = autoPlay;
+			_rightHanded = Papervision3D.useRIGHTHANDED;
 		}
 		
 		/**
@@ -581,12 +583,7 @@
 			var faces:Array = new Array();
 			var material:MaterialObject3D = this.materials.getMaterialByName(primitive.material);
 			
-			if(!material)
-			{
-				material = new CompositeMaterial();
-				CompositeMaterial(material).addMaterial(new ColorMaterial(0xff0000, 0.5));
-				CompositeMaterial(material).addMaterial(new WireframeMaterial(0));
-			}
+			material = material || MaterialObject3D.DEFAULT;
 			
 			// retreive correct texcoord-set for the material.
 			var obj:DaeBindVertexInput = _textureSets[primitive.material] is DaeBindVertexInput ? _textureSets[primitive.material] : null;
@@ -1017,7 +1014,8 @@
 				_rootNode.rotationY = 180;
 			}
 			
-			_rootNode.scaleX = -_rootNode.scaleX;
+			if(!_rightHanded)
+				_rootNode.scaleX = -_rootNode.scaleX;
 			
 			// animation stuff
 			_currentFrame = 0;
@@ -1479,6 +1477,9 @@
 		
 		/** */
 		private var _autoPlay:Boolean;
+		
+		/** */
+		private var _rightHanded:Boolean;
 	}
 }
 
