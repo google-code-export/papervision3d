@@ -138,7 +138,7 @@ package org.papervision3d.objects.special
 
 				//update the vertex
 				skinned.x += (pos.x * weight);
-				if(_rightHanded)
+				if(true||_rightHanded)
 				{
 					skinned.y += (pos.y * weight);
 					skinned.z += (pos.z * weight);
