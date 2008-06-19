@@ -43,6 +43,9 @@
 		/** Default line width for splines */
 		public static var DEFAULT_LINE_WIDTH:Number = 0;
 		
+		/** Alternative file-extension for TGA images. Default is "png". */
+		public static var DEFAULT_TGA_ALTERNATIVE:String = "png";
+		
 		/** */
 		public var COLLADA:XML;
 	
@@ -934,8 +937,6 @@
 					{
 						var imageUrl:String = buildImagePath(this.baseUrl, image.init_from);
 						
-						imageUrl = imageUrl.replace(/\.tga/i, ".png");
-						
 						_queuedMaterials.push({symbol:symbol, url:imageUrl});
 						continue;
 					}
@@ -1384,10 +1385,13 @@
 				var url:String = data.url;
 				var symbol:String = data.symbol;
 				
+				url = url.replace(/\.tga/i, "."+DEFAULT_TGA_ALTERNATIVE);
+				
 				var material:BitmapFileMaterial = new BitmapFileMaterial();
 				material.addEventListener(FileLoadEvent.LOAD_COMPLETE, loadNextMaterial);
 				material.addEventListener(FileLoadEvent.LOAD_ERROR, onMaterialError);
-				material.texture = url;
+				material.name = symbol;
+				material.texture = url + "?nc=" + Math.random();
 			
 				this.materials.addMaterial(material, symbol);
 			}
@@ -1417,7 +1421,7 @@
 			target.faces = target.faces.concat(source.faces);
 			target.ready = true;
 		}
-		
+
 		/**
 		 * Called when a BitmapMaterial failed to load.
 		 * 
