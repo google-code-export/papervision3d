@@ -129,7 +129,7 @@ package org.papervision3d.core.animation.channel
 			currentKeyFrame = this.keyFrames[currentIndex];
 			nextKeyFrame = this.keyFrames[nextIndex];
 			
-			frameDuration = nextKeyFrame.time - currentKeyFrame.time;
+			frameDuration = nextKeyFrame ? nextKeyFrame.time - currentKeyFrame.time : currentKeyFrame.time;
 			
 			currentTime = time * this.duration;
 			

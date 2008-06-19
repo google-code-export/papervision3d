@@ -480,6 +480,30 @@
 							matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
 						}
 					}	
+					else if(channel.syntax.isDotAccess)
+					{
+						for(i = 0; i < channel.input.length; i++)
+						{
+							var val:Number = channel.output[i];
+							switch(channel.syntax.member)
+							{
+								case "X":
+									matrix = Matrix3D.translationMatrix(val, 0, 0);
+									matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+									break;
+								case "Y":
+									matrix = Matrix3D.translationMatrix(0, val, 0);
+									matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+									break;
+								case "Z":
+									matrix = Matrix3D.translationMatrix(0, 0, val);
+									matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+									break;
+								default:
+									break;		
+							}
+						}
+					}
 					else
 					{
 						throw new Error("Don't know how to handle this channel: " + channel.syntax);
@@ -532,25 +556,91 @@
 					throw new Error("Couldn't find the targeted object with name '" + node.name + "'");
 					
 				node.channels = channels;
-							
-				for each(channel in channels)
-				{			
-					var transform:DaeTransform = node.findMatrixBySID(channel.syntax.targetSID);
-					if(!transform)
-					{
-						trace("Could not find a transform with SID=" + channel.syntax.targetSID);
-						continue;
-						//throw new Error("Couldn't find the targeted object's transform!");
-					}
-					
-					if(transform.type == ASCollada.DAE_MATRIX_ELEMENT)
-					{	
-						_channelsByTarget[target] = [buildAnimationChannel(target, channel)];
-						continue;
-					}
-					
-					trace("Animation channel with target SID='" + channel.syntax.targetSID + "' does not target a matrix! (type=" + transform.type +")");
+				
+				if(!channels.length)
+					continue;
+				
+				channel = channels[0];
+				
+				var transform:DaeTransform = node.findMatrixBySID(channel.syntax.targetSID);
+				
+				if(!transform)
+				{
+					trace("Could not find a transform with SID=" + channel.syntax.targetSID);
+					continue;
 				}
+	
+				// the object has a single channel
+				if(channels.length == 1)
+				{
+					_channelsByTarget[target] = [buildAnimationChannel(target, channel)];
+					continue;
+				}
+				
+				// the object has multiple channels
+				var allTimes:Array = new Array();
+				var times:Array = new Array();
+				var lastTime:Number;
+				
+				// fetch all times for all channels
+				for each(channel in channels)
+					allTimes = allTimes.concat(channel.input);
+				allTimes.sort(Array.NUMERIC);
+				
+				// make array with unique times
+				for(i = 0; i < allTimes.length; i++)
+				{
+					var t:Number = allTimes[i];
+					if(i == 0)
+						times.push(t);
+					else if(t - lastTime > 0.01)
+						times.push(t);
+					lastTime = t;	
+				}
+				
+				// build the MatrixChannel3D's for this object
+				var mcs:Object = new Object();
+				for each(channel in channels)
+					mcs[ channel.syntax.targetSID ] = buildAnimationChannel(target, channel);
+				
+				var bakedChannel:MatrixChannel3D = new MatrixChannel3D(target);
+				
+				// build a baked channel
+				for(i = 0; i < times.length; i++)
+				{
+					var time:Number = times[i];
+					var bakedMatrix:Matrix3D = Matrix3D.IDENTITY;
+					
+					for(var j:int = 0; j < node.transforms.length; j++)
+					{
+						transform = node.transforms[j];
+						
+						var mc:MatrixChannel3D = mcs[ transform.sid ];
+						
+						if(mc)
+						{
+							var alpha:Number;
+							if(time < mc.startTime)
+								alpha = 0;
+							else if(time > mc.endTime)
+								alpha = 1;
+							else
+								alpha = time / (mc.endTime - mc.startTime);
+								
+							mc.updateToTime(alpha);
+							
+							bakedMatrix = Matrix3D.multiply(bakedMatrix, target.transform);
+						}
+						else
+						{
+							bakedMatrix = Matrix3D.multiply(bakedMatrix, buildMatrixFromTransform(transform));
+						}
+					}
+					
+					bakedChannel.addKeyFrame(new AnimationKeyFrame3D("frame_" + i, time, [bakedMatrix]));
+				}
+				
+				_channelsByTarget[target] = [bakedChannel];
 			}
 		}
 		
@@ -661,7 +751,7 @@
 							v[2] = poly[j+1];
 							uv[1] = uvs[j];
 							uv[2] = uvs[j+1];
-							geometry.faces.push(new Triangle3D(null, [v[2], v[1], v[0]], material, [uv[2], uv[1], uv[0]]));
+							geometry.faces.push(new Triangle3D(null, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]));
 						}
 					}
 					break;
@@ -813,6 +903,8 @@
 					{
 						var imageUrl:String = buildImagePath(this.baseUrl, image.init_from);
 						
+						imageUrl = imageUrl.replace(/\.tga/i, ".png");
+						
 						_queuedMaterials.push({symbol:symbol, url:imageUrl});
 						continue;
 					}
@@ -846,37 +938,42 @@
 		 * @param	node
 		 * @return
 		 */
+		private function buildMatrixFromTransform(transform:DaeTransform):Matrix3D
+		{
+			var matrix:Matrix3D;
+			var toRadians:Number = Math.PI/180;
+			var v:Array = transform.values;
+			
+			switch(transform.type)
+			{
+				case ASCollada.DAE_ROTATE_ELEMENT:
+					matrix = Matrix3D.rotationMatrix(v[0], v[1], v[2], v[3] * toRadians);
+					break;
+				case ASCollada.DAE_SCALE_ELEMENT:
+					matrix = Matrix3D.scaleMatrix(v[0], v[1], v[2]);
+					break;
+				case ASCollada.DAE_TRANSLATE_ELEMENT:
+					matrix = Matrix3D.translationMatrix(v[0], v[1], v[2]);
+					break;
+				case ASCollada.DAE_MATRIX_ELEMENT:
+					matrix = new Matrix3D(v);
+					break;
+				default:
+					throw new Error("Unknown transform type: " + transform.type);
+			}
+			return matrix;
+		}
+		
+		/**
+		 * 
+		 * @param	node
+		 * @return
+		 */
 		private function buildMatrixStack(node:DaeNode):Array
 		{
-			var toRadians:Number = Math.PI/180;
-			var stack:Array = new Array();
-			
+			var stack:Array = new Array();	
 			for( var i:int = 0; i < node.transforms.length; i++ ) 
-			{
-				var transform:DaeTransform = node.transforms[i];
-				var v:Array = transform.values;				
-				var matrix:Matrix3D;
-				
-				switch(transform.type)
-				{
-					case ASCollada.DAE_ROTATE_ELEMENT:
-						matrix = Matrix3D.rotationMatrix(v[0], v[1], v[2], v[3] * toRadians);
-						break;
-					case ASCollada.DAE_SCALE_ELEMENT:
-						matrix = Matrix3D.scaleMatrix(v[0], v[1], v[2]);
-						break;
-					case ASCollada.DAE_TRANSLATE_ELEMENT:
-						matrix = Matrix3D.translationMatrix(v[0], v[1], v[2]);
-						break;
-					case ASCollada.DAE_MATRIX_ELEMENT:
-						matrix = new Matrix3D(v);
-						break;
-					default:
-						throw new Error("Unknown transform type: " + transform.type);
-				}
-				
-				stack.push(matrix);
-			}
+				stack.push(buildMatrixFromTransform(node.transforms[i]));
 			return stack;
 		}
 		
@@ -1008,7 +1105,7 @@
 			{
 				
 			}
-			else if(_rightHanded || !_numSkins)
+			else /*if(_rightHanded || !_numSkins)*/
 			{
 				_rootNode.rotationX = 90;
 				_rootNode.rotationY = 180;
@@ -1069,7 +1166,7 @@
 				if(!skin)
 					throw new Error("no geometry for source: " + colladaSkin.source);
 			}
-				
+			/*
 			if(!_rightHanded && reverseFaces)
 			{
 				for each(var triangle:Triangle3D in skin.faces)
@@ -1080,7 +1177,7 @@
 					triangle.uv = [triangle.uv2, triangle.uv1, triangle.uv0];
 				}
 			}
-			
+			*/
 			mergeGeometries(instance.geometry, skin.clone(instance));
 			
 			var yUp:Boolean = (this.document.asset.yUp == ASCollada.DAE_Y_UP);
