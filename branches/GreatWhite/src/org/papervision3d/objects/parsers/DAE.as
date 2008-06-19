@@ -571,7 +571,7 @@
 				}
 	
 				// the object has a single channel
-				if(channels.length == 1)
+				if(channels.length == 1 && transform.type == ASCollada.DAE_MATRIX_ELEMENT)
 				{
 					_channelsByTarget[target] = [buildAnimationChannel(target, channel)];
 					continue;
@@ -581,6 +581,7 @@
 				var allTimes:Array = new Array();
 				var times:Array = new Array();
 				var lastTime:Number;
+				var sids:Object = new Object();
 				
 				// fetch all times for all channels
 				for each(channel in channels)
@@ -602,7 +603,7 @@
 				var mcs:Object = new Object();
 				for each(channel in channels)
 					mcs[ channel.syntax.targetSID ] = buildAnimationChannel(target, channel);
-				
+					
 				var bakedChannel:MatrixChannel3D = new MatrixChannel3D(target);
 				
 				// build a baked channel
