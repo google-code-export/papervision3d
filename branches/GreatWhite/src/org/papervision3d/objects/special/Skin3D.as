@@ -1,5 +1,6 @@
 package org.papervision3d.objects.special
 {
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.Matrix3D;
@@ -44,6 +45,8 @@ package org.papervision3d.objects.special
 			this.negateZ = negateZ;
 			this.joints = new Array();
 			this.skeletons = new Array();
+			
+			_rightHanded = Papervision3D.useRIGHTHANDED;
 		}
 		
 		/**
@@ -135,7 +138,12 @@ package org.papervision3d.objects.special
 
 				//update the vertex
 				skinned.x += (pos.x * weight);
-				if(negateZ)
+				if(_rightHanded)
+				{
+					skinned.y += (pos.y * weight);
+					skinned.z += (pos.z * weight);
+				}
+				else if(negateZ)
 				{
 					skinned.z += (pos.y * weight);
 					skinned.y += (pos.z * weight);
@@ -149,5 +157,6 @@ package org.papervision3d.objects.special
 		}
 		
 		private var _cached:Array;
+		private var _rightHanded:Boolean;
 	}
 }

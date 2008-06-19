@@ -1008,7 +1008,7 @@
 			{
 				
 			}
-			else if(!_numSkins)
+			else if(_rightHanded || !_numSkins)
 			{
 				_rootNode.rotationX = 90;
 				_rootNode.rotationY = 180;
@@ -1069,8 +1069,8 @@
 				if(!skin)
 					throw new Error("no geometry for source: " + colladaSkin.source);
 			}
-					
-			if(reverseFaces)
+				
+			if(!_rightHanded && reverseFaces)
 			{
 				for each(var triangle:Triangle3D in skin.faces)
 				{
