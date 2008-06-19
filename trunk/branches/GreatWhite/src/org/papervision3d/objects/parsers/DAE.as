@@ -348,6 +348,7 @@
 			var matrixProp:String;
 			var arrayMember:String;
 			var data:Array;
+			var val:Number;
 			var i:int;
 						
 			if(channel.syntax.isArrayAccess)
@@ -465,6 +466,30 @@
 							matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
 						}
 					}
+					else if(channel.syntax.isDotAccess)
+					{
+						for(i = 0; i < channel.input.length; i++)
+						{
+							val = channel.output[i];
+							switch(channel.syntax.member)
+							{
+								case "X":
+									matrix = Matrix3D.scaleMatrix(val, 0, 0);
+									matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+									break;
+								case "Y":
+									matrix = Matrix3D.scaleMatrix(0, val, 0);
+									matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+									break;
+								case "Z":
+									matrix = Matrix3D.scaleMatrix(0, 0, val);
+									matrixChannel.addKeyFrame(new AnimationKeyFrame3D("keyframe_" + i, channel.input[i], [matrix]));
+									break;
+								default:
+									break;		
+							}
+						}
+					}
 					else
 					{
 						throw new Error("Don't know how to handle this channel: " + channel.syntax);
@@ -484,7 +509,7 @@
 					{
 						for(i = 0; i < channel.input.length; i++)
 						{
-							var val:Number = channel.output[i];
+							val = channel.output[i];
 							switch(channel.syntax.member)
 							{
 								case "X":
@@ -570,18 +595,17 @@
 					continue;
 				}
 	
-				// the object has a single channel
+				// the object has a single <matrix> channel
 				if(channels.length == 1 && transform.type == ASCollada.DAE_MATRIX_ELEMENT)
 				{
 					_channelsByTarget[target] = [buildAnimationChannel(target, channel)];
 					continue;
 				}
 				
-				// the object has multiple channels
+				// the object has multiple channels, lets bake 'm into a single channel
 				var allTimes:Array = new Array();
 				var times:Array = new Array();
 				var lastTime:Number;
-				var sids:Object = new Object();
 				
 				// fetch all times for all channels
 				for each(channel in channels)
@@ -609,36 +633,42 @@
 				// build a baked channel
 				for(i = 0; i < times.length; i++)
 				{
-					var time:Number = times[i];
+					var keyframeTime:Number = times[i];
 					var bakedMatrix:Matrix3D = Matrix3D.IDENTITY;
 					
+					// loop over the DaeNode's transform-stack
 					for(var j:int = 0; j < node.transforms.length; j++)
 					{
 						transform = node.transforms[j];
 						
-						var mc:MatrixChannel3D = mcs[ transform.sid ];
+						var matrixChannel:MatrixChannel3D = mcs[ transform.sid ];
 						
-						if(mc)
+						if(matrixChannel)
 						{
-							var alpha:Number;
-							if(time < mc.startTime)
-								alpha = 0;
-							else if(time > mc.endTime)
-								alpha = 1;
+							// this transform is animated, so lets determine the matrix for the current keyframeTime
+							var time:Number;
+							if(keyframeTime < matrixChannel.startTime)
+								time = 0;
+							else if(keyframeTime > matrixChannel.endTime)
+								time = 1;
 							else
-								alpha = time / (mc.endTime - mc.startTime);
+								time = keyframeTime / (matrixChannel.endTime - matrixChannel.startTime);
 								
-							mc.updateToTime(alpha);
+							// update the channel by time, so the matrix for the current keyframe is setup
+							matrixChannel.updateToTime(time);
 							
+							// bake the matrix
 							bakedMatrix = Matrix3D.multiply(bakedMatrix, target.transform);
 						}
 						else
 						{
+							// this transform isn't animated, simply bake the transform into the matrix
 							bakedMatrix = Matrix3D.multiply(bakedMatrix, buildMatrixFromTransform(transform));
 						}
 					}
 					
-					bakedChannel.addKeyFrame(new AnimationKeyFrame3D("frame_" + i, time, [bakedMatrix]));
+					// now we can add the baked matrix as a new keyframe
+					bakedChannel.addKeyFrame(new AnimationKeyFrame3D("frame_" + i, keyframeTime, [bakedMatrix]));
 				}
 				
 				_channelsByTarget[target] = [bakedChannel];
@@ -1142,9 +1172,8 @@
 		 * @param	instance
 		 * @param	colladaSkin
 		 * @param	skeletons
-		 * @param	reverseFaces
 		 */ 
-		private function buildSkin(instance:Skin3D, colladaSkin:DaeSkin, skeletons:Array, reverseFaces:Boolean=true):void
+		private function buildSkin(instance:Skin3D, colladaSkin:DaeSkin, skeletons:Array):void
 		{
 			var skin:GeometryObject3D = _geometries[ colladaSkin.source ];
 			if(!skin)
@@ -1167,18 +1196,7 @@
 				if(!skin)
 					throw new Error("no geometry for source: " + colladaSkin.source);
 			}
-			/*
-			if(!_rightHanded && reverseFaces)
-			{
-				for each(var triangle:Triangle3D in skin.faces)
-				{
-					var tmp:Vertex3D = triangle.v0;
-					triangle.v0 = triangle.v2;
-					triangle.v2 = tmp;
-					triangle.uv = [triangle.uv2, triangle.uv1, triangle.uv0];
-				}
-			}
-			*/
+
 			mergeGeometries(instance.geometry, skin.clone(instance));
 			
 			var yUp:Boolean = (this.document.asset.yUp == ASCollada.DAE_Y_UP);
