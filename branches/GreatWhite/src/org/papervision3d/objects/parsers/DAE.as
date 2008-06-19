@@ -1001,7 +1001,7 @@
 
 					if(colladaController.skin)
 					{
-						instance = new Skin3D(null, [], [], node.name, true);
+						instance = new Skin3D(null, [], [], node.name);
 						
 						buildSkin(instance as Skin3D, colladaController.skin, instanceController.skeletons);
 					}
