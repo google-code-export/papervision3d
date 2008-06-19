@@ -17,7 +17,6 @@
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
-	import org.papervision3d.core.utils.virtualmouse.VirtualMouseEvent;
 	
 	/**
 	* @author John Grden
@@ -59,7 +58,7 @@
 		public function InteractiveSceneManager(viewport:Viewport3D) 
 		{
 			this.viewport = viewport;
-			this.container = viewport.containerSprite;
+			this.container = viewport.containerSprite; 
 			init();
 		}
 		
@@ -120,7 +119,7 @@
 				// setup listeners
 				container.addEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
 				container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
-				container.stage.addEventListener(MouseEvent.CLICK, handleMouseClick); //container.stage.addEventListener(MouseEvent.CLICK, handleMouseClick);
+				container.addEventListener(MouseEvent.CLICK, handleMouseClick);
 				container.stage.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
 			}
 		}
@@ -205,9 +204,7 @@
 		 */		
 		protected function handleMouseClick(e:MouseEvent):void
 		{
-			
-			//if( e is IVirtualMouseEvent ) return;
-			if( !e.relatedObject ) return;
+			if( e is IVirtualMouseEvent ) return;
 			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, currentDisplayObject3D);
 		}
 		/**
