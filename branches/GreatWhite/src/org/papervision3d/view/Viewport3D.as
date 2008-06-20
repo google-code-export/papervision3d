@@ -329,9 +329,10 @@ package org.papervision3d.view {
 				}
 			}else{
 				containerSprite.updateInfo();
-				containerSprite.sortChildLayers();
 				containerSprite.updateAfterRender();
 			}
+			
+			containerSprite.sortChildLayers();
 		}
 		
 		public function set viewportObjectFilter(vof:ViewportObjectFilter):void
