@@ -1075,7 +1075,7 @@
 					{
 						material.registerObject(instance);
 					}
-					
+
 					mergeGeometries(instance.geometry, geometry.clone(instance), material);
 				}
 			}
@@ -1415,7 +1415,7 @@
 			if(material)
 			{
 				for each(var triangle:Triangle3D in source.faces)
-					triangle.material = triangle.material || material;
+					triangle.material = material || triangle.material;
 			}
 			target.vertices = target.vertices.concat(source.vertices);
 			target.faces = target.faces.concat(source.faces);
