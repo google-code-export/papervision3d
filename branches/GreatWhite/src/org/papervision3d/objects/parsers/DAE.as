@@ -331,10 +331,7 @@
 		 * @param	channel	The DaeChannel
 		 */ 
 		private function buildAnimationChannel(target:DisplayObject3D, channel:DaeChannel):MatrixChannel3D
-		{
-			//if(channel.syntax.isArrayAccess)
-			//	return;
-				
+		{				
 			var node:DaeNode = _objectToNode[target];
 					
 			if(!node)
@@ -345,7 +342,10 @@
 			var transform:DaeTransform = node.findMatrixBySID(channel.syntax.targetSID);
 					
 			if(!transform)
-				throw new Error("Couldn't find the targeted object's transform!");
+			{
+				Papervision3D.log("Couldn't find the targeted object's transform: " + channel.syntax.targetSID);
+				return null;
+			}
 			
 			var matrix:Matrix3D;
 			var matrixProp:String;
@@ -629,7 +629,11 @@
 				// build the MatrixChannel3D's for this object
 				var mcs:Object = new Object();
 				for each(channel in channels)
-					mcs[ channel.syntax.targetSID ] = buildAnimationChannel(target, channel);
+				{
+					var animationChannel:MatrixChannel3D = buildAnimationChannel(target, channel);
+					if(animationChannel) 
+						mcs[ channel.syntax.targetSID ] = buildAnimationChannel(target, channel);
+				}
 					
 				var bakedChannel:MatrixChannel3D = new MatrixChannel3D(target);
 				
@@ -1055,28 +1059,34 @@
 				// add all COLLADA geometries to the TriangleMesh3D
 				for each(var geom:DaeInstanceGeometry in node.geometries)
 				{
-					var instanceMaterial:DaeInstanceMaterial = geom.materials.length ? geom.materials[0] : null;
+					var geometry:GeometryObject3D = _geometries[ geom.url ];		
+					if(!geometry)
+						continue;
 					
 					if(_geometries[ geom.url ] is Lines3D)
 					{
 						instance.addChild(_geometries[ geom.url ]);
 						continue;
 					}
-					
-					var geometry:GeometryObject3D = _geometries[ geom.url ];		
-					if(!geometry)
-						continue;
-					
-					if(instanceMaterial)
-						material = this.materials.getMaterialByName(instanceMaterial.symbol);
-					
-					// register shaded materials with its object
-					if(material is AbstractLightShadeMaterial || material is ShadedMaterial)
+						
+					var materialInstances:Array = new Array();
+					if(geom.materials)
 					{
-						material.registerObject(instance);
+						for each(var instanceMaterial:DaeInstanceMaterial in geom.materials)
+						{
+							material = this.materials.getMaterialByName(instanceMaterial.symbol);
+							if(material)
+							{
+								// register shaded materials with its object
+								if(material is AbstractLightShadeMaterial || material is ShadedMaterial)
+									material.registerObject(instance);
+								
+								materialInstances.push(material);
+							}
+						}
 					}
-
-					mergeGeometries(instance.geometry, geometry.clone(instance), material);
+					
+					mergeGeometries(instance.geometry, geometry.clone(instance), materialInstances);
 				}
 			}
 			else
@@ -1410,12 +1420,25 @@
 		 * @param source The source geometry
 		 * @param material Optional material for triangles, only used when a triangle has no material.
 		 */ 
-		private function mergeGeometries(target:GeometryObject3D, source:GeometryObject3D, material:MaterialObject3D=null):void
+		private function mergeGeometries(target:GeometryObject3D, source:GeometryObject3D, materialInstances:Array=null):void
 		{
-			if(material)
+			if(materialInstances && materialInstances.length)
 			{
+				var firstMaterial:MaterialObject3D = materialInstances[0];
+				
 				for each(var triangle:Triangle3D in source.faces)
-					triangle.material = material || triangle.material;
+				{
+					var correctMaterial:Boolean = false;
+					for each(var material:MaterialObject3D in materialInstances)
+					{
+						if(material === triangle.material)
+						{
+							correctMaterial = true;
+							break;
+						}
+					}
+					triangle.material = correctMaterial ? triangle.material : firstMaterial;
+				}
 			}
 			target.vertices = target.vertices.concat(source.vertices);
 			target.faces = target.faces.concat(source.faces);
