@@ -157,18 +157,12 @@ package org.papervision3d.view.layer {
 		
 		private function linkChild(do3d:DisplayObject3D, vpl:ViewportLayer, e:ViewportLayerEvent = null):void{
 			layers[do3d] = vpl;
-			if(e)
-				dispatchEvent(e);
-			else
 				dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_ADDED, do3d, vpl));
 			
 		}
 		
 		private function unlinkChild(do3d:DisplayObject3D, e:ViewportLayerEvent = null):void{
 			layers[do3d ] = null;
-			if(e)
-				dispatchEvent(e);
-			else
 				dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_REMOVED, do3d));
 		}
 		
