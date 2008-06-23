@@ -8,7 +8,6 @@
 	import org.papervision3d.core.math.AxisAlignedBoundingBox;
 	import org.papervision3d.core.math.BoundingSphere;
 	import org.papervision3d.core.math.Matrix3D;
-	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.objects.DisplayObject3D;
 
 	/**
@@ -156,7 +155,8 @@
 		 */ 
 		public function clone(parent:DisplayObject3D = null):GeometryObject3D
 		{
-			var verts:Dictionary = new Dictionary();
+			var materials:Dictionary = new Dictionary(true);
+			var verts:Dictionary = new Dictionary(true);
 			var geom:GeometryObject3D = new GeometryObject3D();
 			var i:int;
 			
@@ -181,8 +181,13 @@
 				var v2:Vertex3D = verts[ f.v2 ];
 				
 				geom.faces.push(new Triangle3D(parent, [v0, v1, v2], f.material, f.uv));
+				
+				materials[ f.material ] = f.material;
 			}
 			
+			for each(var material:MaterialObject3D in materials)
+				material.registerObject(parent);
+				
 			return geom;
 		}
 		
