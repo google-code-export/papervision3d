@@ -248,8 +248,7 @@
 			if(this.material === existingMaterial)
 				this.material = material;
 			existingMaterial = this.materials.removeMaterial(existingMaterial);
-			existingMaterial.unregisterObject(this);
-				
+	
 			material = this.materials.addMaterial(material, name);
 				
 			updateMaterials(this, existingMaterial, material);
@@ -917,21 +916,22 @@
 			
 			for( var materialId:String in this.document.materials )
 			{
-				var material:DaeMaterial = this.document.materials[ materialId ];
+				var material:MaterialObject3D = null;
+				var daeMaterial:DaeMaterial = this.document.materials[ materialId ];
 
-				var symbol:String = this.document.materialTargetToSymbol[ material.id ];
+				var symbol:String = this.document.materialTargetToSymbol[ daeMaterial.id ];
 							
 				// material already exists in our materialsList, no need to process
 				if(this.materials.getMaterialByName(symbol))
 					continue;
 					
-				var effect:DaeEffect = document.effects[ material.effect ];
+				var effect:DaeEffect = document.effects[ daeMaterial.effect ];
 				
 				var lambert:DaeLambert = effect.color as DaeLambert;
 				
 				// save the texture-set if necessary
 				if(lambert && lambert.diffuse.texture)
-					_textureSets[material.id] = lambert.diffuse.texture.texcoord;
+					_textureSets[daeMaterial.id] = lambert.diffuse.texture.texcoord;
 					
 				// if the material has a texture, qeueu the bitmap
 				if(effect && effect.texture_url)
@@ -940,16 +940,27 @@
 					if(image)
 					{
 						var imageUrl:String = buildImagePath(this.baseUrl, image.init_from);
-						
-						_queuedMaterials.push({symbol:symbol, url:imageUrl});
+					
+						material = new BitmapFileMaterial();
+						material.doubleSided = effect.double_sided;
+						_queuedMaterials.push({symbol:symbol, url:imageUrl, material:material});
 						continue;
 					}
 				}
 
 				if(lambert && lambert.diffuse.color)
-					this.materials.addMaterial(new ColorMaterial(buildColor(lambert.diffuse.color)), symbol);
+				{
+					if(effect.wireframe)
+						material = new WireframeMaterial(buildColor(lambert.diffuse.color));
+					else
+						material = new ColorMaterial(buildColor(lambert.diffuse.color));
+				}
 				else
-					this.materials.addMaterial(MaterialObject3D.DEFAULT, symbol);
+					material = MaterialObject3D.DEFAULT;
+					
+				material.doubleSided = effect.double_sided;
+				
+				this.materials.addMaterial(MaterialObject3D.DEFAULT, symbol);
 			}
 		}
 		
@@ -1116,7 +1127,7 @@
 			_colladaSIDToObject[node.sid] = instance;
 			_objectToNode[instance] = node;
 			
-			instance.extra = "flipLight";
+			instance.flipLightDirection = true;
 				
 			parent.addChild(instance);
 		}
@@ -1418,7 +1429,7 @@
 				
 				url = url.replace(/\.tga/i, "."+DEFAULT_TGA_ALTERNATIVE);
 				
-				var material:BitmapFileMaterial = new BitmapFileMaterial();
+				var material:BitmapFileMaterial = data.material;
 				material.addEventListener(FileLoadEvent.LOAD_COMPLETE, loadNextMaterial);
 				material.addEventListener(FileLoadEvent.LOAD_ERROR, onMaterialError);
 				material.name = symbol;

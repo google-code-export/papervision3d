@@ -44,7 +44,7 @@ package org.papervision3d.objects.parsers
 		* Default scaling value for constructor.
 		*/
 		static public var DEFAULT_SCALING  :Number = 1;
-	
+		
 		/**
 		* Internal scaling value.
 		*/
@@ -82,9 +82,11 @@ package org.papervision3d.objects.parsers
 		* <p/>
 		* @param	scale		Scaling factor.
 		* <p/>
+		* @param	doubleSided		Whether to make all materials doubleSided.
+		* <p/>
 		*/
 	
-		public function Collada( COLLADA :*, materials :MaterialsList=null, scale :Number=1, initObject :Object=null )
+		public function Collada( COLLADA :*, materials :MaterialsList=null, scale :Number=1, doubleSided:Boolean=false, initObject :Object=null )
 		{
 			super(null, null, initObject);
 			
@@ -96,6 +98,8 @@ package org.papervision3d.objects.parsers
 			this._scaling  = scale || DEFAULT_SCALING;
 			this._scaling *= INTERNAL_SCALING;
 	
+			this._doubleSidedMaterials = doubleSided;
+			
 			this._geometries = new Object();
 	
 			if( COLLADA is XML )
@@ -450,6 +454,7 @@ package org.papervision3d.objects.parsers
 				}
 	
 				material.name = name;
+				material.doubleSided = _doubleSidedMaterials;
 			}
 			_materials.addMaterial(material);
 	
@@ -677,7 +682,9 @@ package org.papervision3d.objects.parsers
 		private var _scaling    :Number;
 	
 		private var _yUp        :Boolean;
-	
+
+		private var _doubleSidedMaterials:Boolean = false;
+		
 		static private var toDEGREES :Number = 180/Math.PI;
 		static private var toRADIANS :Number = Math.PI/180;
 	}

@@ -27,7 +27,6 @@ package org.ascollada.fx
 {
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeEntity;
-	import org.ascollada.core.DaeSampler;
 	import org.ascollada.types.DaeColorOrTexture;
 	import org.ascollada.utils.Logger;
 		
@@ -44,6 +43,12 @@ package org.ascollada.fx
 		
 		/** **/
 		public var texture_url:String;
+		
+		/** */
+		public var double_sided:Boolean;
+		
+		/** */
+		public var wireframe:Boolean;
 		
 		/**
 		 * 
@@ -63,6 +68,9 @@ package org.ascollada.fx
 		override public function read( node:XML ):void
 		{			
 			super.read( node );
+			
+			this.double_sided = false;
+			this.wireframe = false;
 			
 			// The <profile_COMMON> elements encapsulate all the values and declarations for 
 			// a platform-independent fixed-function shader. All platforms are required to 
@@ -136,6 +144,41 @@ package org.ascollada.fx
 				if( sampler2D.sid == ph.diffuse.texture.texture && sampler2D.sampler2D.source == surface.sid )
 				{						
 					this.texture_url = surface.surface.init_from;
+				}
+			}
+			
+			readExtra(node);
+		}
+		
+		private function readExtra(node:XML):void
+		{
+			var extraList:XMLList = getNodeList(node, ASCollada.DAE_EXTRA_ELEMENT);
+			
+			for each(var extraNode:XML in extraList)
+			{
+				var techniqueNode:XML = getNode(extraNode, ASCollada.DAE_TECHNIQUE_ELEMENT);
+				var profile:String = techniqueNode.@profile.toString();
+				var tmp:XML;
+				var text:String;
+				
+				switch(profile)
+				{
+					case "MAX3D":
+						tmp = getNode(techniqueNode, "double_sided");
+						if(tmp)
+						{
+							text = getNodeContent(tmp);
+							this.double_sided = (text == "1" || text == "true");
+						}
+						tmp = getNode(techniqueNode, "wireframe");
+						if(tmp)
+						{
+							text = getNodeContent(tmp);
+							this.wireframe = (text == "1" || text == "true");
+						}
+						break;
+					default:
+						break
 				}
 			}
 		}
