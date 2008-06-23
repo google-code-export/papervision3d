@@ -110,7 +110,9 @@
 			
 				child.parent = null;
 				child.root = null;
-					
+				
+				_childrenTotal--;
+				
 				return child;
 			}
 			return null;
