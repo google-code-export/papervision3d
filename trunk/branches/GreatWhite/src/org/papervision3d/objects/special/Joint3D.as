@@ -1,6 +1,7 @@
 package org.papervision3d.objects.special
 {
 	import org.papervision3d.core.math.Matrix3D;
+	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
 
 	/**
