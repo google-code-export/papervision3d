@@ -1,13 +1,14 @@
 package org.papervision3d.objects.special
 {
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.parsers.DAE;
 
 	/**
 	 * class Skin3D
@@ -34,14 +35,12 @@ package org.papervision3d.objects.special
 		 * @param	faces
 		 * @param	name
 		 */ 
-		public function Skin3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null)
+		public function Skin3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, yUp:Boolean=false)
 		{
 			super(material, vertices, faces, name);
 			
 			this.joints = new Array();
 			this.skeletons = new Array();
-			
-			_rightHanded = Papervision3D.useRIGHTHANDED;
 		}
 		
 		/**
@@ -55,21 +54,18 @@ package org.papervision3d.objects.special
 			if(this.bindShapeMatrix && this.skeletons.length && this.joints.length)
 			{
 				if(!_cached)
+				{
 					cacheVertices();
-					
+					renderSessionData.scene.addChild(this.skeletons[0]);
+				}
 				var i:int;	
 				var vertices:Array = this.geometry.vertices;
 				var joints:Array = this.joints;
-				var skeletons:Array = this.skeletons;
-				
+
 				// reset mesh's vertices to 0
 				for(i = 0; i < vertices.length; i++)
 					vertices[i].x = vertices[i].y = vertices[i].z = 0;
-					
-				// project skeleton(s)
-				for each(var joint:Joint3D in skeletons)
-					joint.project(renderSessionData.camera, renderSessionData);
-				
+								
 				// skin the mesh!
 				for(i = 0; i < joints.length; i++)
 					skinMesh(joints[i], _cached, vertices);
@@ -94,7 +90,6 @@ package org.papervision3d.objects.special
 				// move vertices to the bind pose.
 				Matrix3D.multiplyVector(this.bindShapeMatrix, _cached[i]);
 			}
-			
 		}
 		
 		/**
@@ -139,6 +134,6 @@ package org.papervision3d.objects.special
 		}
 		
 		private var _cached:Array;
-		private var _rightHanded:Boolean;
+		private var _yUp:Boolean;
 	}
 }

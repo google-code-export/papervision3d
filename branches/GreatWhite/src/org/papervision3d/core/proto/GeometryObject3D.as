@@ -208,11 +208,13 @@
 				maxU = Math.max(maxU, f.uv0.u);
 				maxU = Math.max(maxU, f.uv1.u);
 				maxU = Math.max(maxU, f.uv2.u);
+				
+				f.createNormal();
 			}
 			
 			// need to flip U
-			for each(var uv:NumberUV in uvs)
-				uv.u = maxU - uv.u;
+		//	for each(var uv:NumberUV in uvs)
+		//		uv.u = maxU - uv.u;
 				
 			this.ready = true;
 		}

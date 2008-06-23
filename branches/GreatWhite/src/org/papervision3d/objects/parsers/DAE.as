@@ -83,7 +83,7 @@
 		 */ 
 		public function DAE(autoPlay:Boolean=true)
 		{
-			super();
+			super("COLLADA_File");
 			
 			_autoPlay = autoPlay;
 			_rightHanded = Papervision3D.useRIGHTHANDED;
@@ -540,7 +540,7 @@
 				default:
 					throw new Error("Unknown transform type!");	
 			}
-			
+				
 			return matrixChannel;
 		}
 		
@@ -1036,9 +1036,9 @@
 
 					if(colladaController.skin)
 					{
-						instance = new Skin3D(null, [], [], node.name);
+						instance = new Skin3D(null, [], [], node.name, this.yUp);
 						
-						buildSkin(instance as Skin3D, colladaController.skin, instanceController.skeletons);
+						buildSkin(instance as Skin3D, colladaController.skin, instanceController.skeletons, node);
 					}
 					else if(colladaController.morph)
 					{
@@ -1116,6 +1116,8 @@
 			_colladaSIDToObject[node.sid] = instance;
 			_objectToNode[instance] = node;
 			
+			instance.extra = "flipLight";
+				
 			parent.addChild(instance);
 		}
 		
@@ -1131,7 +1133,8 @@
 					
 			buildGeometries();
 			
-			_rootNode = this.addChild(new DisplayObject3D("COLLADA_Scene"));
+			_jointsToRemove = new Array();
+			_rootNode = new DisplayObject3D("COLLADA_Scene");
 			
 			for(var i:int = 0; i < this.document.vscene.nodes.length; i++)
 			{
@@ -1141,13 +1144,17 @@
 			// link the skins
 			linkSkins();
 			
+			// remove all joints from the scenegraph
+			while(_jointsToRemove.length)
+				_rootNode.removeChild(_jointsToRemove.pop() as DisplayObject3D);
+				
 			this.addChild(_rootNode);
 			
 			if(this.yUp)
 			{
 				
 			}
-			else /*if(_rightHanded || !_numSkins)*/
+			else
 			{
 				_rootNode.rotationX = 90;
 				_rootNode.rotationY = 180;
@@ -1184,7 +1191,7 @@
 		 * @param	colladaSkin
 		 * @param	skeletons
 		 */ 
-		private function buildSkin(instance:Skin3D, colladaSkin:DaeSkin, skeletons:Array):void
+		private function buildSkin(instance:Skin3D, colladaSkin:DaeSkin, skeletons:Array, node:DaeNode):void
 		{
 			var skin:GeometryObject3D = _geometries[ colladaSkin.source ];
 			if(!skin)
@@ -1207,7 +1214,7 @@
 				if(!skin)
 					throw new Error("no geometry for source: " + colladaSkin.source);
 			}
-
+			
 			mergeGeometries(instance.geometry, skin.clone(instance));
 			
 			var yUp:Boolean = (this.document.asset.yUp == ASCollada.DAE_Y_UP);
@@ -1330,13 +1337,13 @@
 					throw new Error("Could not find inverse bind matrix for joint with id = " + jointId);
 				
 				joint.inverseBindMatrix = new Matrix3D(bindMatrix);
-
+				
 				instance.joints[i] = joint;
 				
 				found[jointId] = true;
 			}
 			
-			var remove:Array = new Array();
+			var topNode:Joint3D;
 			
 			for(i = 0; i < instance.skeletons.length; i++)
 			{
@@ -1348,19 +1355,33 @@
 				if(!skeleton)
 					throw new Error("Couldn't find the skeleton with id = " + skeletonId);
 					
-				skeleton = this.getChildByName(skeleton.name, true) as Joint3D;
+				skeleton = _rootNode.getChildByName(skeleton.name, true) as Joint3D;
 				
 				if(!skeleton)
 					throw new Error("Couldn't find the skeleton with id = " + skeletonId);
-					
-				instance.skeletons[i] = skeleton;
 				
-				remove.push(skeleton);
+				if(topNode)
+				{
+					if(!topNode.getChildByName(skeleton.name, true))
+						topNode = skeleton;
+				}
+				else
+					topNode = skeleton;
 			}
 			
-			// remove the joints from the scenegraph!
-			for each(var jnt:Joint3D in remove)
-				this.removeChild(jnt);
+			if(!topNode)
+				throw new Error("Could not find a skeleton!");
+			
+			var tmp:Joint3D = topNode.parent as Joint3D;
+			while(tmp)
+			{
+				topNode = tmp;
+				tmp = tmp.parent as Joint3D;
+			}
+
+			_jointsToRemove.push(topNode);
+			
+			instance.skeletons = [topNode];
 					
 			instance.bindShapeMatrix = new Matrix3D(skin.bind_shape_matrix);
 		}
@@ -1623,6 +1644,9 @@
 		
 		/** */
 		private var _rightHanded:Boolean;
+		
+		/** */
+		private var _jointsToRemove:Array;
 	}
 }
 
