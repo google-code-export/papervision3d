@@ -85,7 +85,7 @@ package org.papervision3d.materials.utils
 			_lightUp.z = (_lightSide.x * _lightDir.y) - (_lightSide.y * _lightDir.x);
 			_lightUp.normalize(); // needed?
 
-			if(Papervision3D.useRIGHTHANDED || (object.extra && object.extra=="flipLight"))
+			if(Papervision3D.useRIGHTHANDED || object.flipLightDirection)
 			{
 				_lightDir.x = -_lightDir.x;
 				_lightDir.y = -_lightDir.y;

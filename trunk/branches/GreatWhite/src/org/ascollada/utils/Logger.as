@@ -27,7 +27,7 @@ package org.ascollada.utils
 {
 	public class Logger
 	{
-		public static var VERBOSE:Boolean = true;
+		public static var VERBOSE:Boolean = false;
 		
 		public static function debug( o:String ):void
 		{
