@@ -80,11 +80,11 @@
 		 * Constructor.
 		 * 
 		 * @param	autoPlay	Whether to start the animation automatically.
+		 * @param	name	Optional name for the DAE.
 		 */ 
-		public function DAE(autoPlay:Boolean=true)
+		public function DAE(autoPlay:Boolean=true, name:String=null)
 		{
-			super("COLLADA_File");
-			
+			super(name);
 			_autoPlay = autoPlay;
 			_rightHanded = Papervision3D.useRIGHTHANDED;
 		}
@@ -718,7 +718,7 @@
 			var texCoordSet:Array = primitive.getTexCoords(setID); 
 			var texcoords:Array = new Array();
 			var i:int, j:int = 0, k:int;
-			
+
 			// texture coords
 			for( i = 0; i < texCoordSet.length; i++ ) 
 				texcoords.push(new NumberUV(texCoordSet[i][0], texCoordSet[i][1]));
@@ -770,6 +770,7 @@
 					{
 						var poly:Array = new Array();
 						var uvs:Array = new Array();
+						
 						for( j = 0; j < primitive.vcount[i]; j++ ) 
 						{
 							uvs.push( (hasUV ? texcoords[ k ] : new NumberUV()) );
@@ -781,13 +782,42 @@
 							
 						v[0] = poly[0];
 						uv[0] = uvs[0];
-						
+
 						for( j = 1; j < poly.length - 1; j++ )
 						{
 							v[1] = poly[j];
 							v[2] = poly[j+1];
 							uv[1] = uvs[j];
 							uv[2] = uvs[j+1];
+							geometry.faces.push(new Triangle3D(null, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]));
+						}
+					}
+					break;
+				
+				// polygons *with* holes (but holes not yet processed...)
+				case ASCollada.DAE_POLYGONS_ELEMENT:
+					for(i = 0, k = 0; i < primitive.polygons.length; i++)
+					{
+						var p:Array = primitive.polygons[i];
+						var np:Array = new Array();
+						var nuv:Array = new Array();
+						
+						for(j = 0; j < p.length; j++)
+						{
+							nuv.push( (hasUV ? texcoords[ k ] : new NumberUV()) );
+							np.push( geometry.vertices[primitive.vertices[k++]] );
+						}
+						
+						v[0] = np[0];
+						uv[0] = nuv[0];
+						
+						for(j = 1; j < np.length - 1; j++)
+						{
+							v[1] = np[j];
+							v[2] = np[j+1];
+							uv[1] = nuv[j];
+							uv[2] = nuv[j+1];
+				
 							geometry.faces.push(new Triangle3D(null, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]));
 						}
 					}
@@ -1050,6 +1080,8 @@
 						instance = new Skin3D(null, [], [], node.name, this.yUp);
 						
 						buildSkin(instance as Skin3D, colladaController.skin, instanceController.skeletons, node);
+					
+						trace("SKIN!" + node.name + " v:" + instance.geometry.vertices.length + " f:" + instance.geometry.faces.length);
 					}
 					else if(colladaController.morph)
 					{
