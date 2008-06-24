@@ -714,7 +714,7 @@
 			
 			// retreive correct texcoord-set for the material.
 			var obj:DaeBindVertexInput = _textureSets[primitive.material] is DaeBindVertexInput ? _textureSets[primitive.material] : null;
-			var setID:int = (obj is DaeBindVertexInput) ? obj.input_set : 0;
+			var setID:int = (obj is DaeBindVertexInput) ? obj.input_set : 1;
 			var texCoordSet:Array = primitive.getTexCoords(setID); 
 			var texcoords:Array = new Array();
 			var i:int, j:int = 0, k:int;
@@ -961,7 +961,9 @@
 				
 				// save the texture-set if necessary
 				if(lambert && lambert.diffuse.texture)
+				{
 					_textureSets[daeMaterial.id] = lambert.diffuse.texture.texcoord;
+				}
 					
 				// if the material has a texture, qeueu the bitmap
 				if(effect && effect.texture_url)

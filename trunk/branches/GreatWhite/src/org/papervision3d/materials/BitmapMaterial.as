@@ -15,7 +15,6 @@
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
-	import org.papervision3d.materials.utils.BitmapMaterialTools;
 	import org.papervision3d.materials.utils.RenderRecStorage;
 
 	/**
@@ -195,7 +194,14 @@
 				var dt :Number = ( v2 - v0 );
 				
 				var m :Matrix = new Matrix( at, bt, ct, dt, u0, v0 );
+				// Need to mirror over X-axis when righthanded
+				if(Papervision3D.useRIGHTHANDED)
+				{
+					m.scale(-1, 1);
+					m.translate(w, 0);
+				}
 				m.invert();
+				
 				var mapping:Matrix = uvMatrices[face3D] ? uvMatrices[face3D] : uvMatrices[face3D] = m.clone();
 				mapping.a  = m.a;
 				mapping.b  = m.b;
@@ -469,12 +475,6 @@
 				this.maxU = this.maxV = 1;
 
 				bm = asset;
-			}
-			
-			// need to flip the bitmap if we're in right-handed system.
-			if(Papervision3D.useRIGHTHANDED)
-			{
-				BitmapMaterialTools.mirrorBitmapX(bm);
 			}
 			
 			return bm;
