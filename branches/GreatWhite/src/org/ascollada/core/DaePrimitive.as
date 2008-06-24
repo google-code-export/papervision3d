@@ -26,8 +26,8 @@
 package org.ascollada.core {
 
 	import flash.utils.Dictionary;
+	
 	import org.ascollada.ASCollada;
-	import org.ascollada.utils.Logger;
 
 	public class DaePrimitive extends DaeEntity {
 		
@@ -45,6 +45,8 @@ package org.ascollada.core {
 		
 		/** primitive type */
 		public var type:String;
+		
+		public var polygons:Array;
 		
 		/**
 		 * 
@@ -91,14 +93,23 @@ package org.ascollada.core {
 			this.count = getAttributeAsInt( node, ASCollada.DAE_COUNT_ATTRIBUTE );
 			this.material = getAttribute( node, ASCollada.DAE_MATERIAL_ATTRIBUTE );
 			this.vcount = new Array();
-
+			this.polygons = new Array();
+			
 			_inputs = new Dictionary();
 			
 			var parent:XML = node.parent() as XML;
 			
 			switch( String(parent.localName()) ) {
 				case ASCollada.DAE_MESH_ELEMENT:
-					parse( node );
+					switch(node.name().localName.toString())
+					{
+						case ASCollada.DAE_POLYGONS_ELEMENT:
+							parsePolygons(node);
+							break;
+						default:
+							parse(node);
+							break;
+					}
 					break;
 				case ASCollada.DAE_CONVEX_MESH_ELEMENT:
 					break;
@@ -121,8 +132,9 @@ package org.ascollada.core {
 			var maxoffset:uint = 0;
 
 			if( vcountNode is XML )
+			{
 				this.vcount = getInts( vcountNode );
-
+			}
 			for each( var inputNode:XML in inputList ) {
 				input = new DaeInput( inputNode );
 				maxoffset = Math.max(maxoffset, input.offset + 1);
@@ -144,6 +156,51 @@ package org.ascollada.core {
 							break;
 					}
 				}
+			}
+		}
+		
+		private function parsePolygons(node:XML):void
+		{
+			var inputs:Array = new Array();
+			var input:DaeInput;
+			var maxoffset:uint = 0;
+			var inputList:XMLList = getNodeList(node, ASCollada.DAE_INPUT_ELEMENT);
+			var pList:XMLList = getNodeList(node, ASCollada.DAE_POLYGON_ELEMENT);
+			var i:int;
+			
+			for(i = 0; i < inputList.length(); i++) 
+			{
+				input = new DaeInput(inputList[i]);
+	
+				maxoffset = Math.max(maxoffset, input.offset + 1);
+				
+				inputs.push( input );
+				_inputs[ input ] = new Array();
+			}
+			
+			for each(var pNode:XML in pList) 
+			{
+				var p:Array = getInts(pNode);
+				var poly:Array = new Array();
+				for(i = 0; i < p.length; i += maxoffset ) 
+				{
+					for each(input in inputs) 
+					{
+						var idx:int = p[i + input.offset];
+						var values:Array = mesh.sources[input.source];
+						
+						switch( input.semantic ) {
+							case "VERTEX":
+								_inputs[ input ].push( idx );
+								poly.push(idx);
+								break;
+							default:
+								_inputs[ input ].push( values[idx] );
+								break;
+						}
+					}				
+				}
+				this.polygons.push(poly);
 			}
 		}
 		
