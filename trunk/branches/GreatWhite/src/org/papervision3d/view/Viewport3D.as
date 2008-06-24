@@ -154,13 +154,14 @@ package org.papervision3d.view {
 				 		do3d.container = containerSprite.layers[do3d];
 				 	}
 					return containerSprite.layers[do3d];
+				}else if(do3d.useOwnContainer){
+					return containerSprite.getChildLayer(do3d, true, true);	
 				}
-				 
-				return containerSprite;
 			 
-			 }else{
-				return containerSprite;
-			}
+			 }
+			
+			return containerSprite;
+			
 		
 		}
 		
