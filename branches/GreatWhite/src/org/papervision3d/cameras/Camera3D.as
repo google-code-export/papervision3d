@@ -106,11 +106,11 @@ public class Camera3D extends CameraObject3D
 	* <li><b>sort</b>: A Boolean value that determines whether the 3D objects are z-depth sorted between themselves when rendering. The default value is true.</li>
 	* </ul>
 	*/
-	public function Camera3D( target:DisplayObject3D=null, zoom:Number=2, focus:Number=100, initObject:Object=null )
+	public function Camera3D( target:DisplayObject3D=null, zoom:Number=11, focus:Number=100, initObject:Object=null )
 	{
 		super( zoom, focus, initObject );
 
-		this.target = target || DisplayObject3D.ZERO;
+		this.target = target|| DisplayObject3D.ZERO;
 
 		this.goto = new Number3D( this.x, this.y, this.z );
 //		this.goTarget = new Number3D( this.target.x, this.target.y, this.target.z );
@@ -129,9 +129,14 @@ public class Camera3D extends CameraObject3D
 	*/
 	public override function transformView( transform:Matrix3D=null ):void
 	{
-		this.lookAt( this.target );
-
-		super.transformView();
+		
+		if(this.target){
+			this.lookAt( this.target );
+		}else if(this._transformDirty ){
+			 updateTransform();
+		}
+		
+		super.transformView(transform);
 	}
 
 	// ___________________________________________________________________________________________________
@@ -200,7 +205,12 @@ public class Camera3D extends CameraObject3D
 				cam.pos.z = camZ;
 				break;
 */
-		}
+		}	
 	}
+	
+	
+	
+	
+	
 }
 }

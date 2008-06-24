@@ -51,6 +51,7 @@ package org.papervision3d.core.math
 		}
 		
 		protected static var flipPlane:Plane3D = new Plane3D();
+		
 		public function isCoplanarOpposite( plane: Plane3D ): Boolean
 		{
 			flipPlane.normal.z = -plane.normal.z;
@@ -78,6 +79,24 @@ package org.papervision3d.core.math
 			flipPlane.normal.x = -normal.x;
 			flipPlane.d = d;
 			return flipPlane;
+		}
+		
+		public function getIntersectionLineNumbers( v0: Number3D, v1: Number3D ): Number3D
+		{
+			var d0: Number = normal.x * v0.x + normal.y * v0.y + normal.z * v0.z - d;
+			var d1: Number = normal.x * v1.x + normal.y * v1.y + normal.z * v1.z - d;
+			var m: Number = d1 / ( d1 - d0 );
+			
+			return new Number3D(
+
+					v1.x + ( v0.x - v1.x ) * m,
+
+					v1.y + ( v0.y - v1.y ) * m,
+
+					v1.z + ( v0.z - v1.z ) * m
+
+				);
+
 		}
 		
 		public function getIntersectionLine( v0: Vertex3D, v1: Vertex3D ): Vertex3D

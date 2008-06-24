@@ -189,5 +189,17 @@ package org.papervision3d.core.proto
 		{
 			super.yaw( angle );
 		}
+		
+		public function unproject(mX:Number, mY:Number):Number3D{
+			
+			var persp:Number = (focus*zoom) / (focus);
+			
+			var vector:Number3D = new Number3D(mX/persp, -mY/persp, focus);
+
+			Matrix3D.multiplyVector(transform, vector);
+			
+			return vector;
+			
+		}
 	}
 }
