@@ -45,7 +45,8 @@ package org.papervision3d.view.layer {
 				this.alpha = do3d.alpha;
 			}
 			
-			addDisplayObject3D(do3d);
+			if(do3d)
+				addDisplayObject3D(do3d);
 				
 			
 			init();
@@ -95,7 +96,6 @@ package org.papervision3d.view.layer {
 			if(layers[do3d]){
 				return layers[do3d];
 			}
-				
 				
 			 
 			//no layer found = return a new one
@@ -156,14 +156,15 @@ package org.papervision3d.view.layer {
 		}
 		
 		private function linkChild(do3d:DisplayObject3D, vpl:ViewportLayer, e:ViewportLayerEvent = null):void{
+			
 			layers[do3d] = vpl;
-				dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_ADDED, do3d, vpl));
+			dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_ADDED, do3d, vpl));
 			
 		}
 		
 		private function unlinkChild(do3d:DisplayObject3D, e:ViewportLayerEvent = null):void{
 			layers[do3d ] = null;
-				dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_REMOVED, do3d));
+			dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_REMOVED, do3d));
 		}
 		
 		private function onChildAdded(e:ViewportLayerEvent):void{
@@ -248,7 +249,7 @@ package org.papervision3d.view.layer {
 		
 		protected function reset():void{
 			
-			if(sortMode == "z" && !forceDepth)
+			if( !forceDepth)
 				screenDepth = 0;
 				
 			this.weight = 0;

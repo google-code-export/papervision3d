@@ -90,7 +90,7 @@ package org.papervision3d.core.math
 			q.y = y * sin;
 			q.z = z * sin;
 			q.w = cos;
-
+			
 			q.normalize();
 			
 			return q;
@@ -267,6 +267,10 @@ package org.papervision3d.core.math
 			y = aw*b.y - ax*b.z + ay*b.w + az*b.x;
 			z = aw*b.z + ax*b.y - ay*b.x + az*b.w;
 			w = aw*b.w - ax*b.x - ay*b.y - az*b.z;
+		}
+		
+		public function toString():String{
+			return "Quaternion: x:"+this.x+" y:"+this.y+" z:"+this.z+" w:"+this.w;
 		}
 		
 		/**

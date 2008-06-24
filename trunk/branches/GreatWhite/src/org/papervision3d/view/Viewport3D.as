@@ -149,19 +149,14 @@ package org.papervision3d.view {
 
 				do3d = do3d.parentContainer?do3d.parentContainer:do3d;
 				
-				if(containerSprite.layers[do3d])
+				if(containerSprite.layers[do3d]){
+					 if(setInstance){
+				 		do3d.container = containerSprite.layers[do3d];
+				 	}
 					return containerSprite.layers[do3d];
-			
-				 if(_layerInstances[do3d])
-				 	return _layerInstances[do3d];
+				}
 				 
-				 _layerInstances[do3d] = containerSprite.getChildLayer(do3d, false, true);
-				 
-				 if(setInstance){
-				 	do3d.container = _layerInstances[do3d];
-				 }
-				 			 			 			 
-				 return _layerInstances[do3d];
+				return containerSprite;
 			 
 			 }else{
 				return containerSprite;
@@ -344,6 +339,8 @@ package org.papervision3d.view {
 		{
 			return _viewportObjectFilter;
 		}
+		
+		
 	
 	}
 }
