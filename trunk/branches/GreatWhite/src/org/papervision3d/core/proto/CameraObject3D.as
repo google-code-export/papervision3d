@@ -198,6 +198,10 @@ package org.papervision3d.core.proto
 
 			Matrix3D.multiplyVector(transform, vector);
 			
+			vector.x = x - vector.x;
+			vector.y = y - vector.y;
+			vector.z = z - vector.z;
+			
 			return vector;
 			
 		}
