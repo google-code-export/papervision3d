@@ -15,6 +15,7 @@
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
+	import org.papervision3d.materials.utils.BitmapMaterialTools;
 	import org.papervision3d.materials.utils.RenderRecStorage;
 
 	/**
@@ -48,7 +49,7 @@
 		 * Levels of mip mapping to force.
 		 */
 		public static var MIP_MAP_DEPTH :Number = 8;
-
+		
 		public var uvMatrices:Dictionary = new Dictionary();
 		
 		/**
@@ -78,15 +79,12 @@
 		
 		protected function createRenderRecStorage():void
 		{
-			
 			this.renderRecStorage = new Array();
 			for(var a:int = 0; a<=100; a++){
 				this.renderRecStorage[a] = new RenderRecStorage();
-			}
-			
+			}	
 		}
 		
-
 		/**
 		* Resets the mapping coordinates. Use when the texture has been resized.
 		*/
@@ -460,16 +458,26 @@
 		{		
 			resetMapping();
 
+			var bm:BitmapData;
+			
 			if( AUTO_MIP_MAPPING )
 			{
-				return correctBitmap( asset );
+				bm = correctBitmap( asset );
 			}
 			else
 			{
 				this.maxU = this.maxV = 1;
 
-				return ( asset );
+				bm = asset;
 			}
+			
+			// need to flip the bitmap if we're in right-handed system.
+			if(Papervision3D.useRIGHTHANDED)
+			{
+				BitmapMaterialTools.mirrorBitmapX(bm);
+			}
+			
+			return bm;
 		}
 
 
@@ -679,6 +687,7 @@
 			}
 			
 			bitmap   = createBitmap( BitmapData(asset) );
+			
 			_texture = asset;
 		}
 		

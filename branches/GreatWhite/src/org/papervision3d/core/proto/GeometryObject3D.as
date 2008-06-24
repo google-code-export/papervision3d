@@ -196,30 +196,14 @@
 		 */ 
 		public function flipFaces():void
 		{
-			var maxU:Number = 1.0;
-			var uvs:Dictionary = new Dictionary(true);
-			
 			for each(var f:Triangle3D in this.faces)
 			{
 				var tmp:Vertex3D = f.v0;
 				f.v0 = f.v2;
 				f.v2 = tmp;
 				f.uv = [f.uv2, f.uv1, f.uv0];
-				
-				uvs[f.uv0] = f.uv0;
-				uvs[f.uv1] = f.uv1;
-				uvs[f.uv2] = f.uv2;
-				
-				maxU = Math.max(maxU, f.uv0.u);
-				maxU = Math.max(maxU, f.uv1.u);
-				maxU = Math.max(maxU, f.uv2.u);
-				
 				f.createNormal();
 			}
-			
-			// need to flip U
-		//	for each(var uv:NumberUV in uvs)
-		//		uv.u = maxU - uv.u;
 				
 			this.ready = true;
 		}

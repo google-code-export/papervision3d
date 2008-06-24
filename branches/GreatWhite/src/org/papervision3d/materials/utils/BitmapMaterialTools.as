@@ -24,5 +24,33 @@ package org.papervision3d.materials.utils
 			texture.draw(bm, new Matrix());
 			return texture;
 		}
+
+		/**
+		 * Mirrors the bitmap over its X axis
+		 * 
+		 * @param	bitmap The bitmap to mirror.
+		 */ 
+		public static function mirrorBitmapX(bitmap:BitmapData):void
+		{
+			var tmp:Bitmap = new Bitmap(bitmap.clone());
+			tmp.scaleX = -1;
+			tmp.x = bitmap.width;
+			bitmap.draw(tmp, tmp.transform.matrix);
+			tmp.bitmapData.dispose();
+		}
+				
+		/**
+		 * Mirrors the bitmap over its Y axis
+		 * 
+		 * @param	bitmap The bitmap to mirror.
+		 */ 
+		public static function mirrorBitmapY(bitmap:BitmapData):void
+		{
+			var tmp:Bitmap = new Bitmap(bitmap.clone());
+			tmp.scaleY = -1;
+			tmp.y = bitmap.height;
+			bitmap.draw(tmp, tmp.transform.matrix);
+			tmp.bitmapData.dispose();
+		}
 	}
 }
