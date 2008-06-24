@@ -960,7 +960,7 @@
 					
 				material.doubleSided = effect.double_sided;
 				
-				this.materials.addMaterial(MaterialObject3D.DEFAULT, symbol);
+				this.materials.addMaterial(material, symbol);
 			}
 		}
 		
