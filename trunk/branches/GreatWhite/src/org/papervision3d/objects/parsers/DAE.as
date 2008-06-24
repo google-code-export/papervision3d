@@ -1421,6 +1421,13 @@
 		 */ 
 		private function loadNextMaterial(event:FileLoadEvent=null):void
 		{
+			if(event)
+			{
+				var previous:BitmapFileMaterial = event.target as BitmapFileMaterial;
+				if(_rightHanded && previous)
+					BitmapMaterialTools.mirrorBitmapX(previous.bitmap);
+			}
+			
 			if(_queuedMaterials.length)
 			{
 				var data:Object = _queuedMaterials.shift();

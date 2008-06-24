@@ -87,8 +87,10 @@ package org.papervision3d.materials
 		* @param	url					The URL of the requested bitmap file.
 		* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 		*/
-		public function BitmapFileMaterial( url :String="" )
+		public function BitmapFileMaterial( url :String="", precise:Boolean=false )
 		{
+			super(null, precise);
+			
 			// save URL reference
 			this.url = url;
 
