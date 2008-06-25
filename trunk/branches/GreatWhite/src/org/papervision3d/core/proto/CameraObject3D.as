@@ -196,11 +196,7 @@ package org.papervision3d.core.proto
 			
 			var vector:Number3D = new Number3D(mX/persp, -mY/persp, focus);
 
-			Matrix3D.multiplyVector(transform, vector);
-			
-			vector.x = x - vector.x;
-			vector.y = y - vector.y;
-			vector.z = z - vector.z;
+			Matrix3D.multiplyVector3x3(transform, vector);
 			
 			return vector;
 			
