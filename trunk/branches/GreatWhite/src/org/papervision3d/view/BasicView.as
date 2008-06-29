@@ -47,7 +47,7 @@ package org.papervision3d.view
 			return _camera as FreeCamera3D;
 		}
 		
-		public function get cameraAsFrustrumCamera3D():FrustumCamera3D
+		public function get cameraAsFrustumCamera3D():FrustumCamera3D
 		{
 			return _camera as FrustumCamera3D;
 		}
