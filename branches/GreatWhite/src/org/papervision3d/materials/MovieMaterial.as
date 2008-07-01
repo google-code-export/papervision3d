@@ -2,27 +2,26 @@ package org.papervision3d.materials
 {
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
+	import flash.display.Stage;
+	import flash.display.StageQuality;
 	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
-	import org.papervision3d.core.render.material.IUpdateBeforeMaterial;
+	import org.papervision3d.core.render.material.IUpdateBeforeMaterial;	
 
-	/**
-	* The MovieMaterial class creates a texture from an existing MovieClip instance.
+		/**
+	 * The MovieMaterial class creates a texture from an existing MovieClip instance.
 	* <p/>
 	* The texture can be animated and/or transparent. Current scale and color values of the MovieClip instance will be used. Rotation will be discarded.
-	* <p/>
-	* The MovieClip's content needs to be top left aligned with the registration point.
 	* <p/>
 	* Materials collects data about how objects appear when rendered.
 	*/
 	public class MovieMaterial extends BitmapMaterial implements ITriangleDrawer, IUpdateBeforeMaterial
 	{
 		// ______________________________________________________________________ PUBLIC
-		
-		private var _animated:Boolean;
 		
 		/**
 		* The MovieClip that is used as a texture.
@@ -41,7 +40,6 @@ package org.papervision3d.materials
 		*/
 		public var allowAutoResize:Boolean = true;
 
-
 		// ______________________________________________________________________ ANIMATED
 
 		/**
@@ -51,12 +49,12 @@ package org.papervision3d.materials
 		*/
 		public function get animated():Boolean
 		{
-			return _animated;
+			return movieAnimated;
 		}
 
 		public function set animated( status:Boolean ):void
 		{
-			_animated = status;
+			movieAnimated = status;
 		}
 		
 		/**
@@ -80,6 +78,34 @@ package org.papervision3d.materials
 			_texture = asset;
 		}
 
+		// ______________________________________________________________________ RECT
+
+		/**
+		*  Rectangle object that defines the area of the source object to draw.
+		*  
+		*  When present, this property defines bitmap size overriding allowAutoResize.
+		*
+		*  If you do not supply this value, no clipping occurs and the entire source object is drawn.
+		*  
+		*/
+		public function get rect():Rectangle
+		{
+			return clipRect;
+		}
+
+		public function set rect( clipRect:Rectangle ):void
+		{
+			this.clipRect = clipRect;
+			createBitmapFromSprite( movie );
+		}
+
+		// ______________________________________________________________________ PRIVATE
+
+		private var clipRect				:Rectangle;
+		private var movieAnimated			:Boolean;
+		private var quality					:String;
+		private var stage					:Stage;
+
 		// ______________________________________________________________________ NEW
 
 		/**
@@ -89,12 +115,14 @@ package org.papervision3d.materials
 		* @param	transparent		[optional] - If it's not transparent, the empty areas of the MovieClip will be of fill32 color. Default value is false.
 		* @param	animated		[optional] - a flag setting whether or not this material has animation.  If set to true, it will be updated during each render loop
 		*/
-		public function MovieMaterial( movieAsset:DisplayObject=null, transparent:Boolean=false, animated:Boolean=false, precise:Boolean = false )
+		public function MovieMaterial( movieAsset:DisplayObject=null, transparent:Boolean=false, animated:Boolean=false, precise:Boolean=false, rect:Rectangle=null )
 		{
 			movieTransparent = transparent;
 			this.animated = animated;
 			this.interactive = interactive;
 			this.precise = precise;
+			clipRect = rect;
+
 			if( movieAsset ) texture = movieAsset;
 		}
 		
@@ -129,13 +157,13 @@ package org.papervision3d.materials
 			if( bitmap )
 				bitmap.dispose();
 			
-		
-			
 			// Create new bitmap
-			if(asset.width == 0 || asset.height == 0){
-				bitmap = new BitmapData(256,256,movieTransparent, fillColor);
+			if(clipRect){
+				bitmap = new BitmapData( int(clipRect.width+0.5), int(clipRect.height+0.5), movieTransparent, fillColor );
+			}else if(asset.width == 0 || asset.height == 0){
+				bitmap = new BitmapData( 256, 256, movieTransparent, fillColor );
 			}else{
-				bitmap = new BitmapData( asset.width, asset.height, this.movieTransparent );
+				bitmap = new BitmapData( int(asset.width+0.5), int(asset.height+0.5), movieTransparent, fillColor );
 			}
 			
 		}
@@ -149,11 +177,22 @@ package org.papervision3d.materials
 		*/
 		public function updateBeforeRender(renderSessionData:RenderSessionData):void
 		{
-			if(_animated){
+			if(movieAnimated){
 				// using int is much faster than using Math.floor. And casting the variable saves in speed from having the avm decide what to cast it as
-				var mWidth:int = int(movie.width);
-				var mHeight:int = int(movie.height);
-				
+				var mWidth:int;
+				var mHeight:int;
+
+				if(clipRect)
+				{
+					mWidth = int(clipRect.width+0.5);
+					mHeight = int(clipRect.height+0.5);
+				}
+				else
+				{
+					mWidth = int(movie.width+0.5);
+					mHeight = int(movie.height+0.5);
+				}
+
 				if( allowAutoResize && ( mWidth != bitmap.width || mHeight != bitmap.height ) )
 				{
 					// Init new bitmap size
@@ -170,15 +209,45 @@ package org.papervision3d.materials
 		
 		public function drawBitmap():void
 		{
-			bitmap.fillRect( bitmap.rect, this.fillColor );
+			bitmap.fillRect( bitmap.rect, fillColor );
 
-			var mtx:Matrix = new Matrix();
-			mtx.scale( movie.scaleX, movie.scaleY );
+			if( stage && quality )
+			{
+				var stageQuality:String = stage.quality;
+				stage.quality = quality;
+			}
 
-			bitmap.draw( movie, mtx, movie.transform.colorTransform );
+			if( clipRect )
+			{
+				bitmap.draw( movie, null, movie.transform.colorTransform, null, clipRect );
+			}
+			else
+			{
+				var bounds:Rectangle = movie.getBounds( movie );
+				var trans:Matrix = new Matrix( 1, 0, 0, 1, -bounds.x, -bounds.y );
+				bitmap.draw( movie, trans, movie.transform.colorTransform );
+			}
+
+			if( stage && quality )
+			{
+				stage.quality = stageQuality;
+			}
 		}
-		
-				
-		
+
+		// ______________________________________________________________________ QUALITY
+
+		/**
+		* Specifies which rendering quality Flash Player uses when drawing the bitmap texture from the movie asset.
+		* 
+		* If not set, bitmaps are drawn using the current stage quality setting.
+		*/		
+		public function setQuality( quality:String, stage:Stage, updateNow:Boolean=true ):void
+		{
+			this.quality = quality;  
+			this.stage = stage;
+			
+			if( updateNow )
+				createBitmapFromSprite( movie );
+		}
 	}
 }
