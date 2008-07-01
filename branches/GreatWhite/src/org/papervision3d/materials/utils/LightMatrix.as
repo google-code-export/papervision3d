@@ -7,9 +7,7 @@ package org.papervision3d.materials.utils
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.lights.PointLight3D;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.objects.special.Joint3D;
-	import org.papervision3d.objects.special.Skin3D;
-	
+
 	/**
 	 * @Author Tim Knip / Ralph Hauwert
 	 */
