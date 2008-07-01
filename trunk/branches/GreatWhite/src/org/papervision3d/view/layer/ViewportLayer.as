@@ -194,13 +194,11 @@ package org.papervision3d.view.layer {
 		
 		public function removeLayer(vpl:ViewportLayer):void{
 			
-			for each(var do3d:DisplayObject3D in vpl.displayObjects){
-				unlinkChild(do3d);
-			}
-			
 			var index:int = getChildIndex(vpl);
 			if(index >-1){
-				childLayers.splice(index, 1);
+				removeLayerAt(index);
+			}else{
+				trace("Layer not found for removal.");
 			}
 		}
 		
