@@ -4,11 +4,11 @@
 	/**
 	 * @Author Ralph Hauwert
 	 */
-
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
 	import flash.display.Sprite;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
@@ -19,7 +19,8 @@
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.materials.BitmapMaterial;
-	
+	import org.papervision3d.materials.MovieMaterial;	
+
 	public class RenderTriangle extends RenderableListItem implements IRenderListItem
 	{
 		protected static var resBA:Vertex3DInstance = new Vertex3DInstance();
@@ -131,14 +132,29 @@
 			var bitmap:BitmapData = renderMat.bitmap;
 			var width:Number = 1;
 			var height:Number = 1;
-			if(bitmap)
+			var dx:Number = 0;
+			var dy:Number = 0;
+
+			// MovieMaterial rect
+			if( renderMat is MovieMaterial )
+			{
+				var movieRenderMat:MovieMaterial = renderMat as MovieMaterial;
+				var rect:Rectangle = movieRenderMat.rect;
+				if( rect )
+				{
+					dx = rect.x;
+					dy = rect.y;
+					width = rect.width;
+					height = rect.height;
+				}
+			}
+			else if( bitmap )
 			{
 				width = BitmapMaterial.AUTO_MIP_MAPPING ? renderMat.widthOffset : bitmap.width;
 				height = BitmapMaterial.AUTO_MIP_MAPPING ? renderMat.heightOffset : bitmap.height;
-			
 			}
 			//end from interactive utils
-			
+
 			rhd.displayObject3D = face.instance;
 			rhd.material = renderMat;
 			rhd.renderable = face;
@@ -151,10 +167,10 @@
 			rhd.x = position.x; //hx;
 			rhd.y = position.y; //hy;
 			rhd.z = position.z; //hz;
-			
-			rhd.u = v_x * width;
-			rhd.v = height - v_y * height;
-			
+
+			rhd.u = v_x * width + dx;
+			rhd.v = height - v_y * height + dy;
+
 			return rhd;
 		}
 	
