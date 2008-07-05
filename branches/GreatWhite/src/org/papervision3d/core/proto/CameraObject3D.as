@@ -87,6 +87,10 @@ package org.papervision3d.core.proto
 		{
 			super();
 	
+			this.x = DEFAULT_POS.x;
+			this.y = DEFAULT_POS.y;
+			this.z = DEFAULT_POS.z;
+			
 			this.zoom  = zoom;
 			this.focus = focus;
 	
@@ -136,6 +140,8 @@ package org.papervision3d.core.proto
 		// TODO: OPTIMIZE (LOW) Resolve + inline
 		public function transformView( transform:Matrix3D=null ):void
 		{
+			if(this._transformDirty) updateTransform();
+			
 			if(this.yUP)
 			{
 				eye.calculateMultiply(transform || this.transform, _flipY );
