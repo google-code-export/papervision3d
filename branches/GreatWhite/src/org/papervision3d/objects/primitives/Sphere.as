@@ -73,15 +73,10 @@ package org.papervision3d.objects.primitives {
 		* <p/>
 		* @param	segmentsH	[optional] - Number of segments vertically. Defaults to 6.
 		* <p/>
-		* @param	initObject	[optional] - An object that contains user defined properties with which to populate the newly created GeometryObject3D.
-		* <p/>
-		* It includes x, y, z, rotationX, rotationY, rotationZ, scaleX, scaleY scaleZ and a user defined extra object.
-		* <p/>
-		* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
 		*/
-		public function Sphere( material:MaterialObject3D=null, radius:Number=100, segmentsW:int=8, segmentsH:int=6, initObject:Object=null )
+		public function Sphere( material:MaterialObject3D=null, radius:Number=100, segmentsW:int=8, segmentsH:int=6 )
 		{
-			super( material, new Array(), new Array(), null, initObject );
+			super( material, new Array(), new Array(), null );
 	
 			this.segmentsW = Math.max( MIN_SEGMENTSW, segmentsW || DEFAULT_SEGMENTSW); // Defaults to 8
 			this.segmentsH = Math.max( MIN_SEGMENTSH, segmentsH || DEFAULT_SEGMENTSH); // Defaults to 6

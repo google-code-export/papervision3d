@@ -86,9 +86,9 @@ package org.papervision3d.objects.parsers
 		* <p/>
 		*/
 	
-		public function Collada( COLLADA :*, materials :MaterialsList=null, scale :Number=1, doubleSided:Boolean=false, initObject :Object=null )
+		public function Collada( COLLADA :*, materials :MaterialsList=null, scale :Number=1, doubleSided:Boolean=false )
 		{
-			super(null, null, initObject);
+			super(null, null);
 			
 			this._materials = materials || new MaterialsList();
 	

@@ -21,7 +21,6 @@
 		* The WireframeMaterial class creates a wireframe material, where only the outlines of the faces are drawn.
 		*
 		* @param	asset				A BitmapData object.
-		* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 		*/
 		public function WireframeMaterial( color:Number=0xFF00FF, alpha:Number=100, thickness:Number = 0 )
 		{

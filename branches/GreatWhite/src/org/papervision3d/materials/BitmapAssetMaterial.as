@@ -45,7 +45,6 @@
 		* The BitmapAssetMaterial class creates a texture from a Bitmap library asset.
 		*
 		* @param	linkageID				The linkage name of the Bitmap symbol in the library.
-		* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 		*/
 
 		public function BitmapAssetMaterial( linkageID:String, precise:Boolean = false )

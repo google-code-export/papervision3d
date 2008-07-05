@@ -59,7 +59,6 @@ package org.papervision3d.materials
 		*
 		* @param	linkageID			The linkage name of the MovieClip symbol in the library.
 		* @param	transparent			[optional] - If it's not transparent, the empty areas of the MovieClip will be of fill32 color. Default value is false.
-		* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 		*/
 		
 		public function MovieAssetMaterial( linkageID:String="", transparent:Boolean=false, animated:Boolean=false, createUnique:Boolean=false, precise:Boolean = false)

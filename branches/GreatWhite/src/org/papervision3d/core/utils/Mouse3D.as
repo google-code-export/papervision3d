@@ -19,7 +19,7 @@ package org.papervision3d.core.utils
 		private var position:Number3D = new Number3D(0, 0, 0);
 		private var target:Number3D = new Number3D();
 		
-		public function Mouse3D(initObject:Object=null):void
+		public function Mouse3D():void
 		{
 			
 		}

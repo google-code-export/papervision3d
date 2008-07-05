@@ -22,7 +22,6 @@ public class ColorMaterial extends TriangleMaterial implements ITriangleDrawer
 	* The ColorMaterial class creates a solid color material.
 	*
 	* @param	asset				A BitmapData object.
-	* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 	*/
 	public function ColorMaterial( color:Number=0xFF00FF, alpha:Number = 1, interactive:Boolean = false )
 	{

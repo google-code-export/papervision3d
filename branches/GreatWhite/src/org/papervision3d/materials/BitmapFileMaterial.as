@@ -85,7 +85,6 @@ package org.papervision3d.materials
 		* The BitmapFileMaterial class creates a texture by loading a bitmap from an external file.
 		*
 		* @param	url					The URL of the requested bitmap file.
-		* @param	initObject			[optional] - An object that contains additional properties with which to populate the newly created material.
 		*/
 		public function BitmapFileMaterial( url :String="", precise:Boolean=false )
 		{

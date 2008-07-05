@@ -37,20 +37,10 @@ package org.papervision3d.core.geom {
 		* <p/>
 		* @param	faces		An array of Face3D objects for the faces of the mesh.
 		* <p/>
-		* @param	initObject	[optional] - An object that contains user defined properties with which to populate the newly created DisplayObject3D.
-		* <p/>
-		* It includes x, y, z, rotationX, rotationY, rotationZ, scaleX, scaleY scaleZ and a user defined extra object.
-		* <p/>
-		* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
-		* <ul>
-		* <li><b>sortFaces</b>: Z-depth sorting when rendering. Some objects might not need it. Default is false (faster).</li>
-		* <li><b>showFaces</b>: Use only if each face is on a separate MovieClip container. Default is false.</li>
-		* </ul>
-		*
 		*/
-		public function TriangleMesh3D( material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null )
+		public function TriangleMesh3D( material:MaterialObject3D, vertices:Array, faces:Array, name:String=null )
 		{
-			super( vertices, name, initObject );
+			super( vertices, name );
 			this.geometry.faces = faces || new Array();
 			this.material       = material || MaterialObject3D.DEFAULT;
 		}

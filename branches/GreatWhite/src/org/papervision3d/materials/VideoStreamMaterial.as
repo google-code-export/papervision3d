@@ -78,7 +78,6 @@ package org.papervision3d.materials
 		*
 		* @param	video			A video object that display the FLV file
 		* @param	stream			Stream that is used to play the FLV file
-		* @param	initObject		[optional] - An object that contains additional properties with which to populate the newly created material.
 		*/
 		public function VideoStreamMaterial ( video:Video, stream:NetStream , precise:Boolean = false )
 		{			

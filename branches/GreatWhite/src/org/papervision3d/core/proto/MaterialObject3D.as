@@ -134,7 +134,6 @@
 		/**
 		* Creates a new MaterialObject3D object.
 		*
-		* @param	initObject	[optional] - An object that contains properties for the newly created material.
 		*/
 		public function MaterialObject3D()
 		{
