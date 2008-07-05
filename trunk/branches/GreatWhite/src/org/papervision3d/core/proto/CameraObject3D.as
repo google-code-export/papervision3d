@@ -78,37 +78,21 @@ package org.papervision3d.core.proto
 		/**
 		* The CameraObject3D constructor lets you create cameras for setting up the view from which a scene will be rendered.
 		*
-		* Its initial position can be specified in the initObject.
-		*
 		* @param	zoom		This value specifies the scale at which the 3D objects are rendered. Higher values magnify the scene, compressing distance. Use it in conjunction with focus.
 		* <p/>
 		* @param	focus		This value is a positive number representing the distance of the observer from the front clipping plane, which is the closest any object can be to the camera. Use it in conjunction with zoom.
 		* <p/>
-		* @param	initObject	An optional object that contains user defined properties with which to populate the newly created DisplayObject3D.
-		* <p/>
-		* It includes x, y, z, rotationX, rotationY, rotationZ, scaleX, scaleY scaleZ and a user defined extra object.
-		* <p/>
-		* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
-		* <p/>
-		* The following initObject property is also recognized by the constructor:
-		* <ul>
-		* <li><b>sort</b>: A Boolean value that determines whether the 3D objects are z-depth sorted between themselves when rendering. The default value is true.</li>
-		* </ul>
 		*/
-		public function CameraObject3D( zoom:Number=3, focus:Number=500, initObject:Object=null )
+		public function CameraObject3D( zoom:Number=3, focus:Number=500 )
 		{
 			super();
-	
-			this.x = initObject? initObject.x || DEFAULT_POS.x : DEFAULT_POS.x;
-			this.y = initObject? initObject.y || DEFAULT_POS.y : DEFAULT_POS.y;
-			this.z = initObject? initObject.z || DEFAULT_POS.z : DEFAULT_POS.z;
 	
 			this.zoom  = zoom;
 			this.focus = focus;
 	
 			this.eye = Matrix3D.IDENTITY;
 			
-			this.sort = initObject? (initObject.sort != false) : true;
+			this.sort = true;
 			
 			if(Papervision3D.useRIGHTHANDED)
 			{

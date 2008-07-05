@@ -111,15 +111,10 @@ package org.papervision3d.objects.primitives {
 		* You can add or sustract faces to your selection. For examples: Cube.FRONT+Cube.BACK or Cube.ALL-Cube.Top.
 		* 
 		* <p/>
-		* @param	initObject		[optional] - An object that contains user defined properties with which to populate the newly created GeometryObject3D.
-		* <p/>
-		* It includes x, y, z, rotationX, rotationY, rotationZ, scaleX, scaleY scaleZ and a user defined extra object.
-		* <p/>
-		* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
 		*/
-		public function Cube( materials:MaterialsList, width:Number=500, depth:Number=500, height:Number=500, segmentsS:int=1, segmentsT:int=1, segmentsH:int=1, insideFaces:int=0, excludeFaces:int=0, initObject:Object=null )
+		public function Cube( materials:MaterialsList, width:Number=500, depth:Number=500, height:Number=500, segmentsS:int=1, segmentsT:int=1, segmentsH:int=1, insideFaces:int=0, excludeFaces:int=0 )
 		{
-			super( materials.getMaterialByName( "all" ), new Array(), new Array(), null, initObject );
+			super( materials.getMaterialByName( "all" ), new Array(), new Array(), null );
 			
 			this.materials = materials;
 			

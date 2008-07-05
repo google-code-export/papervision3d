@@ -54,15 +54,10 @@ package org.papervision3d.objects.parsers {
 		* <p/>
 		* @param	scale		Scaling factor.
 		* <p/>
-		* @param	initObject	[optional] - An object that contains user defined properties with which to populate the newly created GeometryObject3D.
-		* <p/>
-		* It includes x, y, z, rotationX, rotationY, rotationZ, scaleX, scaleY scaleZ and a user defined extra object.
-		* <p/>
-		* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
 		*/
-		public function Ase( material:MaterialObject3D, filename:String, scale:Number=1, initObject:Object=null )
+		public function Ase( material:MaterialObject3D, filename:String, scale:Number=1 )
 		{
-			super( material, new Array(), new Array(), null, initObject );
+			super( material, new Array(), new Array(), null );
 	
 			this._scaleAse = scale;
 			this._filename = filename;

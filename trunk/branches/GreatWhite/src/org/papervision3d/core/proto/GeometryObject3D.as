@@ -38,7 +38,7 @@
 		public var vertices :Array;
 		public var _ready:Boolean = false;
 		
-		public function GeometryObject3D( initObject:Object=null ):void
+		public function GeometryObject3D( ):void
 		{
 			dirty = true;
 		}

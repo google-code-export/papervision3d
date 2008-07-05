@@ -112,7 +112,7 @@ package org.papervision3d.cameras
 		 *
 		 * @param viewport	Viewport to render to. @see org.papervision3d.view.Viewport3D 
 		 * @param fov		Field of view in degrees.
-		 * @param near	Distance to near plane.
+		 * @param near		Distance to near plane.
 		 * @param far		Distance to far plane.
 		 */
 		public function FrustumCamera3D(viewport3D:Viewport3D, fov:Number = 90, near:Number = 10, far:Number = 1000):void

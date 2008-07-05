@@ -62,15 +62,10 @@
 		* <p/>
 		* @param	segmentsH	[optional] - Number of segments vertically. Defaults to segmentsW.
 		* <p/>
-		* @param	initObject	[optional] - An object that contains user defined properties with which to populate the newly created GeometryObject3D.
-		* <p/>
-		* It includes x, y, z, rotationX, rotationY, rotationZ, scaleX, scaleY scaleZ and a user defined extra object.
-		* <p/>
-		* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
 		*/
-		public function Plane( material:MaterialObject3D=null, width:Number=0, height:Number=0, segmentsW:Number=0, segmentsH:Number=0, initObject:Object=null )
+		public function Plane( material:MaterialObject3D=null, width:Number=0, height:Number=0, segmentsW:Number=0, segmentsH:Number=0 )
 		{
-			super( material, new Array(), new Array(), null, initObject );
+			super( material, new Array(), new Array(), null );
 	
 			this.segmentsW = segmentsW || DEFAULT_SEGMENTS; // Defaults to 1
 			this.segmentsH = segmentsH || this.segmentsW;   // Defaults to segmentsW

@@ -84,21 +84,15 @@
 		* <p/>
 		* @param	bottomFace	[optional] - An optional parameter specifying if the bottom face of the cylinder should be drawn.
 		* <p/>
-		* @param	initObject	[optional] - An object that contains user defined properties with which to populate the newly created GeometryObject3D.
-		* <p/>
-		* It includes x, y, z, rotationX, rotationY, rotationZ, scaleX, scaleY scaleZ and a user defined extra object.
-		* <p/>
-		* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
 		*/
-		public function Cylinder( material:MaterialObject3D=null, radius:Number=100, height:Number=100, segmentsW:int=8, segmentsH:int=6, topRadius:Number=-1, topFace:Boolean=true, bottomFace:Boolean=true, initObject:Object=null )
+		public function Cylinder( material:MaterialObject3D=null, radius:Number=100, height:Number=100, segmentsW:int=8, segmentsH:int=6, topRadius:Number=-1, topFace:Boolean=true, bottomFace:Boolean=true )
 		{
-			super( material, new Array(), new Array(), null, initObject );
+			super( material, new Array(), new Array(), null );
 	
 			this.segmentsW = Math.max( MIN_SEGMENTSW, segmentsW || DEFAULT_SEGMENTSW); // Defaults to 8
 			this.segmentsH = Math.max( MIN_SEGMENTSH, segmentsH || DEFAULT_SEGMENTSH); // Defaults to 6
 			if (radius==0) radius = DEFAULT_RADIUS; // Defaults to 100
 			if (height==0) height = DEFAULT_HEIGHT; // Defaults to 100
-			// if (typeOf(initObject)=="object") for each (prop in initObject) this[prop] = initObject[prop];
 			if (topRadius==-1) topRadius = radius;
 	
 			var scale :Number = DEFAULT_SCALE;

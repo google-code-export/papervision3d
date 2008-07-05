@@ -89,26 +89,15 @@ public class Camera3D extends CameraObject3D
 	/**
 	* The Camera3D constructor creates cameras that view the area around a target object.
 	*
-	* Its initial position can be specified in the initObject.
 	*
 	* @param	zoom		This value specifies the scale at which the 3D objects are rendered. Higher values magnify the scene, compressing distance. Use it in conjunction with focus.
 	* <p/>
 	* @param	focus		This value is a positive number representing the distance of the observer from the front clipping plane, which is the closest any object can be to the camera. Use it in conjunction with zoom.
 	* <p/>
-	* @param	initObject	An optional object that contains user defined properties with which to populate the newly created DisplayObject3D.
-	* <p/>
-	* It includes x, y, z, rotationX, rotationY, rotationZ, scaleX, scaleY scaleZ and a user defined extra object.
-	* <p/>
-	* If extra is not an object, it is ignored. All properties of the extra field are copied into the new instance. The properties specified with extra are publicly available.
-	* <p/>
-	* The following initObject property is also recognized by the constructor:
-	* <ul>
-	* <li><b>sort</b>: A Boolean value that determines whether the 3D objects are z-depth sorted between themselves when rendering. The default value is true.</li>
-	* </ul>
 	*/
-	public function Camera3D( target:DisplayObject3D=null, zoom:Number=11, focus:Number=100, initObject:Object=null )
+	public function Camera3D( target:DisplayObject3D=null, zoom:Number=11, focus:Number=100)
 	{
-		super( zoom, focus, initObject );
+		super( zoom, focus);
 
 		this.target = target|| DisplayObject3D.ZERO;
 

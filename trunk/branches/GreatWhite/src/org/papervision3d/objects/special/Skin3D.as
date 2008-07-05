@@ -11,9 +11,9 @@ package org.papervision3d.objects.special
 	 */ 
 	public class Skin3D extends TriangleMesh3D
 	{
-		public function Skin3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null, initObject:Object=null)
+		public function Skin3D(material:MaterialObject3D, vertices:Array, faces:Array, name:String=null)
 		{
-			super(material, vertices, faces, name, initObject);
+			super(material, vertices, faces, name);
 		}
 		
 		public override function project(parent:DisplayObject3D, renderSessionData:RenderSessionData):Number
