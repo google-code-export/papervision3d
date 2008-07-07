@@ -38,7 +38,7 @@ package org.papervision3d.view
 			super.updateAfterRender(renderSessionData);
 			if(bitmapData.width != Math.round(viewportWidth) || bitmapData.height != Math.round(viewportHeight))
 			{
-				bitmapData = _containerBitmap.bitmapData = new BitmapData(Math.round(viewportWidth), Math.round(viewportHeight), false, bgColor);
+				bitmapData = _containerBitmap.bitmapData = new BitmapData(Math.round(viewportWidth), Math.round(viewportHeight), bitmapTransparent, bgColor);
 			}
 			else
 			{
@@ -49,7 +49,7 @@ package org.papervision3d.view
 
 			var mat:Matrix = new Matrix();
 			mat.translate(_hWidth, _hHeight);
-			bitmapData.draw(_containerSprite, mat , null, null, bitmapData.rect, false);
+			bitmapData.draw(_containerSprite, mat ,null, null, _containerSprite.getBounds(this), false);
 		}
 		
 		override protected function onStageResize(event:Event = null):void
