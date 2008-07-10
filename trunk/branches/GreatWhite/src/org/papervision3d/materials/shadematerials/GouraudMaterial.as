@@ -63,7 +63,7 @@ package org.papervision3d.materials.shadematerials
 			triMatrix.ty = y0;
 			transformMatrix.concat(triMatrix);
 			
-		    graphics.beginBitmapFill( gouraudMap, transformMatrix, false, false);
+		    graphics.beginBitmapFill( gouraudMap, transformMatrix, true, false);
 		    graphics.moveTo( x0, y0 );
 			graphics.lineTo( x1, y1 );
 			graphics.lineTo( x2, y2 );
