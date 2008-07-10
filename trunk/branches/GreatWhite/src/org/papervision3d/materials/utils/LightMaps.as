@@ -65,12 +65,25 @@ package org.papervision3d.materials.utils
 		
 		public static function getGouraudMap(lightColor:int, ambientColor:int):BitmapData
 		{
-			var gouraudMap:BitmapData = new BitmapData(256,3,false,0xFFFFFF);
+			var gouraudMap:BitmapData = new BitmapData(255,3,false,0xFFFFFF);
 			var s:Sprite = new Sprite();
 			var m:Matrix = new Matrix();
-			m.createGradientBox(256,3,0,0,0);
+			m.createGradientBox(255,3,0,0,0);
 			s.graphics.beginGradientFill(GradientType.LINEAR, [ambientColor,lightColor],[1,1],[0,255],m);
-			s.graphics.drawRect(0,0,256,3);
+			s.graphics.drawRect(0,0,255,3);
+			s.graphics.endFill();
+			gouraudMap.draw(s);
+			return gouraudMap;
+		}
+		
+		public static function getGouraudMaterialMap(lightColor:int, ambientColor:int):BitmapData
+		{
+			var gouraudMap:BitmapData = new BitmapData(255,3,false,0xFFFFFF);
+			var s:Sprite = new Sprite();
+			var m:Matrix = new Matrix();
+			m.createGradientBox(255,3,0,0,0);
+			s.graphics.beginGradientFill(GradientType.LINEAR, [ambientColor,lightColor],[1,1],[0x77,0xFF],m);
+			s.graphics.drawRect(0,0,255,3);
 			s.graphics.endFill();
 			gouraudMap.draw(s);
 			return gouraudMap;

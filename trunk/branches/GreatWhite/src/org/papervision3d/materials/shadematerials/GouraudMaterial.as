@@ -25,18 +25,25 @@ package org.papervision3d.materials.shadematerials
 		{
 			super();
 			this.light = light3D;
-			gouraudMap = LightMaps.getGouraudMap(lightColor,ambientColor);
+			gouraudMap = LightMaps.getGouraudMaterialMap(lightColor,ambientColor);
 		}
 		
 		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
 			lightMatrix = Matrix3D(lightMatrices[face3D.instance]);
-			var p0:Number = (face3D.v0.normal.x * lightMatrix.n31 + face3D.v0.normal.y * lightMatrix.n32 + face3D.v0.normal.z * lightMatrix.n33)*255;
+		
+			var p0:Number = (face3D.v0.normal.x * lightMatrix.n31 + face3D.v0.normal.y * lightMatrix.n32 + face3D.v0.normal.z * lightMatrix.n33)+1;
+			var p1:Number = (face3D.v1.normal.x * lightMatrix.n31 + face3D.v1.normal.y * lightMatrix.n32 + face3D.v1.normal.z * lightMatrix.n33)+1;
+			var p2:Number = (face3D.v2.normal.x * lightMatrix.n31 + face3D.v2.normal.y * lightMatrix.n32 + face3D.v2.normal.z * lightMatrix.n33)+1;
+			
+			p0 *= 127.5;
+			p1 *= 127.5;
+			p2 *= 127.5;
 			
 			transformMatrix.tx = p0;
 			transformMatrix.ty = 1;
-		    transformMatrix.a = ((face3D.v1.normal.x * lightMatrix.n31 + face3D.v1.normal.y * lightMatrix.n32 + face3D.v1.normal.z * lightMatrix.n33)*255) - p0;
-		    transformMatrix.c = ((face3D.v2.normal.x * lightMatrix.n31 + face3D.v2.normal.y * lightMatrix.n32 + face3D.v2.normal.z * lightMatrix.n33)*255) - p0;
+		    transformMatrix.a = p1 - p0;
+		    transformMatrix.c = p2 - p0;
 			transformMatrix.b = 2;
 			transformMatrix.d = 3;
 		    transformMatrix.invert();
@@ -55,7 +62,7 @@ package org.papervision3d.materials.shadematerials
 			triMatrix.tx = x0;
 			triMatrix.ty = y0;
 			transformMatrix.concat(triMatrix);
-					
+			
 		    graphics.beginBitmapFill( gouraudMap, transformMatrix, false, false);
 		    graphics.moveTo( x0, y0 );
 			graphics.lineTo( x1, y1 );

@@ -24,9 +24,9 @@ package org.papervision3d.render
 	import org.papervision3d.core.render.sort.IRenderSorter;
 	import org.papervision3d.core.utils.StopWatch;
 	import org.papervision3d.events.RendererEvent;
+	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
 	import org.papervision3d.view.layer.ViewportLayer;
-	import org.papervision3d.core.render.command.RenderFog;
 	
 	public class BasicRenderEngine extends AbstractRenderEngine implements IRenderEngine
 	{
@@ -128,7 +128,7 @@ package org.papervision3d.render
 			renderSessionData.renderObjects = getLayerObjects(layers);
 			renderSessionData.renderLayers = layers;
 			renderSessionData.renderStatistics.clear();
-					
+
 			//Clear the viewport.
 		
 			viewPort.updateBeforeRender(renderSessionData);
