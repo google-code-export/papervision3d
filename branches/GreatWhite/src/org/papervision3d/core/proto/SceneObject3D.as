@@ -55,6 +55,7 @@
 		{
 			var newChild:DisplayObject3D =	super.addChild( child, name ? name : child.name );
 			child.scene = this;
+			child.parent = null;
 			this.objects.push( newChild );
 			return newChild;
 		}
