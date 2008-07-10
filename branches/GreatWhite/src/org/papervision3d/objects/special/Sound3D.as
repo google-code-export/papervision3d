@@ -124,13 +124,5 @@
 	
 			return this.screenZ = screenZs / children;
 		}
-		
-		private function calculateScreenCoords( camera :CameraObject3D ):void
-		{
-			var persp:Number = (camera.focus * camera.zoom) / (camera.focus + view.n34);
-			screen.x = view.n14 * persp;
-			screen.y = view.n24 * persp;
-			screen.z = view.n34;
-		}	
 	}
 }

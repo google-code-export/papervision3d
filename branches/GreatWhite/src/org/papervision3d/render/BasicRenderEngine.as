@@ -87,6 +87,9 @@ package org.papervision3d.render
 		
 		override public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, updateAnimation:Boolean = true):RenderStatistics
 		{
+			// Set the camera's viewport so it can resize its frustum.
+			camera.viewport = viewPort.sizeRectangle;
+			
 			//Update the renderSessionData object.
 			renderSessionData.scene = scene;
 			renderSessionData.camera = camera;

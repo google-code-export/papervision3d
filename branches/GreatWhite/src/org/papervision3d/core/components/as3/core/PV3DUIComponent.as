@@ -160,8 +160,6 @@ package org.papervision3d.core.components.as3.core
 			
 			// cameras
 			Camera3D;
-			FreeCamera3D;
-			FrustumCamera3D;
 			
 			// scenes
 			Scene3D;		

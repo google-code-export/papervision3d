@@ -1,12 +1,12 @@
 package org.papervision3d.view
 {
-	import org.papervision3d.cameras.DebugFrustumCamera3D;	
-	import org.papervision3d.cameras.FrustumCamera3D;	
-	import org.papervision3d.cameras.FreeCamera3D;	
-	import org.papervision3d.cameras.Camera3D;	
-	import org.papervision3d.scenes.Scene3D;
+	import org.papervision3d.cameras.Camera3D;
+	import org.papervision3d.cameras.CameraType;
+	import org.papervision3d.cameras.DebugCamera3D;
 	import org.papervision3d.core.view.IView;
+	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.render.BasicRenderEngine;
+	import org.papervision3d.scenes.Scene3D;
 
 	/**
 	 * <p>
@@ -40,11 +40,11 @@ package org.papervision3d.view
 		 * @param viewportHeight	Height of the viewport
 		 * @param scaleToStage		Whether you viewport should scale with the stage
 		 * @param interactive		Whether your scene should be interactive
-		 * @param cameraType		A String for the type of camera, usually referenced by a public static variable; e.g. FrustumCamera3D.TYPE. 
-		 * We use "CAMERA3D" in the constuctor because it's a workaround to a bug in Flash Authoring with static constants in class constructors. @see http://bugs.adobe.com/jira/browse/ASC-2231
+		 * @param cameraType		A String for the type of camera. @see org.papervision3d.cameras.CameraType
+		 * We use "Targer" in the constuctor because it's a workaround to a bug in Flash Authoring with static constants in class constructors. @see http://bugs.adobe.com/jira/browse/ASC-2231
 		 * 
 		 */	
-		public function BasicView(viewportWidth:Number = 640, viewportHeight:Number = 480, scaleToStage:Boolean = true, interactive:Boolean = false, cameraType:String = "CAMERA3D")
+		public function BasicView(viewportWidth:Number = 640, viewportHeight:Number = 480, scaleToStage:Boolean = true, interactive:Boolean = false, cameraType:String = "Target")
 		{
 			super();
 			
@@ -55,54 +55,36 @@ package org.papervision3d.view
 			
 			switch(cameraType)
 			{
-				case Camera3D.TYPE:
+				case CameraType.DEBUG:
+					_camera = new DebugCamera3D(viewport);
+					break;
+				case CameraType.TARGET:
 					_camera = new Camera3D();
+					_camera.target = DisplayObject3D.ZERO;
 					break;
-				case FreeCamera3D.TYPE:
-					_camera = new FreeCamera3D();
-					break;
-				case FrustumCamera3D.TYPE:
-					_camera = new FrustumCamera3D(viewport);
-					break;
-				case DebugFrustumCamera3D.TYPE:
-					_camera = new DebugFrustumCamera3D(viewport);
-					break;
+				case CameraType.FREE:
 				default:
 					_camera = new Camera3D();
 					break;
 			}
-		}
-
-		/**
-		 * Exposes the camera as a <code>Camera3D</code>
-		 */
-		public function get cameraAsCamera3D():Camera3D
-		{
-			return _camera as Camera3D;
+			
+			cameraAsCamera3D.update(viewport.sizeRectangle);
 		}
 		
-		/**
-		 * Exposes the camera as a <code>FreeCamera3D</code>
-		 */
-		public function get cameraAsFreeCamera3D():FreeCamera3D
-		{
-			return _camera as FreeCamera3D;
-		}
-		
-		/**
-		 * Exposes the camera as a <code>FrustumCamera3D</code>
-		 */
-		public function get cameraAsFrustumCamera3D():FrustumCamera3D
-		{
-			return _camera as FrustumCamera3D;
-		}
-		
-		/**
-		 * Exposes the camera as a <code>DebugFrustumCamera3D</code>
-		 */
-		public function get cameraAsDebugFrustumCamera3D():DebugFrustumCamera3D 
-		{
-			return _camera as DebugFrustumCamera3D;
-		}
+        /**
+         * Exposes the camera as a <code>Camera3D</code>
+         */
+        public function get cameraAsCamera3D():Camera3D
+        {
+                return _camera as Camera3D;
+        }
+        
+        /**
+         * Exposes the camera as a <code>DebugCamera3D</code>
+         */
+        public function get cameraAsDebugCamera3D():DebugCamera3D 
+        {
+                return _camera as DebugCamera3D;
+        }
 	}
 }
