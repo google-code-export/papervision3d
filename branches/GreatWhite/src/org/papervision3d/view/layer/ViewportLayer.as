@@ -52,7 +52,7 @@ package org.papervision3d.view.layer {
 			init();
 		}
 		
-		public function addDisplayObject3D(do3d:DisplayObject3D, recurse:Boolean = true):void{
+		public function addDisplayObject3D(do3d:DisplayObject3D, recurse:Boolean = false):void{
 			
 			if(!do3d) return;
 			
@@ -111,7 +111,7 @@ package org.papervision3d.view.layer {
 			if(displayObject3D){
 				var vpl:ViewportLayer = new ViewportLayer(viewport,displayObject3D, displayObject3D.useOwnContainer);
 				addLayer(vpl);
-				
+
 				if(recurse)
 					displayObject3D.addChildrenToLayer(displayObject3D, vpl);
 				
@@ -216,9 +216,9 @@ package org.papervision3d.view.layer {
 		
 			if(!ar)
 				ar = new Array();
-			
+
 			for each(var do3d:DisplayObject3D in this.displayObjects){
-				if(do3d){
+				if(do3d && do3d.parent == null){
 					ar.push(do3d);
 				}
 			}
@@ -226,7 +226,9 @@ package org.papervision3d.view.layer {
 			for each(var vpl:ViewportLayer in childLayers){
 				vpl.getLayerObjects(ar);
 			}
-
+			
+			
+			
 			return ar;
 			
 		}
