@@ -119,6 +119,7 @@ package org.papervision3d.core.geom {
 				}
 				return this.screenZ = screenZs / visibleFaces;
 			}else{
+				renderSessionData.renderStatistics.culledObjects++;
 				return 0;
 			}
 		}

@@ -3,23 +3,19 @@
 */
 package org.papervision3d.core.components.as3.flash9 {
 	import flash.display.Sprite;
-	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.utils.Timer;
 	
 	import org.papervision3d.cameras.Camera3D;
-	import org.papervision3d.cameras.FreeCamera3D;
 	import org.papervision3d.core.components.as3.core.PV3DUIComponent;
 	import org.papervision3d.core.components.as3.utils.CoordinateTools;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.render.BasicRenderEngine;
 	import org.papervision3d.scenes.Scene3D;
-	import org.papervision3d.view.Viewport3D;
-	
-	import com.blitzagency.xray.logger.XrayLog;	
+	import org.papervision3d.view.Viewport3D;	
 
 	/**
 	* Dispatched when the Scene3D has been created along with the camera.
@@ -139,7 +135,7 @@ package org.papervision3d.core.components.as3.flash9 {
 		/**
 		 * @private 
 	 	*/
-		public var currentCamera3D			:CameraObject3D;
+		public var currentCamera3D			:Camera3D;
 		
 		/**
 		* @private
@@ -174,12 +170,12 @@ package org.papervision3d.core.components.as3.flash9 {
 			return _scene;
 	    }
 	    /**
-	     * The camera used by the component.  FreeCamer3D by default
+	     * The camera used by the component.  A 'free' Camera3D by default
 	     * @return 
 	     * 
 	     */	    
-	    public function get camera():CameraObject3D { return currentCamera3D; }
-	    public function set camera(p_camera:CameraObject3D):void { currentCamera3D = p_camera; }
+	    public function get camera():Camera3D { return currentCamera3D; }
+	    public function set camera(p_camera:Camera3D):void { currentCamera3D = p_camera; }
 	    
 	    /**
 	    * @private
@@ -215,7 +211,7 @@ package org.papervision3d.core.components.as3.flash9 {
 		/**
 		 * @private 
 	 	*/
-		protected var freeCam 				:FreeCamera3D;
+		protected var freeCam 				:Camera3D;
 
 		/**
 		* The sprite container where the scene will be drawn
@@ -328,14 +324,15 @@ package org.papervision3d.core.components.as3.flash9 {
 	 	*/
 		protected function createCamera(cameraChoice:String):void
 		{
+			currentCamera3D = new Camera3D();
+			
 			switch(cameraChoice)
 			{
 				case "Free":
-					currentCamera3D = freeCam = new FreeCamera3D();
 				break;
 				
 				case "Target":
-					currentCamera3D = targetCam = new Camera3D();
+					currentCamera3D.target = DisplayObject3D.ZERO;
 				break;
 			}
 			

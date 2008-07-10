@@ -1,205 +1,228 @@
-﻿/*
- *  PAPER    ON   ERVIS  NPAPER ISION  PE  IS ON  PERVI IO  APER  SI  PA
- *  AP  VI  ONPA  RV  IO PA     SI  PA ER  SI NP PE     ON AP  VI ION AP
- *  PERVI  ON  PE VISIO  APER   IONPA  RV  IO PA  RVIS  NP PE  IS ONPAPE
- *  ER     NPAPER IS     PE     ON  PE  ISIO  AP     IO PA ER  SI NP PER
- *  RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
- *  ______________________________________________________________________
- *  papervision3d.org + blog.papervision3d.org + osflash.org/papervision3d
- */
-
-/*
- * Copyright 2006 (c) Carlos Ulloa Matesanz, noventaynueve.com.
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- */
-
-// ______________________________________________________________________
-//                                               CameraObject3D: Camera3D
-
-package org.papervision3d.cameras
+﻿package org.papervision3d.cameras
 {
-import org.papervision3d.core.math.Matrix3D;
-import org.papervision3d.core.math.Number3D;
-import org.papervision3d.core.proto.CameraObject3D;
-import org.papervision3d.objects.DisplayObject3D;
-
-/**
-* The Camera3D class creates a camera that views the area around a target object.
-* <p/>
-* A camera defines the view from which a scene will be rendered. Different camera settings would present a scene from different points of view.
-* <p/>
-* 3D cameras simulate still-image, motion picture, or video cameras of the real world. When rendering, the scene is drawn as if you were looking through the camera lens.
-*/
-public class Camera3D extends CameraObject3D
-{
-	// __________________________________________________________________________
-	//                                                                     PUBLIC
+	import flash.geom.Rectangle;
 	
-	public static const TYPE:String = "CAMERA3D";
+	import org.papervision3d.core.culling.FrustumCuller;
+	import org.papervision3d.core.math.Matrix3D;
+	import org.papervision3d.core.proto.CameraObject3D;
+	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
-	* A DisplayObject3D object that specifies the current position the camera is looking at.
-	*/
-	public var target :DisplayObject3D;
-
-
-	/**
-	* A Number3D object that specifies the desired position of the camera in 3D space. Only used when calling update().
-	*/
-	public var goto :Number3D;
-
-	/**
-	* A Number3D object that specifies the desired rotation of the camera in 3D space. Only used when calling update().
-	*/
-//	public var gotoRotation :Number3D;
-
-	/**
-	* A Number3D object that specifies the desired position of the camera's target in 3D space. Only used when calling update().
-	*/
-//	public var gotoTarget :Number3D;
-
-	// __________________________________________________________________________
-	//                                                                      N E W
-	// NN  NN EEEEEE WW    WW
-	// NNN NN EE     WW WW WW
-	// NNNNNN EEEE   WWWWWWWW
-	// NN NNN EE     WWW  WWW
-	// NN  NN EEEEEE WW    WW
-
-	/**
-	* The Camera3D constructor creates cameras that view the area around a target object.
-	*
-	*
-	* @param	zoom		This value specifies the scale at which the 3D objects are rendered. Higher values magnify the scene, compressing distance. Use it in conjunction with focus.
-	* <p/>
-	* @param	focus		This value is a positive number representing the distance of the observer from the front clipping plane, which is the closest any object can be to the camera. Use it in conjunction with zoom.
-	* <p/>
-	*/
-	public function Camera3D( target:DisplayObject3D=null, zoom:Number=11, focus:Number=100)
-	{
-		super( zoom, focus);
-
-		this.target = target|| DisplayObject3D.ZERO;
-
-		this.goto = new Number3D( this.x, this.y, this.z );
-//		this.goTarget = new Number3D( this.target.x, this.target.y, this.target.z );
-	}
-
-	// ___________________________________________________________________________________________________
-	//                                                                                   T R A N S F O R M
-	// TTTTTT RRRRR    AA   NN  NN  SSSSS FFFFFF OOOO  RRRRR  MM   MM
-	//   TT   RR  RR  AAAA  NNN NN SS     FF    OO  OO RR  RR MMM MMM
-	//   TT   RRRRR  AA  AA NNNNNN  SSSS  FFFF  OO  OO RRRRR  MMMMMMM
-	//   TT   RR  RR AAAAAA NN NNN     SS FF    OO  OO RR  RR MM M MM
-	//   TT   RR  RR AA  AA NN  NN SSSSS  FF     OOOO  RR  RR MM   MM
-
-	/**
-	* [internal-use] Transforms world coordinates into camera space.
-	*/
-	public override function transformView( transform:Matrix3D=null ):void
-	{
+	 * Camera3D
+	 * <p>
+	 * Camera3D is the basic camera used by Papervision3D.
+	 * </p>
+	 * 
+	 * @author Tim Knip
+	 */ 
+	public class Camera3D extends CameraObject3D
+	{	
+		/** The default distance to the far plane. */
+		public static var DEFAULT_FAR:Number = 20000;
 		
-		if(this.target){
-			this.lookAt( this.target );
-		}else if(this._transformDirty ){
-			 updateTransform();
+		/**
+		 * Constructor.
+		 * 
+		 * @param	focus		This value is a positive number representing the distance of the observer from the front clipping plane, which is the closest any object can be to the camera. Use it in conjunction with zoom.
+		 * <p/>
+		 * @param	zoom		This value specifies the scale at which the 3D objects are rendered. Higher values magnify the scene, compressing distance. Use it in conjunction with focus.
+		 * <p/>		 
+		 * @param	useFrustum	Boolean indicating whether to use frustum culling. When true all objects outside the view will be culled.
+		 * <p/>
+		 */ 
+		public function Camera3D(focus:Number=10, zoom:Number=40, useFrustum:Boolean=false)
+		{
+			super(focus, zoom);
+			
+			_prevFocus = 0;
+			_prevZoom = 0;
+			_frustumCulling = useFrustum;
+			_far = DEFAULT_FAR;
 		}
 		
-		super.transformView(transform);
-	}
-
-	// ___________________________________________________________________________________________________
-	//
-	// UU  UU PPPPP  DDDDD    AA   TTTTTT EEEEEE
-	// UU  UU PP  PP DD  DD  AAAA    TT   EE
-	// UU  UU PPPPP  DD  DD AA  AA   TT   EEEE
-	// UU  UU PP     DD  DD AAAAAA   TT   EE
-	//  UUUU  PP     DDDDD  AA  AA   TT   EEEEEE
-
-	/**
-	* [experimental] Hovers the camera around as the user moves the mouse, without changing the distance to the target. This greatly enhances the 3D illusion.
-	*
-	* @param	type	Type of movement.
-	* @param	mouseX	Indicates the x coordinate of the mouse position in relation to the canvas MovieClip.
-	* @param	mouseY	Indicates the y coordinate of the mouse position in relation to the canvas MovieClip.
-	*/
-	public function hover( type:Number, mouseX:Number, mouseY:Number ):void
-	{
-		var target   :DisplayObject3D = this.target;
-		var goto     :Number3D = this.goto;
-//		var gotoTarget :Number3D = this.gotoTarget;
-
-		var camSpeed :Number = 8;
-
-		switch( type )
+		/**
+		 * Orbits the camera around the specified target. If no target is specified the 
+		 * camera's #target property is used. If this camera's #target property equals null
+		 * the camera orbits the origin (0, 0, 0).
+		 * 
+		 * @param	pitch	Rotation around X=axis (looking up or down).
+		 * @param	yaw		Rotation around Y-axis (looking left or right).
+		 * @param	useDegrees 	Whether to use degrees for pitch and yaw (defaults to 'true').
+		 * @param	target	An optional target to orbit around.
+		 */ 
+		public override function orbit(pitch:Number, yaw:Number, useDegrees:Boolean=true, target:DisplayObject3D=null):void
 		{
-			case 0:
-				// Sphere mapped camera (free)
-				var dX       :Number = goto.x - target.x;
-				var dZ       :Number = goto.z - target.z;
+			target = target || _target;
+			target = target || DisplayObject3D.ZERO;
+			
+			if(useDegrees)
+			{
+				pitch *= (Math.PI/180);
+				yaw *= (Math.PI/180);
+			}
+			
+			// Number3D.sub
+			var dx 			:Number = target.world.n14 - this.x;
+			var dy 			:Number = target.world.n24 - this.y;
+			var dz 			:Number = target.world.n34 - this.z;
+			
+			// Number3D.modulo
+			var distance 	:Number = Math.sqrt(dx*dx+dy*dy+dz*dz);
 
-				var ang      :Number = Math.atan2( dZ, dX );
-				var dist     :Number = Math.sqrt( dX*dX + dZ*dZ );
-				var xMouse   :Number = 0.5 * mouseX;
+			// Rotations
+			var rx :Number = Math.cos(yaw) * Math.sin(pitch);
+			var rz :Number = Math.sin(yaw) * Math.sin(pitch);
+			var ry :Number = Math.cos(pitch);
+			
+			// Move to specified location
+			this.x = target.world.n14 + (rx * distance);
+			this.y = target.world.n24 + (ry * distance);
+			this.z = target.world.n34 + (rz * distance);
+			
+			this.lookAt(target);
+		}
+		
+		/**
+		 * Updates the internal camera settings.
+		 * 
+		 * @param	viewport
+		 */ 
+		public function update(viewport:Rectangle):void
+		{
+			if(!viewport || viewport.isEmpty())
+				throw new Error("Camera3D#update: Invalid viewport rectangle!");
+				
+			this.viewport = viewport;
 
-				var camX :Number = dist * Math.cos( ang - xMouse );
-				var camZ :Number = dist * Math.sin( ang - xMouse );
-				var camY :Number = goto.y - 300 * mouseY;
+			// used to detect value changes
+			_prevFocus = this.focus;
+			_prevZoom = this.zoom;
+			_prevWidth = this.viewport.width;
+			_prevHeight = this.viewport.height;
+			
+			this.frustumCulling = _frustumCulling;
+		}
+		
+		/**
+		 * [INTERNAL-USE] Transforms world coordinates into camera space.
+		 * 
+		 * @param	transform	An optional transform.
+		 */ 
+		public override function transformView(transform:Matrix3D=null):void
+		{	
+			// check whether camera internals need updating
+			if(focus != _prevFocus || zoom != _prevZoom || viewport.width != _prevWidth || viewport.height != _prevHeight)
+			{
+				update(viewport);
+			}
+			
+			// handle camera 'types'
+			if(_target)
+			{
+				// Target camera...
+				lookAt(_target);
+			}
+			else if(_transformDirty)
+			{
+				// Free camera...
+				updateTransform();
+			}
+			
+			super.transformView(transform);
+			
+			// handle frustum if available
+			if(frustum is FrustumCuller)
+			{
+				// The frustum culler simply uses the camera transform
+				frustum.transform.copy(this.transform);
+				
+				// we need to move the frustum back by 'focus' along the camera z-axis.
+				var f:Number = focus;
+				frustum.transform.n14 = x - (f * this.transform.n13);
+				frustum.transform.n24 = y - (f * this.transform.n23);
+				frustum.transform.n34 = z - (f * this.transform.n33);
+			}
+		}
+		
+		/**
+		 * Whether this camera uses frustum culling.
+		 * 
+		 * @return Boolean
+		 */ 
+		public function get frustumCulling():Boolean
+		{
+			return _frustumCulling;	
+		}
+		
+		/**
+		 * Whether this camera uses frustum culling.
+		 * 
+		 * @return Boolean
+		 */ 
+		public function set frustumCulling(value:Boolean):void
+		{
+			_frustumCulling = value;
+			
+			if(_frustumCulling)
+			{
+				if(!this.frustum)
+					this.frustum = new FrustumCuller();
+					
+				this.frustum.initialize(this.fov, this.viewport.width/this.viewport.height, this.focus, _far);
+			}
+			else
+				this.frustum = null;	
+		}
+		
+		/**
+		 * Gets the distance to the far plane.
+		 */ 
+		public function get far():Number
+		{
+			return _far;
+		}
+		
+		/**
+		 * Sets the distance to the far plane.
+		 * 
+		 * @param	value
+		 */ 
+		public function set far(value:Number):void
+		{
+			if(value > this.focus)
+			{
+				_far = value;
+				this.update(this.viewport);
+			}
+		}
+		
+		/**
+		 * Gets the distance to the near plane (note that this simply is an alias for #focus).
+		 */ 
+		public function get near():Number
+		{
+			return this.focus;
+		}
+		
+		/**
+		 * Sets the distance to the near plane (note that this is simply an alias for #focus).
+		 * 
+		 * @param	value
+		 */  
+		public function set near(value:Number):void
+		{
+			if(value > 0)
+			{
+				this.focus = value;
+				this.update(this.viewport);
+			}
+		}
 
-				this.x -= (this.x - camX) /camSpeed;
-				this.y -= (this.y - camY) /camSpeed;
-				this.z -= (this.z - camZ) /camSpeed;
-				break;
-
-			case 1:
-				this.x -= (this.x - 1000 * mouseX) /camSpeed;
-				this.y -= (this.y - 1000 * mouseY) /camSpeed;
-//				this.z -= (this.z - ) /camSpeed;
-				break;
-
-/*
-			// BROKEN
-			case ???:
-				// Sphere mapped camera (fixed)
-				var dX = cam.pos.gx - cam.target.x;
-				var dZ = cam.pos.gz - cam.target.z;
-				ang -= ( ang - (Math.atan2( dZ, dX ) - iCanvas._xmouse/300) ) /camSpeed;
-				dist -= ( dist - Math.sqrt( dX*dX + dZ*dZ ) ) /camSpeed;
-				var camX = dist * Math.cos( ang );
-				var camZ = dist * Math.sin( ang );
-				var camY = -iCanvas._ymouse/3;
-
-				cam.pos.x = camX;
-				cam.pos.y -= (cam.pos.y - (camY + cam.pos.gy) ) /camSpeed;
-				cam.pos.z = camZ;
-				break;
-*/
-		}	
+		private var _frustumCulling	: Boolean;
+		private var _far			: Number;
+		private var _prevFocus		: Number;
+		private var _prevZoom		: Number;
+		private var _prevWidth		: Number;
+		private var _prevHeight		: Number;
 	}
-	
-	
-	
-	
-	
-}
 }
