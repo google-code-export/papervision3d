@@ -89,9 +89,9 @@
 		 */ 
 		public function update(viewport:Rectangle):void
 		{
-			if(!viewport || viewport.isEmpty())
-				throw new Error("Camera3D#update: Invalid viewport rectangle!");
-				
+			if(!viewport)
+				throw new Error("Camera3D#update: Invalid viewport rectangle! " + viewport);
+	
 			this.viewport = viewport;
 
 			// used to detect value changes
