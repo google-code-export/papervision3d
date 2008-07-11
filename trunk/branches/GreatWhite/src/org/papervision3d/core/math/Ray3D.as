@@ -22,7 +22,7 @@ package org.papervision3d.core.math
 		}
 		
 		public function get o():Number3D{
-			return new Number3d(x, y, z);
+			return new Number3D(x, y, z);
 		}
 		
 		public function get d():Number3D{
