@@ -38,6 +38,7 @@
 			_prevZoom = 0;
 			_frustumCulling = useFrustum;
 			_far = DEFAULT_FAR;
+			_focusFix = Matrix3D.IDENTITY;
 		}
 		
 		/**
@@ -128,19 +129,18 @@
 				updateTransform();
 			}
 			
-			super.transformView(transform);
+			_focusFix.copy(this.transform);
+			_focusFix.n14 += focus * this.transform.n13;
+			_focusFix.n24 += focus * this.transform.n23;
+			_focusFix.n34 += focus * this.transform.n33;
+			
+			super.transformView(_focusFix);
 			
 			// handle frustum if available
 			if(frustum is FrustumCuller)
 			{
 				// The frustum culler simply uses the camera transform
 				frustum.transform.copy(this.transform);
-				
-				// we need to move the frustum back by 'focus' along the camera z-axis.
-				var f:Number = focus;
-				frustum.transform.n14 = x - (f * this.transform.n13);
-				frustum.transform.n24 = y - (f * this.transform.n23);
-				frustum.transform.n34 = z - (f * this.transform.n33);
 			}
 		}
 		
@@ -168,7 +168,7 @@
 				if(!this.frustum)
 					this.frustum = new FrustumCuller();
 					
-				this.frustum.initialize(this.fov, this.viewport.width/this.viewport.height, this.focus, _far);
+				this.frustum.initialize(this.fov, this.viewport.width/this.viewport.height, this.focus/this.zoom, _far);
 			}
 			else
 				this.frustum = null;	
@@ -224,5 +224,6 @@
 		private var _prevZoom		: Number;
 		private var _prevWidth		: Number;
 		private var _prevHeight		: Number;
+		private var _focusFix		: Matrix3D;
 	}
 }
