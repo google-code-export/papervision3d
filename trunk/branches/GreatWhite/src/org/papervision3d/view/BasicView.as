@@ -59,12 +59,12 @@ package org.papervision3d.view
 					_camera = new DebugCamera3D(viewport);
 					break;
 				case CameraType.TARGET:
-					_camera = new Camera3D();
+					_camera = new Camera3D(60);
 					_camera.target = DisplayObject3D.ZERO;
 					break;
 				case CameraType.FREE:
 				default:
-					_camera = new Camera3D();
+					_camera = new Camera3D(60);
 					break;
 			}
 			

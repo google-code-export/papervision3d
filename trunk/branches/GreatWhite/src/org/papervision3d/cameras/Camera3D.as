@@ -3,8 +3,11 @@
 	import flash.geom.Rectangle;
 	
 	import org.papervision3d.core.culling.FrustumCuller;
+	import org.papervision3d.core.geom.renderables.Vertex3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.proto.CameraObject3D;
+	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
@@ -17,27 +20,26 @@
 	 */ 
 	public class Camera3D extends CameraObject3D
 	{	
-		/** The default distance to the far plane. */
-		public static var DEFAULT_FAR:Number = 20000;
-		
 		/**
 		 * Constructor.
 		 * 
-		 * @param	focus		This value is a positive number representing the distance of the observer from the front clipping plane, which is the closest any object can be to the camera. Use it in conjunction with zoom.
-		 * <p/>
-		 * @param	zoom		This value specifies the scale at which the 3D objects are rendered. Higher values magnify the scene, compressing distance. Use it in conjunction with focus.
-		 * <p/>		 
-		 * @param	useFrustum	Boolean indicating whether to use frustum culling. When true all objects outside the view will be culled.
-		 * <p/>
+		 * @param	fov		This value is the vertical Field Of View (FOV) in degrees.
+		 * @param	near	Distance to the near clipping plane.
+		 * @param	far		Distance to the far clipping plane.
+		 * @param	useFrustum		Boolean indicating whether to use frustum culling. When true all objects outside the view will be culled.
+		 * @param	useProjection 	Boolean indicating whether to use a projection matrix for perspective.
 		 */ 
-		public function Camera3D(focus:Number=10, zoom:Number=40, useFrustum:Boolean=false)
+		public function Camera3D(fov:Number=60, near:Number=1, far:Number=5000, useFrustum:Boolean=false, useProjection:Boolean=false)
 		{
-			super(focus, zoom);
+			super(near, 40);
 			
 			_prevFocus = 0;
 			_prevZoom = 0;
-			_frustumCulling = useFrustum;
-			_far = DEFAULT_FAR;
+			_prevOrtho = false;
+			_prevOrthoProjection = false;
+			_useFrustumCulling = useFrustum;
+			_useProjectionMatrix = useProjection;
+			_far = far;
 			_focusFix = Matrix3D.IDENTITY;
 		}
 		
@@ -84,6 +86,100 @@
 		}
 		
 		/**
+		 * Projects vertices.
+		 * 
+		 * @param	object
+		 * @param	renderSessionData
+		 */ 
+		public override function projectVertices(object:DisplayObject3D, renderSessionData:RenderSessionData):Number
+		{
+			if(!object.geometry || !object.geometry.vertices)
+				return 0;
+				
+			var view		:Matrix3D = object.view,
+				vertices	:Array = object.geometry.vertices,
+				m11 		:Number = view.n11,
+				m12 		:Number = view.n12,
+				m13 		:Number = view.n13,
+				m21 		:Number = view.n21,
+				m22 		:Number = view.n22,
+				m23 		:Number = view.n23,
+				m31 		:Number = view.n31,
+				m32 		:Number = view.n32,
+				m33 		:Number = view.n33,
+				m41 		:Number = view.n41,
+				m42 		:Number = view.n42,
+				m43 		:Number = view.n43,
+				vx			:Number,
+				vy			:Number,
+				vz			:Number,
+				s_x			:Number,
+				s_y			:Number,
+				s_z			:Number,
+				s_w			:Number,
+				vertex		:Vertex3D, 
+				screen		:Vertex3DInstance,
+				persp 		:Number,
+				i        	:int    = vertices.length,
+				focus    	:Number = renderSessionData.camera.focus,
+				fz       	:Number = focus * renderSessionData.camera.zoom,
+				vpw			:Number = viewport.width / 2,
+				vph			:Number = viewport.height / 2,
+				far			:Number = renderSessionData.camera.far,
+				fdist		:Number = far - focus;
+			
+			while( vertex = vertices[--i] )
+			{
+				// Center position
+				vx = vertex.x;
+				vy = vertex.y;
+				vz = vertex.z;
+				
+				s_z = vx * m31 + vy * m32 + vz * m33 + view.n34;
+				
+				screen = vertex.vertex3DInstance;
+				
+				if(_useProjectionMatrix)
+				{
+					s_w = vx * m41 + vy * m42 + vz * m43 + view.n44;
+					// to normalized clip space (0.0 to 1.0)
+					// NOTE: can skip and simply test (s_z < 0) and save a div
+					s_z /= s_w;
+					
+					// is point between near- and far-plane?
+					if( screen.visible = (s_z > 0 && s_z < 1) )
+					{
+						// to normalized clip space (-1,-1) to (1, 1)
+						s_x = (vx * m11 + vy * m12 + vz * m13 + view.n14) / s_w;
+						s_y = (vx * m21 + vy * m22 + vz * m23 + view.n24) / s_w;
+
+						// project to viewport.
+						screen.x = s_x * vpw;
+						screen.y = s_y * vph;
+						
+						// NOTE: z not linear, value increases when nearing far-plane.
+						screen.z = s_z * s_w;
+					}
+				}
+				else
+				{
+					if(screen.visible = ( focus + s_z > 0 ))
+					{
+						s_x = vx * m11 + vy * m12 + vz * m13 + view.n14;
+						s_y = vx * m21 + vy * m22 + vz * m23 + view.n24;
+						
+						persp = fz / (focus + s_z);
+						screen.x = s_x * persp;
+						screen.y = s_y * persp;
+						screen.z = s_z;
+					}
+				}
+			}
+
+			return 0;
+		}
+		
+		/**
 		 * Updates the internal camera settings.
 		 * 
 		 * @param	viewport
@@ -100,8 +196,24 @@
 			_prevZoom = this.zoom;
 			_prevWidth = this.viewport.width;
 			_prevHeight = this.viewport.height;
+
+			if(_prevOrtho != this.ortho)
+			{
+				if(this.ortho)
+				{
+					_prevOrthoProjection = this.useProjectionMatrix;
+					this.useProjectionMatrix = true;	
+				}
+				else
+					this.useProjectionMatrix = _prevOrthoProjection;
+			}
+			else
+				this.useProjectionMatrix = this.useProjectionMatrix;
+				
+			_prevOrtho = this.ortho;
+			_prevUseProjection = this.useProjectionMatrix;
 			
-			this.frustumCulling = _frustumCulling;
+			this.useFrustumCulling = _useFrustumCulling;
 		}
 		
 		/**
@@ -112,7 +224,8 @@
 		public override function transformView(transform:Matrix3D=null):void
 		{	
 			// check whether camera internals need updating
-			if(focus != _prevFocus || zoom != _prevZoom || viewport.width != _prevWidth || viewport.height != _prevHeight)
+			if(	ortho != _prevOrtho || _prevOrthoProjection != _useProjectionMatrix || 
+				focus != _prevFocus || zoom != _prevZoom || viewport.width != _prevWidth || viewport.height != _prevHeight)
 			{
 				update(viewport);
 			}
@@ -129,12 +242,19 @@
 				updateTransform();
 			}
 			
-			_focusFix.copy(this.transform);
-			_focusFix.n14 += focus * this.transform.n13;
-			_focusFix.n24 += focus * this.transform.n23;
-			_focusFix.n34 += focus * this.transform.n33;
-			
-			super.transformView(_focusFix);
+			if(_useProjectionMatrix)
+			{
+				super.transformView();
+				this.eye.calculateMultiply4x4(_projection, this.eye);
+			}
+			else
+			{
+				_focusFix.copy(this.transform);
+				_focusFix.n14 += focus * this.transform.n13;
+				_focusFix.n24 += focus * this.transform.n23;
+				_focusFix.n34 += focus * this.transform.n33;
+				super.transformView(_focusFix);
+			}
 			
 			// handle frustum if available
 			if(frustum is FrustumCuller)
@@ -149,21 +269,11 @@
 		 * 
 		 * @return Boolean
 		 */ 
-		public function get frustumCulling():Boolean
+		public override function set useFrustumCulling(value:Boolean):void
 		{
-			return _frustumCulling;	
-		}
-		
-		/**
-		 * Whether this camera uses frustum culling.
-		 * 
-		 * @return Boolean
-		 */ 
-		public function set frustumCulling(value:Boolean):void
-		{
-			_frustumCulling = value;
+			super.useFrustumCulling = value;
 			
-			if(_frustumCulling)
+			if(_useFrustumCulling)
 			{
 				if(!this.frustum)
 					this.frustum = new FrustumCuller();
@@ -175,11 +285,28 @@
 		}
 		
 		/**
-		 * Gets the distance to the far plane.
-		 */ 
-		public function get far():Number
-		{
-			return _far;
+		 * Whether this camera uses a projection matrix.
+		 */
+		public override function set useProjectionMatrix(value:Boolean):void
+		{	
+			if(value)
+			{
+				if(this.ortho)
+				{
+					var w:Number = viewport.width / 2;
+					var h:Number = viewport.height / 2;	
+					_projection = createOrthoMatrix(-w, w, -h, h, -_far, _far);	
+					_projection = Matrix3D.multiply(_orthoScaleMatrix, _projection);
+				}
+				else
+					_projection = createPerspectiveMatrix(fov, viewport.width/viewport.height, this.focus, this.far);
+			}
+			else
+			{
+				if(this.ortho)
+					value = true;
+			}
+			super.useProjectionMatrix = value;
 		}
 		
 		/**
@@ -187,7 +314,7 @@
 		 * 
 		 * @param	value
 		 */ 
-		public function set far(value:Number):void
+		public override function set far(value:Number):void
 		{
 			if(value > this.focus)
 			{
@@ -197,19 +324,11 @@
 		}
 		
 		/**
-		 * Gets the distance to the near plane (note that this simply is an alias for #focus).
-		 */ 
-		public function get near():Number
-		{
-			return this.focus;
-		}
-		
-		/**
 		 * Sets the distance to the near plane (note that this is simply an alias for #focus).
 		 * 
 		 * @param	value
 		 */  
-		public function set near(value:Number):void
+		public override function set near(value:Number):void
 		{
 			if(value > 0)
 			{
@@ -218,12 +337,74 @@
 			}
 		}
 
-		private var _frustumCulling	: Boolean;
-		private var _far			: Number;
-		private var _prevFocus		: Number;
-		private var _prevZoom		: Number;
-		private var _prevWidth		: Number;
-		private var _prevHeight		: Number;
-		private var _focusFix		: Matrix3D;
+		public override function set orthoScale(value:Number):void
+		{
+			super.orthoScale = value;
+			this.useProjectionMatrix = this.useProjectionMatrix;
+			_prevOrtho = !this.ortho;
+			this.update(this.viewport);	
+		}
+		
+		/**
+		 * Creates a transformation that produces a parallel projection.
+		 * 
+		 * @param	left
+		 * @param	right
+		 * @param	bottom
+		 * @param	top
+		 * @param	near
+		 * @param	far
+		 * @return
+		 */
+		public static function createOrthoMatrix( left:Number, right:Number, bottom:Number, top:Number, near:Number, far:Number):Matrix3D
+		{
+			var tx:Number = (right+left)/(right-left);
+			var ty:Number = (top+bottom)/(top-bottom);
+			var tz:Number = (far+near)/(far-near);
+				
+			var matrix:Matrix3D = new Matrix3D( [
+				2/(right-left), 0, 0, tx,
+				0, 2/(top-bottom), 0, ty,
+				0, 0, -2/(far-near), tz,
+				0, 0, 0, 1 
+			] );
+			
+			matrix.calculateMultiply(Matrix3D.scaleMatrix(1,1,-1), matrix);
+			
+			return matrix;
+		}
+			
+		/**
+		 * Creates a transformation that produces a perspective projection.
+		 * 
+		 * @param	fov
+		 * @param	aspect
+		 * @param	near
+		 * @param	far
+		 * @return
+		 */
+		public static function createPerspectiveMatrix( fov:Number, aspect:Number, near:Number, far:Number ):Matrix3D
+		{
+			var fov2:Number = (fov/2) * (Math.PI/180);
+			var tan:Number = Math.tan(fov2);
+			var f:Number = 1 / tan;
+			
+			return new Matrix3D( [
+				f/aspect, 0, 0, 0,
+				0, f, 0, 0,
+				0, 0, -((near+far)/(near-far)), (2*far*near)/(near-far),
+				0, 0, 1, 0 
+			] );
+		}
+		
+		private var _projection				: Matrix3D;
+		private var _prevFocus				: Number;
+		private var _prevZoom				: Number;
+		private var _prevWidth				: Number;
+		private var _prevHeight				: Number;
+		private var _prevOrtho				: Boolean;
+		private var _prevOrthoProjection	: Boolean;
+		private var _prevUseProjection		: Boolean;
+		private var _focusFix				: Matrix3D;
 	}
 }

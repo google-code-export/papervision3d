@@ -38,7 +38,7 @@ package org.papervision3d.core.render.project
 			var i:Number = objects.length;
 	
 			//The frustum camera requires 4x4 matrices.
-			if( renderSessionData.camera is IObjectCuller){
+			if( renderSessionData.camera.useProjectionMatrix ){
 				for each(p in objects){
 					//Test if the object is set to visible
 					if(p.visible){

@@ -6,6 +6,7 @@ package org.papervision3d.core.proto
 	import org.papervision3d.core.culling.FrustumCuller;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
+	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
@@ -107,6 +108,9 @@ package org.papervision3d.core.proto
 			this.viewport = DEFAULT_VIEWPORT;
 			this.sort = true;
 			
+			_ortho = false;
+			_orthoScaleMatrix = Matrix3D.scaleMatrix(1, 1, 1);
+			
 			if(Papervision3D.useRIGHTHANDED)
 			{
 				DEFAULT_UP.y = -1;
@@ -147,6 +151,17 @@ package org.papervision3d.core.proto
 		 */ 
 		public function orbit(pitch:Number, yaw:Number, useDegrees:Boolean=true, target:DisplayObject3D=null):void
 		{
+		}
+		
+		/**
+		 * Projects vertices.
+		 * 
+		 * @param	object
+		 * @param	renderSessionData
+		 */ 
+		public function projectVertices(object:DisplayObject3D, renderSessionData:RenderSessionData):Number
+		{	
+			return 0;
 		}
 		
 		// ___________________________________________________________________________________________________
@@ -293,6 +308,48 @@ package org.papervision3d.core.proto
 		}
 
 		/**
+		 * Gets the distance to the far plane.
+		 */ 
+		public function get far():Number
+		{
+			return _far;
+		}
+		
+		/**
+		 * Sets the distance to the far plane.
+		 * 
+		 * @param	value
+		 */ 
+		public function set far(value:Number):void
+		{
+			if(value > this.focus)
+			{
+				_far = value;
+			}
+		}
+		
+		/**
+		 * Gets the distance to the near plane (note that this simply is an alias for #focus).
+		 */ 
+		public function get near():Number
+		{
+			return this.focus;
+		}
+		
+		/**
+		 * Sets the distance to the near plane (note that this is simply an alias for #focus).
+		 * 
+		 * @param	value
+		 */  
+		public function set near(value:Number):void
+		{
+			if(value > 0)
+			{
+				this.focus = value;
+			}
+		}
+		
+		/**
 		 * Gets the target for this camera, if any.
 		 * 
 		 * @return DisplayObject3D
@@ -312,6 +369,84 @@ package org.papervision3d.core.proto
 			_target = object;
 		}
 		
-		protected var _target			: DisplayObject3D;
+		/**
+		 * Whether this camera uses frustum culling.
+		 * 
+		 * @return Boolean
+		 */ 
+		public function get useFrustumCulling():Boolean
+		{
+			return _useFrustumCulling;	
+		}
+		
+		/**
+		 * Whether this camera uses frustum culling.
+		 */ 
+		public function set useFrustumCulling(value:Boolean):void
+		{
+			_useFrustumCulling = value;
+		}
+		
+		/**
+		 * Whether this camera uses a projection matrix.
+		 * 
+		 * @return Boolean
+		 */ 
+		public function get useProjectionMatrix():Boolean
+		{
+			return _useProjectionMatrix;
+		}
+		
+		/**
+		 * Whether this camera uses a projection matrix.
+		 */
+		public function set useProjectionMatrix(value:Boolean):void
+		{
+			_useProjectionMatrix = value;
+		}
+		
+		/**
+		 * Whether the camera uses orthographic projection.
+		 */
+		public function get ortho():Boolean
+		{
+			return _ortho;
+		}
+		
+		/**
+		 * Whether the camera uses orthographic projection.
+		 */ 
+		public function set ortho(value:Boolean):void
+		{
+			_ortho = value;
+		}
+		
+		/**
+		 * The scale of projection when in orthographic mode.
+		 */ 
+		public function get orthoScale():Number
+		{
+			return _orthoScale;
+		}
+		
+		/**
+		 * The scale of projection when in orthographic mode.
+		 */ 
+		public function set orthoScale(value:Number):void
+		{
+			_orthoScale = value > 0 ? value : 0.0001;
+			
+			_orthoScaleMatrix.n11 = _orthoScale;
+			_orthoScaleMatrix.n22 = _orthoScale;
+			_orthoScaleMatrix.n33 = _orthoScale;
+		}
+		
+		protected var _useFrustumCulling	: Boolean;
+		protected var _useProjectionMatrix	: Boolean;
+		protected var _ortho				: Boolean;
+		protected var _orthoScale 			: Number = 1;
+		protected var _orthoScaleMatrix 	: Matrix3D;
+		protected var _target				: DisplayObject3D;
+		protected var _far					: Number;
 	}
 }

@@ -324,7 +324,7 @@ package org.papervision3d.core.components.as3.flash9 {
 	 	*/
 		protected function createCamera(cameraChoice:String):void
 		{
-			currentCamera3D = new Camera3D();
+			currentCamera3D = new Camera3D(60);
 			
 			switch(cameraChoice)
 			{
