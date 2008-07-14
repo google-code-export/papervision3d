@@ -103,7 +103,7 @@ package org.papervision3d.cameras
 		 */
 		public function DebugCamera3D(viewport3D:Viewport3D, fovY:Number = 90, near:Number = 10, far:Number = 5000) 
 		{
-			super(10, 40, true);
+			super(fovY, near, far, true);
 			
 			this.viewport3D = viewport3D;
 			this.viewport = viewport3D.sizeRectangle;
