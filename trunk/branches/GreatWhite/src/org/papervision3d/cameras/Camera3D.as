@@ -57,7 +57,7 @@
 		{
 			target = target || _target;
 			target = target || DisplayObject3D.ZERO;
-			
+
 			if(useDegrees)
 			{
 				pitch *= (Math.PI/180);
