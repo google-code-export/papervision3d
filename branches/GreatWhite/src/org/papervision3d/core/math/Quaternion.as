@@ -43,6 +43,37 @@ package org.papervision3d.core.math
 		}
 		
 		/**
+		 * Sets this Quaternion from Euler angles.
+		 * 
+		 * @param	ax	X-angle in radians.
+		 * @param	ay	Y-angle in radians.
+		 * @param	az	Z-angle in radians.
+		 */ 
+		public function setFromEuler(ax:Number, ay:Number, az:Number, useDegrees:Boolean=false):void
+		{
+			if( useDegrees )
+			{
+				ax *= DEGTORAD;
+				ay *= DEGTORAD;
+				az *= DEGTORAD;
+			}
+			
+			var fSinPitch       :Number = Math.sin( ax * 0.5 );
+			var fCosPitch       :Number = Math.cos( ax * 0.5 );
+			var fSinYaw         :Number = Math.sin( ay * 0.5 );
+			var fCosYaw         :Number = Math.cos( ay * 0.5 );
+			var fSinRoll        :Number = Math.sin( az * 0.5 );
+			var fCosRoll        :Number = Math.cos( az * 0.5 );
+			var fCosPitchCosYaw :Number = fCosPitch * fCosYaw;
+			var fSinPitchSinYaw :Number = fSinPitch * fSinYaw;
+
+			this.x = fSinRoll * fCosPitchCosYaw     - fCosRoll * fSinPitchSinYaw;
+			this.y = fCosRoll * fSinPitch * fCosYaw + fSinRoll * fCosPitch * fSinYaw;
+			this.z = fCosRoll * fCosPitch * fSinYaw - fSinRoll * fSinPitch * fCosYaw;
+			this.w = fCosRoll * fCosPitchCosYaw     + fSinRoll * fSinPitchSinYaw;
+		}
+		
+		/**
 		 * Modulo.
 		 * 
 		 * @param	a

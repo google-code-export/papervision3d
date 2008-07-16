@@ -29,7 +29,7 @@
 		 * @param	useFrustum		Boolean indicating whether to use frustum culling. When true all objects outside the view will be culled.
 		 * @param	useProjection 	Boolean indicating whether to use a projection matrix for perspective.
 		 */ 
-		public function Camera3D(fov:Number=60, near:Number=1, far:Number=5000, useFrustum:Boolean=false, useProjection:Boolean=false)
+		public function Camera3D(fov:Number=60, near:Number=10, far:Number=5000, useFrustum:Boolean=false, useProjection:Boolean=false)
 		{
 			super(near, 40);
 			

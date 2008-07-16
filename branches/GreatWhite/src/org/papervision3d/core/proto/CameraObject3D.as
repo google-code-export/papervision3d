@@ -201,8 +201,8 @@ package org.papervision3d.core.proto
 		*/
 		public function tilt( angle:Number ):void
 		{
-			if(!_target)
-				super.pitch( angle );
+			//if(!_target)
+			//	super.pitch( angle );
 		}
 	
 		/**
@@ -214,8 +214,8 @@ package org.papervision3d.core.proto
 		*/
 		public function pan( angle:Number ):void
 		{
-			if(_target)
-				super.yaw( angle );
+		//	if(_target)
+		//		super.yaw( angle );
 		}
 		
 		/**
