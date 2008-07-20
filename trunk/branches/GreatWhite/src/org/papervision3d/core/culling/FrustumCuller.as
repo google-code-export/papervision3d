@@ -217,6 +217,8 @@ package org.papervision3d.core.culling
 				case FrustumTestMethod.BOUNDING_BOX:
 					result = aabbInFrustum(obj, obj.geometry.aabb);
 					break;
+				case FrustumTestMethod.NO_TESTING:
+					break;
 				default:
 					break;	
 			}
