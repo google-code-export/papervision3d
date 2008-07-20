@@ -32,7 +32,7 @@ package org.papervision3d.core.math
 		 * @param	w
 		 * @return
 		 */
-		public function Quaternion( x:Number = 0, y:Number = 0, z:Number = 0, w:Number = 1 ):void
+		public function Quaternion( x:Number = 0, y:Number = 0, z:Number = 0, w:Number = 1 )
 		{
 			this.x = x;
 			this.y = y;
@@ -40,6 +40,50 @@ package org.papervision3d.core.math
 			this.w = w;
 			
 			_matrix = Matrix3D.IDENTITY;
+		}
+		
+		/**
+		 * Clone.
+		 * 
+		 */
+		public function clone():Quaternion
+		{
+			return  new Quaternion(this.x, this.y, this.z, this.w);
+		}
+		
+		/**
+		 * Multiply.
+		 * 
+		 * @param	a
+		 * @param	b
+		 */
+		public function calculateMultiply( a:Quaternion, b:Quaternion ):void
+		{
+			this.x = a.w*b.x + a.x*b.w + a.y*b.z - a.z*b.y;
+			this.y = a.w*b.y - a.x*b.z + a.y*b.w + a.z*b.x;
+			this.z = a.w*b.z + a.x*b.y - a.y*b.x + a.z*b.w;
+			this.w = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z;
+		}
+		
+		/**
+		 * Creates a Quaternion from a axis and a angle.
+		 * 
+		 * @param	x 	X-axis
+		 * @param	y 	Y-axis
+		 * @param	z 	Z-axis
+		 * @param	angle	angle in radians.
+		 * 
+		 * @return
+		 */
+		public function setFromAxisAngle( x:Number, y:Number, z:Number, angle:Number ):void
+		{
+			var sin:Number = Math.sin( angle / 2 );
+			var cos:Number = Math.cos( angle / 2 );
+			this.x = x * sin;
+			this.y = y * sin;
+			this.z = z * sin;
+			this.w = cos;
+			this.normalize();
 		}
 		
 		/**
@@ -112,17 +156,9 @@ package org.papervision3d.core.math
 		 */
 		public static function createFromAxisAngle( x:Number, y:Number, z:Number, angle:Number ):Quaternion
 		{
-			var sin:Number = Math.sin( angle / 2 );
-			var cos:Number = Math.cos( angle / 2 );
-
 			var q:Quaternion = new Quaternion();
 
-			q.x = x * sin;
-			q.y = y * sin;
-			q.z = z * sin;
-			q.w = cos;
-			
-			q.normalize();
+			q.setFromAxisAngle(x, y, z, angle);
 			
 			return q;
 		}
@@ -440,12 +476,42 @@ package org.papervision3d.core.math
 			return qm;
 		}
 		
+		public function toEuler():Number3D
+		{
+			var euler	:Number3D = new Number3D();
+			var q1		:Quaternion = this;
+			
+			var test :Number = q1.x*q1.y + q1.z*q1.w;
+			if (test > 0.499) { // singularity at north pole
+				euler.x = 2 * Math.atan2(q1.x,q1.w);
+				euler.y = Math.PI/2;
+				euler.z = 0;
+				return euler;
+			}
+			if (test < -0.499) { // singularity at south pole
+				euler.x = -2 * Math.atan2(q1.x,q1.w);
+				euler.y = - Math.PI/2;
+				euler.z = 0;
+				return euler;
+			}
+		    
+		    var sqx	:Number = q1.x*q1.x;
+		    var sqy	:Number = q1.y*q1.y;
+		    var sqz	:Number = q1.z*q1.z;
+		    
+		    euler.x = Math.atan2(2*q1.y*q1.w-2*q1.x*q1.z , 1 - 2*sqy - 2*sqz);
+			euler.y = Math.asin(2*test);
+			euler.z = Math.atan2(2*q1.x*q1.w-2*q1.y*q1.z , 1 - 2*sqx - 2*sqz);
+			
+			return euler;
+		}
+		
 		/**
 		 * Gets the matrix representation of this Quaternion.
 		 * 
 		 * @return matrix. @see org.papervision3d.core.Matrix3D
 		 */
-		public function toMatrix():Matrix3D
+		public function get matrix():Matrix3D
 		{
 			var xx:Number = x * x;
 			var xy:Number = x * y;

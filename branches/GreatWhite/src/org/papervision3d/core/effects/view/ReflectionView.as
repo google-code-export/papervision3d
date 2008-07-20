@@ -59,9 +59,9 @@ package org.papervision3d.core.effects.view
 			}
 			cameraReflection.transform.copy(camera.transform);
 			cameraReflection.y=-camera.y;
-			cameraReflection.pitch = -camera.pitch;
-			cameraReflection.yaw = camera.yaw;
-			cameraReflection.roll = -camera.roll;
+			cameraReflection.rotationX = -camera.rotationX;
+			cameraReflection.rotationY = camera.rotationY;
+			cameraReflection.rotationZ = -camera.rotationZ;
 			
 			cameraReflection.y+=surfaceHeight; 
 			

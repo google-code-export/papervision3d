@@ -14,7 +14,7 @@ package org.papervision3d.core.math
 		protected var _vertices:Array;
 		
 		/**
-		 * @Author Ralph Hauwert
+		 * @author Ralph Hauwert/Alex Clarke
 		 */
 		public function AxisAlignedBoundingBox(minX:Number, minY:Number, minZ:Number, maxX:Number, maxY:Number, maxZ:Number)
 		{
@@ -47,13 +47,16 @@ package org.papervision3d.core.math
 		
 		public static function createFromVertices(vertices:Array):AxisAlignedBoundingBox
 		{
-			var minX:Number = 0;
-			var maxX:Number = 0;
-			var minY:Number = 0;
-			var maxY:Number = 0;
-			var minZ:Number = 0;
-			var maxZ:Number = 0;
 			var v:Vertex3D;
+			for each( v in vertices )
+				break;
+			
+			var minX:Number = v ? v.x : 0;
+			var maxX:Number = minX;
+			var minY:Number = v ? v.y : 0;
+			var maxY:Number = minY;
+			var minZ:Number = v ? v.z : 0;
+			var maxZ:Number = minZ;
 			for each( v in vertices )
 			{
 				minX = (v.x < minX) ? v.x : minX;

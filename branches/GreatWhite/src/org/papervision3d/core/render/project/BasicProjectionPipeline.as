@@ -46,9 +46,7 @@ package org.papervision3d.core.render.project
 						if(renderSessionData.viewPort.viewportObjectFilter){
 							//...test if the object should be rendered to this viewport.
 							if(renderSessionData.viewPort.viewportObjectFilter.testObject(p)){
-								//Calculate the view for this object.
-								p.view.calculateMultiply4x4(renderSessionData.camera.eye, p.transform);
-								//And project it.
+								// project it.
 								projectObject(p, renderSessionData);
 							}else{
 								//...if the object shouldn't be rendered on this viewport
@@ -56,7 +54,6 @@ package org.papervision3d.core.render.project
 							}
 						}else{
 							//If we don't filter objects.
-							p.view.calculateMultiply4x4(renderSessionData.camera.eye, p.transform);
 							projectObject(p, renderSessionData);
 						}
 					}
@@ -69,18 +66,14 @@ package org.papervision3d.core.render.project
 						//If we filter objects per viewport..then....
 						if(renderSessionData.viewPort.viewportObjectFilter){
 							if(renderSessionData.viewPort.viewportObjectFilter.testObject(p)){
-								//Calculate the view for this object.
-								p.view.calculateMultiply(renderSessionData.camera.eye, p.transform);
-								//And project it.
+								// project it.
 								projectObject(p, renderSessionData);
 							}else{
 								//The object is filtered.
 								renderSessionData.renderStatistics.filteredObjects++;
 							}
 						}else{
-							//Calculate the view for this object
-							p.view.calculateMultiply(renderSessionData.camera.eye, p.transform);
-							//And project it
+							// project it
 							projectObject(p, renderSessionData);
 						}
 					}
