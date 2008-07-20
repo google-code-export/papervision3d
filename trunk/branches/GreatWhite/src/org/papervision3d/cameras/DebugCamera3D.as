@@ -137,7 +137,6 @@ package org.papervision3d.cameras
 		 */
 		protected function onAddedToStageHandler(event:Event):void 
 		{
-			trace('added');
 			setupEvents();
 		}
 		
