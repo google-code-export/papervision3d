@@ -3,7 +3,7 @@ package org.papervision3d.core.proto
 	import flash.geom.Rectangle;
 	
 	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.culling.FrustumCuller;
+	import org.papervision3d.core.culling.IObjectCuller;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
@@ -55,7 +55,7 @@ package org.papervision3d.core.proto
 		/** 
 		 * 
 		 */
-		public var frustum	:FrustumCuller;
+		public var culler	:IObjectCuller;
 		
 		/**
 		 * 
@@ -370,21 +370,21 @@ package org.papervision3d.core.proto
 		}
 		
 		/**
-		 * Whether this camera uses frustum culling.
+		 * Whether this camera uses culling.
 		 * 
 		 * @return Boolean
 		 */ 
-		public function get useFrustumCulling():Boolean
+		public function get useCulling():Boolean
 		{
-			return _useFrustumCulling;	
+			return _useCulling;	
 		}
 		
 		/**
-		 * Whether this camera uses frustum culling.
+		 * Whether this camera uses culling.
 		 */ 
-		public function set useFrustumCulling(value:Boolean):void
+		public function set useCulling(value:Boolean):void
 		{
-			_useFrustumCulling = value;
+			_useCulling = value;
 		}
 		
 		/**
@@ -441,7 +441,7 @@ package org.papervision3d.core.proto
 			_orthoScaleMatrix.n33 = _orthoScale;
 		}
 		
-		protected var _useFrustumCulling	: Boolean;
+		protected var _useCulling			: Boolean;
 		protected var _useProjectionMatrix	: Boolean;
 		protected var _ortho				: Boolean;
 		protected var _orthoScale 			: Number = 1;
