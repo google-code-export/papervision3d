@@ -54,7 +54,7 @@ package org.papervision3d.core.effects.view
 			cameraReflection.focus = camera.focus; 
 			if(camera is Camera3D)
 			{
-				Camera3D(cameraReflection).useFrustumCulling = Camera3D(camera).useFrustumCulling; 
+				Camera3D(cameraReflection).useCulling = Camera3D(camera).useCulling; 
 			
 			}
 			cameraReflection.transform.copy(camera.transform);

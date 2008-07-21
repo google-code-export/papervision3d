@@ -26,18 +26,18 @@
 		 * @param	fov		This value is the vertical Field Of View (FOV) in degrees.
 		 * @param	near	Distance to the near clipping plane.
 		 * @param	far		Distance to the far clipping plane.
-		 * @param	useFrustum		Boolean indicating whether to use frustum culling. When true all objects outside the view will be culled.
+		 * @param	useCulling		Boolean indicating whether to use frustum culling. When true all objects outside the view will be culled.
 		 * @param	useProjection 	Boolean indicating whether to use a projection matrix for perspective.
 		 */ 
-		public function Camera3D(fov:Number=60, near:Number=10, far:Number=5000, useFrustum:Boolean=false, useProjection:Boolean=false)
+		public function Camera3D(fov:Number=60, near:Number=10, far:Number=5000, useCulling:Boolean=false, useProjection:Boolean=false)
 		{
 			super(near, 40);
 			
 			_prevFocus = 0;
 			_prevZoom = 0;
 			_prevOrtho = false;
-			_prevOrthoProjection = false;
-			_useFrustumCulling = useFrustum;
+			_prevUseProjection = false;
+			_useCulling = useCulling;
 			_useProjectionMatrix = useProjection;
 			_far = far;
 			_focusFix = Matrix3D.IDENTITY;
@@ -207,13 +207,15 @@
 				else
 					this.useProjectionMatrix = _prevOrthoProjection;
 			}
-			else
-				this.useProjectionMatrix = this.useProjectionMatrix;
-				
-			_prevOrtho = this.ortho;
-			_prevUseProjection = this.useProjectionMatrix;
+			else if(_prevUseProjection != _useProjectionMatrix)
+			{
+				this.useProjectionMatrix = this._useProjectionMatrix;
+			}	
 			
-			this.useFrustumCulling = _useFrustumCulling;
+			_prevOrtho = this.ortho;
+			_prevUseProjection = _useProjectionMatrix;
+			
+			this.useCulling = _useCulling;
 		}
 		
 		/**
@@ -224,7 +226,7 @@
 		public override function transformView(transform:Matrix3D=null):void
 		{	
 			// check whether camera internals need updating
-			if(	ortho != _prevOrtho || _prevOrthoProjection != _useProjectionMatrix || 
+			if(	ortho != _prevOrtho || _prevUseProjection != _useProjectionMatrix || 
 				focus != _prevFocus || zoom != _prevZoom || viewport.width != _prevWidth || viewport.height != _prevHeight)
 			{
 				update(viewport);
@@ -257,10 +259,10 @@
 			}
 			
 			// handle frustum if available
-			if(frustum is FrustumCuller)
+			if(culler is FrustumCuller)
 			{
 				// The frustum culler simply uses the camera transform
-				frustum.transform.copy(this.transform);
+				FrustumCuller(culler).transform.copy(this.transform);
 			}
 		}
 		
@@ -269,19 +271,19 @@
 		 * 
 		 * @return Boolean
 		 */ 
-		public override function set useFrustumCulling(value:Boolean):void
+		public override function set useCulling(value:Boolean):void
 		{
-			super.useFrustumCulling = value;
+			super.useCulling = value;
 			
-			if(_useFrustumCulling)
+			if(_useCulling)
 			{
-				if(!this.frustum)
-					this.frustum = new FrustumCuller();
+				if(!this.culler)
+					this.culler = new FrustumCuller();
 					
-				this.frustum.initialize(this.fov, this.viewport.width/this.viewport.height, this.focus/this.zoom, _far);
+				FrustumCuller(this.culler).initialize(this.fov, this.viewport.width/this.viewport.height, this.focus/this.zoom, _far);
 			}
 			else
-				this.frustum = null;	
+				this.culler = null;	
 		}
 		
 		/**
