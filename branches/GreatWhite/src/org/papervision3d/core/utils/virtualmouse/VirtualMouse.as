@@ -513,6 +513,7 @@ package org.papervision3d.core.utils.virtualmouse
 		
 		/*Added by Jim Kremens kremens@gmail.com 08/16/07 */
 		public function exitContainer():void {
+			if( !container ) return;
 			var targetLocal:Point = target.globalToLocal(location);
 			//log.debug("Targetlocal", target != container);
 			if (!disabledEvents[MouseEvent.MOUSE_OUT]) {
@@ -574,8 +575,21 @@ package org.papervision3d.core.utils.virtualmouse
 			// 		4) all parents have mouseChildren
 			// if not interactive object, defer interaction to next object in list
 			// if is interactive and enabled, give interaction and ignore rest
-			var p:Point = CoordinateTools.localToLocal(container, stage, location);
-			var objectsUnderPoint:Array = container.getObjectsUnderPoint(location); //container.getObjectsUnderPoint(p);
+			
+			// var p:Point = CoordinateTools.localToLocal(container, stage, location);
+			//var objectsUnderPoint:Array = container.getObjectsUnderPoint(p); 
+			
+			if( container.scrollRect ) trace("*********  VIRTUAL MOUSE UPDATE WARNING ********: The container that virtualMouse is trying to test against has a scrollRect defined, and may cause an issue with finding objects under a defined point.  Use MovieMaterial.rect to set a rectangle area instead");
+			var originalPoint:Point = new Point();
+			originalPoint.x = container.x;
+			originalPoint.y = container.y;
+			container.x = container.y = 0;
+			
+			var objectsUnderPoint:Array = container.getObjectsUnderPoint(location);
+			
+			container.x = originalPoint.x;
+			container.y = originalPoint.y;
+			
 			var currentTarget:InteractiveObject;
 			var currentParent:DisplayObject;
 			
