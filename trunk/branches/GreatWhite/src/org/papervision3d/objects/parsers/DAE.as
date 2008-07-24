@@ -1203,7 +1203,7 @@
 			}
 			else
 			{
-				_rootNode.rotationX = 90;
+				_rootNode.rotationX = -90;
 				_rootNode.rotationY = 180;
 			}
 			
