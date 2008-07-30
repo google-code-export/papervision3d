@@ -45,26 +45,35 @@ package org.papervision3d.core.math
 			return _vertices;
 		}
 		
+		public function merge(bbox:AxisAlignedBoundingBox):void
+		{
+			this.minX = Math.min(this.minX, bbox.minX);
+			this.minY = Math.min(this.minY, bbox.minY);
+			this.minZ = Math.min(this.minZ, bbox.minZ);
+			this.maxX = Math.max(this.maxX, bbox.maxX);
+			this.maxY = Math.max(this.maxY, bbox.maxY);
+			this.maxZ = Math.max(this.maxZ, bbox.maxZ);	
+			createBoxVertices();
+		}
+		
 		public static function createFromVertices(vertices:Array):AxisAlignedBoundingBox
 		{
-			var v:Vertex3D;
-			for each( v in vertices )
-				break;
+			var minX :Number = Number.MAX_VALUE;
+			var minY :Number = Number.MAX_VALUE;
+			var minZ :Number = Number.MAX_VALUE;
+			var maxX :Number = -minX;
+			var maxY :Number = -minY;
+			var maxZ :Number = -minZ;
+			var v	 :Vertex3D;
 			
-			var minX:Number = v ? v.x : 0;
-			var maxX:Number = minX;
-			var minY:Number = v ? v.y : 0;
-			var maxY:Number = minY;
-			var minZ:Number = v ? v.z : 0;
-			var maxZ:Number = minZ;
 			for each( v in vertices )
 			{
-				minX = (v.x < minX) ? v.x : minX;
-				minY = (v.y < minY) ? v.y : minY;
-				minZ = (v.z < minZ) ? v.z : minZ;
-				maxX = (v.x > maxX) ? v.x : maxX;
-				maxY = (v.y > maxY) ? v.y : maxY;
-				maxZ = (v.z > maxZ) ? v.z : maxZ;
+				minX = Math.min(minX, v.x);
+				minY = Math.min(minY, v.y);
+				minZ = Math.min(minZ, v.z);
+				maxX = Math.max(maxX, v.x);
+				maxY = Math.max(maxY, v.y);
+				maxZ = Math.max(maxZ, v.z);
 			}
 			
 			return new AxisAlignedBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
