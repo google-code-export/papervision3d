@@ -76,7 +76,7 @@
 			Vertex3DInstance.subTo(b,a,resBA);
 			Vertex3DInstance.subTo(point,a,resPA);
 			Vertex3DInstance.subTo(ref, a, resRA);
-			return Vertex3DInstance.cross(resBA, resPA)*Vertex3DInstance.cross(resBA, resRA) > 0;
+			return Vertex3DInstance.cross(resBA, resPA)*Vertex3DInstance.cross(resBA, resRA) >= 0;
 		}
 		
 		private function deepHitTest(face:Triangle3D, vPoint:Vertex3DInstance, rhd:RenderHitData):RenderHitData
