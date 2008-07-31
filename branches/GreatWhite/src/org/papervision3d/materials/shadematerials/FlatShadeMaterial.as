@@ -40,7 +40,9 @@ package org.papervision3d.materials.shadematerials
 		{
 			lightMatrix = Matrix3D(lightMatrices[face3D.instance]);
 			zd = face3D.faceNormal.x * lightMatrix.n31 + face3D.faceNormal.y * lightMatrix.n32 + face3D.faceNormal.z * lightMatrix.n33;
+			
 			if(zd < 0){zd = 0;};
+			
 			x0 = face3D.v0.vertex3DInstance.x;
 		    y0 = face3D.v0.vertex3DInstance.y;
 			zAngle = zd*0xff;
