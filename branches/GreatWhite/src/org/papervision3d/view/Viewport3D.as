@@ -147,12 +147,14 @@ package org.papervision3d.view
 						rli = rc as RenderableListItem;
 						rhd = rli.hitTestPoint2D(point, rhd);
 						if(rhd.hasHit)
-						{				
+						{	
+										
 							return rhd;
 						}
 					}
 				}
 			}
+			
 			return renderHitData;
 		}
 
