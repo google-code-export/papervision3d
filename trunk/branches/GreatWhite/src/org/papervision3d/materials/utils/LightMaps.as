@@ -17,7 +17,7 @@ package org.papervision3d.materials.utils
 		public static function getFlatMapArray(lightColor:int, ambientColor:int, specularLevel:int):Array
 		{
 			var array:Array = new Array();
-			var tempmap:BitmapData = new BitmapData(255,1,false,0);
+			var tempmap:BitmapData = new BitmapData(256,1,false,0);
 			var s:Sprite = new Sprite();
 			var m:Matrix = new Matrix();
 			m.createGradientBox(255,1,0,0,0);
@@ -26,7 +26,7 @@ package org.papervision3d.materials.utils
 			s.graphics.endFill();
 			tempmap.draw(s);
 			
-			var i:int = 255;
+			var i:int = 256;
 			while(i--){
 				array.push(tempmap.getPixel(i,0));
 			}
