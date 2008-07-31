@@ -88,9 +88,11 @@
 		*/
 		public function removeMaterial( material:MaterialObject3D ):MaterialObject3D
 		{
-			delete this.materialsByName[ this._materials[ material ] ];
-			delete this._materials[ material ];
-	
+			if(this._materials[ material ]){
+				delete this.materialsByName[ this._materials[ material ] ];
+				delete this._materials[ material ];
+				_materialsTotal--;
+			}
 			return material;
 		}
 	
