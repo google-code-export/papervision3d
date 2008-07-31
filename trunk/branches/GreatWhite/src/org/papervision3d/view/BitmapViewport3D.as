@@ -16,7 +16,7 @@ package org.papervision3d.view
 		
 		public var bitmapData		:BitmapData;
 		
-		protected var _containerBitmap	:Bitmap;
+		public var _containerBitmap	:Bitmap;
 		protected var _fillBeforeRender:Boolean = true;
 		protected var bgColor			:int;
 		protected var bitmapTransparent:Boolean;
@@ -49,7 +49,7 @@ package org.papervision3d.view
 
 			var mat:Matrix = new Matrix();
 			mat.translate(_hWidth, _hHeight);
-			bitmapData.draw(_containerSprite, mat ,null, null, _containerSprite.getBounds(this), false);
+			bitmapData.draw(_containerSprite, mat ,null, null, bitmapData.rect, false);
 		}
 		
 		override protected function onStageResize(event:Event = null):void
