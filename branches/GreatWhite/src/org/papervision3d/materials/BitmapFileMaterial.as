@@ -290,6 +290,7 @@ package org.papervision3d.materials
 
 		protected function loadComplete():void
 		{
+			
 			this.fillAlpha = 0;
 			this.fillColor = 0;
 			this.loaded = true;
