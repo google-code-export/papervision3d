@@ -61,6 +61,9 @@ package org.papervision3d.objects.primitives {
 		* All faces selected.
 		*/
 		static public var ALL    :int = FRONT + BACK + RIGHT + LEFT + TOP + BOTTOM;
+		
+		private var insideFaces  :int;
+		private var excludeFaces :int;
 	
 		// ___________________________________________________________________________________________________
 		//                                                                                               N E W
@@ -151,7 +154,6 @@ package org.papervision3d.objects.primitives {
 				buildPlane( "bottom", "x", "z", width, depth, -height2, ! Boolean( insideFaces & BOTTOM ) );
 	
 			mergeVertices();
-	
 			this.geometry.ready = true;
 			
 			if(Papervision3D.useRIGHTHANDED)
@@ -167,8 +169,10 @@ package org.papervision3d.objects.primitives {
 					Papervision3D.log( "Cube: Required material not found in given materials list. Supported materials are: front, back, right, left, top, bottom & all." );
 					return;
 				}
+				
 			}
-	
+			
+			matInstance.registerObject(this); // needed for the shaders.
 			// Find w depth axis
 			var w :String;
 			if( (u=="x" && v=="y") || (u=="y" && v=="x") ) w = "z";
@@ -243,8 +247,15 @@ package org.papervision3d.objects.primitives {
 				}
 			}
 		}
-		private var insideFaces  :int;
-		private var excludeFaces :int;
+		
+		public function destroy():void
+		{
+			var mat:MaterialObject3D;
+			for each(mat in materials){
+				mat.unregisterObject(this);
+			}
+		}
+		
 		
 	}
 }
