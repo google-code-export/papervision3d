@@ -145,9 +145,11 @@
 					graphics.lineStyle();
 				renderSessionData.renderStatistics.triangles++;
 			}else{
-				_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
-				focus = renderSessionData.camera.focus;
-				renderRec(graphics, _triMap, face3D.v0.vertex3DInstance, face3D.v1.vertex3DInstance, face3D.v2.vertex3DInstance, 0, renderSessionData, altBitmap ? altBitmap : bitmap);	 
+				if(bitmap){
+					_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
+					focus = renderSessionData.camera.focus;
+					renderRec(graphics, _triMap, face3D.v0.vertex3DInstance, face3D.v1.vertex3DInstance, face3D.v2.vertex3DInstance, 0, renderSessionData, altBitmap ? altBitmap : bitmap);	 
+				}
 			}
 		}
 		
