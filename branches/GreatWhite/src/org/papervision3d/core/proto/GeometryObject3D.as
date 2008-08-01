@@ -100,7 +100,8 @@
 				tempVertices[face.v0] = face.v0;
 				tempVertices[face.v1] = face.v1;
 				tempVertices[face.v2] = face.v2;
-			}	
+			}
+			
 			for each (vertex3D in tempVertices){
 				vertex3D.calculateNormal();
 			}
