@@ -77,7 +77,7 @@ package org.papervision3d.materials
 		 * 
 		 * Used to define if the loading had failed.
 		 */
-		private var errorLoading:Boolean = false;
+		protected var errorLoading:Boolean = false;
 
 		// ___________________________________________________________________ NEW
 
@@ -162,7 +162,7 @@ package org.papervision3d.materials
 
 		// ___________________________________________________________________ LOAD NEXT BITMAP
 
-		private function loadNextBitmap():void
+		protected function loadNextBitmap():void
 		{
 			// Retrieve next filename in queue
 			var file:String = _waitingBitmaps[0];
@@ -201,7 +201,7 @@ package org.papervision3d.materials
 		
 		// ___________________________________________________________________ LOAD BITMAP ERROR HANDLER
 
-		private function loadBitmapErrorHandler( e:IOErrorEvent ):void
+		protected function loadBitmapErrorHandler( e:IOErrorEvent ):void
 		{
 			
 			var failedAsset:String = String(_waitingBitmaps.shift());
@@ -236,7 +236,7 @@ package org.papervision3d.materials
 		
 		// ___________________________________________________________________ LOAD BITMAP PROGRESS HANDLER
 
-		private function loadBitmapProgressHandler( e:ProgressEvent ):void
+		protected function loadBitmapProgressHandler( e:ProgressEvent ):void
 		{
 			var progressEvent:FileLoadEvent = new FileLoadEvent( FileLoadEvent.LOAD_PROGRESS, url, e.bytesLoaded, e.bytesTotal);
 			dispatchEvent( progressEvent );
@@ -244,7 +244,7 @@ package org.papervision3d.materials
 
 		// ___________________________________________________________________ LOAD BITMAP COMPLETE HANDLER
 
-		private function loadBitmapCompleteHandler( e:Event ):void
+		protected function loadBitmapCompleteHandler( e:Event ):void
 		{
 			var loader:Loader = Loader( e.target.loader );
 			var loadedBitmap:Bitmap = Bitmap( loader.content );
@@ -288,7 +288,7 @@ package org.papervision3d.materials
 
 		// ___________________________________________________________________ LOAD COMPLETE
 
-		private function loadComplete():void
+		protected function loadComplete():void
 		{
 			this.fillAlpha = 0;
 			this.fillColor = 0;
@@ -330,18 +330,18 @@ package org.papervision3d.materials
 		// ___________________________________________________________________ PRIVATE
 
 		// Filenames in the queue
-		static private var _waitingBitmaps :Array = new Array();
+		static protected var _waitingBitmaps :Array = new Array();
 
 		// URLs per loader
-		static private var _loaderUrls :Dictionary = new Dictionary();
+		static protected var _loaderUrls :Dictionary = new Dictionary();
 
 		// Loaded bitmap library
-		static private var _loadedBitmaps :Object = new Object();
+		static protected var _loadedBitmaps :Object = new Object();
 
 		// Materials subscribed  to the loading queue
-		static private var _subscribedMaterials :Object = new Object();
+		static protected var _subscribedMaterials :Object = new Object();
 
 		// Loading status
-		static private var _loadingIdle :Boolean = true;
+		static protected var _loadingIdle :Boolean = true;
 	}
 }
