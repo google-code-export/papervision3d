@@ -40,12 +40,12 @@
 		/**
 		* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var DATE     :String = '31.07.08';
+		static public var DATE     :String = '1.08.08';
 	
 		/**
 		* Enables copyright information to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var AUTHOR   :String = '(c) 2006-2007 Copyright by Carlos Ulloa | John Grden | Ralph Hauwert | Tim Knip | Andy Zupko';
+		static public var AUTHOR   :String = '(c) 2006-2008 Copyright by Carlos Ulloa | John Grden | Ralph Hauwert | Tim Knip | Andy Zupko';
 	
 		/**
 		* Determines whether debug printout is enabled. It also prints version information at startup.
