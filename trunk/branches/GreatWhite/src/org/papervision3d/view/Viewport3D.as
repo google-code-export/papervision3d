@@ -1,11 +1,14 @@
 package org.papervision3d.view 
 {
 	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
-
+	
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.culling.DefaultLineCuller;
 	import org.papervision3d.core.culling.DefaultParticleCuller;
 	import org.papervision3d.core.culling.DefaultTriangleCuller;
@@ -56,6 +59,9 @@ package org.papervision3d.view
 		public var lastRenderList:Array;
 		public var interactiveSceneManager:InteractiveSceneManager;
 		protected var renderHitData:RenderHitData;
+		private var stageScaleModeSet :Boolean = false; 
+		
+		
 
 		/**
 		 * @param viewportWidth 	Width of the viewport
@@ -147,14 +153,12 @@ package org.papervision3d.view
 						rli = rc as RenderableListItem;
 						rhd = rli.hitTestPoint2D(point, rhd);
 						if(rhd.hasHit)
-						{	
-										
+						{				
 							return rhd;
 						}
 					}
 				}
 			}
-			
 			return renderHitData;
 		}
 
@@ -207,6 +211,10 @@ package org.papervision3d.view
 		 */
 		protected function onAddedToStage(event:Event):void
 		{
+			if(_autoScaleToStage) 
+			{
+				setStageScaleMode()
+			}
 			stage.addEventListener(Event.RESIZE, onStageResize);
 			onStageResize();
 		}
@@ -229,6 +237,19 @@ package org.papervision3d.view
 				viewportWidth = stage.stageWidth;
 				viewportHeight = stage.stageHeight;
 			}
+		}
+
+		protected function setStageScaleMode() : void
+		{
+			if(!stageScaleModeSet)
+			{
+				Papervision3D.log("Viewport autoScaleToStage : Papervision has changed the Stage scale mode."); 
+			
+            	stage.align = StageAlign.TOP_LEFT;
+            	stage.scaleMode = StageScaleMode.NO_SCALE;	
+            	stageScaleModeSet = true; 		
+			}
+			
 		}
 
 		/**
@@ -353,8 +374,10 @@ package org.papervision3d.view
 			_autoScaleToStage = scale;
 			if(scale && stage != null)
 			{
+				setStageScaleMode();
 				onStageResize();
 			}
+			
 		}
 		
 		/**
