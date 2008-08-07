@@ -880,6 +880,9 @@
 					g.vertices = buildVertices(geometry.mesh);
 					g.faces = new Array();
 					
+					if(!g.vertices.length)
+						continue;
+						
 					for(i = 0; i < geometry.mesh.primitives.length; i++)
 					{
 						buildFaces(geometry.mesh.primitives[i], g, 0);
