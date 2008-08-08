@@ -40,7 +40,7 @@
 		/**
 		* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var DATE     :String = '1.08.08';
+		static public var DATE     :String = '08.08.08';
 	
 		/**
 		* Enables copyright information to be retrieved at runtime or when reviewing a decompiled swf.
