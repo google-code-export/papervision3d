@@ -36,9 +36,11 @@ package org.papervision3d.materials.shadematerials
 			var p1:Number = (face3D.v1.normal.x * lightMatrix.n31 + face3D.v1.normal.y * lightMatrix.n32 + face3D.v1.normal.z * lightMatrix.n33)+1;
 			var p2:Number = (face3D.v2.normal.x * lightMatrix.n31 + face3D.v2.normal.y * lightMatrix.n32 + face3D.v2.normal.z * lightMatrix.n33)+1;
 			
-			p0 *= 127.5;
-			p1 *= 127.5;
-			p2 *= 127.5;
+			
+			p0 *= 127;
+			p1 *= 127;
+			p2 *= 127;
+			
 			
 			transformMatrix.tx = p0;
 			transformMatrix.ty = 1;
