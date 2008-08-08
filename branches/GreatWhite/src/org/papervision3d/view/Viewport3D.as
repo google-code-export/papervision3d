@@ -61,8 +61,6 @@ package org.papervision3d.view
 		protected var renderHitData:RenderHitData;
 		private var stageScaleModeSet :Boolean = false; 
 		
-		
-
 		/**
 		 * @param viewportWidth 	Width of the viewport
 		 * @param viewportHeight 	Height of the viewport
@@ -446,7 +444,7 @@ package org.papervision3d.view
 		{
 			if(interactive)
 			{
-				interactiveSceneManager.updateRenderHitData();
+				interactiveSceneManager.updateAfterRender();
 			}
 			
 			if(renderSessionData.renderLayers)

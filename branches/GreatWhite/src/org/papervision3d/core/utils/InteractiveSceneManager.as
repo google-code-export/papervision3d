@@ -50,6 +50,11 @@
 		public var currentMouseDO3D:DisplayObject3D = null;
 		public var debug:Boolean = false;
 		
+		public var currentMousePos : Point = new Point(); 
+		public var lastMousePos : Point = new Point(); 
+		
+		public var _viewportRendered : Boolean = false;
+		
 		/**
 		* @private
 		*/		
@@ -74,8 +79,7 @@
 			container.removeEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
 			container.removeEventListener(MouseEvent.CLICK, handleMouseClick);
 			if (container.stage)
-				container.stage.removeEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
-				
+				container.stage.removeEventListener(Event.ENTER_FRAME, handleEnterFrame);
 			container = null;
 		}
 		
@@ -120,7 +124,8 @@
 				container.addEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
 				container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
 				container.addEventListener(MouseEvent.CLICK, handleMouseClick);
-				container.stage.addEventListener(MouseEvent.MOUSE_MOVE, handleMouseMove);
+				container.stage.addEventListener(Event.ENTER_FRAME, handleEnterFrame);
+				
 			}
 		}
 		
@@ -165,10 +170,7 @@
 		
 		protected function resolveRenderHitData():void
 		{
-			var point:Point = new Point();
-			point.x = container.mouseX;
-			point.y = container.mouseY;
-			renderHitData = viewport.hitTestPoint2D(point) as RenderHitData;
+			renderHitData = viewport.hitTestPoint2D(currentMousePos) as RenderHitData;
 		}
 		
 		/**
@@ -233,41 +235,64 @@
 			
 			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OUT, DO3D);	
 		}
+		
+		public function updateAfterRender() : void
+		{
+			_viewportRendered = true; 
+		}
+		
 		/**
-		 * Handles the MOUSE_MOVE event on an InteractiveSprite container
+		 * This handles the MOUSE_MOVE event on an InteractiveSprite container
+		 * and replaces handleMouseMove. 
+		 * 
+		 * By using ENTER_FRAME and manually checking for mouse movement we should save CPU.
+		 * 
 		 * @param e
 		 * 
 		 */		
-		protected function handleMouseMove(e:MouseEvent):void
+		protected function handleEnterFrame(e:Event):void
 		{
-			// fixes issue with having to re-render just to get hitest data
-			updateRenderHitData();
+			currentMousePos.x = container.mouseX;
+			currentMousePos.y = container.mouseY;
+		
+			var mousemoved:Boolean = !currentMousePos.equals(lastMousePos); 
 			
-			if( e is IVirtualMouseEvent ) return;
-			if( virtualMouse && renderHitData )
+			if(mousemoved || _viewportRendered) 
 			{
-				// locate the material's movie
-				var mat:MovieMaterial = currentMaterial as MovieMaterial;
 				
-				if( mat )
+				updateRenderHitData();
+				_viewportRendered = false; 
+				
+				if( e is IVirtualMouseEvent ) return;
+				if( virtualMouse && renderHitData )
 				{
-					//log.debug("found moviematerial, setting as container", container.name, mat.name);
-					// set the location where the calcs should be performed
-					virtualMouse.container = mat.movie as Sprite;
+					// locate the material's movie
+					var mat:MovieMaterial = currentMaterial as MovieMaterial;
+					
+					if( mat )
+					{
+						//log.debug("found moviematerial, setting as container", container.name, mat.name);
+						// set the location where the calcs should be performed
+						virtualMouse.container = mat.movie as Sprite;
+					}
+					
+					// update virtual mouse so it can test
+					if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
+					
+					// update the position mouse3D
+					if( Mouse3D.enabled && renderHitData && renderHitData.hasHit ) mouse3D.updatePosition(renderHitData);
+					
+					dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
+				}
+				else if( renderHitData && renderHitData.hasHit )
+				{
+					dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
 				}
 				
-				// update virtual mouse so it can test
-				if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
-				
-				// update the position mouse3D
-				if( Mouse3D.enabled && renderHitData && renderHitData.hasHit ) mouse3D.updatePosition(renderHitData);
-				
-				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
 			}
-			else if( renderHitData && renderHitData.hasHit )
-			{
-				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
-			}
+			
+			lastMousePos.x = currentMousePos.x; 
+			lastMousePos.y = currentMousePos.y; 
 			
 		}
 		
