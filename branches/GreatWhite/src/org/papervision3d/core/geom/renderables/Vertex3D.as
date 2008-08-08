@@ -124,7 +124,6 @@ package org.papervision3d.core.geom.renderables
 		{
 			var face:Triangle3D;
 			var count:Number = 0;
-		
 			normal.reset();
 			for each(face in connectedFaces)
 			{	
@@ -134,9 +133,9 @@ package org.papervision3d.core.geom.renderables
 					normal.plusEq(face.faceNormal);
 				}
 			}
-			normal.x/=count;
-			normal.y/=count;
-			normal.z/=count;
+			//normal.x/=count;
+			//normal.y/=count;
+			//normal.z/=count;
 			var p:Number3D = getPosition();
 			p.x /= count;
 			p.y /= count;
