@@ -6,7 +6,7 @@ RV     PA  RV SI     ERVISI NP  ER   IO   PE VISIO  AP  VISI  PA  RV3D
 ______________________________________________________________________
 papervision3d.org + blog.papervision3d.org + osflash.org/papervision3d
 
-Copyright 2006-2007 (c) Carlos Ulloa Matesanz, noventaynueve.com.
+Copyright 2006-2008 (c) Carlos Ulloa Matesanz, noventaynueve.com.
 
 Core Team : 
 	Carlos Ulloa
