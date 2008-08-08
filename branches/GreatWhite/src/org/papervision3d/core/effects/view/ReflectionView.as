@@ -67,7 +67,6 @@ package org.papervision3d.core.effects.view
 		
 		public override function singleRender():void
 		{
-			super.singleRender(); 
 			
 			cameraReflection.zoom = camera.zoom; 
 			cameraReflection.focus = camera.focus; 
@@ -76,7 +75,7 @@ package org.papervision3d.core.effects.view
 				Camera3D(cameraReflection).useCulling = Camera3D(camera).useCulling; 
 			
 			}
-			camera.updateTransform();
+			//camera.updateTransform();
 			cameraReflection.transform.copy(camera.transform);
 			
 			// reflection matrix! Doesn't work yet - turns planes inside out :-S
@@ -92,7 +91,8 @@ package org.papervision3d.core.effects.view
 			
 			
 			renderer.renderScene(scene, cameraReflection, viewportReflection);			
-
+			super.singleRender(); 
+		
 		}
 		
 		
