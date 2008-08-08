@@ -109,7 +109,10 @@ package org.papervision3d.objects.parsers
 				var t1:NumberUV = hasUV ? meshData.uvs[f[1]] : new NumberUV();
 				var t2:NumberUV = hasUV ? meshData.uvs[f[2]] : new NumberUV();
 				
-				mesh.geometry.faces.push(new Triangle3D(mesh, [v0, v1, v2], null, [t0, t1, t2]));
+				if(Papervision3D.useRIGHTHANDED)
+					mesh.geometry.faces.push(new Triangle3D(mesh, [v2, v1, v0], null, [t2, t1, t0]));
+				else
+					mesh.geometry.faces.push(new Triangle3D(mesh, [v0, v1, v2], null, [t0, t1, t2]));
 			}
 			
 			for(i = 0; i < meshData.materials.length; i++)
@@ -126,8 +129,8 @@ package org.papervision3d.objects.parsers
 			}
 			
 			mesh.geometry.ready = true;
-			mesh.rotationX = Papervision3D.useDEGREES ? 90 : 90 * (Math.PI/180);
-			mesh.rotationY = Papervision3D.useDEGREES ? 180 : 180 * (Math.PI/180);
+			mesh.rotationX = Papervision3D.useDEGREES ? -90 : -90 * (Math.PI/180);
+			//mesh.rotationY = Papervision3D.useDEGREES ? 180 : 180 * (Math.PI/180);
 			
 			addChild(mesh);
 		}
