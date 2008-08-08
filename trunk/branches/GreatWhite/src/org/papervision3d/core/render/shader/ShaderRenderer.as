@@ -2,9 +2,11 @@ package org.papervision3d.core.render.shader
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.BitmapDataChannel;
 	import flash.display.BlendMode;
 	import flash.display.Sprite;
 	import flash.events.EventDispatcher;
+	import flash.geom.Point;
 	import flash.utils.Dictionary;
 	
 	import org.papervision3d.core.render.data.RenderSessionData;
@@ -45,6 +47,9 @@ package org.papervision3d.core.render.shader
 				outputBitmap.fillRect(outputBitmap.rect, 0x000000);
 				bitmapContainer.bitmapData = inputBitmap;
 				outputBitmap.draw(container, null, null, null, outputBitmap.rect, false);
+				if(outputBitmap.transparent){
+					outputBitmap.copyChannel(inputBitmap, outputBitmap.rect, new Point(0,0), BitmapDataChannel.ALPHA, BitmapDataChannel.ALPHA); 
+				}
 			}
 		}
 		
