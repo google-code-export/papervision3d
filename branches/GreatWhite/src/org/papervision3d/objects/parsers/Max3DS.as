@@ -8,6 +8,7 @@ package org.papervision3d.objects.parsers
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
@@ -125,8 +126,8 @@ package org.papervision3d.objects.parsers
 			}
 			
 			mesh.geometry.ready = true;
-			mesh.rotationX = 90;
-			mesh.rotationY = 180;
+			mesh.rotationX = Papervision3D.useDEGREES ? 90 : 90 * (Math.PI/180);
+			mesh.rotationY = Papervision3D.useDEGREES ? 180 : 180 * (Math.PI/180);
 			
 			addChild(mesh);
 		}
