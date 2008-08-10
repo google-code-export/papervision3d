@@ -114,6 +114,8 @@ package org.papervision3d.view
 			cullingRectangle = new Rectangle();
 			
 			_containerSprite = new ViewportBaseLayer(this);
+			_containerSprite.doubleClickEnabled = true;
+			
 			addChild(_containerSprite);
 		
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);

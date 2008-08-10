@@ -21,6 +21,11 @@ package org.papervision3d.events
 		*/
 		public static const OBJECT_CLICK:String = "mouseClick";
 		/**
+		 * Dispatched when a container in the ISM recieves a MouseEvent.CLICK event
+		* @eventType mouseClick
+		*/
+		public static const OBJECT_DOUBLE_CLICK:String = "mouseDoubleClick";
+		/**
 		 * Dispatched when a container in the ISM receives an MouseEvent.MOUSE_OVER event
 		* @eventType mouseOver
 		*/
