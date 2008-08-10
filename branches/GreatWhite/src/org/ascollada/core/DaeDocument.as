@@ -245,7 +245,7 @@ package org.ascollada.core
 			// required!
 			this.asset = new DaeAsset( getNode(this.COLLADA, ASCollada.DAE_ASSET_ELEMENT) );
 			
-			Logger.log( "author: " + this.asset.contributors[0].author );
+			if( this.asset.contributors && this.asset.contributors[0].author ) Logger.log( "author: " + this.asset.contributors[0].author );
 			Logger.log( "created: " + this.asset.created );
 			Logger.log( "modified: " + this.asset.modified );
 			Logger.log( "y-up: " + this.asset.yUp );

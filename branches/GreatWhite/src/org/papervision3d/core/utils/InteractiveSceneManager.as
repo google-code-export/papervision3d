@@ -78,6 +78,7 @@
 			container.removeEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
 			container.removeEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
 			container.removeEventListener(MouseEvent.CLICK, handleMouseClick);
+			container.removeEventListener(MouseEvent.DOUBLE_CLICK, handleMouseDoubleClick);
 			if (container.stage)
 				container.stage.removeEventListener(Event.ENTER_FRAME, handleEnterFrame);
 			container = null;
@@ -121,9 +122,10 @@
 			if( viewport.interactive )
 			{
 				// setup listeners
-				container.addEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
-				container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
-				container.addEventListener(MouseEvent.CLICK, handleMouseClick);
+				container.addEventListener(MouseEvent.MOUSE_DOWN, handleMousePress, false, 0, true);
+				container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease, false, 0, true);
+				container.addEventListener(MouseEvent.CLICK, handleMouseClick, false, 0, true);
+				container.addEventListener(MouseEvent.DOUBLE_CLICK, handleMouseDoubleClick, false, 0, true);
 				container.stage.addEventListener(Event.ENTER_FRAME, handleEnterFrame);
 				
 			}
@@ -208,6 +210,16 @@
 		{
 			if( e is IVirtualMouseEvent ) return;
 			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_CLICK, currentDisplayObject3D);
+		}
+		/**
+		 * Handles the MOUSE_CLICK event on an InteractiveSprite container
+		 * @param e
+		 * 
+		 */		
+		protected function handleMouseDoubleClick(e:MouseEvent):void
+		{
+			if( e is IVirtualMouseEvent ) return;
+			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_DOUBLE_CLICK, currentDisplayObject3D);
 		}
 		/**
 		 * Handles the MOUSE_OVER event on an InteractiveSprite container
