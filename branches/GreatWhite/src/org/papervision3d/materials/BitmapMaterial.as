@@ -313,12 +313,18 @@
             	tempTriangleMatrix.d = emMap.c*b2 + emMap.d*d2;
             	tempTriangleMatrix.tx = emMap.tx*a2 + emMap.ty*c2 + v0.x;   
             	tempTriangleMatrix.ty = emMap.tx*b2 + emMap.ty*d2 + v0.y;       
-           	
+           		
+           		if(lineAlpha){
+           			tempPreGrp.lineStyle( lineThickness, lineColor, lineAlpha );
+           		}
 				tempPreGrp.beginBitmapFill(tempPreBmp, tempTriangleMatrix, tiled, smooth);
             	tempPreGrp.moveTo(v0.x, v0.y);
             	tempPreGrp.lineTo(v1.x, v1.y);
             	tempPreGrp.lineTo(v2.x, v2.y);
             	tempPreGrp.endFill();
+            	if(lineAlpha){
+           			tempPreGrp.lineStyle();
+           		}
                 
                 tempPreRSD.renderStatistics.triangles++;
                 return;
@@ -363,12 +369,19 @@
             	tempTriangleMatrix.d = emMap.c*b2 + emMap.d*d2;
             	tempTriangleMatrix.tx = emMap.tx*a2 + emMap.ty*c2 + v0.x;   
             	tempTriangleMatrix.ty = emMap.tx*b2 + emMap.ty*d2 + v0.y;       
-           	
+           		
+           		if(lineAlpha){
+           			tempPreGrp.lineStyle( lineThickness, lineColor, lineAlpha );
+           		}
 				tempPreGrp.beginBitmapFill(tempPreBmp, tempTriangleMatrix, tiled, smooth);
             	tempPreGrp.moveTo(v0.x, v0.y);
             	tempPreGrp.lineTo(v1.x, v1.y);
             	tempPreGrp.lineTo(v2.x, v2.y);
             	tempPreGrp.endFill();
+               	if(lineAlpha){
+               		tempPreGrp.lineStyle();
+               	}
+               
                
                tempPreRSD.renderStatistics.triangles++;
                return;
