@@ -11,7 +11,6 @@
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.material.TriangleMaterial;
-	import org.papervision3d.core.math.util.FastRectangleTools;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
@@ -148,7 +147,11 @@
 				if(bitmap){
 					_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
 					focus = renderSessionData.camera.focus;
-					renderRec(graphics, _triMap, face3D.v0.vertex3DInstance, face3D.v1.vertex3DInstance, face3D.v2.vertex3DInstance, 0, renderSessionData, altBitmap ? altBitmap : bitmap);	 
+					tempPreBmp = altBitmap ? altBitmap : bitmap;
+					tempPreRSD = renderSessionData;
+					tempPreGrp = graphics;
+					cullRect = renderSessionData.viewPort.cullingRectangle;
+					renderRec(_triMap, face3D.v0.vertex3DInstance, face3D.v1.vertex3DInstance, face3D.v2.vertex3DInstance, 0);	 
 				}
 			}
 		}
@@ -247,14 +250,27 @@
         protected var dsab:Number;
         protected var dsbc:Number;
         protected var dsca:Number;
-        protected function renderRec(graphics:Graphics, emMap:Matrix, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance, index:Number, renderSessionData:RenderSessionData, bitmap:BitmapData):void
+        protected var dmax:Number;
+        protected var cullRect:Rectangle;
+        
+        protected var tempPreGrp:Graphics;
+        protected var tempPreBmp:BitmapData;
+        protected var tempPreRSD:RenderSessionData;
+        
+        protected var tempTriangleMatrix:Matrix = new Matrix();
+		private var a2:Number;
+		private var b2:Number;
+		private var c2:Number;
+		private var d2:Number;
+        
+        protected function renderRec(emMap:Matrix, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance, index:Number):void
         {
         	az = v0.z;
         	bz = v1.z;
         	cz = v2.z;
         	
         	//Cull if a vertex behind near.
-            if ((az <= 0) && (bz <= 0) && (cz <= 0))
+            if((az <= 0) && (bz <= 0) && (cz <= 0))
                 return;
         	
         	cx = v2.x;
@@ -265,12 +281,18 @@
         	ay = v0.y;
         	
         	//Cull if outside of viewport.
-        	if(renderSessionData.viewPort.cullingRectangle){
-	    		hitRect.x = Math.min(cx, Math.min(bx, ax));
-				hitRect.width = Math.max(cx, Math.max(bx, ax)) + Math.abs(hitRect.x);
-				hitRect.y = Math.min(cy, Math.min(by, ay));
-				hitRect.height = Math.max(cy, Math.max(by, ay)) + Math.abs(hitRect.y);
-				if(!FastRectangleTools.intersects(hitRect, renderSessionData.viewPort.cullingRectangle)){
+        	if(cullRect){
+	    		hitRect.x = (bx < ax ? (bx < cx ? bx : cx) : (ax < cx ? ax : cx ));
+				hitRect.width = (bx > ax ? (bx > cx ? bx : cx) : (ax > cx ? ax : cx )) + (hitRect.x < 0 ? -hitRect.x : hitRect.x);
+				hitRect.y = (by < ay ? (by < cy ? by : cy) : (ay < cy ? ay : cy ));
+				hitRect.height = (by > ay ? (by > cy ? by : cy) : (ay > cy ? ay : cy )) + (hitRect.y < 0 ? -hitRect.y : hitRect.y);
+				if(!((hitRect.right<cullRect.left)||(hitRect.left>cullRect.right))){
+					if(!((hitRect.bottom<cullRect.top)||(hitRect.top>cullRect.bottom))){
+					
+					}else{
+						return;
+					}
+				}else{
 					return;
 				}
         	}
@@ -278,8 +300,27 @@
 			//cull if max iterations is reached, focus is invalid or if tesselation is to small.
             if (index >= 100 || (hitRect.width < minimumRenderSize) || (hitRect.height < minimumRenderSize) || (focus == Infinity))
             {
-                renderTriangleBitmap(graphics,emMap,v0,v1,v2,smooth,tiled,bitmap);
-                renderSessionData.renderStatistics.triangles++;
+            	
+            	//Draw this triangle.
+            	a2 = v1.x - v0.x;
+            	b2 = v1.y - v0.y;
+            	c2 = v2.x - v0.x;
+            	d2 = v2.y - v0.y;
+                      	
+            	tempTriangleMatrix.a = emMap.a*a2 + emMap.b*c2;
+            	tempTriangleMatrix.b = emMap.a*b2 + emMap.b*d2;
+            	tempTriangleMatrix.c = emMap.c*a2 + emMap.d*c2;
+            	tempTriangleMatrix.d = emMap.c*b2 + emMap.d*d2;
+            	tempTriangleMatrix.tx = emMap.tx*a2 + emMap.ty*c2 + v0.x;   
+            	tempTriangleMatrix.ty = emMap.tx*b2 + emMap.ty*d2 + v0.y;       
+           	
+				tempPreGrp.beginBitmapFill(tempPreBmp, tempTriangleMatrix, tiled, smooth);
+            	tempPreGrp.moveTo(v0.x, v0.y);
+            	tempPreGrp.lineTo(v1.x, v1.y);
+            	tempPreGrp.lineTo(v2.x, v2.y);
+            	tempPreGrp.endFill();
+                
+                tempPreRSD.renderStatistics.triangles++;
                 return;
             }
 			
@@ -310,13 +351,30 @@
 			var renderRecMap:Matrix = nRss.mat;
 			
             if ((dsab <= _precision) && (dsca <= _precision) && (dsbc <= _precision)){
-               renderTriangleBitmap(graphics, emMap, v0,v1,v2, smooth, tiled,bitmap);
-               renderSessionData.renderStatistics.triangles++;
+               //Draw this triangle.
+               a2 = v1.x - v0.x;
+               b2 = v1.y - v0.y;
+               c2 = v2.x - v0.x;
+               d2 = v2.y - v0.y;
+                      	
+            	tempTriangleMatrix.a = emMap.a*a2 + emMap.b*c2;
+            	tempTriangleMatrix.b = emMap.a*b2 + emMap.b*d2;
+            	tempTriangleMatrix.c = emMap.c*a2 + emMap.d*c2;
+            	tempTriangleMatrix.d = emMap.c*b2 + emMap.d*d2;
+            	tempTriangleMatrix.tx = emMap.tx*a2 + emMap.ty*c2 + v0.x;   
+            	tempTriangleMatrix.ty = emMap.tx*b2 + emMap.ty*d2 + v0.y;       
+           	
+				tempPreGrp.beginBitmapFill(tempPreBmp, tempTriangleMatrix, tiled, smooth);
+            	tempPreGrp.moveTo(v0.x, v0.y);
+            	tempPreGrp.lineTo(v1.x, v1.y);
+            	tempPreGrp.lineTo(v2.x, v2.y);
+            	tempPreGrp.endFill();
+               
+               tempPreRSD.renderStatistics.triangles++;
                return;
             }
             
             if ((dsab > _precision) && (dsca > _precision) && (dsbc > _precision)){
-            	
             	renderRecMap.a = emMap.a*2;
             	renderRecMap.b = emMap.b*2;
             	renderRecMap.c = emMap.c*2;
@@ -335,14 +393,14 @@
           		nRss.v2.x = mcax * 0.5;
           		nRss.v2.y = mcay * 0.5;
           		nRss.v2.z = (cz+az) * 0.5;
-                renderRec(graphics, renderRecMap, v0, nRss.v0, nRss.v2, nIndex, renderSessionData, bitmap);
+                renderRec(renderRecMap, v0, nRss.v0, nRss.v2, nIndex);
 				
 				renderRecMap.tx -=1;
-                renderRec(graphics, renderRecMap, nRss.v0, v1, nRss.v1, nIndex, renderSessionData, bitmap);
+                renderRec(renderRecMap, nRss.v0, v1, nRss.v1, nIndex);
 				
 				renderRecMap.ty -=1;
 				renderRecMap.tx = emMap.tx*2;
-                renderRec(graphics, renderRecMap, nRss.v2, nRss.v1, v2, nIndex, renderSessionData, bitmap);
+                renderRec(renderRecMap, nRss.v2, nRss.v1, v2, nIndex);
 				
 				renderRecMap.a = -emMap.a*2;
 				renderRecMap.b = -emMap.b*2;
@@ -350,12 +408,12 @@
 				renderRecMap.d = -emMap.d*2;
 				renderRecMap.tx = -emMap.tx*2+1;
 				renderRecMap.ty = -emMap.ty*2+1;
-                renderRec(graphics, renderRecMap, nRss.v1, nRss.v2, nRss.v0, nIndex, renderSessionData, bitmap);
+                renderRec(renderRecMap, nRss.v1, nRss.v2, nRss.v0, nIndex);
 
                 return;
             }
-
-            var dmax:Number = Math.max(dsab, Math.max(dsca, dsbc));
+			
+			dmax = (dsca > dsbc ? (dsca > dsab ? dsca : dsab) : (dsbc > dsab ? dsbc : dsab ));
             if (dsab == dmax)
             {
             	renderRecMap.a = emMap.a*2;
@@ -367,12 +425,12 @@
 				nRss.v0.x = mabx * 0.5;
 				nRss.v0.y = maby * 0.5;
 				nRss.v0.z = (az+bz) * 0.5;
-                renderRec(graphics, renderRecMap, v0, nRss.v0, v2, nIndex, renderSessionData, bitmap);
+                renderRec(renderRecMap, v0, nRss.v0, v2, nIndex);
 				
 				renderRecMap.a = emMap.a*2+emMap.b;
 				renderRecMap.c = 2*emMap.c+emMap.d;
 				renderRecMap.tx = emMap.tx*2+emMap.ty-1;
-                renderRec(graphics, renderRecMap, nRss.v0, v1, v2, nIndex, renderSessionData, bitmap);
+                renderRec(renderRecMap, nRss.v0, v1, v2, nIndex);
             
                 return;
             }
@@ -388,12 +446,12 @@
 				nRss.v2.x = mcax * 0.5;
 				nRss.v2.y = mcay * 0.5;
 				nRss.v2.z = (cz+az) * 0.5;
-                renderRec(graphics, renderRecMap, v0, v1, nRss.v2, nIndex, renderSessionData, bitmap);
+                renderRec(renderRecMap, v0, v1, nRss.v2, nIndex);
 				
 				renderRecMap.b += emMap.a;
 				renderRecMap.d += emMap.c;
 				renderRecMap.ty += emMap.tx-1;
-                renderRec(graphics, renderRecMap, nRss.v2, v1, v2, nIndex, renderSessionData, bitmap);
+                renderRec(renderRecMap, nRss.v2, v1, v2, nIndex);
             	
                 return;
             }
@@ -407,7 +465,7 @@
 			nRss.v1.x = mbcx * 0.5;
 			nRss.v1.y = mbcy * 0.5;
 			nRss.v1.z = (bz+cz)*0.5;
-            renderRec(graphics, renderRecMap, v0, v1, nRss.v1, nIndex, renderSessionData, bitmap);
+            renderRec(renderRecMap, v0, v1, nRss.v1, nIndex);
 			
 			renderRecMap.a = emMap.a*2;
 			renderRecMap.b = emMap.b-emMap.a;
@@ -415,39 +473,8 @@
 			renderRecMap.d = emMap.d-emMap.c;
 			renderRecMap.tx = emMap.tx*2;
 			renderRecMap.ty = emMap.ty-emMap.tx;
-            renderRec(graphics, renderRecMap, v0, nRss.v1, v2, nIndex, renderSessionData, bitmap);
+            renderRec(renderRecMap, v0, nRss.v1, v2, nIndex);
         }
-		
-		/**
-		*	Used to avoid new in renderTriangleBitmap
-		*/
-		protected var tempTriangleMatrix:Matrix = new Matrix();
-		
-		private var a2:Number;
-		private var b2:Number;
-		private var c2:Number;
-		private var d2:Number;
-		public function renderTriangleBitmap(graphics:Graphics, inMat:Matrix, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance, smooth:Boolean, repeat:Boolean, bitmapData:BitmapData):void
-        {
-            a2 = v1.x - v0.x;
-            b2 = v1.y - v0.y;
-            c2 = v2.x - v0.x;
-            d2 = v2.y - v0.y;
-                      	
-            tempTriangleMatrix.a = inMat.a*a2 + inMat.b*c2;
-            tempTriangleMatrix.b = inMat.a*b2 + inMat.b*d2;
-            tempTriangleMatrix.c = inMat.c*a2 + inMat.d*c2;
-            tempTriangleMatrix.d = inMat.c*b2 + inMat.d*d2;
-            tempTriangleMatrix.tx = inMat.tx*a2 + inMat.ty*c2 + v0.x;   
-            tempTriangleMatrix.ty = inMat.tx*b2 + inMat.ty*d2 + v0.y;       
-           	
-			graphics.beginBitmapFill(bitmapData, tempTriangleMatrix, repeat, smooth);
-            graphics.moveTo(v0.x, v0.y);
-            graphics.lineTo(v1.x, v1.y);
-            graphics.lineTo(v2.x, v2.y);
-            graphics.endFill();
-        }
-	
 
 		/**
 		* Returns a string value representing the material properties in the specified BitmapMaterial object.
