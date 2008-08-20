@@ -40,7 +40,6 @@
 			this.triangle = triangle;
 			renderableInstance = triangle;
 			renderable = Triangle3D;
-				
 		}
 		
 		override public function render(renderSessionData:RenderSessionData, graphics:Graphics):void
