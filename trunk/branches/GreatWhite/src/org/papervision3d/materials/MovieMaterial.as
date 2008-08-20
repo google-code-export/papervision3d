@@ -42,7 +42,7 @@ package org.papervision3d.materials
 		* 
 		* This is true by default, but in certain situations, like drawing on an object, you wouldn't want the size to change
 		*/
-		public var allowAutoResize:Boolean = true;
+		public var allowAutoResize:Boolean = false;
 
 		// ______________________________________________________________________ ANIMATED
 
@@ -209,7 +209,6 @@ package org.papervision3d.materials
 				
 				if( allowAutoResize && ( mWidth != bitmap.width || mHeight != bitmap.height ) )
 				{
-					// Init new bitmap size
 					initBitmap( movie );
 					recreateBitmapInSuper = true;
 				}
