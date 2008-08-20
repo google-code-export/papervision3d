@@ -52,7 +52,7 @@ package org.papervision3d.view.stats
 			renderInfoTextField = new TextField();
 			renderInfoTextField.y = 24;
 			renderInfoTextField.autoSize = TextFieldAutoSize.LEFT;
-			objectInfoTextField.defaultTextFormat = statsFormat;
+			renderInfoTextField.defaultTextFormat = statsFormat;
 			addChild(renderInfoTextField);
 			
 			cullingInfoTextField = new TextField();
