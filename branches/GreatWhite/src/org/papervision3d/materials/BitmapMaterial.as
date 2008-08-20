@@ -10,6 +10,7 @@
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.material.TriangleMaterial;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
@@ -164,7 +165,7 @@
 		{			
 			if( ! face3D.uv )
 			{
-				Papervision3D.log( "MaterialObject3D: transformUV() uv not found!" );
+				PaperLogger.error( "MaterialObject3D: transformUV() uv not found!" );
 			}
 			else if( bitmap )
 			{
@@ -215,7 +216,7 @@
 				mapping.tx = m.tx;
 				mapping.ty = m.ty;
 			}
-			else Papervision3D.log( "MaterialObject3D: transformUV() material.bitmap not found!" );
+			else PaperLogger.error( "MaterialObject3D: transformUV() material.bitmap not found!" );
 
 			return mapping;
 		}
@@ -554,7 +555,7 @@
 				ok = false;
 			}
 			
-			if( ! ok ) Papervision3D.log( "Material " + this.name + ": Texture too big for mip mapping. Resizing recommended for better performance and quality." );
+			if( ! ok ) PaperLogger.warning( "Material " + this.name + ": Texture too big for mip mapping. Resizing recommended for better performance and quality." );
 
 			// Create new bitmap?
 			if( bitmap && ( bitmap.width % levels !=0  ||  bitmap.height % levels != 0 ) )
@@ -588,7 +589,7 @@
 		{
 			var srcRect  :Rectangle = new Rectangle();
 			var dstPoint :Point = new Point();
-			//trace(dstPoint + "BitmapMaterialPOINT?");
+			
 			var i        :int;
 
 			// Check width
@@ -724,7 +725,7 @@
 		{
 			if( asset is BitmapData == false )
 			{
-				Papervision3D.log("Error: BitmapMaterial.texture requires a BitmapData object for the texture");
+				PaperLogger.error("BitmapMaterial.texture requires a BitmapData object for the texture");
 				return;
 			}
 			

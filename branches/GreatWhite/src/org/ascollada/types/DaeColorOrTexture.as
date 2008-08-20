@@ -75,17 +75,17 @@ package org.ascollada.types
 					case "color":
 						this.type = TYPE_COLOR;
 						this.color = getFloats( child );
-						//Logger.trace( " => " + node.localName() + ": color: " + this.color );
+						
 						return;
 					
 					case "texture":
 						this.type = TYPE_TEXTURE;
 						this.texture = new DaeTexture( child );
-						//Logger.trace( " => " + node.localName() + ": texture: " + texture.texture + " texcoord:" + texture.texcoord );
+						
 						return;
 						
 					case "param":
-						//Logger.trace( " => " + node.localName() + ": param: " );
+						
 						this.type = TYPE_PARAM;
 						return;
 						

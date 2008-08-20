@@ -6,7 +6,7 @@ package org.papervision3d.materials
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	
-	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.core.render.material.IUpdateBeforeMaterial;	
@@ -70,7 +70,7 @@ package org.papervision3d.materials
 		{
 			if( asset is DisplayObject == false )
 			{
-				Papervision3D.log("Error: MovieMaterial.texture requires a Sprite to be passed as the object");
+				PaperLogger.error("MovieMaterial.texture requires a Sprite to be passed as the object");
 				return;
 			}
 			bitmap = createBitmapFromSprite( DisplayObject(asset) );

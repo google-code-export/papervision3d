@@ -9,8 +9,8 @@ package org.papervision3d.materials
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
@@ -64,7 +64,7 @@ package org.papervision3d.materials
 		{
 			if( asset is String == false )
 			{
-				Papervision3D.log("Error: BitmapFileMaterial.texture requires a String for the texture");
+				PaperLogger.error("BitmapFileMaterial.texture requires a String for the texture");
 				return;
 			}
 			
@@ -185,7 +185,7 @@ package org.papervision3d.materials
 				// Busy loading
 				_loadingIdle = false;
 
-				Papervision3D.log( "BitmapFileMaterial: Loading bitmap from " + file );
+				PaperLogger.info( "BitmapFileMaterial: Loading bitmap from " + file );
 			}
 			catch( error:Error )
 			{
@@ -195,7 +195,7 @@ package org.papervision3d.materials
 				// Loading finished
 				_loadingIdle = true;
 
-				Papervision3D.log( "[ERROR] BitmapFileMaterial: Unable to load file " + error.message );
+				PaperLogger.info( "[ERROR] BitmapFileMaterial: Unable to load file " + error.message );
 			}
 		}
 		

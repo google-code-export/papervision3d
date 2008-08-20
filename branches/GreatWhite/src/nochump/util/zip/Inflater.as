@@ -84,7 +84,7 @@ package nochump.util.zip {
 			do { // process blocks until last block or error
 				var last:int = bits(1); // one if last block
 				var type:int = bits(2); // block type 0..3
-				//trace('	block type ' + type);
+				
 				if(type == 0) stored(buf); // uncompressed block
 				else if(type == 3) throw new Error('invalid block type (type == 3)', -1);
 				else { // compressed block

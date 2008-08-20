@@ -1,6 +1,7 @@
 ﻿package org.papervision3d.core.proto
 {
 	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.materials.utils.MaterialsList;
 	import org.papervision3d.objects.DisplayObject3D;
 	
@@ -35,7 +36,7 @@
 			this.objects = new Array();
 			this.materials = new MaterialsList();
 	
-			Papervision3D.log( Papervision3D.NAME + " " + Papervision3D.VERSION + " (" + Papervision3D.DATE + ")\n" );
+			PaperLogger.info( Papervision3D.NAME + " " + Papervision3D.VERSION + " (" + Papervision3D.DATE + ")\n" );
 
 			this.root = this;
 		}

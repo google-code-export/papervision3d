@@ -6,6 +6,7 @@ package org.papervision3d.materials.shaders
 	import flash.utils.Dictionary;
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.material.TriangleMaterial;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
@@ -124,10 +125,10 @@ package org.papervision3d.materials.shaders
 					var sod:ShaderObjectData = ShaderObjectData(shaderObjectData[object]);
 					return sod.shaderRenderer.outputBitmap;
 				}else{
-					trace("object not registered with shaded material");
+					PaperLogger.warning("object not registered with shaded material");
 				}
 			}else{
-				trace("getOutputBitmapDataFor only works on per layer mode");
+				PaperLogger.warning("getOutputBitmapDataFor only works on per layer mode");
 			}
 			return null;
 		}

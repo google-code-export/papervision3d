@@ -7,10 +7,10 @@ package org.papervision3d.objects.parsers
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.DisplayObjectContainer3D;
@@ -135,13 +135,13 @@ package org.papervision3d.objects.parsers
 		
 		private function handleIOError(e:IOErrorEvent):void
 		{
-			trace("COLLADA file load error", e.text);
+			PaperLogger.error("COLLADA file load error", this, e.text);
 			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_ERROR,this._filename,0,0,e.text));
 		}
 		
 		private function handleSecurityLoadError(e:SecurityErrorEvent):void
 		{
-			trace("COLLADA file security load error", e.text);
+			PaperLogger.error("COLLADA file security load error",this, e.text);
 			dispatchEvent(new FileLoadEvent(FileLoadEvent.SECURITY_LOAD_ERROR,this._filename, 0, 0, e.text));
 		}
 		
@@ -270,7 +270,7 @@ package org.papervision3d.objects.parsers
 			var matrix:Matrix3D = Matrix3D.clone( matrix2 ) || Matrix3D.IDENTITY; // TODO: Cleanup
 	
 			// DEBUG
-			//trace( "parseGeometry: " + geometry.@id ); // DEBUG
+			
 	
 			// Semantics
 			var semantics :Object = new Object();
@@ -297,8 +297,8 @@ package org.papervision3d.objects.parsers
 				var len      :Number = triangles.@count;
 				var material :String = triangles.@material;
 	
-				// DEBUG
-				//trace( "triangles: " + len );
+				
+				
 				addMaterial( instance, material, bindMaterial );
 	
 				for( var j:Number = 0; j < len; j++ )
@@ -340,8 +340,7 @@ package org.papervision3d.objects.parsers
 			var semVertices :Array = semantics.VERTEX;
 			var len:Number = semVertices.length;
 	
-			// DEBUG
-			//trace( "Vertices: " + len );
+			
 	
 			var i:int;
 			for( i=0; i < len; i++ )
@@ -450,7 +449,7 @@ package org.papervision3d.objects.parsers
 				else
 				{
 					material = MaterialObject3D.DEFAULT;
-					Papervision3D.log( "Collada material " + name + " not found." ); // TODO: WARNING
+					PaperLogger.warning( "Collada material " + name + " not found." );
 				}
 	
 				material.name = name;
@@ -475,7 +474,7 @@ package org.papervision3d.objects.parsers
 		private function onMaterialLoadError(event:FileLoadEvent):void
 		{
 			var mat:BitmapFileMaterial = event.target as BitmapFileMaterial;
-			trace("Colllada failed to load material : " +mat);
+			PaperLogger.error("Collada failed to load material", this, mat);
 			//Do error handling here.
 			materialsToLoad--;
 			if(materialsToLoad == 0){

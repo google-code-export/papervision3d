@@ -5,7 +5,7 @@
 
 package org.papervision3d.core.utils.virtualmouse
 {	
-	import com.blitzagency.xray.logger.XrayLog;
+
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -20,7 +20,7 @@ package org.papervision3d.core.utils.virtualmouse
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.core.components.as3.utils.CoordinateTools;
+	import org.papervision3d.core.log.PaperLogger;
 	
     /**
      * Dispatched when the virtual mouse state is updated.
@@ -163,7 +163,7 @@ package org.papervision3d.core.utils.virtualmouse
 		private var eventEvent:Class = VirtualMouseEvent;
 		private var mouseEventEvent:Class = VirtualMouseMouseEvent;
 		
-		private var log:XrayLog = new XrayLog();
+		
 		
 		/**
 		 * A reference to the Stage instance. This
@@ -345,7 +345,6 @@ package org.papervision3d.core.utils.virtualmouse
 			//log.debug("VM setLocation", a, b);
 			if (a is Point) {
 				var loc:Point = a as Point;
-				trace(loc);
 				location.x = loc.x;
 				location.y = loc.y;
 			}else{
@@ -579,7 +578,9 @@ package org.papervision3d.core.utils.virtualmouse
 			// var p:Point = CoordinateTools.localToLocal(container, stage, location);
 			//var objectsUnderPoint:Array = container.getObjectsUnderPoint(p); 
 			
-			if( container.scrollRect ) trace("*********  VIRTUAL MOUSE UPDATE WARNING ********: The container that virtualMouse is trying to test against has a scrollRect defined, and may cause an issue with finding objects under a defined point.  Use MovieMaterial.rect to set a rectangle area instead");
+			if( container.scrollRect ){
+				PaperLogger.warning("The container that virtualMouse is trying to test against has a scrollRect defined, and may cause an issue with finding objects under a defined point.  Use MovieMaterial.rect to set a rectangle area instead");
+			}
 			var originalPoint:Point = new Point();
 			originalPoint.x = container.x;
 			originalPoint.y = container.y;
@@ -651,8 +652,7 @@ package org.papervision3d.core.utils.virtualmouse
 			// get local coordinate locations
 			var targetLocal:Point = target.globalToLocal(location);
 			var currentTargetLocal:Point = currentTarget.globalToLocal(location);
-			//trace("targetLocal");
-			//trace("currentTargetLocal");
+			
 			
 			// move event
 			if (lastLocation.x != location.x || lastLocation.y != location.y) 
@@ -679,7 +679,7 @@ package org.papervision3d.core.utils.virtualmouse
 			}
 			
 			// roll/mouse (out and over) events 
-			//trace("targets match?", target == _stage, currentTarget == target, currentTarget == _stage, target.name, currentTarget.name, ObjectTools.getImmediateClassPath(currentTarget));
+			
 			if (currentTarget != target) 
 			{	
 				// off of last target

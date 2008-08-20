@@ -7,9 +7,10 @@ package org.papervision3d.core.geom
 	 * update 18 Feb 08 by Seb Lee-Delisle : 
 	 * 		addNewLine now returns the line object
 	 */
-	import org.papervision3d.Papervision3D;	 
+	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.renderables.Line3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ILineDrawer;
 	import org.papervision3d.materials.special.LineMaterial;
@@ -112,18 +113,15 @@ package org.papervision3d.core.geom
 			{
 				lines.splice(lineindex,1);	
 			}
-			else if(Papervision3D.VERBOSE)
+			else
 			{
-				trace("Papervision3D Lines3D.removeLine : WARNING removal of non-existant line attempted. ");
-
+				PaperLogger.warning("Papervision3D Lines3D.removeLine : WARNING removal of non-existant line attempted. ");
 			}
 		}
 		
 		public function removeAllLines():void
 		{
-			
-			//TODO
-			trace("WARNING - Lines3D.removeAllLines not yet implemented");
+			PaperLogger.warning("Lines3D.removeAllLines not yet implemented");
 		}
 		
 		

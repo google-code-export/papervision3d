@@ -4,6 +4,7 @@ package org.papervision3d.core.proto
 	
 	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.culling.IObjectCuller;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
@@ -244,7 +245,7 @@ package org.papervision3d.core.proto
 		{
 			if(!viewport || viewport.isEmpty())
 			{
-				Papervision3D.log("[WARNING] CameraObject3D#viewport not set, can't set fov!");
+				PaperLogger.warning("CameraObject3D#viewport not set, can't set fov!");
 				return;
 			}
 			
@@ -279,7 +280,7 @@ package org.papervision3d.core.proto
 		{
 			if(!viewport || viewport.isEmpty())
 			{
-				Papervision3D.log("[WARNING] CameraObject3D#viewport not set, can't calculate fov!");
+				PaperLogger.warning("CameraObject3D#viewport not set, can't calculate fov!");
 				return NaN;
 			}
 				

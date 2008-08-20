@@ -3,6 +3,7 @@ package org.papervision3d.view.layer {
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
 	
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.ns.pv3dview;
 	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.objects.DisplayObject3D;
@@ -117,7 +118,7 @@ package org.papervision3d.view.layer {
 				
 				return vpl;
 			}else{
-				trace("Needs to be a do3d");
+				PaperLogger.warning("Needs to be a do3d");
 			}
 			return null;
 		}
@@ -198,7 +199,7 @@ package org.papervision3d.view.layer {
 			if(index >-1){
 				removeLayerAt(index);
 			}else{
-				trace("Layer not found for removal.");
+				PaperLogger.error("Layer not found for removal.");
 			}
 		}
 		

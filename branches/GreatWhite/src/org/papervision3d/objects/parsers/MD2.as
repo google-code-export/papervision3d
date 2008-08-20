@@ -8,11 +8,11 @@ package org.papervision3d.objects.parsers {
 	import flash.utils.Endian;
 	import flash.utils.getTimer;
 	
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.animation.*;
 	import org.papervision3d.core.animation.channel.*;
 	import org.papervision3d.core.geom.TriangleMesh3D;
 	import org.papervision3d.core.geom.renderables.*;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
@@ -81,7 +81,7 @@ package org.papervision3d.objects.parsers {
 			else
 			{
 				_isPlaying = false;
-				Papervision3D.log("[MD2 ERROR] Can't find a animation channel to play!");
+				PaperLogger.error("[MD2 ERROR] Can't find a animation channel to play!");
 				return;
 			}
 			
@@ -183,7 +183,7 @@ package org.papervision3d.objects.parsers {
 				}
 				catch(e:Error)
 				{
-					Papervision3D.log("error in loading MD2 file (" + this.file + ")");
+					PaperLogger.error("error in loading MD2 file (" + this.file + ")");
 				}
 			}
 		}
@@ -281,7 +281,7 @@ package org.papervision3d.objects.parsers {
 	
 			visible = true;
 						
-			Papervision3D.log("Parsed MD2: " + file + "\n vertices:" + 
+			PaperLogger.info("Parsed MD2: " + file + "\n vertices:" + 
 							  geometry.vertices.length + "\n texture vertices:" + uvs.length +
 							  "\n faces:" + geometry.faces.length + "\n frames: " + num_frames);
 

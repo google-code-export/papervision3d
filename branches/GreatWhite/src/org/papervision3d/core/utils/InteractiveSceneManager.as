@@ -1,6 +1,6 @@
 ﻿package org.papervision3d.core.utils
 {
-	import com.blitzagency.xray.logger.XrayLog;
+
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -55,10 +55,7 @@
 		
 		public var _viewportRendered : Boolean = false;
 		
-		/**
-		* @private
-		*/		
-		protected var log:XrayLog = new XrayLog();
+		
 		
 		public function InteractiveSceneManager(viewport:Viewport3D) 
 		{
@@ -316,7 +313,7 @@
 		 */		
 		protected function dispatchObjectEvent(event:String, DO3D:DisplayObject3D):void
 		{
-			if(debug) log.debug(event, DO3D.name);
+			
 			if(renderHitData && renderHitData.hasHit) 
 			{
 				var x:Number = renderHitData.u ? renderHitData.u : 0;

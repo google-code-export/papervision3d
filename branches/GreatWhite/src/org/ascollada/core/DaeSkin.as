@@ -243,7 +243,7 @@ package org.ascollada.core
 						tmpWeights = src.values;
 						weightOffset = input.offset;
 						maxOffset++;
-						//Logger.trace( " => => => vertex_weights: " + tmpWeights );
+						
 						break;
 						
 					default:
@@ -251,9 +251,6 @@ package org.ascollada.core
 				}
 			}
 			
-			//Logger.trace( " => source: " + this.source );
-			//Logger.trace( " => bind_shape_matrix: " + this.bind_shape_matrix );
-			//Logger.trace( " => max offset: " + maxOffset + " " + jointOffset + " " + weightOffset );
 			var cur:int = 0;
 			
 			for( var i:int = 0; i < weights.vcounts.length; i++ )
