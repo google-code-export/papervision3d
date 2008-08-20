@@ -48,11 +48,6 @@
 		* Enables copyright information to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
 		public static var AUTHOR   :String = '(c) 2006-2008 Copyright by Carlos Ulloa | John Grden | Ralph Hauwert | Tim Knip | Andy Zupko';
-	
-		/**
-		* Determines whether debug printout is enabled. It also prints version information at startup.
-		*/
-		public static var VERBOSE  :Boolean = true;
 		
 		/**
 		 * This is the main Logger Controller.
