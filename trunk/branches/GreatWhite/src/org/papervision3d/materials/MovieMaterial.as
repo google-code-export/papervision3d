@@ -2,13 +2,16 @@ package org.papervision3d.materials
 {
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
+	import flash.display.Graphics;
 	import flash.display.Stage;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
+	import org.papervision3d.core.render.material.IUpdateAfterMaterial;
 	import org.papervision3d.core.render.material.IUpdateBeforeMaterial;	
 
 	/**
@@ -18,10 +21,12 @@ package org.papervision3d.materials
 	* <p/>
 	* Materials collects data about how objects appear when rendered.
 	*/
-	public class MovieMaterial extends BitmapMaterial implements ITriangleDrawer, IUpdateBeforeMaterial
+	public class MovieMaterial extends BitmapMaterial implements ITriangleDrawer, IUpdateBeforeMaterial, IUpdateAfterMaterial
 	{
 		// ______________________________________________________________________ PUBLIC
+		protected var recreateBitmapInSuper:Boolean;
 		
+		private var materialIsUsed:Boolean = false;
 		/**
 		* The MovieClip that is used as a texture.
 		*/
@@ -169,9 +174,14 @@ package org.papervision3d.materials
 				bitmap = new BitmapData( int(asset.width+0.5), int(asset.height+0.5), movieTransparent, fillColor );
 			}
 		}
-
+		
+		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData=null, altUV:Matrix=null):void
+		{
+			materialIsUsed = true;
+			super.drawTriangle(face3D, graphics, renderSessionData, altBitmap, altUV);
+		}
+		
 		// ______________________________________________________________________ UPDATE
-
 		/**
 		* Updates animated MovieClip bitmap.
 		*
@@ -179,6 +189,7 @@ package org.papervision3d.materials
 		*/
 		public function updateBeforeRender(renderSessionData:RenderSessionData):void
 		{
+			materialIsUsed = false;
 			if(movieAnimated){
 				// using int is much faster than using Math.floor. And casting the variable saves in speed from having the avm decide what to cast it as
 				var mWidth:int;
@@ -194,19 +205,27 @@ package org.papervision3d.materials
 					mWidth = int(movie.width+0.5);
 					mHeight = int(movie.height+0.5);
 				}
-
+				
+				
 				if( allowAutoResize && ( mWidth != bitmap.width || mHeight != bitmap.height ) )
 				{
 					// Init new bitmap size
 					initBitmap( movie );
-					var recreateBitmapInSuper:Boolean = true;
+					recreateBitmapInSuper = true;
 				}
 				
-				drawBitmap();
-				
-				if (recreateBitmapInSuper)
-					bitmap = super.createBitmap( bitmap );
 			}		
+		}
+		
+		public function updateAfterRender(renderSessionData:RenderSessionData):void
+		{
+			if(movieAnimated == true && materialIsUsed == true){
+				drawBitmap();
+				if (recreateBitmapInSuper){
+					bitmap = super.createBitmap( bitmap );
+					recreateBitmapInSuper = false;
+				}
+			}	
 		}
 		
 		public function drawBitmap():void
