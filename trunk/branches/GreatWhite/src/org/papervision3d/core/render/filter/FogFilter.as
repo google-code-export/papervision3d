@@ -60,7 +60,6 @@ package org.papervision3d.core.render.filter
 	
 			
 			for(var i:int=array.length-1;i>=0;i--){
-				trace(array[i].screenDepth);
 				if(array[i].screenDepth >= maxDepth)
 					removeRenderItem(array, i);
 			} 		
@@ -74,7 +73,6 @@ package org.papervision3d.core.render.filter
 					vpl.forceDepth = true;
 					vpl.screenDepth = segDepth;
 					viewportLayer.addLayer(vpl);
-					//trace(viewportLayer.getChildLayer(do3d, false));
 				}else{
 					array.push(new RenderFog(material, ((alpha/segments)*ii+((ii)/100)), segDepth));
 				}

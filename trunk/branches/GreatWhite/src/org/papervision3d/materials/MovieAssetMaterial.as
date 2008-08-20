@@ -4,7 +4,7 @@ package org.papervision3d.materials
 	import flash.display.Sprite;
 	import flash.utils.getDefinitionByName;
 	
-	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 
 
@@ -43,7 +43,7 @@ package org.papervision3d.materials
 		{
 			if( asset is String == false )
 			{
-				Papervision3D.log("Error: MovieAssetMaterial.texture requires a String to be passed to create the MovieClip reference from the library");
+				PaperLogger.error("Error: MovieAssetMaterial.texture requires a String to be passed to create the MovieClip reference from the library");
 				return;
 			}
 			

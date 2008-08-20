@@ -147,7 +147,7 @@
 				f.x = dx;
 				f.y = dy;
 				
-				trace(f.x, f.y);
+				
 				
 				if(pos.alpha)
 					f.alpha = 1 - Math.max(alx/w, aly/h)*pos.alpha;

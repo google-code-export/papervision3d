@@ -4,7 +4,7 @@
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 	
-	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	
 	/**
@@ -32,7 +32,7 @@
 		{
 			if( asset is String == false )
 			{
-				Papervision3D.log("Error: BitmapMaterial.texture requires a BitmapData object for the texture");
+				PaperLogger.error("BitmapMaterial.texture requires a BitmapData object for the texture");
 				return;
 			}
 			

@@ -2,8 +2,8 @@ package org.papervision3d.core.io
 {
 	import flash.utils.ByteArray;
 	
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.io.exporters.*;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.proto.DisplayObjectContainer3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.materials.BitmapFileMaterial;
@@ -46,7 +46,7 @@ package org.papervision3d.core.io
 			}
 			else
 			{
-				Papervision3D.log("[ERROR] ModelExporter#export : don't know how to export this object : " + object);
+				PaperLogger.error("ModelExporter#export : don't know how to export this object : " + object);
 				return null;
 			}
 			
@@ -57,7 +57,7 @@ package org.papervision3d.core.io
 					break;
 					
 				default:
-					Papervision3D.log("[ERROR] ModelExporter#export : unsupported file-format for export!");
+					PaperLogger.error("ModelExporter#export : unsupported file-format for export!");
 					return null;
 			}
 			return ba;
@@ -97,7 +97,7 @@ package org.papervision3d.core.io
 			// create XML from the ByteArray
 			var xml:XML = new XML(ba);
 			
-			trace(xml.toString());
+			PaperLogger.info(xml.toString());
 		}
 	}
 }

@@ -1,13 +1,13 @@
 package org.papervision3d.materials.special
 {
 	import flash.display.Graphics;
+	import flash.geom.Rectangle;
 	
 	import org.papervision3d.core.geom.renderables.Particle;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
-	import org.papervision3d.core.render.draw.IParticleDrawer;
-
-	import flash.geom.Rectangle;	
+	import org.papervision3d.core.render.draw.IParticleDrawer;	
 
 	/**
 	 * @Author Ralph Hauwert
@@ -37,11 +37,15 @@ package org.papervision3d.materials.special
 			
 			var renderrect:Rectangle = particle.renderRect; 
 			
-			if(shape == SHAPE_SQUARE) graphics.drawRect(renderrect.x, renderrect.y, renderrect.width, renderrect.height);
-			else if(shape == SHAPE_CIRCLE) graphics.drawCircle(renderrect.x+renderrect.width/2, renderrect.y+renderrect.width/2, renderrect.width/2);
-			else trace("warning - Particle material has no valid shape - Must be ParticleMaterial.SHAPE_SQUARE or ParticleMaterial.SHAPE_CIRCLE");
+			if(shape == SHAPE_SQUARE){
+				graphics.drawRect(renderrect.x, renderrect.y, renderrect.width, renderrect.height);
+			}else if(shape == SHAPE_CIRCLE){
+				graphics.drawCircle(renderrect.x+renderrect.width/2, renderrect.y+renderrect.width/2, renderrect.width/2);
+			}else{
+				PaperLogger.warning("Particle material has no valid shape - Must be ParticleMaterial.SHAPE_SQUARE or ParticleMaterial.SHAPE_CIRCLE");
+			} 
 			
-			//trace(renderrect.width, particle.size, particle.renderScale);
+			
 			
 			graphics.endFill();
 			renderSessionData.renderStatistics.particles++;

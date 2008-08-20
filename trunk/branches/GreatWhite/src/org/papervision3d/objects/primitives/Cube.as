@@ -3,6 +3,7 @@ package org.papervision3d.objects.primitives {
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.*;
@@ -166,7 +167,7 @@ package org.papervision3d.objects.primitives {
 			if( ! (matInstance= materials.getMaterialByName( mat )))
 			{
 				if(!(matInstance=materials.getMaterialByName( "all" ))){
-					Papervision3D.log( "Cube: Required material not found in given materials list. Supported materials are: front, back, right, left, top, bottom & all." );
+					PaperLogger.warning( "Required material not found in given materials list. Supported materials are: front, back, right, left, top, bottom & all." );
 					return;
 				}
 				

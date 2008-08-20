@@ -3,10 +3,10 @@ package org.papervision3d.objects.parsers {
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.events.FileLoadEvent;	
@@ -83,7 +83,7 @@ package org.papervision3d.objects.parsers {
 			}
 			catch(e:Error)
 			{
-				Papervision3D.log( "error in loading ase file" );
+				PaperLogger.error( "error in loading ase file" );
 			}
 		}
 	
@@ -153,7 +153,7 @@ package org.papervision3d.objects.parsers {
 						}
 						catch(e:Error)
 						{
-							Papervision3D.log( "MESH_VERTEX_LIST error" );
+							PaperLogger.error( "MESH_VERTEX_LIST error" );
 						}
 						break;
 	
@@ -184,7 +184,7 @@ package org.papervision3d.objects.parsers {
 						}
 						catch(e:Error)
 						{
-							Papervision3D.log( "MESH_FACE_LIST : " );
+							PaperLogger.info( "MESH_FACE_LIST : " );
 						}
 						break;
 	
@@ -201,7 +201,7 @@ package org.papervision3d.objects.parsers {
 						}
 						catch(e:Error)
 						{
-							Papervision3D.log( "MESH_TVERTLIST error" + e.message );
+							PaperLogger.error( "MESH_TVERTLIST error" + e.message );
 						}
 						break;
 	
@@ -227,7 +227,7 @@ package org.papervision3d.objects.parsers {
 						}
 						catch(e:Error)
 						{
-							Papervision3D.log( "MESH_TFACELIST ERROR" + e.message );
+							PaperLogger.error( "MESH_TFACELIST ERROR" + e.message );
 						}
 						break;
 				}
@@ -241,7 +241,7 @@ package org.papervision3d.objects.parsers {
 	
 			this.loaded = true;
 			this.geometry.ready = true;
-			Papervision3D.log( "Parsed ASE: " + this._filename + " [vertices:" + vertices.length + " faces:" + faces.length + "]" );
+			PaperLogger.info( "Parsed ASE: " + this._filename + " [vertices:" + vertices.length + " faces:" + faces.length + "]" );
 		}
 	
 		// ___________________________________________________________________________________________________
@@ -255,7 +255,7 @@ package org.papervision3d.objects.parsers {
 	
 		private function progressHandler(event:ProgressEvent):void
 		{
-			Papervision3D.log("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
+			PaperLogger.info("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
 		}
 	
 		// ___________________________________________________________________________________________________

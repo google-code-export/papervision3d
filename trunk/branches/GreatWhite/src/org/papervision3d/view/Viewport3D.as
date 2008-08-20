@@ -8,7 +8,6 @@ package org.papervision3d.view
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.culling.DefaultLineCuller;
 	import org.papervision3d.core.culling.DefaultParticleCuller;
 	import org.papervision3d.core.culling.DefaultTriangleCuller;
@@ -19,6 +18,7 @@ package org.papervision3d.view
 	import org.papervision3d.core.culling.RectangleParticleCuller;
 	import org.papervision3d.core.culling.RectangleTriangleCuller;
 	import org.papervision3d.core.culling.ViewportObjectFilter;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderableListItem;
@@ -243,7 +243,7 @@ package org.papervision3d.view
 		{
 			if(!stageScaleModeSet)
 			{
-				Papervision3D.log("Viewport autoScaleToStage : Papervision has changed the Stage scale mode."); 
+				PaperLogger.info("Viewport autoScaleToStage : Papervision has changed the Stage scale mode."); 
 			
             	stage.align = StageAlign.TOP_LEFT;
             	stage.scaleMode = StageScaleMode.NO_SCALE;	

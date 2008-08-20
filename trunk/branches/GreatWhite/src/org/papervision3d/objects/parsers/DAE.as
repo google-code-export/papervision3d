@@ -19,6 +19,7 @@
 	import org.papervision3d.core.controller.SkinController;
 	import org.papervision3d.core.geom.*;
 	import org.papervision3d.core.geom.renderables.*;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.material.AbstractLightShadeMaterial;
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
@@ -349,7 +350,7 @@
 					
 			if(!transform)
 			{
-				Papervision3D.log("Couldn't find the targeted object's transform: " + channel.syntax.targetSID);
+				PaperLogger.warning("Couldn't find the targeted object's transform: " + channel.syntax.targetSID);
 				return null;
 			}
 			
@@ -600,7 +601,7 @@
 				
 				if(!transform)
 				{
-					trace("Could not find a transform with SID=" + channel.syntax.targetSID);
+					PaperLogger.warning("Could not find a transform with SID=" + channel.syntax.targetSID);
 					continue;
 				}
 	
@@ -1505,7 +1506,7 @@
 				_endTime = Math.max(_endTime, channel.endTime);
 			}
 			
-			trace( "animations COMPLETE (#channels: " + _channels.length + " #frames: " + _totalFrames + ", startTime: " + _startTime + " endTime: " + _endTime+ ")");
+			PaperLogger.info( "animations COMPLETE (#channels: " + _channels.length + " #frames: " + _totalFrames + ", startTime: " + _startTime + " endTime: " + _endTime+ ")");
 			
 			dispatchEvent(new FileLoadEvent(FileLoadEvent.ANIMATIONS_COMPLETE, this.filename));
 			
@@ -1520,7 +1521,7 @@
 		 */ 
 		private function onParseAnimationsProgress(event:ProgressEvent):void
 		{
-			trace( "animations #" + event.bytesLoaded + " of " + event.bytesTotal);
+			PaperLogger.info( "animations #" + event.bytesLoaded + " of " + event.bytesTotal);
 		}
 		
 		/**
