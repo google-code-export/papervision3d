@@ -37,7 +37,7 @@
 		/**
 		* Enables version to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		public static var VERSION  :String = 'Public Alpha 2.0 - Great White';
+		public static var VERSION  :String = 'Public Beta 2.0 - Great White';
 	
 		/**
 		* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
