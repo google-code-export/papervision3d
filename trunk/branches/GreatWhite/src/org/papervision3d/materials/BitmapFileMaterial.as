@@ -214,7 +214,7 @@ package org.papervision3d.materials
 			this.lineColor = ERROR_COLOR;
 			this.lineAlpha = 1;
 			this.lineThickness = 1;
-			Papervision3D.log( "[ERROR] BitmapFileMaterial: Unable to load file " + failedAsset );
+			PaperLogger.error( "BitmapFileMaterial: Unable to load file " + failedAsset );
 			// Queue finished?
 			if( _waitingBitmaps.length > 0 )
 			{
