@@ -161,7 +161,7 @@ package org.papervision3d.core.effects.view
 		}
 		
 		// all we need to do is move the view down
-		private function onStageResize(e:Event = null):void
+		private function onStageResize(e:Event = null) : void
 		{
 			viewportReflection.y = stage.stageHeight;  
 			

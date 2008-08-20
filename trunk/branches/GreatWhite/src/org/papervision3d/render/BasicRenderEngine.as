@@ -179,7 +179,7 @@ package org.papervision3d.render
 			var rc:RenderableListItem;
 			var viewport:Viewport3D = renderSessionData.viewPort;
 			var vpl:ViewportLayer;
-			
+
 			while(rc = renderList.pop())
 			{
 				

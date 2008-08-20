@@ -231,66 +231,7 @@
 			return null;	
 		}
 		
-		/**
-		 * Replaces a material by its name.
-		 * 
-		 * @param	material
-		 * @param	name
-		 * @return
-		 */
-		public function replaceMaterialByName(material:MaterialObject3D, name:String):void
-		{
-			if(!this.materials)
-				return;
-			
-			var existingMaterial:MaterialObject3D = this.materials.getMaterialByName(name);
-			if(!existingMaterial)
-				return;
-				
-			if(this.material === existingMaterial)
-				this.material = material;
-			existingMaterial = this.materials.removeMaterial(existingMaterial);
-	
-			material = this.materials.addMaterial(material, name);
-				
-			updateMaterials(this, existingMaterial, material);
-		}
 		
-		/**
-		 * Sets the material for a child DisplayObject3D.
-		 * 
-		 * @param child		A child DisplayObject3D of this DAE.
-		 * @param material	The new material for the child.
-		 * @param existingMaterial Optional existing material to be replaced.
-		 */
-		public function setChildMaterial(child:DisplayObject3D, material:MaterialObject3D, existingMaterial:MaterialObject3D=null):void 
-		{	
-			if(!child) 
-				return;	
-			
-			if(!existingMaterial || child.material === existingMaterial)
-				child.material = material;
-				
-			if(child.geometry && child.geometry.faces)
-			{
-				for each( var triangle:Triangle3D in child.geometry.faces )
-				{
-					if(!existingMaterial || triangle.material === existingMaterial)
-						triangle.material = material;
-				}
-			}
-		}
-		
-		/**
-		 * Sets the material for a child DisplayObject3D by the child's name.
-		 * 
-		 * @param childName The name of the DisplayObject3D.
-		 * @param material	The new material for the child.
-		 */
-		public function setChildMaterialByName(childName:String, material:MaterialObject3D):void 
-		{
-			setChildMaterial(getChildByName(childName, true), material);
-		}
 		
 		/**
 		 * Project.
@@ -1557,37 +1498,7 @@
 			
 		}
 		
-		/**
-		 * 
-		 * @param	do3d
-		 * @param	existingMaterial
-		 * @param	newMaterial
-		 */
-		private function updateMaterials(do3d:DisplayObject3D, existingMaterial:MaterialObject3D, newMaterial:MaterialObject3D):void
-		{
-			existingMaterial.unregisterObject(do3d);
-			
-			// register shaded materials with its object
-			if(newMaterial is AbstractLightShadeMaterial || newMaterial is ShadedMaterial)
-			{
-				newMaterial.registerObject(do3d);
-			}
-					
-			if( do3d.material === existingMaterial )
-				do3d.material = newMaterial;
-					
-			if( do3d.geometry && do3d.geometry.faces && do3d.geometry.faces.length )
-			{
-				for each( var triangle:Triangle3D in do3d.geometry.faces )
-				{
-					if( triangle.material === existingMaterial )
-						triangle.material = newMaterial;
-				}
-			}
-			
-			for each(var child:DisplayObject3D in do3d.children)
-				updateMaterials(child, existingMaterial, newMaterial);
-		}
+
 		
 		/** */
 		private var _colladaID:Dictionary;
