@@ -84,7 +84,7 @@ package org.papervision3d.core.utils {
 			var rY : Number = v0y + ( v1y - v0y ) * v + ( v2y - v0y ) * u;
 			var rZ : Number = v0z + ( v1z - v0z ) * v + ( v2z - v0z ) * u;
 				
-			return Vertex3D( {x:rX, y:rY, z:rZ} );
+			return new Vertex3D(rX,rY,rZ);
 		}
 		
 		public static function getMapCoordAtPointDO3D( displayObject:DisplayObject3D, x : Number, y : Number ):Object
