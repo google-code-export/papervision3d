@@ -1,8 +1,8 @@
-#summary One-sentence summary of this page.
+The next dot revision for Papervision3D will include the following milestones and be tagged and released as 2.0.1..
 
 = Milestones Papervision3D 2.0.1 =
 
-The next dot revision for Papervision3D will include the following milestones and be tagged and released as 2.0.1.
+
 
 
 = Details =
