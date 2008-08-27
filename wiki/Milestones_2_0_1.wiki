@@ -7,4 +7,4 @@ The next dot revision for Papervision3D will include the following milestones an
 
 = Details =
 
-  * BSD
+  * BSP
