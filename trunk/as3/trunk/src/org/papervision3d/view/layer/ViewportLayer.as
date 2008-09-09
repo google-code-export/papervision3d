@@ -46,8 +46,10 @@ package org.papervision3d.view.layer {
 				this.alpha = do3d.alpha;
 			}
 			
-			if(do3d)
+			if(do3d){
 				addDisplayObject3D(do3d);
+				do3d.container = this;
+			}
 				
 			
 			init();
