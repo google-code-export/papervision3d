@@ -44,8 +44,7 @@ package org.papervision3d.objects.special {
 			var width2  :Number = fieldWidth /2;
 			var height2 :Number = fieldHeight /2;
 			var depth2  :Number = fieldDepth /2;
-			var c:int;
-			var r:int;
+			
 			for( var i:Number = 0; i < quantity; i++ )
 			{
 				addParticle(new Particle(material as ParticleMaterial, size,Math.random() * fieldWidth  - width2, Math.random() * fieldHeight - height2, Math.random() * fieldDepth  - depth2 ));

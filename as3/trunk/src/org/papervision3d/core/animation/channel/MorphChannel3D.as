@@ -1,8 +1,6 @@
-package org.papervision3d.core.animation.channel
-{
-	import org.papervision3d.core.animation.IAnimationDataProvider;
+package org.papervision3d.core.animation.channel {
 	import org.papervision3d.core.geom.renderables.Vertex3D;
-	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.objects.DisplayObject3D;	
 
 	/**
 	 * @author Tim Knip

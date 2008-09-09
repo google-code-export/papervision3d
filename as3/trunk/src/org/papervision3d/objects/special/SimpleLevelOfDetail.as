@@ -1,11 +1,7 @@
-package org.papervision3d.objects.special 
-{
-	import flash.display.Stage;
-	import flash.events.Event;
-	
+package org.papervision3d.objects.special {
 	import org.papervision3d.core.render.data.RenderSessionData;
-	import org.papervision3d.objects.DisplayObject3D;
-	
+	import org.papervision3d.objects.DisplayObject3D;	
+
 	public class SimpleLevelOfDetail extends DisplayObject3D
 	{
 		public var currentObject:DisplayObject3D;

@@ -7,14 +7,12 @@ package org.papervision3d.core.geom.renderables
 	 * updated by Seb Lee-Delisle : 
 	 *  - added renderRect to store the rectangle of our particle. 
 	 */
-	 
-	import flash.geom.Rectangle;
-	
-	import org.papervision3d.core.geom.Particles;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderParticle;
-	import org.papervision3d.materials.special.ParticleMaterial;	
+	import org.papervision3d.materials.special.ParticleMaterial;
 	
+	import flash.geom.Rectangle;	 
+
 	public class Particle extends AbstractRenderable implements IRenderable
 	{
 		

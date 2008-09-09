@@ -377,7 +377,7 @@ package org.papervision3d.core.math
 		 */	
 		public static function slerp( qa:Quaternion, qb:Quaternion, alpha:Number ):Quaternion
 		{
-			var angle:Number = qa.w * qb.w + qa.x * qb.x + qa.y * qb.y + qa.z * qb.z
+			var angle:Number = qa.w * qb.w + qa.x * qb.x + qa.y * qb.y + qa.z * qb.z;
  
 	         if (angle < 0.0)
 	         {

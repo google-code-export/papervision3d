@@ -18,14 +18,8 @@ You should have received a copy of the GNU Lesser General Public License
 along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
 package nochump.util.zip {
-
-	import flash.system.Security;
-	import flash.utils.Dictionary;
-	import flash.utils.Endian;
-	import flash.utils.IDataInput;
-	import flash.utils.ByteArray;
-	
-	/**
+	import flash.utils.ByteArray;	import flash.utils.Dictionary;	import flash.utils.Endian;	import flash.utils.IDataInput;	
+	/**
 	 * This class represents a Zip archive.  You can ask for the contained
 	 * entries, or get an input stream for a file entry.  The entry is
 	 * automatically decompressed.

@@ -26,9 +26,8 @@
 package org.ascollada.core {
 	import org.ascollada.ASCollada;
 	import org.ascollada.namespaces.*;
-	import org.ascollada.utils.Logger;
-	import org.ascollada.utils.StringUtil;
-	
+	import org.ascollada.utils.StringUtil;	
+
 	/**
 	 * 
 	 */

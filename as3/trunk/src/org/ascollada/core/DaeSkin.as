@@ -23,14 +23,13 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.core
-{
+package org.ascollada.core {
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeEntity;
 	import org.ascollada.core.DaeSource;
 	import org.ascollada.core.DaeVertexWeights;
-	import org.ascollada.utils.Logger;
-		
+	import org.ascollada.utils.Logger;	
+
 	/**
 	 * 
 	 */
@@ -189,7 +188,7 @@ package org.ascollada.core
 			var input:DaeInput;
 			
 			// fetch sources for <joints>
-			var src:DaeSource
+			var src:DaeSource;
 			var sources:Object = new Object();
 			for each( var inputNode:XML in jointsList )
 			{
@@ -290,7 +289,7 @@ package org.ascollada.core
 						
 			for( i = 0; i < blendWeights.length; i++  )
 			{
-				var arr:Array = blendWeights[i]
+				var arr:Array = blendWeights[i];
 				
 				var weightSum:Number = 0;
 				for( j = 0; j < arr.length; j++ )

@@ -23,13 +23,10 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.types 
-{
-	import org.ascollada.ASCollada;
+package org.ascollada.types {
 	import org.ascollada.core.DaeEntity;
-	import org.ascollada.fx.DaeTexture;
-	import org.ascollada.utils.Logger;
-	
+	import org.ascollada.fx.DaeTexture;	
+
 	/**
 	 * 
 	 */

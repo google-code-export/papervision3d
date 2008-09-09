@@ -178,7 +178,7 @@ package org.ascollada.fx
 						}
 						break;
 					default:
-						break
+						break;
 				}
 			}
 		}

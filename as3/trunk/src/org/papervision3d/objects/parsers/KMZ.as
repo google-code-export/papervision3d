@@ -1,21 +1,20 @@
 package org.papervision3d.objects.parsers {
+	import nochump.util.zip.*;
+	
+	import org.ascollada.namespaces.*;
+	import org.papervision3d.core.geom.*;
+	import org.papervision3d.events.FileLoadEvent;
+	import org.papervision3d.materials.*;
+	import org.papervision3d.materials.utils.*;
+	
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.events.*;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
-	import flash.utils.*;
-	
-	import nochump.util.zip.*;
-	
-	import org.ascollada.namespaces.*;
-	import org.papervision3d.core.geom.*;
-	import org.papervision3d.core.geom.renderables.*;
-	import org.papervision3d.events.FileLoadEvent;
-	import org.papervision3d.materials.*;
-	import org.papervision3d.materials.utils.*;
-	
+	import flash.utils.*;	
+
 	/**
 	 * @author Tim Knip
 	 */
@@ -176,13 +175,13 @@ package org.papervision3d.objects.parsers {
 			    var entry:ZipEntry = zipFile.entries[i];
 			
 			    // extract the entry's data from the zip
-			    var data:ByteArray = zipFile.getInput(entry);
+			    var dataInput:ByteArray = zipFile.getInput(entry);
 		
 				if(entry.name.toLowerCase().indexOf(".png") != -1 || entry.name.toLowerCase().indexOf(".jpg") != -1) {
 					var loader:Loader = new Loader();
 					loader.name = entry.name;
 					loader.addEventListener("added", onTextureComplete);
-					loader.loadBytes(data);
+					loader.loadBytes(dataInput);
 				} 
 			}
 		}

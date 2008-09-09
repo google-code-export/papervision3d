@@ -1,12 +1,10 @@
-package org.papervision3d.core.render.filter
-{
+package org.papervision3d.core.render.filter {
 	import org.papervision3d.core.render.command.RenderFog;
 	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.materials.special.FogMaterial;
-	import org.papervision3d.view.layer.ViewportLayer;
 	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.core.geom.renderables.AbstractRenderable;
-	
+	import org.papervision3d.view.layer.ViewportLayer;	
+
 	public class FogFilter extends BasicRenderFilter
 	{
 		
@@ -54,9 +52,9 @@ package org.papervision3d.core.render.filter
 			
 			var segOffset:Number = (_maxDepth-_minDepth)/segments;
 			var segDepth:Number = _minDepth;
-			var cSeg:Number = 0;
+			
 			var alpha:Number = 1-(segments/100);
-			var alphaOffset:Number = alpha/segments; 
+			//var alphaOffset:Number = alpha/segments; 
 	
 			
 			for(var i:int=array.length-1;i>=0;i--){

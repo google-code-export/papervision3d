@@ -1,11 +1,7 @@
-package org.papervision3d.core.render.project
-{
-	import org.papervision3d.core.culling.IObjectCuller;
-	import org.papervision3d.core.geom.TriangleMesh3D;
-	import org.papervision3d.core.geom.Vertices3D;
+package org.papervision3d.core.render.project {
 	import org.papervision3d.core.render.data.RenderSessionData;
-	import org.papervision3d.objects.DisplayObject3D;
-	
+	import org.papervision3d.objects.DisplayObject3D;	
+
 	public class BasicProjectionPipeline extends ProjectionPipeline
 	{
 		

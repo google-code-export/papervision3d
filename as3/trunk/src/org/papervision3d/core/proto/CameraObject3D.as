@@ -260,13 +260,13 @@ package org.papervision3d.core.proto
 				tz = _target.world.n34;
 			}
 			
-			var vx	:Number = this.x - tx;
-			var vy	:Number = this.y - ty;
-			var vz	:Number = this.z - tz;
+			//var vx	:Number = this.x - tx;
+			//var vy	:Number = this.y - ty;
+			//var vz	:Number = this.z - tz;
 
 			var h:Number = viewport.height / 2;
-			var d:Number = Math.sqrt(vx*vx + vy*vy + vz*vz) + this.focus;
-			var r:Number = 180 / Math.PI;
+			//var d:Number = Math.sqrt(vx*vx + vy*vy + vz*vz) + this.focus;
+			//var r:Number = 180 / Math.PI;
 			
 			var vfov:Number = (degrees/2) * (Math.PI/180);
 			
