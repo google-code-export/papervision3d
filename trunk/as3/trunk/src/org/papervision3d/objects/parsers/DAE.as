@@ -72,10 +72,11 @@
 		/** */
 		public function get yUp():Boolean
 		{
-			if(this.document)
-				return (this.document.asset.yUp == ASCollada.DAE_Y_UP)
-			else
+			if(this.document){
+				return (this.document.asset.yUp == ASCollada.DAE_Y_UP);
+			}else{
 				return false;
+			}
 		}
 		
 		/**
@@ -1246,7 +1247,7 @@
 				if(obj) 
 					return obj;
 			}
-			return null
+			return null;
 		}
 		
 		/**
@@ -1268,7 +1269,7 @@
 				if(obj) 
 					return obj;
 			}
-			return null
+			return null;
 		}
 		
 		/**

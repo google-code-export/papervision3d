@@ -13,7 +13,7 @@ package org.papervision3d.core.effects {
 	public class BitmapColorEffect extends AbstractEffect{
 		
 		private var layer:BitmapEffectLayer;
-		private var filter:ColorMatrixFilter 
+		private var filter:ColorMatrixFilter;
 		
 		public function BitmapColorEffect(r:Number = 1, g:Number = 1, b:Number = 1, a:Number= 1){
 			

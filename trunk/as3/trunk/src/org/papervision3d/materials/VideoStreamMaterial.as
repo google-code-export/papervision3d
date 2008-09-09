@@ -100,6 +100,7 @@ package org.papervision3d.materials
 		 */
 		private function initMaterial ( video:Video, stream:NetStream ):void
 		{
+			
 			stream.addEventListener ( NetStatusEvent.NET_STATUS, onStreamStatus );
 		}
 		

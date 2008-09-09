@@ -36,7 +36,6 @@ package org.papervision3d.materials.utils
 		
 		public static function getFlatMap(lightColor:int, ambientColor:int, specularLevel:int):BitmapData
 		{
-			var array:Array = new Array();
 			var tempmap:BitmapData = new BitmapData(255,1,false,0);
 			var s:Sprite = new Sprite();
 			var m:Matrix = new Matrix();

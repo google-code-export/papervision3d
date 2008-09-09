@@ -24,35 +24,35 @@ package org.papervision3d.core.log
 			
 		}
 		
-		public function log(msg:String, object:Object = null, ...arg):void
+		public function _log(msg:String, object:Object = null, ...arg):void
 		{
 			var vo:PaperLogVO = new PaperLogVO(LogLevel.LOG, msg, object, arg);
 			var ev:PaperLoggerEvent = new PaperLoggerEvent(vo);
 			dispatchEvent(ev);
 		}
 		
-		public function info(msg:String, object:Object = null, ...arg):void
+		public function _info(msg:String, object:Object = null, ...arg):void
 		{
 			var vo:PaperLogVO = new PaperLogVO(LogLevel.INFO, msg, object, arg);
 			var ev:PaperLoggerEvent = new PaperLoggerEvent(vo);
 			dispatchEvent(ev);
 		}
 		
-		public function debug(msg:String, object:Object = null, ...arg):void
+		public function _debug(msg:String, object:Object = null, ...arg):void
 		{
 			var vo:PaperLogVO = new PaperLogVO(LogLevel.DEBUG, msg, object, arg);
 			var ev:PaperLoggerEvent = new PaperLoggerEvent(vo);
 			dispatchEvent(ev);
 		}
 		
-		public function error(msg:String, object:Object = null, ...arg):void
+		public function _error(msg:String, object:Object = null, ...arg):void
 		{
 			var vo:PaperLogVO = new PaperLogVO(LogLevel.ERROR, msg, object, arg);
 			var ev:PaperLoggerEvent = new PaperLoggerEvent(vo);
 			dispatchEvent(ev);
 		}
 		
-		public function warning(msg:String, object:Object = null, ...arg):void
+		public function _warning(msg:String, object:Object = null, ...arg):void
 		{
 			var vo:PaperLogVO = new PaperLogVO(LogLevel.WARNING, msg, object, arg);
 			var ev:PaperLoggerEvent = new PaperLoggerEvent(vo);
@@ -71,27 +71,27 @@ package org.papervision3d.core.log
 		
 		public static function log(msg:String, object:Object = null, ...arg):void
 		{
-			getInstance().log(msg);
+			getInstance()._log(msg);
 		}
 		
 		public static function warning(msg:String, object:Object = null, ...arg):void
 		{
-			getInstance().warning(msg);
+			getInstance()._warning(msg);
 		}
 		
 		public static function info(msg:String, object:Object = null, ...arg):void
 		{
-			getInstance().info(msg);
+			getInstance()._info(msg);
 		}
 		
 		public static function error(msg:String, object:Object = null, ...arg):void
 		{
-			getInstance().error(msg);	
+			getInstance()._error(msg);	
 		}
 		
 		public static function debug(msg:String, object:Object = null, ...arg):void
 		{
-			getInstance().debug(msg);
+			getInstance()._debug(msg);
 		}
 		
 		public static function getInstance():PaperLogger

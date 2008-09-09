@@ -1,14 +1,12 @@
-package org.papervision3d.core.effects.view
-{
-	import flash.events.Event;
-	import flash.geom.ColorTransform;
-	
+package org.papervision3d.core.effects.view {
 	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.core.math.Matrix3D;
-	import org.papervision3d.core.math.Plane3D;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.view.BasicView;
 	import org.papervision3d.view.Viewport3D;
+	
+	import flash.events.Event;
+	import flash.geom.ColorTransform;	
 
 	public class ReflectionView extends BasicView
 	{

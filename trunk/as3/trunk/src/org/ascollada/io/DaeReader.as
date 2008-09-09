@@ -23,22 +23,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.io
-{
-	import flash.errors.ScriptTimeoutError;
-	import flash.events.Event;
-	import flash.events.EventDispatcher
-	import flash.events.IOErrorEvent;
-	import flash.events.ProgressEvent;
-	import flash.events.TimerEvent;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.utils.Timer;
-	
-	import org.ascollada.core.DaeDocument;
-	import org.ascollada.utils.Logger;
-	
-	/**
+package org.ascollada.io {
+	import org.ascollada.core.DaeDocument;	import org.ascollada.utils.Logger;		import flash.events.Event;	import flash.events.EventDispatcher;	import flash.events.IOErrorEvent;	import flash.events.ProgressEvent;	import flash.events.TimerEvent;	import flash.net.URLLoader;	import flash.net.URLRequest;	import flash.utils.Timer;	
+	/**
 	 * 
 	 */
 	public class DaeReader extends EventDispatcher

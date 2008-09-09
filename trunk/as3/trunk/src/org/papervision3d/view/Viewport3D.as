@@ -213,7 +213,7 @@ package org.papervision3d.view
 		{
 			if(_autoScaleToStage) 
 			{
-				setStageScaleMode()
+				setStageScaleMode();
 			}
 			stage.addEventListener(Event.RESIZE, onStageResize);
 			onStageResize();

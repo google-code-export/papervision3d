@@ -1,13 +1,11 @@
-package org.papervision3d.core.render.command
-{
-	import flash.display.Graphics;
-	
+package org.papervision3d.core.render.command {
+	import org.papervision3d.core.geom.renderables.AbstractRenderable;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.materials.special.FogMaterial;
-	import org.papervision3d.view.Viewport3D;
-	import org.papervision3d.core.geom.renderables.AbstractRenderable;
 	import org.papervision3d.objects.DisplayObject3D;
 	
+	import flash.display.Graphics;	
+
 	public class RenderFog extends RenderableListItem
 	{
 

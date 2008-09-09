@@ -24,10 +24,8 @@
  */
  
 package org.ascollada.core {
-	
-	import org.ascollada.ASCollada;
-	import org.ascollada.utils.Logger;
-	
+	import org.ascollada.ASCollada;	
+
 	/**
 	 * 
 	 */
@@ -47,7 +45,7 @@ package org.ascollada.core {
 		 * @param	node
 		 */
 		public function DaeMesh( node:XML = null ) {
-			super( node )
+			super( node );
 		}
 		
 		/**

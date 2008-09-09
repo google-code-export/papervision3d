@@ -1,7 +1,5 @@
-package org.papervision3d.core.animation.channel
-{
-	import org.papervision3d.core.animation.IAnimationDataProvider;
-	import org.papervision3d.objects.DisplayObject3D;
+package org.papervision3d.core.animation.channel {
+	import org.papervision3d.objects.DisplayObject3D;	
 
 	/**
 	 * @author Tim Knip

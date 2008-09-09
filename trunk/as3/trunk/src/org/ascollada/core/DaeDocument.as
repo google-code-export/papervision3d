@@ -37,6 +37,8 @@ package org.ascollada.core
 	 */
 	public class DaeDocument extends DaeEntity
 	{
+		
+		
 		public static const X_UP:uint = 0;
 		public static const Y_UP:uint = 1;
 		public static const Z_UP:uint = 2;
@@ -65,6 +67,9 @@ package org.ascollada.core
 		public var materialSymbolToTarget:Object;
 		public var materialTargetToSymbol:Object;
 		
+		private var _waitingAnimations:Array;
+		private var _waitingGeometries:Array;
+		
 		/**
 		 * 
 		 */
@@ -88,8 +93,9 @@ package org.ascollada.core
 		{
 			materialSymbolToTarget = new Object();
 			materialTargetToSymbol = new Object();
+						
 			
-			var nodes:XMLList = this.COLLADA..collada::[ASCollada.DAE_INSTANCE_MATERIAL_ELEMENT];
+			var nodes:XMLList = this.COLLADA..collada::instance_material; 
 			
 			for each( var child:XML in nodes )
 			{
@@ -542,8 +548,6 @@ package org.ascollada.core
 			}
 		}
 		
-		private var _waitingAnimations:Array;
 		
-		private var _waitingGeometries:Array;
 	}	
 }

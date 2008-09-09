@@ -151,7 +151,7 @@ package org.papervision3d.objects.parsers {
 								vertices.push( new Vertex3D( x, y, z ) );
 							}
 						}
-						catch(e:Error)
+						catch(error:Error)
 						{
 							PaperLogger.error( "MESH_VERTEX_LIST error" );
 						}
@@ -182,7 +182,7 @@ package org.papervision3d.objects.parsers {
 								faces.push( new Triangle3D(this,[a, b, c], null, [new NumberUV(), new NumberUV(), new NumberUV()] ) );
 							}
 						}
-						catch(e:Error)
+						catch(err:Error)
 						{
 							PaperLogger.info( "MESH_FACE_LIST : " );
 						}
@@ -199,9 +199,9 @@ package org.papervision3d.objects.parsers {
 								uvs.push( new NumberUV( parseFloat( mtvl[1] ), parseFloat( mtvl[2] ) ) );
 							}
 						}
-						catch(e:Error)
+						catch(errorMesh:Error)
 						{
-							PaperLogger.error( "MESH_TVERTLIST error" + e.message );
+							PaperLogger.error( "MESH_TVERTLIST error" + errorMesh.message );
 						}
 						break;
 	
@@ -225,9 +225,9 @@ package org.papervision3d.objects.parsers {
 	
 							}
 						}
-						catch(e:Error)
+						catch(errorFacelist:Error)
 						{
-							PaperLogger.error( "MESH_TFACELIST ERROR" + e.message );
+							PaperLogger.error( "MESH_TFACELIST ERROR" + errorFacelist.message );
 						}
 						break;
 				}

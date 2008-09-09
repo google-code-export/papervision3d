@@ -299,7 +299,7 @@ package org.papervision3d.objects.parsers {
 		{
 			var sx:Number, sy:Number, sz:Number;
 			var tx:Number, ty:Number, tz:Number;
-			var verts:Array
+			var verts:Array;
 			var i:int, j:int, char:int;
 			var duration:Number = 1 / _fps;
 			

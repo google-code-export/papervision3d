@@ -7,15 +7,14 @@ package org.papervision3d.core.geom
 	 * update 18 Feb 08 by Seb Lee-Delisle : 
 	 * 		addNewLine now returns the line object
 	 */
-	import org.papervision3d.Papervision3D;
 	import org.papervision3d.core.geom.renderables.Line3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ILineDrawer;
 	import org.papervision3d.materials.special.LineMaterial;
-	import org.papervision3d.objects.DisplayObject3D;
-	
+	import org.papervision3d.objects.DisplayObject3D;	
+
 	public class Lines3D extends Vertices3D
 	{
 		

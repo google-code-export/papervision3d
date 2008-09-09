@@ -47,7 +47,7 @@
 			renderer.drawTriangle(triangle, graphics, renderSessionData);
 		}
 		
-		protected var vPoint:Vertex3DInstance;
+		protected var vPointL:Vertex3DInstance;
 		protected var vx0:Vertex3DInstance;
 		protected var vx1:Vertex3DInstance;
 		protected var vx2:Vertex3DInstance;
@@ -57,16 +57,16 @@
 			if( !renderMat ) renderMat = triangle.instance.material;
 			
 			if(renderMat.interactive){
-				vPoint = RenderTriangle.vPoint;
-				vPoint.x = point.x;
-				vPoint.y = point.y;
+				vPointL = RenderTriangle.vPoint;
+				vPointL.x = point.x;
+				vPointL.y = point.y;
 				vx0 = triangle.v0.vertex3DInstance;
 				vx1 = triangle.v1.vertex3DInstance;
 				vx2 = triangle.v2.vertex3DInstance;
-				if(sameSide(vPoint,vx0,vx1,vx2)){
-					if(sameSide(vPoint,vx1,vx0,vx2)){
-						if(sameSide(vPoint,vx2,vx0,vx1)){
-							return deepHitTest(triangle, vPoint, renderhitData);
+				if(sameSide(vPointL,vx0,vx1,vx2)){
+					if(sameSide(vPointL,vx1,vx0,vx2)){
+						if(sameSide(vPointL,vx2,vx0,vx1)){
+							return deepHitTest(triangle, vPointL, renderhitData);
 						}
 					}
 				}

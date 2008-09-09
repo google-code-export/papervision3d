@@ -4,8 +4,6 @@ package org.papervision3d.render
 	/**
 	 * @Author Ralph Hauwert
 	 */
-	import flash.geom.Point;
-	
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.AbstractRenderEngine;
@@ -24,10 +22,11 @@ package org.papervision3d.render
 	import org.papervision3d.core.render.sort.IRenderSorter;
 	import org.papervision3d.core.utils.StopWatch;
 	import org.papervision3d.events.RendererEvent;
-	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
 	import org.papervision3d.view.layer.ViewportLayer;
 	
+	import flash.geom.Point;	
+
 	public class BasicRenderEngine extends AbstractRenderEngine implements IRenderEngine
 	{
 		

@@ -18,7 +18,7 @@ package org.papervision3d.core.effects.utils {
 		public var transformMatrix:Matrix = null;
 		public var blendMode:String = BlendMode.NORMAL;
 		public var smooth:Boolean = false;
-		public var drawContainer:Boolean = false
+		public var drawContainer:Boolean = false;
 		
 		public function BitmapDrawCommand(transMat:Matrix = null, colorTransform:ColorTransform = null, blendMode:String = null, smooth:Boolean = false){
 
