@@ -358,10 +358,17 @@ package org.papervision3d.view
 		{
 			return _containerSprite;	
 		}
-
+		
 		/**
-		 * Whether clipping is enabled (not rendering objects outside the rectangle of the viewport)
+		 * Whether clipping is enabled (not rendering bitmap data outside the rectangle of the viewport by making use of the <code>Sprite.scrollRect</code>)
+		 * @see flash.display.Sprite#scrollRect
+		 * @see http://www.gskinner.com/blog/archives/2006/11/understanding_d.html
 		 */
+		public function get autoClipping():Boolean
+		{
+			return _autoClipping;	
+		}
+
 		public function set autoClipping(clip:Boolean):void
 		{
 			if(clip)
@@ -375,19 +382,16 @@ package org.papervision3d.view
 		}
 		
 		/**
-		 * The clipping boolean flag
-		 */
-		public function get autoClipping():Boolean
-		{
-			return _autoClipping;	
-		}
-		
-		/**
 		 * Whether culling is enabled (not rendering triangles hidden behind other triangles)
 		 * @see #lineCuller
 		 * @see #particleCuller
 		 * @see #triangleCuller
 		 */
+		public function get autoCulling():Boolean
+		{
+			return _autoCulling;
+		}
+		
 		public function set autoCulling(culling:Boolean):void
 		{
 			if(culling)
@@ -402,14 +406,6 @@ package org.papervision3d.view
 				lineCuller = new DefaultLineCuller();
 			}
 			_autoCulling = culling;	
-		}
-		
-		/**
-		 * The culling boolean flag
-		 */
-		public function get autoCulling():Boolean
-		{
-			return _autoCulling;
 		}
 
 		/**
