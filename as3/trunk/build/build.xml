@@ -1,0 +1,41 @@
+<!-- This Ant Build file is included for generating ASDocs and the Papervision3D.swc. Don't expect it to work "out of the box", but feel free to experiment -John Lindquist -->
+<project name="Papervision3D ASDoc Generator" default="generateDocs" basedir="..">  
+	
+    <property name="bindir"       	value="${basedir}/bin"                                  />
+    <property name="classesdir"   	value="${basedir}/src"                					/>
+    <property name="docsdir"      	value="${basedir}/docs"        							/>
+	
+    <property name="flex3dir"     	value="D:/flexsdk"                      				/>
+    <property name="flex3bindir"  	value="${flex3dir}/bin"                                 />
+    <property name="flex3libsdir" 	value="${flex3dir}/frameworks/libs"                     />
+    <property name="asdoc"        	value="${flex3bindir}/asdoc.exe"                        />
+	<property name="compc"			value="${flex3bindir}/compc.exe"						/>
+
+	<target name="HelloWord"><echo>Hello World</echo></target>
+	
+ 	<target name="cleanDocs" description="Cleans out the documentation directory.">
+ 		<echo>Cleaning out docs from '${docsdir}'...</echo>
+ 		<delete includeemptydirs="true">
+ 			<fileset dir="${docsdir}" includes="**/*"></fileset>
+ 		</delete>
+ 	</target>
+
+	<target name="generateDocs" description="Generates docs" depends="cleanDocs">
+		<echo>Generating documentation for '${docsdir}'...</echo>
+		<exec executable="${asdoc}">
+			<arg line="-source-path ${classesdir}"/>
+			<arg line="-doc-sources ${classesdir}"/>
+			<arg line="-output '${docsdir}'"/>
+		</exec>
+	</target>
+	
+	<target name="generateSWC" description="Generates a swc of the Papervision3D library">
+		<echo>Generating swc using '${classesdir}'</echo>
+		<exec executable="${compc}">
+			<arg line="-source-path ${classesdir}"/>
+			<arg line="-output ${basedir}/Papervision3D.swc"/>
+			<arg line="-include-sources ${classesdir}"/>
+		</exec>
+	</target>
+	
+</project>

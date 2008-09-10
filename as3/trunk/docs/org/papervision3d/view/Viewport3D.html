@@ -1,0 +1,846 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
+<meta content="Viewport3D,org.papervision3d.view.Viewport3D,cullingRectangle,interactiveSceneManager,lastRenderList,lineCuller,particleCuller,sizeRectangle,triangleCuller,autoClipping,autoCulling,autoScaleToStage,containerSprite,interactive,viewportHeight,viewportObjectFilter,viewportWidth,accessLayerFor,destroy,getChildLayer,hitTestMouse,hitTestPoint2D,onAddedToStage,onRemovedFromStage,onStageResize,setStageScaleMode,updateAfterRender,updateBeforeRender" name="keywords">
+<title>org.papervision3d.view.Viewport3D</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'Viewport3D - API Documentation';
+				var baseRef = '../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../index-list.html')" href="../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../index.html?org/papervision3d/view/Viewport3D.html&amp;org/papervision3d/view/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;Viewport3D</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class Viewport3D"); titleBar_setSubNav(false,true,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">org.papervision3d.view</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class Viewport3D</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">Viewport3D <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../images/inherit-arrow.gif"> flash.display.Sprite</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Implements</td><td><a href="../core/view/IViewport3D.html">IViewport3D</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Subclasses</td><td><a href="../view/BitmapViewport3D.html">BitmapViewport3D</a></td>
+</tr>
+</table>
+<p></p>
+  <p></p>
+<br>
+<hr>
+</div>
+<a name="propertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Properties</div>
+<table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#autoClipping">autoClipping</a> : Boolean<div class="summaryTableDescription">
+   Whether clipping is enabled (not rendering bitmap data outside the rectangle of the viewport by making use of the <code>Sprite.scrollRect</code>)
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#autoCulling">autoCulling</a> : Boolean<div class="summaryTableDescription">
+   Whether culling is enabled (not rendering triangles hidden behind other triangles)
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#autoScaleToStage">autoScaleToStage</a> : Boolean<div class="summaryTableDescription">
+   The auto scale to stage boolean flag
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#containerSprite">containerSprite</a> : <a href="layer/ViewportLayer.html">ViewportLayer</a>
+<div class="summaryTableDescription">[read-only]
+   The <code>Sprite</code> holding the <code>Viewport3D</code>
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#cullingRectangle">cullingRectangle</a> : Rectangle<div class="summaryTableDescription">
+   cullingRectangle stores the width, height, x, y of the culling rectangle.</div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#interactive">interactive</a> : Boolean<div class="summaryTableDescription">
+   The interactive boolean flag
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#interactiveSceneManager">interactiveSceneManager</a> : <a href="../core/utils/InteractiveSceneManager.html">InteractiveSceneManager</a>
+<div class="summaryTableDescription">
+   interactiveSceneManager manages the interaction between the user's mouse and the Papervision3D scene.</div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#lastRenderList">lastRenderList</a> : Array<div class="summaryTableDescription">
+   lastRenderList stores RenderableListItems (Triangles, Lines, Pixels, Particles, Fog) of everything that was rendered in the last pass.</div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#lineCuller">lineCuller</a> : <a href="../core/culling/ILineCuller.html">ILineCuller</a>
+<div class="summaryTableDescription">
+   lineCuller uses the culling Rectangle to determine which particles will not be rendered in BasicRenderEngine
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#particleCuller">particleCuller</a> : <a href="../core/culling/IParticleCuller.html">IParticleCuller</a>
+<div class="summaryTableDescription">
+   particleCuller uses the cullingRectangle to determine which particles will not be rendered in BasicRenderEngine
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#sizeRectangle">sizeRectangle</a> : Rectangle<div class="summaryTableDescription">
+   sizeRectangle stores the width and the height of the Viewport3D sprite
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#triangleCuller">triangleCuller</a> : <a href="../core/culling/ITriangleCuller.html">ITriangleCuller</a>
+<div class="summaryTableDescription">
+   triangleCuller uses the cullingRectangle to determine which triangles will not be rendered in BasicRenderEngine
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#viewportHeight">viewportHeight</a> : Number<div class="summaryTableDescription">
+   Height of the Viewport
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#viewportObjectFilter">viewportObjectFilter</a> : <a href="../core/culling/ViewportObjectFilter.html">ViewportObjectFilter</a>
+<div class="summaryTableDescription">
+   The <code>ViewportObjectFilter</code>
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#viewportWidth">viewportWidth</a> : Number<div class="summaryTableDescription">
+   Width of the <code>Viewport3D</code>
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+</table>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#Viewport3D()">Viewport3D</a>(viewportWidth:Number = 640, viewportHeight:Number = 480, autoScaleToStage:Boolean = false, interactive:Boolean = false, autoClipping:Boolean = true, autoCulling:Boolean = true)</div>
+<div class="summaryTableDescription">
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#accessLayerFor()">accessLayerFor</a>(rc:<a href="../core/render/command/RenderableListItem.html">RenderableListItem</a>, setInstance:Boolean = false):<a href="layer/ViewportLayer.html">ViewportLayer</a>
+</div>
+<div class="summaryTableDescription">
+   Gets the layer of the RenderListItem.</div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#destroy()">destroy</a>():void</div>
+<div class="summaryTableDescription">
+   Removes all references and sets the viewport's
+   InteractiveSceneManager to null for a future
+   garbage collection sweep
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getChildLayer()">getChildLayer</a>(do3d:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a>, createNew:Boolean = true, recurse:Boolean = true):<a href="layer/ViewportLayer.html">ViewportLayer</a>
+</div>
+<div class="summaryTableDescription">
+   Creates or receives a <code>ViewportLayer</code> of the given <code>DisplayObject3D</code>
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#hitTestMouse()">hitTestMouse</a>():<a href="../core/render/data/RenderHitData.html">RenderHitData</a>
+</div>
+<div class="summaryTableDescription">
+   Checks the Mouse x and y against the <code>RenderHitData</code>
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#hitTestPoint2D()">hitTestPoint2D</a>(point:Point):<a href="../core/render/data/RenderHitData.html">RenderHitData</a>
+</div>
+<div class="summaryTableDescription">
+   Checks a <code>Point</code> against the <code>RenderHitData</code>
+   of the viewport
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#updateAfterRender()">updateAfterRender</a>(renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>):void</div>
+<div class="summaryTableDescription">
+   Updates a <code>ViewportLayer</code> after the 3d data is rendered into the 2d scene
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#updateBeforeRender()">updateBeforeRender</a>(renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>):void</div>
+<div class="summaryTableDescription">
+   Updates a <code>ViewportLayer</code> prior to the 3d data being rendered into the 2d scene
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+</table>
+</div>
+<a name="protectedMethodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Protected Methods</div>
+<table id="summaryTableProtectedMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onAddedToStage()">onAddedToStage</a>(event:Event):void</div>
+<div class="summaryTableDescription">
+   Triggered when added to the stage to start listening to stage resizing
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onRemovedFromStage()">onRemovedFromStage</a>(event:Event):void</div>
+<div class="summaryTableDescription">
+   Triggered when removed from the stage to remove the stage resizing listener
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onStageResize()">onStageResize</a>(event:Event = null):void</div>
+<div class="summaryTableDescription">
+   Resizes the viewport when the stage is resized (if autoScaleToStage == true)
+   </div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#setStageScaleMode()">setStageScaleMode</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">Viewport3D</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="propertyDetail"></a>
+<div class="detailSectionHeader">Property detail</div>
+<a name="autoClipping"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">autoClipping</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>autoClipping:Boolean</code>&nbsp;&nbsp;[read-write]<p>
+   Whether clipping is enabled (not rendering bitmap data outside the rectangle of the viewport by making use of the <code>Sprite.scrollRect</code>)
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get autoClipping():Boolean</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set autoClipping(value:Boolean):void</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">flash.display.Sprite.scrollRect<br>
+<a href="http://www.gskinner.com/blog/archives/2006/11/understanding_d.html" target="mm_external">http://www.gskinner.com/blog/archives/2006/11/understanding_d.html</a>
+</div>
+</div>
+<a name="autoCulling"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">autoCulling</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>autoCulling:Boolean</code>&nbsp;&nbsp;[read-write]<p>
+   Whether culling is enabled (not rendering triangles hidden behind other triangles)
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get autoCulling():Boolean</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set autoCulling(value:Boolean):void</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../view/Viewport3D.html#lineCuller" target="">lineCuller</a>
+<br>
+<a href="../view/Viewport3D.html#particleCuller" target="">particleCuller</a>
+<br>
+<a href="../view/Viewport3D.html#triangleCuller" target="">triangleCuller</a>
+</div>
+</div>
+<a name="autoScaleToStage"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">autoScaleToStage</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>autoScaleToStage:Boolean</code>&nbsp;&nbsp;[read-write]<p>
+   The auto scale to stage boolean flag
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get autoScaleToStage():Boolean</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set autoScaleToStage(value:Boolean):void</code>
+<br>
+</div>
+<a name="containerSprite"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">containerSprite</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>containerSprite:<a href="layer/ViewportLayer.html">ViewportLayer</a></code>&nbsp;&nbsp;[read-only]<p>
+   The <code>Sprite</code> holding the <code>Viewport3D</code>
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get containerSprite():<a href="layer/ViewportLayer.html">ViewportLayer</a></code>
+<br>
+</div>
+<a name="cullingRectangle"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">cullingRectangle</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var cullingRectangle:Rectangle</code><p>
+   cullingRectangle stores the width, height, x, y of the culling rectangle. It's used to determine the bounds in which the triangles are drawn.
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../view/Viewport3D.html#autoCulling" target="">autoCulling</a>
+</div>
+</div>
+<a name="interactive"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">interactive</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>interactive:Boolean</code>&nbsp;&nbsp;[read-write]<p>
+   The interactive boolean flag
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get interactive():Boolean</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set interactive(value:Boolean):void</code>
+<br>
+</div>
+<a name="interactiveSceneManager"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">interactiveSceneManager</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var interactiveSceneManager:<a href="../core/utils/InteractiveSceneManager.html">InteractiveSceneManager</a></code><p>
+   interactiveSceneManager manages the interaction between the user's mouse and the Papervision3D scene. This is done by checking the mouse against renderHitData. renderHitData is generated from hitTestPoint2D and passed into the interactiveSceneManager to check agains the various mouse actions.
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../view/Viewport3D.html#hitTestPoint2D()" target="">hitTestPoint2D()</a>
+<br>
+<a href="../core/utils/InteractiveSceneManager.html#renderHitData" target="">org.papervision3d.core.utils.InteractiveSceneManager.renderHitData</a>
+</div>
+</div>
+<a name="lastRenderList"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">lastRenderList</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var lastRenderList:Array</code><p>
+   lastRenderList stores RenderableListItems (Triangles, Lines, Pixels, Particles, Fog) of everything that was rendered in the last pass. This list is used to determine hitTests in hitTestPoint2D.
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../view/Viewport3D.html#hitTestPoint2D()" target="">hitTestPoint2D()</a>
+</div>
+</div>
+<a name="lineCuller"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">lineCuller</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var lineCuller:<a href="../core/culling/ILineCuller.html">ILineCuller</a></code><p>
+   lineCuller uses the culling Rectangle to determine which particles will not be rendered in BasicRenderEngine
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../view/Viewport3D.html#autoCulling" target="">autoCulling</a>
+</div>
+</div>
+<a name="particleCuller"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">particleCuller</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var particleCuller:<a href="../core/culling/IParticleCuller.html">IParticleCuller</a></code><p>
+   particleCuller uses the cullingRectangle to determine which particles will not be rendered in BasicRenderEngine
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../view/Viewport3D.html#autoCulling" target="">autoCulling</a>
+</div>
+</div>
+<a name="sizeRectangle"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">sizeRectangle</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var sizeRectangle:Rectangle</code><p>
+   sizeRectangle stores the width and the height of the Viewport3D sprite
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../view/Viewport3D.html#viewportWidth" target="">viewportWidth</a>
+<br>
+<a href="../view/Viewport3D.html#viewportHeight" target="">viewportHeight</a>
+</div>
+</div>
+<a name="triangleCuller"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">triangleCuller</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var triangleCuller:<a href="../core/culling/ITriangleCuller.html">ITriangleCuller</a></code><p>
+   triangleCuller uses the cullingRectangle to determine which triangles will not be rendered in BasicRenderEngine
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../view/Viewport3D.html#autoCulling" target="">autoCulling</a>
+</div>
+</div>
+<a name="viewportHeight"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">viewportHeight</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>viewportHeight:Number</code>&nbsp;&nbsp;[read-write]<p>
+   Height of the Viewport
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get viewportHeight():Number</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set viewportHeight(value:Number):void</code>
+<br>
+</div>
+<a name="viewportObjectFilter"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">viewportObjectFilter</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>viewportObjectFilter:<a href="../core/culling/ViewportObjectFilter.html">ViewportObjectFilter</a></code>&nbsp;&nbsp;[read-write]<p>
+   The <code>ViewportObjectFilter</code>
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get viewportObjectFilter():<a href="../core/culling/ViewportObjectFilter.html">ViewportObjectFilter</a></code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set viewportObjectFilter(value:<a href="../core/culling/ViewportObjectFilter.html">ViewportObjectFilter</a>):void</code>
+<br>
+</div>
+<a name="viewportWidth"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">viewportWidth</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>viewportWidth:Number</code>&nbsp;&nbsp;[read-write]<p>
+   Width of the <code>Viewport3D</code>
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get viewportWidth():Number</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set viewportWidth(value:Number):void</code>
+<br>
+</div>
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="Viewport3D()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">Viewport3D</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function Viewport3D(viewportWidth:Number = 640, viewportHeight:Number = 480, autoScaleToStage:Boolean = false, interactive:Boolean = false, autoClipping:Boolean = true, autoCulling:Boolean = true)</code><p>
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">viewportWidth</span>:Number</code> (default = <code>640</code>)<code></code> &mdash;  Width of the viewport
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">viewportHeight</span>:Number</code> (default = <code>480</code>)<code></code> &mdash;  Height of the viewport
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">autoScaleToStage</span>:Boolean</code> (default = <code>false</code>)<code></code> &mdash;  Determines whether the viewport should resize when the stage resizes
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">interactive</span>:Boolean</code> (default = <code>false</code>)<code></code> &mdash;   Determines whether the viewport should listen for Mouse events by creating an <code>InteractiveSceneManager</code>
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">autoClipping</span>:Boolean</code> (default = <code>true</code>)<code></code> &mdash;   Determines whether DisplayObject3Ds outside the rectangle of the viewport should be rendered
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">autoCulling</span>:Boolean</code> (default = <code>true</code>)<code></code> &mdash;   Detemines whether only the objects in front of the camera should be rendered. In other words, if a triangle is hidden by another triangle from the camera, it will not be rendered.
+   </td>
+</tr>
+</table>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="accessLayerFor()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">accessLayerFor</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function accessLayerFor(rc:<a href="../core/render/command/RenderableListItem.html">RenderableListItem</a>, setInstance:Boolean = false):<a href="layer/ViewportLayer.html">ViewportLayer</a></code><p>
+   Gets the layer of the RenderListItem. Most-likely internal use.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">rc</span>:<a href="../core/render/command/RenderableListItem.html">RenderableListItem</a></code> &mdash;   A RenderableListItem to look for
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">setInstance</span>:Boolean</code> (default = <code>false</code>)<code></code> &mdash; sets the container to the layer
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="layer/ViewportLayer.html">ViewportLayer</a></code> &mdash; 
+                            The found <code>ViewportLayer</code>
+   
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="destroy()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">destroy</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function destroy():void</code><p>
+   Removes all references and sets the viewport's
+   InteractiveSceneManager to null for a future
+   garbage collection sweep
+   </p></div>
+<a name="getChildLayer()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getChildLayer</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getChildLayer(do3d:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a>, createNew:Boolean = true, recurse:Boolean = true):<a href="layer/ViewportLayer.html">ViewportLayer</a></code><p>
+   Creates or receives a <code>ViewportLayer</code> of the given <code>DisplayObject3D</code>
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">do3d</span>:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a></code> &mdash;   A <code>DisplayObject3D</code> used to either find the layer or create a new one
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">createNew</span>:Boolean</code> (default = <code>true</code>)<code></code> &mdash;  Forces the creation of a new layer
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">recurse</span>:Boolean</code> (default = <code>true</code>)<code></code> &mdash;  Adds the <code>DisplayObject3D</code> as well as all of its children to a new layer
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="layer/ViewportLayer.html">ViewportLayer</a></code> &mdash; 
+                        <code>ViewportLayer</code> of the given <code>DisplayObject3D</code>
+   
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="hitTestMouse()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">hitTestMouse</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function hitTestMouse():<a href="../core/render/data/RenderHitData.html">RenderHitData</a></code><p>
+   Checks the Mouse x and y against the <code>RenderHitData</code>
+   </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../core/render/data/RenderHitData.html">RenderHitData</a></code> &mdash; 
+                        RenderHitData of the current mouse location
+   
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="hitTestPoint2D()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">hitTestPoint2D</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function hitTestPoint2D(point:Point):<a href="../core/render/data/RenderHitData.html">RenderHitData</a></code><p>
+   Checks a <code>Point</code> against the <code>RenderHitData</code>
+   of the viewport
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">point</span>:Point</code> &mdash;  a 2d <code>Point</code> you want to analyze into 3d space
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../core/render/data/RenderHitData.html">RenderHitData</a></code> &mdash; 
+                        <code>RenderHitData</code> of the given <code>Point</code>
+   
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="onAddedToStage()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onAddedToStage</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onAddedToStage(event:Event):void</code><p>
+   Triggered when added to the stage to start listening to stage resizing
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:Event</code></td>
+</tr>
+</table>
+</div>
+<a name="onRemovedFromStage()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onRemovedFromStage</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onRemovedFromStage(event:Event):void</code><p>
+   Triggered when removed from the stage to remove the stage resizing listener
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:Event</code></td>
+</tr>
+</table>
+</div>
+<a name="onStageResize()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onStageResize</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onStageResize(event:Event = null):void</code><p>
+   Resizes the viewport when the stage is resized (if autoScaleToStage == true)
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:Event</code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="setStageScaleMode()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">setStageScaleMode</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function setStageScaleMode():void</code>
+</div>
+<a name="updateAfterRender()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">updateAfterRender</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function updateAfterRender(renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>):void</code><p>
+   Updates a <code>ViewportLayer</code> after the 3d data is rendered into the 2d scene
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a></code> &mdash;  All the information regarding the current renderSession packed into one class 
+   </td>
+</tr>
+</table>
+</div>
+<a name="updateBeforeRender()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">updateBeforeRender</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function updateBeforeRender(renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>):void</code><p>
+   Updates a <code>ViewportLayer</code> prior to the 3d data being rendered into the 2d scene
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a></code> &mdash;  All the information regarding the current renderSession packed into one class 
+   </td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->
