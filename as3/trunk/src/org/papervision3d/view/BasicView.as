@@ -14,6 +14,7 @@ package org.papervision3d.view
 	 * basic Papervision3D projects by creating a viewport, scene,
 	 * camera, and renderer for you. Because BasicView is a subclass of
 	 * Sprite, it can be added to any DisplayObject.
+	 * 
 	 * </p>
 	 * 
 	 * <p>
@@ -41,7 +42,6 @@ package org.papervision3d.view
 		 * @param scaleToStage		Whether you viewport should scale with the stage
 		 * @param interactive		Whether your scene should be interactive
 		 * @param cameraType		A String for the type of camera. @see org.papervision3d.cameras.CameraType
-		 * We use "Targer" in the constuctor because it's a workaround to a bug in Flash Authoring with static constants in class constructors. @see http://bugs.adobe.com/jira/browse/ASC-2231
 		 * 
 		 */	
 		public function BasicView(viewportWidth:Number = 640, viewportHeight:Number = 480, scaleToStage:Boolean = true, interactive:Boolean = false, cameraType:String = "Target")
