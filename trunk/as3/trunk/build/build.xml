@@ -1,4 +1,5 @@
 <!-- This Ant Build file is included for generating ASDocs and the Papervision3D.swc. Don't expect it to work "out of the box", but feel free to experiment -John Lindquist -->
+<!-- Special thanks to Ryan Taylor (http://www.boostworthy.com/blog/) for helping set this up -->
 <project name="Papervision3D ASDoc Generator" default="generateDocs" basedir="..">  
 	
 	<property name="windowtitle" 	value="Papervision3D Official Documentation"/>
