@@ -1,6 +1,10 @@
 <!-- This Ant Build file is included for generating ASDocs and the Papervision3D.swc. Don't expect it to work "out of the box", but feel free to experiment -John Lindquist -->
 <project name="Papervision3D ASDoc Generator" default="generateDocs" basedir="..">  
 	
+	<property name="windowtitle" 	value="Papervision3D Official Documentation"/>
+	<property name="maintitle" 		value="Papervision3D Official Documentation"/>
+	<property name="footer" 		value="http://blog.papervision3d.org"/>
+	
     <property name="bindir"       	value="${basedir}/bin"                                  />
     <property name="classesdir"   	value="${basedir}/src"                					/>
     <property name="docsdir"      	value="${basedir}/docs"        							/>
@@ -25,6 +29,9 @@
 		<exec executable="${asdoc}">
 			<arg line="-source-path ${classesdir}"/>
 			<arg line="-doc-sources ${classesdir}"/>
+			<arg line="-window-title '${windowtitle}'"/>
+			<arg line="-main-title '${maintitle}'"/>
+			<arg line="-footer '${footer}'"/>
 			<arg line="-output '${docsdir}'"/>
 		</exec>
 	</target>
