@@ -39,25 +39,68 @@ package org.papervision3d.view
 	public class Viewport3D extends Sprite implements IViewport3D
 	{
 		//use namespace org.papervision3d.core.ns.pv3dview;
+		/** @private */
 		protected var _width:Number;
+		/** @private */
 		protected var _hWidth:Number;
+		/** @private */
 		protected var _height:Number;
+		/** @private */
 		protected var _hHeight:Number;
+		/** @private */
 		protected var _autoClipping:Boolean;
+		/** @private */
 		protected var _autoCulling:Boolean;
+		/** @private */
 		protected var _autoScaleToStage:Boolean;
+		/** @private */
 		protected var _interactive:Boolean;
+		/** @private */
 		protected var _lastRenderer:IRenderEngine;
+		/** @private */
 		protected var _viewportObjectFilter:ViewportObjectFilter;
+		/** @private */
 		protected var _containerSprite:ViewportBaseLayer;
+		/** @private */
 		protected var _layerInstances:Dictionary;
+		/**
+		 * sizeRectangle stores the width and the height of the Viewport3D sprite
+		 * @see #viewportWidth
+		 * @see #viewportHeight
+		 */
 		public var sizeRectangle:Rectangle;
+		/**
+		 * cullingRectangle stores the width, height, x, y of the culling rectangle. It's used to determine the bounds in which the triangles are drawn.
+		 * @see #autoCulling
+		 */
 		public var cullingRectangle:Rectangle;
+		/**
+		 * triangleCuller uses the cullingRectangle to determine which triangles will not be rendered in BasicRenderEngine
+		 * @see #autoCulling
+		 */
 		public var triangleCuller:ITriangleCuller;
+		/**
+		 * particleCuller uses the cullingRectangle to determine which particles will not be rendered in BasicRenderEngine
+		 * @see #autoCulling
+		 */
 		public var particleCuller:IParticleCuller;
+		/**
+		 * lineCuller uses the culling Rectangle to determine which particles will not be rendered in BasicRenderEngine
+		 * @see #autoCulling
+		 */
 		public var lineCuller:ILineCuller;
+		/**
+		 * lastRenderList stores RenderableListItems (Triangles, Lines, Pixels, Particles, Fog) of everything that was rendered in the last pass. This list is used to determine hitTests in hitTestPoint2D.
+		 * @see #hitTestPoint2D()
+		 */
 		public var lastRenderList:Array;
+		/**
+		 * interactiveSceneManager manages the interaction between the user's mouse and the Papervision3D scene. This is done by checking the mouse against renderHitData. renderHitData is generated from hitTestPoint2D and passed into the interactiveSceneManager to check agains the various mouse actions.
+		 * @see #hitTestPoint2D()
+		 * @see org.papervision3d.core.utils.InteractiveSceneManager#renderHitData
+		 */
 		public var interactiveSceneManager:InteractiveSceneManager;
+		/** @private */
 		protected var renderHitData:RenderHitData;
 		private var stageScaleModeSet :Boolean = false; 
 		
@@ -341,6 +384,9 @@ package org.papervision3d.view
 		
 		/**
 		 * Whether culling is enabled (not rendering triangles hidden behind other triangles)
+		 * @see #lineCuller
+		 * @see #particleCuller
+		 * @see #triangleCuller
 		 */
 		public function set autoCulling(culling:Boolean):void
 		{
