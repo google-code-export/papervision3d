@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
-<meta content="BasicRenderEngine,org.papervision3d.render.BasicRenderEngine,cleanRHD,filter,projectionDoneEvent,projectionPipeline,renderDoneEvent,renderList,renderSessionData,renderStatistics,sorter,stopWatch,addToRenderList,destroy,doRender,hitTestPoint2D,init,removeFromRenderList,renderLayers,renderScene" name="keywords">
+<meta content="BasicRenderEngine,org.papervision3d.render.BasicRenderEngine,filter,projectionPipeline,sorter,addToRenderList,destroy,removeFromRenderList,renderLayers,renderScene" name="keywords">
 <title>org.papervision3d.render.BasicRenderEngine</title>
 </head>
 <body>
@@ -48,7 +48,11 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 </table>
 <p></p>
-<p></p>
+  <code>BasicRenderEngine</code> links <code>Viewport3D</code>s, 
+  <code>Scene3D</code>, and <code>Camera3D</code>s together
+   by gathering in all of their data, rendering the data, then calling the 
+   necessary functions to update from the rendered data
+  <p></p>
 <br>
 <hr>
 </div>
@@ -61,60 +65,21 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#filter">filter</a> : <a href="../core/render/filter/IRenderFilter.html">IRenderFilter</a>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   A filter (such as FogFilter) to be used in the renderList.</div>
 </td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#projectionPipeline">projectionPipeline</a> : <a href="../core/render/project/ProjectionPipeline.html">ProjectionPipeline</a>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   The type of projection pipeline used for projecting and culling.</div>
 </td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#sorter">sorter</a> : <a href="../core/render/sort/IRenderSorter.html">IRenderSorter</a>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-</table>
-</div>
-<a name="protectedPropertySummary"></a>
-<div class="summarySection">
-<div class="summaryTableTitle">Protected Properties</div>
-<table id="summaryTableProtectedProperty" class="summaryTable " cellpadding="3" cellspacing="0">
-<tr>
-<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#cleanRHD">cleanRHD</a> : <a href="../core/render/data/RenderHitData.html">RenderHitData</a>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#projectionDoneEvent">projectionDoneEvent</a> : <a href="../events/RendererEvent.html">RendererEvent</a>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#renderDoneEvent">renderDoneEvent</a> : <a href="../events/RendererEvent.html">RendererEvent</a>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#renderList">renderList</a> : Array<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#renderSessionData">renderSessionData</a> : <a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#renderStatistics">renderStatistics</a> : <a href="../core/render/data/RenderStatistics.html">RenderStatistics</a>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#stopWatch">stopWatch</a> : <a href="../core/utils/StopWatch.html">StopWatch</a>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   The type of z-sorting to be used with the rendered data based on 
+   their respective screen depth.</div>
 </td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
 </tr>
 </table>
@@ -130,76 +95,61 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#BasicRenderEngine()">BasicRenderEngine</a>()</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Creates and prepares all the objects and events needed for rendering
+   </div>
 </td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#addToRenderList()">addToRenderList</a>(renderCommand:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a>):int</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Adds a <code>renderCommand</code> to the <code>renderList</code>
+   
+   </div>
 </td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#destroy()">destroy</a>():void</div>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
-<div class="summarySignature">
-<a class="signatureLink" href="#hitTestPoint2D()">hitTestPoint2D</a>(point:Point, viewPort3D:<a href="../view/Viewport3D.html">Viewport3D</a>):<a href="../core/render/data/RenderHitData.html">RenderHitData</a>
-</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Destroys all of <code>BasicRenderEngine</code>'s objects for Garbage Collection purposes.</div>
 </td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#removeFromRenderList()">removeFromRenderList</a>(renderCommand:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a>):int</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Removes a <code>renderCommand</code> from the <code>renderList</code>
+   
+   </div>
 </td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#renderLayers()">renderLayers</a>(scene:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a>, camera:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a>, viewPort:<a href="../view/Viewport3D.html">Viewport3D</a>, layers:Array = null, updateAnimation:Boolean = true):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a>
+<a class="signatureLink" href="#renderLayers()">renderLayers</a>(scene:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a>, camera:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a>, viewPort:<a href="../view/Viewport3D.html">Viewport3D</a>, layers:Array = null):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a>
 </div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Works similarly to <code>renderScene</code>, but also takes an array 
+   of specific <code>ViewportLayer3D</code>'s to
+   render
+   
+   </div>
 </td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#renderScene()">renderScene</a>(scene:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a>, camera:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a>, viewPort:<a href="../view/Viewport3D.html">Viewport3D</a>, updateAnimation:Boolean = true):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a>
+<a class="signatureLink" href="#renderScene()">renderScene</a>(scene:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a>, camera:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a>, viewPort:<a href="../view/Viewport3D.html">Viewport3D</a>):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a>
 </div>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-</table>
-</div>
-<a name="protectedMethodSummary"></a>
-<div class="summarySection">
-<div class="summaryTableTitle">Protected Methods</div>
-<table id="summaryTableProtectedMethod" class="summaryTable " cellpadding="3" cellspacing="0">
-<tr>
-<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
-<div class="summarySignature">
-<a class="signatureLink" href="#doRender()">doRender</a>(renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>, layers:Array = null):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a>
-</div>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
-<div class="summarySignature">
-<a class="signatureLink" href="#init()">init</a>():void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Takes the data from the scene, camera, and viewport, renders it, then updates the viewport
+   
+   </div>
 </td><td class="summaryTableOwnerCol">BasicRenderEngine</td>
 </tr>
 </table>
@@ -211,32 +161,25 @@ showHideInherited();
 <div class="MainContent">
 <a name="propertyDetail"></a>
 <div class="detailSectionHeader">Property detail</div>
-<a name="cleanRHD"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">cleanRHD</td><td class="detailHeaderType">property</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected var cleanRHD:<a href="../core/render/data/RenderHitData.html">RenderHitData</a></code>
-</div>
 <a name="filter"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">filter</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+<td class="detailHeaderName">filter</td><td class="detailHeaderType">property</td>
 </tr>
 </table>
 <div class="detailBody">
-<code>public var filter:<a href="../core/render/filter/IRenderFilter.html">IRenderFilter</a></code>
+<code>public var filter:<a href="../core/render/filter/IRenderFilter.html">IRenderFilter</a></code><p>
+   A filter (such as FogFilter) to be used in the renderList. Defaults to 
+   <code>BasicRenderFilter</code>
+   
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../core/render/filter/BasicRenderFilter.html" target="">org.papervision3d.core.render.filter.BasicRenderFilter</a>
+<br>
+<a href="../core/render/filter/FogFilter.html" target="">org.papervision3d.core.render.filter.FogFilter</a>
 </div>
-<a name="projectionDoneEvent"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">projectionDoneEvent</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected var projectionDoneEvent:<a href="../events/RendererEvent.html">RendererEvent</a></code>
 </div>
 <a name="projectionPipeline"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -245,43 +188,16 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var projectionPipeline:<a href="../core/render/project/ProjectionPipeline.html">ProjectionPipeline</a></code>
+<code>public var projectionPipeline:<a href="../core/render/project/ProjectionPipeline.html">ProjectionPipeline</a></code><p>
+   The type of projection pipeline used for projecting and culling. Defaults
+   to BasicProjectionPipeline
+   
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../core/render/project/BasicProjectionPipeline.html" target="">org.papervision3d.core.render.project.BasicProjectionPipeline</a>
 </div>
-<a name="renderDoneEvent"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">renderDoneEvent</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected var renderDoneEvent:<a href="../events/RendererEvent.html">RendererEvent</a></code>
-</div>
-<a name="renderList"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">renderList</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected var renderList:Array</code>
-</div>
-<a name="renderSessionData"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">renderSessionData</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected var renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a></code>
-</div>
-<a name="renderStatistics"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">renderStatistics</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected var renderStatistics:<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code>
 </div>
 <a name="sorter"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -290,16 +206,16 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var sorter:<a href="../core/render/sort/IRenderSorter.html">IRenderSorter</a></code>
+<code>public var sorter:<a href="../core/render/sort/IRenderSorter.html">IRenderSorter</a></code><p>
+   The type of z-sorting to be used with the rendered data based on 
+   their respective screen depth. Defaults to <code>BasicRenderSorter</code>.
+   
+   </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../core/render/sort/BasicRenderSorter.html" target="">org.papervision3d.core.render.sort.BasicRenderSorter</a>
 </div>
-<a name="stopWatch"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">stopWatch</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected var stopWatch:<a href="../core/utils/StopWatch.html">StopWatch</a></code>
 </div>
 <a name="constructorDetail"></a>
 <div class="detailSectionHeader">Constructor detail</div>
@@ -310,8 +226,9 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function BasicRenderEngine()</code>
-</div>
+<code>public function BasicRenderEngine()</code><p>
+   Creates and prepares all the objects and events needed for rendering
+   </p></div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
 <a name="addToRenderList()"></a>
@@ -321,17 +238,23 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public override function addToRenderList(renderCommand:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a>):int</code><span class="label">Parameters</span>
+<code>public override function addToRenderList(renderCommand:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a>):int</code><p>
+   Adds a <code>renderCommand</code> to the <code>renderList</code>
+   
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">renderCommand</span>:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a></code></td>
+<td width="20px"></td><td><code><span class="label">renderCommand</span>:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a></code> &mdash;  A command to be used in the <code>renderList</code>
+   
+   </td>
 </tr>
 </table>
 <p></p>
 <span class="label">Returns</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20"></td><td><code>int</code></td>
+<td width="20"></td><td><code>int</code> &mdash; int    An integer representing the length of the <code>renderList</code>
+   </td>
 </tr>
 </table>
 </div>
@@ -342,71 +265,9 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function destroy():void</code>
-</div>
-<a name="doRender()"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">doRender</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected function doRender(renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>, layers:Array = null):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code><span class="label">Parameters</span>
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a></code></td>
-</tr>
-<tr>
-<td class="paramSpacer">&nbsp;</td>
-</tr>
-<tr>
-<td width="20px"></td><td><code><span class="label">layers</span>:Array</code> (default = <code>null</code>)<code></code></td>
-</tr>
-</table>
-<p></p>
-<span class="label">Returns</span>
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="20"></td><td><code><a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code></td>
-</tr>
-</table>
-</div>
-<a name="hitTestPoint2D()"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">hitTestPoint2D</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>public function hitTestPoint2D(point:Point, viewPort3D:<a href="../view/Viewport3D.html">Viewport3D</a>):<a href="../core/render/data/RenderHitData.html">RenderHitData</a></code><span class="label">Parameters</span>
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="20px"></td><td><code><span class="label">point</span>:Point</code></td>
-</tr>
-<tr>
-<td class="paramSpacer">&nbsp;</td>
-</tr>
-<tr>
-<td width="20px"></td><td><code><span class="label">viewPort3D</span>:<a href="../view/Viewport3D.html">Viewport3D</a></code></td>
-</tr>
-</table>
-<p></p>
-<span class="label">Returns</span>
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="20"></td><td><code><a href="../core/render/data/RenderHitData.html">RenderHitData</a></code></td>
-</tr>
-</table>
-</div>
-<a name="init()"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">init</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected function init():void</code>
-</div>
+<code>public function destroy():void</code><p>
+   Destroys all of <code>BasicRenderEngine</code>'s objects for Garbage Collection purposes.
+   </p></div>
 <a name="removeFromRenderList()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -414,17 +275,23 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public override function removeFromRenderList(renderCommand:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a>):int</code><span class="label">Parameters</span>
+<code>public override function removeFromRenderList(renderCommand:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a>):int</code><p>
+   Removes a <code>renderCommand</code> from the <code>renderList</code>
+   
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">renderCommand</span>:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a></code></td>
+<td width="20px"></td><td><code><span class="label">renderCommand</span>:<a href="../core/render/command/IRenderListItem.html">IRenderListItem</a></code> &mdash;  A command to be removed from the <code>renderList</code>
+   
+   </td>
 </tr>
 </table>
 <p></p>
 <span class="label">Returns</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20"></td><td><code>int</code></td>
+<td width="20"></td><td><code>int</code> &mdash; int    An integer representing the length of the <code>renderList</code>
+   </td>
 </tr>
 </table>
 </div>
@@ -435,22 +302,31 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function renderLayers(scene:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a>, camera:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a>, viewPort:<a href="../view/Viewport3D.html">Viewport3D</a>, layers:Array = null, updateAnimation:Boolean = true):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code><span class="label">Parameters</span>
+<code>public function renderLayers(scene:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a>, camera:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a>, viewPort:<a href="../view/Viewport3D.html">Viewport3D</a>, layers:Array = null):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code><p>
+   Works similarly to <code>renderScene</code>, but also takes an array 
+   of specific <code>ViewportLayer3D</code>'s to
+   render
+   
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">scene</span>:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">scene</span>:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a></code> &mdash;    The <code>CameraObject3D</code> looking at the scene
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">camera</span>:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">camera</span>:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a></code> &mdash;     The <code>Scene3D</code> holding the <code>DisplayObject3D</code>'s you want rendered
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">viewPort</span>:<a href="../view/Viewport3D.html">Viewport3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">viewPort</span>:<a href="../view/Viewport3D.html">Viewport3D</a></code> &mdash;    The <code>Viewport3D</code> that will display your scene
+   
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
@@ -458,20 +334,25 @@ showHideInherited();
 <tr>
 <td width="20px"></td><td><code><span class="label">layers</span>:Array</code> (default = <code>null</code>)<code></code></td>
 </tr>
-<tr>
-<td class="paramSpacer">&nbsp;</td>
-</tr>
-<tr>
-<td width="20px"></td><td><code><span class="label">updateAnimation</span>:Boolean</code> (default = <code>true</code>)<code></code></td>
-</tr>
 </table>
 <p></p>
 <span class="label">Returns</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20"></td><td><code><a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code></td>
+<td width="20"></td><td><code><a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code> &mdash; 
+                        RenderStatistics  The <code>RenderStatistics</code> objectholds all the data from the last render
+   
+   
+                        
+                     </td>
 </tr>
 </table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../render/BasicRenderEngine.html#renderScene" target="">renderScene</a>
+</div>
 </div>
 <a name="renderScene()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -480,35 +361,40 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public override function renderScene(scene:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a>, camera:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a>, viewPort:<a href="../view/Viewport3D.html">Viewport3D</a>, updateAnimation:Boolean = true):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code><span class="label">Parameters</span>
+<code>public override function renderScene(scene:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a>, camera:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a>, viewPort:<a href="../view/Viewport3D.html">Viewport3D</a>):<a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code><p>
+   Takes the data from the scene, camera, and viewport, renders it, then updates the viewport
+   
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">scene</span>:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">scene</span>:<a href="../core/proto/SceneObject3D.html">SceneObject3D</a></code> &mdash;   The <code>CameraObject3D</code> looking at the scene
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">camera</span>:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">camera</span>:<a href="../core/proto/CameraObject3D.html">CameraObject3D</a></code> &mdash;    The <code>Scene3D</code> holding the <code>DisplayObject3D</code>'s you want rendered
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">viewPort</span>:<a href="../view/Viewport3D.html">Viewport3D</a></code></td>
-</tr>
-<tr>
-<td class="paramSpacer">&nbsp;</td>
-</tr>
-<tr>
-<td width="20px"></td><td><code><span class="label">updateAnimation</span>:Boolean</code> (default = <code>true</code>)<code></code></td>
+<td width="20px"></td><td><code><span class="label">viewPort</span>:<a href="../view/Viewport3D.html">Viewport3D</a></code> &mdash;   The <code>Viewport3D</code> that will display your scene
+   
+   </td>
 </tr>
 </table>
 <p></p>
 <span class="label">Returns</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20"></td><td><code><a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code></td>
+<td width="20"></td><td><code><a href="../core/render/data/RenderStatistics.html">RenderStatistics</a></code> &mdash; 
+                        RenderStatistics  The <code>RenderStatistics</code> objectholds all the data from the last render
+   
+                        
+                     </td>
 </tr>
 </table>
 </div>

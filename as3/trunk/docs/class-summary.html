@@ -126,7 +126,12 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Al
 <tr class="prow0">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a>
 <br>
-</td><td class="summaryTableCol"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/package-detail.html">org.papervision3d.render</a></td><td class="summaryTableLastCol">&nbsp;</td>
+</td><td class="summaryTableCol"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/package-detail.html">org.papervision3d.render</a></td><td class="summaryTableLastCol">
+  <code>BasicRenderEngine</code> links <code>Viewport3D</code>s, 
+  <code>Scene3D</code>, and <code>Camera3D</code>s together
+   by gathering in all of their data, rendering the data, then calling the 
+   necessary functions to update from the rendered data
+  </td>
 </tr>
 <tr class="prow1">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/papervision3d/core/render/filter/BasicRenderFilter.html">BasicRenderFilter</a>

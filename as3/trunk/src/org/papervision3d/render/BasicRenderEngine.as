@@ -25,30 +25,64 @@ package org.papervision3d.render
 	import org.papervision3d.view.Viewport3D;
 	import org.papervision3d.view.layer.ViewportLayer;
 	
-	import flash.geom.Point;	
-
+	import flash.geom.Point;
+	
+	/**
+	 * <code>BasicRenderEngine</code> links <code>Viewport3D</code>s, 
+	 * <code>Scene3D</code>, and <code>Camera3D</code>s together
+	 *  by gathering in all of their data, rendering the data, then calling the 
+	 *  necessary functions to update from the rendered data
+	 */	
 	public class BasicRenderEngine extends AbstractRenderEngine implements IRenderEngine
 	{
-		
+		/**
+		 * The type of projection pipeline used for projecting and culling. Defaults
+		 * to BasicProjectionPipeline
+		 * 
+		 * @see org.papervision3d.core.render.project.BasicProjectionPipeline
+		 */
 		public var projectionPipeline:ProjectionPipeline;
-		
+		/**
+		 * The type of z-sorting to be used with the rendered data based on 
+		 * their respective screen depth. Defaults to <code>BasicRenderSorter</code>.
+		 * 
+		 * @see org.papervision3d.core.render.sort.BasicRenderSorter
+		 */
 		public var sorter:IRenderSorter;
+		/**
+		 * A filter (such as FogFilter) to be used in the renderList. Defaults to 
+		 * <code>BasicRenderFilter</code>
+		 * 
+		 * @see org.papervision3d.core.render.filter.BasicRenderFilter
+		 * @see org.papervision3d.core.render.filter.FogFilter
+		 */
 		public var filter:IRenderFilter;
-		
+		/** @private */
 		protected var renderDoneEvent:RendererEvent;
+		/** @private */
 		protected var projectionDoneEvent:RendererEvent;
-		
+		/** @private */
 		protected var renderStatistics:RenderStatistics;
+		/** @private */
 		protected var renderList:Array;
+		/** @private */
 		protected var renderSessionData:RenderSessionData;
+		/** @private */
 		protected var cleanRHD:RenderHitData = new RenderHitData();
+		/** @private */
 		protected var stopWatch:StopWatch;
 		
+		/**
+		 * Creates and prepares all the objects and events needed for rendering
+		 */
 		public function BasicRenderEngine():void
 		{
 			init();			 
 		}
 		
+		/**
+		 * Destroys all of <code>BasicRenderEngine</code>'s objects for Garbage Collection purposes.
+		 */
 		public function destroy():void
 		{
 			renderDoneEvent = null;
@@ -63,7 +97,7 @@ package org.papervision3d.render
 			cleanRHD = null;
 			stopWatch = null;
 		}
-		
+		/** @private */
 		protected function init():void
 		{
 			renderStatistics = new RenderStatistics();
@@ -84,7 +118,16 @@ package org.papervision3d.render
 			renderDoneEvent = new RendererEvent(RendererEvent.RENDER_DONE, renderSessionData);
 		}
 		
-		override public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, updateAnimation:Boolean = true):RenderStatistics
+		/**
+		 * Takes the data from the scene, camera, and viewport, renders it, then updates the viewport
+		 * 
+		 * @param camera			The <code>CameraObject3D</code> looking at the scene
+		 * @param scene				The <code>Scene3D</code> holding the <code>DisplayObject3D</code>'s you want rendered
+		 * @param viewPort			The <code>Viewport3D</code> that will display your scene
+		 * 
+		 * @return RenderStatistics		The <code>RenderStatistics</code> objectholds all the data from the last render
+		 */
+		override public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D):RenderStatistics
 		{
 			// Set the camera's viewport so it can resize its frustum.
 			camera.viewport = viewPort.sizeRectangle;
@@ -109,7 +152,7 @@ package org.papervision3d.render
 				dispatchEvent(projectionDoneEvent);
 			}
 			
-			//Render the Scene.
+			//Render the Scene. TODO: delete null if layers is deleted from doRender
 			doRender(renderSessionData, null);
 			if(hasEventListener(RendererEvent.RENDER_DONE)){
 				dispatchEvent(renderDoneEvent);
@@ -118,7 +161,20 @@ package org.papervision3d.render
 			return renderSessionData.renderStatistics;
 		}
 		
-		public function renderLayers(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, layers:Array = null, updateAnimation:Boolean = true):RenderStatistics
+		/**
+		 * Works similarly to <code>renderScene</code>, but also takes an array 
+		 * of specific <code>ViewportLayer3D</code>'s to
+		 * render
+		 * 
+		 * @param camera				The <code>CameraObject3D</code> looking at the scene
+		 * @param scene					The <code>Scene3D</code> holding the <code>DisplayObject3D</code>'s you want rendered
+		 * @param viewPort				The <code>Viewport3D</code> that will display your scene
+		 * 
+		 * @return RenderStatistics		The <code>RenderStatistics</code> objectholds all the data from the last render
+		 * 
+		 * @see #renderScene
+		 */
+		public function renderLayers(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, layers:Array = null):RenderStatistics
 		{
 			//Update the renderSessionData object.
 			renderSessionData.scene = scene;
@@ -150,6 +206,7 @@ package org.papervision3d.render
 			return renderSessionData.renderStatistics;
 		}
 		
+		/** @private */
 		private function getLayerObjects(layers:Array):Array{
 			var array:Array = new Array();
 			
@@ -159,8 +216,8 @@ package org.papervision3d.render
 			return array;
 		}
 		
-		
-	
+		//TODO: layers parameter isn't used. Delete?
+		/** @private */
 		protected function doRender(renderSessionData:RenderSessionData, layers:Array = null):RenderStatistics
 		{
 			stopWatch.reset();
@@ -196,16 +253,34 @@ package org.papervision3d.render
 			return renderStatistics;
 		}
 		
+		//TODO: Redundant? Someone please tell me a use case scenario: John L.
+		/**
+		 * @private
+		 */
 		public function hitTestPoint2D(point:Point, viewPort3D:Viewport3D):RenderHitData
 		{
 			return viewPort3D.hitTestPoint2D(point);
 		}
 		
+		/**
+		 * Adds a <code>renderCommand</code> to the <code>renderList</code>
+		 * 
+		 * @param renderCommand		A command to be used in the <code>renderList</code>
+		 * 
+		 * @return int				An integer representing the length of the <code>renderList</code>
+		 */
 		override public function addToRenderList(renderCommand:IRenderListItem):int
 		{
 			return renderList.push(renderCommand);
 		}
 		
+		/**
+		 * Removes a <code>renderCommand</code> from the <code>renderList</code>
+		 * 
+		 * @param renderCommand		A command to be removed from the <code>renderList</code>
+		 * 
+		 * @return int				An integer representing the length of the <code>renderList</code>
+		 */
 		override public function removeFromRenderList(renderCommand:IRenderListItem):int
 		{
 			return renderList.splice(renderList.indexOf(renderCommand),1);

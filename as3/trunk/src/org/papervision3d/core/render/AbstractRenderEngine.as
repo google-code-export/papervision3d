@@ -15,7 +15,7 @@ package org.papervision3d.core.render
 			super(target);
 		}
 		
-		public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, updateAnimation:Boolean=true):RenderStatistics
+		public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D):RenderStatistics
 		{
 			return null;
 		}
