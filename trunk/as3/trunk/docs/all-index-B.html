@@ -101,13 +101,20 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("BÂ
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a> &mdash; Class in package <a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/package-detail.html">org.papervision3d.render</a></td>
 </tr>
 <tr>
-<td width="20"></td><td></td>
+<td width="20"></td><td>
+  <code>BasicRenderEngine</code> links <code>Viewport3D</code>s, 
+  <code>Scene3D</code>, and <code>Camera3D</code>s together
+   by gathering in all of their data, rendering the data, then calling the 
+   necessary functions to update from the rendered data
+  </td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#BasicRenderEngine()">BasicRenderEngine</a>() &mdash; Constructor in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
 </tr>
 <tr>
-<td width="20"></td><td></td>
+<td width="20"></td><td>
+   Creates and prepares all the objects and events needed for rendering
+   </td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/filter/class-list.html');" href="org/papervision3d/core/render/filter/BasicRenderFilter.html">BasicRenderFilter</a> &mdash; Class in package <a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/filter/class-list.html');" href="org/papervision3d/core/render/filter/package-detail.html">org.papervision3d.core.render.filter</a></td>

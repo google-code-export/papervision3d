@@ -844,7 +844,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("RÂ
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#removeFromRenderList()">removeFromRenderList</a>(renderCommand:<a href="org/papervision3d/core/render/command/IRenderListItem.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/render/command./class-list.html');">org.papervision3d.core.render.command:IRenderListItem</a>) &mdash; Method in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
 </tr>
 <tr>
-<td width="20"></td><td></td>
+<td width="20"></td><td>
+   Removes a <code>renderCommand</code> from the <code>renderList</code>
+   
+   </td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/view/layer/class-list.html');" href="org/papervision3d/view/layer/ViewportLayer.html#removeLayer()">removeLayer</a>(vpl:<a href="org/papervision3d/view/layer/ViewportLayer.html" onclick="javascript:loadClassListFrame('org/papervision3d/view/layer./class-list.html');">org.papervision3d.view.layer:ViewportLayer</a>) &mdash; Method in class org.papervision3d.view.layer.<a onclick="javascript:loadClassListFrame('org/papervision3d/view/layer/class-list.html');" href="org/papervision3d/view/layer/ViewportLayer.html">ViewportLayer</a></td>
@@ -1029,12 +1032,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("RÂ
 <td width="20"></td><td></td>
 </tr>
 <tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#renderDoneEvent">renderDoneEvent</a> &mdash; Property in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
-</tr>
-<tr>
-<td width="20"></td><td></td>
-</tr>
-<tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/data/class-list.html');" href="org/papervision3d/core/render/data/RenderStatistics.html#rendered">rendered</a> &mdash; Property in class org.papervision3d.core.render.data.<a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/data/class-list.html');" href="org/papervision3d/core/render/data/RenderStatistics.html">RenderStatistics</a></td>
 </tr>
 <tr>
@@ -1173,10 +1170,15 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("RÂ
 <td width="20"></td><td></td>
 </tr>
 <tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#renderLayers()">renderLayers</a>(scene:<a href="org/papervision3d/core/proto/SceneObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:SceneObject3D</a>, camera:<a href="org/papervision3d/core/proto/CameraObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:CameraObject3D</a>, viewPort:<a href="org/papervision3d/view/Viewport3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/view./class-list.html');">org.papervision3d.view:Viewport3D</a>, layers, updateAnimation) &mdash; Method in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#renderLayers()">renderLayers</a>(scene:<a href="org/papervision3d/core/proto/SceneObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:SceneObject3D</a>, camera:<a href="org/papervision3d/core/proto/CameraObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:CameraObject3D</a>, viewPort:<a href="org/papervision3d/view/Viewport3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/view./class-list.html');">org.papervision3d.view:Viewport3D</a>, layers) &mdash; Method in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
 </tr>
 <tr>
-<td width="20"></td><td></td>
+<td width="20"></td><td>
+   Works similarly to <code>renderScene</code>, but also takes an array 
+   of specific <code>ViewportLayer3D</code>'s to
+   render
+   
+   </td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/command/class-list.html');" href="org/papervision3d/core/render/command/RenderLine.html">RenderLine</a> &mdash; Class in package <a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/command/class-list.html');" href="org/papervision3d/core/render/command/package-detail.html">org.papervision3d.core.render.command</a></td>
@@ -1186,12 +1188,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("RÂ
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/command/class-list.html');" href="org/papervision3d/core/render/command/RenderLine.html#RenderLine()">RenderLine</a>(line:<a href="org/papervision3d/core/geom/renderables/Line3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/geom/renderables./class-list.html');">org.papervision3d.core.geom.renderables:Line3D</a>) &mdash; Constructor in class org.papervision3d.core.render.command.<a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/command/class-list.html');" href="org/papervision3d/core/render/command/RenderLine.html">RenderLine</a></td>
-</tr>
-<tr>
-<td width="20"></td><td></td>
-</tr>
-<tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#renderList">renderList</a> &mdash; Property in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
 </tr>
 <tr>
 <td width="20"></td><td></td>
@@ -1275,31 +1271,28 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("RÂ
 <td width="20"></td><td></td>
 </tr>
 <tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/class-list.html');" href="org/papervision3d/core/render/AbstractRenderEngine.html#renderScene()">renderScene</a>(scene:<a href="org/papervision3d/core/proto/SceneObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:SceneObject3D</a>, camera:<a href="org/papervision3d/core/proto/CameraObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:CameraObject3D</a>, viewPort:<a href="org/papervision3d/view/Viewport3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/view./class-list.html');">org.papervision3d.view:Viewport3D</a>, updateAnimation) &mdash; Method in class org.papervision3d.core.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/class-list.html');" href="org/papervision3d/core/render/AbstractRenderEngine.html">AbstractRenderEngine</a></td>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/class-list.html');" href="org/papervision3d/core/render/AbstractRenderEngine.html#renderScene()">renderScene</a>(scene:<a href="org/papervision3d/core/proto/SceneObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:SceneObject3D</a>, camera:<a href="org/papervision3d/core/proto/CameraObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:CameraObject3D</a>, viewPort:<a href="org/papervision3d/view/Viewport3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/view./class-list.html');">org.papervision3d.view:Viewport3D</a>) &mdash; Method in class org.papervision3d.core.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/class-list.html');" href="org/papervision3d/core/render/AbstractRenderEngine.html">AbstractRenderEngine</a></td>
 </tr>
 <tr>
 <td width="20"></td><td></td>
 </tr>
 <tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/class-list.html');" href="org/papervision3d/core/render/IRenderEngine.html#renderScene()">renderScene</a>(scene:<a href="org/papervision3d/core/proto/SceneObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:SceneObject3D</a>, camera:<a href="org/papervision3d/core/proto/CameraObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:CameraObject3D</a>, viewPort:<a href="org/papervision3d/view/Viewport3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/view./class-list.html');">org.papervision3d.view:Viewport3D</a>, updateAnimation) &mdash; Method in interface org.papervision3d.core.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/class-list.html');" href="org/papervision3d/core/render/IRenderEngine.html">IRenderEngine</a></td>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/class-list.html');" href="org/papervision3d/core/render/IRenderEngine.html#renderScene()">renderScene</a>(scene:<a href="org/papervision3d/core/proto/SceneObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:SceneObject3D</a>, camera:<a href="org/papervision3d/core/proto/CameraObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:CameraObject3D</a>, viewPort:<a href="org/papervision3d/view/Viewport3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/view./class-list.html');">org.papervision3d.view:Viewport3D</a>) &mdash; Method in interface org.papervision3d.core.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/class-list.html');" href="org/papervision3d/core/render/IRenderEngine.html">IRenderEngine</a></td>
 </tr>
 <tr>
 <td width="20"></td><td></td>
 </tr>
 <tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#renderScene()">renderScene</a>(scene:<a href="org/papervision3d/core/proto/SceneObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:SceneObject3D</a>, camera:<a href="org/papervision3d/core/proto/CameraObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:CameraObject3D</a>, viewPort:<a href="org/papervision3d/view/Viewport3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/view./class-list.html');">org.papervision3d.view:Viewport3D</a>, updateAnimation) &mdash; Method in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
+<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#renderScene()">renderScene</a>(scene:<a href="org/papervision3d/core/proto/SceneObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:SceneObject3D</a>, camera:<a href="org/papervision3d/core/proto/CameraObject3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/core/proto./class-list.html');">org.papervision3d.core.proto:CameraObject3D</a>, viewPort:<a href="org/papervision3d/view/Viewport3D.html" onclick="javascript:loadClassListFrame('org/papervision3d/view./class-list.html');">org.papervision3d.view:Viewport3D</a>) &mdash; Method in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
 </tr>
 <tr>
-<td width="20"></td><td></td>
+<td width="20"></td><td>
+   Takes the data from the scene, camera, and viewport, renders it, then updates the viewport
+   
+   </td>
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/events/class-list.html');" href="org/papervision3d/events/RendererEvent.html#renderSessionData">renderSessionData</a> &mdash; Property in class org.papervision3d.events.<a onclick="javascript:loadClassListFrame('org/papervision3d/events/class-list.html');" href="org/papervision3d/events/RendererEvent.html">RendererEvent</a></td>
-</tr>
-<tr>
-<td width="20"></td><td></td>
-</tr>
-<tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#renderSessionData">renderSessionData</a> &mdash; Property in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
 </tr>
 <tr>
 <td width="20"></td><td></td>
@@ -1336,12 +1329,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("RÂ
 </tr>
 <tr>
 <td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/data/class-list.html');" href="org/papervision3d/core/render/data/RenderSessionData.html#renderStatistics">renderStatistics</a> &mdash; Property in class org.papervision3d.core.render.data.<a onclick="javascript:loadClassListFrame('org/papervision3d/core/render/data/class-list.html');" href="org/papervision3d/core/render/data/RenderSessionData.html">RenderSessionData</a></td>
-</tr>
-<tr>
-<td width="20"></td><td></td>
-</tr>
-<tr>
-<td colspan="2" class="idxrow"><a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html#renderStatistics">renderStatistics</a> &mdash; Property in class org.papervision3d.render.<a onclick="javascript:loadClassListFrame('org/papervision3d/render/class-list.html');" href="org/papervision3d/render/BasicRenderEngine.html">BasicRenderEngine</a></td>
 </tr>
 <tr>
 <td width="20"></td><td></td>

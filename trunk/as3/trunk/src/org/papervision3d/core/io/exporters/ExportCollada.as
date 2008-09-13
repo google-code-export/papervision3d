@@ -424,7 +424,7 @@ package org.papervision3d.core.io.exporters
 			}
 			
 			for each(var child:DisplayObject3D in object.children)
-				 xml += exportImages(child, indent);
+				xml += exportImages(child, indent);
 				
 			return xml;
 		}

@@ -12,7 +12,7 @@ package org.papervision3d.core.render
 
 	public interface IRenderEngine
 	{
-		function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, updateAnimation:Boolean = true):RenderStatistics
+		function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D):RenderStatistics
 		function addToRenderList(renderCommand:IRenderListItem):int;
 		function removeFromRenderList(renderCommand:IRenderListItem):int;
 	}
