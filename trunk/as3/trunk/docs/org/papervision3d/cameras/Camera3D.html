@@ -45,8 +45,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 </table>
 <p></p>
-  Camera3D
-  <p>
   Camera3D is the basic camera used by Papervision3D.
   </p>
   
@@ -232,7 +230,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/CameraObject3D.html">CameraObject3D</a></td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#orthoScale">orthoScale</a> : Number<div class="summaryTableDescription">[write-only]</div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#orthoScale">orthoScale</a> : Number<div class="summaryTableDescription">[write-only]
+   Sets the orthographic scale of the camera
+   
+   </div>
 </td><td class="summaryTableOwnerCol">Camera3D</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -986,7 +987,10 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>orthoScale:Number</code>&nbsp;&nbsp;[write-only]<span class="label">Implementation</span>
+<code>orthoScale:Number</code>&nbsp;&nbsp;[write-only]<p>
+   Sets the orthographic scale of the camera
+   
+   </p><span class="label">Implementation</span>
 <br>
 <code>&nbsp;&nbsp;&nbsp;&nbsp;public function set orthoScale(value:Number):void</code>
 <br>
@@ -1120,7 +1124,11 @@ showHideInherited();
 <span class="label">Returns</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20"></td><td><code><a href="../core/math/Matrix3D.html">Matrix3D</a></code></td>
+<td width="20"></td><td><code><a href="../core/math/Matrix3D.html">Matrix3D</a></code> &mdash; 
+                        Matrix3D
+   
+                        
+                     </td>
 </tr>
 </table>
 </div>
@@ -1162,7 +1170,11 @@ showHideInherited();
 <span class="label">Returns</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20"></td><td><code><a href="../core/math/Matrix3D.html">Matrix3D</a></code></td>
+<td width="20"></td><td><code><a href="../core/math/Matrix3D.html">Matrix3D</a></code> &mdash; 
+                        Matrix3D
+   
+                        
+                     </td>
 </tr>
 </table>
 </div>
@@ -1220,13 +1232,15 @@ showHideInherited();
    </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">object</span>:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">object</span>:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a></code> &mdash;      The <code>DisplayObject3D</code> to be projected
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a></code></td>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a></code> &mdash;  The <code>RenderSessionData</code> holding the containing the camera properties
+   </td>
 </tr>
 </table>
 <p></p>

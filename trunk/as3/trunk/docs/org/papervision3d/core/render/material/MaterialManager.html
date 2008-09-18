@@ -54,7 +54,9 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#MaterialManager()">MaterialManager</a>()</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   MaterialManager singleton constructor
+   </div>
 </td><td class="summaryTableOwnerCol">MaterialManager</td>
 </tr>
 <tr class="">
@@ -62,35 +64,49 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="#getInstance()">getInstance</a>():<a href="../material/MaterialManager.html">MaterialManager</a>
 </div>
-<div class="summaryTableDescription">[static]</div>
+<div class="summaryTableDescription">[static]
+   Returns a singleton instance of the <code>MaterialManager</code>
+   </div>
 </td><td class="summaryTableOwnerCol">MaterialManager</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#registerMaterial()">registerMaterial</a>(material:<a href="../../proto/MaterialObject3D.html">MaterialObject3D</a>):void</div>
-<div class="summaryTableDescription">[static]</div>
+<div class="summaryTableDescription">[static]
+   Registers a material
+   </div>
 </td><td class="summaryTableOwnerCol">MaterialManager</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#unRegisterMaterial()">unRegisterMaterial</a>(material:<a href="../../proto/MaterialObject3D.html">MaterialObject3D</a>):void</div>
-<div class="summaryTableDescription">[static]</div>
+<div class="summaryTableDescription">[static]
+   Unregisters a material
+   </div>
 </td><td class="summaryTableOwnerCol">MaterialManager</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#updateMaterialsAfterRender()">updateMaterialsAfterRender</a>(renderSessionData:<a href="../data/RenderSessionData.html">RenderSessionData</a>):void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Allows for materials that animate or change (e.g., MovieMaterial) to 
+   be updated after the render
+   
+   </div>
 </td><td class="summaryTableOwnerCol">MaterialManager</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#updateMaterialsBeforeRender()">updateMaterialsBeforeRender</a>(renderSessionData:<a href="../data/RenderSessionData.html">RenderSessionData</a>):void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Allows for materials that animate or change (e.g., MovieMaterial) to 
+   be updated prior to the render
+   
+   </div>
 </td><td class="summaryTableOwnerCol">MaterialManager</td>
 </tr>
 </table>
@@ -109,8 +125,9 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function MaterialManager()</code>
-</div>
+<code>public function MaterialManager()</code><p>
+   MaterialManager singleton constructor
+   </p></div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
 <a name="getInstance()"></a>
@@ -120,8 +137,9 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function getInstance():<a href="../material/MaterialManager.html">MaterialManager</a></code>
-<p></p>
+<code>public static function getInstance():<a href="../material/MaterialManager.html">MaterialManager</a></code><p>
+   Returns a singleton instance of the <code>MaterialManager</code>
+   </p><p></p>
 <span class="label">Returns</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -136,7 +154,9 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function registerMaterial(material:<a href="../../proto/MaterialObject3D.html">MaterialObject3D</a>):void</code><span class="label">Parameters</span>
+<code>public static function registerMaterial(material:<a href="../../proto/MaterialObject3D.html">MaterialObject3D</a>):void</code><p>
+   Registers a material
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td width="20px"></td><td><code><span class="label">material</span>:<a href="../../proto/MaterialObject3D.html">MaterialObject3D</a></code></td>
@@ -150,7 +170,9 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function unRegisterMaterial(material:<a href="../../proto/MaterialObject3D.html">MaterialObject3D</a>):void</code><span class="label">Parameters</span>
+<code>public static function unRegisterMaterial(material:<a href="../../proto/MaterialObject3D.html">MaterialObject3D</a>):void</code><p>
+   Unregisters a material
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td width="20px"></td><td><code><span class="label">material</span>:<a href="../../proto/MaterialObject3D.html">MaterialObject3D</a></code></td>
@@ -164,10 +186,15 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function updateMaterialsAfterRender(renderSessionData:<a href="../data/RenderSessionData.html">RenderSessionData</a>):void</code><span class="label">Parameters</span>
+<code>public function updateMaterialsAfterRender(renderSessionData:<a href="../data/RenderSessionData.html">RenderSessionData</a>):void</code><p>
+   Allows for materials that animate or change (e.g., MovieMaterial) to 
+   be updated after the render
+   
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../data/RenderSessionData.html">RenderSessionData</a></code></td>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../data/RenderSessionData.html">RenderSessionData</a></code> &mdash;  the data used in updating the material
+   </td>
 </tr>
 </table>
 </div>
@@ -178,10 +205,15 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function updateMaterialsBeforeRender(renderSessionData:<a href="../data/RenderSessionData.html">RenderSessionData</a>):void</code><span class="label">Parameters</span>
+<code>public function updateMaterialsBeforeRender(renderSessionData:<a href="../data/RenderSessionData.html">RenderSessionData</a>):void</code><p>
+   Allows for materials that animate or change (e.g., MovieMaterial) to 
+   be updated prior to the render
+   
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../data/RenderSessionData.html">RenderSessionData</a></code></td>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../data/RenderSessionData.html">RenderSessionData</a></code> &mdash;  the data used in updating the material
+   </td>
 </tr>
 </table>
 </div>

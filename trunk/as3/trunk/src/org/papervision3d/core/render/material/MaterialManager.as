@@ -7,13 +7,19 @@ package org.papervision3d.core.render.material
 	
 	/**
 	 * @Author Ralph Hauwert
+	 * 
+	 * <code>MaterialManager</code> (used internally) is a singleton that tracks 
+	 * all materials. Each time a material is created, the <code>MaterialManager</code> 
+	 * registers the material for access in the render engine. 
 	 */
 	public class MaterialManager
 	{
 		private static var instance:MaterialManager;
 		private var materials:Dictionary;
 	
-		
+		/**
+		 * MaterialManager singleton constructor
+		 */
 		public function MaterialManager():void
 		{
 			if(instance){
@@ -22,22 +28,31 @@ package org.papervision3d.core.render.material
 			init();
 		}
 		
+		/** @private */
 		private function init():void
 		{
 			materials = new Dictionary(true);
 		}
 		
+		/** @private */
 		private function _registerMaterial(material:MaterialObject3D):void
 		{
 			materials[material] = material;
 		
 		}
 		
+		/** @private */
 		private function _unRegisterMaterial(material:MaterialObject3D):void
 		{
 			delete materials[material];
 		}
 		
+		/**
+		 * Allows for materials that animate or change (e.g., MovieMaterial) to 
+		 * be updated prior to the render
+		 * 
+		 * @param renderSessionData		the data used in updating the material
+		 */
 		public function updateMaterialsBeforeRender(renderSessionData:RenderSessionData):void
 		{
 			var um:IUpdateBeforeMaterial;
@@ -50,6 +65,12 @@ package org.papervision3d.core.render.material
 			}
 		}
 		
+		/**
+		 * Allows for materials that animate or change (e.g., MovieMaterial) to 
+		 * be updated after the render
+		 * 
+		 * @param renderSessionData		the data used in updating the material
+		 */
 		public function updateMaterialsAfterRender(renderSessionData:RenderSessionData):void
 		{
 			var um:IUpdateAfterMaterial;
@@ -62,16 +83,25 @@ package org.papervision3d.core.render.material
 			}
 		}
 		
+		/**
+		 * Registers a material
+		 */
 		public static function registerMaterial(material:MaterialObject3D):void
 		{
 			getInstance()._registerMaterial(material);
 		}
 		
+		/**
+		 * Unregisters a material
+		 */
 		public static function unRegisterMaterial(material:MaterialObject3D):void
 		{
 			getInstance()._unRegisterMaterial(material);
 		}
 		
+		/**
+		 * Returns a singleton instance of the <code>MaterialManager</code>
+		 */
 		public static function getInstance():MaterialManager
 		{
 			if(!instance){
