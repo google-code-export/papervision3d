@@ -174,10 +174,7 @@
 		
 		
 		/**
-		 *	drawTriangle();
-		 *
 		 * Draws the triangle to screen.
-		 *
 		 */
 		public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
@@ -228,6 +225,10 @@
 			cloned.copy(this);
 			return cloned;
 		}
+		
+		/**
+		 * Registers the <code>DisplayObject3D</code>
+		 */
 		
 		public function registerObject(displayObject3D:DisplayObject3D):void
 		{

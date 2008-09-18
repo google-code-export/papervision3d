@@ -3,6 +3,9 @@ package org.papervision3d.core.utils
 	import flash.events.EventDispatcher;
 	import flash.utils.getTimer;
 
+	/**
+	 * StopWatch times how long certain actions (e.g., a render) take
+	 */
 	public class StopWatch extends EventDispatcher
 	{
 		private var startTime:int;
@@ -15,6 +18,9 @@ package org.papervision3d.core.utils
 			super();
 		}
 		
+		/**
+		 * Starts the timer
+		 */
 		public function start():void
 		{
 			if(!isRunning){
@@ -23,6 +29,9 @@ package org.papervision3d.core.utils
 			}
 		}
 		
+		/**
+		 * Stops the timer
+		 */
 		public function stop():int
 		{
 			if(isRunning){
@@ -35,6 +44,9 @@ package org.papervision3d.core.utils
 			}
 		}
 		
+		/**
+		 * Resets the timer
+		 */
 		public function reset():void
 		{
 			isRunning = false;

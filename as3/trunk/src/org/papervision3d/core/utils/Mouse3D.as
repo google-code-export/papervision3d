@@ -9,11 +9,17 @@ package org.papervision3d.core.utils
 	import org.papervision3d.core.render.data.RenderHitData;
 	import org.papervision3d.objects.DisplayObject3D;
 
-
+	/**
+	 * Mouse3D tracks the mouse's position in relation to 3d space
+	 */
 	public class Mouse3D extends DisplayObject3D
 	{
 		static private var UP 								:Number3D = new Number3D(0, 1, 0);
 		
+		/**
+		 * A boolean flag to enable or disable the mouse updating in the
+		 * <code>InteractiveSceneManager</code>
+		 */
 		static public var enabled							:Boolean = false;
 		
 		private var position:Number3D = new Number3D(0, 0, 0);
@@ -24,6 +30,11 @@ package org.papervision3d.core.utils
 			
 		}
 		
+		/**
+		 * updates the mouse position
+		 * 
+		 * @param rhd		the data used to update the mouse position
+		 */
 		public function updatePosition( rhd:RenderHitData ):void
 		{			
 			var face3d:Triangle3D = rhd.renderable as Triangle3D;

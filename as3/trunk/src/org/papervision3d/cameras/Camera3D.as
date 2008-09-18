@@ -11,8 +11,6 @@
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
-	 * Camera3D
-	 * <p>
 	 * Camera3D is the basic camera used by Papervision3D.
 	 * </p>
 	 * 
@@ -88,8 +86,8 @@
 		/**
 		 * Projects vertices.
 		 * 
-		 * @param	object
-		 * @param	renderSessionData
+		 * @param	object 					The <code>DisplayObject3D</code> to be projected
+		 * @param	renderSessionData		The <code>RenderSessionData</code> holding the containing the camera properties
 		 */ 
 		public override function projectVertices(object:DisplayObject3D, renderSessionData:RenderSessionData):Number
 		{
@@ -314,7 +312,7 @@
 		/**
 		 * Sets the distance to the far plane.
 		 * 
-		 * @param	value
+		 * @param	value	The distance to the far plane
 		 */ 
 		public override function set far(value:Number):void
 		{
@@ -328,7 +326,7 @@
 		/**
 		 * Sets the distance to the near plane (note that this is simply an alias for #focus).
 		 * 
-		 * @param	value
+		 * @param	value	The distance to the near plane
 		 */  
 		public override function set near(value:Number):void
 		{
@@ -338,6 +336,12 @@
 				this.update(this.viewport);
 			}
 		}
+		
+		/**
+		 * Sets the orthographic scale of the camera
+		 * 
+		 * @param value		The value of the orthographic scale
+		 */
 
 		public override function set orthoScale(value:Number):void
 		{
@@ -356,7 +360,7 @@
 		 * @param	top
 		 * @param	near
 		 * @param	far
-		 * @return
+		 * @return	Matrix3D
 		 */
 		public static function createOrthoMatrix( left:Number, right:Number, bottom:Number, top:Number, near:Number, far:Number):Matrix3D
 		{
@@ -383,7 +387,7 @@
 		 * @param	aspect
 		 * @param	near
 		 * @param	far
-		 * @return
+		 * @return	Matrix3D
 		 */
 		public static function createPerspectiveMatrix( fov:Number, aspect:Number, near:Number, far:Number ):Matrix3D
 		{
