@@ -1,176 +1,39 @@
 package org.papervision3d.render
 {
-	/**
-	 * @Author Ralph Hauwert
-	 */
-	import flash.geom.Point;
-	
-	import org.papervision3d.core.proto.CameraObject3D;
-	import org.papervision3d.core.proto.SceneObject3D;
-	import org.papervision3d.core.render.AbstractRenderEngine;
-	import org.papervision3d.core.render.IRenderEngine;
-	import org.papervision3d.core.render.command.IRenderListItem;
-	import org.papervision3d.core.render.command.RenderableListItem;
-	import org.papervision3d.core.render.data.RenderHitData;
+	/* Author Rick Seeler
+	*/
+	import org.papervision3d.render.BasicRenderEngine;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.data.RenderStatistics;
-	import org.papervision3d.core.render.filter.BasicRenderFilter;
-	import org.papervision3d.core.render.filter.IRenderFilter;
-	import org.papervision3d.core.render.material.MaterialManager;
-	import org.papervision3d.core.render.project.BasicProjectionPipeline;
-	import org.papervision3d.core.render.project.ProjectionPipeline;
-	import org.papervision3d.core.render.sort.BasicRenderSorter;
-	import org.papervision3d.core.render.sort.IRenderSorter;
-	import org.papervision3d.core.utils.StopWatch;
-	import org.papervision3d.events.RendererEvent;
+	import org.papervision3d.core.render.command.RenderTriangle;
+	import flash.display.Sprite;
+	import org.papervision3d.core.render.command.RenderableListItem;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.view.Viewport3D;
 	import org.papervision3d.view.layer.ViewportLayer;
-	import org.papervision3d.core.render.command.RenderFog;
-
-	import org.papervision3d.core.render.command.RenderTriangle;
-	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import flash.display.Graphics;
-	import flash.display.Sprite;
+	import org.papervision3d.core.render.material.MaterialManager;
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.Graphics;
+	import org.papervision3d.materials.ColorMaterial;
+	import org.papervision3d.materials.BitmapMaterial;
+	import flash.geom.Matrix;
+	import flash.display.GraphicsBitmapFill;
+	import flash.display.GraphicsEndFill;
+	import flash.display.GraphicsSolidFill;
+	import flash.display.GraphicsTrianglePath;
+	import flash.display.TriangleCulling;
+	import flash.display.IGraphicsData;
 	import __AS3__.vec.Vector;
 
-	public class AstroRenderEngine extends AbstractRenderEngine implements IRenderEngine
+	public class RenderEngine extends BasicRenderEngine
 	{
-		
-		public var projectionPipeline:ProjectionPipeline;
-		
-		public var sorter:IRenderSorter;
-		public var filter:IRenderFilter;
-		
-		protected var renderDoneEvent:RendererEvent;
-		protected var projectionDoneEvent:RendererEvent;
-		
-		protected var renderStatistics:RenderStatistics;
-		protected var renderList:Array;
-		protected var renderSessionData:RenderSessionData;
-		protected var cleanRHD:RenderHitData = new RenderHitData();
-		protected var stopWatch:StopWatch;
-		
-		private var canvas:Sprite;
-
-		public function AstroRenderEngine( canvas:Sprite, bd:BitmapData ):void
+		public function RenderEngine()
 		{
-			this.canvas = canvas;
-			astroBd = bd;
-
-			init();			 
+			super();
 		}
 		
-		public function destroy():void
-		{
-			renderDoneEvent = null;
-			projectionDoneEvent = null;
-			projectionPipeline = null;
-			sorter = null;
-			filter = null;
-			renderStatistics = null;
-			renderList = null;
-			renderSessionData.destroy();
-			renderSessionData = null;
-			cleanRHD = null;
-			stopWatch = null;
-		}
-		
-		protected function init():void
-		{
-			renderStatistics = new RenderStatistics();
-			
-			projectionPipeline = new BasicProjectionPipeline();
-			
-			stopWatch = new StopWatch();
-				
-			sorter = new BasicRenderSorter();
-			filter = new BasicRenderFilter();
-			
-			renderList = new Array();
-			
-			renderSessionData = new RenderSessionData();
-			renderSessionData.renderer = this;
-			
-			projectionDoneEvent = new RendererEvent(RendererEvent.PROJECTION_DONE, renderSessionData);
-			renderDoneEvent = new RendererEvent(RendererEvent.RENDER_DONE, renderSessionData);
-		}
-		
-		override public function renderScene(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, updateAnimation:Boolean = true):RenderStatistics
-		{
-			//Update the renderSessionData object.
-			renderSessionData.scene = scene;
-			renderSessionData.camera = camera;
-			renderSessionData.viewPort = viewPort;
-			renderSessionData.container = viewPort.containerSprite;
-			renderSessionData.triangleCuller = viewPort.triangleCuller;
-			renderSessionData.particleCuller = viewPort.particleCuller;
-			renderSessionData.renderObjects = scene.objects;
-			renderSessionData.renderLayers = null;
-			renderSessionData.renderStatistics.clear();
-			
-			//Clear the viewport.
-			viewPort.updateBeforeRender(renderSessionData);
-			
-			//Project the Scene (this will fill up the renderlist).
-			projectionPipeline.project(renderSessionData);
-			if(hasEventListener(RendererEvent.PROJECTION_DONE)){
-				dispatchEvent(projectionDoneEvent);
-			}
-			
-			//Render the Scene.
-			doRender(renderSessionData, null);
-			if(hasEventListener(RendererEvent.RENDER_DONE)){
-				dispatchEvent(renderDoneEvent);
-			}
-			
-			return renderSessionData.renderStatistics;
-		}
-		
-		public function renderLayers(scene:SceneObject3D, camera:CameraObject3D, viewPort:Viewport3D, layers:Array = null, updateAnimation:Boolean = true):RenderStatistics
-		{
-			//Update the renderSessionData object.
-			renderSessionData.scene = scene;
-			renderSessionData.camera = camera;
-			renderSessionData.viewPort = viewPort;
-			renderSessionData.container = viewPort.containerSprite;
-			renderSessionData.triangleCuller = viewPort.triangleCuller;
-			renderSessionData.particleCuller = viewPort.particleCuller;
-			renderSessionData.renderObjects = getLayerObjects(layers);
-			renderSessionData.renderLayers = layers;
-			renderSessionData.renderStatistics.clear();
-					
-			//Clear the viewport.
-		
-			viewPort.updateBeforeRender(renderSessionData);
-			
-			//Project the Scene (this will fill up the renderlist).
-			projectionPipeline.project(renderSessionData);
-			if(hasEventListener(RendererEvent.PROJECTION_DONE)){
-				dispatchEvent(projectionDoneEvent);
-			}
-			
-			//Render the Scene.
-			doRender(renderSessionData);
-			if(hasEventListener(RendererEvent.RENDER_DONE)){
-				dispatchEvent(renderDoneEvent);
-			}
-			
-			return renderSessionData.renderStatistics;
-		}
-		
-		private function getLayerObjects(layers:Array):Array{
-			var array:Array = new Array();
-			
-			for each (var vpl:ViewportLayer in layers){
-				array = array.concat(vpl.getLayerObjects());
-			}
-			return array;
-		}
-		
-		
-	
-		protected function doRender(renderSessionData:RenderSessionData, layers:Array = null):RenderStatistics
+		override protected function doRender(renderSessionData:RenderSessionData, layers:Array = null):RenderStatistics
 		{
 			stopWatch.reset();
 			stopWatch.start();
@@ -188,21 +51,32 @@ package org.papervision3d.render
 			var viewport:Viewport3D = renderSessionData.viewPort;
 			var vpl:ViewportLayer;
 
-			initAstroTriangles();
+			var g:Graphics = renderSessionData.container.graphics;
+			g.clear();
+			var prevColor:Number = NaN;
+			var prevAlpha:Number = NaN;
+			var prevBitmap:BitmapData = null;
+			var graphicsData:Vector.<IGraphicsData> = new Vector.<IGraphicsData>();
+			var vertices:Vector.<Number> = new Vector.<Number>();
+			var uvtData:Vector.<Number> = new Vector.<Number>();
+			var indicies:Vector.<int> = new Vector.<int>();
 
 			while(rc = renderList.pop())
-			{
-				
+			{				
 				vpl = viewport.accessLayerFor(rc, true);
-				
-				if( rc is RenderTriangle )
-					processAstroTriangle( rc as RenderTriangle );
+				var rt:RenderTriangle = rc as RenderTriangle;
+
+				if (rt)
+					renderTriangle(rt.triangle);
+				else
+					rc.render(renderSessionData, vpl.graphicsChannel);
 
 				viewport.lastRenderList.push(rc);
 				vpl.processRenderItem(rc);
 			}
 
-			drawAstroTriangles();
+			closeOutTriangles();
+			g.drawGraphicsData(graphicsData);
 
 			//Update Materials
 			MaterialManager.getInstance().updateMaterialsAfterRender(renderSessionData);
@@ -210,75 +84,111 @@ package org.papervision3d.render
 			renderSessionData.renderStatistics.renderTime = stopWatch.stop();
 			renderSessionData.viewPort.updateAfterRender(renderSessionData);
 			return renderStatistics;
-		}
-		
-		public function hitTestPoint2D(point:Point, viewPort3D:Viewport3D):RenderHitData
-		{
-			return viewPort3D.hitTestPoint2D(point);
-		}
-		
-		override public function addToRenderList(renderCommand:IRenderListItem):int
-		{
-			return renderList.push(renderCommand);
-		}
-		
-		override public function removeFromRenderList(renderCommand:IRenderListItem):int
-		{
-			return renderList.splice(renderList.indexOf(renderCommand),1);
-		}
 
-		// _______________________________________________________________________________________ Astro
-
-		private function initAstroTriangles():void
-		{
-			vertices = new Vector.<Number>();
-			uvData = new Vector.<Number>();
-		}
-
-		private function drawAstroTriangles():void
-		{
-			var g:Graphics = canvas.graphics;
-			g.clear();
-			g.beginBitmapFill( astroBd );
-			g.drawTriangles( vertices, null, uvData );		
-		}
-
-		private function processAstroTriangle( rc:RenderTriangle ):void
-		{
-			var face3d:Triangle3D = rc.triangle;
-
-			vertices.push( face3d.v0.vertex3DInstance.x );
-			vertices.push( face3d.v0.vertex3DInstance.y );
-			vertices.push( face3d.v1.vertex3DInstance.x );
-			vertices.push( face3d.v1.vertex3DInstance.y );
-			vertices.push( face3d.v2.vertex3DInstance.x );
-			vertices.push( face3d.v2.vertex3DInstance.y );
-
-			if( face3d.uv0 )
+			function renderTriangle(tri:Triangle3D):void 			
 			{
-				uvData.push( face3d.uv0.u );
-				uvData.push( 1-face3d.uv0.v );
-				uvData.push( face3d.uv1.u );
-				uvData.push( 1-face3d.uv1.v );
-				uvData.push( face3d.uv2.u );
-				uvData.push( 1-face3d.uv2.v );
-			}
-			else
-			{
-				uvData.push( 0 );
-				uvData.push( 0 );
-				uvData.push( 0 );
-				uvData.push( 0 );
-				uvData.push( 0 );
-				uvData.push( 0 );
+				renderSessionData.renderStatistics.triangles++;
+				if (tri.material.bitmap)
+				{
+					if (tri.material.bitmap != prevBitmap)
+					{
+						//Setup for new Bitmap material...
+						closeOutTriangles();
+						prevBitmap = tri.material.bitmap;
+						prevColor = NaN;
+						prevAlpha = NaN;
+						graphicsData.push(new GraphicsBitmapFill(prevBitmap, null, tri.material.tiled, tri.material.smooth));
+					}
+				}
+				else if (tri.material.fillAlpha)
+				{
+					if (tri.material.fillAlpha != prevAlpha || tri.material.fillColor != prevColor)
+					{
+						//Handle solid color materials...
+						closeOutTriangles();
+						prevBitmap = null;
+						prevColor = tri.material.fillColor;
+						prevAlpha = tri.material.fillAlpha;
+						graphicsData.push(new GraphicsSolidFill(prevColor, prevAlpha));
+					}
+				}
+				else
+				{	//Not supported.
+					closeOutTriangles();
+					//This type of material is not handled...
+					return;
+				}
+				//TODO:  Handle line graphics by checking to see if tri.material.lineAlpha is non-zero.
+				
+				var useUVT:Boolean = true;
+				if (!prevBitmap || !tri.uv0)
+					useUVT = false;
+				addVertex(tri.v0.vertex3DInstance.x, tri.v0.vertex3DInstance.y, tri.material.maxU, tri.material.maxV, (useUVT ? tri.uv0.u : NaN), (useUVT ? (1 - tri.uv0.v) : NaN), (useUVT ? tri.v0.vertex3DInstance.z : NaN));
+				addVertex(tri.v1.vertex3DInstance.x, tri.v1.vertex3DInstance.y, tri.material.maxU, tri.material.maxV, (useUVT ? tri.uv1.u : NaN), (useUVT ? (1 - tri.uv1.v) : NaN), (useUVT ? tri.v1.vertex3DInstance.z : NaN));
+				addVertex(tri.v2.vertex3DInstance.x, tri.v2.vertex3DInstance.y, tri.material.maxU, tri.material.maxV, (useUVT ? tri.uv2.u : NaN), (useUVT ? (1 - tri.uv2.v) : NaN), (useUVT ? tri.v2.vertex3DInstance.z : NaN));				
 			}
 			
-			if( face3d.material.bitmap )
-				astroBd = face3d.material.bitmap;
-		}
+			function closeOutTriangles():void
+			{
+				if (vertices.length)
+				{
+					//Close out the previous triangles...
+					graphicsData.push(new GraphicsTrianglePath(vertices, indicies, (uvtData.length ? uvtData : null), TriangleCulling.POSITIVE));
+					vertices = new Vector.<Number>();
+					uvtData = new Vector.<Number>();
+					indicies = new Vector.<int>();
+				}
+			}
+			
+			function addVertex(x:Number, y:Number, maxU:Number, maxV:Number, u:Number, v:Number, screenZ:Number):void
+			{
+				var foundIndex:int = -1;
+				var t:Number = NaN;
+				//Calculate the 't' value...
+				if (!isNaN(screenZ))
+					t = renderSessionData.camera.focus / (renderSessionData.camera.focus + screenZ);
+				//Update the U and V values based on the maxU and maxV...
+				if (!isNaN(u))
+					u = u * maxU;
+				if (!isNaN(v))
+					v = v * maxV;
+					
+				//See if this vertex is already in the vertices array...
+				for (var index:int = 0; index < (vertices.length / 2); index++)
+				{
+					if (x == vertices[index * 2] &&
+						y == vertices[index * 2 + 1])
+					{
+						if ((isNaN(u) || u == uvtData[index * 3]) &&
+							(isNaN(v) || v == uvtData[index * 3 + 1]) &&
+							(isNaN(t) || t == uvtData[index * 3 + 2]))
+						{
+							foundIndex = index;
+							break;
+						}
+					}		
+				}
 
-		private var vertices:Vector.<Number>;
-		private var uvData:Vector.<Number>;
-		private var astroBd:BitmapData;
+				if (foundIndex != -1)
+				{
+					//Is it, so just add an index to it...
+					indicies.push(foundIndex);
+				}					
+				else
+				{
+					//Nope, not there...add a new vertex and uvt elements...
+					indicies.push(vertices.length / 2);
+					vertices.push(x);
+					vertices.push(y);
+					if (!isNaN(u) && !isNaN(v))
+					{
+						uvtData.push(u);
+						uvtData.push(v);
+						if (!isNaN(t))
+							uvtData.push(t);
+					}
+				}
+			}
+		}
 	}
 }
