@@ -26,9 +26,9 @@ package org.papervision3d.render
 	import flash.display.IGraphicsData;
 	import __AS3__.vec.Vector;
 
-	public class RenderEngine extends BasicRenderEngine
+	public class AstroRenderEngine extends BasicRenderEngine
 	{
-		public function RenderEngine()
+		public function AstroRenderEngine()
 		{
 			super();
 		}
