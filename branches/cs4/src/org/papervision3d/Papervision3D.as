@@ -35,12 +35,12 @@
 		/**
 		* Enables version to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var VERSION  :String = 'Public Alpha 2.0 - Great White';
+		static public var VERSION  :String = 'Public Alpha 3.0 - PapervisionX';
 	
 		/**
 		* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		static public var DATE     :String = '24.03.08';
+		static public var DATE     :String = '18.09.08';
 	
 		/**
 		* Enables copyright information to be retrieved at runtime or when reviewing a decompiled swf.
