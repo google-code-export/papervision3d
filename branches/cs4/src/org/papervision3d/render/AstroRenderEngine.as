@@ -25,6 +25,10 @@ package org.papervision3d.render
 	import flash.display.TriangleCulling;
 	import flash.display.IGraphicsData;
 	import __AS3__.vec.Vector;
+	import flash.display.GraphicsStroke;
+	import flash.display.LineScaleMode;
+	import flash.display.CapsStyle;
+	import flash.display.JointStyle;
 
 	public class AstroRenderEngine extends BasicRenderEngine
 	{
@@ -100,7 +104,7 @@ package org.papervision3d.render
 						graphicsData.push(new GraphicsBitmapFill(prevBitmap, null, tri.material.tiled, tri.material.smooth));
 					}
 				}
-				else if (tri.material.fillAlpha)
+				else
 				{
 					if (tri.material.fillAlpha != prevAlpha || tri.material.fillColor != prevColor)
 					{
@@ -112,13 +116,9 @@ package org.papervision3d.render
 						graphicsData.push(new GraphicsSolidFill(prevColor, prevAlpha));
 					}
 				}
-				else
-				{	//Not supported.
-					closeOutTriangles();
-					//This type of material is not handled...
-					return;
-				}
-				//TODO:  Handle line graphics by checking to see if tri.material.lineAlpha is non-zero.
+				//Handle line graphics...
+				if (tri.material.lineAlpha)
+					graphicsData.push(new GraphicsStroke(tri.material.lineThickness, false, LineScaleMode.NORMAL, CapsStyle.NONE, JointStyle.ROUND, 3.0, new GraphicsSolidFill(tri.material.lineColor, tri.material.lineAlpha)));
 				
 				var useUVT:Boolean = true;
 				if (!prevBitmap || !tri.uv0)
