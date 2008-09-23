@@ -104,12 +104,12 @@
 		 */
 		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
-			if(!_precise){
+			_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
+			if(!_precise || !_triMap){
 				if( lineAlpha )
 					graphics.lineStyle( lineThickness, lineColor, lineAlpha );
 				if( bitmap )
 				{
-					_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
 					
 					x0 = face3D.v0.vertex3DInstance.x;
 					y0 = face3D.v0.vertex3DInstance.y;
@@ -146,7 +146,6 @@
 				renderSessionData.renderStatistics.triangles++;
 			}else{
 				if(bitmap){
-					_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
 					focus = renderSessionData.camera.focus;
 					tempPreBmp = altBitmap ? altBitmap : bitmap;
 					tempPreRSD = renderSessionData;
