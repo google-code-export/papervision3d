@@ -107,7 +107,20 @@ package org.papervision3d.core.geom {
 					vertex1 = face.v1.vertex3DInstance;
 					vertex2 = face.v2.vertex3DInstance;
 					if((iFace.visible = triCuller.testFace(face, vertex0, vertex1, vertex2))){
-						screenZs += iFace.screenZ = (vertex0.z + vertex1.z + vertex2.z)/3;
+						switch(meshSort)
+						{
+							case DisplayObject3D.MESH_SORT_CENTER:
+								screenZs += iFace.screenZ = (vertex0.z + vertex1.z + vertex2.z)/3;
+								break;
+							
+							case DisplayObject3D.MESH_SORT_FAR:
+								screenZs += iFace.screenZ = Math.max(vertex0.z,vertex1.z,vertex2.z);
+								break;
+								
+							case DisplayObject3D.MESH_SORT_CLOSE:
+								screenZs += iFace.screenZ = Math.min(vertex0.z,vertex1.z,vertex2.z);
+								break;
+						}
 						rc = face.renderCommand;
 						visibleFaces++;
 						rc.renderer = mat as ITriangleDrawer;
