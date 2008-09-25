@@ -64,6 +64,8 @@ package org.papervision3d.render
 			var vertices:Vector.<Number> = new Vector.<Number>();
 			var uvtData:Vector.<Number> = new Vector.<Number>();
 			var indicies:Vector.<int> = new Vector.<int>();
+			var useUV:Boolean = false;
+			var useT:Boolean = false;
 
 			while(rc = renderList.pop())
 			{				
@@ -120,12 +122,15 @@ package org.papervision3d.render
 				if (tri.material.lineAlpha)
 					graphicsData.push(new GraphicsStroke(tri.material.lineThickness, false, LineScaleMode.NORMAL, CapsStyle.NONE, JointStyle.ROUND, 3.0, new GraphicsSolidFill(tri.material.lineColor, tri.material.lineAlpha)));
 				
-				var useUVT:Boolean = true;
-				if (!prevBitmap || !tri.uv0)
-					useUVT = false;
-				addVertex(tri.v0.vertex3DInstance.x, tri.v0.vertex3DInstance.y, tri.material.maxU, tri.material.maxV, (useUVT ? tri.uv0.u : NaN), (useUVT ? (1 - tri.uv0.v) : NaN), (useUVT ? tri.v0.vertex3DInstance.z : NaN));
-				addVertex(tri.v1.vertex3DInstance.x, tri.v1.vertex3DInstance.y, tri.material.maxU, tri.material.maxV, (useUVT ? tri.uv1.u : NaN), (useUVT ? (1 - tri.uv1.v) : NaN), (useUVT ? tri.v1.vertex3DInstance.z : NaN));
-				addVertex(tri.v2.vertex3DInstance.x, tri.v2.vertex3DInstance.y, tri.material.maxU, tri.material.maxV, (useUVT ? tri.uv2.u : NaN), (useUVT ? (1 - tri.uv2.v) : NaN), (useUVT ? tri.v2.vertex3DInstance.z : NaN));				
+				if (prevBitmap && tri.uv0)
+				{
+					useUV = true;
+					if (tri.material is BitmapMaterial)
+						useT = (tri.material as BitmapMaterial).precise;
+				}
+				addVertex(tri.v0.vertex3DInstance.x, tri.v0.vertex3DInstance.y, tri.material.maxU, tri.material.maxV, (useUV ? tri.uv0.u : NaN), (useUV ? (1 - tri.uv0.v) : NaN), (useT ? tri.v0.vertex3DInstance.z : NaN));
+				addVertex(tri.v1.vertex3DInstance.x, tri.v1.vertex3DInstance.y, tri.material.maxU, tri.material.maxV, (useUV ? tri.uv1.u : NaN), (useUV ? (1 - tri.uv1.v) : NaN), (useT ? tri.v1.vertex3DInstance.z : NaN));
+				addVertex(tri.v2.vertex3DInstance.x, tri.v2.vertex3DInstance.y, tri.material.maxU, tri.material.maxV, (useUV ? tri.uv2.u : NaN), (useUV ? (1 - tri.uv2.v) : NaN), (useT ? tri.v2.vertex3DInstance.z : NaN));				
 			}
 			
 			function closeOutTriangles():void
@@ -137,6 +142,8 @@ package org.papervision3d.render
 					vertices = new Vector.<Number>();
 					uvtData = new Vector.<Number>();
 					indicies = new Vector.<int>();
+					useUV = false;
+					useT = false;
 				}
 			}
 			
@@ -147,21 +154,26 @@ package org.papervision3d.render
 				//Calculate the 't' value...
 				if (!isNaN(screenZ))
 					t = renderSessionData.camera.focus / (renderSessionData.camera.focus + screenZ);
+				var uvtElementsPerNode:int = (!isNaN(u) ? (!isNaN(t) ? 3 : 2) : 0);
+
 				//Update the U and V values based on the maxU and maxV...
-				if (!isNaN(u))
+				if (uvtElementsPerNode)
+				{
 					u = u * maxU;
-				if (!isNaN(v))
 					v = v * maxV;
+				}
 					
 				//See if this vertex is already in the vertices array...
-				for (var index:int = 0; index < (vertices.length / 2); index++)
+				//we walk through the array backward since we are most likely to get a hit near the end of the list...
+				for (var index:int = (vertices.length / 2 - 1); index >= 0 ; index--)
 				{
 					if (x == vertices[index * 2] &&
 						y == vertices[index * 2 + 1])
 					{
-						if ((isNaN(u) || u == uvtData[index * 3]) &&
-							(isNaN(v) || v == uvtData[index * 3 + 1]) &&
-							(isNaN(t) || t == uvtData[index * 3 + 2]))
+						if (uvtElementsPerNode && ((u != uvtData[index * uvtElementsPerNode]) || (v != uvtData[index * uvtElementsPerNode + 1])))
+							continue;
+							
+						if (!useT || (t == uvtData[index * uvtElementsPerNode + 2]))
 						{
 							foundIndex = index;
 							break;
@@ -180,7 +192,7 @@ package org.papervision3d.render
 					indicies.push(vertices.length / 2);
 					vertices.push(x);
 					vertices.push(y);
-					if (!isNaN(u) && !isNaN(v))
+					if (uvtElementsPerNode)
 					{
 						uvtData.push(u);
 						uvtData.push(v);
