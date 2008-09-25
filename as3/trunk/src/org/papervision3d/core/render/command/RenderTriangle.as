@@ -56,7 +56,7 @@
 			renderMat = triangle.material;
 			if( !renderMat ) renderMat = triangle.instance.material;
 			
-			if(renderMat.interactive){
+			if(renderMat && renderMat.interactive){
 				vPointL = RenderTriangle.vPoint;
 				vPointL.x = point.x;
 				vPointL.y = point.y;
