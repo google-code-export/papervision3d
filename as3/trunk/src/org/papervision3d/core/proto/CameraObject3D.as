@@ -160,8 +160,12 @@ package org.papervision3d.core.proto
 		 * @param	object
 		 * @param	renderSessionData
 		 */ 
-		public function projectVertices(object:DisplayObject3D, renderSessionData:RenderSessionData):Number
+		public function projectVertices(vertices:Array, object:DisplayObject3D, renderSessionData:RenderSessionData):Number
 		{	
+			return 0;
+		}
+		
+		public function projectFaces(faces:Array, object:DisplayObject3D, renderSessionData:RenderSessionData):Number{
 			return 0;
 		}
 		

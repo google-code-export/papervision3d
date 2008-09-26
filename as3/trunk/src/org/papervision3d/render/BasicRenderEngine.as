@@ -4,6 +4,9 @@ package org.papervision3d.render
 	/**
 	 * @Author Ralph Hauwert
 	 */
+	import flash.geom.Point;
+	
+	import org.papervision3d.core.clipping.DefaultClipping;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.AbstractRenderEngine;
@@ -24,8 +27,6 @@ package org.papervision3d.render
 	import org.papervision3d.events.RendererEvent;
 	import org.papervision3d.view.Viewport3D;
 	import org.papervision3d.view.layer.ViewportLayer;
-	
-	import flash.geom.Point;
 	
 	/**
 	 * <code>BasicRenderEngine</code> links <code>Viewport3D</code>s, 
@@ -49,6 +50,9 @@ package org.papervision3d.render
 		 * @see org.papervision3d.core.render.sort.BasicRenderSorter
 		 */
 		public var sorter:IRenderSorter;
+		
+		public var clipping:DefaultClipping;
+		
 		/**
 		 * A filter (such as FogFilter) to be used in the renderList. Defaults to 
 		 * <code>BasicRenderFilter</code>
@@ -72,6 +76,8 @@ package org.papervision3d.render
 		/** @private */
 		protected var stopWatch:StopWatch;
 		
+		
+	
 		/**
 		 * Creates and prepares all the objects and events needed for rendering
 		 */
@@ -96,6 +102,7 @@ package org.papervision3d.render
 			renderSessionData = null;
 			cleanRHD = null;
 			stopWatch = null;
+			clipping = null;
 		}
 		/** @private */
 		protected function init():void
@@ -110,6 +117,7 @@ package org.papervision3d.render
 			filter = new BasicRenderFilter();
 			
 			renderList = new Array();
+			clipping = new DefaultClipping();
 			
 			renderSessionData = new RenderSessionData();
 			renderSessionData.renderer = this;
@@ -142,6 +150,10 @@ package org.papervision3d.render
 			renderSessionData.renderObjects = scene.objects;
 			renderSessionData.renderLayers = null;
 			renderSessionData.renderStatistics.clear();
+			renderSessionData.clipping = clipping;
+			
+			if(clipping)
+				clipping.reset(renderSessionData);
 			
 			//Clear the viewport.
 			viewPort.updateBeforeRender(renderSessionData);
@@ -186,6 +198,7 @@ package org.papervision3d.render
 			renderSessionData.renderObjects = getLayerObjects(layers);
 			renderSessionData.renderLayers = layers;
 			renderSessionData.renderStatistics.clear();
+			renderSessionData.clipping = clipping;
 
 			//Clear the viewport.
 		

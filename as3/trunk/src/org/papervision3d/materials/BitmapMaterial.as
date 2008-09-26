@@ -207,7 +207,7 @@
 				}
 				m.invert();
 				
-				var mapping:Matrix = uvMatrices[face3D] ? uvMatrices[face3D] : uvMatrices[face3D] = m.clone();
+				var mapping:Matrix = uvMatrices[face3D] = m.clone();
 				mapping.a  = m.a;
 				mapping.b  = m.b;
 				mapping.c  = m.c;

@@ -53,7 +53,7 @@ package org.papervision3d.core.math.util
 							return clipTriangleWithPlane(tri, plane, e);
 						}
 						
-						tri.instance.geometry.vertices.push(isect.vert);
+						//tri.instance.geometry.vertices.push(isect.vert);
 						
 						out.push(isect.vert);
 						outuv.push(InterpolationUtil.interpolateUV(suv, puv, isect.alpha));
@@ -72,7 +72,7 @@ package org.papervision3d.core.math.util
 						return clipTriangleWithPlane(tri, plane, e);
 					}
 					
-					tri.instance.geometry.vertices.push(isect.vert);
+					//tri.instance.geometry.vertices.push(isect.vert);
 							
 					out.push(isect.vert); 
 					outuv.push(InterpolationUtil.interpolateUV(puv, suv, isect.alpha));
@@ -90,6 +90,97 @@ package org.papervision3d.core.math.util
 			{
 				return [new Triangle3D(tri.instance, [out[0], out[1], out[2]], tri.material, [outuv[0], outuv[1], outuv[2]]),
 						new Triangle3D(tri.instance, [out[0], out[2], out[3]], tri.material, [outuv[0], outuv[2], outuv[3]])];
+			}
+			
+			return null;
+		}
+		
+		public static function clipTriangleWithPlaneTris(tri:Triangle3D, plane:Plane3D, e:Number=0.01, t1:Triangle3D=null, t2:Triangle3D=null, depth:Number=0):Array
+		{
+
+			if(depth > 70)
+				return [tri];
+
+			var points:Array = [tri.v0, tri.v1, tri.v2];
+			var uvs:Array = [tri.uv0, tri.uv1, tri.uv2];
+			var out:Array = new Array();
+			var outuv:Array = new Array();
+			var isect:Intersection;
+			var s:Vertex3D = points[points.length-1];
+			var p:Vertex3D;
+			var suv:NumberUV = uvs[points.length-1];
+			var puv:NumberUV;
+			var cp:uint;
+			var cs:uint;
+			for(var i:int = 0; i < points.length; i++)
+			{
+				p = points[i];	
+				puv = uvs[i];
+					
+				cp = ClassificationUtil.classifyPoint(p, plane, e);
+				cs = ClassificationUtil.classifyPoint(s, plane, e);
+				
+				if(cp == ClassificationUtil.FRONT)
+				{
+					if(cs == ClassificationUtil.FRONT)
+					{
+						// output p
+						out.push(p);
+						outuv.push(puv);
+					}	
+					else
+					{
+						// compute intersection	s, p, plane
+						isect = Intersection.linePlane(s, p, plane, e);
+						if( isect.status != Intersection.INTERSECTION )
+						{
+							plane.d -= 0.01;
+							return clipTriangleWithPlaneTris(tri, plane, e, t1, t2, depth+1);
+						}
+						
+						//tri.instance.geometry.vertices.push(isect.vert);
+						
+						out.push(isect.vert);
+						outuv.push(InterpolationUtil.interpolateUV(suv, puv, isect.alpha));
+					
+						// output p
+						out.push(p);
+						outuv.push(puv);
+					}
+				}
+				else if(cs == ClassificationUtil.FRONT)
+				{
+					isect = Intersection.linePlane(p, s, plane, e);
+					if( isect.status != Intersection.INTERSECTION )
+					{
+						plane.d -= 0.01;
+						return clipTriangleWithPlaneTris(tri, plane, e, t1, t2, depth+1);
+					}
+					
+					//tri.instance.geometry.vertices.push(isect.vert);
+							
+					out.push(isect.vert); 
+					outuv.push(InterpolationUtil.interpolateUV(puv, suv, isect.alpha));
+				}
+
+				s = p;
+				suv = puv;
+			}
+				
+			if(out.length == 3)
+			{
+				t1.reset(tri.instance, [out[0], out[1], out[2]], tri.material, [outuv[0], outuv[1], outuv[2]]);
+				return [t1];
+				
+			}
+			else if(out.length == 4)
+			{
+				
+				 t1.reset(tri.instance, [out[0], out[1], out[2]], tri.material, [outuv[0], outuv[1], outuv[2]]);
+				 t2.reset(tri.instance, [out[0], out[2], out[3]], tri.material, [outuv[0], outuv[2], outuv[3]]);
+				
+				return [t1,t2]; 
+				
 			}
 			
 			return null;

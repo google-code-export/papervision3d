@@ -69,6 +69,11 @@ package org.papervision3d.core.geom.renderables
 		public var extra :Object;
 		
 		/**
+		 * Used for removing duplicates in clipping procedures
+		 */
+		public var timestamp:Number;
+		
+		/**
 		 * Vertex2D instance 
 		 */
 		public var vertex3DInstance:Vertex3DInstance;

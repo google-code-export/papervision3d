@@ -42,6 +42,8 @@ package org.papervision3d.core.geom.renderables {
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderTriangle;
+	import org.papervision3d.materials.BitmapMaterial;
+	import org.papervision3d.materials.special.CompositeMaterial;
 	import org.papervision3d.objects.DisplayObject3D;	
 
 	/**
@@ -156,6 +158,37 @@ package org.papervision3d.core.geom.renderables {
 			this.id = _totalFaces++;
 		}
 		
+		public function reset(object:DisplayObject3D, vertices:Array, material:MaterialObject3D, uv:Array):void{
+			
+				this.instance = object;
+				this.face3DInstance.instance = object;
+				
+				this.vertices = vertices;
+				updateVertices();
+				//createNormal();
+				this.material = material;
+				this.uv = uv;
+				
+				if(material is BitmapMaterial){
+					
+					BitmapMaterial(material).uvMatrices[this] = null;
+					
+				}
+				
+				if(material is CompositeMaterial){
+					for each(var mat:MaterialObject3D in CompositeMaterial(material).materials){
+						
+						if(mat is BitmapMaterial){
+							
+							BitmapMaterial(mat).uvMatrices[this] = null;
+							
+						}
+					}
+				}
+				
+				
+		}
+		
 		public function createNormal():void
 		{
 			var vn0:Number3D = v0.getPosition();
@@ -182,14 +215,15 @@ package org.papervision3d.core.geom.renderables {
 		/**
 		* An array of {x,y} objects for the corresponding UV pixel coordinates of each triangle vertex.
 		*/
-		public function set uv(uv:Array):void
+		public function set uv(uvs:Array):void
 		{
-			if(uv && uv.length == 3){
-				uv0 = NumberUV(uv[0]);
-				uv1 = NumberUV(uv[1]);
-				uv2 = NumberUV(uv[2]);
+			if(uvs && uvs.length == 3){
+				
+				uv0 = NumberUV(uvs[0]);
+				uv1 = NumberUV(uvs[1]);
+				uv2 = NumberUV(uvs[2]);
 			}
-			_uvArray = uv;
+			_uvArray = uvs;
 		}
 		
 		public function get uv():Array
