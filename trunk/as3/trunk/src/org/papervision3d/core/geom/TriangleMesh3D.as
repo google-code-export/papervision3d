@@ -84,8 +84,34 @@ package org.papervision3d.core.geom {
 		public override function project( parent :DisplayObject3D, renderSessionData:RenderSessionData):Number
 		{
 			// Vertices
-			super.project(parent, renderSessionData);
+			//super.project(parent, renderSessionData);
+			
+			var ps:Array = [];
+				
+				if(renderSessionData.clipping && this.useClipping && !this.culled && (renderSessionData.camera.useCulling?cullTest==0:true)){
+					
+					super.projectEmpty(parent, renderSessionData);
+					renderSessionData.clipping.setDisplayObject(this, renderSessionData);
+					
+					for each(var f:Triangle3D in this.geometry.faces){
+						if(renderSessionData.clipping.testFace(f, this, renderSessionData)){
+							renderSessionData.clipping.clipFace(f, this, mat, renderSessionData, ps);
+						}else{
+							ps.push(f);
+						} 
+					}
+					
+					renderSessionData.camera.projectFaces(ps, this, renderSessionData);
+					
+				}else{
+					super.project(parent, renderSessionData);
+					ps = this.geometry.faces;
+				}
+			
+			
+			
 			if(!this.culled){
+				
 				// Faces
 				
 				var faces:Array  = this.geometry.faces, 
@@ -100,12 +126,15 @@ package org.papervision3d.core.geom {
 									mat:MaterialObject3D,
 									rc:RenderTriangle;
 				
-				for each(face in faces){
+				for each(face in ps){
+					
 					mat = face.material ? face.material : material;
 					iFace = face.face3DInstance;
 					vertex0 = face.v0.vertex3DInstance;
 					vertex1 = face.v1.vertex3DInstance;
 					vertex2 = face.v2.vertex3DInstance;
+					
+					//clip first, then cull, then ignore
 					if((iFace.visible = triCuller.testFace(face, vertex0, vertex1, vertex2))){
 						switch(meshSort)
 						{
@@ -126,9 +155,14 @@ package org.papervision3d.core.geom {
 						rc.renderer = mat as ITriangleDrawer;
 						rc.screenDepth = iFace.screenZ;
 						renderSessionData.renderer.addToRenderList(rc);
+						
 					}else{
-						renderSessionData.renderStatistics.culledTriangles++;
+						
+							renderSessionData.renderStatistics.culledTriangles++;
+						
 					}
+					
+					
 				}
 				return this.screenZ = screenZs / visibleFaces;
 			}else{

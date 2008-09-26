@@ -7,6 +7,7 @@ package org.papervision3d.core.render.data
 	 
 	import flash.display.Sprite;
 	
+	import org.papervision3d.core.clipping.DefaultClipping;
 	import org.papervision3d.core.culling.IParticleCuller;
 	import org.papervision3d.core.culling.ITriangleCuller;
 	import org.papervision3d.core.proto.CameraObject3D;
@@ -31,6 +32,7 @@ package org.papervision3d.core.render.data
 		public var renderStatistics:RenderStatistics;
 		public var renderObjects:Array;
 		public var renderLayers:Array;
+		public var clipping:DefaultClipping;
 		
 		public function RenderSessionData():void
 		{
@@ -49,6 +51,7 @@ package org.papervision3d.core.render.data
 			renderStatistics = null;
 			renderObjects = null;
 			renderLayers = null;
+			clipping = null;
 		}
 		
 		public function clone():RenderSessionData
@@ -62,6 +65,7 @@ package org.papervision3d.core.render.data
 			c.camera = camera;
 			c.renderer = renderer;
 			c.renderStatistics = renderStatistics.clone();
+			c.clipping = clipping;
 			return c;
 		}
 		
