@@ -98,7 +98,7 @@ package org.papervision3d.core.math.util
 		public static function clipTriangleWithPlaneTris(tri:Triangle3D, plane:Plane3D, e:Number=0.01, t1:Triangle3D=null, t2:Triangle3D=null, depth:Number=0):Array
 		{
 
-			if(depth > 70)
+			if(depth > 120)
 				return [tri];
 
 			var points:Array = [tri.v0, tri.v1, tri.v2];
