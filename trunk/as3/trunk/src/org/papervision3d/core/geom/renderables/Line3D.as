@@ -1,14 +1,21 @@
 package org.papervision3d.core.geom.renderables
 {
 	
-	/**
-	 * @Author Ralph Hauwert
-	 */
+	
 	 
 	import org.papervision3d.core.geom.Lines3D;
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderLine;
 	import org.papervision3d.materials.special.LineMaterial;
+
+	/**
+	 * 
+	 * Line3D is used by Lines3D to store and render the lines. See Lines3D for a full explanation. 
+	 * 
+	 * @Author Ralph Hauwert
+	 * @Author Andy Zupko
+	 * @Author Seb Lee-Delisle
+  	 */
 
 	public class Line3D extends AbstractRenderable implements IRenderable
 	{
@@ -19,7 +26,15 @@ package org.papervision3d.core.geom.renderables
 		public var material:LineMaterial;
 		public var renderCommand:RenderLine;
 		public var size:Number;
-				
+		/**
+		 * 
+		 * @param instance		The containing Lines3D object
+		 * @param material		The material for the line
+		 * @param size			The line weight
+		 * @param vertex0		The start vertex
+		 * @param vertex1		The end vertex
+		 * 
+		 */		
 		public function Line3D(instance:Lines3D, material:LineMaterial, size:Number, vertex0:Vertex3D, vertex1:Vertex3D)
 		{
 			this.size = size;
