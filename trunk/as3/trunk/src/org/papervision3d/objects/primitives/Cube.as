@@ -130,7 +130,7 @@ package org.papervision3d.objects.primitives {
 			buildCube( width, height, depth );
 		}
 	
-		private function buildCube( width:Number, height:Number, depth:Number ):void
+		protected function buildCube( width:Number, height:Number, depth:Number ):void
 		{
 			var width2  :Number = width  /2;
 			var height2 :Number = height /2;
@@ -161,7 +161,7 @@ package org.papervision3d.objects.primitives {
 				this.geometry.flipFaces();
 		}
 	
-		private function buildPlane( mat:String, u:String, v:String, width:Number, height:Number, depth:Number, reverse:Boolean=false ):void
+		protected function buildPlane( mat:String, u:String, v:String, width:Number, height:Number, depth:Number, reverse:Boolean=false ):void
 		{
 			var matInstance:MaterialObject3D;
 			if( ! (matInstance= materials.getMaterialByName( mat )))
