@@ -1,11 +1,5 @@
 ﻿package org.papervision3d.core.geom
 {
-	/**
-	 * @Author Ralph Hauwert
-	 * 
-	 * - 	updated by Seb Lee-Delisle to allow the updating of a renderRect property of a particle
-	 * 		used for smart culling of particles
-	 */
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;	
 	import org.papervision3d.core.geom.renderables.Vertex3D;	
 	
@@ -16,20 +10,65 @@
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.core.culling.IObjectCuller;	
+	
+	/**
+	 * <p>
+	 * The Particles object is a DisplayObject3D that is used solely for displaying particle objects.
+	 * A single particle is a 2D graphic that is scaled and positioned relative to a 3D point, without
+	 * any perspective distortion. In effect, it's like a plane that is always facing the camera. This 
+	 * is sometimes referred to as a 3D sprite, pointsprite or billboard.
+	 * 
+	 * A particle's appearance is defined by its ParticleMaterial. 
+	 * 
+	 * </p>
+	 * 
+	 * <p>
+	 * Example:
+	 * </p>
+	 * <pre><code>
+	 * 
+	 *  //This example creates a Particles DisplayObject3D and adds 100 particles into it. 
+	 * 
+	 *	var numParticles : int = 100; 
+	 *	
+	 *	var particles : Particles = new Particles(); 
+	 *	var particleMaterial : ParticleMaterial = new ParticleMaterial(0xff0000, 0.8,ParticleMaterial.SHAPE_CIRCLE); 
+	 *	var particleSize : Number = 5; 
+	 *	
+	 *	for(var i : int = 0; i<numParticles; i++)
+	 *	{
+	 * 		var xpos : Number = Math.random()*200; 
+	 * 		var ypos : Number = Math.random()*200; 
+	 * 		var zpos : Number = Math.random()*200; 
+	 * 
+	 *		var particle : Particle = new Particle(particleMaterial, particleSize, xpos, ypos, zpos);
+	 *		particles.addParticle(particle); 
+	 *		
+	 *	}
+	 *	scene.addChild(particles); 
+	 * 
+ 	 * </code></pre>
+	 * </p>
+	 * 
+	 * <p>
+	 * See also : ParticleMaterial, MovieAssetParticleMaterial, MovieParticleMaterial, BitmapParticleMaterial. 
+	 * </p>
+	 * 
+	 * @Author Ralph Hauwert
+	 * @Author Seb Lee-Delisle
+	 */
 	public class Particles extends Vertices3D
 	{
 		
 		private var vertices:Array;
 		public var particles:Array;
 		
-		/**
-		 * VertexParticles
+		 /**
+		 * @param name				An identifier for this Particles object. 
 		 * 
-		 * A simple Particle Renderer for Papervision3D.
-		 * 
-		 * Renders added particles to a given container using Flash's drawing API.
 		 */
-		public function Particles(name:String = "VertexParticles")
+		 	
+		public function Particles(name:String = "Particles")
 		{
 			this.vertices = new Array();
 			this.particles = new Array();
@@ -38,8 +77,13 @@
 		}
 		
 		/**
-		 * Project
-		 */
+		* Converts 3D vertices into 2D space, to prepare for rendering onto the stage.
+		*
+		* @param 	parent				The parent DisplayObject3D
+		* @param 	renderSessionData	The renderSessionData object for this render cycle. 
+		 * 
+		*/
+
 		public override function project( parent :DisplayObject3D, renderSessionData:RenderSessionData ):Number
 		{
 			super.project(parent,renderSessionData);
@@ -60,13 +104,11 @@
 				{
 					var v:Vertex3D = p.vertex3D;
 					p.renderScale = viewport.width /2 /(v.x * view.n41 + v.y * view.n42 + v.z * view.n43 + view.n44) ;
-					//trace("frustum scale ", p.renderScale);
 				} 
 				else
 				{	
 					var fz:Number = (renderSessionData.camera.focus*renderSessionData.camera.zoom);
 					p.renderScale = fz / (renderSessionData.camera.focus + p.vertex3D.vertex3DInstance.z);
-					//trace("freecam scale ", p.renderScale);
 				}
 				p.updateRenderRect();
 				
@@ -75,7 +117,6 @@
 					renderSessionData.renderer.addToRenderList(p.renderCommand);	
 				}else{
 					renderSessionData.renderStatistics.culledParticles++;
-					//trace("culled!");
 				}
 			}
 			return 1;
@@ -164,9 +205,9 @@
 		*/
 		
 		/**
-		 * addParticle(particle);
+		 * Adds a particle. 
 		 * 
-		 * @param	particle	partical to be added and rendered by to this VertexParticles Object.
+		 * @param	particle	The particle to be added.
 		 */
 		public function addParticle(particle:Particle):void
 		{
@@ -176,9 +217,9 @@
 		}
 		
 		/**
-		 * removeParticle(particle);
+		 * Removes a particle. 
 		 * 
-		 * @param	particle	particle to be removed from this VertexParticles Object.
+		 * @param	particle	The particle to be removed.
 		 */
 		public function removeParticle(particle:Particle):void
 		{
@@ -188,9 +229,8 @@
 		}
 		
 		/**
-		 * removeAllParticles()
-		 * 
-		 * removes all particles in this VertexParticles Object.
+		 * Removes all the particles. 
+		 *  
 		 */
 		public function removeAllParticles():void
 		{
