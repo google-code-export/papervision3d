@@ -1,32 +1,49 @@
 package org.papervision3d.core.geom.renderables
 {
 	
-	/**
-	 * @author Ralph Hauwert.
-	 * 
-	 * updated by Seb Lee-Delisle : 
-	 *  - added renderRect to store the rectangle of our particle. 
-	 */
+	
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderParticle;
 	import org.papervision3d.materials.special.ParticleMaterial;
 	
 	import flash.geom.Rectangle;	 
 
+	/**
+	 * This is the single renderable Particle object, used by Particles.as
+	 * 
+	 * See Particles.as for a full explanation. 
+	 * 
+	 * 
+	 * @author Ralph Hauwert
+	 * @author Seb Lee-Delisle
+	 */
+
+
 	public class Particle extends AbstractRenderable implements IRenderable
 	{
-		
+		/**
+		 * The size or scale factor of the particle.  
+		 */		
 		public var size:Number;
 		public var vertex3D:Vertex3D;
 		public var material:ParticleMaterial;
 		public var renderCommand:RenderParticle;
-	//	public var instance:Particles;
 		public var renderScale:Number;
 		
-		// this is the rectangular area encasing the particle graphic. 
+		/**
+		 * The rectangle containing the particles visible area in 2D.  
+		 */		
 		public var renderRect:Rectangle;
 		
-		
+		/**
+		 * 
+		 * @param material		The ParticleMaterial used for rendering the Particle
+		 * @param size			The size of the particle. For some materials (ie BitmapParticleMaterial) this is used as a scale factor. 
+		 * @param x				x position of the particle
+		 * @param y				y position of the particle
+		 * @param z				z position of the particle
+		 * 
+		 */		
 		public function Particle(material:ParticleMaterial, size:Number=1, x:Number=0, y:Number=0, z:Number=0)
 		{
 			this.material = material;
@@ -36,6 +53,13 @@ package org.papervision3d.core.geom.renderables
 			vertex3D = new Vertex3D(x,y,z);
 		}
 		
+		/**
+		 * This is called during the projection cycle. It updates the rectangular area that 
+		 * the particle is drawn into. It's important for the culling phase, and changes dependent
+		 * on the type of material used.  
+		 *  
+		 */		
+
 		public function updateRenderRect():void
 		{
 			material.updateRenderRect(this);
