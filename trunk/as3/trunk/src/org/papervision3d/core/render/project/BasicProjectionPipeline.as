@@ -32,7 +32,8 @@ package org.papervision3d.core.render.project {
 			var objects:Array = renderSessionData.renderObjects;
 			var p:DisplayObject3D;
 			var i:Number = objects.length;
-	
+			var test:Number;
+			
 			//The frustum camera requires 4x4 matrices.
 			if( renderSessionData.camera.useProjectionMatrix ){
 				for each(p in objects){
@@ -41,7 +42,7 @@ package org.papervision3d.core.render.project {
 						//If we filter objects per viewport..then....
 						if(renderSessionData.viewPort.viewportObjectFilter){
 							//...test if the object should be rendered to this viewport.
-							var test:Number = renderSessionData.viewPort.viewportObjectFilter.testObject(p)
+							test = renderSessionData.viewPort.viewportObjectFilter.testObject(p)
 							if(test){
 								// project it.
 								projectObject(p, renderSessionData, test);
@@ -62,7 +63,7 @@ package org.papervision3d.core.render.project {
 					if( p.visible){
 						//If we filter objects per viewport..then....
 						if(renderSessionData.viewPort.viewportObjectFilter){
-							var test:Number = renderSessionData.viewPort.viewportObjectFilter.testObject(p); 
+							test = renderSessionData.viewPort.viewportObjectFilter.testObject(p); 
 							if(test){
 								// project it.
 								projectObject(p, renderSessionData, test);
