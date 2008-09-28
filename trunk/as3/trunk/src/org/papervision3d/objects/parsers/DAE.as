@@ -61,8 +61,9 @@
 	 * &lt;instance_material symbol="MyMaterialName" target="SomeTarget" /&gt;. The material names are specified
 	 * by the symbol attribute of this element.</p>
 	 * 
-	 * <p>A COLLADA file can contain animations. Parsing animations take a long time to parse, hence 
-	 * these are parse asynchroniously. Listen for FileLoadEvent.ANIMATIONS_COMPLETE and FileLoadEvent.ANIMATIONS_PROGRESS:</p>
+	 * <p>A COLLADA file can contain animations. Animations take a long time to parse, hence 
+	 * animations are parsed asynchroniously. Listen for FileLoadEvent.ANIMATIONS_COMPLETE and 
+	 * FileLoadEvent.ANIMATIONS_PROGRESS:</p>
 	 * <pre>
 	 * var dae :DAE = new DAE();
 	 * 
