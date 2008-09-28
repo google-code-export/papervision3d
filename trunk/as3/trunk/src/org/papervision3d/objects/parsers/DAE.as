@@ -33,6 +33,46 @@
 	import org.papervision3d.objects.special.Skin3D;
 	
 	/**
+	 * The DAE class represents a parsed COLLADA 1.4.1 file.
+	 * 
+	 * <p>Typical use case:</p>
+	 * <pre>
+	 * var dae :DAE = new DAE();
+	 * 
+	 * dae.addEventListener(FileLoadEvent.LOAD_COMPLETE, myOnLoadCompleteHandler);
+	 * 
+	 * dae.load( "path/to/collada" );
+	 * </pre>
+	 * 
+	 * <p>Its possible to pass you own materials via a MaterialsList:</p>
+	 * <pre>
+	 * var materials :MaterialsList = new MaterialsList();
+	 * 
+	 * materials.addMaterial( new ColorMaterial(), "MyMaterial" );
+	 * 
+	 * var dae :DAE = new DAE();
+	 * 
+	 * dae.addEventListener(FileLoadEvent.LOAD_COMPLETE, myOnLoadCompleteHandler);
+	 * 
+	 * dae.load( "path/to/collada", materials );
+	 * </pre>
+	 * <p>Note that in above case you need the material names as specified in your 3D modelling application.
+	 * The material names can also be found by looking at the COLLADA file: find the xml elements 
+	 * &lt;instance_material symbol="MyMaterialName" target="SomeTarget" /&gt;. The material names are specified
+	 * by the symbol attribute of this element.</p>
+	 * 
+	 * <p>A COLLADA file can contain animations. Parsing animations take a long time to parse, hence 
+	 * these are parse asynchroniously. Listen for FileLoadEvent.ANIMATIONS_COMPLETE and FileLoadEvent.ANIMATIONS_PROGRESS:</p>
+	 * <pre>
+	 * var dae :DAE = new DAE();
+	 * 
+	 * dae.addEventListener(FileLoadEvent.LOAD_COMPLETE, myOnLoadCompleteHandler);
+	 * dae.addEventListener(FileLoadEvent.ANIMATIONS_COMPLETE, myOnAnimationsCompleteHandler);
+	 * dae.addEventListener(FileLoadEvent.ANIMATIONS_PROGRESS, myOnAnimationsProgressHandler);
+	 * 
+	 * dae.load( "path/to/collada" );
+	 * </pre>
+	 * 
 	 * @author Tim Knip
 	 */ 
 	public class DAE extends DisplayObject3D implements IAnimationDataProvider, IAnimatable
@@ -48,28 +88,28 @@
 		/** Alternative file-extension for TGA images. Default is "png". */
 		public static var DEFAULT_TGA_ALTERNATIVE:String = "png";
 		
-		/** */
+		/** The loaded XML. */
 		public var COLLADA:XML;
 	
-		/** */
+		/** The filename - if applicable. */
 		public var filename:String;
 		
-		/** */
+		/** The filetitle - if applicable. */
 		public var fileTitle:String;
 		
-		/** */
+		/** Base url. */
 		public var baseUrl:String;
 		
 		/** Path where the textures should be loaded from. */
 		public var texturePath:String;
 		
-		/** */
+		/** The COLLADA parser. */
 		public var parser:DaeReader;
 		
-		/** */
+		/** The DaeDocument. @see org.ascollada.core.DaeDocument */
 		public var document:DaeDocument;
 		
-		/** */
+		/** Whether the COLLADA uses Y-up, Z-up otherwise. */
 		public function get yUp():Boolean
 		{
 			if(this.document){
