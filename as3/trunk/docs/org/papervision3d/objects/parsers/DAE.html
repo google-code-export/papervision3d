@@ -45,6 +45,47 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 </table>
 <p></p>
+  The DAE class represents a parsed COLLADA 1.4.1 file.
+  
+  <p>Typical use case:</p>
+  <pre>
+  var dae :DAE = new DAE();
+  
+  dae.addEventListener(FileLoadEvent.LOAD_COMPLETE, myOnLoadCompleteHandler);
+  
+  dae.load( "path/to/collada" );
+  </pre>
+  
+  <p>Its possible to pass you own materials via a MaterialsList:</p>
+  <pre>
+  var materials :MaterialsList = new MaterialsList();
+  
+  materials.addMaterial( new ColorMaterial(), "MyMaterial" );
+  
+  var dae :DAE = new DAE();
+  
+  dae.addEventListener(FileLoadEvent.LOAD_COMPLETE, myOnLoadCompleteHandler);
+  
+  dae.load( "path/to/collada", materials );
+  </pre>
+  <p>Note that in above case you need the material names as specified in your 3D modelling application.
+  The material names can also be found by looking at the COLLADA file: find the xml elements 
+  &lt;instance_material symbol="MyMaterialName" target="SomeTarget" /&gt;. The material names are specified
+  by the symbol attribute of this element.</p>
+  
+  <p>A COLLADA file can contain animations. Animations take a long time to parse, hence 
+  animations are parsed asynchroniously. Listen for FileLoadEvent.ANIMATIONS_COMPLETE and 
+  FileLoadEvent.ANIMATIONS_PROGRESS:</p>
+  <pre>
+  var dae :DAE = new DAE();
+  
+  dae.addEventListener(FileLoadEvent.LOAD_COMPLETE, myOnLoadCompleteHandler);
+  dae.addEventListener(FileLoadEvent.ANIMATIONS_COMPLETE, myOnAnimationsCompleteHandler);
+  dae.addEventListener(FileLoadEvent.ANIMATIONS_PROGRESS, myOnAnimationsProgressHandler);
+  
+  dae.load( "path/to/collada" );
+  </pre>
+  
   <p></p>
 <br>
 <hr>
@@ -73,7 +114,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#baseUrl">baseUrl</a> : String<div class="summaryTableDescription"> </div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#baseUrl">baseUrl</a> : String<div class="summaryTableDescription"> Base url.</div>
 </td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -86,7 +127,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#COLLADA">COLLADA</a> : XML<div class="summaryTableDescription"> </div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#COLLADA">COLLADA</a> : XML<div class="summaryTableDescription"> The loaded XML.</div>
 </td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -98,6 +139,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#culled">culled</a> : Boolean<div class="summaryTableDescription">
   [internal use] Is this object culled by camera frustum?
   </div>
+</td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#cullTest">cullTest</a> : Number = 0<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="">
@@ -114,7 +159,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#document">document</a> : <a href="../../../ascollada/core/DaeDocument.html">DaeDocument</a>
-<div class="summaryTableDescription"> </div>
+<div class="summaryTableDescription"> The DaeDocument.</div>
 </td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -134,11 +179,11 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#filename">filename</a> : String<div class="summaryTableDescription"> </div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#filename">filename</a> : String<div class="summaryTableDescription"> The filename - if applicable.</div>
 </td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#fileTitle">fileTitle</a> : String<div class="summaryTableDescription"> </div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#fileTitle">fileTitle</a> : String<div class="summaryTableDescription"> The filetitle - if applicable.</div>
 </td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -221,7 +266,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#parser">parser</a> : <a href="../../../ascollada/io/DaeReader.html">DaeReader</a>
-<div class="summaryTableDescription"> </div>
+<div class="summaryTableDescription"> The COLLADA parser.</div>
 </td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -311,6 +356,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#useClipping">useClipping</a> : Boolean = true<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#useOwnContainer">useOwnContainer</a> : Boolean<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
@@ -347,7 +396,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#yUp">yUp</a> : Boolean<div class="summaryTableDescription">[read-only] </div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#yUp">yUp</a> : Boolean<div class="summaryTableDescription">[read-only] Whether the COLLADA uses Y-up, Z-up otherwise.</div>
 </td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -848,7 +897,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var baseUrl:String</code><p> </p></div>
+<code>public var baseUrl:String</code><p> Base url. </p></div>
 <a name="COLLADA"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -856,7 +905,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var COLLADA:XML</code><p> </p></div>
+<code>public var COLLADA:XML</code><p> The loaded XML. </p></div>
 <a name="DEFAULT_LINE_COLOR"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -888,7 +937,13 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var document:<a href="../../../ascollada/core/DaeDocument.html">DaeDocument</a></code><p> </p></div>
+<code>public var document:<a href="../../../ascollada/core/DaeDocument.html">DaeDocument</a></code><p> The DaeDocument. </p><p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../../../ascollada/core/DaeDocument.html" target="">org.ascollada.core.DaeDocument</a>
+</div>
+</div>
 <a name="filename"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -896,7 +951,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var filename:String</code><p> </p></div>
+<code>public var filename:String</code><p> The filename - if applicable. </p></div>
 <a name="fileTitle"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -904,7 +959,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var fileTitle:String</code><p> </p></div>
+<code>public var fileTitle:String</code><p> The filetitle - if applicable. </p></div>
 <a name="fps"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -926,7 +981,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var parser:<a href="../../../ascollada/io/DaeReader.html">DaeReader</a></code><p> </p></div>
+<code>public var parser:<a href="../../../ascollada/io/DaeReader.html">DaeReader</a></code><p> The COLLADA parser. </p></div>
 <a name="texturePath"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -942,7 +997,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>yUp:Boolean</code>&nbsp;&nbsp;[read-only]<p> </p><span class="label">Implementation</span>
+<code>yUp:Boolean</code>&nbsp;&nbsp;[read-only]<p> Whether the COLLADA uses Y-up, Z-up otherwise. </p><span class="label">Implementation</span>
 <br>
 <code>&nbsp;&nbsp;&nbsp;&nbsp;public function get yUp():Boolean</code>
 <br>

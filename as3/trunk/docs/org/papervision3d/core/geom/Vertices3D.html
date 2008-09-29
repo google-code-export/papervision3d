@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
-<meta content="Vertices3D,org.papervision3d.core.geom.Vertices3D,boundingBox,clone,project,projectFrustum,transformVertices" name="keywords">
+<meta content="Vertices3D,org.papervision3d.core.geom.Vertices3D,boundingBox,clone,project,projectEmpty,projectFrustum,transformVertices" name="keywords">
 <title>org.papervision3d.core.geom.Vertices3D</title>
 </head>
 <body>
@@ -91,6 +91,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#culled">culled</a> : Boolean<div class="summaryTableDescription">
   [internal use] Is this object culled by camera frustum?
   </div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#cullTest">cullTest</a> : Number = 0<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -262,6 +266,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#transform">transform</a> : <a href="../math/Matrix3D.html">Matrix3D</a>
 <div class="summaryTableDescription">
   A Matrix3D object containing values that affect the scaling, rotation, and translation of the display object.</div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#useClipping">useClipping</a> : Boolean = true<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -603,6 +611,13 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
+<a class="signatureLink" href="#projectEmpty()">projectEmpty</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">Vertices3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
 <a class="signatureLink" href="#projectFrustum()">projectFrustum</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
 <div class="summaryTableDescription">
    
@@ -847,6 +862,33 @@ showHideInherited();
 <tr>
 <td width="20px"></td><td><code><span class="label">parent</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code> &mdash;  Camera.
   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../render/data/RenderSessionData.html">RenderSessionData</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="projectEmpty()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">projectEmpty</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function projectEmpty(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">parent</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>

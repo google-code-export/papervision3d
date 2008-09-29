@@ -93,6 +93,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#cullTest">cullTest</a> : Number = 0<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#extra">extra</a> : Object<div class="summaryTableDescription">
   An object that contains user defined properties.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
@@ -268,6 +272,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#useClipping">useClipping</a> : Boolean = true<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#useOwnContainer">useOwnContainer</a> : Boolean<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
@@ -385,8 +393,9 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#Lines3D()">Lines3D</a>(material:<a href="../../materials/special/LineMaterial.html">LineMaterial</a>, name:String = null)</div>
-<div class="summaryTableDescription"></div>
+<a class="signatureLink" href="#Lines3D()">Lines3D</a>(material:<a href="../../materials/special/LineMaterial.html">LineMaterial</a> = null, name:String = null)</div>
+<div class="summaryTableDescription">
+   </div>
 </td><td class="summaryTableOwnerCol">Lines3D</td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -426,7 +435,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#addLine()">addLine</a>(line:<a href="renderables/Line3D.html">Line3D</a>):void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Adds a Line3D object to this Lines3D container.</div>
 </td><td class="summaryTableOwnerCol">Lines3D</td>
 </tr>
 <tr class="">
@@ -434,14 +444,17 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="#addNewLine()">addNewLine</a>(size:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):<a href="renderables/Line3D.html">Line3D</a>
 </div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Creates a new line from the parameters passed and adds it.</div>
 </td><td class="summaryTableOwnerCol">Lines3D</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#addNewSegmentedLine()">addNewSegmentedLine</a>(size:Number, segments:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):void</div>
-<div class="summaryTableDescription"></div>
+<a class="signatureLink" href="#addNewSegmentedLine()">addNewSegmentedLine</a>(size:Number, segments:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):Array</div>
+<div class="summaryTableDescription">
+   This is identical to addNewLine, except it breaks up the line into several shorter line segments
+   that together make up the full line.</div>
 </td><td class="summaryTableOwnerCol">Lines3D</td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -620,8 +633,16 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#project()">project</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+  Converts 3D vertices into 2D space, to prepare for rendering onto the stage.</div>
 </td><td class="summaryTableOwnerCol">Lines3D</td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="Vertices3D.html#projectEmpty()">projectEmpty</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="Vertices3D.html">Vertices3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -636,7 +657,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#removeAllLines()">removeAllLines</a>():void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Removes all the lines.</div>
 </td><td class="summaryTableOwnerCol">Lines3D</td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -661,7 +683,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#removeLine()">removeLine</a>(line:<a href="renderables/Line3D.html">Line3D</a>):void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Removes a line.</div>
 </td><td class="summaryTableOwnerCol">Lines3D</td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -821,16 +844,20 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function Lines3D(material:<a href="../../materials/special/LineMaterial.html">LineMaterial</a>, name:String = null)</code><span class="label">Parameters</span>
+<code>public function Lines3D(material:<a href="../../materials/special/LineMaterial.html">LineMaterial</a> = null, name:String = null)</code><p>
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">material</span>:<a href="../../materials/special/LineMaterial.html">LineMaterial</a></code></td>
+<td width="20px"></td><td><code><span class="label">material</span>:<a href="../../materials/special/LineMaterial.html">LineMaterial</a></code> (default = <code>null</code>)<code></code> &mdash;   The default material for this Lines3D. If ommitted then the default
+          LineMaterial3D is used. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">name</span>:String</code> (default = <code>null</code>)<code></code></td>
+<td width="20px"></td><td><code><span class="label">name</span>:String</code> (default = <code>null</code>)<code></code> &mdash;    An identifier for this Lines object. 
+   </td>
 </tr>
 </table>
 </div>
@@ -843,10 +870,14 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function addLine(line:<a href="renderables/Line3D.html">Line3D</a>):void</code><span class="label">Parameters</span>
+<code>public function addLine(line:<a href="renderables/Line3D.html">Line3D</a>):void</code><p>
+   Adds a Line3D object to this Lines3D container.  
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">line</span>:<a href="renderables/Line3D.html">Line3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">line</span>:<a href="renderables/Line3D.html">Line3D</a></code> &mdash;  The Line3D object to add. 
+   
+   </td>
 </tr>
 </table>
 </div>
@@ -857,53 +888,67 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function addNewLine(size:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):<a href="renderables/Line3D.html">Line3D</a></code><span class="label">Parameters</span>
+<code>public function addNewLine(size:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):<a href="renderables/Line3D.html">Line3D</a></code><p>
+   Creates a new line from the parameters passed and adds it.  
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">size</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">size</span>:Number</code> &mdash;  The weight of the line. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">x0</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">x0</span>:Number</code> &mdash;  The line's start x position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">y0</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">y0</span>:Number</code> &mdash;  The line's start y position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">z0</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">z0</span>:Number</code> &mdash;  The line's start z position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">x1</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">x1</span>:Number</code> &mdash;  The line's end x position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">y1</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">y1</span>:Number</code> &mdash;  The line's end y position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">z1</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">z1</span>:Number</code> &mdash;  The line's end z position. 
+   </td>
 </tr>
 </table>
 <p></p>
 <span class="label">Returns</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20"></td><td><code><a href="renderables/Line3D.html">Line3D</a></code></td>
+<td width="20"></td><td><code><a href="renderables/Line3D.html">Line3D</a></code> &mdash; 
+                           The line just created. 
+   
+   
+                        
+                     </td>
 </tr>
 </table>
 </div>
@@ -914,52 +959,73 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function addNewSegmentedLine(size:Number, segments:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):void</code><span class="label">Parameters</span>
+<code>public function addNewSegmentedLine(size:Number, segments:Number, x0:Number, y0:Number, z0:Number, x1:Number, y1:Number, z1:Number):Array</code><p>
+   This is identical to addNewLine, except it breaks up the line into several shorter line segments
+   that together make up the full line. This would be useful for improved z-depth sorting. 
+   
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">size</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">size</span>:Number</code> &mdash;  The weight of the line. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">segments</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">segments</span>:Number</code> &mdash; The number of segments to break up the line into
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">x0</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">x0</span>:Number</code> &mdash;  The line's start x position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">y0</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">y0</span>:Number</code> &mdash;  The line's start y position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">z0</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">z0</span>:Number</code> &mdash;  The line's start z position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">x1</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">x1</span>:Number</code> &mdash;  The line's end x position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">y1</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">y1</span>:Number</code> &mdash;  The line's end y position. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">z1</span>:Number</code></td>
+<td width="20px"></td><td><code><span class="label">z1</span>:Number</code> &mdash;  The line's end z position. 
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Array</code> &mdash;    An array of the lines just created. 
+   
+   </td>
 </tr>
 </table>
 </div>
@@ -970,16 +1036,21 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public override function project(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</code><span class="label">Parameters</span>
+<code>public override function project(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</code><p>
+  Converts 3D vertices into 2D space, to prepare for rendering onto the stage.
+    </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">parent</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">parent</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code> &mdash; parent    The parent DisplayObject3D
+  </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../render/data/RenderSessionData.html">RenderSessionData</a></code></td>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../render/data/RenderSessionData.html">RenderSessionData</a></code> &mdash; renderSessionData The renderSessionData object for this render cycle. 
+   
+  </td>
 </tr>
 </table>
 <p></p>
@@ -997,8 +1068,10 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function removeAllLines():void</code>
-</div>
+<code>public function removeAllLines():void</code><p>
+   Removes all the lines.  
+   
+   </p></div>
 <a name="removeLine()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -1006,10 +1079,14 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function removeLine(line:<a href="renderables/Line3D.html">Line3D</a>):void</code><span class="label">Parameters</span>
+<code>public function removeLine(line:<a href="renderables/Line3D.html">Line3D</a>):void</code><p>
+   Removes a line. 
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">line</span>:<a href="renderables/Line3D.html">Line3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">line</span>:<a href="renderables/Line3D.html">Line3D</a></code> &mdash;  The line to remove. 
+   
+   </td>
 </tr>
 </table>
 </div>

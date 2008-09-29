@@ -90,6 +90,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#cullTest">cullTest</a> : Number = 0<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#extra">extra</a> : Object<div class="summaryTableDescription">
   An object that contains user defined properties.</div>
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
@@ -265,6 +269,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#useClipping">useClipping</a> : Boolean = true<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#useOwnContainer">useOwnContainer</a> : Boolean<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
@@ -425,9 +433,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="../../core/geom/Particles.html#addParticle()">addParticle</a>(particle:<a href="../../core/geom/renderables/Particle.html">Particle</a>):void</div>
 <div class="summaryTableDescription">
-   addParticle(particle);
-   
-   </div>
+   Adds a particle.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../core/geom/Particles.html">Particles</a></td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -607,9 +613,15 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="../../core/geom/Particles.html#project()">project</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../../core/render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
 <div class="summaryTableDescription">
-   Project
-   </div>
+  Converts 3D vertices into 2D space, to prepare for rendering onto the stage.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../core/geom/Particles.html">Particles</a></td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="../../core/geom/Vertices3D.html#projectEmpty()">projectEmpty</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../../core/render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="../../core/geom/Vertices3D.html">Vertices3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -625,9 +637,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="../../core/geom/Particles.html#removeAllParticles()">removeAllParticles</a>():void</div>
 <div class="summaryTableDescription">
-   removeAllParticles()
-   
-   removes all particles in this VertexParticles Object.</div>
+   Removes all the particles.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../core/geom/Particles.html">Particles</a></td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -653,9 +663,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="../../core/geom/Particles.html#removeParticle()">removeParticle</a>(particle:<a href="../../core/geom/renderables/Particle.html">Particle</a>):void</div>
 <div class="summaryTableDescription">
-   removeParticle(particle);
-   
-   </div>
+   Removes a particle.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../core/geom/Particles.html">Particles</a></td>
 </tr>
 <tr class="hideInheritedMethod">

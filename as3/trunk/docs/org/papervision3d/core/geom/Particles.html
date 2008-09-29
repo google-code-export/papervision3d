@@ -45,7 +45,49 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 </table>
 <p></p>
-<p></p>
+  <p>
+  The Particles object is a DisplayObject3D that is used solely for displaying particle objects.
+  A single particle is a 2D graphic that is scaled and positioned relative to a 3D point, without
+  any perspective distortion. In effect, it's like a plane that is always facing the camera. This 
+  is sometimes referred to as a 3D sprite, pointsprite or billboard.
+  
+  A particle's appearance is defined by its ParticleMaterial. 
+  
+  </p>
+  
+  <p>
+  Example:
+  </p>
+  <pre><code>
+  
+   //This example creates a Particles DisplayObject3D and adds 100 particles into it. 
+  
+  var numParticles : int = 100; 
+  
+  var particles : Particles = new Particles(); 
+  var particleMaterial : ParticleMaterial = new ParticleMaterial(0xff0000, 0.8,ParticleMaterial.SHAPE_CIRCLE); 
+  var particleSize : Number = 5; 
+  
+  for(var i : int = 0; i<numParticles; i++)
+  {
+    var xpos : Number = Math.random()00; 
+    var ypos : Number = Math.random()00; 
+    var zpos : Number = Math.random()00; 
+  
+   var particle : Particle = new Particle(particleMaterial, particleSize, xpos, ypos, zpos);
+   particles.addParticle(particle); 
+   
+  }
+  scene.addChild(particles); 
+  
+   </code></pre>
+  </p>
+  
+  <p>
+  See also : ParticleMaterial, MovieAssetParticleMaterial, MovieParticleMaterial, BitmapParticleMaterial. 
+  </p>
+  
+  <p></p>
 <br>
 <hr>
 </div>
@@ -90,6 +132,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#culled">culled</a> : Boolean<div class="summaryTableDescription">
   [internal use] Is this object culled by camera frustum?
   </div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#cullTest">cullTest</a> : Number = 0<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -268,6 +314,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#useClipping">useClipping</a> : Boolean = true<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../objects/DisplayObject3D.html#useOwnContainer">useOwnContainer</a> : Boolean<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
@@ -385,11 +435,9 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#Particles()">Particles</a>(name:String = "VertexParticles")</div>
+<a class="signatureLink" href="#Particles()">Particles</a>(name:String = "Particles")</div>
 <div class="summaryTableDescription">
-   VertexParticles
-   
-   A simple Particle Renderer for Papervision3D.</div>
+   </div>
 </td><td class="summaryTableOwnerCol">Particles</td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -430,9 +478,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="#addParticle()">addParticle</a>(particle:<a href="renderables/Particle.html">Particle</a>):void</div>
 <div class="summaryTableDescription">
-   addParticle(particle);
-   
-   </div>
+   Adds a particle.</div>
 </td><td class="summaryTableOwnerCol">Particles</td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -612,9 +658,15 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="#project()">project</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
 <div class="summaryTableDescription">
-   Project
-   </div>
+  Converts 3D vertices into 2D space, to prepare for rendering onto the stage.</div>
 </td><td class="summaryTableOwnerCol">Particles</td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="Vertices3D.html#projectEmpty()">projectEmpty</a>(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="Vertices3D.html">Vertices3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -630,9 +682,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="#removeAllParticles()">removeAllParticles</a>():void</div>
 <div class="summaryTableDescription">
-   removeAllParticles()
-   
-   removes all particles in this VertexParticles Object.</div>
+   Removes all the particles.</div>
 </td><td class="summaryTableOwnerCol">Particles</td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -658,9 +708,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="#removeParticle()">removeParticle</a>(particle:<a href="renderables/Particle.html">Particle</a>):void</div>
 <div class="summaryTableDescription">
-   removeParticle(particle);
-   
-   </div>
+   Removes a particle.</div>
 </td><td class="summaryTableOwnerCol">Particles</td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -820,16 +868,13 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function Particles(name:String = "VertexParticles")</code><p>
-   VertexParticles
-   
-   A simple Particle Renderer for Papervision3D.
-   
-   Renders added particles to a given container using Flash's drawing API.
+<code>public function Particles(name:String = "Particles")</code><p>
    </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">name</span>:String</code> (default = "<code>VertexParticles</code>")<code></code></td>
+<td width="20px"></td><td><code><span class="label">name</span>:String</code> (default = "<code>Particles</code>")<code></code> &mdash;    An identifier for this Particles object. 
+   
+   </td>
 </tr>
 </table>
 </div>
@@ -843,12 +888,12 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public function addParticle(particle:<a href="renderables/Particle.html">Particle</a>):void</code><p>
-   addParticle(particle);
+   Adds a particle. 
    
    </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">particle</span>:<a href="renderables/Particle.html">Particle</a></code> &mdash; partical to be added and rendered by to this VertexParticles Object.
+<td width="20px"></td><td><code><span class="label">particle</span>:<a href="renderables/Particle.html">Particle</a></code> &mdash; The particle to be added.
    </td>
 </tr>
 </table>
@@ -861,17 +906,20 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public override function project(parent:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):Number</code><p>
-   Project
-   </p><span class="label">Parameters</span>
+  Converts 3D vertices into 2D space, to prepare for rendering onto the stage.
+    </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">parent</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">parent</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code> &mdash; parent    The parent DisplayObject3D
+  </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../render/data/RenderSessionData.html">RenderSessionData</a></code></td>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../render/data/RenderSessionData.html">RenderSessionData</a></code> &mdash; renderSessionData The renderSessionData object for this render cycle. 
+   
+  </td>
 </tr>
 </table>
 <p></p>
@@ -890,9 +938,8 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public function removeAllParticles():void</code><p>
-   removeAllParticles()
-   
-   removes all particles in this VertexParticles Object.
+   Removes all the particles. 
+    
    </p></div>
 <a name="removeParticle()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -902,12 +949,12 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public function removeParticle(particle:<a href="renderables/Particle.html">Particle</a>):void</code><p>
-   removeParticle(particle);
+   Removes a particle. 
    
    </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">particle</span>:<a href="renderables/Particle.html">Particle</a></code> &mdash; particle to be removed from this VertexParticles Object.
+<td width="20px"></td><td><code><span class="label">particle</span>:<a href="renderables/Particle.html">Particle</a></code> &mdash; The particle to be removed.
    </td>
 </tr>
 </table>

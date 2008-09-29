@@ -124,6 +124,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/CameraObject3D.html">CameraObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../objects/DisplayObject3D.html#cullTest">cullTest</a> : Number = 0<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/CameraObject3D.html#DEFAULT_POS">DEFAULT_POS</a> : <a href="../core/math/Number3D.html">Number3D</a>
 <div class="summaryTableDescription">[static]
    The default position for new cameras.</div>
@@ -371,6 +375,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../objects/DisplayObject3D.html#transform">transform</a> : <a href="../core/math/Matrix3D.html">Matrix3D</a>
 <div class="summaryTableDescription">
   A Matrix3D object containing values that affect the scaling, rotation, and translation of the display object.</div>
+</td><td class="summaryTableOwnerCol"><a href="../objects/DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../objects/DisplayObject3D.html#useClipping">useClipping</a> : Boolean = true<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../objects/DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -796,7 +804,14 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="Camera3D.html#projectVertices()">projectVertices</a>(object:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
+<a class="signatureLink" href="Camera3D.html#projectFaces()">projectFaces</a>(faces:Array, object:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="Camera3D.html">Camera3D</a></td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="Camera3D.html#projectVertices()">projectVertices</a>(vertices:Array, object:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a>, renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>):Number</div>
 <div class="summaryTableDescription">
    Projects vertices.</div>
 </td><td class="summaryTableOwnerCol"><a href="Camera3D.html">Camera3D</a></td>
