@@ -45,6 +45,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 </table>
 <p></p>
+  A Particle material that is made from Class that extends a DisplayObject (ie a library symbol)
+  
   <p></p>
 <br>
 <hr>
@@ -266,10 +268,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summarySignature">
 <a class="signatureLink" href="#MovieAssetParticleMaterial()">MovieAssetParticleMaterial</a>(linkageID:String, transparent:Boolean = true, animated:Boolean = false, createUnique:Boolean = false)</div>
 <div class="summaryTableDescription">
-   A Particle material that is made from a single DisplayObject (Sprite, MovieClip, etc) or a
-   Class that extends a DisplayObject (ie a library symbol)
-   
-   v0.1 - TODO implement reusable assets in the same way as MovieAssetMaterial
    
    </div>
 </td><td class="summaryTableOwnerCol">MovieAssetParticleMaterial</td>
@@ -295,14 +293,16 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#destroy()">destroy</a>():void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Destroys the material.</div>
 </td><td class="summaryTableOwnerCol">MovieAssetParticleMaterial</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#drawParticle()">drawParticle</a>(particle:<a href="../../core/geom/renderables/Particle.html">Particle</a>, graphics:Graphics, renderSessionData:<a href="../../core/render/data/RenderSessionData.html">RenderSessionData</a>):void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   Draws the particle as part of the render cycle.</div>
 </td><td class="summaryTableOwnerCol">MovieAssetParticleMaterial</td>
 </tr>
 <tr class="hideInheritedMethod">
@@ -349,7 +349,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#updateRenderRect()">updateRenderRect</a>(particle:<a href="../../core/geom/renderables/Particle.html">Particle</a>):void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   This is called during the projection cycle.</div>
 </td><td class="summaryTableOwnerCol">MovieAssetParticleMaterial</td>
 </tr>
 </table>
@@ -428,15 +429,11 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public function MovieAssetParticleMaterial(linkageID:String, transparent:Boolean = true, animated:Boolean = false, createUnique:Boolean = false)</code><p>
-   A Particle material that is made from a single DisplayObject (Sprite, MovieClip, etc) or a
-   Class that extends a DisplayObject (ie a library symbol)
-   
-   v0.1 - TODO implement reusable assets in the same way as MovieAssetMaterial
    
    </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">linkageID</span>:String</code> &mdash;  The Library symbol to make the material out of.
+<td width="20px"></td><td><code><span class="label">linkageID</span>:String</code> &mdash;  The Class or library symbol to make the material out of.
    </td>
 </tr>
 <tr>
@@ -450,7 +447,7 @@ showHideInherited();
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">animated</span>:Boolean</code> (default = <code>false</code>)<code></code> &mdash;  [optional] NOT IMPLEMENTED YET! Please do not use!
+<td width="20px"></td><td><code><span class="label">animated</span>:Boolean</code> (default = <code>false</code>)<code></code> &mdash;  [optional] NOT IMPLEMENTED YET! Please do not use! Coming soon though I PROMISE! :-) 
    </td>
 </tr>
 <tr>
@@ -472,8 +469,10 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public override function destroy():void</code>
-</div>
+<code>public override function destroy():void</code><p>
+   Destroys the material.  
+   
+   </p></div>
 <a name="drawParticle()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -481,22 +480,29 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public override function drawParticle(particle:<a href="../../core/geom/renderables/Particle.html">Particle</a>, graphics:Graphics, renderSessionData:<a href="../../core/render/data/RenderSessionData.html">RenderSessionData</a>):void</code><span class="label">Parameters</span>
+<code>public override function drawParticle(particle:<a href="../../core/geom/renderables/Particle.html">Particle</a>, graphics:Graphics, renderSessionData:<a href="../../core/render/data/RenderSessionData.html">RenderSessionData</a>):void</code><p>
+   Draws the particle as part of the render cycle. 
+    
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">particle</span>:<a href="../../core/geom/renderables/Particle.html">Particle</a></code></td>
+<td width="20px"></td><td><code><span class="label">particle</span>:<a href="../../core/geom/renderables/Particle.html">Particle</a></code> &mdash;   The particle we're drawing
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">graphics</span>:Graphics</code></td>
+<td width="20px"></td><td><code><span class="label">graphics</span>:Graphics</code> &mdash;   The graphics object we're drawing into
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../../core/render/data/RenderSessionData.html">RenderSessionData</a></code></td>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../../core/render/data/RenderSessionData.html">RenderSessionData</a></code> &mdash; The renderSessionData for this render cycle.
+   
+   </td>
 </tr>
 </table>
 </div>
@@ -507,10 +513,16 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public override function updateRenderRect(particle:<a href="../../core/geom/renderables/Particle.html">Particle</a>):void</code><span class="label">Parameters</span>
+<code>public override function updateRenderRect(particle:<a href="../../core/geom/renderables/Particle.html">Particle</a>):void</code><p>
+   This is called during the projection cycle. It updates the rectangular area that 
+   the particle is drawn into. It's important for the culling phase. 
+    
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">particle</span>:<a href="../../core/geom/renderables/Particle.html">Particle</a></code></td>
+<td width="20px"></td><td><code><span class="label">particle</span>:<a href="../../core/geom/renderables/Particle.html">Particle</a></code> &mdash; The particle whose renderRect we're updating. 
+   
+   </td>
 </tr>
 </table>
 </div>

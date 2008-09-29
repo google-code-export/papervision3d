@@ -45,7 +45,12 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 </table>
 <p></p>
-<p></p>
+  This is the single renderable Particle object, used by Particles.as
+  
+  See Particles.as for a full explanation. 
+  
+  
+  <p></p>
 <br>
 <hr>
 </div>
@@ -80,7 +85,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol">Particle</td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#renderRect">renderRect</a> : Rectangle<div class="summaryTableDescription"></div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#renderRect">renderRect</a> : Rectangle<div class="summaryTableDescription">
+   The rectangle containing the particles visible area in 2D.</div>
 </td><td class="summaryTableOwnerCol">Particle</td>
 </tr>
 <tr class="">
@@ -88,7 +94,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol">Particle</td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#size">size</a> : Number<div class="summaryTableDescription"></div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#size">size</a> : Number<div class="summaryTableDescription">
+   The size or scale factor of the particle.</div>
 </td><td class="summaryTableOwnerCol">Particle</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -131,7 +138,9 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#Particle()">Particle</a>(material:<a href="../../../materials/special/ParticleMaterial.html">ParticleMaterial</a>, size:Number = 1, x:Number = 0, y:Number = 0, z:Number = 0)</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   
+   </div>
 </td><td class="summaryTableOwnerCol">Particle</td>
 </tr>
 <tr class="">
@@ -146,7 +155,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#updateRenderRect()">updateRenderRect</a>():void</div>
-<div class="summaryTableDescription"></div>
+<div class="summaryTableDescription">
+   This is called during the projection cycle.</div>
 </td><td class="summaryTableOwnerCol">Particle</td>
 </tr>
 </table>
@@ -183,8 +193,9 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var renderRect:Rectangle</code>
-</div>
+<code>public var renderRect:Rectangle</code><p>
+   The rectangle containing the particles visible area in 2D.  
+   </p></div>
 <a name="renderScale"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -201,8 +212,9 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public var size:Number</code>
-</div>
+<code>public var size:Number</code><p>
+   The size or scale factor of the particle.  
+   </p></div>
 <a name="vertex3D"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -263,34 +275,42 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function Particle(material:<a href="../../../materials/special/ParticleMaterial.html">ParticleMaterial</a>, size:Number = 1, x:Number = 0, y:Number = 0, z:Number = 0)</code><span class="label">Parameters</span>
+<code>public function Particle(material:<a href="../../../materials/special/ParticleMaterial.html">ParticleMaterial</a>, size:Number = 1, x:Number = 0, y:Number = 0, z:Number = 0)</code><p>
+   
+   </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">material</span>:<a href="../../../materials/special/ParticleMaterial.html">ParticleMaterial</a></code></td>
+<td width="20px"></td><td><code><span class="label">material</span>:<a href="../../../materials/special/ParticleMaterial.html">ParticleMaterial</a></code> &mdash;  The ParticleMaterial used for rendering the Particle
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">size</span>:Number</code> (default = <code>1</code>)<code></code></td>
+<td width="20px"></td><td><code><span class="label">size</span>:Number</code> (default = <code>1</code>)<code></code> &mdash;   The size of the particle. For some materials (ie BitmapParticleMaterial) this is used as a scale factor. 
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">x</span>:Number</code> (default = <code>0</code>)<code></code></td>
+<td width="20px"></td><td><code><span class="label">x</span>:Number</code> (default = <code>0</code>)<code></code> &mdash;    x position of the particle
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">y</span>:Number</code> (default = <code>0</code>)<code></code></td>
+<td width="20px"></td><td><code><span class="label">y</span>:Number</code> (default = <code>0</code>)<code></code> &mdash;    y position of the particle
+   </td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">z</span>:Number</code> (default = <code>0</code>)<code></code></td>
+<td width="20px"></td><td><code><span class="label">z</span>:Number</code> (default = <code>0</code>)<code></code> &mdash;    z position of the particle
+   
+   </td>
 </tr>
 </table>
 </div>
@@ -319,8 +339,12 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function updateRenderRect():void</code>
-</div>
+<code>public function updateRenderRect():void</code><p>
+   This is called during the projection cycle. It updates the rectangular area that 
+   the particle is drawn into. It's important for the culling phase, and changes dependent
+   on the type of material used.  
+    
+   </p></div>
 <br>
 <br>
 <hr>
