@@ -34,6 +34,8 @@
 		{
 			super(near, 40);
 			
+			this.fov = fov; 
+			
 			_prevFocus = 0;
 			_prevZoom = 0;
 			_prevOrtho = false;
