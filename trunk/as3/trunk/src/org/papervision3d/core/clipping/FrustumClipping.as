@@ -1,7 +1,5 @@
 package org.papervision3d.core.clipping
 {
-	import flash.utils.Dictionary;
-	
 	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.math.Matrix3D;
@@ -53,7 +51,7 @@ package org.papervision3d.core.clipping
 		
 		public override function reset(renderSessionData:RenderSessionData):void{
 			 
-			  project_scale = 256;//renderSessionData.camera.fov*(renderSessionData.camera.zoom/10);
+			  project_scale = 265;//renderSessionData.camera.fov*(renderSessionData.camera.zoom/10);
 			 
 			  angle_horizontal =  Math.atan2(renderSessionData.viewPort.viewportWidth/2,project_scale)-0.0001;
 			  angle_vertical  =  Math.atan2(renderSessionData.viewPort.viewportHeight/2,project_scale)-0.0001;
@@ -164,28 +162,24 @@ package org.papervision3d.core.clipping
 		
 		private function testClipped(plane:Plane3D, triangle:Triangle3D, object:DisplayObject3D, outputs:Array):void{
 			
-			var tests:Array = outputs;
+			//var tests:Array = outputs;
 			var results:Array = [];
 			
-			if(outputs.length == 0){
-				tests = [triangle];	
-			}
-			
-			var length:Number = tests.length;
+			var length:Number = outputs.length;
 			
 			for(var i:int=length-1;i>=0;i--){
 				
-				var t:Triangle3D = tests[i];
+				var t:Triangle3D = outputs[i];
 				
 				var classification:Number = ClassificationUtil.classifyTriangle(t, plane);
 				
 				if(classification != ClassificationUtil.STRADDLE){
-					if(classification == ClassificationUtil.BACK)
-						tests.splice(i, 1);
+					 if(classification == ClassificationUtil.BACK || classification == ClassificationUtil.COINCIDING )
+						outputs.splice(i, 1); 
 					continue;
 				}
 					
-				tests.splice(i, 1);
+				outputs.splice(i, 1);
 				
 				var d:Number = plane.d;
 				results = TriangleUtil.clipTriangleWithPlaneTris(t, plane, 0.01, getNextTri(), getNextTri());
@@ -205,14 +199,17 @@ package org.papervision3d.core.clipping
 		public override function clipFace(triangle:Triangle3D, object:DisplayObject3D, material:MaterialObject3D, renderSessionData:RenderSessionData, outputArray:Array):Number{
 			
 			var screenZ:Number = 0;
-			var outputs:Array = [];
+			var outputs:Array = [triangle];
 			
-			if(selectedPlanes & BOTTOM) testClipped(_bottomPlane, triangle, object, outputs);
-			if(selectedPlanes & TOP) testClipped(_topPlane, triangle, object, outputs);
+			
 			if(selectedPlanes & LEFT) testClipped(_leftPlane, triangle, object, outputs);
+			if(selectedPlanes & TOP) testClipped(_topPlane, triangle, object, outputs);
+			if(selectedPlanes & BOTTOM) testClipped(_bottomPlane, triangle, object, outputs);
+			
 			if(selectedPlanes & RIGHT) testClipped(_rightPlane, triangle, object, outputs);
 			if(selectedPlanes & NEAR) testClipped(_nearPlane, triangle, object, outputs);
 				
+			
 			for each(var f:Triangle3D in outputs)
 				outputArray.push(f);
 				
