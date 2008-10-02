@@ -58,7 +58,7 @@ package org.papervision3d.core.math.util
 			if(!triangle){
 				return null;
 			}
-			return classifyPoints([triangle.v0, triangle.v1, triangle.v2], plane, e);
+			return classifyPoints(triangle.vertices, plane, e);//[triangle.v0, triangle.v1, triangle.v2], plane, e);
 		}
 		
 	}

@@ -98,11 +98,11 @@ package org.papervision3d.core.math.util
 		public static function clipTriangleWithPlaneTris(tri:Triangle3D, plane:Plane3D, e:Number=0.01, t1:Triangle3D=null, t2:Triangle3D=null, depth:Number=0):Array
 		{
 
-			if(depth > 120)
-				return [tri];
+			if(depth > 420)
+				return [tri];  
 
-			var points:Array = [tri.v0, tri.v1, tri.v2];
-			var uvs:Array = [tri.uv0, tri.uv1, tri.uv2];
+			var points:Array = tri.vertices;//[tri.v0, tri.v1, tri.v2];
+			var uvs:Array = tri.uv;//[tri.uv0, tri.uv1, tri.uv2];
 			var out:Array = new Array();
 			var outuv:Array = new Array();
 			var isect:Intersection;
@@ -134,7 +134,8 @@ package org.papervision3d.core.math.util
 						isect = Intersection.linePlane(s, p, plane, e);
 						if( isect.status != Intersection.INTERSECTION )
 						{
-							plane.d -= 0.01;
+							plane.d -= 0.05;
+							
 							return clipTriangleWithPlaneTris(tri, plane, e, t1, t2, depth+1);
 						}
 						
@@ -153,7 +154,8 @@ package org.papervision3d.core.math.util
 					isect = Intersection.linePlane(p, s, plane, e);
 					if( isect.status != Intersection.INTERSECTION )
 					{
-						plane.d -= 0.01;
+						plane.d -= 0.05;
+						
 						return clipTriangleWithPlaneTris(tri, plane, e, t1, t2, depth+1);
 					}
 					

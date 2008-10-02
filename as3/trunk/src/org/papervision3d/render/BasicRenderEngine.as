@@ -117,7 +117,7 @@ package org.papervision3d.render
 			filter = new BasicRenderFilter();
 			
 			renderList = new Array();
-			clipping = new DefaultClipping();
+			clipping = null;
 			
 			renderSessionData = new RenderSessionData();
 			renderSessionData.renderer = this;
