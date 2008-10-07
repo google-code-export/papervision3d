@@ -80,6 +80,9 @@
 	{
 		use namespace collada;
 		
+		/** Defines wether to set materials by target id or name - Might fix C4D**/
+		public var useMaterialTargetName:Boolean = false;
+		
 		/** Default line color for splines. */
 		public static var DEFAULT_LINE_COLOR:uint = 0xffff00;
 		
@@ -942,12 +945,20 @@
 			{
 				var material:MaterialObject3D = null;
 				var daeMaterial:DaeMaterial = this.document.materials[ materialId ];
-
+				
 				var symbol:String = this.document.materialTargetToSymbol[ daeMaterial.id ];
-							
+				
+				var mat:MaterialObject3D;
+				if(useMaterialTargetName){
+					mat = this.materials.getMaterialByName(materialId);
+					
+				}else{
+					mat = this.materials.getMaterialByName(symbol);
+				}
 				// material already exists in our materialsList, no need to process
-				if(this.materials.getMaterialByName(symbol))
+				if(mat){
 					continue;
+				}
 					
 				var effect:DaeEffect = document.effects[ daeMaterial.effect ];
 				
@@ -969,7 +980,7 @@
 					
 						material = new BitmapFileMaterial();
 						material.doubleSided = effect.double_sided;
-						_queuedMaterials.push({symbol:symbol, url:imageUrl, material:material});
+						_queuedMaterials.push({symbol:symbol, url:imageUrl, material:material, target:materialId});
 						continue;
 					}
 				}
@@ -986,7 +997,14 @@
 					
 				material.doubleSided = effect.double_sided;
 				
-				this.materials.addMaterial(material, symbol);
+				if(useMaterialTargetName){
+					this.materials.addMaterial(material, materialId);
+					
+				}else{
+					this.materials.addMaterial(material, symbol);
+				}
+				
+				
 			}
 		}
 		
@@ -1111,7 +1129,13 @@
 					{
 						for each(var instanceMaterial:DaeInstanceMaterial in geom.materials)
 						{
-							material = this.materials.getMaterialByName(instanceMaterial.symbol);
+							
+							if(useMaterialTargetName){
+								material = this.materials.getMaterialByName(instanceMaterial.target);
+								
+							}else{
+								material = this.materials.getMaterialByName(instanceMaterial.symbol);
+							}
 							if(material)
 							{
 								// register shaded materials with its object
@@ -1408,16 +1432,22 @@
 				var data:Object = _queuedMaterials.shift();
 				var url:String = data.url;
 				var symbol:String = data.symbol;
+				var target:String = data.target;
 				
 				url = url.replace(/\.tga/i, "."+DEFAULT_TGA_ALTERNATIVE);
 				
 				var material:BitmapFileMaterial = data.material;
 				material.addEventListener(FileLoadEvent.LOAD_COMPLETE, loadNextMaterial);
 				material.addEventListener(FileLoadEvent.LOAD_ERROR, onMaterialError);
-				material.name = symbol;
+				
 				material.texture = url + "?nc=" + Math.random();
-			
-				this.materials.addMaterial(material, symbol);
+				if(useMaterialTargetName){
+					material.name = target;
+					this.materials.addMaterial(material, target);
+				}else{
+					material.name = symbol;
+					this.materials.addMaterial(material, symbol);
+				}
 			}
 			else
 			{
