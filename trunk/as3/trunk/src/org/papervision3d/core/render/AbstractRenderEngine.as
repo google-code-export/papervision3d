@@ -1,12 +1,14 @@
 package org.papervision3d.core.render
 {
 	import flash.events.EventDispatcher;
-	import org.papervision3d.core.render.data.RenderStatistics;
-	import org.papervision3d.core.render.command.IRenderListItem;
 	import flash.events.IEventDispatcher;
-	import org.papervision3d.view.Viewport3D;
+	
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.core.proto.SceneObject3D;
+	import org.papervision3d.core.render.command.IRenderListItem;
+	import org.papervision3d.core.render.command.RenderableListItem;
+	import org.papervision3d.core.render.data.RenderStatistics;
+	import org.papervision3d.view.Viewport3D;
 
 	public class AbstractRenderEngine extends EventDispatcher implements IRenderEngine
 	{
@@ -20,7 +22,7 @@ package org.papervision3d.core.render
 			return null;
 		}
 		
-		public function addToRenderList(renderCommand:IRenderListItem):int
+		public function addToRenderList(renderCommand:RenderableListItem):int
 		{
 			return 0;
 		}

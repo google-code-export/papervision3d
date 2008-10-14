@@ -8,6 +8,7 @@ package org.papervision3d.materials.shadematerials
 	import org.papervision3d.core.material.AbstractSmoothShadeMaterial;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.proto.LightObject3D;
+	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.core.render.material.IUpdateBeforeMaterial;
@@ -28,8 +29,9 @@ package org.papervision3d.materials.shadematerials
 			gouraudMap = LightMaps.getGouraudMaterialMap(lightColor,ambientColor);
 		}
 		
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
+		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
+			var face3D:Triangle3D = tri.triangle;
 			lightMatrix = Matrix3D(lightMatrices[face3D.instance]);
 		
 			var p0:Number = (face3D.v0.normal.x * lightMatrix.n31 + face3D.v0.normal.y * lightMatrix.n32 + face3D.v0.normal.z * lightMatrix.n33)+1;
@@ -50,12 +52,12 @@ package org.papervision3d.materials.shadematerials
 			transformMatrix.d = 3;
 		    transformMatrix.invert();
 		    
-		    var x0:Number = face3D.v0.vertex3DInstance.x;
-		    var y0:Number = face3D.v0.vertex3DInstance.y;
-			var x1:Number = face3D.v1.vertex3DInstance.x;
-			var y1:Number = face3D.v1.vertex3DInstance.y;
-			var x2:Number = face3D.v2.vertex3DInstance.x;
-			var y2:Number = face3D.v2.vertex3DInstance.y;
+		    var x0:Number = tri.v0.x;
+		    var y0:Number = tri.v0.y;
+			var x1:Number = tri.v1.x;
+			var y1:Number = tri.v1.y;
+			var x2:Number = tri.v2.x;
+			var y2:Number = tri.v2.y;
 	
 			triMatrix.a = x1 - x0;
 			triMatrix.b = y1 - y0;

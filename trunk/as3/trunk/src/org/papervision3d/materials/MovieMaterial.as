@@ -7,8 +7,8 @@ package org.papervision3d.materials
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	
-	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.log.PaperLogger;
+	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.core.render.material.IUpdateAfterMaterial;
@@ -175,11 +175,12 @@ package org.papervision3d.materials
 			}
 		}
 		
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData=null, altUV:Matrix=null):void
+		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData=null, altUV:Matrix=null):void
 		{
 			materialIsUsed = true;
-			super.drawTriangle(face3D, graphics, renderSessionData, altBitmap, altUV);
+			super.drawTriangle(tri, graphics, renderSessionData, altBitmap, altUV);
 		}
+	
 		
 		// ______________________________________________________________________ UPDATE
 		/**

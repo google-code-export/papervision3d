@@ -6,6 +6,7 @@
 	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.material.TriangleMaterial;
+	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	
@@ -34,25 +35,26 @@
 		/**
 		 *  drawTriangle
 		 */
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
-		{
-			var x0:Number = face3D.v0.vertex3DInstance.x;
-			var y0:Number = face3D.v0.vertex3DInstance.y;
+		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData=null, altUV:Matrix=null):void{
+			var x0:Number = tri.v0.x;
+			var y0:Number = tri.v0.y;
 			
 			if( lineAlpha )
 			{
 				graphics.lineStyle( lineThickness, lineColor, lineAlpha );
 				graphics.moveTo( x0, y0 );
-				graphics.lineTo( face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y );
-				graphics.lineTo( face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y );
+				graphics.lineTo( tri.v1.x, tri.v1.y );
+				graphics.lineTo( tri.v2.x, tri.v2.y );
 				graphics.lineTo( x0, y0 );
 				graphics.lineStyle();
 
 				renderSessionData.renderStatistics.triangles++;
 			}
-
+			
 		}
-
+		
+		
+		
 		// ______________________________________________________________________ TO STRING
 
 		/**

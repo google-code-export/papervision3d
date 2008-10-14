@@ -113,7 +113,7 @@
 				p.updateRenderRect();
 				
 				if(renderSessionData.viewPort.particleCuller.testParticle(p)){
-					p.renderCommand.screenDepth = p.vertex3D.vertex3DInstance.z;
+					p.renderCommand.screenZ = p.vertex3D.vertex3DInstance.z;
 					renderSessionData.renderer.addToRenderList(p.renderCommand);	
 				}else{
 					renderSessionData.renderStatistics.culledParticles++;

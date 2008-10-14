@@ -9,9 +9,9 @@ package org.papervision3d.materials
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.events.FileLoadEvent;
@@ -303,7 +303,7 @@ package org.papervision3d.materials
 		/**
 		 *  drawFace3D
 		 */
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
+		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData=null, altUV:Matrix=null):void
 		{
 			if (bitmap == null || errorLoading)
 			{
@@ -312,10 +312,10 @@ package org.papervision3d.materials
 				}
 				
 				graphics.beginFill( fillColor, fillAlpha );
-				graphics.moveTo( face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y );
-				graphics.lineTo( face3D.v1.vertex3DInstance.x, face3D.v1.vertex3DInstance.y );
-				graphics.lineTo( face3D.v2.vertex3DInstance.x, face3D.v2.vertex3DInstance.y );
-				graphics.lineTo( face3D.v0.vertex3DInstance.x, face3D.v0.vertex3DInstance.y );
+				graphics.moveTo( tri.v0.x, tri.v0.y );
+				graphics.lineTo( tri.v1.x, tri.v1.y );
+				graphics.lineTo( tri.v2.x, tri.v2.y );
+				graphics.lineTo( tri.v0.x, tri.v0.y );
 				graphics.endFill();
 				
 				if(errorLoading){
@@ -324,7 +324,7 @@ package org.papervision3d.materials
 				
 				renderSessionData.renderStatistics.triangles++;
 			}
-			super.drawTriangle(face3D, graphics, renderSessionData);
+			super.drawTriangle(tri, graphics, renderSessionData);
 		}
 
 

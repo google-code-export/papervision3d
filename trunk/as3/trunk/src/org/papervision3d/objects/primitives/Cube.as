@@ -153,8 +153,13 @@ package org.papervision3d.objects.primitives {
 	
 			if( ! (excludeFaces & BOTTOM) )
 				buildPlane( "bottom", "x", "z", width, depth, -height2, ! Boolean( insideFaces & BOTTOM ) );
-	
+
 			mergeVertices();
+			
+			for each(var t:Triangle3D in this.geometry.faces){
+				t.renderCommand.create = createRenderTriangle;
+			}
+			
 			this.geometry.ready = true;
 			
 			if(Papervision3D.useRIGHTHANDED)

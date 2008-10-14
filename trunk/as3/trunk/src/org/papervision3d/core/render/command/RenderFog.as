@@ -16,7 +16,7 @@ package org.papervision3d.core.render.command {
 		{
 			super();
 			this.alpha= alpha;
-			this.screenDepth = depth;
+			this.screenZ = depth;
 			this.material = material;
 			if(do3d){
 				this.renderableInstance = new AbstractRenderable();

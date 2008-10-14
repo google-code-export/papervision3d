@@ -6,6 +6,7 @@ import flash.geom.Matrix;
 
 import org.papervision3d.core.geom.renderables.Triangle3D;
 import org.papervision3d.core.material.TriangleMaterial;
+import org.papervision3d.core.render.command.RenderTriangle;
 import org.papervision3d.core.render.data.RenderSessionData;
 import org.papervision3d.core.render.draw.ITriangleDrawer;
 
@@ -33,14 +34,15 @@ public class ColorMaterial extends TriangleMaterial implements ITriangleDrawer
 	/**
 	 *  drawTriangle
 	 */
-	override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
-	{
-		var x0:Number = face3D.v0.vertex3DInstance.x;
-		var y0:Number = face3D.v0.vertex3DInstance.y;
-		var x1:Number = face3D.v1.vertex3DInstance.x;
-		var y1:Number = face3D.v1.vertex3DInstance.y;
-		var x2:Number = face3D.v2.vertex3DInstance.x;
-		var y2:Number = face3D.v2.vertex3DInstance.y;
+	
+	override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData=null, altUV:Matrix=null):void{
+		
+		var x0:Number = tri.v0.x;
+		var y0:Number = tri.v0.y;
+		var x1:Number = tri.v1.x;
+		var y1:Number = tri.v1.y;
+		var x2:Number = tri.v2.x;
+		var y2:Number = tri.v2.y;
 		
 		graphics.beginFill( fillColor, fillAlpha );
 		graphics.moveTo( x0, y0 );
@@ -50,7 +52,6 @@ public class ColorMaterial extends TriangleMaterial implements ITriangleDrawer
 		graphics.endFill();
 		
 		renderSessionData.renderStatistics.triangles++;
-	
 	}
 	
 	/**

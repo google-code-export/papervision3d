@@ -5,9 +5,9 @@ package org.papervision3d.materials.shaders
 	import flash.geom.Matrix;
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.material.TriangleMaterial;
+	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.core.render.material.IUpdateAfterMaterial;
@@ -43,19 +43,20 @@ package org.papervision3d.materials.shaders
 		/**
 		 * Localized vars
 		 */
+		 	 
 		 private static var bmp:BitmapData;
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
+		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
-			var sod:ShaderObjectData = ShaderObjectData(shaderObjectData[face3D.instance]);
+			var sod:ShaderObjectData = ShaderObjectData(shaderObjectData[tri.renderableInstance.instance]);
 			if(shaderCompositeMode == ShaderCompositeModes.PER_LAYER){
 				//Render shader to layer.
-				material.drawTriangle(face3D, graphics, renderSessionData, sod.shaderRenderer.outputBitmap);
-				shader.renderLayer(face3D, renderSessionData, sod);
+				material.drawTriangle(tri, graphics, renderSessionData, sod.shaderRenderer.outputBitmap);
+				shader.renderLayer(tri.triangle, renderSessionData, sod);
 			}else if(shaderCompositeMode == ShaderCompositeModes.PER_TRIANGLE_IN_BITMAP){
 				//Render shader per tri - TO FIX.
-				bmp = sod.getOutputBitmapFor(face3D);
-				material.drawTriangle(face3D, graphics, renderSessionData, bmp, sod.triangleUVS[face3D] ? sod.triangleUVS[face3D] : sod.getPerTriUVForDraw(face3D));
-				shader.renderTri(face3D,renderSessionData,sod,bmp);
+				bmp = sod.getOutputBitmapFor(tri.triangle);
+				material.drawTriangle(tri, graphics, renderSessionData, bmp, sod.triangleUVS[tri.triangle] ? sod.triangleUVS[tri.triangle] : sod.getPerTriUVForDraw(tri.triangle));
+				shader.renderTri(tri.triangle,renderSessionData,sod,bmp);
 			}
 		}
 		

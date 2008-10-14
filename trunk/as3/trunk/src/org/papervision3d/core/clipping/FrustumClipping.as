@@ -70,7 +70,7 @@ package org.papervision3d.core.clipping
 		
 		public override function testFace(triangle:Triangle3D, object:DisplayObject3D, renderSessionData:RenderSessionData):Boolean{
 
-			var classification:Number = 0;
+			/* var classification:Number = 0;
 			
 			if((selectedPlanes & NEAR)){
 				classification =ClassificationUtil.classifyTriangle(triangle, _nearPlane);
@@ -103,7 +103,10 @@ package org.papervision3d.core.clipping
 					return true;
 			}
 				
-			return false;
+			return false; */
+			
+			//testing is now needed in the actual loop, so lets not waste time
+			return true;
 
 		}
 		
@@ -229,53 +232,37 @@ package org.papervision3d.core.clipping
 		static public var NEAR   :int = 0x02;
 	
 		/**
-		* Right face selection
+		* RIGHT PLANE selection
 		*/
 		static public var RIGHT  :int = 0x04;
 	
 		/**
-		* Left face selection
+		* Left plane selection
 		*/
 		static public var LEFT   :int = 0x08;
 	
 		/**
-		* Top face selection
+		* Top plane selection
 		*/
 		static public var TOP    :int = 0x10;
 	
 		/**
-		* Bottom face selection
+		* Bottom plane selection
 		*/
 		static public var BOTTOM :int = 0x20;
 	
 		/**
-		* All faces selected.
+		* All planes selected.
 		*/
 		static public var ALL    :int = NEAR + RIGHT + LEFT + TOP + BOTTOM;
 		
+		/**
+		 * no planes
+		 */
+		static public var NONE	 :int  = 0;
 		
-		/*
-		// left
-		  sides[0].normal.x=ch;
-		  sides[0].normal.y=0;
-		  sides[0].normal.z=sh;
-		  sides[0].distance = 0;
-		  // right
-		  sides[1].normal.x=-ch;
-		  sides[1].normal.y=0;
-		  sides[1].normal.z=sh;
-		  sides[1].distance = 0;
-		  // top
-		  sides[2].normal.x=0;
-		  sides[2].normal.y=cv;
-		  sides[2].normal.z=sv;
-		  sides[2].distance = 0;
-		  // bottom
-		  sides[3].normal.x=0;
-		  sides[3].normal.y=-cv;
-		  sides[3].normal.z=sv;
-		  sides[3].distance = 0;
-		*/
+		
+		
 		
 	}
 }

@@ -9,6 +9,7 @@ package org.papervision3d.core.render.command
 	import flash.geom.Point;
 	
 	import org.papervision3d.core.geom.renderables.Line3D;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.math.Number2D;
 	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.render.data.RenderHitData;
@@ -31,6 +32,13 @@ package org.papervision3d.core.render.command
 		private var v : Number2D;
 		private var cp3d : Number3D; 
 
+		public var v0:Vertex3DInstance;
+        public var v1:Vertex3DInstance;
+        public var cV:Vertex3DInstance;
+		
+		public var size:Number;
+		public var length:Number;
+
 		public function RenderLine(line:Line3D)
 		{
 			super();
@@ -38,6 +46,9 @@ package org.papervision3d.core.render.command
 			this.renderableInstance = line;
 			this.line = line;
 			
+			v0 = line.v0.vertex3DInstance;
+			v1 = line.v1.vertex3DInstance;
+			cV = line.cV.vertex3DInstance;
 			
 			// pre-made for hittest
 			p = new Number2D(); 
@@ -51,7 +62,7 @@ package org.papervision3d.core.render.command
 		override public function render(renderSessionData:RenderSessionData, graphics:Graphics):void
 		{
 
-			renderer.drawLine(line, graphics, renderSessionData);
+			renderer.drawLine(this, graphics, renderSessionData);
 			
 		}
 		
@@ -121,6 +132,72 @@ package org.papervision3d.core.render.command
 		}
 		
 		
+		override public function getZ(x:Number, y:Number, focus:Number):Number{
+              
+            ax = v0.x;
+            ay = v0.y;
+            az = v0.z;
+            bx = v1.x;
+            by = v1.y;
+            bz = v1.z;
+
+            if ((ax == x) && (ay == y))
+                return az;
+
+            if ((bx == x) && (by == y))
+                return bz;
+
+            dx = bx - ax;
+            dy = by - ay;
+
+            azf = az / focus;
+            bzf = bz / focus;
+
+            faz = 1 + azf;
+            fbz = 1 + bzf;
+
+            xfocus = x;
+            yfocus = y;
+
+            axf = ax*faz - x*azf;
+            bxf = bx*fbz - x*bzf;
+            ayf = ay*faz - y*azf;
+            byf = by*fbz - y*bzf;
+
+            det = dx*(axf - bxf) + dy*(ayf - byf);
+            db = dx*(axf - x) + dy*(ayf - y);
+            da = dx*(x - bxf) + dy*(y - byf);
+
+            return (da*az + db*bz) / det;
+		}
+		
+		
+		/*
+		Quad Vars Don't Touch
+		*/
+		private var ax:Number;
+        private var ay:Number;
+        private var az:Number;
+        private var bx:Number;
+        private var by:Number;
+        private var bz:Number;
+        private var dx:Number;
+        private var dy:Number;
+        private var azf:Number;
+        private var bzf:Number;
+        private var faz:Number;
+        private var fbz:Number;
+        private var xfocus:Number;
+        private var yfocus:Number;
+        private var axf:Number;
+        private var bxf:Number;
+        private var ayf:Number;
+        private var byf:Number;
+        private var det:Number;
+        private var db:Number;
+        private var da:Number;
+        
+       
 		
 	}
 }

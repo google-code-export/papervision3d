@@ -9,6 +9,7 @@ package org.papervision3d.materials.shadematerials
 	import org.papervision3d.core.material.AbstractSmoothShadeMaterial;
 	import org.papervision3d.core.math.Matrix3D;
 	import org.papervision3d.core.proto.LightObject3D;
+	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	
@@ -51,9 +52,11 @@ package org.papervision3d.materials.shadematerials
 		 * Localized stuff.
 		 */
 		private static var useMap:BitmapData;
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
+		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
+			var face3D:Triangle3D = tri.triangle;
 			lightMatrix = Matrix3D(lightMatrices[face3D.instance]);
+			
 			
 			/*
 			v0 = triangle.v0.vertex3DInstance;
@@ -74,12 +77,12 @@ package org.papervision3d.materials.shadematerials
 			p2 = lightmapHalfwidth*(face3D.v2.normal.x * lightMatrix.n11 + face3D.v2.normal.y * lightMatrix.n12 + face3D.v2.normal.z * lightMatrix.n13)+lightmapHalfwidth;
 			q2 = lightmapHalfheight*(face3D.v2.normal.x * lightMatrix.n21 + face3D.v2.normal.y * lightMatrix.n22 + face3D.v2.normal.z * lightMatrix.n23)+lightmapHalfheight;
 				
-			x0 = face3D.v0.vertex3DInstance.x;
-		    y0 = face3D.v0.vertex3DInstance.y;
-			x1 = face3D.v1.vertex3DInstance.x;
-			y1 = face3D.v1.vertex3DInstance.y;
-			x2 = face3D.v2.vertex3DInstance.x;
-			y2 = face3D.v2.vertex3DInstance.y;
+			x0 = tri.v0.x;
+		    y0 = tri.v0.y;
+			x1 = tri.v1.x;
+			y1 = tri.v1.y;
+			x2 = tri.v2.x;
+			y2 = tri.v2.y;
 	
 			triMatrix.a = x1 - x0;
 			triMatrix.b = y1 - y0;

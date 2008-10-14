@@ -56,6 +56,7 @@ package org.papervision3d.core.geom
 	import org.papervision3d.core.geom.renderables.Line3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.log.PaperLogger;
+	import org.papervision3d.core.render.command.RenderLine;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ILineDrawer;
 	import org.papervision3d.materials.special.LineMaterial;
@@ -103,14 +104,23 @@ package org.papervision3d.core.geom
 			
 			var line3D:Line3D;
 			var screenZ:Number;
+			var rc:RenderLine;
 			
 			for each(line3D in lines)
 			{
 				if(renderSessionData.viewPort.lineCuller.testLine(line3D))
 				{
-					line3D.renderCommand.renderer = line3D.material;
-					screenZ+=line3D.renderCommand.screenDepth = (line3D.v0.vertex3DInstance.z + line3D.v1.vertex3DInstance.z)/2;
-					renderSessionData.renderer.addToRenderList(line3D.renderCommand);
+					rc = line3D.renderCommand;
+					
+					rc.renderer = line3D.material;
+					rc.size = line3D.size;
+					
+					screenZ += rc.screenZ = (line3D.v0.vertex3DInstance.z + line3D.v1.vertex3DInstance.z)/2;
+					
+					rc.v0 = line3D.v0.vertex3DInstance;
+					rc.v1 = line3D.v1.vertex3DInstance;
+					
+					renderSessionData.renderer.addToRenderList(rc);
 				}
 			}
 			

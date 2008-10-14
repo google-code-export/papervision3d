@@ -28,18 +28,18 @@ package org.papervision3d.core.render.command
 			var canvas:BitmapData = layer.canvas;
 			
 			var v3d:Vertex3DInstance;
-			screenDepth = 0;
+			screenZ = 0;
 			
 			for each(var p:Pixel3D in pixels.pixels){
 				v3d = p.vertex3D.vertex3DInstance;
 				if(v3d.visible){
 					canvas.setPixel32(v3d.x+offsetX, v3d.y+offsetY, p.color);
-					screenDepth += v3d.z;				
+					screenZ += v3d.z;				
 				}
 			}
 			
-			screenDepth /= pixels.pixels.length;
-			layer.screenDepth += screenDepth;
+			screenZ /= pixels.pixels.length;
+			layer.screenDepth += screenZ;
 			layer.weight += 1;
 		}
 

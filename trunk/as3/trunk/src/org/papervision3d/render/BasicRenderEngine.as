@@ -282,7 +282,7 @@ package org.papervision3d.render
 		 * 
 		 * @return int				An integer representing the length of the <code>renderList</code>
 		 */
-		override public function addToRenderList(renderCommand:IRenderListItem):int
+		override public function addToRenderList(renderCommand:RenderableListItem):int
 		{
 			return renderList.push(renderCommand);
 		}

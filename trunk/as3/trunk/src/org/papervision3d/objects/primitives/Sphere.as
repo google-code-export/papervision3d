@@ -143,6 +143,10 @@ package org.papervision3d.objects.primitives {
 					}
 				}
 			}
+			for each(var t:Triangle3D in aFace){
+				t.renderCommand.create = createRenderTriangle;
+			}
+			
 			this.geometry.ready = true;
 			
 			if(Papervision3D.useRIGHTHANDED)
