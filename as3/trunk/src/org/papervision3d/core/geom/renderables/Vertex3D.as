@@ -82,6 +82,8 @@ package org.papervision3d.core.geom.renderables
 		public var normal:Number3D;
 		public var connectedFaces:Dictionary;
 		
+		private var persp:Number=0;
+		
 		protected var position:Number3D = new Number3D();
 	
 		/**
@@ -154,6 +156,21 @@ package org.papervision3d.core.geom.renderables
 		{
 			return null;
 		}
+		
+		public static function weighted(a:Vertex3D, b:Vertex3D, aw:Number, bw:Number):Vertex3D
+        {                
+            var d:Number = aw + bw;
+            var ak:Number = aw / d;
+            var bk:Number = bw / d;
+            return new Vertex3D(a.x*ak+b.x*bk, a.y*ak + b.y*bk, a.z*ak + b.z*bk);
+        }
+        
+        public function perspective(focus:Number):Vertex3DInstance
+        {
+            persp = 1 / (1 + z / focus);
+
+            return new Vertex3DInstance(x * persp, y * persp, z);
+        }
 		
 	}
 }

@@ -10,7 +10,7 @@ package org.papervision3d.core.render.sort
 		//Sorts the renderlist by screenDepth.
 		public function sort(array:Array):void
 		{
-			array.sortOn("screenDepth", Array.NUMERIC);
+			array.sortOn("screenZ", Array.NUMERIC);
 		}
 		
 	}

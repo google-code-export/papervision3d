@@ -282,7 +282,7 @@ package org.papervision3d.view.layer {
 		
 		public function processRenderItem(rc:RenderableListItem):void{
 			if(!forceDepth){
-				this.screenDepth += rc.screenDepth;
+				this.screenDepth += rc.screenZ;
 				this.weight++;
 			}
 		}

@@ -13,6 +13,7 @@
 	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.material.TriangleMaterial;
 	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.materials.utils.RenderRecStorage;
@@ -92,6 +93,7 @@
 			uvMatrices = new Dictionary();
 		}
 		
+			
 		//Local storage. Avoid var's in high usage functions.
 		private var x0:Number;
 		private var y0:Number;
@@ -102,21 +104,22 @@
 		/**
 		 *  drawTriangle
 		 */
-		override public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
+		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
-			_triMap = altUV ? altUV : (uvMatrices[face3D] || transformUV(face3D));
+		//	trace("at drawing triangle???");
+			_triMap = altUV ? altUV : (uvMatrices[tri] || transformUVRT(tri));
 			if(!_precise || !_triMap){
 				if( lineAlpha )
 					graphics.lineStyle( lineThickness, lineColor, lineAlpha );
 				if( bitmap )
 				{
 					
-					x0 = face3D.v0.vertex3DInstance.x;
-					y0 = face3D.v0.vertex3DInstance.y;
-					x1 = face3D.v1.vertex3DInstance.x;
-					y1 = face3D.v1.vertex3DInstance.y;
-					x2 = face3D.v2.vertex3DInstance.x;
-					y2 = face3D.v2.vertex3DInstance.y;
+					x0 = tri.v0.x;
+					y0 = tri.v0.y;
+					x1 = tri.v1.x;
+					y1 = tri.v1.y;
+					x2 = tri.v2.x;
+					y2 = tri.v2.y;
 	
 					_triMatrix.a = x1 - x0;
 					_triMatrix.b = y1 - y0;
@@ -151,7 +154,7 @@
 					tempPreRSD = renderSessionData;
 					tempPreGrp = graphics;
 					cullRect = renderSessionData.viewPort.cullingRectangle;
-					renderRec(_triMap, face3D.v0.vertex3DInstance, face3D.v1.vertex3DInstance, face3D.v2.vertex3DInstance, 0);	 
+					renderRec(_triMap, tri.v0, tri.v1, tri.v2, 0);	 
 				}
 			}
 		}
@@ -219,6 +222,67 @@
 
 			return mapping;
 		}
+		
+		/**
+		* Applies the updated UV texture mapping values to the triangle. This is required to speed up rendering.
+		*
+		*/
+		public function transformUVRT(tri:RenderTriangle):Matrix
+		{			
+			if( bitmap )
+			{
+				//var uv :Array  = face3D.uv;
+				
+				var w  :Number = bitmap.width * maxU;
+				var h  :Number = bitmap.height * maxV;
+				var u0 :Number = w * tri.uv0.u;
+				var v0 :Number = h * ( 1 - tri.uv0.v );
+				var u1 :Number = w * tri.uv1.u;
+				var v1 :Number = h * ( 1 - tri.uv1.v);
+				var u2 :Number = w * tri.uv2.u;
+				var v2 :Number = h * ( 1 - tri.uv2.v );
+				
+				// Fix perpendicular projections
+				if( (u0 == u1 && v0 == v1) || (u0 == u2 && v0 == v2) )
+				{
+					u0 -= (u0 > 0.05)? 0.05 : -0.05;
+					v0 -= (v0 > 0.07)? 0.07 : -0.07;
+				}
+				
+				if( u2 == u1 && v2 == v1 )
+				{
+					u2 -= (u2 > 0.05)? 0.04 : -0.04;
+					v2 -= (v2 > 0.06)? 0.06 : -0.06;
+				}
+				
+				// Precalculate matrix & correct for mip mapping
+				var at :Number = ( u1 - u0 );
+				var bt :Number = ( v1 - v0 );
+				var ct :Number = ( u2 - u0 );
+				var dt :Number = ( v2 - v0 );
+				
+				var m :Matrix = new Matrix( at, bt, ct, dt, u0, v0 );
+				// Need to mirror over X-axis when righthanded
+				if(Papervision3D.useRIGHTHANDED)
+				{
+					m.scale(-1, 1);
+					m.translate(w, 0);
+				}
+				m.invert();
+				
+				var mapping:Matrix = uvMatrices[tri] = m.clone();
+				mapping.a  = m.a;
+				mapping.b  = m.b;
+				mapping.c  = m.c;
+				mapping.d  = m.d;
+				mapping.tx = m.tx;
+				mapping.ty = m.ty;
+			}
+			else PaperLogger.error( "MaterialObject3D: transformUV() material.bitmap not found!" );
+
+			return mapping;
+		}
+		
 		
 		protected var ax:Number;
 		protected var ay:Number;

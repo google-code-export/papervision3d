@@ -112,7 +112,7 @@ package org.papervision3d.core.utils {
 			var v_x : Number = ( u1 - u0 ) * v +  ( u2 - u0 ) * u + u0;
 			var v_y : Number = ( v1 - v0 ) * v +  ( v2 - v0 ) * u + v0;
 
-			var material:MaterialObject3D = face3d.face3DInstance.instance.material;
+			var material:MaterialObject3D = face3d.instance.material;
 			var bitmap:BitmapData = material.bitmap;
 			var width:Number = 1;
 			var height:Number = 1;

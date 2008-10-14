@@ -6,7 +6,7 @@
 	import flash.geom.Matrix;
 	import flash.utils.Dictionary;
 	
-	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.core.render.material.MaterialManager;
@@ -176,8 +176,12 @@
 		/**
 		 * Draws the triangle to screen.
 		 */
-		public function drawTriangle(face3D:Triangle3D, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
+		public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
+			
+		}
+		
+		public function drawRT(rt:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData):void{
 			
 		}
 		

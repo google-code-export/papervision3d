@@ -7,11 +7,11 @@ package org.papervision3d.core.render.draw
 	 
 	import flash.display.Graphics;
 	
-	import org.papervision3d.core.geom.renderables.Line3D;
+	import org.papervision3d.core.render.command.RenderLine;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	
 	public interface ILineDrawer
 	{
-		function drawLine(line:Line3D, graphics:Graphics, renderSessionData:RenderSessionData):void;
+		function drawLine(line:RenderLine, graphics:Graphics, renderSessionData:RenderSessionData):void;
 	}
 }

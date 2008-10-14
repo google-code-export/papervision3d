@@ -86,6 +86,9 @@ package org.papervision3d.core.geom {
 			// Vertices
 			//super.project(parent, renderSessionData);
 			
+			_dtStore = [];//_dtStore.concat(_dtActive);
+        	_dtActive = new Array();
+			
 			var ps:Array = [];
 				
 				if(renderSessionData.clipping && this.useClipping && !this.culled && (renderSessionData.camera.useCulling?cullTest==0:true)){
@@ -129,36 +132,60 @@ package org.papervision3d.core.geom {
 				for each(face in ps){
 					
 					mat = face.material ? face.material : material;
-					iFace = face.face3DInstance;
+					//iFace = face.face3DInstance;
 					vertex0 = face.v0.vertex3DInstance;
 					vertex1 = face.v1.vertex3DInstance;
 					vertex2 = face.v2.vertex3DInstance;
 					
 					//clip first, then cull, then ignore
-					if((iFace.visible = triCuller.testFace(face, vertex0, vertex1, vertex2))){
-						switch(meshSort)
-						{
-							case DisplayObject3D.MESH_SORT_CENTER:
-								screenZs += iFace.screenZ = (vertex0.z + vertex1.z + vertex2.z)/3;
-								break;
-							
-							case DisplayObject3D.MESH_SORT_FAR:
-								screenZs += iFace.screenZ = Math.max(vertex0.z,vertex1.z,vertex2.z);
-								break;
-								
-							case DisplayObject3D.MESH_SORT_CLOSE:
-								screenZs += iFace.screenZ = Math.min(vertex0.z,vertex1.z,vertex2.z);
-								break;
-						}
+					if(triCuller.testFace(face, vertex0, vertex1, vertex2)){
+						
 						rc = face.renderCommand;
+						screenZs += rc.screenZ = setScreenZ(meshSort, vertex0, vertex1, vertex2);
 						visibleFaces++;
+						
 						rc.renderer = mat as ITriangleDrawer;
-						rc.screenDepth = iFace.screenZ;
+						
+						rc.v0 = vertex0;
+						rc.v1 = vertex1;
+						rc.v2 = vertex2;
+						
+						rc.uv0 = face.uv0;
+						rc.uv1 = face.uv1;
+						rc.uv2 = face.uv2;
+						
+						//we only want to perform some operations if we have quadtree on
+						//we can simplify this, but calling update on each rendercommand will slow the loop
+						
+						if(renderSessionData.quadrantTree){
+							
+							if(rc.create == null)
+								rc.create = createRenderTriangle;
+							
+							//update the rendercommand for the tree
+							rc.update();
+							
+							//if we should see the back of the triangle - flip it so quad will work on it
+							if(rc.area < 0 && (face.material.doubleSided || (face.material.oneSide && face.material.opposite)) ){
+								
+								var vt:Vertex3DInstance = rc.v1;
+								rc.v1 = rc.v2;
+								rc.v2 = vt;
+								
+								rc.area = - rc.area;
+								
+								rc.uv0 = face.uv0;
+								rc.uv1 = face.uv2;
+								rc.uv2 = face.uv1;
+							}
+								
+						}				
+						
 						renderSessionData.renderer.addToRenderList(rc);
 						
 					}else{
 						
-							renderSessionData.renderStatistics.culledTriangles++;
+						renderSessionData.renderStatistics.culledTriangles++;
 						
 					}
 					
@@ -169,6 +196,22 @@ package org.papervision3d.core.geom {
 				renderSessionData.renderStatistics.culledObjects++;
 				return 0;
 			}
+		}
+		
+		private function setScreenZ(meshSort:uint, vertex0:Vertex3DInstance, vertex1:Vertex3DInstance, vertex2:Vertex3DInstance):Number{
+			switch(meshSort)
+			{
+				case DisplayObject3D.MESH_SORT_CENTER:
+					return (vertex0.z + vertex1.z + vertex2.z)/3;
+				
+				case DisplayObject3D.MESH_SORT_FAR:
+					return Math.max(vertex0.z,vertex1.z,vertex2.z);
+
+				case DisplayObject3D.MESH_SORT_CLOSE:
+					return  Math.min(vertex0.z,vertex1.z,vertex2.z);
+
+			}
+			return 0;
 		}
 	
 	
@@ -294,5 +337,36 @@ package org.papervision3d.core.geom {
 				triangle.material = material;
 			}
 		}
+		
+		
+		private var _dtStore:Array = new Array();
+		private var _dtActive:Array = new Array();
+		private var _tri:RenderTriangle;
+		
+		public function createRenderTriangle(face:Triangle3D, material:MaterialObject3D, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance, uv0:NumberUV, uv1:NumberUV, uv2:NumberUV):RenderTriangle
+		{
+			 if (_dtStore.length) {
+            	_dtActive.push(_tri = _dtStore.pop());
+   			} else {
+            	_dtActive.push(_tri = new RenderTriangle(face));
+	            
+            } 
+           
+            _tri.instance = this;
+            _tri.triangle = face;
+            _tri.renderableInstance = face;
+            _tri.renderer = material;
+		    _tri.create = createRenderTriangle;
+            _tri.v0 = v0;
+            _tri.v1 = v1;
+            _tri.v2 = v2;
+            _tri.uv0 = uv0;
+            _tri.uv1 = uv1;
+            _tri.uv2 = uv2;
+            _tri.update();
+            return _tri;
+		}
+		
+		
 	}
 }

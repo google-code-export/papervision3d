@@ -76,6 +76,8 @@ package org.papervision3d.core.geom.renderables
 		
 		//To be docced
 		public var normal:Number3D;
+		
+		private var persp:Number = 0;
 	
 		/**
 		* Creates a new Vertex2D object whose three-dimensional values are specified by the x, y and z parameters.
@@ -127,6 +129,46 @@ package org.papervision3d.core.geom.renderables
 			o.x = v1.x - v0.x;
 			o.y = v1.y - v0.y;
 		}
+		
+		public function deperspective(focus:Number):Vertex3D
+        {
+           persp = 1 + z / focus;
+
+            return new Vertex3D(x * persp, y * persp, z);
+        }
+		
+		/**
+		 * Calculates the squared distance between two screen vertex objects.
+		 * 
+		 * @param	b	The screen vertex object to use for the calcation.
+		 * @return		The squared scalar value of the vector between this and the given scren vertex.
+		 */
+        public function distanceSqr(b:Vertex3DInstance):Number
+        {
+            return (x - b.x)*(x - b.x) + (y - b.y)*(y - b.y);
+        }
+		
+		/**
+		 * Calculates the distance between two screen vertex objects.
+		 * 
+		 * @param	b	The second screen vertex object to use for the calcation.
+		 * @return		The scalar value of the vector between this and the given screen vertex.
+		 */
+        public function distance(b:Vertex3DInstance):Number
+        {
+            return Math.sqrt((x - b.x)*(x - b.x) + (y - b.y)*(y - b.y));
+        }
+        
+         public static function median(a:Vertex3DInstance, b:Vertex3DInstance, focus:Number):Vertex3DInstance
+        {
+            var mz:Number = (a.z + b.z) / 2;
+
+            var faz:Number = focus + a.z;
+            var fbz:Number = focus + b.z;
+            var ifmz:Number = 1 / (focus + mz) / 2;
+
+            return new Vertex3DInstance((a.x*faz + b.x*fbz)*ifmz, (a.y*faz + b.y*fbz)*ifmz, mz);
+        }
 		
 	}
 }

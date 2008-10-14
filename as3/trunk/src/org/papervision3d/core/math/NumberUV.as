@@ -62,5 +62,26 @@ public class NumberUV
 	{
 		return 'u:' + u + ' v:' + v;
 	}
+	
+	public static function weighted(a:NumberUV, b:NumberUV, aw:Number, bw:Number):NumberUV
+        {                
+            if (a == null)
+                return null;
+            if (b == null)
+                return null;
+            var d:Number = aw + bw;
+            var ak:Number = aw / d;
+            var bk:Number = bw / d;
+            return new NumberUV(a.u*ak+b.u*bk, a.v*ak + b.v*bk);
+        }
+	
+	public static function median(a:NumberUV, b:NumberUV):NumberUV
+        {
+            if (a == null)
+                return null;
+            if (b == null)
+                return null;
+            return new NumberUV((a.u + b.u)/2, (a.v + b.v)/2);
+        }
 }
 }

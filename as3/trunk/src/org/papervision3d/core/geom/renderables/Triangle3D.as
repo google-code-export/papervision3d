@@ -104,7 +104,7 @@ package org.papervision3d.core.geom.renderables {
 		/**
 		 * The transformed Face3DInstance
 		 */
-		public var face3DInstance:Triangle3DInstance;
+		//public var face3DInstance:Triangle3DInstance;
 		
 		/**
 		 * The do3d instance this triangle belongs too.
@@ -131,10 +131,10 @@ package org.papervision3d.core.geom.renderables {
 		public function Triangle3D(do3dInstance:DisplayObject3D, vertices:Array, material:MaterialObject3D=null, uv:Array=null )
 		{
 			this.instance = do3dInstance;
-			this.renderCommand = new RenderTriangle(this);
+			
 			
 			//Setup this instance
-			face3DInstance = new Triangle3DInstance(this, do3dInstance);
+			//face3DInstance = new Triangle3DInstance(this, do3dInstance);
 			
 			faceNormal = new Number3D();
 			// Vertices
@@ -151,27 +151,30 @@ package org.papervision3d.core.geom.renderables {
 				v2 = vertices[2] = new Vertex3D();
 			}
 			
-			
 			// Material, if passed from a materials list.
 			this.material = material;
 			this.uv = uv;
 			this.id = _totalFaces++;
+			
+			this.renderCommand = new RenderTriangle(this);
 		}
 		
 		public function reset(object:DisplayObject3D, vertices:Array, material:MaterialObject3D, uv:Array):void{
 			
 				this.instance = object;
-				this.face3DInstance.instance = object;
-				
+				this.renderCommand.instance = object;
+				this.renderCommand.renderer = material;
+		
 				this.vertices = vertices;
 				updateVertices();
 				//createNormal();
+	
 				this.material = material;
 				this.uv = uv;
 				
 				if(material is BitmapMaterial){
 					
-					BitmapMaterial(material).uvMatrices[this] = null;
+					BitmapMaterial(material).uvMatrices[this.renderCommand] = null;
 					
 				}
 				
@@ -180,7 +183,7 @@ package org.papervision3d.core.geom.renderables {
 						
 						if(mat is BitmapMaterial){
 							
-							BitmapMaterial(mat).uvMatrices[this] = null;
+							BitmapMaterial(mat).uvMatrices[this.renderCommand] = null;
 							
 						}
 					}

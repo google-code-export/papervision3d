@@ -58,7 +58,7 @@ package org.papervision3d.core.render.filter {
 	
 			
 			for(var i:int=array.length-1;i>=0;i--){
-				if(array[i].screenDepth >= maxDepth)
+				if(array[i].screenZ >= maxDepth)
 					removeRenderItem(array, i);
 			} 		
 				
@@ -84,7 +84,7 @@ package org.papervision3d.core.render.filter {
 		}
 		
 		private function visibleDepth(element:RenderableListItem, index:int, arr:Array):Boolean {
-            return (element.screenDepth < _maxDepth);
+            return (element.screenZ < _maxDepth);
         }
 		
 		private function removeRenderItem(ar:Array, index:Number):void{

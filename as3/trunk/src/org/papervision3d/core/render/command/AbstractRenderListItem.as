@@ -11,7 +11,7 @@ package org.papervision3d.core.render.command
 	
 	public class AbstractRenderListItem implements IRenderListItem
 	{
-		public var screenDepth:Number;
+		public var screenZ:Number;
 		
 		public function AbstractRenderListItem()
 		{

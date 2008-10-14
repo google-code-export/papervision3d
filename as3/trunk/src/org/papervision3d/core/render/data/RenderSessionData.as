@@ -33,6 +33,7 @@ package org.papervision3d.core.render.data
 		public var renderObjects:Array;
 		public var renderLayers:Array;
 		public var clipping:DefaultClipping;
+		public var quadrantTree:QuadTree;
 		
 		public function RenderSessionData():void
 		{
@@ -52,6 +53,7 @@ package org.papervision3d.core.render.data
 			renderObjects = null;
 			renderLayers = null;
 			clipping = null;
+			quadrantTree = null;
 		}
 		
 		public function clone():RenderSessionData
@@ -66,6 +68,7 @@ package org.papervision3d.core.render.data
 			c.renderer = renderer;
 			c.renderStatistics = renderStatistics.clone();
 			c.clipping = clipping;
+			c.quadrantTree = quadrantTree;
 			return c;
 		}
 		
