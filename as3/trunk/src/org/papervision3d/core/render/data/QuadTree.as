@@ -30,6 +30,8 @@ package org.papervision3d.core.render.data
 		
 		private function getList(node:QuadTreeNode):void
         {
+        	if(!node)
+        		return;
         	
             if (node.onlysourceFlag && _except == node.onlysource)
                 return;
@@ -67,6 +69,9 @@ package org.papervision3d.core.render.data
         
         private function getParent(node:QuadTreeNode = null):void
         {
+        	if(!node)
+        		return;
+        		
         	node = node.parent;
         	
             if (node == null || (node.onlysourceFlag && _except == node.onlysource))
