@@ -326,6 +326,8 @@
 		private var b2:Number;
 		private var c2:Number;
 		private var d2:Number;
+
+		private var dx:Number, dy:Number, d2ab:Number, d2bc:Number, d2ca:Number;
         
         protected function renderRec(emMap:Matrix, v0:Vertex3DInstance, v1:Vertex3DInstance, v2:Vertex3DInstance, index:Number):void
         {
@@ -489,9 +491,24 @@
 
                 return;
             }
+
+			// Calculate best tessellation edge
+			dx = v0.x - v1.x;
+			dy = v0.y - v1.y;
+			d2ab = dx * dx + dy * dy;
 			
-			dmax = (dsca > dsbc ? (dsca > dsab ? dsca : dsab) : (dsbc > dsab ? dsbc : dsab ));
-            if (dsab == dmax)
+			dx = v1.x - v2.x;
+			dy = v1.y - v2.y;
+			d2bc = dx * dx + dy * dy;
+			
+			dx = v2.x - v0.x;
+			dy = v2.y - v0.y;
+			d2ca = dx * dx + dy * dy;
+			
+			dmax = (d2ca > d2bc ? (d2ca > d2ab ? d2ca : d2ab) : (d2bc > d2ab ? d2bc : d2ab ));		// dmax = Math.max( d2ab, d2bc, d2ac );
+
+			// Break triangle along edge
+            if (d2ab == dmax)
             {
             	renderRecMap.a = emMap.a*2;
 				renderRecMap.b = emMap.b;
@@ -512,7 +529,7 @@
                 return;
             }
 
-            if (dsca == dmax){
+            if (d2ca == dmax){
             	
             	renderRecMap.a = emMap.a;
 				renderRecMap.b = emMap.b*2;
