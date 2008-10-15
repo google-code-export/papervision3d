@@ -274,6 +274,7 @@ package  org.papervision3d.core.render.data
                 render_other(pri.screenZ, renderSessionData, graphics);
 
                 pri.render(renderSessionData, graphics);
+                renderSessionData.viewPort.lastRenderList.push(pri);
 
                 render_center_index++;
             }
