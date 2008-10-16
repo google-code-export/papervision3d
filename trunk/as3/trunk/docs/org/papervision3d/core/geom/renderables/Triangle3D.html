@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../../print.css" type="text/css" media="print">
-<meta content="Triangle3D,org.papervision3d.core.geom.renderables.Triangle3D,_materialName,_uvArray,face3DInstance,faceNormal,id,material,renderCommand,screenZ,uv0,uv1,uv2,v0,v1,v2,vertices,visible,uv,createNormal,getRenderListItem,reset,updateVertices" name="keywords">
+<meta content="Triangle3D,org.papervision3d.core.geom.renderables.Triangle3D,_materialName,_uvArray,faceNormal,id,material,renderCommand,screenZ,uv0,uv1,uv2,v0,v1,v2,vertices,visible,uv,createNormal,getRenderListItem,reset,updateVertices" name="keywords">
 <title>org.papervision3d.core.geom.renderables.Triangle3D</title>
 </head>
 <body>
@@ -66,13 +66,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#face3DInstance">face3DInstance</a> : <a href="../renderables/Triangle3DInstance.html">Triangle3DInstance</a>
-<div class="summaryTableDescription">
-   The transformed Face3DInstance
-   </div>
-</td><td class="summaryTableOwnerCol">Triangle3D</td>
-</tr>
-<tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#faceNormal">faceNormal</a> : <a href="../../math/Number3D.html">Number3D</a>
 <div class="summaryTableDescription">
    The face normal
@@ -92,7 +85,8 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#material">material</a> : <a href="../../proto/MaterialObject3D.html">MaterialObject3D</a>
 <div class="summaryTableDescription">
-   The do3d instance this triangle belongs too.</div>
+   The transformed Face3DInstance
+   </div>
 </td><td class="summaryTableOwnerCol">Triangle3D</td>
 </tr>
 <tr class="">
@@ -226,20 +220,10 @@ showHideInherited();
 <div class="MainContent">
 <a name="propertyDetail"></a>
 <div class="detailSectionHeader">Property detail</div>
-<a name="face3DInstance"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">face3DInstance</td><td class="detailHeaderType">property</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>public var face3DInstance:<a href="../renderables/Triangle3DInstance.html">Triangle3DInstance</a></code><p>
-   The transformed Face3DInstance
-   </p></div>
 <a name="faceNormal"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">faceNormal</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+<td class="detailHeaderName">faceNormal</td><td class="detailHeaderType">property</td>
 </tr>
 </table>
 <div class="detailBody">
@@ -264,7 +248,7 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public var material:<a href="../../proto/MaterialObject3D.html">MaterialObject3D</a></code><p>
-   The do3d instance this triangle belongs too.
+   The transformed Face3DInstance
    </p></div>
 <a name="_materialName"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">

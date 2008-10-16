@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../../print.css" type="text/css" media="print">
-<meta content="RenderableListItem,org.papervision3d.core.render.command.RenderableListItem,instance,renderable,renderableInstance,hitTestPoint2D" name="keywords">
+<meta content="RenderableListItem,org.papervision3d.core.render.command.RenderableListItem,area,instance,maxX,maxY,maxZ,minX,minY,minZ,quadrant,renderable,renderableInstance,getZ,hitTestPoint2D,quarter,update" name="keywords">
 <title>org.papervision3d.core.render.command.RenderableListItem</title>
 </head>
 <body>
@@ -65,8 +65,45 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
 </tr>
 <tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#area">area</a> : Number<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#instance">instance</a> : <a href="../../../objects/DisplayObject3D.html">DisplayObject3D</a>
 <div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#maxX">maxX</a> : Number<div class="summaryTableDescription">
+   Indicates the maximum x value of the drawing primitive.</div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#maxY">maxY</a> : Number<div class="summaryTableDescription">
+   Indicates the maximum y value of the drawing primitive.</div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#maxZ">maxZ</a> : Number<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#minX">minX</a> : Number<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#minY">minY</a> : Number<div class="summaryTableDescription">
+   Indicates the minimum y value of the drawing primitive.</div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#minZ">minZ</a> : Number<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#quadrant">quadrant</a> : <a href="../data/QuadTreeNode.html">QuadTreeNode</a>
+<div class="summaryTableDescription">
+   Reference to the last quadrant used by the drawing primitive.</div>
 </td><td class="summaryTableOwnerCol">RenderableListItem</td>
 </tr>
 <tr class="">
@@ -79,7 +116,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol">RenderableListItem</td>
 </tr>
 <tr class="hideInheritedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="AbstractRenderListItem.html#screenDepth">screenDepth</a> : Number<div class="summaryTableDescription"></div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="AbstractRenderListItem.html#screenZ">screenZ</a> : Number<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="AbstractRenderListItem.html">AbstractRenderListItem</a></td>
 </tr>
 </table>
@@ -109,8 +146,22 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
+<a class="signatureLink" href="#getZ()">getZ</a>(x:Number, y:Number, focus:Number):Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
 <a class="signatureLink" href="#hitTestPoint2D()">hitTestPoint2D</a>(point:Point, renderHitData:<a href="../data/RenderHitData.html">RenderHitData</a>):<a href="../data/RenderHitData.html">RenderHitData</a>
 </div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#quarter()">quarter</a>(focus:Number):Array</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">RenderableListItem</td>
 </tr>
@@ -121,6 +172,13 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="AbstractRenderListItem.html">AbstractRenderListItem</a></td>
 </tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#update()">update</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderableListItem</td>
+</tr>
 </table>
 </div>
 <script type="text/javascript" language="javascript">
@@ -130,15 +188,91 @@ showHideInherited();
 <div class="MainContent">
 <a name="propertyDetail"></a>
 <div class="detailSectionHeader">Property detail</div>
+<a name="area"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">area</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var area:Number</code>
+</div>
 <a name="instance"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">instance</td><td class="detailHeaderType">property</td>
+<td class="detailHeaderName">instance</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">
 <code>public var instance:<a href="../../../objects/DisplayObject3D.html">DisplayObject3D</a></code>
 </div>
+<a name="maxX"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">maxX</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var maxX:Number</code><p>
+   Indicates the maximum x value of the drawing primitive.
+   </p></div>
+<a name="maxY"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">maxY</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var maxY:Number</code><p>
+   Indicates the maximum y value of the drawing primitive.
+   </p></div>
+<a name="maxZ"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">maxZ</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var maxZ:Number</code>
+</div>
+<a name="minX"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">minX</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var minX:Number</code>
+</div>
+<a name="minY"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">minY</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var minY:Number</code><p>
+   Indicates the minimum y value of the drawing primitive.
+   </p></div>
+<a name="minZ"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">minZ</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var minZ:Number</code>
+</div>
+<a name="quadrant"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">quadrant</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var quadrant:<a href="../data/QuadTreeNode.html">QuadTreeNode</a></code><p>
+   Reference to the last quadrant used by the drawing primitive. Used in <code>QuadTree</code>
+   </p></div>
 <a name="renderable"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -170,10 +304,43 @@ showHideInherited();
 </div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
+<a name="getZ()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getZ</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getZ(x:Number, y:Number, focus:Number):Number</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">x</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">y</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">focus</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
 <a name="hitTestPoint2D()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">hitTestPoint2D</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+<td class="detailHeaderName">hitTestPoint2D</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">
@@ -196,6 +363,36 @@ showHideInherited();
 <td width="20"></td><td><code><a href="../data/RenderHitData.html">RenderHitData</a></code></td>
 </tr>
 </table>
+</div>
+<a name="quarter()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">quarter</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function quarter(focus:Number):Array</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">focus</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Array</code></td>
+</tr>
+</table>
+</div>
+<a name="update()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">update</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function update():void</code>
 </div>
 <br>
 <br>

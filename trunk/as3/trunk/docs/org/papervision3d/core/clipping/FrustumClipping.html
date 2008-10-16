@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
-<meta content="FrustumClipping,org.papervision3d.core.clipping.FrustumClipping,ALL,BOTTOM,LEFT,NEAR,RIGHT,TOP,selectedPlanes,clipFace,reset,setDisplayObject,testFace" name="keywords">
+<meta content="FrustumClipping,org.papervision3d.core.clipping.FrustumClipping,ALL,BOTTOM,LEFT,NEAR,NONE,RIGHT,TOP,selectedPlanes,clipFace,reset,setDisplayObject,testFace" name="keywords">
 <title>org.papervision3d.core.clipping.FrustumClipping</title>
 </head>
 <body>
@@ -55,18 +55,18 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#ALL">ALL</a> : int<div class="summaryTableDescription">[static]
-  All faces selected.</div>
+  All planes selected.</div>
 </td><td class="summaryTableOwnerCol">FrustumClipping</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#BOTTOM">BOTTOM</a> : int = 0x20<div class="summaryTableDescription">[static]
-  Bottom face selection
+  Bottom plane selection
   </div>
 </td><td class="summaryTableOwnerCol">FrustumClipping</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#LEFT">LEFT</a> : int = 0x08<div class="summaryTableDescription">[static]
-  Left face selection
+  Left plane selection
   </div>
 </td><td class="summaryTableOwnerCol">FrustumClipping</td>
 </tr>
@@ -76,8 +76,14 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol">FrustumClipping</td>
 </tr>
 <tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#NONE">NONE</a> : int = 0<div class="summaryTableDescription">[static]
+   no planes
+   </div>
+</td><td class="summaryTableOwnerCol">FrustumClipping</td>
+</tr>
+<tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#RIGHT">RIGHT</a> : int = 0x04<div class="summaryTableDescription">[static]
-  Right face selection
+  RIGHT PLANE selection
   </div>
 </td><td class="summaryTableOwnerCol">FrustumClipping</td>
 </tr>
@@ -87,7 +93,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#TOP">TOP</a> : int = 0x10<div class="summaryTableDescription">[static]
-  Top face selection
+  Top plane selection
   </div>
 </td><td class="summaryTableOwnerCol">FrustumClipping</td>
 </tr>
@@ -152,7 +158,7 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public static var ALL:int</code><p>
-  All faces selected.
+  All planes selected.
   </p></div>
 <a name="BOTTOM"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -162,7 +168,7 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public static var BOTTOM:int = 0x20</code><p>
-  Bottom face selection
+  Bottom plane selection
   </p></div>
 <a name="LEFT"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -172,7 +178,7 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public static var LEFT:int = 0x08</code><p>
-  Left face selection
+  Left plane selection
   </p></div>
 <a name="NEAR"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -184,6 +190,16 @@ showHideInherited();
 <code>public static var NEAR:int = 0x02</code><p>
   FAR PLANE - not used atm...
   </p></div>
+<a name="NONE"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">NONE</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static var NONE:int = 0</code><p>
+   no planes
+   </p></div>
 <a name="RIGHT"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -192,7 +208,7 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public static var RIGHT:int = 0x04</code><p>
-  Right face selection
+  RIGHT PLANE selection
   </p></div>
 <a name="selectedPlanes"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -211,7 +227,7 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public static var TOP:int = 0x10</code><p>
-  Top face selection
+  Top plane selection
   </p></div>
 <a name="constructorDetail"></a>
 <div class="detailSectionHeader">Constructor detail</div>

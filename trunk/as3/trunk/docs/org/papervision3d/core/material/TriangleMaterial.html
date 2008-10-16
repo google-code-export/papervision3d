@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
-<meta content="TriangleMaterial,org.papervision3d.core.material.TriangleMaterial,drawTriangle" name="keywords">
+<meta content="TriangleMaterial,org.papervision3d.core.material.TriangleMaterial,drawRT,drawTriangle" name="keywords">
 <title>org.papervision3d.core.material.TriangleMaterial</title>
 </head>
 <body>
@@ -260,7 +260,14 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#drawTriangle()">drawTriangle</a>(face3D:<a href="../geom/renderables/Triangle3D.html">Triangle3D</a>, graphics:Graphics, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>, altBitmap:BitmapData = null, altUV:Matrix = null):void</div>
+<a class="signatureLink" href="#drawRT()">drawRT</a>(rt:<a href="../render/command/RenderTriangle.html">RenderTriangle</a>, graphics:Graphics, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">TriangleMaterial</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#drawTriangle()">drawTriangle</a>(tri:<a href="../render/command/RenderTriangle.html">RenderTriangle</a>, graphics:Graphics, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>, altBitmap:BitmapData = null, altUV:Matrix = null):void</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">TriangleMaterial</td>
 </tr>
@@ -316,17 +323,43 @@ showHideInherited();
 </div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
-<a name="drawTriangle()"></a>
+<a name="drawRT()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">drawTriangle</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+<td class="detailHeaderName">drawRT</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
 </tr>
 </table>
 <div class="detailBody">
-<code>public override function drawTriangle(face3D:<a href="../geom/renderables/Triangle3D.html">Triangle3D</a>, graphics:Graphics, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>, altBitmap:BitmapData = null, altUV:Matrix = null):void</code><span class="label">Parameters</span>
+<code>public override function drawRT(rt:<a href="../render/command/RenderTriangle.html">RenderTriangle</a>, graphics:Graphics, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>):void</code><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">face3D</span>:<a href="../geom/renderables/Triangle3D.html">Triangle3D</a></code></td>
+<td width="20px"></td><td><code><span class="label">rt</span>:<a href="../render/command/RenderTriangle.html">RenderTriangle</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">graphics</span>:Graphics</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="../render/data/RenderSessionData.html">RenderSessionData</a></code></td>
+</tr>
+</table>
+</div>
+<a name="drawTriangle()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">drawTriangle</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function drawTriangle(tri:<a href="../render/command/RenderTriangle.html">RenderTriangle</a>, graphics:Graphics, renderSessionData:<a href="../render/data/RenderSessionData.html">RenderSessionData</a>, altBitmap:BitmapData = null, altUV:Matrix = null):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">tri</span>:<a href="../render/command/RenderTriangle.html">RenderTriangle</a></code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>

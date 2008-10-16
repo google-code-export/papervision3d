@@ -1,0 +1,547 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../../../print.css" type="text/css" media="print">
+<meta content="QuadTreeNode,org.papervision3d.core.render.data.QuadTreeNode,center,create,hasContent,leftbottom,leftbottomFlag,lefttop,lefttopFlag,maxlevel,onlysource,onlysourceFlag,parent,rightbottom,rightbottomFlag,righttop,righttopFlag,xdiv,ydiv,getRect,push,render,reset" name="keywords">
+<title>org.papervision3d.core.render.data.QuadTreeNode</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'QuadTreeNode - Papervision3D Official Documentation';
+				var baseRef = '../../../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Papervision3D Official Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../../all-classes.html')" href="../../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../all-classes.html')" href="../../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../../index-list.html')" href="../../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../../index.html?org/papervision3d/core/render/data/QuadTreeNode.html&amp;org/papervision3d/core/render/data/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;QuadTreeNode</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class QuadTreeNode"); titleBar_setSubNav(false,true,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">org.papervision3d.core.render.data</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public final  class QuadTreeNode</td>
+</tr>
+</table>
+<p></p>
+    Quadrant tree node
+    <p></p>
+<br>
+<hr>
+</div>
+<a name="propertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Properties</div>
+<table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#center">center</a> : Array<div class="summaryTableDescription">
+        Array of primitives that lie in the center of the quadrant.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#create">create</a> : Function<div class="summaryTableDescription">
+        Placeholder function for creating new quadrant node from a cache of objects.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#hasContent">hasContent</a> : Boolean = false<div class="summaryTableDescription">
+   Says if node has content or not
+   </div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#leftbottom">leftbottom</a> : <a href="../data/QuadTreeNode.html">QuadTreeNode</a>
+<div class="summaryTableDescription">
+        The quadrant tree node for the bottom left quadrant.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#leftbottomFlag">leftbottomFlag</a> : Boolean<div class="summaryTableDescription">
+        Determines if the bounds of the bottom left quadrant need re-calculating.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#lefttop">lefttop</a> : <a href="../data/QuadTreeNode.html">QuadTreeNode</a>
+<div class="summaryTableDescription">
+        The quadrant tree node for the top left quadrant.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#lefttopFlag">lefttopFlag</a> : Boolean<div class="summaryTableDescription">
+        Determines if the bounds of the top left quadrant need re-calculating.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#maxlevel">maxlevel</a> : int = 4<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#onlysource">onlysource</a> : <a href="../../../objects/DisplayObject3D.html">DisplayObject3D</a>
+<div class="summaryTableDescription">
+   hold the 3d object referenced when <code>onlysourceFlag</code> is true.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#onlysourceFlag">onlysourceFlag</a> : Boolean = true<div class="summaryTableDescription">
+        Determines if the quadrant node contains only one source.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#parent">parent</a> : <a href="../data/QuadTreeNode.html">QuadTreeNode</a>
+<div class="summaryTableDescription">
+   The quadrant parent.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#rightbottom">rightbottom</a> : <a href="../data/QuadTreeNode.html">QuadTreeNode</a>
+<div class="summaryTableDescription">
+        The quadrant tree node for the bottom right quadrant.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#rightbottomFlag">rightbottomFlag</a> : Boolean<div class="summaryTableDescription">
+        Determines if the bounds of the bottom right quadrant need re-calculating.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#righttop">righttop</a> : <a href="../data/QuadTreeNode.html">QuadTreeNode</a>
+<div class="summaryTableDescription">
+        The quadrant tree node for the top right quadrant.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#righttopFlag">righttopFlag</a> : Boolean<div class="summaryTableDescription">
+        Determines if the bounds of the top right quadrant need re-calculating.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#xdiv">xdiv</a> : Number<div class="summaryTableDescription">
+        The x coordinate of the quadrant division.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#ydiv">ydiv</a> : Number<div class="summaryTableDescription">
+        The x coordinate of the quadrant division.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+</table>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#QuadTreeNode()">QuadTreeNode</a>(xdiv:Number, ydiv:Number, width:Number, height:Number, level:int, parent:<a href="QuadTreeNode.html">QuadTreeNode</a> = null, maxLevel:uint = 4)</div>
+<div class="summaryTableDescription">
+   Creates a new <code>PrimitiveQuadrantTreeNode</code> object.</div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getRect()">getRect</a>():Rectangle</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#push()">push</a>(pri:<a href="../command/RenderableListItem.html">RenderableListItem</a>):void</div>
+<div class="summaryTableDescription">
+   Adds a primitive to the quadrant
+   </div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#render()">render</a>(limit:Number, renderSessionData:<a href="RenderSessionData.html">RenderSessionData</a>, graphics:Graphics):void</div>
+<div class="summaryTableDescription">
+   Sorts and renders the contents of the quadrant tree
+   </div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#reset()">reset</a>(xdiv:Number, ydiv:Number, width:Number, height:Number, maxLevel:uint):void</div>
+<div class="summaryTableDescription">
+        Clears the quadrant of all primitives and child nodes
+        </div>
+</td><td class="summaryTableOwnerCol">QuadTreeNode</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="propertyDetail"></a>
+<div class="detailSectionHeader">Property detail</div>
+<a name="center"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">center</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var center:Array</code><p>
+        Array of primitives that lie in the center of the quadrant.
+        </p></div>
+<a name="create"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">create</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var create:Function</code><p>
+        Placeholder function for creating new quadrant node from a cache of objects.
+        Saves recreating objects and GC problems.
+        </p></div>
+<a name="hasContent"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">hasContent</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var hasContent:Boolean = false</code><p>
+   Says if node has content or not
+   </p></div>
+<a name="leftbottom"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">leftbottom</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var leftbottom:<a href="../data/QuadTreeNode.html">QuadTreeNode</a></code><p>
+        The quadrant tree node for the bottom left quadrant.
+        </p></div>
+<a name="leftbottomFlag"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">leftbottomFlag</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var leftbottomFlag:Boolean</code><p>
+        Determines if the bounds of the bottom left quadrant need re-calculating.
+        </p></div>
+<a name="lefttop"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">lefttop</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var lefttop:<a href="../data/QuadTreeNode.html">QuadTreeNode</a></code><p>
+        The quadrant tree node for the top left quadrant.
+        </p></div>
+<a name="lefttopFlag"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">lefttopFlag</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var lefttopFlag:Boolean</code><p>
+        Determines if the bounds of the top left quadrant need re-calculating.
+        </p></div>
+<a name="maxlevel"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">maxlevel</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var maxlevel:int = 4</code>
+</div>
+<a name="onlysource"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onlysource</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var onlysource:<a href="../../../objects/DisplayObject3D.html">DisplayObject3D</a></code><p>
+   hold the 3d object referenced when <code>onlysourceFlag</code> is true.
+   </p></div>
+<a name="onlysourceFlag"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onlysourceFlag</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var onlysourceFlag:Boolean = true</code><p>
+        Determines if the quadrant node contains only one source.
+        </p></div>
+<a name="parent"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">parent</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var parent:<a href="../data/QuadTreeNode.html">QuadTreeNode</a></code><p>
+   The quadrant parent.
+   </p></div>
+<a name="rightbottom"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">rightbottom</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var rightbottom:<a href="../data/QuadTreeNode.html">QuadTreeNode</a></code><p>
+        The quadrant tree node for the bottom right quadrant.
+        </p></div>
+<a name="rightbottomFlag"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">rightbottomFlag</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var rightbottomFlag:Boolean</code><p>
+        Determines if the bounds of the bottom right quadrant need re-calculating.
+        </p></div>
+<a name="righttop"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">righttop</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var righttop:<a href="../data/QuadTreeNode.html">QuadTreeNode</a></code><p>
+        The quadrant tree node for the top right quadrant.
+        </p></div>
+<a name="righttopFlag"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">righttopFlag</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var righttopFlag:Boolean</code><p>
+        Determines if the bounds of the top right quadrant need re-calculating.
+        </p></div>
+<a name="xdiv"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">xdiv</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var xdiv:Number</code><p>
+        The x coordinate of the quadrant division.
+        </p></div>
+<a name="ydiv"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ydiv</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var ydiv:Number</code><p>
+        The x coordinate of the quadrant division.
+        </p></div>
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="QuadTreeNode()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">QuadTreeNode</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function QuadTreeNode(xdiv:Number, ydiv:Number, width:Number, height:Number, level:int, parent:<a href="QuadTreeNode.html">QuadTreeNode</a> = null, maxLevel:uint = 4)</code><p>
+   Creates a new <code>PrimitiveQuadrantTreeNode</code> object.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">xdiv</span>:Number</code> &mdash; The x coordinate for the division between left and right child quadrants.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">ydiv</span>:Number</code> &mdash; The y coordinate for the division between top and bottom child quadrants.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">width</span>:Number</code> &mdash; The width of the quadrant node.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">height</span>:Number</code> &mdash; The height of the quadrant node.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">level</span>:int</code> &mdash; The iteration number of the quadrant node.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">parent</span>:<a href="QuadTreeNode.html">QuadTreeNode</a></code> (default = <code>null</code>)<code></code> &mdash; The parent quadrant of the quadrant node.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">maxLevel</span>:uint</code> (default = <code>4</code>)<code></code> &mdash; The deepest a Node can go
+   </td>
+</tr>
+</table>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="getRect()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getRect</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getRect():Rectangle</code>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Rectangle</code></td>
+</tr>
+</table>
+</div>
+<a name="push()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">push</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function push(pri:<a href="../command/RenderableListItem.html">RenderableListItem</a>):void</code><p>
+   Adds a primitive to the quadrant
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">pri</span>:<a href="../command/RenderableListItem.html">RenderableListItem</a></code></td>
+</tr>
+</table>
+</div>
+<a name="render()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">render</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function render(limit:Number, renderSessionData:<a href="RenderSessionData.html">RenderSessionData</a>, graphics:Graphics):void</code><p>
+   Sorts and renders the contents of the quadrant tree
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">limit</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">renderSessionData</span>:<a href="RenderSessionData.html">RenderSessionData</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">graphics</span>:Graphics</code></td>
+</tr>
+</table>
+</div>
+<a name="reset()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">reset</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function reset(xdiv:Number, ydiv:Number, width:Number, height:Number, maxLevel:uint):void</code><p>
+        Clears the quadrant of all primitives and child nodes
+        </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">xdiv</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">ydiv</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">width</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">height</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">maxLevel</span>:uint</code></td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright">http://blog.papervision3d.org</center>
+</div>
+</body>
+</html>
+<!--http://blog.papervision3d.org-->

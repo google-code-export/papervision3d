@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../../print.css" type="text/css" media="print">
-<meta content="Vertex3D,org.papervision3d.core.geom.renderables.Vertex3D,connectedFaces,extra,normal,position,timestamp,vertex3DInstance,x,y,z,calculateNormal,clone,getPosition,getRenderListItem,toNumber3D" name="keywords">
+<meta content="Vertex3D,org.papervision3d.core.geom.renderables.Vertex3D,connectedFaces,extra,normal,position,timestamp,vertex3DInstance,x,y,z,calculateNormal,clone,getPosition,getRenderListItem,perspective,toNumber3D,weighted" name="keywords">
 <title>org.papervision3d.core.geom.renderables.Vertex3D</title>
 </head>
 <body>
@@ -187,9 +187,25 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
+<a class="signatureLink" href="#perspective()">perspective</a>(focus:Number):<a href="../renderables/Vertex3DInstance.html">Vertex3DInstance</a>
+</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">Vertex3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
 <a class="signatureLink" href="#toNumber3D()">toNumber3D</a>():<a href="../../math/Number3D.html">Number3D</a>
 </div>
 <div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">Vertex3D</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#weighted()">weighted</a>(a:<a href="Vertex3D.html">Vertex3D</a>, b:<a href="Vertex3D.html">Vertex3D</a>, aw:Number, bw:Number):<a href="../renderables/Vertex3D.html">Vertex3D</a>
+</div>
+<div class="summaryTableDescription">[static]</div>
 </td><td class="summaryTableOwnerCol">Vertex3D</td>
 </tr>
 </table>
@@ -380,6 +396,27 @@ showHideInherited();
 </tr>
 </table>
 </div>
+<a name="perspective()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">perspective</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function perspective(focus:Number):<a href="../renderables/Vertex3DInstance.html">Vertex3DInstance</a></code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">focus</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../renderables/Vertex3DInstance.html">Vertex3DInstance</a></code></td>
+</tr>
+</table>
+</div>
 <a name="toNumber3D()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -393,6 +430,45 @@ showHideInherited();
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td width="20"></td><td><code><a href="../../math/Number3D.html">Number3D</a></code></td>
+</tr>
+</table>
+</div>
+<a name="weighted()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">weighted</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function weighted(a:<a href="Vertex3D.html">Vertex3D</a>, b:<a href="Vertex3D.html">Vertex3D</a>, aw:Number, bw:Number):<a href="../renderables/Vertex3D.html">Vertex3D</a></code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">a</span>:<a href="Vertex3D.html">Vertex3D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">b</span>:<a href="Vertex3D.html">Vertex3D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">aw</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">bw</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../renderables/Vertex3D.html">Vertex3D</a></code></td>
 </tr>
 </table>
 </div>
