@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../../print.css" type="text/css" media="print">
-<meta content="RenderTriangle,org.papervision3d.core.render.command.RenderTriangle,container,renderMat,renderer,resBA,resPA,resRA,triangle,vPoint,vPointL,vx0,vx1,vx2,hitTestPoint2D,render,sameSide" name="keywords">
+<meta content="RenderTriangle,org.papervision3d.core.render.command.RenderTriangle,container,create,renderMat,renderer,resBA,resPA,resRA,triangle,uv0,uv1,uv2,v0,v1,v2,vPoint,vPointL,vx0,vx1,vx2,fivepointcut,getZ,hitTestPoint2D,quarter,render,sameSide,update" name="keywords">
 <title>org.papervision3d.core.render.command.RenderTriangle</title>
 </head>
 <body>
@@ -64,13 +64,54 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr>
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
 </tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="RenderableListItem.html#area">area</a> : Number<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="RenderableListItem.html">RenderableListItem</a></td>
+</tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#container">container</a> : Sprite<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#create">create</a> : Function<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">RenderTriangle</td>
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="RenderableListItem.html#instance">instance</a> : <a href="../../../objects/DisplayObject3D.html">DisplayObject3D</a>
 <div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="RenderableListItem.html">RenderableListItem</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="RenderableListItem.html#maxX">maxX</a> : Number<div class="summaryTableDescription">
+   Indicates the maximum x value of the drawing primitive.</div>
+</td><td class="summaryTableOwnerCol"><a href="RenderableListItem.html">RenderableListItem</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="RenderableListItem.html#maxY">maxY</a> : Number<div class="summaryTableDescription">
+   Indicates the maximum y value of the drawing primitive.</div>
+</td><td class="summaryTableOwnerCol"><a href="RenderableListItem.html">RenderableListItem</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="RenderableListItem.html#maxZ">maxZ</a> : Number<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="RenderableListItem.html">RenderableListItem</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="RenderableListItem.html#minX">minX</a> : Number<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="RenderableListItem.html">RenderableListItem</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="RenderableListItem.html#minY">minY</a> : Number<div class="summaryTableDescription">
+   Indicates the minimum y value of the drawing primitive.</div>
+</td><td class="summaryTableOwnerCol"><a href="RenderableListItem.html">RenderableListItem</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="RenderableListItem.html#minZ">minZ</a> : Number<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="RenderableListItem.html">RenderableListItem</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="RenderableListItem.html#quadrant">quadrant</a> : <a href="../data/QuadTreeNode.html">QuadTreeNode</a>
+<div class="summaryTableDescription">
+   Reference to the last quadrant used by the drawing primitive.</div>
 </td><td class="summaryTableOwnerCol"><a href="RenderableListItem.html">RenderableListItem</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -93,11 +134,41 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol">RenderTriangle</td>
 </tr>
 <tr class="hideInheritedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="AbstractRenderListItem.html#screenDepth">screenDepth</a> : Number<div class="summaryTableDescription"></div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="AbstractRenderListItem.html#screenZ">screenZ</a> : Number<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="AbstractRenderListItem.html">AbstractRenderListItem</a></td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#triangle">triangle</a> : <a href="../../geom/renderables/Triangle3D.html">Triangle3D</a>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#uv0">uv0</a> : <a href="../../math/NumberUV.html">NumberUV</a>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#uv1">uv1</a> : <a href="../../math/NumberUV.html">NumberUV</a>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#uv2">uv2</a> : <a href="../../math/NumberUV.html">NumberUV</a>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#v0">v0</a> : <a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#v1">v1</a> : <a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#v2">v2</a> : <a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">RenderTriangle</td>
 </tr>
@@ -169,8 +240,29 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
+<a class="signatureLink" href="#fivepointcut()">fivepointcut</a>(v0:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v01:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v1:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v12:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v2:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, uv0:<a href="../../math/NumberUV.html">NumberUV</a>, uv01:<a href="../../math/NumberUV.html">NumberUV</a>, uv1:<a href="../../math/NumberUV.html">NumberUV</a>, uv12:<a href="../../math/NumberUV.html">NumberUV</a>, uv2:<a href="../../math/NumberUV.html">NumberUV</a>):Array</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getZ()">getZ</a>(x:Number, y:Number, focus:Number):Number</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
 <a class="signatureLink" href="#hitTestPoint2D()">hitTestPoint2D</a>(point:Point, renderhitData:<a href="../data/RenderHitData.html">RenderHitData</a>):<a href="../data/RenderHitData.html">RenderHitData</a>
 </div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#quarter()">quarter</a>(focus:Number):Array</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">RenderTriangle</td>
 </tr>
@@ -185,6 +277,13 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="#sameSide()">sameSide</a>(point:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, ref:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, a:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, b:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>):Boolean</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">RenderTriangle</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#update()">update</a>():void</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">RenderTriangle</td>
 </tr>
@@ -205,6 +304,15 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public var container:Sprite</code>
+</div>
+<a name="create"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">create</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var create:Function</code>
 </div>
 <a name="renderer"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -259,6 +367,60 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public var triangle:<a href="../../geom/renderables/Triangle3D.html">Triangle3D</a></code>
+</div>
+<a name="uv0"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">uv0</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var uv0:<a href="../../math/NumberUV.html">NumberUV</a></code>
+</div>
+<a name="uv1"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">uv1</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var uv1:<a href="../../math/NumberUV.html">NumberUV</a></code>
+</div>
+<a name="uv2"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">uv2</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var uv2:<a href="../../math/NumberUV.html">NumberUV</a></code>
+</div>
+<a name="v0"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">v0</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var v0:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a></code>
+</div>
+<a name="v1"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">v1</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var v1:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a></code>
+</div>
+<a name="v2"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">v2</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var v2:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a></code>
 </div>
 <a name="vPoint"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -323,10 +485,118 @@ showHideInherited();
 </div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
+<a name="fivepointcut()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">fivepointcut</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function fivepointcut(v0:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v01:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v1:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v12:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v2:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, uv0:<a href="../../math/NumberUV.html">NumberUV</a>, uv01:<a href="../../math/NumberUV.html">NumberUV</a>, uv1:<a href="../../math/NumberUV.html">NumberUV</a>, uv12:<a href="../../math/NumberUV.html">NumberUV</a>, uv2:<a href="../../math/NumberUV.html">NumberUV</a>):Array</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">v0</span>:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v01</span>:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v1</span>:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v12</span>:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">v2</span>:<a href="../../geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">uv0</span>:<a href="../../math/NumberUV.html">NumberUV</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">uv01</span>:<a href="../../math/NumberUV.html">NumberUV</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">uv1</span>:<a href="../../math/NumberUV.html">NumberUV</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">uv12</span>:<a href="../../math/NumberUV.html">NumberUV</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">uv2</span>:<a href="../../math/NumberUV.html">NumberUV</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Array</code></td>
+</tr>
+</table>
+</div>
+<a name="getZ()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getZ</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public final override function getZ(x:Number, y:Number, focus:Number):Number</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">x</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">y</span>:Number</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">focus</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
 <a name="hitTestPoint2D()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">hitTestPoint2D</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+<td class="detailHeaderName">hitTestPoint2D</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">
@@ -347,6 +617,27 @@ showHideInherited();
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td width="20"></td><td><code><a href="../data/RenderHitData.html">RenderHitData</a></code></td>
+</tr>
+</table>
+</div>
+<a name="quarter()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">quarter</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public final override function quarter(focus:Number):Array</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">focus</span>:Number</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Array</code></td>
 </tr>
 </table>
 </div>
@@ -408,6 +699,15 @@ showHideInherited();
 <td width="20"></td><td><code>Boolean</code></td>
 </tr>
 </table>
+</div>
+<a name="update()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">update</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function update():void</code>
 </div>
 <br>
 <br>
