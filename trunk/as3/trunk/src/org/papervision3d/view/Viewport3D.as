@@ -18,6 +18,7 @@ package org.papervision3d.view
 	import org.papervision3d.core.culling.RectangleParticleCuller;
 	import org.papervision3d.core.culling.RectangleTriangleCuller;
 	import org.papervision3d.core.culling.ViewportObjectFilter;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.render.IRenderEngine;
 	import org.papervision3d.core.render.command.IRenderListItem;
@@ -203,6 +204,39 @@ package org.papervision3d.view
 				}
 			}
 			return renderHitData;
+		}
+		
+		public function hitTestPointObject(point:Point, object:DisplayObject3D):RenderHitData
+		{
+			if(interactive){
+				var rli:RenderableListItem;
+				var rhd:RenderHitData = new RenderHitData();
+				var rc:IRenderListItem;
+				
+				for(var i:uint = lastRenderList.length; rc = lastRenderList[--i]; )
+				{
+					if(rc is RenderableListItem)
+					{
+						rli = rc as RenderableListItem;
+						
+						if(rli.renderableInstance is Triangle3D){
+							if(Triangle3D(rli.renderableInstance).instance != object)
+								continue;
+						}else{
+							continue;
+						}
+						
+						rhd = rli.hitTestPoint2D(point, rhd);
+						
+						if(rhd.hasHit)
+						{				
+							return rhd;
+						}
+					}
+				}
+			}
+			
+			return new RenderHitData();
 		}
 
 		/**
