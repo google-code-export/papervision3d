@@ -1,24 +1,6 @@
-﻿package org.papervision3d.materials {
-	
-	import flash.display.BitmapData;
-	import flash.display.Graphics;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
-	
-	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.geom.renderables.Triangle3D;
-	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
-	import org.papervision3d.core.log.PaperLogger;
-	import org.papervision3d.core.material.TriangleMaterial;
-	import org.papervision3d.core.proto.MaterialObject3D;
-	import org.papervision3d.core.render.command.RenderTriangle;
-	import org.papervision3d.core.render.data.RenderSessionData;
-	import org.papervision3d.core.render.draw.ITriangleDrawer;
-	import org.papervision3d.materials.utils.RenderRecStorage;
-
-	/**
+﻿package org.papervision3d.materials {
+	import org.papervision3d.Papervision3D;	import org.papervision3d.core.geom.renderables.Triangle3D;	import org.papervision3d.core.geom.renderables.Vertex3DInstance;	import org.papervision3d.core.log.PaperLogger;	import org.papervision3d.core.material.TriangleMaterial;	import org.papervision3d.core.proto.MaterialObject3D;	import org.papervision3d.core.render.command.RenderTriangle;	import org.papervision3d.core.render.data.RenderSessionData;	import org.papervision3d.core.render.draw.ITriangleDrawer;	import org.papervision3d.materials.utils.PrecisionMode;	import org.papervision3d.materials.utils.RenderRecStorage;		import flash.display.BitmapData;	import flash.display.Graphics;	import flash.geom.Matrix;	import flash.geom.Point;	import flash.geom.Rectangle;	import flash.utils.Dictionary;	
+	/**
 	* The BitmapMaterial class creates a texture from a BitmapData object.
 	*
 	* Materials collect data about how objects appear when rendered.
@@ -49,7 +31,7 @@
 		 * Levels of mip mapping to force.
 		 */
 		public static var MIP_MAP_DEPTH :Number = 8;
-		
+		/**		 * Precision mode indicates how triangles are created for precise texture render.		 */		public var precisionMode:int = PrecisionMode.ORIGINAL;		
 		public var uvMatrices:Dictionary = new Dictionary();
 		
 		/**
@@ -319,9 +301,7 @@
         
         protected var tempPreGrp:Graphics;
         protected var tempPreBmp:BitmapData;
-        protected var tempPreRSD:RenderSessionData;
-        
-        protected var tempTriangleMatrix:Matrix = new Matrix();
+        protected var tempPreRSD:RenderSessionData;		protected var tempTriangleMatrix:Matrix = new Matrix();
 		private var a2:Number;
 		private var b2:Number;
 		private var c2:Number;
@@ -492,20 +472,30 @@
                 return;
             }
 
-			// Calculate best tessellation edge
-			dx = v0.x - v1.x;
-			dy = v0.y - v1.y;
-			d2ab = dx * dx + dy * dy;
+			if( precisionMode == PrecisionMode.ORIGINAL )
+			{
+				d2ab = dsab;
+				d2bc = dsbc;
+				d2ca = dsca;
+				dmax = (dsca > dsbc ? (dsca > dsab ? dsca : dsab) : (dsbc > dsab ? dsbc : dsab ));
+			}
+			else
+			{
+				// Calculate best tessellation edge
+				dx = v0.x - v1.x;
+				dy = v0.y - v1.y;
+				d2ab = dx * dx + dy * dy;
+				
+				dx = v1.x - v2.x;
+				dy = v1.y - v2.y;
+				d2bc = dx * dx + dy * dy;
+				
+				dx = v2.x - v0.x;
+				dy = v2.y - v0.y;
+				d2ca = dx * dx + dy * dy;
 			
-			dx = v1.x - v2.x;
-			dy = v1.y - v2.y;
-			d2bc = dx * dx + dy * dy;
-			
-			dx = v2.x - v0.x;
-			dy = v2.y - v0.y;
-			d2ca = dx * dx + dy * dy;
-			
-			dmax = (d2ca > d2bc ? (d2ca > d2ab ? d2ca : d2ab) : (d2bc > d2ab ? d2bc : d2ab ));		// dmax = Math.max( d2ab, d2bc, d2ac );
+				dmax = (d2ca > d2bc ? (d2ca > d2ab ? d2ca : d2ab) : (d2bc > d2ab ? d2bc : d2ab ));		// dmax = Math.max( d2ab, d2bc, d2ac );
+			}
 
 			// Break triangle along edge
             if (d2ab == dmax)
