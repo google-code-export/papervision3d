@@ -21,7 +21,7 @@ package org.papervision3d.materials.shadematerials
 		private static var currentColor:int;
 		private static var zAngle:int;
 		
-		private var _colors:Array;
+		protected var _colors:Array;
 		
 		public function FlatShadeMaterial(light:LightObject3D, diffuse:uint=0xffffff, ambient:uint=0x000000)
 		{
