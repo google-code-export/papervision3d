@@ -123,17 +123,22 @@
 			}
 		}
 		
+		protected var _playerType:String;
+		
+		protected var _loop:Boolean = false;
+		
 		/**
 		 * Constructor.
 		 * 
 		 * @param	autoPlay	Whether to start the animation automatically.
 		 * @param	name	Optional name for the DAE.
 		 */ 
-		public function DAE(autoPlay:Boolean=true, name:String=null)
+		public function DAE(autoPlay:Boolean=true, name:String=null, loop:Boolean=false)
 		{
 			super(name);
 			_autoPlay = autoPlay;
 			_rightHanded = Papervision3D.useRIGHTHANDED;
+			_loop = loop;
 		}
 		
 		/**
@@ -307,9 +312,12 @@
 				}
 				var time:Number = elapsed / duration;
 
-				for each(var channel:AbstractChannel3D in _channels)
+				if (time == 0 && !_loop)
+					stop();
+				else
 				{
-					channel.updateToTime(time);	
+					for each(var channel:AbstractChannel3D in _channels)
+						channel.updateToTime(time);
 				}
 			}
 
@@ -1440,7 +1448,12 @@
 				material.addEventListener(FileLoadEvent.LOAD_COMPLETE, loadNextMaterial);
 				material.addEventListener(FileLoadEvent.LOAD_ERROR, onMaterialError);
 				
-				material.texture = url + "?nc=" + Math.random();
+				// fix for BitmapFileMaterial barfing - John Grden 10/22/2008
+				if (_playerType == "External" || _playerType == "StandAlone")
+                   material.texture = url;
+				else
+                   material.texture = url + "?nc=" + Math.random();
+
 				if(useMaterialTargetName){
 					material.name = target;
 					this.materials.addMaterial(material, target);
