@@ -29,17 +29,19 @@ package org.papervision3d.materials.shaders
 		
 		public var lightColor:int;
 		public var ambientColor:int;
+		public var specularLevel:int;
 		private var _colors:Array;
 		private var _colorRamp:BitmapData;
 		
-		public function FlatShader(light:LightObject3D, lightColor:int = 0xFFFFFF, ambientColor:int = 0x000000)
+		public function FlatShader(light:LightObject3D, lightColor:int = 0xFFFFFF, ambientColor:int = 0x000000, specularLevel:int=0 )
 		{
 			super();
 			this.light = light;
 			this.lightColor = lightColor;
 			this.ambientColor = ambientColor;
-			this._colors = LightMaps.getFlatMapArray(lightColor, ambientColor,1);
-			this._colorRamp = LightMaps.getFlatMap(lightColor, ambientColor,1);
+			this.specularLevel = specularLevel;
+			this._colors = LightMaps.getFlatMapArray(lightColor, ambientColor, specularLevel );
+			this._colorRamp = LightMaps.getFlatMap(lightColor, ambientColor, specularLevel );
 		}
 		
 		/**
