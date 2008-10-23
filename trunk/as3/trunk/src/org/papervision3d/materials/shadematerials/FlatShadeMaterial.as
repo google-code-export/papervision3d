@@ -23,12 +23,12 @@ package org.papervision3d.materials.shadematerials
 		
 		protected var _colors:Array;
 		
-		public function FlatShadeMaterial(light:LightObject3D, diffuse:uint=0xffffff, ambient:uint=0x000000)
+		public function FlatShadeMaterial(light:LightObject3D, diffuse:uint=0xffffff, ambient:uint=0x000000, specularLevel:int=0 )
 		{
 			super();
 			this.fillAlpha = 1;
 			this.light = light;
-			_colors = LightMaps.getFlatMapArray(diffuse,ambient,1);
+			_colors = LightMaps.getFlatMapArray(diffuse,ambient,specularLevel);
 		}
 		
 		/**
