@@ -199,7 +199,7 @@ package org.papervision3d.core.geom {
 			}
 		}
 		
-		private function setScreenZ(meshSort:uint, vertex0:Vertex3DInstance, vertex1:Vertex3DInstance, vertex2:Vertex3DInstance):Number{
+		protected function setScreenZ(meshSort:uint, vertex0:Vertex3DInstance, vertex1:Vertex3DInstance, vertex2:Vertex3DInstance):Number{
 			switch(meshSort)
 			{
 				case DisplayObject3D.MESH_SORT_CENTER:
