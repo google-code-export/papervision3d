@@ -152,7 +152,7 @@ package org.papervision3d.core.geom {
 						
 						rc.uv0 = face.uv0;
 						rc.uv1 = face.uv1;
-						rc.uv2 = face.uv2;
+						rc.uv2 = face.uv2; 
 						
 						//we only want to perform some operations if we have quadtree on
 						//we can simplify this, but calling update on each rendercommand will slow the loop
@@ -168,15 +168,16 @@ package org.papervision3d.core.geom {
 							//if we should see the back of the triangle - flip it so quad will work on it
 							if(rc.area < 0 && (face.material.doubleSided || (face.material.oneSide && face.material.opposite)) ){
 								
-								var vt:Vertex3DInstance = rc.v1;
+								/* var vt:Vertex3DInstance = rc.v1;
 								rc.v1 = rc.v2;
-								rc.v2 = vt;
+								rc.v2 = vt; */
 								
 								rc.area = - rc.area;
 								
-								rc.uv0 = face.uv0;
+								
+								/* rc.uv0 = face.uv0;
 								rc.uv1 = face.uv2;
-								rc.uv2 = face.uv1;
+								rc.uv2 = face.uv1; */
 							}
 								
 						}				
