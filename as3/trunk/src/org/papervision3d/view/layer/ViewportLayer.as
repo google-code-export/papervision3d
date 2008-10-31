@@ -274,9 +274,11 @@ package org.papervision3d.view.layer {
 		
 		protected function orderLayers():void{
 			//trace("---------", childLayers.length);
-			for(var i:int = 0;i<childLayers.length;i++){
-				this.setChildIndex(childLayers[i], i);
-				childLayers[i].sortChildLayers();
+			for(var i:int = 0;i<childLayers.length;i++)
+			{
+				var layer : ViewportLayer = childLayers[i]; 
+				if(this.getChildIndex(layer)!=i) this.setChildIndex(layer, i);
+				layer.sortChildLayers();
 			}
 		}
 		
