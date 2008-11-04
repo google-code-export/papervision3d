@@ -29,6 +29,11 @@ package org.papervision3d.events
 			this.bytesTotal = bytesTotal;
 			this.message = message;
 			this.dataObj = dataObj;
+		} 
+		
+		public override function clone():Event
+		{
+			return new FileLoadEvent(type, file, bytesLoaded, bytesTotal, message, dataObj, bubbles, cancelable);
 		}
 	}
 }

@@ -2,6 +2,7 @@
 {
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
+	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
@@ -24,6 +25,7 @@
 	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.events.AnimationEvent;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.materials.shaders.ShadedMaterial;
@@ -139,6 +141,7 @@
 			_autoPlay = autoPlay;
 			_rightHanded = Papervision3D.useRIGHTHANDED;
 			_loop = loop;
+			_playerType = Capabilities.playerType;
 		}
 		
 		/**
@@ -158,7 +161,9 @@
 		 */ 
 		public function stop():void
 		{
+			trace("STOP CALLED ON DAE");
 			_isPlaying = false;	
+			dispatchEvent(new AnimationEvent(AnimationEvent.ANIMATION_COMPLETE, _currentFrame, _totalFrames));
 		}
 		
 		
@@ -295,7 +300,9 @@
 		{
 			// update controllers
 			for each(var controller:IObjectController in _controllers)
+			{
 				controller.update();
+			}
 			
 			// update animation
 			if(_isPlaying && _channels)
@@ -1449,7 +1456,7 @@
 				material.addEventListener(FileLoadEvent.LOAD_ERROR, onMaterialError);
 				
 				// fix for BitmapFileMaterial barfing - John Grden 10/22/2008
-				if (_playerType == "External" || _playerType == "StandAlone")
+				if (_playerType == "External" || _playerType == "StandAlone" || _playerType == "Desktop")
                    material.texture = url;
 				else
                    material.texture = url + "?nc=" + Math.random();
@@ -1530,6 +1537,7 @@
 				_totalFrames = Math.max(_totalFrames, channel.keyFrames.length);	
 				_startTime = Math.min(_startTime, channel.startTime);
 				_endTime = Math.max(_endTime, channel.endTime);
+				channel.updateToTime(0);
 			}
 			
 			PaperLogger.info( "animations COMPLETE (#channels: " + _channels.length + " #frames: " + _totalFrames + ", startTime: " + _startTime + " endTime: " + _endTime+ ")");
