@@ -79,6 +79,12 @@ package org.ascollada.fx
 			// effects runtime.
 			var profile:XML = getNode( node, ASCollada.DAE_PROFILE_COMMON_ELEMENT );
 			
+			if( !profile )
+			{
+				Logger.error( "Can't handle profiles other then profile_COMMON!" );
+				return;	
+			}
+			
 			// Declares a standard COLLADA image resource. 0 or more.
 			var images:XMLList = getNodeList( profile, ASCollada.DAE_IMAGE_ELEMENT );
 			
