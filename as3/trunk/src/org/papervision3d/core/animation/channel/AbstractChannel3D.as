@@ -106,6 +106,7 @@ package org.papervision3d.core.animation.channel
 			
 			currentIndex = keyframe;
 			currentIndex = currentIndex < this.keyFrames.length - 1 ? currentIndex : 0;
+			trace("currentIndex", currentIndex);
 			nextIndex = currentIndex + 1;
 			
 			currentKeyFrame = this.keyFrames[currentIndex];
