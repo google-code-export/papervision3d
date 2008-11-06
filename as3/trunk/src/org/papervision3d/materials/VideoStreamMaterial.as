@@ -78,8 +78,9 @@ package org.papervision3d.materials
 		*
 		* @param	video			A video object that display the FLV file
 		* @param	stream			Stream that is used to play the FLV file
+		* @param 	transparent		Whether we're using a transparent video or not. 
 		*/
-		public function VideoStreamMaterial ( video:Video, stream:NetStream , precise:Boolean = false )
+		public function VideoStreamMaterial ( video:Video, stream:NetStream , precise:Boolean = false, transparent:Boolean = false )
 		{			
 			// store the values
 			this.stream = stream;
@@ -89,7 +90,7 @@ package org.papervision3d.materials
 			// init the material with a listener for the NS object 
 			initMaterial ( video, stream );
 						
-			super ( DisplayObject(video) );
+			super ( DisplayObject(video), transparent );
 		}
 	
 
