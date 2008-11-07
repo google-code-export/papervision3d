@@ -275,6 +275,13 @@
 		{
 			this.oneSide = ! double;
 		}
-		
+
+		/**
+		* Returns a list of <code>DisplayObject3D</code> objects registered with the material.
+		*/
+		public function getObjectList():Dictionary
+		{
+			return objects;
+		}		
 	}
 }
