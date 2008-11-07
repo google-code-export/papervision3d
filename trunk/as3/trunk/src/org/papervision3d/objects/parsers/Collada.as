@@ -86,10 +86,27 @@ package org.papervision3d.objects.parsers
 		* <p/>
 		*/
 	
-		public function Collada( COLLADA :*, materials :MaterialsList=null, scale :Number=1, doubleSided:Boolean=false )
+		public function Collada( COLLADA:*=null, materials:MaterialsList=null, scale:Number=1, doubleSided:Boolean=false )
 		{
-			super(null, null);
-			
+			super( null, null );
+
+			if( COLLADA )
+				load( COLLADA, materials, scale, doubleSided );
+		}
+
+		/**
+		* Loads the COLLADA.
+		* 
+		* @param	COLLADA		An XML COLLADA object or the filename of the .dae scene to load.
+		* <p/>
+		* @param	materials	A MaterialsList object.
+		* <p/>
+		* @param	scale		Scaling factor.
+		* <p/>
+		* @param	doubleSided		Whether to make all materials doubleSided.
+		*/ 
+		public function load( COLLADA:*, materials:MaterialsList=null, scale:Number=1, doubleSided:Boolean=false ):void
+		{
 			this._materials = materials || new MaterialsList();
 	
 			this._container = this;
@@ -121,8 +138,8 @@ package org.papervision3d.objects.parsers
 		{
 			this._loader = new URLLoader();
 			this._loader.addEventListener( Event.COMPLETE, onComplete );
-			this._loader.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
-			this._loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleSecurityLoadError);
+			this._loader.addEventListener( IOErrorEvent.IO_ERROR, handleIOError );
+			this._loader.addEventListener( SecurityErrorEvent.SECURITY_ERROR, handleSecurityLoadError );
 			this._loader.addEventListener( ProgressEvent.PROGRESS, handleLoadProgress );
 			this._loader.load( new URLRequest( this._filename ) );
 		}
@@ -133,19 +150,19 @@ package org.papervision3d.objects.parsers
 			dispatchEvent( progressEvent );
 		}
 		
-		private function handleIOError(e:IOErrorEvent):void
+		private function handleIOError( e:IOErrorEvent ):void
 		{
 			PaperLogger.error("COLLADA file load error", this, e.text);
 			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_ERROR,this._filename,0,0,e.text));
 		}
 		
-		private function handleSecurityLoadError(e:SecurityErrorEvent):void
+		private function handleSecurityLoadError( e:SecurityErrorEvent ):void
 		{
 			PaperLogger.error("COLLADA file security load error",this, e.text);
 			dispatchEvent(new FileLoadEvent(FileLoadEvent.SECURITY_LOAD_ERROR,this._filename, 0, 0, e.text));
 		}
 		
-		private function onComplete(evt:Event):void
+		private function onComplete( evt:Event ):void
 		{
 			this.COLLADA = new XML( this._loader.data );
 	
