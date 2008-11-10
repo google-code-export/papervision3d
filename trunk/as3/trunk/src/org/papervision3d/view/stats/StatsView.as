@@ -8,11 +8,34 @@ package org.papervision3d.view.stats
 	import org.papervision3d.core.render.AbstractRenderEngine;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.data.RenderStatistics;
+	import org.papervision3d.objects.DisplayObject3D;
+	import org.papervision3d.scenes.Scene3D;
 
 	public class StatsView extends AbstractStatsView
 	{
-		protected var statsFormat:TextFormat;
+		public static function countPolys(obj:DisplayObject3D):Number
+		{
+			var polygonCount:Number = 0;
+			polygonCount = recurseDisplayObject(obj, polygonCount);
+			return polygonCount;
+		}
 		
+		protected static function recurseDisplayObject(obj:DisplayObject3D, polygonCount:Number):Number
+		{
+			for each (var childObj:DisplayObject3D in obj.children)
+			{
+				polygonCount += recurseDisplayObject(childObj, polygonCount);
+			}
+			
+			if( obj.geometry && obj.geometry.faces ) for( var i:int=0; i<obj.geometry.faces.length; i++) polygonCount++;
+			
+			return polygonCount;
+		}
+		
+		protected var statsFormat:TextFormat;
+		public var totalPolyCount:Number = 0;
+		
+		protected var polyCountField:TextField;
 		protected var memInfoTestField:TextField;
 		protected var fpsInfoTextField:TextField;
 		protected var objectInfoTextField:TextField;
@@ -66,6 +89,20 @@ package org.papervision3d.view.stats
 			memInfoTestField.autoSize = TextFieldAutoSize.LEFT;
 			memInfoTestField.defaultTextFormat = statsFormat;
 			addChild(memInfoTestField);
+			
+			polyCountField = new TextField();
+			polyCountField.y = 60;
+			polyCountField.autoSize = TextFieldAutoSize.LEFT;
+			polyCountField.defaultTextFormat = statsFormat;
+			addChild(polyCountField);
+		}
+		
+		public function updatePolyCount(scene:Scene3D):void
+		{
+			for each( var obj:DisplayObject3D in scene.children) 
+			{
+				totalPolyCount += countPolys(obj);
+			}
 		}
 		
 		override public function set renderSessionData(renderSessionData:RenderSessionData):void
@@ -78,7 +115,7 @@ package org.papervision3d.view.stats
 			
 			memInfoTestField.text = "Mem : "+(System.totalMemory/1024/1024).toFixed(2) + "MB";
 			
-			
+			polyCountField.text = "poly count : " + totalPolyCount;
 		}
 		
 		override public function set fps(fps:int):void
