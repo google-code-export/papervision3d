@@ -99,6 +99,8 @@ package org.papervision3d.view.stats
 		
 		public function updatePolyCount(scene:Scene3D):void
 		{
+			totalPolyCount = 0;
+			
 			for each( var obj:DisplayObject3D in scene.children) 
 			{
 				totalPolyCount += countPolys(obj);
