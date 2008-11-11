@@ -6,6 +6,7 @@ package org.papervision3d.core.geom {
 	import org.papervision3d.core.geom.renderables.Triangle3DInstance;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.math.NumberUV;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.core.render.command.RenderTriangle;
@@ -89,29 +90,34 @@ package org.papervision3d.core.geom {
 			_dtStore = [];//_dtStore.concat(_dtActive);
         	_dtActive = new Array();
 			
+			var count : int = this.geometry.vertices.length;
+			
 			var ps:Array = [];
 				
-				if(renderSessionData.clipping && this.useClipping && !this.culled && (renderSessionData.camera.useCulling?cullTest==0:true)){
-					
-					super.projectEmpty(parent, renderSessionData);
-					renderSessionData.clipping.setDisplayObject(this, renderSessionData);
-					
-					for each(var f:Triangle3D in this.geometry.faces){
-						if(renderSessionData.clipping.testFace(f, this, renderSessionData)){
-							renderSessionData.clipping.clipFace(f, this, mat, renderSessionData, ps);
-						}else{
-							ps.push(f);
-						} 
-					}
-					
-					renderSessionData.camera.projectFaces(ps, this, renderSessionData);
-					
-				}else{
-					super.project(parent, renderSessionData);
-					ps = this.geometry.faces;
+			if(renderSessionData.clipping && this.useClipping && !this.culled && (renderSessionData.camera.useCulling?cullTest==0:true)){
+				
+				super.projectEmpty(parent, renderSessionData);
+				
+				renderSessionData.clipping.setDisplayObject(this, renderSessionData);
+				
+				for each(var f:Triangle3D in this.geometry.faces){
+					if(renderSessionData.clipping.testFace(f, this, renderSessionData)){
+						renderSessionData.clipping.clipFace(f, this, mat, renderSessionData, ps);
+					}else{
+						ps.push(f);
+					} 
 				}
-			
-			
+				
+				// project vertices
+				super.project(parent, renderSessionData);
+				
+				// project faces
+				renderSessionData.camera.projectFaces(ps, this, renderSessionData);
+				
+			}else{
+				super.project(parent, renderSessionData);
+				ps = this.geometry.faces;
+			}
 			
 			if(!this.culled){
 				
@@ -185,13 +191,18 @@ package org.papervision3d.core.geom {
 						renderSessionData.renderer.addToRenderList(rc);
 						
 					}else{
-						
 						renderSessionData.renderStatistics.culledTriangles++;
-						
 					}
-					
-					
 				}
+				
+				// clipping may have added vertices to this mesh,
+				// so cleanup now...
+				if( count ) {
+					while( this.geometry.vertices.length > count ) {
+						this.geometry.vertices.pop();
+					}	
+				}
+				
 				return this.screenZ = screenZs / visibleFaces;
 			}else{
 				renderSessionData.renderStatistics.culledObjects++;

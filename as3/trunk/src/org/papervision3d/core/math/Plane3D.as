@@ -30,7 +30,7 @@ package org.papervision3d.core.math
 		 * @param	normal		The plane normal.
 		 * @param	ptOnPlane	A point on the plane.
 		 */
-		public function Plane3D( normal : Number3D = null, ptOnPlane : Number3D = null ) : void
+		public function Plane3D( normal : Number3D = null, ptOnPlane : Number3D = null )
 		{
 			if(normal && ptOnPlane) 
 			{
@@ -42,6 +42,14 @@ package org.papervision3d.core.math
 				this.normal = new Number3D();
 				this.d = 0;	
 			}
+		}
+		
+		/**
+		 * 
+		 */ 
+		public function clone() : Plane3D
+		{
+			return Plane3D.fromCoefficients(this.normal.x, this.normal.y, this.normal.z, this.d);	
 		}
 		
 		internal var eps:Number = 0.01;
