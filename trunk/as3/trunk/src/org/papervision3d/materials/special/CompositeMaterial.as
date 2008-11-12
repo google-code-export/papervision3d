@@ -29,7 +29,8 @@ package org.papervision3d.materials.special
 		public function addMaterial(material:MaterialObject3D):void
 		{
 			materials.push(material);
-			for(var do3d:DisplayObject3D in objects){
+			for(var object:Object in objects){
+				var do3d:DisplayObject3D = object as DisplayObject3D;
 				material.registerObject(do3d);
 			}
 		}
