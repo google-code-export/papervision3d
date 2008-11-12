@@ -139,6 +139,7 @@ package org.papervision3d.core.clipping
 			
 			var vpw : Number = renderSessionData.viewPort.viewportWidth;
 			var vph : Number = renderSessionData.viewPort.viewportHeight;
+			var tan : Number = Math.tan( (camera.fov/2) * TO_RADIANS );
 			var d   : Number = camera.focus;
 			
 			_matrix.copy( renderSessionData.camera.transform );
@@ -147,10 +148,10 @@ package org.papervision3d.core.clipping
 			_axisY.reset(_matrix.n12, _matrix.n22, _matrix.n32);
 			_axisZ.reset(_matrix.n13, _matrix.n23, _matrix.n33);
 			_axisZi.reset( -_axisZ.x, -_axisZ.y, -_axisZ.z );
-			
-			var hnear:Number = 2 * Math.tan((camera.fov*TO_RADIANS) / 2) * d;
+
+			var hnear:Number = 2 * tan * d;
 			var wnear:Number = hnear * (vpw/vph)
-	
+
 			_camPos.reset(camera.x, camera.y, camera.z);
 
 			_nc.x = _camPos.x + (d * _axisZ.x);
@@ -240,21 +241,19 @@ package org.papervision3d.core.clipping
 			_world.copy( object.world );
 			_world.invert();
 			
+			var pt : Number3D = new Number3D();
+			
 			for( var i:int = 0; i < _cplanes.length; i++ )
 			{
 				var cplane : Plane3D = _cplanes[i];
 				var wplane : Plane3D = _wplanes[i];
-				var pt	   : Number3D = _planePoints[i].clone();
 				
-				wplane.normal.x = cplane.normal.x;
-				wplane.normal.y = cplane.normal.y;
-				wplane.normal.z = cplane.normal.z;
-				
+				pt.copyFrom( _planePoints[i] );
+				wplane.normal.copyFrom( cplane.normal );
+
 				Matrix3D.multiplyVector3x3( _world, wplane.normal );
 				Matrix3D.multiplyVector( _world, pt );
 
-				wplane.normal.normalize();
-				
 				wplane.setNormalAndPoint( wplane.normal, pt );
 			}
 		}
@@ -264,7 +263,22 @@ package org.papervision3d.core.clipping
 		 */ 
 		public override function testFace(triangle:Triangle3D, object:DisplayObject3D, renderSessionData:RenderSessionData):Boolean
 		{
-			return true;
+			for( var i:int = 0; i < _wplanes.length; i++ )
+			{
+				var plane : Plane3D = _wplanes[i];
+				
+				var side : int = ClassificationUtil.classifyTriangle( triangle, plane );
+				
+				if( side == ClassificationUtil.BACK || side == ClassificationUtil.COINCIDING )
+				{
+					return false;
+				}
+				else if( side == ClassificationUtil.STRADDLE )
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 		
 		/**
@@ -279,28 +293,20 @@ package org.papervision3d.core.clipping
 			for( var i:int = 0; i < _wplanes.length; i++ )
 			{
 				var plane : Plane3D = _wplanes[i];
-				
+			
 				var side : int = ClassificationUtil.classifyPoints( points, plane );
 				
-				if( side == ClassificationUtil.BACK || side == ClassificationUtil.COINCIDING )
+				try
 				{
-					break;
-				}
-				else if( side == ClassificationUtil.FRONT )
-				{
-					continue;
-				}
-				else
-				{
-					try
+					if( side == ClassificationUtil.STRADDLE )
 					{
 						points = clipPointsToPlane( triangle.instance, points, uvs, plane );
 						clipped = true;
 					}
-					catch( e:Error )
-					{
-						PaperLogger.error( "clipper: " + e.message );
-					}
+				}
+				catch( e:Error )
+				{
+					PaperLogger.error( "FrustumClipping#clipFace : " + e.message );
 				}
 			}
 			
