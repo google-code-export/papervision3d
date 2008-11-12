@@ -37,7 +37,7 @@ package org.papervision3d.core.render.material
 		/** @private */
 		private function _registerMaterial(material:MaterialObject3D):void
 		{
-			materials[material] = material;
+			materials[material] = true;
 		
 		}
 		
@@ -56,8 +56,8 @@ package org.papervision3d.core.render.material
 		public function updateMaterialsBeforeRender(renderSessionData:RenderSessionData):void
 		{
 			var um:IUpdateBeforeMaterial;
-			var m:MaterialObject3D;
-			for each(m in materials){
+						
+			for (var m:* in materials){
 				if(m is IUpdateBeforeMaterial){
 					um = m as IUpdateBeforeMaterial;
 					um.updateBeforeRender(renderSessionData);
@@ -74,8 +74,8 @@ package org.papervision3d.core.render.material
 		public function updateMaterialsAfterRender(renderSessionData:RenderSessionData):void
 		{
 			var um:IUpdateAfterMaterial;
-			var m:MaterialObject3D;
-			for each(m in materials){
+			
+			for (var m:* in materials){
 				if(m is IUpdateAfterMaterial){
 					um = m as IUpdateAfterMaterial;
 					um.updateAfterRender(renderSessionData);
