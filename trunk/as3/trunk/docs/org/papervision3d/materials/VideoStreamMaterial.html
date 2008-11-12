@@ -133,7 +133,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#interactive">interactive</a> : Boolean = false<div class="summaryTableDescription">
-   Defines if this material will be interactive;
+   Defines if this material will be interactive
    </div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
@@ -213,6 +213,11 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="BitmapMaterial.html#precision">precision</a> : int<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
+</tr>
+<tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="BitmapMaterial.html#precisionMode">precisionMode</a> : int<div class="summaryTableDescription">
+   Precision mode indicates how triangles are created for precise texture render.</div>
 </td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -408,7 +413,9 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription"></div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription">
+   Inventory of registered objects
+   </div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
@@ -476,7 +483,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#VideoStreamMaterial()">VideoStreamMaterial</a>(video:Video, stream:NetStream, precise:Boolean = false)</div>
+<a class="signatureLink" href="#VideoStreamMaterial()">VideoStreamMaterial</a>(video:Video, stream:NetStream, precise:Boolean = false, transparent:Boolean = false)</div>
 <div class="summaryTableDescription">
   The MovieMaterial class creates a texture from an existing Video instance.</div>
 </td><td class="summaryTableOwnerCol">VideoStreamMaterial</td>
@@ -525,6 +532,14 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <a class="signatureLink" href="MovieMaterial.html#drawTriangle()">drawTriangle</a>(tri:<a href="../core/render/command/RenderTriangle.html">RenderTriangle</a>, graphics:Graphics, renderSessionData:<a href="../core/render/data/RenderSessionData.html">RenderSessionData</a>, altBitmap:BitmapData = null, altUV:Matrix = null):void</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="MovieMaterial.html">MovieMaterial</a></td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="../core/proto/MaterialObject3D.html#getObjectList()">getObjectList</a>():Dictionary</div>
+<div class="summaryTableDescription">
+  Returns a list of <code>DisplayObject3D</code> objects registered with the material.</div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -743,7 +758,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function VideoStreamMaterial(video:Video, stream:NetStream, precise:Boolean = false)</code><p>
+<code>public function VideoStreamMaterial(video:Video, stream:NetStream, precise:Boolean = false, transparent:Boolean = false)</code><p>
   The MovieMaterial class creates a texture from an existing Video instance.
     </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
@@ -762,7 +777,14 @@ showHideInherited();
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">precise</span>:Boolean</code> (default = <code>false</code>)<code></code></td>
+<td width="20px"></td><td><code><span class="label">precise</span>:Boolean</code> (default = <code>false</code>)<code></code> &mdash; transparent  Whether we're using a transparent video or not. 
+  </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">transparent</span>:Boolean</code> (default = <code>false</code>)<code></code></td>
 </tr>
 </table>
 </div>
