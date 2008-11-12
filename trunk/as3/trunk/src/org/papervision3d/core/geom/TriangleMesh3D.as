@@ -6,8 +6,8 @@ package org.papervision3d.core.geom {
 	import org.papervision3d.core.geom.renderables.Triangle3DInstance;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
-	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.math.NumberUV;
+	import org.papervision3d.core.math.util.ClassificationUtil;
 	import org.papervision3d.core.proto.*;
 	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
@@ -91,7 +91,7 @@ package org.papervision3d.core.geom {
         	_dtActive = new Array();
 			
 			var count : int = this.geometry.vertices.length;
-			
+
 			var ps:Array = [];
 				
 			if(renderSessionData.clipping && this.useClipping && !this.culled && (renderSessionData.camera.useCulling?cullTest==0:true)){
@@ -101,11 +101,11 @@ package org.papervision3d.core.geom {
 				renderSessionData.clipping.setDisplayObject(this, renderSessionData);
 				
 				for each(var f:Triangle3D in this.geometry.faces){
-					if(renderSessionData.clipping.testFace(f, this, renderSessionData)){
+					if( renderSessionData.clipping.testFace(f, this, renderSessionData) ){
 						renderSessionData.clipping.clipFace(f, this, mat, renderSessionData, ps);
-					}else{
-						ps.push(f);
-					} 
+					} else {
+						ps.push( f );
+					}
 				}
 				
 				// project vertices
