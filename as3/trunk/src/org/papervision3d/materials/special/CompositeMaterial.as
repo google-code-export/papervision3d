@@ -29,7 +29,7 @@ package org.papervision3d.materials.special
 		public function addMaterial(material:MaterialObject3D):void
 		{
 			materials.push(material);
-			for each(var do3d:DisplayObject3D in objects){
+			for(var do3d:DisplayObject3D in objects){
 				material.registerObject(do3d);
 			}
 		}
@@ -61,7 +61,6 @@ package org.papervision3d.materials.special
 		}
 		
 		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData=null, altUV:Matrix=null):void{
-			var num:int = 0;
 			for each(var n:MaterialObject3D in materials){
 				n.drawTriangle(tri, graphics, renderSessionData);
 			}
