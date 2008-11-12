@@ -1,18 +1,17 @@
 ﻿package org.papervision3d.core.proto
 {
-	import flash.display.BitmapData;
-	import flash.display.Graphics;
-	import flash.events.EventDispatcher;
-	import flash.geom.Matrix;
-	import flash.utils.Dictionary;
-	
 	import org.papervision3d.core.render.command.RenderTriangle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.core.render.material.MaterialManager;
 	import org.papervision3d.materials.WireframeMaterial;
 	import org.papervision3d.objects.DisplayObject3D;
-
+	
+	import flash.display.BitmapData;
+	import flash.display.Graphics;
+	import flash.events.EventDispatcher;
+	import flash.geom.Matrix;
+	import flash.utils.Dictionary;	
 
 	/**
 	* The MaterialObject3D class is the base class for all materials.
@@ -30,7 +29,7 @@
 	public class MaterialObject3D extends EventDispatcher implements ITriangleDrawer
 	{
 		static private var _totalMaterialObjects :Number = 0;
-		
+
 		/**
 		* A transparent or opaque BitmapData texture.
 		*/
@@ -126,9 +125,13 @@
 		 public var heightOffset:Number = 0;
 		
 		/**
-		 * Defines if this material will be interactive;
+		 * Defines if this material will be interactive
 		 */
 		public var interactive:Boolean = false;
+
+		/**
+		 * Inventory of registered objects
+		 */
 		protected var objects:Dictionary;
 
 		/**
@@ -236,13 +239,13 @@
 		
 		public function registerObject(displayObject3D:DisplayObject3D):void
 		{
-			objects[displayObject3D] = displayObject3D;
+			objects[displayObject3D] = true;
 		}
 		
 		public function unregisterObject(displayObject3D:DisplayObject3D):void
 		{
-			if(objects && objects[displayObject3D] != null){
-				delete objects[displayObject3D];
+			if(objects && objects[displayObject3D] ){
+				objects[displayObject3D] = null;
 			}
 		}
 		

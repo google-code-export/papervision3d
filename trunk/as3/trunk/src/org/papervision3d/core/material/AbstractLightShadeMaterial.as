@@ -31,8 +31,7 @@ package org.papervision3d.core.material
 		
 		public function updateBeforeRender(renderSessionData:RenderSessionData):void
 		{	
-			var object:DisplayObject3D;
-			for each(object in objects){
+			for(var object:DisplayObject3D in objects){
 				lightMatrices[object] = LightMatrix.getLightMatrix(light, object,renderSessionData,lightMatrices[object]);
 			}
 		}
