@@ -954,6 +954,21 @@
 			return imgUrl;
 		}
 		
+		protected function getSymbolName(effectID:String):String
+		{
+		    var ef:DaeEffect;
+		    for each ( var effect:DaeEffect in this.document.effects )
+		    {
+		       // trace("locating effect", effect.id, effectID);
+		        if( effect.id == effectID ) 
+		        {
+		            return effect.texture_url;
+		        }
+		    }
+
+		    return null;
+		}
+		
 		/**
 		 * Builds the materials.
 		 */ 
@@ -975,6 +990,32 @@
 				}else{
 					mat = this.materials.getMaterialByName(symbol);
 				}
+				
+				/*
+				 This next if block is a hack based on materials having their names as the bitmaps URL. 
+				 If the material WAS passed in but given the same name as the bitmap's URL, then we 
+				 add another material to the materials list using the symbol name.				 
+				 */
+				if( mat == null) 
+				{
+				    var matID:String = getSymbolName( daeMaterial.effect );
+				    mat = this.materials.getMaterialByName(matID);
+				    // remove bad reference BEFORE adding the next - otherwise, they'll both be removed
+				    this.materials.removeMaterial(mat);
+				    if( mat ) 
+				    {
+				        if(useMaterialTargetName)
+				        {
+				             this.materials.addMaterial(mat, materialId);
+				        }
+				        else
+				        {
+				             this.materials.addMaterial(mat, symbol);
+				        }
+				    }
+
+				}
+				
 				// material already exists in our materialsList, no need to process
 				if(mat){
 					continue;
