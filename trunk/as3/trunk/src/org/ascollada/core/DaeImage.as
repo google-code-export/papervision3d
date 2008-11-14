@@ -78,7 +78,7 @@ package org.ascollada.core
 						break;
 						
 					case ASCollada.DAE_INITFROM_ELEMENT:
-						this.init_from = child.text().toString();
+						this.init_from = unescape( child.text().toString() );
 						this.init_from.split("\\").join("/");
 						/*
 						var urlParts:Array = this.init_from.split("/");
