@@ -94,6 +94,11 @@
 		/** Alternative file-extension for TGA images. Default is "png". */
 		public static var DEFAULT_TGA_ALTERNATIVE:String = "png";
 		
+		
+		/** change this to 0 if you're DAE is picking the wrong coordinates */
+		
+		public var forceCoordSet : int = 1;
+		
 		/** The loaded XML. */
 		public var COLLADA:XML;
 	
@@ -231,13 +236,13 @@
 		 * @param	asset The url, an XML object or a ByteArray specifying the COLLADA file.
 		 * @param	materials	An optional materialsList.
 		 */ 
-		public function load(asset:*, materials:MaterialsList = null):void
+		public function load(asset:*, materials:MaterialsList = null, asynchronousParsing : Boolean = false):void
 		{
 			this.materials = materials || new MaterialsList();
 			
 			buildFileInfo(asset);
 			
-			this.parser = new DaeReader();
+			this.parser = new DaeReader(asynchronousParsing);
 			this.parser.addEventListener(Event.COMPLETE, onParseComplete);
 			this.parser.addEventListener(ProgressEvent.PROGRESS, onParseProgress);
 			
@@ -338,7 +343,7 @@
 		 * @param	target	The target object
 		 * @param	channel	The DaeChannel
 		 */ 
-		private function buildAnimationChannel(target:DisplayObject3D, channel:DaeChannel):MatrixChannel3D
+		protected function buildAnimationChannel(target:DisplayObject3D, channel:DaeChannel):MatrixChannel3D
 		{				
 			var node:DaeNode = _objectToNode[target];
 					
@@ -555,7 +560,7 @@
 		/**
 		 * Build all animation channels.
 		 */ 
-		private function buildAnimationChannels():void
+		protected function buildAnimationChannels():void
 		{
 			var target:DisplayObject3D;
 			var channel:DaeChannel;
@@ -697,7 +702,7 @@
 		 *  
 		 * @return
 		 */
-		private function buildColor( rgb:Array ):uint
+		protected function buildColor( rgb:Array ):uint
 		{
 			var r:uint = rgb[0] * 0xff;
 			var g:uint = rgb[1] * 0xff;
@@ -714,7 +719,7 @@
 		 * 
 		 * @return 	The created faces.
 		 */ 
-		private function buildFaces(primitive:DaePrimitive, geometry:GeometryObject3D, voffset:uint):void
+		protected function buildFaces(primitive:DaePrimitive, geometry:GeometryObject3D, voffset:uint):void
 		{
 			var faces:Array = new Array();
 			var material:MaterialObject3D = this.materials.getMaterialByName(primitive.material);
@@ -723,7 +728,7 @@
 			
 			// retreive correct texcoord-set for the material.
 			var obj:DaeBindVertexInput = _textureSets[primitive.material] is DaeBindVertexInput ? _textureSets[primitive.material] : null;
-			var setID:int = (obj is DaeBindVertexInput) ? obj.input_set : 1;
+			var setID:int = (obj is DaeBindVertexInput) ? obj.input_set : forceCoordSet;
 			var texCoordSet:Array = primitive.getTexCoords(setID); 
 			var texcoords:Array = new Array();
 			var i:int, j:int = 0, k:int;
@@ -842,7 +847,7 @@
 		 * @param	asset
 		 * @return
 		 */
-		private function buildFileInfo( asset:* ):void
+		protected function buildFileInfo( asset:* ):void
 		{
 			this.filename = asset is String ? String(asset) : "./meshes/rawdata_dae";
 			
@@ -867,7 +872,7 @@
 		/**
 		 * Builds all COLLADA geometries.
 		 */ 
-		private function buildGeometries():void
+		protected function buildGeometries():void
 		{
 			var i:int, j:int, k:int;
 			
@@ -922,7 +927,7 @@
 		 *
 		 * @return
 		 */
-		private function buildImagePath( meshFolderPath:String, imgPath:String ):String
+		protected function buildImagePath( meshFolderPath:String, imgPath:String ):String
 		{
 			if (texturePath != null)
 				imgPath = texturePath + imgPath.slice( imgPath.lastIndexOf("/") + 1 );
@@ -952,7 +957,7 @@
 		/**
 		 * Builds the materials.
 		 */ 
-		private function buildMaterials():void
+		protected function buildMaterials():void
 		{
 			_queuedMaterials = new Array();
 			
@@ -1021,6 +1026,9 @@
 				
 				
 			}
+		
+			
+		
 		}
 		
 		/**
@@ -1030,7 +1038,7 @@
 		 * 
 		 * @return
 		 */
-		private function buildMatrix(node:DaeNode):Matrix3D 
+		protected function buildMatrix(node:DaeNode):Matrix3D 
 		{
 			var stack:Array = buildMatrixStack(node);
 			var matrix:Matrix3D = Matrix3D.IDENTITY;
@@ -1044,7 +1052,7 @@
 		 * @param	node
 		 * @return
 		 */
-		private function buildMatrixFromTransform(transform:DaeTransform):Matrix3D
+		protected function buildMatrixFromTransform(transform:DaeTransform):Matrix3D
 		{
 			var matrix:Matrix3D;
 			var toRadians:Number = Math.PI/180;
@@ -1075,7 +1083,7 @@
 		 * @param	node
 		 * @return
 		 */
-		private function buildMatrixStack(node:DaeNode):Array
+		protected function buildMatrixStack(node:DaeNode):Array
 		{
 			var stack:Array = new Array();	
 			for( var i:int = 0; i < node.transforms.length; i++ ) 
@@ -1090,7 +1098,7 @@
 		 * 
 		 * @return	The created DisplayObject3D. @see org.papervision3d.objects.DisplayObject3D
 		 */ 
-		private function buildNode(node:DaeNode, parent:DisplayObject3D):void
+		protected function buildNode(node:DaeNode, parent:DisplayObject3D):void
 		{
 			var instance:DisplayObject3D;
 			var material:MaterialObject3D;
@@ -1200,7 +1208,7 @@
 		/**
 		 * Builds the scene.
 		 */ 
-		private function buildScene():void
+		protected function buildScene():void
 		{
 			if(this.parser.hasEventListener(Event.COMPLETE))
 				this.parser.removeEventListener(Event.COMPLETE, onParseComplete);
@@ -1264,7 +1272,7 @@
 		 * @param	colladaSkin
 		 * @param	skeletons
 		 */ 
-		private function buildSkin(instance:Skin3D, colladaSkin:DaeSkin, skeletons:Array, node:DaeNode):void
+		protected function buildSkin(instance:Skin3D, colladaSkin:DaeSkin, skeletons:Array, node:DaeNode):void
 		{
 			var skin:GeometryObject3D = _geometries[ colladaSkin.source ];
 			if(!skin)
@@ -1300,7 +1308,7 @@
 		 * 
 		 * @return	Array of Vertex3D
 		 */
-		private function buildVertices(mesh:DaeMesh):Array
+		protected function buildVertices(mesh:DaeMesh):Array
 		{
 			var vertices:Array = new Array();
 			for( var i:int = 0; i < mesh.vertices.length; i++ )
@@ -1316,7 +1324,7 @@
 		 * 
 		 * @return 	The found child.
 		 */ 
-		private function findChildByID(id:String, parent:DisplayObject3D = null):DisplayObject3D
+		protected function findChildByID(id:String, parent:DisplayObject3D = null):DisplayObject3D
 		{
 			parent = parent || this;
 			if(_colladaID[parent] == id)
@@ -1338,7 +1346,7 @@
 		 * 
 		 * @return 	The found child.
 		 */ 
-		private function findChildBySID(sid:String, parent:DisplayObject3D = null):DisplayObject3D
+		protected function findChildBySID(sid:String, parent:DisplayObject3D = null):DisplayObject3D
 		{
 			parent = parent || this;
 			if(_colladaSID[parent] == sid)
@@ -1357,7 +1365,7 @@
 		 * 
 		 * @param	node
 		 */ 
-		private function isBakedMatrix(node:DaeNode):Boolean
+		protected function isBakedMatrix(node:DaeNode):Boolean
 		{
 			if(!node.transforms.length || node.transforms.length > 1)
 				return false;
@@ -1368,7 +1376,7 @@
 		/**
 		 * Setup the skin controllers.
 		 */ 
-		private function linkSkin(instance:DisplayObject3D, skin:DaeSkin):void
+		protected function linkSkin(instance:DisplayObject3D, skin:DaeSkin):void
 		{			
 			var i:int;
 			var found:Object = new Object();
@@ -1414,7 +1422,7 @@
 		/**
 		 * Setup the skin controllers.
 		 */ 
-		private function linkSkins():void
+		protected function linkSkins():void
 		{
 			_numSkins = 0;
 			
@@ -1433,7 +1441,7 @@
 		 * 
 		 * @param	event
 		 */ 
-		private function loadNextMaterial(event:FileLoadEvent=null):void
+		protected function loadNextMaterial(event:FileLoadEvent=null):void
 		{
 			if(event)
 			{
@@ -1455,11 +1463,8 @@
 				material.addEventListener(FileLoadEvent.LOAD_COMPLETE, loadNextMaterial);
 				material.addEventListener(FileLoadEvent.LOAD_ERROR, onMaterialError);
 				
-				// fix for BitmapFileMaterial barfing - John Grden 10/22/2008
-				if (_playerType == "External" || _playerType == "StandAlone" || _playerType == "Desktop")
-                   material.texture = url;
-				else
-                   material.texture = url + "?nc=" + Math.random();
+				// shouldn't need the ?nc no cache filename now that BitmapFileMaterial has been fixed. 
+                material.texture = url;
 
 				if(useMaterialTargetName){
 					material.name = target;
@@ -1484,7 +1489,7 @@
 		 * @param source The source geometry
 		 * @param material Optional material for triangles, only used when a triangle has no material.
 		 */ 
-		private function mergeGeometries(target:GeometryObject3D, source:GeometryObject3D, materialInstances:Array=null):void
+		protected function mergeGeometries(target:GeometryObject3D, source:GeometryObject3D, materialInstances:Array=null):void
 		{
 			if(materialInstances && materialInstances.length)
 			{
@@ -1514,7 +1519,7 @@
 		 * 
 		 * @param	event
 		 */ 
-		private function onMaterialError(event:Event):void
+		protected function onMaterialError(event:Event):void
 		{
 			loadNextMaterial();	
 		}
@@ -1524,7 +1529,7 @@
 		 * 
 		 * @param	event
 		 */ 
-		private function onParseAnimationsComplete(event:Event):void
+		protected function onParseAnimationsComplete(event:Event):void
 		{	
 			buildAnimationChannels();
 					
@@ -1553,7 +1558,7 @@
 		 * 
 		 * @param	event
 		 */ 
-		private function onParseAnimationsProgress(event:ProgressEvent):void
+		protected function onParseAnimationsProgress(event:ProgressEvent):void
 		{
 			PaperLogger.info( "animations #" + event.bytesLoaded + " of " + event.bytesTotal);
 		}
@@ -1563,7 +1568,7 @@
 		 * 
 		 * @param	event
 		 */
-		private function onParseComplete(event:Event):void
+		protected function onParseComplete(event:Event):void
 		{
 			var reader:DaeReader = event.target as DaeReader;
 			
@@ -1586,7 +1591,7 @@
 		 * 
 		 * @param	event
 		 */ 
-		private function onParseProgress(event:ProgressEvent):void
+		protected function onParseProgress(event:ProgressEvent):void
 		{
 			
 		}
@@ -1594,73 +1599,73 @@
 
 		
 		/** */
-		private var _colladaID:Dictionary;
+		protected var _colladaID:Dictionary;
 		
 		/** */
-		private var _colladaSID:Dictionary;
+		protected var _colladaSID:Dictionary;
 		
 		/** */
-		private var _colladaIDToObject:Object;
+		protected var _colladaIDToObject:Object;
 		
 		/** */
-		private var _colladaSIDToObject:Object;
+		protected var _colladaSIDToObject:Object;
 		
 		/** */
-		private var _objectToNode:Object;
+		protected var _objectToNode:Object;
 		
 		/** */
-		private var _channelsByTarget:Dictionary;
+		protected var _channelsByTarget:Dictionary;
 		
 		/** */
-		private var _geometries:Object;
+		protected var _geometries:Object;
 		
 		/** */
-		private var _queuedMaterials:Array;
+		protected var _queuedMaterials:Array;
 		
 		/** */
-		private var _textureSets:Object;
+		protected var _textureSets:Object;
 		
 		/** */
-		private var _channels:Array;
+		protected var _channels:Array;
 		
 		/** */
-		private var _skins:Dictionary;
+		protected var _skins:Dictionary;
 		
 		/** */
-		private var _numSkins:uint;
+		protected var _numSkins:uint;
 		
 		/** */
-		private var _rootNode:DisplayObject3D;
+		protected var _rootNode:DisplayObject3D;
 		
 		/** */
-		private var _currentFrame:int = 0;
+		protected var _currentFrame:int = 0;
 		
 		/** */
-		private var _currentTime:int;
+		protected var _currentTime:int;
 		
 		/** */
-		private var _totalFrames:int = 0;
+		protected var _totalFrames:int = 0;
 		
 		/** */
-		private var _startTime:Number;
+		protected var _startTime:Number;
 		
 		/** */
-		private var _endTime:Number;
+		protected var _endTime:Number;
 		
 		/** */
-		private var _isAnimated:Boolean = false;
+		protected var _isAnimated:Boolean = false;
 		
 		/** */
-		private var _isPlaying:Boolean = false;
+		protected var _isPlaying:Boolean = false;
 		
 		/** */
-		private var _autoPlay:Boolean;
+		protected var _autoPlay:Boolean;
 		
 		/** */
-		private var _rightHanded:Boolean;
+		protected var _rightHanded:Boolean;
 		
 		/** */
-		private var _controllers:Array; 
+		protected var _controllers:Array; 
 	}
 }
 

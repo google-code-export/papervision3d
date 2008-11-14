@@ -8,6 +8,7 @@ package org.papervision3d.materials
 	import flash.geom.Matrix;
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
+	import flash.utils.Timer;
 	
 	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.proto.MaterialObject3D;
@@ -120,21 +121,27 @@ package org.papervision3d.materials
 				return null;
 			}
 			// Already loaded?
-			else if( _loadedBitmaps[ asset ] )
+			else 
 			{
-				var bmp:BitmapData = _loadedBitmaps[ asset ];
+				
+				var bmp:BitmapData = getBitmapForFilename( asset );
+				if(bmp)
+				{
+					bitmap = super.createBitmap( bmp );
+					
+					// this fixes the problem where the event is not getting 
+					// picked up because we usually add event listeners to the 
+					// BitmapFileMaterial after we've instantiated it!
+					setupAsyncLoadCompleteCallback();
+					//this.loadComplete();
 
-				bitmap = super.createBitmap( bmp );
-
-				this.loadComplete();
-
-				return bmp;
+					return bmp;
+				}
+				else
+				{
+					queueBitmap( asset );
+				}
 			}
-			else
-			{
-				queueBitmap( asset );
-			}
-		
 			return null;
 		}
 
@@ -154,7 +161,7 @@ package org.papervision3d.materials
 
 			// Subscribe material
 			_subscribedMaterials[ file ].push( this );
-			
+
 			// Launch loading if needed
 			if( _loadingIdle )
 				loadNextBitmap();
@@ -168,7 +175,7 @@ package org.papervision3d.materials
 			var file:String = _waitingBitmaps[0];
 
 			var request:URLRequest = new URLRequest( file );
-			var bitmapLoader:Loader = new Loader();
+			bitmapLoader = new Loader();
 			
 			bitmapLoader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, loadBitmapProgressHandler );
 			bitmapLoader.contentLoaderInfo.addEventListener( Event.COMPLETE, loadBitmapCompleteHandler );
@@ -207,7 +214,7 @@ package org.papervision3d.materials
 			var failedAsset:String = String(_waitingBitmaps.shift());
 			// force the IOErrorEvent to trigger on any reload.
 			// ie: no reload on retry if we don't clear these 2 statics below.
-			_loadedBitmaps[failedAsset] = null;
+			//_loadedBitmaps[failedAsset] = null;
 			_subscribedMaterials[failedAsset] = null;
 			
 			this.errorLoading = true;
@@ -215,6 +222,9 @@ package org.papervision3d.materials
 			this.lineAlpha = 1;
 			this.lineThickness = 1;
 			PaperLogger.error( "BitmapFileMaterial: Unable to load file " + failedAsset );
+			
+			removeLoaderListeners(); 
+			
 			// Queue finished?
 			if( _waitingBitmaps.length > 0 )
 			{
@@ -246,11 +256,13 @@ package org.papervision3d.materials
 
 		protected function loadBitmapCompleteHandler( e:Event ):void
 		{
-			var loader:Loader = Loader( e.target.loader );
-			var loadedBitmap:Bitmap = Bitmap( loader.content );
-
+			
+			var loadedBitmap:Bitmap = Bitmap( bitmapLoader.content );
+			
+			removeLoaderListeners(); 
+			
 			// Retrieve original url
-			var url:String = _loaderUrls[ loader ];
+			var url:String = _loaderUrls[ bitmapLoader ];
 
 			// Retrieve loaded bitmapdata
 			var bmp:BitmapData = super.createBitmap( loadedBitmap.bitmapData );
@@ -264,10 +276,13 @@ package org.papervision3d.materials
 				material.resetMapping();
 				material.loadComplete();
 			}
-
+			
+			// clear the loader from the list of materials
+			_subscribedMaterials[url] = null;
+			
 			// Include in library
-			_loadedBitmaps[ url ] = bmp;
-
+			//_loadedBitmaps[ url ] = bmp;
+			_bitmapMaterials[this] = true; 
 			// Remove from queue
 			_waitingBitmaps.shift();
 
@@ -286,6 +301,25 @@ package org.papervision3d.materials
 			}
 		}
 
+	// ___________________________________________________________________ SET UP ASYNCHRONOUS LOAD COMPLETE CALLBACK
+
+		protected function setupAsyncLoadCompleteCallback() : void
+		{
+			var timer : Timer = new Timer(1,1); 
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, dispatchAsyncLoadCompleteEvent); 
+			timer.start(); 
+			
+		}
+		
+		// ___________________________________________________________________ DISPATCH ASYNCHRONOUS LOAD COMPLETE CALLBACK
+
+		protected function dispatchAsyncLoadCompleteEvent(e : TimerEvent) : void
+		{
+			loadComplete(); 
+			
+		}
+
+		
 		// ___________________________________________________________________ LOAD COMPLETE
 
 		protected function loadComplete():void
@@ -295,10 +329,23 @@ package org.papervision3d.materials
 			this.fillColor = 0;
 			this.loaded = true;
 			
+			// add the bitmap into the dictionary for this material. 
+			//_bitmapsByMaterial[this] = bitmap; 
+			
+			
 			// Dispatch event
 			var fileEvent:FileLoadEvent = new FileLoadEvent( FileLoadEvent.LOAD_COMPLETE, this.url );
 			this.dispatchEvent( fileEvent );
 		}
+		
+		protected function removeLoaderListeners() : void
+		{
+			bitmapLoader.contentLoaderInfo.removeEventListener( ProgressEvent.PROGRESS, loadBitmapProgressHandler );
+			bitmapLoader.contentLoaderInfo.removeEventListener( Event.COMPLETE, loadBitmapCompleteHandler );
+			bitmapLoader.contentLoaderInfo.removeEventListener( IOErrorEvent.IO_ERROR, loadBitmapErrorHandler );
+			
+		}
+		
 		
 		/**
 		 *  drawFace3D
@@ -326,23 +373,53 @@ package org.papervision3d.materials
 			}
 			super.drawTriangle(tri, graphics, renderSessionData);
 		}
-
+		
+		
+		protected function getBitmapForFilename(filename:String) : BitmapData
+		{
+			for (var ref : * in _bitmapMaterials)
+			{
+				var bfm : BitmapFileMaterial = ref as BitmapFileMaterial; 
+				if(bfm.url == filename) return bfm.bitmap;
+				
+			}
+			return null; 
+		}
 
 		// ___________________________________________________________________ PRIVATE
+
+
+		//bitmap Loader
+		protected var bitmapLoader : Loader; 
 
 		// Filenames in the queue
 		static protected var _waitingBitmaps :Array = new Array();
 
 		// URLs per loader
-		static protected var _loaderUrls :Dictionary = new Dictionary();
+		static protected var _loaderUrls :Dictionary = new Dictionary(true);
 
-		// Loaded bitmap library
-		static protected var _loadedBitmaps :Object = new Object();
+		// bitmaps by material
+		static protected var _bitmapMaterials : Dictionary = new Dictionary(true); 
 
 		// Materials subscribed  to the loading queue
 		static protected var _subscribedMaterials :Object = new Object();
 
 		// Loading status
 		static protected var _loadingIdle :Boolean = true;
+		
+		public function get subscribedMaterials() : Object
+		{
+			
+			return _subscribedMaterials; 
+		
+		}
+		public function get bitmapMaterials() : Dictionary
+		{
+			
+			return _bitmapMaterials; 
+		
+		}		
+		
+		
 	}
 }
