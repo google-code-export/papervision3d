@@ -20,9 +20,9 @@ package org.papervision3d.materials.utils
 			var tempmap:BitmapData = new BitmapData(256,1,false,0);
 			var s:Sprite = new Sprite();
 			var m:Matrix = new Matrix();
-			m.createGradientBox(255,1,0,0,0);
+			m.createGradientBox(256,1,0,0,0);
 			s.graphics.beginGradientFill(GradientType.LINEAR, [lightColor,ambientColor,ambientColor],[1,1,1],[0,255-specularLevel,255],m);
-			s.graphics.drawRect(0,0,255,1);
+			s.graphics.drawRect(0,0,256,1);
 			s.graphics.endFill();
 			tempmap.draw(s);
 			
@@ -30,7 +30,9 @@ package org.papervision3d.materials.utils
 			while(i--){
 				array.push(tempmap.getPixel(i,0));
 			}
-			
+		
+			tempmap.dispose();
+
 			return array;
 		}
 		
