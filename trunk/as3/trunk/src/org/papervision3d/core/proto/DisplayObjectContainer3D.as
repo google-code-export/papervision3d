@@ -3,6 +3,7 @@
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
 	
+	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.objects.DisplayObject3D;
 	
 	/**
@@ -51,6 +52,11 @@
 		*/
 		public function addChild( child :DisplayObject3D, name:String=null ):DisplayObject3D
 		{
+			
+			if(child.parent)
+			{
+				PaperLogger.error("DisplayObjectContainer.addChild : DisplayObject3D already has a parent, ie is already added to scene."); 
+			}
 			// Choose name
 			name = name || child.name || String( child.id );
 			
