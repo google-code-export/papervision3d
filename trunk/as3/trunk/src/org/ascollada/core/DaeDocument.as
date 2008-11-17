@@ -76,7 +76,7 @@ package org.ascollada.core
 		public function DaeDocument( object:Object, async:Boolean = false )
 		{			
 			this.COLLADA = object is XML ? object as XML : new XML( object );
-			this.COLLADA.ignoreWhitespace = true;
+			XML.ignoreWhitespace = true;
 			
 			super( this.COLLADA, async );
 		}
