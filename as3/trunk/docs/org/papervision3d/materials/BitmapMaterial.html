@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
-<meta content="BitmapMaterial,org.papervision3d.materials.BitmapMaterial,AUTO_MIP_MAPPING,DEFAULT_FOCUS,MIP_MAP_DEPTH,_perPixelPrecision,_precise,_precision,_texture,_triMap,ax,ay,az,bx,by,bz,cullRect,cx,cy,cz,dabx,daby,dbcx,dbcy,dcax,dcay,dmax,dsab,dsbc,dsca,faz,fbz,fcz,focus,hitRect,mabx,maby,mabz,mbcx,mbcy,mbcz,mcax,mcay,mcaz,minimumRenderSize,precisionMode,renderRecStorage,tempPreBmp,tempPreGrp,tempPreRSD,tempTriangleMatrix,uvMatrices,pixelPrecision,precise,precision,texture,clone,copy,correctBitmap,createBitmap,createRenderRecStorage,destroy,drawTriangle,extendBitmapEdges,renderRec,resetMapping,resetUVS,toString,transformUV,transformUVRT" name="keywords">
+<meta content="BitmapMaterial,org.papervision3d.materials.BitmapMaterial,AUTO_MIP_MAPPING,DEFAULT_FOCUS,MIP_MAP_DEPTH,_perPixelPrecision,_precise,_precision,_texture,_triMap,ax,ay,az,bx,by,bz,cullRect,cx,cy,cz,dabx,daby,dbcx,dbcy,dcax,dcay,dmax,dsab,dsbc,dsca,faz,fbz,fcz,focus,hitRect,mabx,maby,mabz,mbcx,mbcy,mbcz,mcax,mcay,mcaz,minimumRenderSize,renderRecStorage,tempPreBmp,tempPreGrp,tempPreRSD,tempTriangleMatrix,uvMatrices,pixelPrecision,precise,precision,texture,clone,copy,correctBitmap,createBitmap,createRenderRecStorage,destroy,drawTriangle,extendBitmapEdges,renderRec,resetMapping,resetUVS,toString,transformUV,transformUVRT" name="keywords">
 <title>org.papervision3d.materials.BitmapMaterial</title>
 </head>
 <body>
@@ -128,7 +128,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#interactive">interactive</a> : Boolean = false<div class="summaryTableDescription">
-   Defines if this material will be interactive
+   Defines if this material will be interactive;
    </div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
@@ -198,11 +198,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#precision">precision</a> : int<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">BitmapMaterial</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#precisionMode">precisionMode</a> : int<div class="summaryTableDescription">
-   Precision mode indicates how triangles are created for precise texture render.</div>
 </td><td class="summaryTableOwnerCol">BitmapMaterial</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -384,9 +379,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol">BitmapMaterial</td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription">
-   Inventory of registered objects
-   </div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="">
@@ -494,14 +487,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
     drawTriangle
    </div>
 </td><td class="summaryTableOwnerCol">BitmapMaterial</td>
-</tr>
-<tr class="hideInheritedMethod">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
-<div class="summarySignature">
-<a class="signatureLink" href="../core/proto/MaterialObject3D.html#getObjectList()">getObjectList</a>():Dictionary</div>
-<div class="summaryTableDescription">
-  Returns a list of <code>DisplayObject3D</code> objects registered with the material.</div>
-</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -1040,16 +1025,6 @@ showHideInherited();
 <code>&nbsp;&nbsp;&nbsp;&nbsp;public function set precision(value:int):void</code>
 <br>
 </div>
-<a name="precisionMode"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">precisionMode</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>public var precisionMode:int</code><p>
-   Precision mode indicates how triangles are created for precise texture render.
-   </p></div>
 <a name="renderRecStorage"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -1469,8 +1444,8 @@ showHideInherited();
 <hr>
 <br>
 <p></p>
-<center class="copyright">http://blog.papervision3d.org - Last Updated - Nov 16 2008</center>
+<center class="copyright">http://blog.papervision3d.org</center>
 </div>
 </body>
 </html>
-<!--http://blog.papervision3d.org - Last Updated - Nov 16 2008-->
+<!--http://blog.papervision3d.org-->

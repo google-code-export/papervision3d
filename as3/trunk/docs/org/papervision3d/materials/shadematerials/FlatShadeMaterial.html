@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
-<meta content="FlatShadeMaterial,org.papervision3d.materials.shadematerials.FlatShadeMaterial,_colors,drawTriangle" name="keywords">
+<meta content="FlatShadeMaterial,org.papervision3d.materials.shadematerials.FlatShadeMaterial,drawTriangle" name="keywords">
 <title>org.papervision3d.materials.shadematerials.FlatShadeMaterial</title>
 </head>
 <body>
@@ -118,7 +118,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../core/proto/MaterialObject3D.html#interactive">interactive</a> : Boolean = false<div class="summaryTableDescription">
-   Defines if this material will be interactive
+   Defines if this material will be interactive;
    </div>
 </td><td class="summaryTableOwnerCol"><a href="../../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
@@ -207,13 +207,9 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <a onclick="javascript:setInheritedVisible(true,'ProtectedProperty');" href="#protectedPropertySummary" class="showHideLink"><img src="../../../../images/collapsed.gif" class="showHideLinkImage"> Show Inherited Protected Properties</a>
 </div>
 </div>
-<table id="summaryTableProtectedProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<table id="summaryTableProtectedProperty" class="summaryTable hideInheritedProtectedProperty" cellpadding="3" cellspacing="0">
 <tr>
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_colors">_colors</a> : Array<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">FlatShadeMaterial</td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../core/material/AbstractLightShadeMaterial.html#lightMatrix">lightMatrix</a> : <a href="../../core/math/Matrix3D.html">Matrix3D</a>
@@ -221,9 +217,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../../core/material/AbstractLightShadeMaterial.html">AbstractLightShadeMaterial</a></td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription">
-   Inventory of registered objects
-   </div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 </table>
@@ -246,7 +240,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#FlatShadeMaterial()">FlatShadeMaterial</a>(light:<a href="../../core/proto/LightObject3D.html">LightObject3D</a>, diffuse:uint = 0xffffff, ambient:uint = 0x000000, specularLevel:int = 0)</div>
+<a class="signatureLink" href="#FlatShadeMaterial()">FlatShadeMaterial</a>(light:<a href="../../core/proto/LightObject3D.html">LightObject3D</a>, diffuse:uint = 0xffffff, ambient:uint = 0x000000)</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">FlatShadeMaterial</td>
 </tr>
@@ -287,14 +281,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <a class="signatureLink" href="#drawTriangle()">drawTriangle</a>(tri:<a href="../../core/render/command/RenderTriangle.html">RenderTriangle</a>, graphics:Graphics, renderSessionData:<a href="../../core/render/data/RenderSessionData.html">RenderSessionData</a>, altBitmap:BitmapData = null, altUV:Matrix = null):void</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">FlatShadeMaterial</td>
-</tr>
-<tr class="hideInheritedMethod">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
-<div class="summarySignature">
-<a class="signatureLink" href="../../core/proto/MaterialObject3D.html#getObjectList()">getObjectList</a>():Dictionary</div>
-<div class="summaryTableDescription">
-  Returns a list of <code>DisplayObject3D</code> objects registered with the material.</div>
-</td><td class="summaryTableOwnerCol"><a href="../../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -366,17 +352,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 showHideInherited();
 --></script>
 <div class="MainContent">
-<a name="propertyDetail"></a>
-<div class="detailSectionHeader">Property detail</div>
-<a name="_colors"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">_colors</td><td class="detailHeaderType">property</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected var _colors:Array</code>
-</div>
 <a name="constructorDetail"></a>
 <div class="detailSectionHeader">Constructor detail</div>
 <a name="FlatShadeMaterial()"></a>
@@ -386,7 +361,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function FlatShadeMaterial(light:<a href="../../core/proto/LightObject3D.html">LightObject3D</a>, diffuse:uint = 0xffffff, ambient:uint = 0x000000, specularLevel:int = 0)</code><span class="label">Parameters</span>
+<code>public function FlatShadeMaterial(light:<a href="../../core/proto/LightObject3D.html">LightObject3D</a>, diffuse:uint = 0xffffff, ambient:uint = 0x000000)</code><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td width="20px"></td><td><code><span class="label">light</span>:<a href="../../core/proto/LightObject3D.html">LightObject3D</a></code></td>
@@ -402,12 +377,6 @@ showHideInherited();
 </tr>
 <tr>
 <td width="20px"></td><td><code><span class="label">ambient</span>:uint</code> (default = <code>0x000000</code>)<code></code></td>
-</tr>
-<tr>
-<td class="paramSpacer">&nbsp;</td>
-</tr>
-<tr>
-<td width="20px"></td><td><code><span class="label">specularLevel</span>:int</code> (default = <code>0</code>)<code></code></td>
 </tr>
 </table>
 </div>
@@ -456,8 +425,8 @@ showHideInherited();
 <hr>
 <br>
 <p></p>
-<center class="copyright">http://blog.papervision3d.org - Last Updated - Nov 16 2008</center>
+<center class="copyright">http://blog.papervision3d.org</center>
 </div>
 </body>
 </html>
-<!--http://blog.papervision3d.org - Last Updated - Nov 16 2008-->
+<!--http://blog.papervision3d.org-->
