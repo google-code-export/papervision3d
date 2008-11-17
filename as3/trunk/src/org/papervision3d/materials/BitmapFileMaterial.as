@@ -7,6 +7,7 @@ package org.papervision3d.materials
 	import flash.events.*;
 	import flash.geom.Matrix;
 	import flash.net.URLRequest;
+	import flash.system.LoaderContext;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	
@@ -184,7 +185,10 @@ package org.papervision3d.materials
 			try
 			{
 				// Load bitmap
-				bitmapLoader.load( request );
+				var loaderContext:LoaderContext=new LoaderContext();
+				loaderContext.checkPolicyFile=true;
+
+				bitmapLoader.load( request, loaderContext);
 
 				// Save original url
 				_loaderUrls[ bitmapLoader ] = file;
