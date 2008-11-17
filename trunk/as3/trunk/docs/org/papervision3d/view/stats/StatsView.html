@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
-<meta content="StatsView,org.papervision3d.view.stats.StatsView,cullingInfoTextField,fpsInfoTextField,memInfoTestField,objectInfoTextField,polyCountField,renderInfoTextField,statsFormat,totalPolyCount,fps,renderSessionData,countPolys,init,recurseDisplayObject,setupView,updatePolyCount" name="keywords">
+<meta content="StatsView,org.papervision3d.view.stats.StatsView,cullingInfoTextField,fpsInfoTextField,memInfoTestField,objectInfoTextField,renderInfoTextField,statsFormat,fps,renderSessionData,init,setupView" name="keywords">
 <title>org.papervision3d.view.stats.StatsView</title>
 </head>
 <body>
@@ -75,10 +75,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summaryTableDescription">[write-only]</div>
 </td><td class="summaryTableOwnerCol">StatsView</td>
 </tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#totalPolyCount">totalPolyCount</a> : Number = 0<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">StatsView</td>
-</tr>
 </table>
 </div>
 <a name="protectedPropertySummary"></a>
@@ -124,10 +120,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#objectInfoTextField">objectInfoTextField</a> : TextField<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">StatsView</td>
 </tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#polyCountField">polyCountField</a> : TextField<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">StatsView</td>
-</tr>
 <tr class="hideInheritedProtectedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="AbstractStatsView.html#_renderEngine">_renderEngine</a> : <a href="../../core/render/AbstractRenderEngine.html">AbstractRenderEngine</a>
 <div class="summaryTableDescription"></div>
@@ -162,23 +154,9 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">StatsView</td>
 </tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
-<div class="summarySignature">
-<a class="signatureLink" href="#countPolys()">countPolys</a>(obj:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>):Number</div>
-<div class="summaryTableDescription">[static]</div>
-</td><td class="summaryTableOwnerCol">StatsView</td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
-<div class="summarySignature">
-<a class="signatureLink" href="#updatePolyCount()">updatePolyCount</a>(scene:<a href="../../scenes/Scene3D.html">Scene3D</a>):void</div>
-<div class="summaryTableDescription"></div>
-</td><td class="summaryTableOwnerCol">StatsView</td>
-</tr>
 </table>
 </div>
-<a name="protectedMethodSummary"></a>
+<a name="methodSummary"></a><a name="protectedMethodSummary"></a>
 <div class="summarySection">
 <div class="summaryTableTitle">Protected Methods</div>
 <div class="showHideLinks">
@@ -213,13 +191,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <a class="signatureLink" href="AbstractStatsView.html#onRenderDone()">onRenderDone</a>(event:<a href="../../events/RendererEvent.html">RendererEvent</a>):void</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="AbstractStatsView.html">AbstractStatsView</a></td>
-</tr>
-<tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
-<div class="summarySignature">
-<a class="signatureLink" href="#recurseDisplayObject()">recurseDisplayObject</a>(obj:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, polygonCount:Number):Number</div>
-<div class="summaryTableDescription">[static]</div>
-</td><td class="summaryTableOwnerCol">StatsView</td>
 </tr>
 <tr class="hideInheritedProtectedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -292,15 +263,6 @@ showHideInherited();
 <div class="detailBody">
 <code>protected var objectInfoTextField:TextField</code>
 </div>
-<a name="polyCountField"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">polyCountField</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected var polyCountField:TextField</code>
-</div>
 <a name="renderInfoTextField"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -331,15 +293,6 @@ showHideInherited();
 <div class="detailBody">
 <code>protected var statsFormat:TextFormat</code>
 </div>
-<a name="totalPolyCount"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">totalPolyCount</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>public var totalPolyCount:Number = 0</code>
-</div>
 <a name="constructorDetail"></a>
 <div class="detailSectionHeader">Constructor detail</div>
 <a name="StatsView()"></a>
@@ -358,62 +311,14 @@ showHideInherited();
 </div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
-<a name="countPolys()"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">countPolys</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>public static function countPolys(obj:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>):Number</code><span class="label">Parameters</span>
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="20px"></td><td><code><span class="label">obj</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code></td>
-</tr>
-</table>
-<p></p>
-<span class="label">Returns</span>
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="20"></td><td><code>Number</code></td>
-</tr>
-</table>
-</div>
 <a name="init()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">init</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+<td class="detailHeaderName">init</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
 </tr>
 </table>
 <div class="detailBody">
 <code>protected function init():void</code>
-</div>
-<a name="recurseDisplayObject()"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">recurseDisplayObject</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected static function recurseDisplayObject(obj:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>, polygonCount:Number):Number</code><span class="label">Parameters</span>
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="20px"></td><td><code><span class="label">obj</span>:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code></td>
-</tr>
-<tr>
-<td class="paramSpacer">&nbsp;</td>
-</tr>
-<tr>
-<td width="20px"></td><td><code><span class="label">polygonCount</span>:Number</code></td>
-</tr>
-</table>
-<p></p>
-<span class="label">Returns</span>
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="20"></td><td><code>Number</code></td>
-</tr>
-</table>
 </div>
 <a name="setupView()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -424,27 +329,13 @@ showHideInherited();
 <div class="detailBody">
 <code>protected function setupView():void</code>
 </div>
-<a name="updatePolyCount()"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">updatePolyCount</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>public function updatePolyCount(scene:<a href="../../scenes/Scene3D.html">Scene3D</a>):void</code><span class="label">Parameters</span>
-<table border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="20px"></td><td><code><span class="label">scene</span>:<a href="../../scenes/Scene3D.html">Scene3D</a></code></td>
-</tr>
-</table>
-</div>
 <br>
 <br>
 <hr>
 <br>
 <p></p>
-<center class="copyright">http://blog.papervision3d.org - Last Updated - Nov 16 2008</center>
+<center class="copyright">http://blog.papervision3d.org</center>
 </div>
 </body>
 </html>
-<!--http://blog.papervision3d.org - Last Updated - Nov 16 2008-->
+<!--http://blog.papervision3d.org-->
