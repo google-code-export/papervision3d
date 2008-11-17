@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
-<meta content="ColorMaterial,org.papervision3d.materials.ColorMaterial,drawTriangle,toString" name="keywords">
+<meta content="ColorMaterial,org.papervision3d.materials.ColorMaterial,clone,drawTriangle,toString" name="keywords">
 <title>org.papervision3d.materials.ColorMaterial</title>
 </head>
 <body>
@@ -120,7 +120,7 @@ Materials collects data about how objects appear when rendered.
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#interactive">interactive</a> : Boolean = false<div class="summaryTableDescription">
-   Defines if this material will be interactive;
+   Defines if this material will be interactive
    </div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
@@ -205,7 +205,9 @@ Materials collects data about how objects appear when rendered.
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
 </tr>
 <tr class="hideInheritedProtectedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription"></div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription">
+   Inventory of registered objects
+   </div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 </table>
@@ -233,14 +235,13 @@ Materials collects data about how objects appear when rendered.
  The ColorMaterial class creates a solid color material.</div>
 </td><td class="summaryTableOwnerCol">ColorMaterial</td>
 </tr>
-<tr class="hideInheritedMethod">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="../core/proto/MaterialObject3D.html#clone()">clone</a>():<a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a>
+<a class="signatureLink" href="#clone()">clone</a>():<a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a>
 </div>
-<div class="summaryTableDescription">
-  Creates a copy of the material.</div>
-</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">ColorMaterial</td>
 </tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -272,6 +273,14 @@ Materials collects data about how objects appear when rendered.
    drawTriangle
   </div>
 </td><td class="summaryTableOwnerCol">ColorMaterial</td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="../core/proto/MaterialObject3D.html#getObjectList()">getObjectList</a>():Dictionary</div>
+<div class="summaryTableDescription">
+  Returns a list of <code>DisplayObject3D</code> objects registered with the material.</div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -345,10 +354,26 @@ showHideInherited();
 </div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
+<a name="clone()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">clone</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function clone():<a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></code>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></code></td>
+</tr>
+</table>
+</div>
 <a name="drawTriangle()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">drawTriangle</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+<td class="detailHeaderName">drawTriangle</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">

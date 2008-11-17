@@ -18,6 +18,8 @@
 	<tstamp prefix="dateStamp">
 	      <format property="date" pattern="MMM d yyyy" offset="-5" unit="hour"/>
 	</tstamp>
+	
+	<!-- Date stamp sytax ' - Last Updated - ''${dateStamp.date}' -->
 
 	
 	<target name="HelloWord"><echo>${dateStamp.date}</echo></target>
@@ -36,7 +38,7 @@
 			<arg line="-doc-sources ${classesdir}"/>
 			<arg line="-window-title '${windowtitle}'"/>
 			<arg line="-main-title '${maintitle}'"/>
-			<arg line="-footer '${footer}'' - Last Updated - ''${dateStamp.date}'"/>
+			<arg line="-footer '${footer}'"/>
 			<arg line="-output '${docsdir}'"/>
 		</exec>
 	</target>
