@@ -40,7 +40,7 @@ package org.papervision3d.materials.special
 			materials.splice(materials.indexOf(material),1);
 		}
 		
-		public function removeAllMaterials(material:MaterialObject3D):void
+		public function removeAllMaterials():void
 		{
 			materials = new Array();
 		}
