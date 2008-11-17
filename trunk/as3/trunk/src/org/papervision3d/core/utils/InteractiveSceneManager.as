@@ -183,7 +183,9 @@
 			MOUSE_IS_DOWN = true;
 			if( virtualMouse ) virtualMouse.press();
 			if( Mouse3D.enabled && renderHitData && renderHitData.renderable != null ) mouse3D.updatePosition(renderHitData);
-			if( renderHitData && renderHitData.hasHit ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, currentDisplayObject3D);
+			if( renderHitData && renderHitData.hasHit ){
+				dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_PRESS, currentDisplayObject3D);
+			}
 		}
 		/**
 		 * Handles the MOUSE_UP event on an InteractiveSprite container
@@ -318,8 +320,11 @@
 			{
 				var x:Number = renderHitData.u ? renderHitData.u : 0;
 				var y:Number = renderHitData.v ? renderHitData.v : 0;
-				dispatchEvent(new InteractiveScene3DEvent(event, DO3D, container, renderHitData.renderable as Triangle3D, x, y));
-				DO3D.dispatchEvent(new InteractiveScene3DEvent(event, DO3D, container, renderHitData.renderable as Triangle3D, x, y));
+				
+				var ev:InteractiveScene3DEvent = new InteractiveScene3DEvent(event, DO3D, container, renderHitData.renderable as Triangle3D, x, y,renderHitData);
+				ev.renderHitData = renderHitData;
+				dispatchEvent(ev);
+				DO3D.dispatchEvent(ev);
 			} else 
 			{
 				dispatchEvent(new InteractiveScene3DEvent(event, DO3D, container));
