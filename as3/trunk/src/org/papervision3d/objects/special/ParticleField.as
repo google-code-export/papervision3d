@@ -19,8 +19,8 @@ package org.papervision3d.objects.special {
 		/**
 		* The ParticleField class creates an object with an amount of particles randomly distributed over a specied 3d area.
 		* @param	material 	The Material for the to be created particles
-		* @param	color		The color of the created particles
-		* @param	container	An alternate container to render to, if needed.
+		* @param	quantity	The number of particles in the field
+		* @param	particleSize	The size of the created particles
 		* @param	fieldWidth 	The width of the area
 		* @param 	fieldHeight The height of the area
 		* @param	fieldDepth	The depth of the area 
