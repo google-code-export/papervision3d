@@ -110,7 +110,7 @@
 		{
 			//removeChildByname(name:string) may return null // must check here
 			
-			if(child){
+			if(child && children[child]){
 				delete this._childrenByName[ this._children[ child ] ];
 				delete this._children[ child ];
 			
