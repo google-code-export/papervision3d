@@ -71,6 +71,7 @@ package org.papervision3d.core.utils
 						triangle.updateVertices();
 					}
 					var meshA:TriangleMesh3D = new TriangleMesh3D(mesh.material, vertBucketA, triangleBucketA);
+					meshA.material = mesh.material;
 					meshA.geometry.ready = true;
 					array.push(meshA);
 				}
@@ -90,6 +91,7 @@ package org.papervision3d.core.utils
 						triangle.updateVertices();
 					}
 					var meshB:TriangleMesh3D = new TriangleMesh3D(mesh.material, vertBucketB, triangleBucketB);
+					meshB.material = mesh.material;
 					meshB.geometry.ready = true;
 					array.push(meshB);
 				}
