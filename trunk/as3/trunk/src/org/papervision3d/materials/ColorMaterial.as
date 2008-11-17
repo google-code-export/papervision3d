@@ -4,8 +4,8 @@ import flash.display.BitmapData;
 import flash.display.Graphics;
 import flash.geom.Matrix;
 
-import org.papervision3d.core.geom.renderables.Triangle3D;
 import org.papervision3d.core.material.TriangleMaterial;
+import org.papervision3d.core.proto.MaterialObject3D;
 import org.papervision3d.core.render.command.RenderTriangle;
 import org.papervision3d.core.render.data.RenderSessionData;
 import org.papervision3d.core.render.draw.ITriangleDrawer;
@@ -63,5 +63,14 @@ public class ColorMaterial extends TriangleMaterial implements ITriangleDrawer
 	{
 		return 'ColorMaterial - color:' + this.fillColor + ' alpha:' + this.fillAlpha;
 	}
+	
+	override public function clone():MaterialObject3D
+	{
+		var cloned:MaterialObject3D = new ColorMaterial();
+		cloned.copy(this);
+    	return cloned;
+	}
+
+
 }
 }
