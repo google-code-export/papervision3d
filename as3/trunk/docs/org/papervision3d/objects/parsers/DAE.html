@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
-<meta content="DAE,org.papervision3d.objects.parsers.DAE,COLLADA,DEFAULT_LINE_COLOR,DEFAULT_LINE_WIDTH,DEFAULT_TGA_ALTERNATIVE,baseUrl,document,fileTitle,filename,parser,texturePath,useMaterialTargetName,fps,yUp,getAnimationChannelByName,getAnimationChannels,getAnimationChannelsByClip,load,play,project,removeChild,stop" name="keywords">
+<meta content="DAE,org.papervision3d.objects.parsers.DAE,COLLADA,DEFAULT_LINE_COLOR,DEFAULT_LINE_WIDTH,DEFAULT_TGA_ALTERNATIVE,ROOTNODE_NAME,_autoPlay,_channels,_channelsByTarget,_colladaID,_colladaIDToObject,_colladaSID,_colladaSIDToObject,_controllers,_currentFrame,_currentTime,_endTime,_geometries,_isAnimated,_isPlaying,_loop,_numSkins,_objectToNode,_playerType,_queuedMaterials,_rightHanded,_rootNode,_skins,_startTime,_textureSets,_totalFrames,baseUrl,document,fileTitle,filename,forceCoordSet,parser,texturePath,useMaterialTargetName,fps,yUp,buildAnimationChannel,buildAnimationChannels,buildColor,buildFaces,buildFileInfo,buildGeometries,buildImagePath,buildMaterials,buildMatrix,buildMatrixFromTransform,buildMatrixStack,buildNode,buildScene,buildSkin,buildVertices,findChildByID,findChildBySID,getAnimationChannelByName,getAnimationChannels,getAnimationChannelsByClip,getSymbolName,isBakedMatrix,linkSkin,linkSkins,load,loadNextMaterial,mergeGeometries,onMaterialError,onMaterialsLoaded,onParseAnimationsComplete,onParseAnimationsProgress,onParseComplete,onParseGeometriesComplete,onParseProgress,play,project,removeChild,stop" name="keywords">
 <title>org.papervision3d.objects.parsers.DAE</title>
 </head>
 <body>
@@ -193,6 +193,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#flipLightDirection">flipLightDirection</a> : Boolean = false<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#forceCoordSet">forceCoordSet</a> : int = 1<div class="summaryTableDescription"> change this to 0 if you're DAE is picking the wrong coordinates </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#fps">fps</a> : uint<div class="summaryTableDescription">[read-only]
@@ -431,9 +435,21 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <a onclick="javascript:setInheritedVisible(true,'ProtectedProperty');" href="#protectedPropertySummary" class="showHideLink"><img src="../../../../images/collapsed.gif" class="showHideLinkImage"> Show Inherited Protected Properties</a>
 </div>
 </div>
-<table id="summaryTableProtectedProperty" class="summaryTable hideInheritedProtectedProperty" cellpadding="3" cellspacing="0">
+<table id="summaryTableProtectedProperty" class="summaryTable " cellpadding="3" cellspacing="0">
 <tr>
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_autoPlay">_autoPlay</a> : Boolean<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_channels">_channels</a> : Array<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_channelsByTarget">_channelsByTarget</a> : Dictionary<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../../core/proto/DisplayObjectContainer3D.html#_children">_children</a> : Dictionary<div class="summaryTableDescription">
@@ -445,14 +461,103 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
   [internal-use] Children indexed by name.</div>
 </td><td class="summaryTableOwnerCol"><a href="../../core/proto/DisplayObjectContainer3D.html">DisplayObjectContainer3D</a></td>
 </tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_colladaID">_colladaID</a> : Dictionary<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_colladaIDToObject">_colladaIDToObject</a> : Object<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_colladaSID">_colladaSID</a> : Dictionary<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_colladaSIDToObject">_colladaSIDToObject</a> : Object<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_controllers">_controllers</a> : Array<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_currentFrame">_currentFrame</a> : int = 0<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_currentTime">_currentTime</a> : int<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_endTime">_endTime</a> : Number<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_geometries">_geometries</a> : Object<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_isAnimated">_isAnimated</a> : Boolean = false<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_isPlaying">_isPlaying</a> : Boolean = false<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_loop">_loop</a> : Boolean = false<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_numSkins">_numSkins</a> : uint<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_objectToNode">_objectToNode</a> : Object<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_playerType">_playerType</a> : String<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_queuedMaterials">_queuedMaterials</a> : Array<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_rightHanded">_rightHanded</a> : Boolean<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_rootNode">_rootNode</a> : <a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>
+<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
 <tr class="hideInheritedProtectedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#_scene">_scene</a> : <a href="../../core/proto/SceneObject3D.html">SceneObject3D</a> = null<div class="summaryTableDescription">
   The scene where the object belongs.</div>
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_skins">_skins</a> : Dictionary<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
 <tr class="hideInheritedProtectedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#_sorted">_sorted</a> : Array<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_startTime">_startTime</a> : Number<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_textureSets">_textureSets</a> : Object<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_totalFrames">_totalFrames</a> : int = 0<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../DisplayObject3D.html#_transformDirty">_transformDirty</a> : Boolean = false<div class="summaryTableDescription">
@@ -489,7 +594,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#DAE()">DAE</a>(autoPlay:Boolean = true, name:String = null)</div>
+<a class="signatureLink" href="#DAE()">DAE</a>(autoPlay:Boolean = true, name:String = null, loop:Boolean = false)</div>
 <div class="summaryTableDescription">
    Constructor.</div>
 </td><td class="summaryTableOwnerCol">DAE</td>
@@ -647,7 +752,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#load()">load</a>(asset:*, materials:<a href="../../materials/utils/MaterialsList.html">MaterialsList</a> = null):void</div>
+<a class="signatureLink" href="#load()">load</a>(asset:*, materials:<a href="../../materials/utils/MaterialsList.html">MaterialsList</a> = null, asynchronousParsing:Boolean = false):void</div>
 <div class="summaryTableDescription">
    Loads the COLLADA.</div>
 </td><td class="summaryTableOwnerCol">DAE</td>
@@ -843,9 +948,256 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <a onclick="javascript:setInheritedVisible(true,'ProtectedMethod');" href="#protectedMethodSummary" class="showHideLink"><img src="../../../../images/collapsed.gif" class="showHideLinkImage"> Show Inherited Protected Methods</a>
 </div>
 </div>
-<table id="summaryTableProtectedMethod" class="summaryTable hideInheritedProtectedMethod" cellpadding="3" cellspacing="0">
+<table id="summaryTableProtectedMethod" class="summaryTable " cellpadding="3" cellspacing="0">
 <tr>
 <th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildAnimationChannel()">buildAnimationChannel</a>(target:<a href="../DisplayObject3D.html">DisplayObject3D</a>, channel:<a href="../../../ascollada/core/DaeChannel.html">DaeChannel</a>):<a href="../../core/animation/channel/MatrixChannel3D.html">MatrixChannel3D</a>
+</div>
+<div class="summaryTableDescription">
+   Builds a animation channel for an object.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildAnimationChannels()">buildAnimationChannels</a>():void</div>
+<div class="summaryTableDescription">
+   Build all animation channels.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildColor()">buildColor</a>(rgb:Array):uint</div>
+<div class="summaryTableDescription">
+   Build a color from RGB values.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildFaces()">buildFaces</a>(primitive:<a href="../../../ascollada/core/DaePrimitive.html">DaePrimitive</a>, geometry:<a href="../../core/proto/GeometryObject3D.html">GeometryObject3D</a>, voffset:uint):void</div>
+<div class="summaryTableDescription">
+   Creates the faces for a COLLADA primitive.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildFileInfo()">buildFileInfo</a>(asset:*):void</div>
+<div class="summaryTableDescription">
+   
+   </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildGeometries()">buildGeometries</a>():void</div>
+<div class="summaryTableDescription">
+   Builds all COLLADA geometries.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildImagePath()">buildImagePath</a>(meshFolderPath:String, imgPath:String):String</div>
+<div class="summaryTableDescription">
+      </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildMaterials()">buildMaterials</a>():void</div>
+<div class="summaryTableDescription">
+   Builds the materials.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildMatrix()">buildMatrix</a>(node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>):<a href="../../core/math/Matrix3D.html">Matrix3D</a>
+</div>
+<div class="summaryTableDescription">
+   Builds a Matrix3D from a node's transform array.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildMatrixFromTransform()">buildMatrixFromTransform</a>(transform:<a href="../../../ascollada/types/DaeTransform.html">DaeTransform</a>):<a href="../../core/math/Matrix3D.html">Matrix3D</a>
+</div>
+<div class="summaryTableDescription">
+   
+   </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildMatrixStack()">buildMatrixStack</a>(node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>):Array</div>
+<div class="summaryTableDescription">
+   
+   </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildNode()">buildNode</a>(node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>, parent:<a href="../DisplayObject3D.html">DisplayObject3D</a>):void</div>
+<div class="summaryTableDescription">
+   Builds a DisplayObject3D from a node.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildScene()">buildScene</a>():void</div>
+<div class="summaryTableDescription">
+   Builds the scene.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildSkin()">buildSkin</a>(instance:<a href="../special/Skin3D.html">Skin3D</a>, colladaSkin:<a href="../../../ascollada/core/DaeSkin.html">DaeSkin</a>, skeletons:Array, node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>):void</div>
+<div class="summaryTableDescription">
+   Builds a skin.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#buildVertices()">buildVertices</a>(mesh:<a href="../../../ascollada/core/DaeMesh.html">DaeMesh</a>):Array</div>
+<div class="summaryTableDescription">
+   Builds vertices from a COLLADA mesh.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#findChildByID()">findChildByID</a>(id:String, parent:<a href="../DisplayObject3D.html">DisplayObject3D</a> = null):<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>
+</div>
+<div class="summaryTableDescription">
+   Recursively finds a child by its COLLADA is.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#findChildBySID()">findChildBySID</a>(sid:String, parent:<a href="../DisplayObject3D.html">DisplayObject3D</a> = null):<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a>
+</div>
+<div class="summaryTableDescription">
+   Recursively finds a child by its SID.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getSymbolName()">getSymbolName</a>(effectID:String):String</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#isBakedMatrix()">isBakedMatrix</a>(node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>):Boolean</div>
+<div class="summaryTableDescription">
+   Tests whether a node has a baked transform
+   
+   </div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#linkSkin()">linkSkin</a>(instance:<a href="../DisplayObject3D.html">DisplayObject3D</a>, skin:<a href="../../../ascollada/core/DaeSkin.html">DaeSkin</a>):void</div>
+<div class="summaryTableDescription">
+   Setup the skin controllers.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#linkSkins()">linkSkins</a>():void</div>
+<div class="summaryTableDescription">
+   Setup the skin controllers.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#loadNextMaterial()">loadNextMaterial</a>(event:<a href="../../events/FileLoadEvent.html">FileLoadEvent</a> = null):void</div>
+<div class="summaryTableDescription">
+   Loads the next material.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#mergeGeometries()">mergeGeometries</a>(target:<a href="../../core/proto/GeometryObject3D.html">GeometryObject3D</a>, source:<a href="../../core/proto/GeometryObject3D.html">GeometryObject3D</a>, materialInstances:Array = null):void</div>
+<div class="summaryTableDescription">
+   Merge geometries.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onMaterialError()">onMaterialError</a>(event:Event):void</div>
+<div class="summaryTableDescription">
+   Called when a BitmapMaterial failed to load.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onMaterialsLoaded()">onMaterialsLoaded</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onParseAnimationsComplete()">onParseAnimationsComplete</a>(event:Event):void</div>
+<div class="summaryTableDescription">
+   Called when the parser completed parsing animations.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onParseAnimationsProgress()">onParseAnimationsProgress</a>(event:ProgressEvent):void</div>
+<div class="summaryTableDescription">
+   Called on parse animations progress.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onParseComplete()">onParseComplete</a>(event:Event):void</div>
+<div class="summaryTableDescription">
+   Called when the DaeReader completed parsing.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onParseGeometriesComplete()">onParseGeometriesComplete</a>(e:Event):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onParseProgress()">onParseProgress</a>(event:ProgressEvent):void</div>
+<div class="summaryTableDescription">
+   Called on parsing progress.</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
 </tr>
 <tr class="hideInheritedProtectedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
@@ -867,7 +1219,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <a onclick="javascript:setInheritedVisible(true,'Constant');" href="#constantSummary" class="showHideLink"><img src="../../../../images/collapsed.gif" class="showHideLinkImage"> Show Inherited Public Constants</a>
 </div>
 </div>
-<table id="summaryTableConstant" class="summaryTable hideInheritedConstant" cellpadding="3" cellspacing="0">
+<table id="summaryTableConstant" class="summaryTable " cellpadding="3" cellspacing="0">
 <tr>
 <th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
 </tr>
@@ -889,6 +1241,10 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
   </div>
 </td><td class="summaryTableOwnerCol"><a href="../DisplayObject3D.html">DisplayObject3D</a></td>
 </tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#ROOTNODE_NAME">ROOTNODE_NAME</a> : String = "COLLADA_Scene"<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">DAE</td>
+</tr>
 </table>
 </div>
 <script type="text/javascript" language="javascript">
@@ -898,14 +1254,38 @@ showHideInherited();
 <div class="MainContent">
 <a name="propertyDetail"></a>
 <div class="detailSectionHeader">Property detail</div>
+<a name="_autoPlay"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_autoPlay</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _autoPlay:Boolean</code><p> </p></div>
 <a name="baseUrl"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">baseUrl</td><td class="detailHeaderType">property</td>
+<td class="detailHeaderName">baseUrl</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">
 <code>public var baseUrl:String</code><p> Base url. </p></div>
+<a name="_channels"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_channels</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _channels:Array</code><p> </p></div>
+<a name="_channelsByTarget"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_channelsByTarget</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _channelsByTarget:Dictionary</code><p> </p></div>
 <a name="COLLADA"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -914,6 +1294,62 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public var COLLADA:XML</code><p> The loaded XML. </p></div>
+<a name="_colladaID"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_colladaID</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _colladaID:Dictionary</code><p> </p></div>
+<a name="_colladaIDToObject"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_colladaIDToObject</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _colladaIDToObject:Object</code><p> </p></div>
+<a name="_colladaSID"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_colladaSID</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _colladaSID:Dictionary</code><p> </p></div>
+<a name="_colladaSIDToObject"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_colladaSIDToObject</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _colladaSIDToObject:Object</code><p> </p></div>
+<a name="_controllers"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_controllers</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _controllers:Array</code><p> </p></div>
+<a name="_currentFrame"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_currentFrame</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _currentFrame:int = 0</code><p> </p></div>
+<a name="_currentTime"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_currentTime</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _currentTime:int</code><p> </p></div>
 <a name="DEFAULT_LINE_COLOR"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -952,6 +1388,14 @@ showHideInherited();
 <a href="../../../ascollada/core/DaeDocument.html" target="">org.ascollada.core.DaeDocument</a>
 </div>
 </div>
+<a name="_endTime"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_endTime</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _endTime:Number</code><p> </p></div>
 <a name="filename"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -968,6 +1412,14 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public var fileTitle:String</code><p> The filetitle - if applicable. </p></div>
+<a name="forceCoordSet"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">forceCoordSet</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var forceCoordSet:int = 1</code><p> change this to 0 if you're DAE is picking the wrong coordinates </p></div>
 <a name="fps"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -982,6 +1434,55 @@ showHideInherited();
 <code>&nbsp;&nbsp;&nbsp;&nbsp;public function get fps():uint</code>
 <br>
 </div>
+<a name="_geometries"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_geometries</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _geometries:Object</code><p> </p></div>
+<a name="_isAnimated"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_isAnimated</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _isAnimated:Boolean = false</code><p> </p></div>
+<a name="_isPlaying"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_isPlaying</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _isPlaying:Boolean = false</code><p> </p></div>
+<a name="_loop"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_loop</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _loop:Boolean = false</code>
+</div>
+<a name="_numSkins"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_numSkins</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _numSkins:uint</code><p> </p></div>
+<a name="_objectToNode"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_objectToNode</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _objectToNode:Object</code><p> </p></div>
 <a name="parser"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -990,6 +1491,55 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public var parser:<a href="../../../ascollada/io/DaeReader.html">DaeReader</a></code><p> The COLLADA parser. </p></div>
+<a name="_playerType"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_playerType</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _playerType:String</code>
+</div>
+<a name="_queuedMaterials"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_queuedMaterials</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _queuedMaterials:Array</code><p> </p></div>
+<a name="_rightHanded"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_rightHanded</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _rightHanded:Boolean</code><p> </p></div>
+<a name="_rootNode"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_rootNode</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _rootNode:<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code><p> </p></div>
+<a name="_skins"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_skins</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _skins:Dictionary</code><p> </p></div>
+<a name="_startTime"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_startTime</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _startTime:Number</code><p> </p></div>
 <a name="texturePath"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -998,6 +1548,22 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>public var texturePath:String</code><p> Path where the textures should be loaded from. </p></div>
+<a name="_textureSets"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_textureSets</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _textureSets:Object</code><p> </p></div>
+<a name="_totalFrames"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_totalFrames</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var _totalFrames:int = 0</code><p> </p></div>
 <a name="useMaterialTargetName"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -1027,7 +1593,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function DAE(autoPlay:Boolean = true, name:String = null)</code><p>
+<code>public function DAE(autoPlay:Boolean = true, name:String = null, loop:Boolean = false)</code><p>
    Constructor.
    
    </p><span class="label">Parameters</span>
@@ -1043,14 +1609,431 @@ showHideInherited();
 <td width="20px"></td><td><code><span class="label">name</span>:String</code> (default = <code>null</code>)<code></code> &mdash; Optional name for the DAE.
    </td>
 </tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">loop</span>:Boolean</code> (default = <code>false</code>)<code></code></td>
+</tr>
 </table>
 </div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
+<a name="buildAnimationChannel()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildAnimationChannel</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildAnimationChannel(target:<a href="../DisplayObject3D.html">DisplayObject3D</a>, channel:<a href="../../../ascollada/core/DaeChannel.html">DaeChannel</a>):<a href="../../core/animation/channel/MatrixChannel3D.html">MatrixChannel3D</a></code><p>
+   Builds a animation channel for an object.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">target</span>:<a href="../DisplayObject3D.html">DisplayObject3D</a></code> &mdash; the target object's channel
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">channel</span>:<a href="../../../ascollada/core/DaeChannel.html">DaeChannel</a></code> &mdash; The target object
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../core/animation/channel/MatrixChannel3D.html">MatrixChannel3D</a></code></td>
+</tr>
+</table>
+</div>
+<a name="buildAnimationChannels()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildAnimationChannels</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildAnimationChannels():void</code><p>
+   Build all animation channels.
+   </p></div>
+<a name="buildColor()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildColor</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildColor(rgb:Array):uint</code><p>
+   Build a color from RGB values.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">rgb</span>:Array</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>uint</code></td>
+</tr>
+</table>
+</div>
+<a name="buildFaces()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildFaces</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildFaces(primitive:<a href="../../../ascollada/core/DaePrimitive.html">DaePrimitive</a>, geometry:<a href="../../core/proto/GeometryObject3D.html">GeometryObject3D</a>, voffset:uint):void</code><p>
+   Creates the faces for a COLLADA primitive. </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">primitive</span>:<a href="../../../ascollada/core/DaePrimitive.html">DaePrimitive</a></code> &mdash; primitive
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">geometry</span>:<a href="../../core/proto/GeometryObject3D.html">GeometryObject3D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">voffset</span>:uint</code></td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../../../ascollada/core/DaePrimitive.html" target="">org.ascollada.core.DaePrimitive</a>
+</div>
+</div>
+<a name="buildFileInfo()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildFileInfo</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildFileInfo(asset:*):void</code><p>
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">asset</span>:*</code></td>
+</tr>
+</table>
+</div>
+<a name="buildGeometries()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildGeometries</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildGeometries():void</code><p>
+   Builds all COLLADA geometries.
+   </p></div>
+<a name="buildImagePath()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildImagePath</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildImagePath(meshFolderPath:String, imgPath:String):String</code><p>
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">meshFolderPath</span>:String</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">imgPath</span>:String</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code></td>
+</tr>
+</table>
+</div>
+<a name="buildMaterials()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildMaterials</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildMaterials():void</code><p>
+   Builds the materials.
+   </p></div>
+<a name="buildMatrix()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildMatrix</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildMatrix(node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>):<a href="../../core/math/Matrix3D.html">Matrix3D</a></code><p>
+   Builds a Matrix3D from a node's transform array. </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">node</span>:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../core/math/Matrix3D.html">Matrix3D</a></code></td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../../../ascollada/core/DaeNode.html#transforms" target="">org.ascollada.core.DaeNode.transforms</a>
+</div>
+</div>
+<a name="buildMatrixFromTransform()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildMatrixFromTransform</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildMatrixFromTransform(transform:<a href="../../../ascollada/types/DaeTransform.html">DaeTransform</a>):<a href="../../core/math/Matrix3D.html">Matrix3D</a></code><p>
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">transform</span>:<a href="../../../ascollada/types/DaeTransform.html">DaeTransform</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../core/math/Matrix3D.html">Matrix3D</a></code></td>
+</tr>
+</table>
+</div>
+<a name="buildMatrixStack()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildMatrixStack</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildMatrixStack(node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>):Array</code><p>
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">node</span>:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Array</code></td>
+</tr>
+</table>
+</div>
+<a name="buildNode()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildNode</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildNode(node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>, parent:<a href="../DisplayObject3D.html">DisplayObject3D</a>):void</code><p>
+   Builds a DisplayObject3D from a node. </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">node</span>:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">parent</span>:<a href="../DisplayObject3D.html">DisplayObject3D</a></code></td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../../../ascollada/core/DaeNode.html" target="">org.ascollada.core.DaeNode</a>
+<br>
+<a href="../../objects/DisplayObject3D.html" target="">org.papervision3d.objects.DisplayObject3D</a>
+</div>
+</div>
+<a name="buildScene()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildScene</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildScene():void</code><p>
+   Builds the scene.
+   </p></div>
+<a name="buildSkin()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildSkin</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildSkin(instance:<a href="../special/Skin3D.html">Skin3D</a>, colladaSkin:<a href="../../../ascollada/core/DaeSkin.html">DaeSkin</a>, skeletons:Array, node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>):void</code><p>
+   Builds a skin.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">instance</span>:<a href="../special/Skin3D.html">Skin3D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">colladaSkin</span>:<a href="../../../ascollada/core/DaeSkin.html">DaeSkin</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">skeletons</span>:Array</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">node</span>:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a></code></td>
+</tr>
+</table>
+</div>
+<a name="buildVertices()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">buildVertices</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function buildVertices(mesh:<a href="../../../ascollada/core/DaeMesh.html">DaeMesh</a>):Array</code><p>
+   Builds vertices from a COLLADA mesh.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">mesh</span>:<a href="../../../ascollada/core/DaeMesh.html">DaeMesh</a></code> &mdash; The COLLADA mesh. </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Array</code> &mdash; Array of Vertex3D
+   </td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../../../ascollada/core/DaeMesh.html" target="">org.ascollada.core.DaeMesh</a>
+</div>
+</div>
+<a name="findChildByID()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">findChildByID</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function findChildByID(id:String, parent:<a href="../DisplayObject3D.html">DisplayObject3D</a> = null):<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code><p>
+   Recursively finds a child by its COLLADA is.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">id</span>:String</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">parent</span>:<a href="../DisplayObject3D.html">DisplayObject3D</a></code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code> &mdash; 
+                         The found child.
+   
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="findChildBySID()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">findChildBySID</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function findChildBySID(sid:String, parent:<a href="../DisplayObject3D.html">DisplayObject3D</a> = null):<a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code><p>
+   Recursively finds a child by its SID.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">sid</span>:String</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">parent</span>:<a href="../DisplayObject3D.html">DisplayObject3D</a></code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../../objects/DisplayObject3D.html">DisplayObject3D</a></code> &mdash; 
+                         The found child.
+   
+                        
+                     </td>
+</tr>
+</table>
+</div>
 <a name="getAnimationChannelByName()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">getAnimationChannelByName</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+<td class="detailHeaderName">getAnimationChannelByName</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">
@@ -1130,6 +2113,83 @@ showHideInherited();
 </tr>
 </table>
 </div>
+<a name="getSymbolName()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getSymbolName</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function getSymbolName(effectID:String):String</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">effectID</span>:String</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code></td>
+</tr>
+</table>
+</div>
+<a name="isBakedMatrix()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">isBakedMatrix</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function isBakedMatrix(node:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a>):Boolean</code><p>
+   Tests whether a node has a baked transform
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">node</span>:<a href="../../../ascollada/core/DaeNode.html">DaeNode</a></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code></td>
+</tr>
+</table>
+</div>
+<a name="linkSkin()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">linkSkin</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function linkSkin(instance:<a href="../DisplayObject3D.html">DisplayObject3D</a>, skin:<a href="../../../ascollada/core/DaeSkin.html">DaeSkin</a>):void</code><p>
+   Setup the skin controllers.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">instance</span>:<a href="../DisplayObject3D.html">DisplayObject3D</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">skin</span>:<a href="../../../ascollada/core/DaeSkin.html">DaeSkin</a></code></td>
+</tr>
+</table>
+</div>
+<a name="linkSkins()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">linkSkins</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function linkSkins():void</code><p>
+   Setup the skin controllers.
+   </p></div>
 <a name="load()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -1137,7 +2197,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function load(asset:*, materials:<a href="../../materials/utils/MaterialsList.html">MaterialsList</a> = null):void</code><p>
+<code>public function load(asset:*, materials:<a href="../../materials/utils/MaterialsList.html">MaterialsList</a> = null, asynchronousParsing:Boolean = false):void</code><p>
    Loads the COLLADA.
    
    </p><span class="label">Parameters</span>
@@ -1152,6 +2212,169 @@ showHideInherited();
 <tr>
 <td width="20px"></td><td><code><span class="label">materials</span>:<a href="../../materials/utils/MaterialsList.html">MaterialsList</a></code> (default = <code>null</code>)<code></code> &mdash; An optional materialsList.
    </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">asynchronousParsing</span>:Boolean</code> (default = <code>false</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="loadNextMaterial()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">loadNextMaterial</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function loadNextMaterial(event:<a href="../../events/FileLoadEvent.html">FileLoadEvent</a> = null):void</code><p>
+   Loads the next material.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:<a href="../../events/FileLoadEvent.html">FileLoadEvent</a></code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="mergeGeometries()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">mergeGeometries</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function mergeGeometries(target:<a href="../../core/proto/GeometryObject3D.html">GeometryObject3D</a>, source:<a href="../../core/proto/GeometryObject3D.html">GeometryObject3D</a>, materialInstances:Array = null):void</code><p>
+   Merge geometries.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">target</span>:<a href="../../core/proto/GeometryObject3D.html">GeometryObject3D</a></code> &mdash; The target geometry to merge to.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">source</span>:<a href="../../core/proto/GeometryObject3D.html">GeometryObject3D</a></code> &mdash; The source geometry
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">materialInstances</span>:Array</code> (default = <code>null</code>)<code></code> &mdash; Optional material for triangles, only used when a triangle has no material.
+   </td>
+</tr>
+</table>
+</div>
+<a name="onMaterialError()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onMaterialError</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onMaterialError(event:Event):void</code><p>
+   Called when a BitmapMaterial failed to load.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:Event</code></td>
+</tr>
+</table>
+</div>
+<a name="onMaterialsLoaded()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onMaterialsLoaded</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onMaterialsLoaded():void</code>
+</div>
+<a name="onParseAnimationsComplete()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onParseAnimationsComplete</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onParseAnimationsComplete(event:Event):void</code><p>
+   Called when the parser completed parsing animations.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:Event</code></td>
+</tr>
+</table>
+</div>
+<a name="onParseAnimationsProgress()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onParseAnimationsProgress</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onParseAnimationsProgress(event:ProgressEvent):void</code><p>
+   Called on parse animations progress.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:ProgressEvent</code></td>
+</tr>
+</table>
+</div>
+<a name="onParseComplete()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onParseComplete</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onParseComplete(event:Event):void</code><p>
+   Called when the DaeReader completed parsing.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:Event</code></td>
+</tr>
+</table>
+</div>
+<a name="onParseGeometriesComplete()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onParseGeometriesComplete</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onParseGeometriesComplete(e:Event):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">e</span>:Event</code></td>
+</tr>
+</table>
+</div>
+<a name="onParseProgress()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onParseProgress</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function onParseProgress(event:ProgressEvent):void</code><p>
+   Called on parsing progress.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:ProgressEvent</code></td>
 </tr>
 </table>
 </div>
@@ -1244,6 +2467,17 @@ showHideInherited();
 <code>public function stop():void</code><p>
    Stops the animation.
    </p></div>
+<a name="constantDetail"></a>
+<div class="detailSectionHeader">Constant detail</div>
+<a name="ROOTNODE_NAME"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">ROOTNODE_NAME</td><td class="detailHeaderType">constant</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const ROOTNODE_NAME:String = "COLLADA_Scene"</code>
+</div>
 <br>
 <br>
 <hr>

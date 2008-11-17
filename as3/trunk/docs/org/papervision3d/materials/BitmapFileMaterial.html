@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
-<meta content="BitmapFileMaterial,org.papervision3d.materials.BitmapFileMaterial,ERROR_COLOR,LOADING_COLOR,_loadedBitmaps,_loaderUrls,_loadingIdle,_subscribedMaterials,_waitingBitmaps,callback,errorLoading,loaded,url,texture,createBitmapFromURL,drawTriangle,loadBitmapCompleteHandler,loadBitmapErrorHandler,loadBitmapProgressHandler,loadComplete,loadNextBitmap" name="keywords">
+<meta content="BitmapFileMaterial,org.papervision3d.materials.BitmapFileMaterial,ERROR_COLOR,LOADING_COLOR,_bitmapMaterials,_loaderUrls,_loadingIdle,_subscribedMaterials,_waitingBitmaps,bitmapLoader,callback,checkPolicyFile,errorLoading,loaded,url,bitmapMaterials,subscribedMaterials,texture,createBitmapFromURL,dispatchAsyncLoadCompleteEvent,drawTriangle,getBitmapForFilename,loadBitmapCompleteHandler,loadBitmapErrorHandler,loadBitmapProgressHandler,loadComplete,loadNextBitmap,removeLoaderListeners,setupAsyncLoadCompleteCallback" name="keywords">
 <title>org.papervision3d.materials.BitmapFileMaterial</title>
 </head>
 <body>
@@ -77,8 +77,17 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#bitmapMaterials">bitmapMaterials</a> : Dictionary<div class="summaryTableDescription">[read-only]</div>
+</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
+</tr>
+<tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#callback">callback</a> : Function<div class="summaryTableDescription">[static]
   Function to call when the last image has loaded.</div>
+</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#checkPolicyFile">checkPolicyFile</a> : Boolean = false<div class="summaryTableDescription">
+   Sets to check for the policy file or not.</div>
 </td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
 </tr>
 <tr class="hideInheritedProperty">
@@ -135,7 +144,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#interactive">interactive</a> : Boolean = false<div class="summaryTableDescription">
-   Defines if this material will be interactive;
+   Defines if this material will be interactive
    </div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
@@ -218,9 +227,18 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="BitmapMaterial.html#precisionMode">precisionMode</a> : int<div class="summaryTableDescription">
+   Precision mode indicates how triangles are created for precise texture render.</div>
+</td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#smooth">smooth</a> : Boolean = false<div class="summaryTableDescription">
   A Boolean value that determines whether the BitmapData texture is smoothed when rendered.</div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#subscribedMaterials">subscribedMaterials</a> : Object<div class="summaryTableDescription">[read-only]</div>
+</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#texture">texture</a> : Object<div class="summaryTableDescription">
@@ -275,6 +293,14 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="hideInheritedProtectedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="BitmapMaterial.html#az">az</a> : Number<div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#bitmapLoader">bitmapLoader</a> : Loader<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_bitmapMaterials">_bitmapMaterials</a> : Dictionary<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="BitmapMaterial.html#bx">bx</a> : Number<div class="summaryTableDescription"></div>
@@ -372,10 +398,6 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_loadedBitmaps">_loadedBitmaps</a> : Object<div class="summaryTableDescription">[static]</div>
-</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
-</tr>
-<tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#_loaderUrls">_loaderUrls</a> : Dictionary<div class="summaryTableDescription">[static]</div>
 </td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
 </tr>
@@ -420,7 +442,9 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription"></div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/proto/MaterialObject3D.html#objects">objects</a> : Dictionary<div class="summaryTableDescription">
+   Inventory of registered objects
+   </div>
 </td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
 </tr>
 <tr class="hideInheritedProtectedProperty">
@@ -540,6 +564,14 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="hideInheritedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
+<a class="signatureLink" href="../core/proto/MaterialObject3D.html#getObjectList()">getObjectList</a>():Dictionary</div>
+<div class="summaryTableDescription">
+  Returns a list of <code>DisplayObject3D</code> objects registered with the material.</div>
+</td><td class="summaryTableOwnerCol"><a href="../core/proto/MaterialObject3D.html">MaterialObject3D</a></td>
+</tr>
+<tr class="hideInheritedMethod">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
 <a class="signatureLink" href="../core/proto/MaterialObject3D.html#registerObject()">registerObject</a>(displayObject3D:<a href="../objects/DisplayObject3D.html">DisplayObject3D</a>):void</div>
 <div class="summaryTableDescription">
    Registers the <code>DisplayObject3D</code>
@@ -651,12 +683,26 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
 </tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#dispatchAsyncLoadCompleteEvent()">dispatchAsyncLoadCompleteEvent</a>(e:TimerEvent):void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
+</tr>
 <tr class="hideInheritedProtectedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="BitmapMaterial.html#extendBitmapEdges()">extendBitmapEdges</a>(bmp:BitmapData, originalWidth:Number, originalHeight:Number):void</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getBitmapForFilename()">getBitmapForFilename</a>(filename:String):BitmapData</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
@@ -693,12 +739,26 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
 </tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#removeLoaderListeners()">removeLoaderListeners</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
+</tr>
 <tr class="hideInheritedProtectedMethod">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
 <a class="signatureLink" href="BitmapMaterial.html#renderRec()">renderRec</a>(emMap:Matrix, v0:<a href="../core/geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v1:<a href="../core/geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, v2:<a href="../core/geom/renderables/Vertex3DInstance.html">Vertex3DInstance</a>, index:Number):void</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol"><a href="BitmapMaterial.html">BitmapMaterial</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#setupAsyncLoadCompleteCallback()">setupAsyncLoadCompleteCallback</a>():void</div>
+<div class="summaryTableDescription"></div>
+</td><td class="summaryTableOwnerCol">BitmapFileMaterial</td>
 </tr>
 </table>
 </div>
@@ -730,16 +790,56 @@ showHideInherited();
 <div class="MainContent">
 <a name="propertyDetail"></a>
 <div class="detailSectionHeader">Property detail</div>
+<a name="bitmapLoader"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">bitmapLoader</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var bitmapLoader:Loader</code>
+</div>
+<a name="_bitmapMaterials"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">_bitmapMaterials</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected static var _bitmapMaterials:Dictionary</code>
+</div>
+<a name="bitmapMaterials"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">bitmapMaterials</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>bitmapMaterials:Dictionary</code>&nbsp;&nbsp;[read-only]<span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get bitmapMaterials():Dictionary</code>
+<br>
+</div>
 <a name="callback"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">callback</td><td class="detailHeaderType">property</td>
+<td class="detailHeaderName">callback</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">
 <code>public static var callback:Function</code><p>
   Function to call when the last image has loaded.
   </p></div>
+<a name="checkPolicyFile"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">checkPolicyFile</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var checkPolicyFile:Boolean = false</code><p>
+   Sets to check for the policy file or not.
+   </p></div>
 <a name="ERROR_COLOR"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -772,15 +872,6 @@ showHideInherited();
 <code>public var loaded:Boolean</code><p>
   Whether or not the texture has been loaded.
   </p></div>
-<a name="_loadedBitmaps"></a>
-<table cellspacing="0" cellpadding="0" class="detailHeader">
-<tr>
-<td class="detailHeaderName">_loadedBitmaps</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
-</tr>
-</table>
-<div class="detailBody">
-<code>protected static var _loadedBitmaps:Object</code>
-</div>
 <a name="_loaderUrls"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -817,6 +908,18 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>protected static var _subscribedMaterials:Object</code>
+</div>
+<a name="subscribedMaterials"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">subscribedMaterials</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>subscribedMaterials:Object</code>&nbsp;&nbsp;[read-only]<span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get subscribedMaterials():Object</code>
+<br>
 </div>
 <a name="texture"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
@@ -903,6 +1006,20 @@ showHideInherited();
 </tr>
 </table>
 </div>
+<a name="dispatchAsyncLoadCompleteEvent()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">dispatchAsyncLoadCompleteEvent</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function dispatchAsyncLoadCompleteEvent(e:TimerEvent):void</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">e</span>:TimerEvent</code></td>
+</tr>
+</table>
+</div>
 <a name="drawTriangle()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
@@ -940,6 +1057,27 @@ showHideInherited();
 </tr>
 <tr>
 <td width="20px"></td><td><code><span class="label">altUV</span>:Matrix</code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="getBitmapForFilename()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getBitmapForFilename</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function getBitmapForFilename(filename:String):BitmapData</code><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">filename</span>:String</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>BitmapData</code></td>
 </tr>
 </table>
 </div>
@@ -1002,6 +1140,24 @@ showHideInherited();
 </table>
 <div class="detailBody">
 <code>protected function loadNextBitmap():void</code>
+</div>
+<a name="removeLoaderListeners()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">removeLoaderListeners</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function removeLoaderListeners():void</code>
+</div>
+<a name="setupAsyncLoadCompleteCallback()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">setupAsyncLoadCompleteCallback</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function setupAsyncLoadCompleteCallback():void</code>
 </div>
 <br>
 <br>
