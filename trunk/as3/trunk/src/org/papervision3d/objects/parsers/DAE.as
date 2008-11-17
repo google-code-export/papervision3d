@@ -1,4 +1,4 @@
-﻿package org.papervision3d.objects.parsers
+package org.papervision3d.objects.parsers
 {
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
@@ -923,6 +923,8 @@
 			}	
 		}
 		
+	
+		
 		/**
 		 *
 		 * @return
@@ -1251,10 +1253,7 @@
 		 */ 
 		protected function buildScene():void
 		{
-			if(this.parser.hasEventListener(Event.COMPLETE))
-				this.parser.removeEventListener(Event.COMPLETE, onParseComplete);
-			if(this.parser.hasEventListener(ProgressEvent.PROGRESS))
-				this.parser.removeEventListener(ProgressEvent.PROGRESS, onParseProgress);
+			
 			
 			_controllers = new Array();
 	
@@ -1292,6 +1291,8 @@
 			_channels = new Array();
 			_isAnimated = false;
 			_isPlaying = false;
+			
+
 			
 			// may have animations to be parsed.
 			if(document.numQueuedAnimations)
@@ -1519,8 +1520,42 @@
 			{
 				dispatchEvent(new FileLoadEvent(FileLoadEvent.COLLADA_MATERIALS_DONE, this.filename));
 
-				buildScene();
+				onMaterialsLoaded();
+				//buildScene();
 			}
+		}
+		
+		
+		protected function onMaterialsLoaded() : void
+		{
+			
+			if(this.parser.hasEventListener(Event.COMPLETE))
+				this.parser.removeEventListener(Event.COMPLETE, onParseComplete);
+			if(this.parser.hasEventListener(ProgressEvent.PROGRESS))
+				this.parser.removeEventListener(ProgressEvent.PROGRESS, onParseProgress);
+			
+			//may have geometries to be parsed
+			if(document.numQueuedGeometries)
+			{
+				this.parser.addEventListener(Event.COMPLETE, onParseGeometriesComplete);
+				//this.parser.addEventListener(ProgressEvent.PROGRESS, onParseGeometriesProgress);
+				this.parser.readGeometries();
+			}
+			else
+			{
+				buildScene(); 
+			}
+			
+			
+			
+			
+		}
+		
+		protected function onParseGeometriesComplete(e:Event) : void
+		{
+			if(this.parser.hasEventListener(Event.COMPLETE))
+				this.parser.removeEventListener(Event.COMPLETE, onParseGeometriesComplete);
+			buildScene(); 
 		}
 		
 		/**

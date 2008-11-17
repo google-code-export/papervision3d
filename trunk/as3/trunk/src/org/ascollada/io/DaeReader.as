@@ -43,7 +43,7 @@ package org.ascollada.io {
 			
 			_animTimer = new Timer(100);
 			_animTimer.addEventListener( TimerEvent.TIMER, loadNextAnimation );
-			_geomTimer = new Timer(100);
+			_geomTimer = new Timer(1);
 			_geomTimer.addEventListener( TimerEvent.TIMER, loadNextGeometry );
 		}
 		
@@ -54,7 +54,7 @@ package org.ascollada.io {
 		public function read( filename:String ):void
 		{
 			Logger.log( "reading: " + filename );
-			
+			//*** add geomTimer stuff here... 
 			if( _animTimer.running )
 				_animTimer.stop();
 				
@@ -92,7 +92,7 @@ package org.ascollada.io {
 			{
 				Logger.log( "START READING #" +this.document.numQueuedGeometries+" GEOMETRIES" );
 				_geomTimer.repeatCount = this.document.numQueuedGeometries + 1;
-				_geomTimer.delay = 100;
+				_geomTimer.delay = 2; 
 				_geomTimer.start();
 			}
 			else
@@ -132,7 +132,10 @@ package org.ascollada.io {
 		
 		private function progressHandler( event:ProgressEvent ):void
 		{
-			dispatchEvent(event);
+			if(hasEventListener(ProgressEvent.PROGRESS))
+			{
+				dispatchEvent(event);
+			}
 		}
 		
 		private function handleIOError( event:IOErrorEvent ):void
@@ -165,17 +168,19 @@ package org.ascollada.io {
 		 */
 		private function loadNextGeometry( event:TimerEvent ):void
 		{
+			_geomTimer.stop();
 			if( !this.document.readNextGeometry() )
 			{
 				Logger.log( "geometries complete" );
 				
-				_geomTimer.stop();
+				
 				dispatchEvent( new Event(Event.COMPLETE) );
 			}
 			else
 			{
 				Logger.log( "reading next geometry" );
 				dispatchEvent( new ProgressEvent(ProgressEvent.PROGRESS, false, false, _numGeometries - this.document.numQueuedGeometries, _numGeometries) );
+				_geomTimer.start();
 			}
 		}
 		
