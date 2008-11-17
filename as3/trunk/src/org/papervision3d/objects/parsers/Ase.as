@@ -218,9 +218,10 @@ package org.papervision3d.objects.parsers {
 								var mtfl: Array = content.split(  '\t' ); // separate here
 	
 								var faceUV:Array = faces[ num ].uv;
-								faceUV[0] = uvs[ parseInt( mtfl[1] )];
-								faceUV[1] = uvs[ parseInt( mtfl[2] )];
-								faceUV[2] = uvs[ parseInt( mtfl[3] )];
+								faces[ num ].uv0 = faceUV[0] = uvs[ parseInt( mtfl[1] )];
+								faces[ num ].uv1 = faceUV[1] = uvs[ parseInt( mtfl[2] )];
+								faces[ num ].uv2 = faceUV[2] = uvs[ parseInt( mtfl[3] )];
+							
 								num++;
 	
 							}
