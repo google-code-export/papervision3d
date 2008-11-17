@@ -26,7 +26,7 @@ package org.papervision3d.materials
 	public class BitmapFileMaterial extends BitmapMaterial implements ITriangleDrawer
 	{
 		// ___________________________________________________________________ PUBLIC
-
+		
 		/**
 		* The URL that has been requested.
 		*/
@@ -59,6 +59,12 @@ package org.papervision3d.materials
 		{
 			return this._texture;
 		}
+		
+		/**
+		 * Sets to check for the policy file or not.
+		 */
+		 
+		 public var checkPolicyFile:Boolean = false;
 		/**
 		* @private
 		*/
@@ -186,7 +192,7 @@ package org.papervision3d.materials
 			{
 				// Load bitmap
 				var loaderContext:LoaderContext=new LoaderContext();
-				loaderContext.checkPolicyFile=true;
+				loaderContext.checkPolicyFile=checkPolicyFile;
 
 				bitmapLoader.load( request, loaderContext);
 
