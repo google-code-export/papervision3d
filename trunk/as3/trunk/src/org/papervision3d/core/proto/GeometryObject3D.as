@@ -81,12 +81,7 @@
 			}
 		}
 		
-		public function transformUV( material:MaterialObject3D ):void
-		{
-			if( material.bitmap )
-				for( var i:String in this.faces )
-					faces[i].transformUV( material );
-		}
+		
 		
 		private function createVertexNormals():void
 		{
