@@ -336,10 +336,11 @@ package org.papervision3d.core.geom {
 			// Update faces
 			for each( var f:Triangle3D in geometry.faces )
 			{
-				f.v0 = uniqueDic[ f.v0 ];
-				f.v1 = uniqueDic[ f.v1 ];
-				f.v2 = uniqueDic[ f.v2 ];
+			    f.v0 = f.vertices[0] = uniqueDic[ f.v0 ];
+			    f.v1 = f.vertices[1] = uniqueDic[ f.v1 ];
+			    f.v2 = f.vertices[2] = uniqueDic[ f.v2 ];
 			}
+
 		}
 		
 		override public function set material(material:MaterialObject3D):void
