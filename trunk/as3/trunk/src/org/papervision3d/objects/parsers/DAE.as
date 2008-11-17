@@ -82,6 +82,8 @@ package org.papervision3d.objects.parsers
 	{
 		use namespace collada;
 		
+		public static const ROOTNODE_NAME:String = "COLLADA_Scene";
+		
 		/** Defines wether to set materials by target id or name - Might fix C4D**/
 		public var useMaterialTargetName:Boolean = false;
 		
@@ -119,20 +121,83 @@ package org.papervision3d.objects.parsers
 		
 		/** The DaeDocument. @see org.ascollada.core.DaeDocument */
 		public var document:DaeDocument;
+			
+		/** */
+		protected var _colladaID:Dictionary;
 		
-		/** Whether the COLLADA uses Y-up, Z-up otherwise. */
-		public function get yUp():Boolean
-		{
-			if(this.document){
-				return (this.document.asset.yUp == ASCollada.DAE_Y_UP);
-			}else{
-				return false;
-			}
-		}
+		/** */
+		protected var _colladaSID:Dictionary;
+		
+		/** */
+		protected var _colladaIDToObject:Object;
+		
+		/** */
+		protected var _colladaSIDToObject:Object;
+		
+		/** */
+		protected var _objectToNode:Object;
+		
+		/** */
+		protected var _channelsByTarget:Dictionary;
+		
+		/** */
+		protected var _geometries:Object;
+		
+		/** */
+		protected var _queuedMaterials:Array;
+		
+		/** */
+		protected var _textureSets:Object;
+		
+		/** */
+		protected var _channels:Array;
+		
+		/** */
+		protected var _skins:Dictionary;
+		
+		/** */
+		protected var _numSkins:uint;
+		
+		/** */
+		protected var _rootNode:DisplayObject3D;
+		
+		/** */
+		protected var _currentFrame:int = 0;
+		
+		/** */
+		protected var _currentTime:int;
+		
+		/** */
+		protected var _totalFrames:int = 0;
+		
+		/** */
+		protected var _startTime:Number;
+		
+		/** */
+		protected var _endTime:Number;
+		
+		/** */
+		protected var _isAnimated:Boolean = false;
+		
+		/** */
+		protected var _isPlaying:Boolean = false;
+		
+		/** */
+		protected var _autoPlay:Boolean;
+		
+		/** */
+		protected var _rightHanded:Boolean;
+		
+		/** */
+		protected var _controllers:Array; 
 		
 		protected var _playerType:String;
 		
 		protected var _loop:Boolean = false;
+		
+		
+		
+		
 		
 		/**
 		 * Constructor.
@@ -1259,7 +1324,7 @@ package org.papervision3d.objects.parsers
 	
 			buildGeometries();
 			
-			_rootNode = new DisplayObject3D("COLLADA_Scene");
+			_rootNode = new DisplayObject3D(ROOTNODE_NAME);
 			
 			for(var i:int = 0; i < this.document.vscene.nodes.length; i++)
 			{
@@ -1672,76 +1737,16 @@ package org.papervision3d.objects.parsers
 			
 		}
 		
-
+		/** Whether the COLLADA uses Y-up, Z-up otherwise. */
+		public function get yUp():Boolean
+		{
+			if(this.document){
+				return (this.document.asset.yUp == ASCollada.DAE_Y_UP);
+			}else{
+				return false;
+			}
+		}
 		
-		/** */
-		protected var _colladaID:Dictionary;
-		
-		/** */
-		protected var _colladaSID:Dictionary;
-		
-		/** */
-		protected var _colladaIDToObject:Object;
-		
-		/** */
-		protected var _colladaSIDToObject:Object;
-		
-		/** */
-		protected var _objectToNode:Object;
-		
-		/** */
-		protected var _channelsByTarget:Dictionary;
-		
-		/** */
-		protected var _geometries:Object;
-		
-		/** */
-		protected var _queuedMaterials:Array;
-		
-		/** */
-		protected var _textureSets:Object;
-		
-		/** */
-		protected var _channels:Array;
-		
-		/** */
-		protected var _skins:Dictionary;
-		
-		/** */
-		protected var _numSkins:uint;
-		
-		/** */
-		protected var _rootNode:DisplayObject3D;
-		
-		/** */
-		protected var _currentFrame:int = 0;
-		
-		/** */
-		protected var _currentTime:int;
-		
-		/** */
-		protected var _totalFrames:int = 0;
-		
-		/** */
-		protected var _startTime:Number;
-		
-		/** */
-		protected var _endTime:Number;
-		
-		/** */
-		protected var _isAnimated:Boolean = false;
-		
-		/** */
-		protected var _isPlaying:Boolean = false;
-		
-		/** */
-		protected var _autoPlay:Boolean;
-		
-		/** */
-		protected var _rightHanded:Boolean;
-		
-		/** */
-		protected var _controllers:Array; 
 	}
 }
 
