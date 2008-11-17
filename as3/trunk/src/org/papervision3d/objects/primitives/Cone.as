@@ -30,7 +30,7 @@
 		*/
 		public function Cone( material:MaterialObject3D=null, radius:Number=100, height:Number=100, segmentsW:int=8, segmentsH:int=6 )
 		{
-			super( material, radius, height, segmentsW, segmentsH, 0 );
+			super( material, radius, height, segmentsW, segmentsH, 0.0001);
 		}
 	}
 }
