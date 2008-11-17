@@ -4,10 +4,11 @@ package com.unitzeroone.pv3d
 	
 	import mx.core.MovieClipAsset;
 	
-	import org.papervision3d.cameras.FreeCamera3D;
+	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.objects.primitives.Sphere;
 	import org.papervision3d.view.BasicView;
+	import org.papervision3d.cameras.CameraType;
 
 	public class SpherePano extends BasicView
 	{
@@ -23,7 +24,7 @@ package com.unitzeroone.pv3d
 		public function SpherePano()
 		{
 			//Setup the basic view to do autoscaling, no interactivity, and use a free camera.
-			super(0, 0, true, false, FreeCamera3D.TYPE);
+			super(0, 0, true, false, Camera3D.FREE);
 			init();
 			startRendering();
 		}
