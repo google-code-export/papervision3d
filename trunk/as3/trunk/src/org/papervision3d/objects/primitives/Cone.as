@@ -23,6 +23,8 @@
 		* <p/>
 		* @param	radius		[optional] - Desired radius.
 		* <p/>
+		* @param	height		[optional] - Desired height.
+		* <p/>
 		* @param	segmentsW	[optional] - Number of segments horizontally. Defaults to 8.
 		* <p/>
 		* @param	segmentsH	[optional] - Number of segments vertically. Defaults to 6.
