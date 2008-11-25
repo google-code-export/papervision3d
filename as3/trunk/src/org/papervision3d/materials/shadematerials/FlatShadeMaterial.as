@@ -43,7 +43,14 @@ package org.papervision3d.materials.shadematerials
 			lightMatrix = Matrix3D(lightMatrices[face3D.instance]);
 			zd = face3D.faceNormal.x * lightMatrix.n31 + face3D.faceNormal.y * lightMatrix.n32 + face3D.faceNormal.z * lightMatrix.n33;
 			
-			if(zd < 0){zd = 0;};
+			if(zd < 0){
+				if(doubleSided == false){
+					zd = 0;
+				}else{
+					zd = Math.abs(zd);
+				}
+				
+			};
 			
 			x0 = tri.v0.x;
 		    y0 = tri.v0.y;
