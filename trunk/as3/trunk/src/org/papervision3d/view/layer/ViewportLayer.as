@@ -221,7 +221,7 @@ package org.papervision3d.view.layer {
 				ar = new Array();
 
 			for each(var do3d:DisplayObject3D in this.displayObjects){
-				if(do3d && do3d.parent == null){
+				if(do3d){
 					ar.push(do3d);
 				}
 			}
