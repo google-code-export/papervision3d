@@ -46,6 +46,11 @@
 		public var tiled :Boolean = false;
 
 		/**
+		* A Boolean value that determines whether the texture is cached, i.e. not updated before being rendered. Defaults to false.
+		*/
+		public var baked :Boolean = false;
+
+		/**
 		* A RGB color value to draw the faces outline.
 		*/
 		public var lineColor :Number = DEFAULT_COLOR;
@@ -285,6 +290,11 @@
 		public function getObjectList():Dictionary
 		{
 			return objects;
-		}		
+		}
+		
+		public function isUpdateable():Boolean
+		{
+			return ! baked;
+		}
 	}
 }

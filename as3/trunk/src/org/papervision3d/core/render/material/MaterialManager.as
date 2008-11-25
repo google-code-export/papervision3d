@@ -60,7 +60,8 @@ package org.papervision3d.core.render.material
 			for (var m:* in materials){
 				if(m is IUpdateBeforeMaterial){
 					um = m as IUpdateBeforeMaterial;
-					um.updateBeforeRender(renderSessionData);
+					if( um.isUpdateable() )
+						um.updateBeforeRender(renderSessionData);
 				}
 			}
 		}
