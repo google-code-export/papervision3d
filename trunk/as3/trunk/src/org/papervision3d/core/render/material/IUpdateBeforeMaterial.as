@@ -5,5 +5,6 @@ package org.papervision3d.core.render.material
 	public interface IUpdateBeforeMaterial
 	{
 		function updateBeforeRender(renderSessionData:RenderSessionData):void;
+		function isUpdateable():Boolean;
 	}
 }
