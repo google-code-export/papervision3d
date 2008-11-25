@@ -63,7 +63,9 @@ package org.papervision3d.materials.special
 		
 		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData=null, altUV:Matrix=null):void{
 			for each(var n:MaterialObject3D in materials){
-				n.drawTriangle(tri, graphics, renderSessionData);
+				if(!n.invisible){
+					n.drawTriangle(tri, graphics, renderSessionData);
+				}
 			}
 		}
 		
