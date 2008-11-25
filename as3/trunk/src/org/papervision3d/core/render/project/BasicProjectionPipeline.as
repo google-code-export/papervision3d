@@ -84,7 +84,11 @@ package org.papervision3d.core.render.project {
 		{
 			//Collect everything from the object
 			object.cullTest = test;
-			object.project(renderSessionData.camera, renderSessionData);
+			
+			if(object.parent)
+				object.project(object.parent as DisplayObject3D, renderSessionData);
+			else
+				object.project(renderSessionData.camera, renderSessionData);
 			
 		}
 		
