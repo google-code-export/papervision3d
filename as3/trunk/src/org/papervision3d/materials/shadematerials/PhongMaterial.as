@@ -8,9 +8,9 @@ package org.papervision3d.materials.shadematerials
 	 */
 	public class PhongMaterial extends EnvMapMaterial
 	{
-		public function PhongMaterial(light3D:LightObject3D, lightColor:int, ambientColor:int, specular:int)
+		public function PhongMaterial(light:LightObject3D, lightColor:uint, ambientColor:uint, specularLevel:uint)
 		{
-			super(light3D, LightMaps.getPhongMap(lightColor, ambientColor, specular));
+			super(light, LightMaps.getPhongMap(lightColor, ambientColor, specularLevel));
 		}
 		
 	}
