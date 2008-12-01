@@ -153,7 +153,7 @@ package org.papervision3d.core.culling
 		 */
 		public function sphereInFrustum(obj:DisplayObject3D, boundingSphere:BoundingSphere) : int
 		{
-			var radius:Number = boundingSphere.radius;
+			var radius:Number = boundingSphere.radius * Math.max(obj.scaleX, Math.max(obj.scaleY, obj.scaleZ));
 			var d : Number;
 			var ax : Number;
 			var ay : Number;
@@ -222,7 +222,7 @@ package org.papervision3d.core.culling
 				default:
 					break;	
 			}
-			
+
 			return result;
 		}
 		
