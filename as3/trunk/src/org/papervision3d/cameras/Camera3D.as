@@ -525,14 +525,14 @@
 			] );
 		}
 		
-		private var _projection				: Matrix3D;
-		private var _prevFocus				: Number;
-		private var _prevZoom				: Number;
-		private var _prevWidth				: Number;
-		private var _prevHeight				: Number;
-		private var _prevOrtho				: Boolean;
-		private var _prevOrthoProjection	: Boolean;
-		private var _prevUseProjection		: Boolean;
-		private var _focusFix				: Matrix3D;
+		protected var _projection				: Matrix3D;
+		protected var _prevFocus				: Number;
+		protected var _prevZoom				: Number;
+		protected var _prevWidth				: Number;
+		protected var _prevHeight				: Number;
+		protected var _prevOrtho				: Boolean;
+		protected var _prevOrthoProjection	: Boolean;
+		protected var _prevUseProjection		: Boolean;
+		protected var _focusFix				: Matrix3D;
 	}
 }
