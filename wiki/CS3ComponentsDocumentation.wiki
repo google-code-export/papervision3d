@@ -1,4 +1,0 @@
-#summary Flash CS3 Components Documentation
-#labels Featured
-
-http://www.rockonflash.com/papervision3d/docs/papervision3dComponents/index.html
