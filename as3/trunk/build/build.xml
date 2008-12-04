@@ -9,6 +9,11 @@
     <property name="bindir"       	value="${basedir}/bin"                                  />
     <property name="classesdir"   	value="${basedir}/src"                					/>
     <property name="docsdir"      	value="${basedir}/docs"        							/>
+    
+	<property name="testdocsdir"    value="${basedir}/testdocs"        						/>
+    <property name="asdoctemplate"  value="${basedir}/asdoc/templates"  	/>
+	
+	
 	
     <property name="flex3dir"     	value="D:/flexsdk"                      				/>
     <property name="flex3bindir"  	value="${flex3dir}/bin"                                 />
@@ -30,6 +35,13 @@
  			<fileset dir="${docsdir}" includes="**/*"></fileset>
  		</delete>
  	</target>
+	
+ 	<target name="cleanTestDocs" description="Cleans out the documentation directory.">
+ 		<echo>Cleaning out docs from '${testdocsdir}'...</echo>
+ 		<delete includeemptydirs="true">
+ 			<fileset dir="${testdocsdir}" includes="**/*"></fileset>
+ 		</delete>
+ 	</target>
 
 	<target name="generateDocs" description="Generates docs" depends="cleanDocs">
 		<echo>Generating documentation for '${docsdir}'...</echo>
@@ -42,6 +54,20 @@
 			<arg line="-output '${docsdir}'"/>
 		</exec>
 	</target>
+	
+	<target name="generateTestDocs" description="Generates docs" depends="cleanTestDocs">
+			<echo>Generating test documentation for '${docsdir}'...</echo>
+			<exec executable="${asdoc}">
+				<arg line="-source-path ${classesdir}"/>
+				<arg line="-doc-sources ${classesdir}"/>
+				<arg line="-window-title '${windowtitle}'"/>
+				<arg line="-main-title '${maintitle}'"/>
+				<arg line="-footer '${footer}'"/>
+				<arg line="-output '${testdocsdir}'"/>
+				<arg line="-metadata.date '${dateStamp.date}'"/>
+				<arg line="-templates-path '${asdoctemplate}'"/>
+			</exec>
+		</target>
 	
 	<target name="generateSWC" description="Generates a swc of the Papervision3D library">
 		<echo>Generating swc using '${classesdir}'</echo>

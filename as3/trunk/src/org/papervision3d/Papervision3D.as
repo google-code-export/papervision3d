@@ -42,7 +42,7 @@
 		/**
 		* Enables version date to be retrieved at runtime or when reviewing a decompiled swf.
 		*/
-		public static var DATE     :String = 'September 9th, 2008';
+		public static var DATE     :String = 'December 3rd, 2008';
 	
 		/**
 		* Enables copyright information to be retrieved at runtime or when reviewing a decompiled swf.
