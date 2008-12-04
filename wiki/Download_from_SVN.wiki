@@ -8,7 +8,7 @@ You must have a Subversion client installed before you can use it. Although you 
 === PC ===
 On Windows, we recommend [http://tortoisesvn.tigris.org TortoiseSVN].
 
-Once installed, create a folder where you want to put the source files, open the folder, right click (anywhere inside the folder) and select _SVN CheckOut_. In the dialogue that pops up fill in the SVN URL.
+Once installed, create a folder where you want to put the source files, open the folder, right click (anywhere inside the folder) and select *!SVN CheckOut*. In the dialogue that pops up fill in the SVN URL.
 
 === Mac ===
 On OS X, we recommend [http://www.lachoseinteractive.net/en/community/subversion/svnx/features SVNX].
