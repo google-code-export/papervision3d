@@ -17,7 +17,7 @@ You can download the latest revision from the [Download_from_SVN SVN repository]
 ===Getting Started Walkthrough ===
 (this part should be later moved to a new page)
 
- #Download and install a SVN client. On this case, tortoise for windows ( http://tortoisesvn.tigris.org/ ) . Then create an empty folder, right click on it and choose "SVN checkout"
+ # Download and install a SVN client. On this case, tortoise for windows ( http://tortoisesvn.tigris.org/ ) . Then create an empty folder, right click on it and choose "SVN checkout"
  # Paste this address on the URL box and press OK
  ## {{{http://papervision3d.googlecode.com/svn/trunk/}}}
  # Finish download. Now it's time to set up Papervision3D.
