@@ -18,19 +18,19 @@ You can download the latest revision from the [Download_from_SVN SVN repository]
 (this part should be later moved to a new page)
 
  #Download and install a SVN client. On this case, tortoise for windows ( http://tortoisesvn.tigris.org/ ) . Then create an empty folder, right click on it and choose "SVN checkout"
- #Paste this address on the URL box and press OK
- ##<code><nowiki>http://papervision3d.googlecode.com/svn/trunk/</nowiki></code>
- #Finish download. Now it's time to set up Papervision3D.
- #Open Flash CS3 and click Edit>Preferences>Actionscript and click the button "Actionscript 3.0 settings"
- #On the box named "class path", click the plus sign and then the (sniper like) target icon
- #Navigate to the folder you downloaded Papervision3D files and then to as3/trunk/src
- #Click OK and open a new or existing Flash file. Be sure there is nothing selected and click the property panel
- #In this example we will be building a simple plane rotating, but feel free to choose other examples from the [http://wiki.papervision3d.org/index.php?title=Examples examples page]. On the box named "document class" write "ExampleTransformationRotate" (no quotes, no ".as" extension)
- #Save the document somewhere you can find, but outside any of the Papervision3D folders.
+ # Paste this address on the URL box and press OK
+ ## {{{http://papervision3d.googlecode.com/svn/trunk/}}}
+ # Finish download. Now it's time to set up Papervision3D.
+ # Open Flash CS3 and click Edit>Preferences>Actionscript and click the button "Actionscript 3.0 settings"
+ # On the box named "class path", click the plus sign and then the (sniper like) target icon
+ # Navigate to the folder you downloaded Papervision3D files and then to as3/trunk/src
+ # Click OK and open a new or existing Flash file. Be sure there is nothing selected and click the property panel
+ # In this example we will be building a simple plane rotating, but feel free to choose other examples from the [http://wiki.papervision3d.org/index.php?title=Examples examples page]. On the box named "document class" write "ExampleTransformationRotate" (no quotes, no ".as" extension)
+ # Save the document somewhere you can find, but outside any of the Papervision3D folders.
  #Create a new file, choose "Actionscript file" instead of "Flash file". Name it ExampleTransformationRotate.as (note the extension .as ) and save it on the same folder as your Flash file.
- #Go back to the Flash file. Now clicking on the pencil, on the property panel beside "document class" should take you to the new .as file you just  created.
- #Paste [http://www.andrestubbe.com/downloads/papervision3d/ExampleTransformationRotate.as this code] on the Actionscript file, save it, and test the movie.
- #It should be working! If not refer to the forums, if it does, try other examples and good luck.
+ # Go back to the Flash file. Now clicking on the pencil, on the property panel beside "document class" should take you to the new .as file you just  created.
+ # Paste [http://www.andrestubbe.com/downloads/papervision3d/ExampleTransformationRotate.as this code] on the Actionscript file, save it, and test the movie.
+ # It should be working! If not refer to the forums, if it does, try other examples and good luck.
 
 ===How do I install the classes?===
 
