@@ -36,11 +36,11 @@ package org.papervision3d.materials.shaders {
 		private static var v2:Vertex3DInstance;
 		private static var currentGraphics:Graphics;
 		
-		public function GouraudShader(light:LightObject3D, lightColor:int=0xFFFFFF, ambientColor:int=0x000000)
+		public function GouraudShader( light:LightObject3D, lightColor:uint = 0xFFFFFF, ambientColor:uint=0x000000, specularLevel:uint=0 )
 		{
 			super();
 			this.light = light;
-			gouraudMap = LightMaps.getGouraudMap(lightColor, ambientColor);
+			gouraudMap = LightMaps.getGouraudMap(lightColor, ambientColor, specularLevel);
 		}
 		
 		/**

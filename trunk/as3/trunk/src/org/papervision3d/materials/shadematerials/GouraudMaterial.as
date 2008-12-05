@@ -22,11 +22,11 @@ package org.papervision3d.materials.shadematerials
 		
 		private var gouraudMap:BitmapData;
 		
-		public function GouraudMaterial(light3D:LightObject3D, lightColor:int = 0xFFFFFF, ambientColor:int=0x000000)
+		public function GouraudMaterial( light:LightObject3D, lightColor:uint = 0xFFFFFF, ambientColor:uint=0x000000, specularLevel:uint=0 )
 		{
 			super();
-			this.light = light3D;
-			gouraudMap = LightMaps.getGouraudMaterialMap(lightColor,ambientColor);
+			this.light = light;
+			gouraudMap = LightMaps.getGouraudMaterialMap( lightColor, ambientColor, specularLevel );
 		}
 		
 		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
@@ -37,13 +37,13 @@ package org.papervision3d.materials.shadematerials
 			var p0:Number = (face3D.v0.normal.x * lightMatrix.n31 + face3D.v0.normal.y * lightMatrix.n32 + face3D.v0.normal.z * lightMatrix.n33)+1;
 			var p1:Number = (face3D.v1.normal.x * lightMatrix.n31 + face3D.v1.normal.y * lightMatrix.n32 + face3D.v1.normal.z * lightMatrix.n33)+1;
 			var p2:Number = (face3D.v2.normal.x * lightMatrix.n31 + face3D.v2.normal.y * lightMatrix.n32 + face3D.v2.normal.z * lightMatrix.n33)+1;
-			
-			
+
+
 			p0 *= 127;
 			p1 *= 127;
 			p2 *= 127;
-			
-			
+
+
 			transformMatrix.tx = p0;
 			transformMatrix.ty = 1;
 		    transformMatrix.a = p1 - p0;

@@ -14,7 +14,7 @@ package org.papervision3d.materials.utils
 	{
 		private static var origin:Point = new Point();
 		
-		public static function getFlatMapArray(lightColor:int, ambientColor:int, specularLevel:int):Array
+		public static function getFlatMapArray(lightColor:uint, ambientColor:uint, specularLevel:uint):Array
 		{
 			var array:Array = new Array();
 			var tempmap:BitmapData = new BitmapData(256,1,false,0);
@@ -36,7 +36,7 @@ package org.papervision3d.materials.utils
 			return array;
 		}
 		
-		public static function getFlatMap(lightColor:int, ambientColor:int, specularLevel:int):BitmapData
+		public static function getFlatMap(lightColor:uint, ambientColor:uint, specularLevel:uint):BitmapData
 		{
 			var tempmap:BitmapData = new BitmapData(255,1,false,0);
 			var s:Sprite = new Sprite();
@@ -49,7 +49,7 @@ package org.papervision3d.materials.utils
 			return tempmap;
 		}
 		
-		public static function getPhongMap(lightColor:int, ambientColor:int, specularLevel:int, height:int = 255, width:int = 255):BitmapData
+		public static function getPhongMap(lightColor:uint, ambientColor:uint, specularLevel:uint, height:int = 255, width:int = 255):BitmapData
 		{
 			var lw:Number = height;
 			var lh:Number = width;	
@@ -64,36 +64,38 @@ package org.papervision3d.materials.utils
 			return bmp;
 		}
 		
-		public static function getGouraudMap(lightColor:int, ambientColor:int):BitmapData
+		public static function getGouraudMap( lightColor:uint, ambientColor:uint, specularLevel:uint ):BitmapData
 		{
 			var gouraudMap:BitmapData = new BitmapData(255,3,false,0xFFFFFF);
 			var s:Sprite = new Sprite();
 			var m:Matrix = new Matrix();
 			m.createGradientBox(255,3,0,0,0);
-			s.graphics.beginGradientFill(GradientType.LINEAR, [ambientColor,lightColor],[1,1],[0,255],m);
+//			s.graphics.beginGradientFill(GradientType.LINEAR, [ambientColor,lightColor],[1,1],[0,255],m);
+			s.graphics.beginGradientFill(GradientType.LINEAR, [ambientColor,ambientColor,lightColor],[1,1,1],[0,specularLevel,0xFF],m);
 			s.graphics.drawRect(0,0,255,3);
 			s.graphics.endFill();
 			gouraudMap.draw(s);
 			return gouraudMap;
 		}
 		
-		public static function getGouraudMaterialMap(lightColor:int, ambientColor:int):BitmapData
+		public static function getGouraudMaterialMap( lightColor:uint, ambientColor:uint, specularLevel:uint ):BitmapData
 		{
 			var gouraudMap:BitmapData = new BitmapData(256,3,false,0xFFFFFF);
 			var s:Sprite = new Sprite();
 			var m:Matrix = new Matrix();
 			m.createGradientBox(256,3,0,0,0);
-			s.graphics.beginGradientFill(GradientType.LINEAR, [ambientColor,lightColor],[1,1],[0x77,0xFF],m);
+//			s.graphics.beginGradientFill(GradientType.LINEAR, [ambientColor,lightColor],[1,1],[0x77,0xFF],m);
+			s.graphics.beginGradientFill(GradientType.LINEAR, [ambientColor,ambientColor,lightColor],[1,1,1],[0,specularLevel,0xFF],m);
 			s.graphics.drawRect(0,0,256,3);
 			s.graphics.endFill();
 			gouraudMap.draw(s);
 			return gouraudMap;
 		}
 		
-		public static function getCellMap(color_1:int, color_2:int, steps:int):BitmapData
+		public static function getCellMap(color_1:uint, color_2:uint, steps:int):BitmapData
 		{
 			/**
-			 * Posterize Code derived from Mario Klingeman.
+			 * Posterize Code derived from Mario Klingemann.
 			 */
 			var bmp:BitmapData = LightMaps.getPhongMap(color_1,color_2,0,255,255);
 			var n:Number = 0;
