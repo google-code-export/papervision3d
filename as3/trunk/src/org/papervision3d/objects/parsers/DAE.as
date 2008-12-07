@@ -99,7 +99,7 @@ package org.papervision3d.objects.parsers
 		
 		/** change this to 0 if you're DAE is picking the wrong coordinates */
 		
-		public var forceCoordSet : int = 1;
+		public var forceCoordSet : int = 0;
 		
 		/** The loaded XML. */
 		public var COLLADA:XML;
@@ -195,7 +195,7 @@ package org.papervision3d.objects.parsers
 		
 		protected var _loop:Boolean = false;
 		
-		
+		protected var _bindVertexInputs : Dictionary;
 		
 		
 		
@@ -306,6 +306,8 @@ package org.papervision3d.objects.parsers
 			this.materials = materials || new MaterialsList();
 			
 			buildFileInfo(asset);
+			
+			_bindVertexInputs = new Dictionary(true);
 			
 			this.parser = new DaeReader(asynchronousParsing);
 			this.parser.addEventListener(Event.COMPLETE, onParseComplete);
@@ -790,10 +792,28 @@ package org.papervision3d.objects.parsers
 			var material:MaterialObject3D = this.materials.getMaterialByName(primitive.material);
 			
 			material = material || MaterialObject3D.DEFAULT;
-				
+			
+			var instanceMaterial : DaeInstanceMaterial = _bindVertexInputs[ material ];
+			
 			// retreive correct texcoord-set for the material.
-			var obj:DaeBindVertexInput = _textureSets[primitive.material] is DaeBindVertexInput ? _textureSets[primitive.material] : null;
-			var setID:int = (obj is DaeBindVertexInput) ? obj.input_set : forceCoordSet;
+			var setID:int = this.forceCoordSet;
+			var textureSet:String = _textureSets[primitive.material];
+			var geom:DaeGeometry = primitive.mesh.geometry;
+			
+			if( textureSet && textureSet.length && geom )
+			{
+				var instGeom:DaeInstanceGeometry = this.document.getDaeInstanceGeometry( geom.id );
+				if( instGeom )
+				{
+					var vinput:DaeBindVertexInput = instGeom.findBindVertexInput( primitive.material, textureSet );
+					if( vinput )
+					{
+						PaperLogger.info( "using input set #" + vinput.input_set + " for material " + primitive.material );
+						setID = vinput.input_set;
+					}
+				}
+			}
+			
 			var texCoordSet:Array = primitive.getTexCoords(setID); 
 			var texcoords:Array = new Array();
 			var i:int, j:int = 0, k:int;
@@ -1090,11 +1110,6 @@ package org.papervision3d.objects.parsers
 				    }
 
 				}
-				
-				// material already exists in our materialsList, no need to process
-				if(mat){
-					continue;
-				}
 					
 				var effect:DaeEffect = document.effects[ daeMaterial.effect ];
 				
@@ -1103,7 +1118,12 @@ package org.papervision3d.objects.parsers
 				// save the texture-set if necessary
 				if(lambert && lambert.diffuse.texture)
 				{
-					_textureSets[daeMaterial.id] = lambert.diffuse.texture.texcoord;
+					_textureSets[symbol] = lambert.diffuse.texture.texcoord;
+				}
+				
+				// material already exists in our materialsList, no need to process
+				if(mat){
+					continue;
 				}
 					
 				// if the material has a texture, qeueu the bitmap
@@ -1268,15 +1288,16 @@ package org.papervision3d.objects.parsers
 					{
 						for each(var instanceMaterial:DaeInstanceMaterial in geom.materials)
 						{
-							
 							if(useMaterialTargetName){
 								material = this.materials.getMaterialByName(instanceMaterial.target);
-								
 							}else{
 								material = this.materials.getMaterialByName(instanceMaterial.symbol);
 							}
+							
 							if(material)
 							{
+								_bindVertexInputs[ material ] = instanceMaterial;
+								
 								// register shaded materials with its object
 								if(material is AbstractLightShadeMaterial || material is ShadedMaterial)
 									material.registerObject(instance);
