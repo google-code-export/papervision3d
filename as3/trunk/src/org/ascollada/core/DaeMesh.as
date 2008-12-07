@@ -31,6 +31,9 @@ package org.ascollada.core {
 	 */
 	public class DaeMesh extends DaeEntity {
 		
+		/** */
+		public var geometry : DaeGeometry;
+		
 		/** vertices */
 		public var vertices:Array;
 		
@@ -44,8 +47,9 @@ package org.ascollada.core {
 		 * 
 		 * @param	node
 		 */
-		public function DaeMesh( node:XML = null ) {
+		public function DaeMesh( geometry:DaeGeometry, node:XML = null ) {
 			super( node );
+			this.geometry = geometry;
 		}
 		
 		/**

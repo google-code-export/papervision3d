@@ -181,6 +181,41 @@ package org.ascollada.core
 		
 		/**
 		 * 
+		 */
+		private function findDaeInstanceGeometry( node:DaeNode, url:String ) : DaeInstanceGeometry
+		{
+			for each( var geometry:DaeInstanceGeometry in node.geometries )
+			{
+				if( geometry.url == url )
+					return geometry;
+			}	
+			
+			for each( var child:DaeNode in node.nodes )
+			{
+				var g:DaeInstanceGeometry = findDaeInstanceGeometry( child, url );
+				if( g )
+					return g;
+			}
+			
+			return null;
+		}
+		
+		/**
+		 * 
+		 */
+		public function getDaeInstanceGeometry( url:String ) : DaeInstanceGeometry
+		{
+			for each(var node:DaeNode in this.vscene.nodes )
+			{
+				var geometry : DaeInstanceGeometry = findDaeInstanceGeometry( node, url );
+				if( geometry )
+					return geometry;
+			}
+			return null;
+		} 
+		
+		/**
+		 * 
 		 * @return
 		 */
 		public function readNextAnimation():Boolean

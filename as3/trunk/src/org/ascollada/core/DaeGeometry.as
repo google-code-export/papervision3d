@@ -83,10 +83,10 @@ package org.ascollada.core
 			
 			switch( meshNode.localName() ) 	{
 				case ASCollada.DAE_CONVEX_MESH_ELEMENT:
-					this.convex_mesh = new DaeConvexMesh( meshNode );
+					this.convex_mesh = new DaeConvexMesh( this, meshNode );
 					break;
 				case ASCollada.DAE_MESH_ELEMENT:
-					this.mesh = new DaeMesh( meshNode );
+					this.mesh = new DaeMesh( this, meshNode );
 					break;
 				case ASCollada.DAE_SPLINE_ELEMENT:
 					this.spline = new DaeSpline( meshNode );

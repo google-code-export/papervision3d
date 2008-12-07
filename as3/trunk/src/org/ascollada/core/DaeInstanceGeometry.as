@@ -25,7 +25,7 @@
  
 package org.ascollada.core {
 	import org.ascollada.ASCollada;
-	import org.ascollada.core.DaeEntity;
+	import org.ascollada.fx.DaeBindVertexInput;
 	import org.ascollada.fx.DaeInstanceMaterial;	
 
 	/**
@@ -47,6 +47,22 @@ package org.ascollada.core {
 		
 		/**
 		 * 
+		 */ 
+		public function findBindVertexInput( materialId:String, semantic:String ) : DaeBindVertexInput
+		{
+			for each( var material:DaeInstanceMaterial in this.materials )
+			{
+				if( materialId == material.symbol )
+				{
+					return material.findBindVertexInput( semantic );
+				}
+			}	
+			
+			return null;
+		}
+		
+		/**
+		 * 
 		 * @param	node
 		 */
 		override public function read( node:XML ):void
@@ -54,7 +70,7 @@ package org.ascollada.core {
 			super.read( node );
 			
 			this.url = getAttribute( node, ASCollada.DAE_URL_ATTRIBUTE );
-			
+		
 			this.materials = new Array();
 			
 			var children:XMLList = node.children();
