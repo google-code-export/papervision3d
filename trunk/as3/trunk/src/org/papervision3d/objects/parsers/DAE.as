@@ -1,38 +1,38 @@
 package org.papervision3d.objects.parsers
 {
-	import flash.events.Event;
-	import flash.events.ProgressEvent;
-	import flash.system.Capabilities;
-	import flash.utils.ByteArray;
-	import flash.utils.Dictionary;
-	import flash.utils.getTimer;
-	
-	import org.ascollada.ASCollada;
-	import org.ascollada.core.*;
-	import org.ascollada.fx.*;
-	import org.ascollada.io.DaeReader;
-	import org.ascollada.namespaces.*;
-	import org.ascollada.types.*;
-	import org.papervision3d.Papervision3D;
-	import org.papervision3d.core.animation.*;
-	import org.papervision3d.core.animation.channel.*;
-	import org.papervision3d.core.controller.IObjectController;
-	import org.papervision3d.core.controller.SkinController;
-	import org.papervision3d.core.geom.*;
-	import org.papervision3d.core.geom.renderables.*;
-	import org.papervision3d.core.log.PaperLogger;
-	import org.papervision3d.core.material.AbstractLightShadeMaterial;
-	import org.papervision3d.core.math.*;
-	import org.papervision3d.core.proto.*;
-	import org.papervision3d.core.render.data.RenderSessionData;
-	import org.papervision3d.events.AnimationEvent;
-	import org.papervision3d.events.FileLoadEvent;
-	import org.papervision3d.materials.*;
-	import org.papervision3d.materials.shaders.ShadedMaterial;
-	import org.papervision3d.materials.special.*;
-	import org.papervision3d.materials.utils.*;
-	import org.papervision3d.objects.DisplayObject3D;
-	import org.papervision3d.objects.special.Skin3D;
+ 	import flash.events.Event;
+ 	import flash.events.ProgressEvent;
+ 	import flash.system.Capabilities;
+ 	import flash.utils.ByteArray;
+ 	import flash.utils.Dictionary;
+ 	import flash.utils.getTimer;
+ 	
+ 	import org.ascollada.ASCollada;
+ 	import org.ascollada.core.*;
+ 	import org.ascollada.fx.*;
+ 	import org.ascollada.io.DaeReader;
+ 	import org.ascollada.namespaces.*;
+ 	import org.ascollada.types.*;
+ 	import org.papervision3d.Papervision3D;
+ 	import org.papervision3d.core.animation.*;
+ 	import org.papervision3d.core.animation.channel.*;
+ 	import org.papervision3d.core.controller.IObjectController;
+ 	import org.papervision3d.core.controller.SkinController;
+ 	import org.papervision3d.core.geom.*;
+ 	import org.papervision3d.core.geom.renderables.*;
+ 	import org.papervision3d.core.log.PaperLogger;
+ 	import org.papervision3d.core.material.AbstractLightShadeMaterial;
+ 	import org.papervision3d.core.math.*;
+ 	import org.papervision3d.core.proto.*;
+ 	import org.papervision3d.core.render.data.RenderSessionData;
+ 	import org.papervision3d.events.AnimationEvent;
+ 	import org.papervision3d.events.FileLoadEvent;
+ 	import org.papervision3d.materials.*;
+ 	import org.papervision3d.materials.shaders.ShadedMaterial;
+ 	import org.papervision3d.materials.special.*;
+ 	import org.papervision3d.materials.utils.*;
+ 	import org.papervision3d.objects.DisplayObject3D;
+ 	import org.papervision3d.objects.special.Skin3D;
 	
 	/**
 	 * The DAE class represents a parsed COLLADA 1.4.1 file.
@@ -790,7 +790,7 @@ package org.papervision3d.objects.parsers
 			var material:MaterialObject3D = this.materials.getMaterialByName(primitive.material);
 			
 			material = material || MaterialObject3D.DEFAULT;
-			
+				
 			// retreive correct texcoord-set for the material.
 			var obj:DaeBindVertexInput = _textureSets[primitive.material] is DaeBindVertexInput ? _textureSets[primitive.material] : null;
 			var setID:int = (obj is DaeBindVertexInput) ? obj.input_set : forceCoordSet;
@@ -807,7 +807,7 @@ package org.papervision3d.objects.parsers
 			var idx:Array = new Array();
 			var v:Array = new Array();
 			var uv:Array = new Array();
-			
+		
 			switch( primitive.type ) 
 			{
 				// Each line described by the mesh has two vertices. The first line is formed 
@@ -868,7 +868,15 @@ package org.papervision3d.objects.parsers
 							v[2] = poly[j+1];
 							uv[1] = uvs[j];
 							uv[2] = uvs[j+1];
-							geometry.faces.push(new Triangle3D(null, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]));
+							
+							if( v[0] is Vertex3D && v[1] is Vertex3D && v[2] is Vertex3D)
+							{
+								geometry.faces.push(new Triangle3D(null, [v[0], v[1], v[2]], material, [uv[0], uv[1], uv[2]]));
+							}
+							else
+							{
+							//	PaperLogger.error("" +primitive.name+ " "+ poly.length +" "+primitive.vertices.length+" "+geometry.vertices.length);
+							}
 						}
 					}
 					break;
@@ -951,7 +959,7 @@ package org.papervision3d.objects.parsers
 					
 					g.vertices = buildVertices(geometry.mesh);
 					g.faces = new Array();
-					
+
 					if(!g.vertices.length)
 						continue;
 						
