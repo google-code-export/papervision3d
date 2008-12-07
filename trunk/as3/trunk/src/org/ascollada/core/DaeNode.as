@@ -125,7 +125,9 @@ package org.ascollada.core {
 				throw new Error( "expected a '" + ASCollada.DAE_NODE_ELEMENT + "' element" );
 				
 			super.read( node );
-								
+						
+			this.name = this.name && this.name.length ? this.name : this.id;
+					
 			this.type = getAttribute(node, ASCollada.DAE_TYPE_ATTRIBUTE) == "JOINT" ? TYPE_JOINT : TYPE_NODE;
 
 			var yUp:Boolean = (this._yUp == DaeDocument.Y_UP);

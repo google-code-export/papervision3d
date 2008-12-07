@@ -50,6 +50,14 @@ package org.ascollada.fx {
 		
 		/**
 		 * 
+		 */ 
+		public function get bindVertexInputs() : Array
+		{
+			return _bindVertexInputs;
+		}
+		
+		/**
+		 * 
 		 * @param	semantic
 		 * @param	input_semantic
 		 * @return
