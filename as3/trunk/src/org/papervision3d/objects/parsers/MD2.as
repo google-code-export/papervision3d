@@ -295,7 +295,7 @@ package org.papervision3d.objects.parsers {
 		/**
 		 * Reads in all the frames
 		 */
-		private function readFrames(data:ByteArray):void
+		protected function readFrames(data:ByteArray):void
 		{
 			var sx:Number, sy:Number, sz:Number;
 			var tx:Number, ty:Number, tz:Number;
@@ -384,7 +384,7 @@ package org.papervision3d.objects.parsers {
 		 * Reads in all that MD2 Header data that is declared as private variables.
 		 * I know its a lot, and it looks ugly, but only way to do it in Flash
 		 */
-		private function readMd2Header(data:ByteArray):void
+		protected function readMd2Header(data:ByteArray):void
 		{
 			ident = data.readInt();
 			version = data.readInt();
@@ -408,7 +408,7 @@ package org.papervision3d.objects.parsers {
 		/**
 		 * 
 		 */ 
-		private function loadCompleteHandler(event:Event):void
+		protected function loadCompleteHandler(event:Event):void
 		{
 			var loader:URLLoader = event.target as URLLoader;
 			var data:ByteArray = loader.data;
@@ -420,7 +420,7 @@ package org.papervision3d.objects.parsers {
 		 * @param	event
 		 * @return
 		 */
-		private function loadProgressHandler( event:ProgressEvent ):void
+		protected function loadProgressHandler( event:ProgressEvent ):void
 		{
 			dispatchEvent(event);
 		}
