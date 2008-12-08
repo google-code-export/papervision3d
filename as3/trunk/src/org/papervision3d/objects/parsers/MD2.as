@@ -32,24 +32,24 @@ package org.papervision3d.objects.parsers {
 		/**
 		 * Variables used in the loading of the file
 		 */
-		private var file:String;
-		private var loader:URLLoader;
-		private var loadScale:Number;
+		protected var file:String;
+		protected var loader:URLLoader;
+		protected var loadScale:Number;
 		
 		/**
 		 * MD2 Header data
 		 * These are all the variables found in the md2_header_t
 		 * C style struct that starts every MD2 file.
 		 */
-		private var ident:int, version:int;
-		private var skinwidth:int, skinheight:int;
-		private var framesize:int;
-		private var num_skins:int, num_vertices:int, num_st:int;
-		private var num_tris:int, num_glcmds:int, num_frames:int;
-		private var offset_skins:int, offset_st:int, offset_tris:int;
-		private var offset_frames:int, offset_glcmds:int, offset_end:int;
-		private var _fps:int;
-		private var _autoPlay:Boolean;
+		protected var ident:int, version:int;
+		protected var skinwidth:int, skinheight:int;
+		protected var framesize:int;
+		protected var num_skins:int, num_vertices:int, num_st:int;
+		protected var num_tris:int, num_glcmds:int, num_frames:int;
+		protected var offset_skins:int, offset_st:int, offset_tris:int;
+		protected var offset_frames:int, offset_glcmds:int, offset_end:int;
+		protected var _fps:int;
+		protected var _autoPlay:Boolean;
 		
 		/**
 		 * Constructor.
@@ -225,7 +225,7 @@ package org.papervision3d.objects.parsers {
 		 * 
 		 * @param	data	A ByteArray
 		 */
-		private function parse(data:ByteArray):void
+		protected function parse(data:ByteArray):void
 		{
 			var i:int, j:int, uvs:Array = new Array();
 			var metaface:Object;
@@ -425,11 +425,11 @@ package org.papervision3d.objects.parsers {
 			dispatchEvent(event);
 		}
 		
-		private var _channels:Array;
-		private var _channelByName:Object;
+		protected var _channels:Array;
+		protected var _channelByName:Object;
 		
-		private var _isPlaying:Boolean = false;
-		private var _currentChannel:AbstractChannel3D;
-		private var _currentTime:Number = 0;
+		protected var _isPlaying:Boolean = false;
+		protected var _currentChannel:AbstractChannel3D;
+		protected var _currentTime:Number = 0;
 	}
 }
