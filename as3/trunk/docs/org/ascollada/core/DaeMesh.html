@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
-<meta content="DaeMesh,org.ascollada.core.DaeMesh,primitives,sources,vertices,read" name="keywords">
+<meta content="DaeMesh,org.ascollada.core.DaeMesh,geometry,primitives,sources,vertices,read" name="keywords">
 <title>org.ascollada.core.DaeMesh</title>
 </head>
 <body>
@@ -78,6 +78,11 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="DaeEntity.html#extras">extras</a> : Object<div class="summaryTableDescription"> </div>
 </td><td class="summaryTableOwnerCol"><a href="DaeEntity.html">DaeEntity</a></td>
 </tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#geometry">geometry</a> : <a href="../core/DaeGeometry.html">DaeGeometry</a>
+<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol">DaeMesh</td>
+</tr>
 <tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="DaeEntity.html#id">id</a> : String<div class="summaryTableDescription"> </div>
 </td><td class="summaryTableOwnerCol"><a href="DaeEntity.html">DaeEntity</a></td>
@@ -122,7 +127,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#DaeMesh()">DaeMesh</a>(node:XML = null)</div>
+<a class="signatureLink" href="#DaeMesh()">DaeMesh</a>(geometry:<a href="DaeGeometry.html">DaeGeometry</a>, node:XML = null)</div>
 <div class="summaryTableDescription">
    
    </div>
@@ -266,10 +271,18 @@ showHideInherited();
 <div class="MainContent">
 <a name="propertyDetail"></a>
 <div class="detailSectionHeader">Property detail</div>
+<a name="geometry"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">geometry</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var geometry:<a href="../core/DaeGeometry.html">DaeGeometry</a></code><p> </p></div>
 <a name="primitives"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">primitives</td><td class="detailHeaderType">property</td>
+<td class="detailHeaderName">primitives</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">
@@ -299,10 +312,16 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function DaeMesh(node:XML = null)</code><p>
+<code>public function DaeMesh(geometry:<a href="DaeGeometry.html">DaeGeometry</a>, node:XML = null)</code><p>
    
    </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">geometry</span>:<a href="DaeGeometry.html">DaeGeometry</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
 <tr>
 <td width="20px"></td><td><code><span class="label">node</span>:XML</code> (default = <code>null</code>)<code></code></td>
 </tr>

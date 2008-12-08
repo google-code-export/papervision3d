@@ -80,6 +80,11 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol"><a href="../core/DaeEntity.html">DaeEntity</a></td>
 </tr>
 <tr class="hideInheritedProperty">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/DaeMesh.html#geometry">geometry</a> : <a href="../core/DaeGeometry.html">DaeGeometry</a>
+<div class="summaryTableDescription"> </div>
+</td><td class="summaryTableOwnerCol"><a href="../core/DaeMesh.html">DaeMesh</a></td>
+</tr>
+<tr class="hideInheritedProperty">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img class="inheritedSummaryImage" title="Inherited" alt="Inherited" src="../../../images/inheritedSummary.gif"></td><td class="summaryTableSignatureCol"><a class="signatureLink" href="../core/DaeEntity.html#id">id</a> : String<div class="summaryTableDescription"> </div>
 </td><td class="summaryTableOwnerCol"><a href="../core/DaeEntity.html">DaeEntity</a></td>
 </tr>
@@ -127,7 +132,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#DaeConvexMesh()">DaeConvexMesh</a>(node:XML = null)</div>
+<a class="signatureLink" href="#DaeConvexMesh()">DaeConvexMesh</a>(geometry:<a href="../core/DaeGeometry.html">DaeGeometry</a>, node:XML = null)</div>
 <div class="summaryTableDescription">
    
    </div>
@@ -298,10 +303,16 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function DaeConvexMesh(node:XML = null)</code><p>
+<code>public function DaeConvexMesh(geometry:<a href="../core/DaeGeometry.html">DaeGeometry</a>, node:XML = null)</code><p>
    
    </p><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">geometry</span>:<a href="../core/DaeGeometry.html">DaeGeometry</a></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
 <tr>
 <td width="20px"></td><td><code><span class="label">node</span>:XML</code> (default = <code>null</code>)<code></code></td>
 </tr>

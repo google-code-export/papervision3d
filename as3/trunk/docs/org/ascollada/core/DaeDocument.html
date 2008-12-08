@@ -4,7 +4,7 @@
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
-<meta content="DaeDocument,org.ascollada.core.DaeDocument,COLLADA,X_UP,Y_UP,Z_UP,animation_clips,animations,cameras,controllers,effects,geometries,images,materialSymbolToTarget,materialTargetToSymbol,materials,nodes,physics_scenes,pscene,version,visual_scenes,vscene,yUp,numQueuedAnimations,numQueuedGeometries,getDaeNodeById,getDaeNodeByIdOrSID,read,readNextAnimation,readNextGeometry" name="keywords">
+<meta content="DaeDocument,org.ascollada.core.DaeDocument,COLLADA,X_UP,Y_UP,Z_UP,animation_clips,animations,cameras,controllers,effects,geometries,images,materialSymbolToTarget,materialTargetToSymbol,materials,nodes,physics_scenes,pscene,version,visual_scenes,vscene,yUp,numQueuedAnimations,numQueuedGeometries,getDaeInstanceGeometry,getDaeNodeById,getDaeNodeByIdOrSID,read,readNextAnimation,readNextGeometry" name="keywords">
 <title>org.ascollada.core.DaeDocument</title>
 </head>
 <body>
@@ -230,6 +230,16 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
    
    </div>
 </td><td class="summaryTableOwnerCol"><a href="DaeEntity.html">DaeEntity</a></td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getDaeInstanceGeometry()">getDaeInstanceGeometry</a>(url:String):<a href="../core/DaeInstanceGeometry.html">DaeInstanceGeometry</a>
+</div>
+<div class="summaryTableDescription">
+   
+   </div>
+</td><td class="summaryTableOwnerCol">DaeDocument</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
@@ -604,10 +614,33 @@ showHideInherited();
 </div>
 <a name="methodDetail"></a>
 <div class="detailSectionHeader">Method detail</div>
+<a name="getDaeInstanceGeometry()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getDaeInstanceGeometry</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getDaeInstanceGeometry(url:String):<a href="../core/DaeInstanceGeometry.html">DaeInstanceGeometry</a></code><p>
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">url</span>:String</code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../core/DaeInstanceGeometry.html">DaeInstanceGeometry</a></code></td>
+</tr>
+</table>
+</div>
 <a name="getDaeNodeById()"></a>
 <table cellspacing="0" cellpadding="0" class="detailHeader">
 <tr>
-<td class="detailHeaderName">getDaeNodeById</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+<td class="detailHeaderName">getDaeNodeById</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
 </tr>
 </table>
 <div class="detailBody">

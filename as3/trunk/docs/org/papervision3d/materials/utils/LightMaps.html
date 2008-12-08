@@ -53,42 +53,42 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#getCellMap()">getCellMap</a>(color_1:int, color_2:int, steps:int):BitmapData</div>
+<a class="signatureLink" href="#getCellMap()">getCellMap</a>(color_1:uint, color_2:uint, steps:int):BitmapData</div>
 <div class="summaryTableDescription">[static]</div>
 </td><td class="summaryTableOwnerCol">LightMaps</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#getFlatMap()">getFlatMap</a>(lightColor:int, ambientColor:int, specularLevel:int):BitmapData</div>
+<a class="signatureLink" href="#getFlatMap()">getFlatMap</a>(lightColor:uint, ambientColor:uint, specularLevel:uint):BitmapData</div>
 <div class="summaryTableDescription">[static]</div>
 </td><td class="summaryTableOwnerCol">LightMaps</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#getFlatMapArray()">getFlatMapArray</a>(lightColor:int, ambientColor:int, specularLevel:int):Array</div>
+<a class="signatureLink" href="#getFlatMapArray()">getFlatMapArray</a>(lightColor:uint, ambientColor:uint, specularLevel:uint):Array</div>
 <div class="summaryTableDescription">[static]</div>
 </td><td class="summaryTableOwnerCol">LightMaps</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#getGouraudMap()">getGouraudMap</a>(lightColor:int, ambientColor:int):BitmapData</div>
+<a class="signatureLink" href="#getGouraudMap()">getGouraudMap</a>(lightColor:uint, ambientColor:uint, specularLevel:uint):BitmapData</div>
 <div class="summaryTableDescription">[static]</div>
 </td><td class="summaryTableOwnerCol">LightMaps</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#getGouraudMaterialMap()">getGouraudMaterialMap</a>(lightColor:int, ambientColor:int):BitmapData</div>
+<a class="signatureLink" href="#getGouraudMaterialMap()">getGouraudMaterialMap</a>(lightColor:uint, ambientColor:uint, specularLevel:uint):BitmapData</div>
 <div class="summaryTableDescription">[static]</div>
 </td><td class="summaryTableOwnerCol">LightMaps</td>
 </tr>
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#getPhongMap()">getPhongMap</a>(lightColor:int, ambientColor:int, specularLevel:int, height:int = 255, width:int = 255):BitmapData</div>
+<a class="signatureLink" href="#getPhongMap()">getPhongMap</a>(lightColor:uint, ambientColor:uint, specularLevel:uint, height:int = 255, width:int = 255):BitmapData</div>
 <div class="summaryTableDescription">[static]</div>
 </td><td class="summaryTableOwnerCol">LightMaps</td>
 </tr>
@@ -108,16 +108,16 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function getCellMap(color_1:int, color_2:int, steps:int):BitmapData</code><span class="label">Parameters</span>
+<code>public static function getCellMap(color_1:uint, color_2:uint, steps:int):BitmapData</code><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">color_1</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">color_1</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">color_2</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">color_2</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
@@ -141,22 +141,22 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function getFlatMap(lightColor:int, ambientColor:int, specularLevel:int):BitmapData</code><span class="label">Parameters</span>
+<code>public static function getFlatMap(lightColor:uint, ambientColor:uint, specularLevel:uint):BitmapData</code><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">lightColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">lightColor</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">ambientColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">ambientColor</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">specularLevel</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">specularLevel</span>:uint</code></td>
 </tr>
 </table>
 <p></p>
@@ -174,22 +174,22 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function getFlatMapArray(lightColor:int, ambientColor:int, specularLevel:int):Array</code><span class="label">Parameters</span>
+<code>public static function getFlatMapArray(lightColor:uint, ambientColor:uint, specularLevel:uint):Array</code><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">lightColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">lightColor</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">ambientColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">ambientColor</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">specularLevel</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">specularLevel</span>:uint</code></td>
 </tr>
 </table>
 <p></p>
@@ -207,16 +207,22 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function getGouraudMap(lightColor:int, ambientColor:int):BitmapData</code><span class="label">Parameters</span>
+<code>public static function getGouraudMap(lightColor:uint, ambientColor:uint, specularLevel:uint):BitmapData</code><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">lightColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">lightColor</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">ambientColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">ambientColor</span>:uint</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">specularLevel</span>:uint</code></td>
 </tr>
 </table>
 <p></p>
@@ -234,16 +240,22 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function getGouraudMaterialMap(lightColor:int, ambientColor:int):BitmapData</code><span class="label">Parameters</span>
+<code>public static function getGouraudMaterialMap(lightColor:uint, ambientColor:uint, specularLevel:uint):BitmapData</code><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">lightColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">lightColor</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">ambientColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">ambientColor</span>:uint</code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">specularLevel</span>:uint</code></td>
 </tr>
 </table>
 <p></p>
@@ -261,22 +273,22 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static function getPhongMap(lightColor:int, ambientColor:int, specularLevel:int, height:int = 255, width:int = 255):BitmapData</code><span class="label">Parameters</span>
+<code>public static function getPhongMap(lightColor:uint, ambientColor:uint, specularLevel:uint, height:int = 255, width:int = 255):BitmapData</code><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20px"></td><td><code><span class="label">lightColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">lightColor</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">ambientColor</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">ambientColor</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">specularLevel</span>:int</code></td>
+<td width="20px"></td><td><code><span class="label">specularLevel</span>:uint</code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>

@@ -132,7 +132,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <tr class="">
 <td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
 <div class="summarySignature">
-<a class="signatureLink" href="#GouraudShader()">GouraudShader</a>(light:<a href="../../core/proto/LightObject3D.html">LightObject3D</a>, lightColor:int = 0xFFFFFF, ambientColor:int = 0x000000)</div>
+<a class="signatureLink" href="#GouraudShader()">GouraudShader</a>(light:<a href="../../core/proto/LightObject3D.html">LightObject3D</a>, lightColor:uint = 0xFFFFFF, ambientColor:uint = 0x000000, specularLevel:uint = 0)</div>
 <div class="summaryTableDescription"></div>
 </td><td class="summaryTableOwnerCol">GouraudShader</td>
 </tr>
@@ -210,7 +210,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public function GouraudShader(light:<a href="../../core/proto/LightObject3D.html">LightObject3D</a>, lightColor:int = 0xFFFFFF, ambientColor:int = 0x000000)</code><span class="label">Parameters</span>
+<code>public function GouraudShader(light:<a href="../../core/proto/LightObject3D.html">LightObject3D</a>, lightColor:uint = 0xFFFFFF, ambientColor:uint = 0x000000, specularLevel:uint = 0)</code><span class="label">Parameters</span>
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td width="20px"></td><td><code><span class="label">light</span>:<a href="../../core/proto/LightObject3D.html">LightObject3D</a></code></td>
@@ -219,13 +219,19 @@ showHideInherited();
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">lightColor</span>:int</code> (default = <code>0xFFFFFF</code>)<code></code></td>
+<td width="20px"></td><td><code><span class="label">lightColor</span>:uint</code> (default = <code>0xFFFFFF</code>)<code></code></td>
 </tr>
 <tr>
 <td class="paramSpacer">&nbsp;</td>
 </tr>
 <tr>
-<td width="20px"></td><td><code><span class="label">ambientColor</span>:int</code> (default = <code>0x000000</code>)<code></code></td>
+<td width="20px"></td><td><code><span class="label">ambientColor</span>:uint</code> (default = <code>0x000000</code>)<code></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">specularLevel</span>:uint</code> (default = <code>0</code>)<code></code></td>
 </tr>
 </table>
 </div>
