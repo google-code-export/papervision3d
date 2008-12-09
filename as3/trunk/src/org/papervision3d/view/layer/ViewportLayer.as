@@ -1,15 +1,14 @@
-package org.papervision3d.view.layer {
-	import flash.display.Graphics;
-	import flash.display.Sprite;
-	import flash.utils.Dictionary;
-	
+package org.papervision3d.view.layer {
 	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.ns.pv3dview;
 	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
-	import org.papervision3d.view.layer.util.ViewportLayerSortMode;	
-
+	import org.papervision3d.view.layer.util.ViewportLayerSortMode;
+	
+	import flash.display.Graphics;
+	import flash.display.Sprite;
+	import flash.utils.Dictionary;	
 	/**
 	 * @Author Ralph Hauwert
 	 */
@@ -19,18 +18,18 @@ package org.papervision3d.view.layer {
 		
 		public var childLayers			:Array;
 		public var layers				:Dictionary = new Dictionary(true);
-		protected var viewport			:Viewport3D;
 		public var displayObject3D		:DisplayObject3D;
 		public var displayObjects		:Dictionary = new Dictionary(true);
 		
 		public var layerIndex			:Number;
 		public var forceDepth			:Boolean = false;
 		public var screenDepth			:Number = 0;
+		public var originDepth			:Number = 0;
 		public var weight				:Number = 0;
 		public var sortMode				:String = ViewportLayerSortMode.Z_SORT;
 		public var dynamicLayer			:Boolean = false;
 		public var graphicsChannel		:Graphics;
-		
+		protected var viewport			:Viewport3D;		
 		public function ViewportLayer(viewport:Viewport3D, do3d:DisplayObject3D, isDynamic:Boolean = false)
 		{
 			super();
@@ -38,8 +37,7 @@ package org.papervision3d.view.layer {
 			this.displayObject3D = do3d;
 			this.dynamicLayer = isDynamic;
 			this.graphicsChannel = this.graphics;
-			
-			
+		
 			if(isDynamic){
 				this.filters = do3d.filters;
 				this.blendMode = do3d.blendMode;
@@ -50,7 +48,6 @@ package org.papervision3d.view.layer {
 				addDisplayObject3D(do3d);
 				do3d.container = this;
 			}
-				
 			
 			init();
 		}
@@ -253,23 +250,32 @@ package org.papervision3d.view.layer {
 		protected function reset():void{
 			
 			if( !forceDepth)
+			{
 				screenDepth = 0;
+				originDepth = 0;
+			}
 				
 			this.weight = 0;
 			
 		}
 		
-		public function sortChildLayers():void{
-			
-					
-			if(sortMode == ViewportLayerSortMode.Z_SORT){
-				childLayers.sortOn("screenDepth", Array.DESCENDING | Array.NUMERIC);
-			}else{
-				childLayers.sortOn("layerIndex", Array.NUMERIC);
+		public function sortChildLayers():void		{
+			switch( sortMode )
+			{
+				case ViewportLayerSortMode.Z_SORT:
+					childLayers.sortOn( "screenDepth", Array.DESCENDING | Array.NUMERIC );
+					break;
+				
+				case ViewportLayerSortMode.INDEX_SORT:
+					childLayers.sortOn( "layerIndex", Array.NUMERIC );
+					break;
+				
+				case ViewportLayerSortMode.ORIGIN_SORT:
+					childLayers.sortOn( [ "originDepth", "screenDepth" ] , [ Array.DESCENDING | Array.NUMERIC, Array.DESCENDING | Array.NUMERIC ] );
+					break;
 			}
-			
+					
 			orderLayers();
-
 		}
 		
 		protected function orderLayers():void{
@@ -285,9 +291,10 @@ package org.papervision3d.view.layer {
 		public function processRenderItem(rc:RenderableListItem):void{
 			if(!forceDepth){
 				this.screenDepth += rc.screenZ;
+				this.originDepth += rc.instance.world.n34;
+				this.originDepth += rc.instance.screen.z;
 				this.weight++;
-			}
-		}
+			}		}
 		
 		public function updateInfo():void{
 			
@@ -298,11 +305,15 @@ package org.papervision3d.view.layer {
 				if(!forceDepth){
 					this.weight += vpl.weight;
 					this.screenDepth += (vpl.screenDepth*vpl.weight);
+					this.originDepth += (vpl.originDepth*vpl.weight);
 				}
 			}
 			
 			if(!forceDepth)
-				this.screenDepth /= this.weight;		
+			{
+				this.screenDepth /= this.weight;
+				this.originDepth /= this.weight;
+			}		
 			
 		}
 		
@@ -311,6 +322,5 @@ package org.papervision3d.view.layer {
 				removeLayerAt(i);
 			}
 		}
-		
 	}
 }
