@@ -45,6 +45,7 @@ package org.papervision3d.core.render.command
 			this.renderable = Line3D;
 			this.renderableInstance = line;
 			this.line = line;
+			this.instance = line.instance;
 			
 			v0 = line.v0.vertex3DInstance;
 			v1 = line.v1.vertex3DInstance;
