@@ -29,6 +29,7 @@ package org.papervision3d.core.render.command
 			this.particle = particle;
 			this.renderableInstance = particle;
 			this.renderable = Particle;
+			this.instance = particle.instance;
 		}
 		
 		override public function render(renderSessionData:RenderSessionData, graphics:Graphics):void
