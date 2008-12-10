@@ -53,7 +53,7 @@ package org.papervision3d.core.geom.renderables
 			if(instance.geometry.vertices.indexOf(cV) == -1){
 				instance.geometry.vertices.push(cV);
 			}		
-			
+			renderCommand.cV = cV.vertex3DInstance; 
 		}
 		
 		
