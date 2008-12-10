@@ -290,9 +290,9 @@ package org.papervision3d.view.layer {
 		
 		public function processRenderItem(rc:RenderableListItem):void{
 			if(!forceDepth){
-				this.screenDepth += rc.screenZ;
-				this.originDepth += rc.instance.world.n34;
-				this.originDepth += rc.instance.screen.z;
+				this.screenDepth += rc.screenZ;				if( rc.instance )				{
+					this.originDepth += rc.instance.world.n34;
+					this.originDepth += rc.instance.screen.z;				}
 				this.weight++;
 			}		}
 		
