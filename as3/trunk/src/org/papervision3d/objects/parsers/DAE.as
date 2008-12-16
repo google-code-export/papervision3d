@@ -476,6 +476,18 @@ package org.papervision3d.objects.parsers
 					case "(3)(2)":
 						matrixProp = "n34";
 						break;
+					case "(0)(3)":
+						matrixProp = "n41";
+						break;
+					case "(1)(3)":
+						matrixProp = "n42";
+						break;
+					case "(2)(3)":
+						matrixProp = "n43";
+						break;
+					case "(3)(3)":
+						matrixProp = "n44";
+						break;
 					default:
 						throw new Error(arrayMember);
 				}
