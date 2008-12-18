@@ -1,14 +1,14 @@
 package org.papervision3d.view.layer {
+	import flash.display.Graphics;
+	import flash.display.Sprite;
+	import flash.utils.Dictionary;
+	
 	import org.papervision3d.core.log.PaperLogger;
 	import org.papervision3d.core.ns.pv3dview;
 	import org.papervision3d.core.render.command.RenderableListItem;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.view.Viewport3D;
-	import org.papervision3d.view.layer.util.ViewportLayerSortMode;
-	
-	import flash.display.Graphics;
-	import flash.display.Sprite;
-	import flash.utils.Dictionary;	
+	import org.papervision3d.view.layer.util.ViewportLayerSortMode;	
 	/**
 	 * @Author Ralph Hauwert
 	 */
@@ -137,7 +137,7 @@ package org.papervision3d.view.layer {
 		public function addLayer(vpl:ViewportLayer):void{
 			
 			var do3d:DisplayObject3D;
-			
+						if(childLayers.indexOf(vpl)!=-1) 			{								PaperLogger.warning("Child layer already exists in ViewportLayer"); 				return; 						}
 			childLayers.push(vpl);
 			addChild(vpl);
 			
@@ -279,7 +279,6 @@ package org.papervision3d.view.layer {
 		}
 		
 		protected function orderLayers():void{
-			//trace("---------", childLayers.length);
 			for(var i:int = 0;i<childLayers.length;i++)
 			{
 				var layer : ViewportLayer = childLayers[i]; 
@@ -289,12 +288,12 @@ package org.papervision3d.view.layer {
 		}
 		
 		public function processRenderItem(rc:RenderableListItem):void{
-			if(!forceDepth){
-				this.screenDepth += rc.screenZ;				if( rc.instance )				{
-					this.originDepth += rc.instance.world.n34;
-					this.originDepth += rc.instance.screen.z;				}
-				this.weight++;
-			}		}
+			if(!forceDepth)			{				if(!isNaN(rc.screenZ))				{				
+					this.screenDepth += rc.screenZ;					if( rc.instance )					{
+						this.originDepth += rc.instance.world.n34;
+						this.originDepth += rc.instance.screen.z;					}
+					this.weight++;
+								}			}		}
 		
 		public function updateInfo():void{
 			
@@ -302,10 +301,9 @@ package org.papervision3d.view.layer {
 			
 			for each(var vpl:ViewportLayer in childLayers){
 				vpl.updateInfo();
-				if(!forceDepth){
-					this.weight += vpl.weight;
-					this.screenDepth += (vpl.screenDepth*vpl.weight);
-					this.originDepth += (vpl.originDepth*vpl.weight);
+				if(!forceDepth){					// screenDepth is sometimes NaN if the child objects are invisible or empty					if(!isNaN(vpl.screenDepth))					{						this.weight += vpl.weight;
+						this.screenDepth += (vpl.screenDepth*vpl.weight);
+						this.originDepth += (vpl.originDepth*vpl.weight);					}				
 				}
 			}
 			
