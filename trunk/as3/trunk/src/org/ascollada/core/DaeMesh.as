@@ -100,7 +100,11 @@ package org.ascollada.core {
 					case ASCollada.DAE_LINES_ELEMENT:
 					case ASCollada.DAE_POLYGONS_ELEMENT:
 					case ASCollada.DAE_POLYLIST_ELEMENT:
-						this.primitives.push( new DaePrimitive(this, child) );
+						var primitive : DaePrimitive = new DaePrimitive(this, child);
+						if( primitive.count > 0 )
+						{
+							this.primitives.push( primitive );
+						}
 						break;
 					default:
 						break;
