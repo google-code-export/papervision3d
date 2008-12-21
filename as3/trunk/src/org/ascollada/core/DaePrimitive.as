@@ -95,6 +95,11 @@ package org.ascollada.core {
 			this.vcount = new Array();
 			this.polygons = new Array();
 			
+			if( this.count == 0 )
+			{
+				return;
+			}
+			
 			_inputs = new Dictionary();
 			
 			var parent:XML = node.parent() as XML;
