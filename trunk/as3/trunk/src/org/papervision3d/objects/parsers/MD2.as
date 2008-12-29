@@ -274,7 +274,7 @@ package org.papervision3d.objects.parsers {
 				var uv1:NumberUV = uvs[metaface.tb];
 				var uv2:NumberUV = uvs[metaface.tc];
 
-				geometry.faces.push(new Triangle3D(this, [v0, v1, v2], material, [uv0, uv1, uv2]));
+				geometry.faces.push(new Triangle3D(this, [v2, v1, v0], material, [uv2, uv1, uv0]));
 			}
 			
 			geometry.ready = true;
@@ -352,6 +352,8 @@ package org.papervision3d.objects.parsers {
 						((sx * data.readUnsignedByte()) + tx) * loadScale, 
 						((sy * data.readUnsignedByte()) + ty) * loadScale,
 						((sz * data.readUnsignedByte()) + tz) * loadScale);
+					
+					v.x = -v.x;
 						
 					if( i == 1 )
 					{
