@@ -182,7 +182,10 @@
 			}
 			
 			for each(var material:MaterialObject3D in materials)
-				material.registerObject(parent);
+			{
+				if( material )
+					material.registerObject(parent);
+			}
 				
 			return geom;
 		}
