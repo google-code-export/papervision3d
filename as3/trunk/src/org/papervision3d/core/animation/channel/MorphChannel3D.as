@@ -57,7 +57,7 @@ package org.papervision3d.core.animation.channel {
 			super.updateToTime(time);
 			
 			var curOutput:Array = currentKeyFrame.output;
-			var nxtOutput:Array = nextKeyFrame.output;
+			var nxtOutput:Array = nextKeyFrame ? nextKeyFrame.output : null;
 			
 			if(!target.geometry || !target.geometry.vertices)
 				return;
@@ -69,7 +69,7 @@ package org.papervision3d.core.animation.channel {
 			{
 				var u:Vertex3D = target.geometry.vertices[i];
 				var v:Vertex3D = curOutput[i];
-				var w:Vertex3D = nxtOutput[i];
+				var w:Vertex3D = nxtOutput ? nxtOutput[i] : curOutput[i];
 				
 				u.x = v.x + frameAlpha * (w.x - v.x);
 				u.y = v.y + frameAlpha * (w.y - v.y);

@@ -106,13 +106,14 @@ package org.papervision3d.core.animation.channel
 			
 			currentIndex = keyframe;
 			currentIndex = currentIndex < this.keyFrames.length - 1 ? currentIndex : 0;
-			trace("currentIndex", currentIndex);
+			
 			nextIndex = currentIndex + 1;
 			
 			currentKeyFrame = this.keyFrames[currentIndex];
-			nextKeyFrame = this.keyFrames[nextIndex];
+			nextKeyFrame = nextIndex < this.keyFrames.length ? this.keyFrames[nextIndex] : null;
 			
-			frameDuration = nextKeyFrame.time - currentKeyFrame.time;
+			frameDuration = nextKeyFrame ? nextKeyFrame.time - currentKeyFrame.time : currentKeyFrame.time;
+			
 			frameAlpha = 0;
 			currentTime = currentKeyFrame.time;
 		}
@@ -128,7 +129,7 @@ package org.papervision3d.core.animation.channel
 			nextIndex = currentIndex + 1;
 			
 			currentKeyFrame = this.keyFrames[currentIndex];
-			nextKeyFrame = this.keyFrames[nextIndex];
+			nextKeyFrame = nextIndex < this.keyFrames.length ? this.keyFrames[nextIndex] : null;
 			
 			frameDuration = nextKeyFrame ? nextKeyFrame.time - currentKeyFrame.time : currentKeyFrame.time;
 			
