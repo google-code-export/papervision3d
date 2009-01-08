@@ -119,11 +119,11 @@ package org.papervision3d.objects.primitives {
 				if (j>0) { // &&i>=0
 					for (i=0;i<iHorNum;i++) {
 						// select vertices
-						var bEnd:Boolean = i==(iHorNum-0);
-						var aP1:Vertex3D = aVtc[j][bEnd?0:i];
-						var aP2:Vertex3D = aVtc[j][(i==0?iHorNum:i)-1];
-						var aP3:Vertex3D = aVtc[j-1][(i==0?iHorNum:i)-1];
-						var aP4:Vertex3D = aVtc[j-1][bEnd?0:i];
+						var bEnd:Boolean = i==(iHorNum-1);
+						var aP1:Vertex3D = aVtc[j][bEnd?0:i+1];
+						var aP2:Vertex3D = aVtc[j][(bEnd?iHorNum-1:i)];
+						var aP3:Vertex3D = aVtc[j-1][(bEnd?iHorNum-1:i)];
+						var aP4:Vertex3D = aVtc[j-1][bEnd?0:i+1];
 						// uv
 						/*
 						 * fix applied as suggested by Philippe to correct the uv mapping on a sphere
