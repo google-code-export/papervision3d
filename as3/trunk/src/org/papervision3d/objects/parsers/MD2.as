@@ -129,7 +129,7 @@ package org.papervision3d.objects.parsers {
 			target = target || this;
 			if(target === this)
 			{
-				return [_channels[0]];
+				return _channels;
 			}
 			return null;
 		}
