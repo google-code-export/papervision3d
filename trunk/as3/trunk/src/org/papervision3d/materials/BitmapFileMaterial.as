@@ -53,6 +53,12 @@ package org.papervision3d.materials
 		static public var ERROR_COLOR:int = MaterialObject3D.DEBUG_COLOR;
 		
 		/**
+		 * A temporary bitmap to use if the file hasn't loaded yet. 
+		 */
+		static public var loadingBitmap : BitmapData = new BitmapData(1,1,false,0x000000); 
+		
+		
+		/**
 		* A texture object.
 		*/		
 		override public function get texture():Object
@@ -149,7 +155,7 @@ package org.papervision3d.materials
 					queueBitmap( asset );
 				}
 			}
-			return null;
+			return loadingBitmap;
 		}
 
 		// ___________________________________________________________________ QUEUE BITMAP
