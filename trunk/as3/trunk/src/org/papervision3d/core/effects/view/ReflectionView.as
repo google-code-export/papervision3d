@@ -73,7 +73,7 @@ package org.papervision3d.core.effects.view {
 				Camera3D(cameraReflection).useCulling = Camera3D(camera).useCulling; 
 			
 			}
-			//camera.updateTransform();
+			if(camera.target) camera.lookAt(camera.target); 
 			cameraReflection.transform.copy(camera.transform);
 			
 			// reflection matrix! Doesn't work yet - turns planes inside out :-S
