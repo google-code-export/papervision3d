@@ -1775,7 +1775,7 @@ package org.papervision3d.objects.parsers
 		 */ 
 		protected function onParseProgress(event:ProgressEvent):void
 		{
-			
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.LOAD_PROGRESS, this.filename, event.bytesLoaded, event.bytesTotal, null, null, true, false));
 		}
 		
 		/** Whether the COLLADA uses Y-up, Z-up otherwise. */
