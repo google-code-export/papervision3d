@@ -72,6 +72,9 @@
 			currentMaterial = null;
 			currentMouseDO3D = null;
 			
+			virtualMouse.stage = null;
+			virtualMouse.container = null;
+			
 			container.removeEventListener(MouseEvent.MOUSE_DOWN, handleMousePress);
 			container.removeEventListener(MouseEvent.MOUSE_UP, handleMouseRelease);
 			container.removeEventListener(MouseEvent.CLICK, handleMouseClick);
@@ -103,6 +106,7 @@
 		 */		
 		protected function handleAddedToStage(e:Event):void
 		{			
+			
 			initVirtualMouse();			
 			initListeners();
 		}
