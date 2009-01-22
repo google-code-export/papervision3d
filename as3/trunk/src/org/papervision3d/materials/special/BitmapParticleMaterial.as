@@ -3,10 +3,10 @@ package org.papervision3d.materials.special
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
 	import flash.geom.Matrix;
-	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
 	import org.papervision3d.core.geom.renderables.Particle;
+	import org.papervision3d.core.math.Number2D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.IParticleDrawer;
 	/**
@@ -22,7 +22,7 @@ package org.papervision3d.materials.special
 		
 		private var renderRect:Rectangle; 
 		
-		public var offset : Point = new Point(); 
+		public var offset : Number2D = new Number2D(); 
 	
 		/**
 		 * 
@@ -52,8 +52,9 @@ package org.papervision3d.materials.special
 			
 			
 			scaleMatrix.identity(); 
-			scaleMatrix.tx = 0; // add bitmap offsets here
-			scaleMatrix.ty = 0; //
+			scaleMatrix.tx = offset.x; 
+			scaleMatrix.ty = offset.y; 
+			
 			scaleMatrix.scale(newscale, newscale);
 			
 			scaleMatrix.translate(particle.vertex3D.vertex3DInstance.x, particle.vertex3D.vertex3DInstance.y); 
@@ -84,8 +85,8 @@ package org.papervision3d.materials.special
 			
 			var newscale : Number = particle.renderScale*particle.size/bitmap.width;
 			
-			var osx:Number = 0;// TODO add "offset.x * newscale" here when bitmap offset is integrated. 
-			var osy:Number = 0;//
+			var osx:Number = offset.x*newscale;
+			var osy:Number = offset.y*newscale;
 			
 			renderrect.x = particle.vertex3D.vertex3DInstance.x+osx;
 			renderrect.y = particle.vertex3D.vertex3DInstance.y+osy;
