@@ -1,5 +1,6 @@
 package org.papervision3d.view
 {
+	import org.papervision3d.cameras.SpringCamera3D;	
 	import org.papervision3d.cameras.Camera3D;
 	import org.papervision3d.cameras.CameraType;
 	import org.papervision3d.cameras.DebugCamera3D;
@@ -62,6 +63,10 @@ package org.papervision3d.view
 					_camera = new Camera3D(60);
 					_camera.target = DisplayObject3D.ZERO;
 					break;
+				case CameraType.SPRING:
+					_camera = new SpringCamera3D();
+					_camera.target = DisplayObject3D.ZERO;		
+					break;			
 				case CameraType.FREE:
 				default:
 					_camera = new Camera3D(60);

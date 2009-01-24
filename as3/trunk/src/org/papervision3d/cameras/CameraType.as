@@ -23,5 +23,9 @@ package org.papervision3d.cameras
 		 * The DEBUG constant defines a DebugCamera3D
 		 */
 		public static var DEBUG		:String = "Debug";
+		/*
+		 * the SPRING constant defines a SpringCamera3D
+		 */
+		public static var SPRING		:String = "Spring";
 	}
 }
