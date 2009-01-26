@@ -1,5 +1,6 @@
 package org.papervision3d.core.clipping
 {
+	import org.papervision3d.core.dyn.DynamicTriangles;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
 	import org.papervision3d.core.log.PaperLogger;
@@ -64,6 +65,7 @@ package org.papervision3d.core.clipping
 			
 			_matrix = Matrix3D.IDENTITY;
 			_world = Matrix3D.IDENTITY;
+			_dynTriangles = new DynamicTriangles();
 			
 			this.planes = planes < 0 ? DEFAULT : planes;
 		}
@@ -231,6 +233,8 @@ package org.papervision3d.core.clipping
 			{
 				_cbottom.setThreePoints( _camPos, _nbr, _nbl );
 			}
+			
+			_dynTriangles.releaseAll();
 		}
 		
 		/**
@@ -329,8 +333,8 @@ package org.papervision3d.core.clipping
 				var t1 : NumberUV = uvs[j];
 				var t2 : NumberUV = uvs[k];
 				
-				var tri : Triangle3D = new Triangle3D(triangle.instance, [v0, v1, v2], triangle.material, [t0, t1, t2]);
-				
+				//var tri : Triangle3D = new Triangle3D(triangle.instance, [v0, v1, v2], triangle.material, [t0, t1, t2]);
+				var tri :Triangle3D = _dynTriangles.getTriangle(triangle.instance, triangle.material, v0, v1, v2, t0, t1, t2);
 				// make sure we got a valid triangle!
 				if( tri.faceNormal.modulo )
 				{
@@ -495,5 +499,6 @@ package org.papervision3d.core.clipping
 		private var _world	: Matrix3D;
 		
 		private var _planePoints : Array;
+		private var _dynTriangles :DynamicTriangles;
 	}
 }
