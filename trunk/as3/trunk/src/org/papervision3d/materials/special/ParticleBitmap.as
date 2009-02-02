@@ -81,6 +81,9 @@ package org.papervision3d.materials.special
 			m.translate(-offsetX, -offsetY); 
 			m.scale(1/scaleX, 1/scaleY);
 			
+			width = (width==0) ? 1 : width; 
+			height = (height==0) ? 1 : height; 
+			
 			if((!bitmap)||(bitmap.width<width)||(bitmap.height<height))
 			{
 				bitmap = new BitmapData(width, height, true, 0x00000000); 
