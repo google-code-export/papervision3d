@@ -2,11 +2,12 @@ package org.papervision3d.core.geom.renderables
 {
 	
 	
+	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
+	
 	import org.papervision3d.core.render.command.IRenderListItem;
 	import org.papervision3d.core.render.command.RenderParticle;
-	import org.papervision3d.materials.special.ParticleMaterial;
-	
-	import flash.geom.Rectangle;	 
+	import org.papervision3d.materials.special.ParticleMaterial;	 
 
 	/**
 	 * This is the single renderable Particle object, used by Particles.as
@@ -29,6 +30,7 @@ package org.papervision3d.core.geom.renderables
 		public var material:ParticleMaterial;
 		public var renderCommand:RenderParticle;
 		public var renderScale:Number;
+		public var drawMatrix : Matrix; 
 		
 		/**
 		 * The rectangle containing the particles visible area in 2D.  
@@ -51,6 +53,7 @@ package org.papervision3d.core.geom.renderables
 			this.renderCommand = new RenderParticle(this);
 			this.renderRect = new Rectangle();
 			vertex3D = new Vertex3D(x,y,z);
+			drawMatrix  = new Matrix(); 
 		}
 		
 		/**

@@ -62,6 +62,7 @@
 		
 		private var vertices:Array;
 		public var particles:Array;
+		private static var _newID : int = 0; 
 		
 		 /**
 		 * @param name				An identifier for this Particles object. 
@@ -70,6 +71,7 @@
 		 	
 		public function Particles(name:String = "Particles")
 		{
+			name = name + _newID++;
 			this.vertices = new Array();
 			this.particles = new Array();
 			
@@ -108,6 +110,8 @@
 				else
 				{	
 					var fz:Number = (renderSessionData.camera.focus*renderSessionData.camera.zoom);
+					
+					//TODO : Shouldn't this be p.renderScale = fz / (fz + p.vertex3D.vertex3DInstance.z);? 
 					p.renderScale = fz / (renderSessionData.camera.focus + p.vertex3D.vertex3DInstance.z);
 				}
 				p.updateRenderRect();
