@@ -30,6 +30,8 @@ package org.papervision3d.materials.special
 			if(source is BitmapData)
 			{
 				bitmap = source as BitmapData;
+				width = bitmap.width; 
+				height = bitmap.height; 
 			} 
 			else if (source is DisplayObject)
 			{
