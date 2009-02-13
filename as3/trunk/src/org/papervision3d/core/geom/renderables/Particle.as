@@ -31,6 +31,7 @@ package org.papervision3d.core.geom.renderables
 		public var renderCommand:RenderParticle;
 		public var renderScale:Number;
 		public var drawMatrix : Matrix; 
+		public var rotationZ : Number = 0; 
 		
 		/**
 		 * The rectangle containing the particles visible area in 2D.  

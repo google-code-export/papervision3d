@@ -25,9 +25,6 @@ package org.papervision3d.core.culling {
 		{
 			vInstance = particle.vertex3D.vertex3DInstance;
 			
-			
-			// TODO I don't trust the speed of the built-in Rectangle.intersects function - 
-			// and have a fast algorithm so I'll write a new intersect function! [Seb]
 			if(particle.material.invisible == false){
 				if(vInstance.visible)
 				{

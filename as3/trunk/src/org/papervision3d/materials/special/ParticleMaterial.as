@@ -23,12 +23,14 @@ package org.papervision3d.materials.special
 		public static var SHAPE_SQUARE:int = 0; 
 		public static var SHAPE_CIRCLE:int = 1;
 				public var shape : int; 
-		public function ParticleMaterial(color:Number, alpha:Number, shape:int = 0 )
+		public var scale : Number ;
+		public function ParticleMaterial(color:Number, alpha:Number, shape:int = 0, scale: Number = 1 )
 		{
 			super();
 			this.shape = shape; 
 			this.fillAlpha = alpha;
 			this.fillColor = color;
+			this.scale = scale; 
 		}
 		
 		public function drawParticle(particle:Particle, graphics:Graphics, renderSessionData:RenderSessionData):void
@@ -60,8 +62,8 @@ package org.papervision3d.materials.special
 				renderrect.width = 1; 
 				renderrect.height = 1; 
 			}else{
-				renderrect.width = particle.renderScale*particle.size;
-				renderrect.height = particle.renderScale*particle.size;
+				renderrect.width = particle.renderScale*particle.size*scale;
+				renderrect.height = particle.renderScale*particle.size*scale;
 			}
 			renderrect.x = particle.vertex3D.vertex3DInstance.x - (renderrect.width/2); 
 			renderrect.y = particle.vertex3D.vertex3DInstance.y - (renderrect.width/2);
