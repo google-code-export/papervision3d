@@ -6,6 +6,9 @@
 	import flash.geom.Rectangle;
 	
 	import org.papervision3d.core.geom.renderables.Particle;
+	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
+	import org.papervision3d.core.math.Number2D;
+	import org.papervision3d.core.math.Number3D;
 	import org.papervision3d.core.math.util.FastRectangleTools;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.IParticleDrawer;
@@ -73,18 +76,39 @@
 			var cullingrect:Rectangle = renderSessionData.viewPort.cullingRectangle;
 			
 			renderRect = FastRectangleTools.intersection(cullingrect, particle.renderRect, renderRect); 
-			//renderRect = cullingrect.intersection(particle.renderRect); 
-			
-			//graphics.lineStyle(0,0xffffff,1); 
+
 			graphics.beginBitmapFill(particleBitmap.bitmap, particle.drawMatrix, false, smooth);
-			graphics.drawRect(renderRect.x, renderRect.y, renderRect.width, renderRect.height);
+			if(particle.rotationZ==0)
+				graphics.drawRect(renderRect.x, renderRect.y, renderRect.width, renderRect.height);
+			else
+			{
+				var p1 : Number2D = new Number2D(particleBitmap.offsetX, particleBitmap.offsetY); 
+				var p2 : Number2D = new Number2D(particleBitmap.offsetX+particleBitmap.width, particleBitmap.offsetY); 
+				var p3 : Number2D = new Number2D(particleBitmap.offsetX+particleBitmap.width, particleBitmap.offsetY+particleBitmap.height); 
+				var p4 : Number2D = new Number2D(particleBitmap.offsetX, particleBitmap.offsetY+particleBitmap.height); 
+				
+				p1.multiplyEq(newscale); 
+				p2.multiplyEq(newscale); 
+				p3.multiplyEq(newscale); 
+				p4.multiplyEq(newscale); 
+				p1.rotate(particle.rotationZ); 
+				p2.rotate(particle.rotationZ); 
+				p3.rotate(particle.rotationZ); 
+				p4.rotate(particle.rotationZ); 
+				var pos : Number2D = new Number2D(particle.vertex3D.vertex3DInstance.x,particle.vertex3D.vertex3DInstance.y); 
+				p1.plusEq(pos); 
+				p2.plusEq(pos); 
+				p3.plusEq(pos); 
+				p4.plusEq(pos); 
+				
+				graphics.moveTo(p1.x, p1.y); 
+				graphics.lineTo(p2.x, p2.y); 
+				graphics.lineTo(p3.x, p3.y); 
+				graphics.lineTo(p4.x, p4.y); 
+			}
+	
 			graphics.endFill();
-			//graphics.lineStyle(); 
-			
-			/*graphics.beginFill(0xff0000,1);
-			graphics.drawCircle(particle.vertex3D.vertex3DInstance.x, particle.vertex3D.vertex3DInstance.y, 3);
-			graphics.endFill(); 
-			*/
+
 			renderSessionData.renderStatistics.particles++;
 			
 		}
@@ -116,19 +140,40 @@
 			var osx:Number = particleBitmap.offsetX * newscale;
 			var osy:Number = particleBitmap.offsetY * newscale;
 			
-			renderrect.x = particle.vertex3D.vertex3DInstance.x + osx;
-			renderrect.y = particle.vertex3D.vertex3DInstance.y + osy;
+			var vertex : Vertex3DInstance = particle.vertex3D.vertex3DInstance;
+			
+			renderrect.x = vertex.x + osx;
+			renderrect.y = vertex.y + osy;
 			
 			renderrect.width = particleBitmap.width * particleBitmap.scaleX * newscale; 
 			renderrect.height = particleBitmap.height * particleBitmap.scaleY * newscale; 
+			
+			
 			
 			var drawMatrix : Matrix = particle.drawMatrix; 
 			
 			drawMatrix.identity(); 
 			
-			drawMatrix.scale(renderrect.width/particleBitmap.width, renderrect.height/particleBitmap.height); 
-			drawMatrix.translate(renderrect.left, renderrect.top); 
+				
+			if(particle.rotationZ!=0) 
+			{	
+				drawMatrix.scale(renderrect.width/particleBitmap.width, renderrect.height/particleBitmap.height); 
+				drawMatrix.translate(osx, osy); 
 			
+				drawMatrix.rotate(particle.rotationZ * Number3D.toRADIANS); 
+				
+				//drawMatrix.translate(osx, osy); 
+				
+				
+				drawMatrix.translate(vertex.x, vertex.y); 
+
+		
+			}
+			else
+			{
+				drawMatrix.scale(renderrect.width/particleBitmap.width, renderrect.height/particleBitmap.height); 
+				drawMatrix.translate(renderrect.left, renderrect.top); 
+			}
 			
 			
 			
