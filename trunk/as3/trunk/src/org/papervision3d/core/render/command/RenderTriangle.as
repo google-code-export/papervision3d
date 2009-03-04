@@ -269,16 +269,16 @@
             if (v0.distanceSqr(v12) < v01.distanceSqr(v2))
             {
                 return [
-                    create(renderableInstance, instance.material,  v0, v01, v12,  uv0, uv01, uv12),
-                    create(renderableInstance, instance.material, v01,  v1, v12, uv01,  uv1, uv12),
-                    create(renderableInstance, instance.material,  v0, v12 , v2,  uv0, uv12, uv2)];
+                    create(renderableInstance, renderer,  v0, v01, v12,  uv0, uv01, uv12),
+                    create(renderableInstance, renderer, v01,  v1, v12, uv01,  uv1, uv12),
+                    create(renderableInstance, renderer,  v0, v12 , v2,  uv0, uv12, uv2)];
             }
             else
             {
                 return [
-                    create(renderableInstance, instance.material,  v0, v01,  v2,  uv0, uv01, uv2),
-                    create(renderableInstance, instance.material, v01,  v1, v12, uv01,  uv1, uv12),
-                    create(renderableInstance, instance.material, v01, v12,  v2, uv01, uv12, uv2)];
+                    create(renderableInstance, renderer,  v0, v01,  v2,  uv0, uv01, uv2),
+                    create(renderableInstance, renderer, v01,  v1, v12, uv01,  uv1, uv12),
+                    create(renderableInstance, renderer, v01, v12,  v2, uv01, uv12, uv2)];
             }
         }	
         
