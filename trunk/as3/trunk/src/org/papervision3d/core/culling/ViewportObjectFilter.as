@@ -28,17 +28,9 @@ package org.papervision3d.core.culling
 		public function testObject(object:DisplayObject3D):int
 		{
 			if(objects[object]){
-				if(_mode == ViewportObjectFilterMode.INCLUSIVE){
-					return 1;
-				}else if(_mode == ViewportObjectFilterMode.EXCLUSIVE){
-					return 0;
-				}
+				return 1-_mode;
 			}else{
-				if(_mode == ViewportObjectFilterMode.INCLUSIVE){
-					return 0;
-				}else if(_mode == ViewportObjectFilterMode.EXCLUSIVE){
-					return 1;
-				}
+				return mode;
 			}
 			return 0;
 		}
