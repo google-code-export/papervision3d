@@ -94,7 +94,7 @@
 					initListeners();
 				}else
 				{
-					container.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
+					container.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage, false, 0, true);
 				}				
 			}
 		}
@@ -106,7 +106,8 @@
 		 */		
 		protected function handleAddedToStage(e:Event):void
 		{			
-			
+			container.removeEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
+
 			initVirtualMouse();			
 			initListeners();
 		}
@@ -127,7 +128,7 @@
 				container.addEventListener(MouseEvent.MOUSE_UP, handleMouseRelease, false, 0, true);
 				container.addEventListener(MouseEvent.CLICK, handleMouseClick, false, 0, true);
 				container.addEventListener(MouseEvent.DOUBLE_CLICK, handleMouseDoubleClick, false, 0, true);
-				container.stage.addEventListener(Event.ENTER_FRAME, handleEnterFrame);
+				container.stage.addEventListener(Event.ENTER_FRAME, handleEnterFrame, false, 0, true);
 				
 			}
 		}
