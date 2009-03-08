@@ -586,7 +586,7 @@ package org.papervision3d.core.utils.virtualmouse
 			originalPoint.y = container.y;
 			container.x = container.y = 0;
 			
-			var objectsUnderPoint:Array = container.getObjectsUnderPoint(location);
+			var objectsUnderPoint:Array = objectsUnderPoint = container.getObjectsUnderPoint(location);;
 			
 			container.x = originalPoint.x;
 			container.y = originalPoint.y;
@@ -595,6 +595,7 @@ package org.papervision3d.core.utils.virtualmouse
 			var currentParent:DisplayObject;
 			
 			var i:int = objectsUnderPoint.length;
+			
 			while (i--) {
 				currentParent = objectsUnderPoint[i];
 				
@@ -642,10 +643,14 @@ package org.papervision3d.core.utils.virtualmouse
 			}
 			
 			
+			
 			// if a currentTarget was not found
 			// the currentTarget is the stage
-			if (!currentTarget){
-				currentTarget = _stage;
+			if (!currentTarget)
+			{
+				//trace("no CurrentTarget", container.hitTestPoint(location.x, location.y));
+				currentTarget = container;
+				//currentTarget = _stage;
 				//log.debug("no new target found, using stage");
 			}
 			
