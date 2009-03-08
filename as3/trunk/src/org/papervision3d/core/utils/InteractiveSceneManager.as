@@ -233,7 +233,7 @@
 		
 		protected function handleMouseOver(DO3D:DisplayObject3D):void
 		{
-			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER, DO3D);
+			if( hasMouseMoved() ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER, DO3D);
 		}
 		
 		/**
@@ -243,6 +243,8 @@
 		 */		
 		protected function handleMouseOut(DO3D:DisplayObject3D):void
 		{
+			if( !hasMouseMoved() ) return;
+			
 			if( DO3D ) 
 			{
 				var mat:MovieMaterial = DO3D.material as MovieMaterial;
@@ -257,6 +259,14 @@
 			_viewportRendered = true; 
 		}
 		
+		protected function hasMouseMoved():Boolean
+		{
+			currentMousePos.x = container.mouseX;
+			currentMousePos.y = container.mouseY;
+		
+			return !currentMousePos.equals(lastMousePos);
+		}
+		
 		/**
 		 * This handles the MOUSE_MOVE event on an InteractiveSprite container
 		 * and replaces handleMouseMove. 
@@ -267,11 +277,8 @@
 		 * 
 		 */		
 		protected function handleEnterFrame(e:Event):void
-		{
-			currentMousePos.x = container.mouseX;
-			currentMousePos.y = container.mouseY;
-		
-			var mousemoved:Boolean = !currentMousePos.equals(lastMousePos); 
+		{		
+			var mousemoved:Boolean = hasMouseMoved();
 			
 			if(mousemoved || _viewportRendered) 
 			{
