@@ -3,7 +3,7 @@
  * @author John Grden
  * 
  */	
-package com.rockonflash.papervision3d.components.collada.core
+package com.rockonflash.components.collada.core
 {
 	import com.blitzagency.xray.logger.XrayLog;
 	
@@ -17,10 +17,13 @@ package com.rockonflash.papervision3d.components.collada.core
 	import org.papervision3d.cameras.*;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.objects.*;
-	//import org.papervision3d.objects.particles.*;
-	import org.papervision3d.scenes.*;
 	import org.papervision3d.objects.parsers.Collada;
+	import org.papervision3d.objects.primitives.Cone;
 	import org.papervision3d.objects.primitives.Cube;
+	import org.papervision3d.objects.primitives.Cylinder;
+	import org.papervision3d.objects.primitives.Plane;
+	import org.papervision3d.objects.primitives.Sphere;
+	import org.papervision3d.scenes.*;
 	
 	/**
 	* Dispatched when the component has been initialized.  This does not include when the scene3d is created or a subsequent collada file is completed
@@ -137,8 +140,8 @@ package com.rockonflash.papervision3d.components.collada.core
 			PreciseBitmapFileMaterial;
 			PreciseBitmapMaterial;
 			PreciseMovieAssetMaterial;
-			PreciseMovieMaterial; */
-			VideoStreamMaterial;
+			PreciseMovieMaterial; 
+			VideoStreamMaterial;*/
 			WireframeMaterial;
 			
 			// objects
@@ -147,21 +150,21 @@ package com.rockonflash.papervision3d.components.collada.core
 			//StarParticle;
 			//Ase;
 			Collada;
-			//Cone;
+			Cone;
 			Cube;
-			//Cylinder;
+			Cylinder;
 			DisplayObject3D;
 			//OldCube;
 			//PaperPlane;
 			//ParticleField;
-			//Plane;
-			//Sphere;
+			Plane;
+			Sphere;
 			//VertexParticles;
 			
 			// cameras
 			Camera3D;
-			FreeCamera3D;
-			FrustumCamera3D;
+			//FreeCamera3D;
+			//FrustumCamera3D;
 			
 			// scenes
 			Scene3D;		

@@ -1,7 +1,8 @@
 ﻿/**
 * @author John Grden
 */
-package org.papervision3d.core.components.as3.flash9 {
+package com.rockonflash.components.collada.view 
+{
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
@@ -10,9 +11,8 @@ package org.papervision3d.core.components.as3.flash9 {
 	import flash.utils.Timer;
 	
 	import org.papervision3d.cameras.Camera3D;
-	import org.papervision3d.cameras.FreeCamera3D;
-	import org.papervision3d.core.components.as3.core.PV3DUIComponent;
-	import org.papervision3d.core.components.as3.utils.CoordinateTools;
+	import com.rockonflash.components.collada.core.PV3DUIComponent;
+	import com.rockonflash.components.collada.utils.CoordinateTools;
 	import org.papervision3d.core.proto.CameraObject3D;
 	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.render.BasicRenderEngine;
@@ -147,7 +147,6 @@ package org.papervision3d.core.components.as3.flash9 {
 		public function set cameraTarget(p_target:DisplayObject3D):void
 		{
 			_cameraTarget = p_target;
-			targetCam.target = _cameraTarget;
 		}
 		/**
 		* @private
@@ -186,12 +185,7 @@ package org.papervision3d.core.components.as3.flash9 {
 	    */	    
 	    protected var timer					:Timer = new Timer(25,0);
 		
-		// cameras
-		/**
-		 * @private 
-	 	*/
-		protected var targetCam				:Camera3D;
-		
+		// cameras		
 		/**
 		 * @private 
 	 	*/
@@ -212,11 +206,6 @@ package org.papervision3d.core.components.as3.flash9 {
 		 * @private 
 	 	*/
 		protected var _autoRenderScene		:Boolean = true;
-		/**
-		 * @private 
-	 	*/
-		protected var freeCam 				:FreeCamera3D;
-
 		/**
 		* The sprite container where the scene will be drawn
 		*/		
@@ -328,17 +317,7 @@ package org.papervision3d.core.components.as3.flash9 {
 	 	*/
 		protected function createCamera(cameraChoice:String):void
 		{
-			switch(cameraChoice)
-			{
-				case "Free":
-					currentCamera3D = freeCam = new FreeCamera3D();
-				break;
-				
-				case "Target":
-					currentCamera3D = targetCam = new Camera3D();
-				break;
-			}
-			
+			currentCamera3D = new Camera3D();
 			currentCamera3D.z = cameraZ;
 			currentCamera3D.zoom = cameraZoom;
 			currentCamera3D.focus = cameraFocus;
