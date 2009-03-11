@@ -1,4 +1,4 @@
-package com.rockonflash.papervision3d.components.collada.collections
+package com.rockonflash.components.collada.collections
 {
 	/**
 	 * MaterialsListItem is used by the component to provided settings for materials to be used in a collada scene.  The 3 Material types it supports are "File", "Bitmap" and "MovieClip".

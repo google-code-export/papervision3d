@@ -1,7 +1,7 @@
 /**
 * @private
 */
-package com.rockonflash.papervision3d.components.collada.utils
+package com.rockonflash.components.collada.utils
 {
 	import flash.display.DisplayObject;
 	import flash.geom.Point;

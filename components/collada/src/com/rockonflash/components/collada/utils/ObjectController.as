@@ -1,4 +1,4 @@
-package com.rockonflash.papervision3d.components.collada.utils
+package com.rockonflash.components.collada.utils
 { 
 
 	/**

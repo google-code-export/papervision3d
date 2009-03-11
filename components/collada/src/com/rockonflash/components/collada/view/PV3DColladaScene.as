@@ -1,7 +1,7 @@
 /**
 * @author John Grden
 */
-package com.rockonflash.papervision3d.components.collada.view
+package com.rockonflash.components.collada.view
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -11,9 +11,9 @@ package com.rockonflash.papervision3d.components.collada.view
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	
-	import org.papervision3d.core.components.as3.collections.MaterialsListItem;
-	import org.papervision3d.core.components.as3.utils.ObjectController;
-	import org.papervision3d.core.components.as3.utils.StageTools;
+	import com.rockonflash.components.collada.collections.MaterialsListItem;
+	import com.rockonflash.components.collada.utils.ObjectController;
+	import com.rockonflash.components.collada.utils.StageTools;
 	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.BitmapAssetMaterial;
@@ -86,7 +86,7 @@ package com.rockonflash.papervision3d.components.collada.view
 	 * </ul>
 	 * 
 	 * </p>
-	 * @see org.papervision3d.core.components.as3.collections.MaterialsListItem
+	 * @see com.rockonflash.components.collada.view.collections.MaterialsListItem
 	 */	
 	public class PV3DColladaScene extends PV3DScene3D
 	{
@@ -264,7 +264,7 @@ package com.rockonflash.papervision3d.components.collada.view
 			return _colladaFile;
 		}
 		
-		[Collection(name="Materials List", collectionClass="fl.data.SimpleDataProvider", collectionItem="org.papervision3d.core.components.as3.collections.MaterialsListItem", identifier="item")]
+		[Collection(name="Materials List", collectionClass="fl.data.SimpleDataProvider", collectionItem="com.rockonflash.components.collada.view.collections.MaterialsListItem", identifier="item")]
 		/**
 		 * @private
 		 */	
@@ -555,11 +555,13 @@ package com.rockonflash.papervision3d.components.collada.view
 			fileLocation = isLivePreview ? _localPath + colladaFile : colladaFile;
 			if(debug) log.debug("fileLocation for collada", fileLocation);
 			
-			collada = scene.addChild( new DAE() ) as DAE;
+			collada = new DAE();
 			collada.addEventListener( Event.COMPLETE, handleLoadComplete );
 			collada.addEventListener( ProgressEvent.PROGRESS, handleLoadProgress );
 			collada.addEventListener( IOErrorEvent.IO_ERROR, handleLoadError);
 			collada.scale = sceneScale;
+			scene.addChild(collada);
+			collada.load(fileLocation, materialsList);
 			/* 
 			if( collada && collada.container ) collada.container.graphics.clear();
 			collada = new Collada(fileLocation, materialsList, sceneScale,{localPath:localPath});
