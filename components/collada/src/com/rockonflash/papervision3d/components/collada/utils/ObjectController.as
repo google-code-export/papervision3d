@@ -1,4 +1,4 @@
-package org.papervision3d.core.components.as3.utils
+package com.rockonflash.papervision3d.components.collada.utils
 { 
 
 	/**

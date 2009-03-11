@@ -3,7 +3,7 @@
  * @author John Grden
  * 
  */	
-package org.papervision3d.core.components.as3.core
+package com.rockonflash.papervision3d.components.collada.core
 {
 	import com.blitzagency.xray.logger.XrayLog;
 	

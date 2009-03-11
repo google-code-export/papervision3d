@@ -1,7 +1,8 @@
 /**
 * @author John Grden
 */
-package org.papervision3d.core.components.as3.flash9 {
+package com.rockonflash.papervision3d.components.collada.view
+{
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -27,59 +28,7 @@ package org.papervision3d.core.components.as3.flash9 {
 	
 	import com.blitzagency.xray.logger.util.PropertyTools;
 	
-	import fl.data.SimpleDataProvider;	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	import fl.data.SimpleDataProvider;
 	
 	/**
 	* Dispatched when the collada file and materials have been completely parsed and loaded.

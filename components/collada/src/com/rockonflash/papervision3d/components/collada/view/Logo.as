@@ -1,7 +1,7 @@
 /**
 * @private
 */
-package org.papervision3d.core.components.as3.flash9
+package com.rockonflash.papervision3d.components.collada.view
 {
 	import flash.display.MovieClip;
 	
