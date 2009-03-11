@@ -4,7 +4,7 @@
 * @version 0.1
 */
 
-package org.papervision3d.core.components.as3.utils 
+package com.rockonflash.papervision3d.components.collada.utils
 {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;
