@@ -3,6 +3,13 @@
 */
 package com.rockonflash.components.collada.view
 {
+	import com.blitzagency.xray.logger.util.PropertyTools;
+	import com.rockonflash.components.collada.collections.MaterialsListItem;
+	import com.rockonflash.components.collada.utils.ObjectController;
+	import com.rockonflash.components.collada.utils.StageTools;
+	
+	import fl.data.SimpleDataProvider;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -11,24 +18,14 @@ package com.rockonflash.components.collada.view
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	
-	import com.rockonflash.components.collada.collections.MaterialsListItem;
-	import com.rockonflash.components.collada.utils.ObjectController;
-	import com.rockonflash.components.collada.utils.StageTools;
-	import org.papervision3d.core.proto.MaterialObject3D;
 	import org.papervision3d.events.FileLoadEvent;
 	import org.papervision3d.materials.BitmapAssetMaterial;
 	import org.papervision3d.materials.BitmapFileMaterial;
-	import org.papervision3d.materials.BitmapMaterial;
 	import org.papervision3d.materials.ColorMaterial;
 	import org.papervision3d.materials.MovieAssetMaterial;
 	import org.papervision3d.materials.MovieMaterial;
 	import org.papervision3d.materials.utils.MaterialsList;
-	import org.papervision3d.objects.DisplayObject3D;
 	import org.papervision3d.objects.parsers.DAE;
-	
-	import com.blitzagency.xray.logger.util.PropertyTools;
-	
-	import fl.data.SimpleDataProvider;
 	
 	/**
 	* Dispatched when the collada file and materials have been completely parsed and loaded.
@@ -264,7 +261,7 @@ package com.rockonflash.components.collada.view
 			return _colladaFile;
 		}
 		
-		[Collection(name="Materials List", collectionClass="fl.data.SimpleDataProvider", collectionItem="com.rockonflash.components.collada.view.collections.MaterialsListItem", identifier="item")]
+		[Collection(name="Materials List", collectionClass="fl.data.SimpleDataProvider", collectionItem="com.rockonflash.components.collada.collections.MaterialsListItem", identifier="item")]
 		/**
 		 * @private
 		 */	
