@@ -42,11 +42,6 @@ package com.rockonflash.components.collada.view
 		
 		// public vars
 		// component UI handlers
-		[Inspectable ( defaultValue="Free", enumeration="Free, Target", type="List", name="Camera Type" )]
-		/**
-		* @private
-		*/		
-		public var cameraType				:String = "Free";
 		
 		[Inspectable ( type="Number", defaultValue=-1000, name="Camera Z")]
 		/**
@@ -172,6 +167,19 @@ package com.rockonflash.components.collada.view
 	    {			
 			return _scene;
 	    }
+	    
+	    override public function set resizeWithStage(p_resize:Boolean):void
+		{
+			_resizeWithStage = p_resize;
+			createViewport();
+			resizeStage();
+		}
+		
+		override public function get resizeWithStage():Boolean
+		{
+			return _resizeWithStage;
+		}
+	    
 	    /**
 	     * The camera used by the component.  FreeCamer3D by default
 	     * @return 
@@ -243,15 +251,22 @@ package com.rockonflash.components.collada.view
 			timer.start();
 		}
 		
+		override protected function manageStageSize():void
+		{
+			super.manageStageSize();
+			if( !viewport ) return; 
+			viewport.scaleX = 1;
+			viewport.scaleY = 1;
+		}
+		
 		/**
 		 * @private 
 	 	*/
 		override protected function configUI():void
 		{
-			log.debug("configUI");
+			if( debug ) log.debug("configUI");
 			if(isLivePreview) 
 			{
-				trace("displayLogo?");
 				displayLogo();
 			}
 			
@@ -269,7 +284,7 @@ package com.rockonflash.components.collada.view
 			addChild(canvas);
 			canvas.addChild(mainCanvas);
 			
-			createCamera(cameraType);
+			createCamera();
 			
 			// create scene object
 			init3D();
@@ -308,14 +323,20 @@ package com.rockonflash.components.collada.view
 		protected function createScene():void
 		{
 			scene = new Scene3D();
-			viewport = new Viewport3D(sceneWidth, sceneHeight, resizeWithStage, true, true, true);
-			addChild(viewport);
+			createViewport();
+		}
+		
+		protected function createViewport():void
+		{
+			if( viewport ) removeChild(viewport);
+			viewport = new Viewport3D(sceneWidth, sceneHeight, true, true, true, true);
+			addChild(viewport);			
 		}
 		
 		/**
 		 * @private 
 	 	*/
-		protected function createCamera(cameraChoice:String):void
+		protected function createCamera():void
 		{
 			currentCamera3D = new Camera3D();
 			currentCamera3D.z = cameraZ;
@@ -330,7 +351,7 @@ package com.rockonflash.components.collada.view
 		{
 			try
 			{		
-				//log.debug("alignStage width/height", (sceneWidth/2) + ", " + (sceneHeight/2));		
+				//if( debug ) log.debug("alignStage width/height", (sceneWidth/2) + ", " + (sceneHeight/2));		
 				mainCanvas.x = sceneWidth/2;//stage.stageWidth/2;
 				mainCanvas.y = sceneHeight/2;//stage.stageHeight/2;
 
@@ -355,7 +376,7 @@ package com.rockonflash.components.collada.view
 	 	*/
 		protected function handleEnterFrame(e:Event):void
 		{
-			//trace("enter frame");
+			//if( debug ) log.debug("enter frame");
 			updateScene();
 		}
 		
@@ -370,7 +391,7 @@ package com.rockonflash.components.collada.view
 				renderer.renderScene(scene, currentCamera3D, viewport);
 			}catch(e:Error)
 			{
-				log.debug("updateScene error", e.message);
+				if( debug ) log.debug("updateScene error", e.message);
 			}
 		}
 	}

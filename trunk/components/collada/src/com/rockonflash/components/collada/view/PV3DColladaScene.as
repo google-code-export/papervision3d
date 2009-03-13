@@ -103,11 +103,6 @@ package com.rockonflash.components.collada.view
 		*/		
 		public static const SCENE_LOAD_ERROR	:String = "sceneLoadError";
 		
-		/**
-		* A boolean flag letting the component know whether or not to show trace output
-		*/		
-		public var debug						:Boolean = true;
-		
 				
 		private var _materialsList						:MaterialsList = new MaterialsList();
 		/**
@@ -182,16 +177,16 @@ package com.rockonflash.components.collada.view
 		 */	
 		override public function set propertyInspectorSetting(p_piSetting:Boolean):void
 		{
-			trace(0);
+			if( debug ) log.debug("propertyInspectorSetting", p_piSetting);
 			_propertyInspectorSetting = p_piSetting;
 			if(!p_piSetting)
 			{
-				trace(1);
+				if( debug ) log.debug("1 isAppInitialized?", isAppInitialized);
 				// if we haven't initialized yet, do so
 				if(!isAppInitialized) initApp();
-				trace(2, isLivePreview);
+				if( debug ) log.debug("2 isLivePreview?", isLivePreview);
 				if(debug) log.debug("********** isLivePreview?", isLivePreview);
-				trace(3, rebuildCollada, collada == null);
+				if( debug ) log.debug("3 rebuildCollada or collada null?", rebuildCollada, collada == null);
 				if(rebuildCollada || collada == null) 
 				{
 					if(debug) log.debug("GO CREATE MATERIALS");
@@ -202,7 +197,6 @@ package com.rockonflash.components.collada.view
 					finalizeColladaLoad();
 				}
 			}
-			if(debug) log.debug("propertyInspectorSetting", p_piSetting);
 		}
 		
 		/**
@@ -267,6 +261,7 @@ package com.rockonflash.components.collada.view
 		 */	
 		public function set extMaterials(p_extMaterials:SimpleDataProvider):void
 		{
+			if(debug) log.debug("EXT MATERIALS SET", p_extMaterials, p_extMaterials.dataProvider.length);
 			if(p_extMaterials.dataProvider.length > 0 && !checkMaterialListsMatch(extMaterials, p_extMaterials)) 
 			{
 				if(debug) log.debug("****** COMPARE", checkMaterialListsMatch(extMaterials, p_extMaterials));
@@ -307,6 +302,11 @@ package com.rockonflash.components.collada.view
 		 */	
 		public function set rotationList(p_rotation:Object):void
 		{
+			if( debug ) 
+			{
+				if( debug ) log.debug("ROTATION", p_rotation);
+				for each( var item:* in p_rotation ) if( debug ) log.debug("ROT ITEM", p_rotation[item], item);
+			}
 			_rotationList = p_rotation;
 		}
 		/**
@@ -448,7 +448,7 @@ package com.rockonflash.components.collada.view
 								var movieClipReference:Sprite = StageTools.buildObjectFromString(materialsListItem.materialLocation) as Sprite;
 								if( !movieClipReference )
 								{
-									trace("please privide a valid MovieClip or sprite instance");
+									if( debug ) log.debug("please privide a valid MovieClip or sprite instance");
 									log.error("please privide a valid MovieClip or sprite instance");
 									break;
 								}
@@ -553,7 +553,7 @@ package com.rockonflash.components.collada.view
 			if(debug) log.debug("fileLocation for collada", fileLocation);
 			
 			collada = new DAE();
-			collada.addEventListener( Event.COMPLETE, handleLoadComplete );
+			collada.addEventListener( FileLoadEvent.LOAD_COMPLETE, handleLoadComplete );
 			collada.addEventListener( ProgressEvent.PROGRESS, handleLoadProgress );
 			collada.addEventListener( IOErrorEvent.IO_ERROR, handleLoadError);
 			collada.scale = sceneScale;
@@ -609,6 +609,8 @@ package com.rockonflash.components.collada.view
 		 */	
 		protected function finalizeColladaLoad():void
 		{			
+			if( debug ) if( debug ) log.debug("FINALIZE COLLADA LOAD", rotationList.pitch, rotationList.yaw, rotationList.roll, sceneRotation);
+			
 			collada.rotationX = rotationList.pitch;
 			collada.rotationY = rotationList.yaw;
 			collada.rotationZ = rotationList.roll;			
@@ -636,7 +638,7 @@ package com.rockonflash.components.collada.view
 		 */	
 		private function showChildren():void
 		{
-			//for each(var item:Object in collada.children) if(debug) trace("collada children: ", item.name);
+			//for each(var item:Object in collada.children) if( debug ) log.debug("collada children: ", item.name);
 		}
 		
 		/**
