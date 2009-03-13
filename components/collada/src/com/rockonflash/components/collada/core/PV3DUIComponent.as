@@ -50,6 +50,12 @@ package com.rockonflash.components.collada.core
 		*/		
 		public var clipContent				:Boolean = false;
 		
+		[Inspectable (name="debug mode", defaultValue=false, type="Boolean")]	
+		/**
+		* A boolean flag letting the component know whether or not to show if( debug ) trace output
+		*/	
+		public var debug						:Boolean = false;
+		
 		[Inspectable ( name="Resize with Stage?", defaultValue=false, type="Boolean" )]
 		/**
 		 * A Boolean flag that allows the component to resize to bottom/right of the stage if set to true.  Remember to set your x/y coordinates as the component will only resize from where you've positioned it on stage.
@@ -87,7 +93,7 @@ package com.rockonflash.components.collada.core
 		*/
 		public var sceneHeight						:Number = 240;
 		
-		private var _resizeWithStage				:Boolean = false;
+		protected var _resizeWithStage				:Boolean = false;
 		/**
 		 * @private 
 	 	*/
@@ -179,7 +185,7 @@ package com.rockonflash.components.collada.core
 		public function set componentInspectorSetting(p_piSetting:Boolean):void
 		{
 			_componentInspectorSetting = p_piSetting;
-			log.debug("componentInspectorSetting", p_piSetting);
+			if( debug ) log.debug("componentInspectorSetting", p_piSetting);
 			if(!_componentInspectorSetting) 
 			{
 				// properties are set, we're ready to init the app
@@ -254,7 +260,7 @@ package com.rockonflash.components.collada.core
 		 */		
 		public function setSize(w:Number, h:Number):void
 		{
-			//log.debug("setSize called", w + ", " + h);
+			if( debug ) log.debug("SET SIZE called", w + ", " + h);
 			width = w;
 			height = h;
 			resizeStage();
@@ -265,14 +271,16 @@ package com.rockonflash.components.collada.core
 	 	*/
 		protected function manageStageSize():void
 		{
-			sceneWidth = resizeWithStage ? stage.stageWidth : width; //super.width;
-			sceneHeight = resizeWithStage ? stage.stageHeight : height; //super.height;
+			if( debug ) log.debug("MANAGE STAGE SIZE", width, height, isLivePreview, resizeWithStage);
+			sceneWidth = resizeWithStage && !isLivePreview ? stage.stageWidth : width; //super.width;
+			sceneHeight = resizeWithStage && !isLivePreview ? stage.stageHeight : height; //super.height;
+			width=sceneWidth;
+			height=sceneHeight;
 			super.scaleX = 1;
 			super.scaleY = 1;
 			scaleX = 1;
 			scaleY = 1;
-			width=sceneWidth;
-			height=sceneHeight;
+			
 		}
 		/**
 		 * @private 
@@ -281,7 +289,7 @@ package com.rockonflash.components.collada.core
 		protected function getStageSize():void
 		{
 			//var values:String = MMExecute("fl.runScript(fl.configURI + \"Commands/papervision3d/setValues.jsfl\", \"getStageSize\");");
-			//trace("stageSize", values);
+			//if( debug ) trace("stageSize", values);
 		}
 		
 		/**
@@ -315,7 +323,7 @@ package com.rockonflash.components.collada.core
 		protected function resizeStage():void
 		{
 			manageStageSize();
-			drawStage();
+			//drawStage();
 			alignStage();
 		}
 		
