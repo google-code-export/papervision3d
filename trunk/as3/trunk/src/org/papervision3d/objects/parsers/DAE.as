@@ -1743,6 +1743,7 @@ package org.papervision3d.objects.parsers
 		protected function onParseAnimationsProgress(event:ProgressEvent):void
 		{
 			PaperLogger.info( "animations #" + event.bytesLoaded + " of " + event.bytesTotal);
+			dispatchEvent(new FileLoadEvent(FileLoadEvent.ANIMATIONS_PROGRESS, this.filename, event.bytesLoaded, event.bytesTotal));
 		}
 		
 		/**
