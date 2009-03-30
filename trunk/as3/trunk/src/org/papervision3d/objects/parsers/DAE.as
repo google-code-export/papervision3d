@@ -1,6 +1,7 @@
 package org.papervision3d.objects.parsers
 {
  	import flash.events.Event;
+ 	import flash.events.IOErrorEvent;
  	import flash.events.ProgressEvent;
  	import flash.system.Capabilities;
  	import flash.utils.ByteArray;
@@ -295,6 +296,8 @@ package org.papervision3d.objects.parsers
 			return null;	
 		}
 		
+		
+		
 		/**
 		 * Loads the COLLADA.
 		 * 
@@ -312,6 +315,7 @@ package org.papervision3d.objects.parsers
 			this.parser = new DaeReader(asynchronousParsing);
 			this.parser.addEventListener(Event.COMPLETE, onParseComplete);
 			this.parser.addEventListener(ProgressEvent.PROGRESS, onParseProgress);
+			this.parser.addEventListener(IOErrorEvent.IO_ERROR, onParseError);
 			
 			if(asset is XML)
 			{
@@ -1639,6 +1643,8 @@ package org.papervision3d.objects.parsers
 				this.parser.removeEventListener(Event.COMPLETE, onParseComplete);
 			if(this.parser.hasEventListener(ProgressEvent.PROGRESS))
 				this.parser.removeEventListener(ProgressEvent.PROGRESS, onParseProgress);
+			if(this.parser.hasEventListener(IOErrorEvent.IO_ERROR))
+				this.parser.removeEventListener(IOErrorEvent.IO_ERROR, onParseError);
 			
 			//may have geometries to be parsed
 			if(document.numQueuedGeometries)
@@ -1767,6 +1773,16 @@ package org.papervision3d.objects.parsers
 			
 			buildMaterials();
 			loadNextMaterial();
+		}
+	
+		/**
+		 * Called on parsing error (invalid file name)
+		 * 
+		 * @param	event
+		 */ 
+		
+		protected function onParseError(event:IOErrorEvent):void{
+			dispatchEvent(event);
 		}
 		
 		/**
