@@ -233,7 +233,7 @@ package org.papervision3d.core.proto
 		{	
 			var persp:Number = (focus*zoom) / (focus);
 			
-			var vector:Number3D = new Number3D(mX/persp, -mY/persp, focus);
+			var vector:Number3D = new Number3D(mX/persp, (yUP?-mY:mY)/persp, focus);
 
 			Matrix3D.multiplyVector3x3(transform, vector);
 			
