@@ -24,8 +24,21 @@
  */
  
 package org.ascollada.io {
-	import org.ascollada.core.DaeDocument;	import org.ascollada.utils.Logger;		import flash.events.Event;	import flash.events.EventDispatcher;	import flash.events.IOErrorEvent;	import flash.events.ProgressEvent;	import flash.events.TimerEvent;	import flash.net.URLLoader;	import flash.net.URLRequest;	import flash.utils.Timer;	
-	/**
+	import org.ascollada.core.DaeDocument;
+	import org.ascollada.utils.Logger;
+	
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.events.IOErrorEvent;
+	import flash.events.ProgressEvent;
+	import flash.events.TimerEvent;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.utils.Timer;
+	import flash.display.Loader;	
+
+	/**
+	 * @author Tim Knip
 	 * 
 	 */
 	public class DaeReader extends EventDispatcher
@@ -57,11 +70,9 @@ package org.ascollada.io {
 			//*** add geomTimer stuff here... 
 			if( _animTimer.running )
 				_animTimer.stop();
-				
+			
 			var loader:URLLoader = new URLLoader();
-			loader.addEventListener( Event.COMPLETE, completeHandler,false, 0, true );
-			loader.addEventListener( ProgressEvent.PROGRESS, progressHandler,false, 0, true );
-			loader.addEventListener( IOErrorEvent.IO_ERROR, handleIOError,false, 0, true );
+			addListenersToLoader(loader);
 			loader.load( new URLRequest(filename) );
 		}
 		
@@ -126,6 +137,7 @@ package org.ascollada.io {
 			var loader:URLLoader = event.target as URLLoader;
 			
 			Logger.log( "complete!" );
+			removeListenersFromLoader(loader);
 
 			loadDocument( loader.data );
 		}
@@ -140,6 +152,7 @@ package org.ascollada.io {
 		
 		private function handleIOError( event:IOErrorEvent ):void
 		{
+			removeListenersFromLoader(URLLoader(event.target));
 			dispatchEvent(event);
 		}
 		
@@ -182,6 +195,22 @@ package org.ascollada.io {
 				dispatchEvent( new ProgressEvent(ProgressEvent.PROGRESS, false, false, _numGeometries - this.document.numQueuedGeometries, _numGeometries) );
 				_geomTimer.start();
 			}
+		}
+		
+		// added by harveysimon
+		
+		private function addListenersToLoader(loader:URLLoader):void
+		{
+			loader.addEventListener( Event.COMPLETE, completeHandler );
+			loader.addEventListener( ProgressEvent.PROGRESS, progressHandler );
+			loader.addEventListener( IOErrorEvent.IO_ERROR, handleIOError );
+		}
+		
+		private function removeListenersFromLoader(loader:URLLoader):void
+		{
+			loader.removeEventListener( Event.COMPLETE, completeHandler );
+			loader.removeEventListener( ProgressEvent.PROGRESS, progressHandler );
+			loader.removeEventListener( IOErrorEvent.IO_ERROR, handleIOError );
 		}
 		
 		private var _numAnimations:uint; 
