@@ -327,10 +327,8 @@
 				else
 					this.useProjectionMatrix = _prevOrthoProjection;
 			}
-			else if(_prevUseProjection != _useProjectionMatrix)
-			{
-				this.useProjectionMatrix = this._useProjectionMatrix;
-			}	
+			
+			this.useProjectionMatrix = this._useProjectionMatrix;	
 			
 			_prevOrtho = this.ortho;
 			_prevUseProjection = _useProjectionMatrix;
@@ -522,6 +520,26 @@
 				0, f, 0, 0,
 				0, 0, -((near+far)/(near-far)), (2*far*near)/(near-far),
 				0, 0, 1, 0 
+			] );
+		}
+		
+		public static function createPerspectiveMatrix2( fov:Number, aspect:Number, zNear:Number, zFar:Number ):Matrix3D
+		{
+			var sine :Number, cotangent :Number, deltaZ :Number;
+    		var radians :Number = (fov / 2) * (Math.PI / 180);
+			
+		    deltaZ = zFar - zNear;
+		    sine = Math.sin(radians);
+		    if ((deltaZ == 0) || (sine == 0) || (aspect == 0)) {
+				return null;
+		    }
+		    cotangent = Math.cos(radians) / sine;
+			
+			return new Matrix3D( [
+				cotangent / aspect, 0, 0, 0,
+				0, cotangent, 0, 0,
+				0, 0, -(zFar + zNear) / deltaZ, -(2 * zFar * zNear) / deltaZ,
+				0, 0, -1, 0
 			] );
 		}
 		
