@@ -232,15 +232,7 @@ package org.papervision3d.core.proto
 		 */ 
 		public function unproject(mX:Number, mY:Number, mZ:Number=0):Number3D
 		{	
-<<<<<<< .mine
-			var vector:Number3D;
-=======
-			var persp:Number = (focus*zoom) / (focus);
-			
-			var vector:Number3D = new Number3D(mX/persp, (yUP?-mY:mY)/persp, focus);
-
-			Matrix3D.multiplyVector3x3(transform, vector);
->>>>>>> .r906
+			var vector : Number3D;
 			
 			if(_useProjectionMatrix)
 			{
