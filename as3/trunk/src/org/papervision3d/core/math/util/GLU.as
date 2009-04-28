@@ -110,7 +110,7 @@ package org.papervision3d.core.math.util
 			m[10] = -2 / (zFar-zNear);
 			m[12] = tx;
 			m[13] = ty;
-			m[14] = -tz;
+			m[14] = tz;
 
 			return true;
 		}

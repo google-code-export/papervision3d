@@ -265,13 +265,13 @@ package org.papervision3d.core.proto
 					var scale : Array = new Array(16);
 					var tmp : Array = new Array(16);
 					
-					GLU.ortho(tmp, viewport.width/2, -viewport.width/2, -viewport.height/2, viewport.height/2, -near, far);
+					GLU.ortho(tmp, viewport.width/2, -viewport.width/2, -viewport.height/2, viewport.height/2, far, near);
 					GLU.scale(scale, _orthoScale, _orthoScale, 1);
 					GLU.multMatrices(scale, tmp, projection);
 				}
 				else
 				{
-					GLU.perspective(projection, fov, viewport.width/viewport.height, near, far);
+					GLU.perspective(projection, fov, viewport.width/viewport.height, -near, -far);
 				}
 				GLU.unProject(-mX, mY, mZ, world, projection, vp, out);
 				
