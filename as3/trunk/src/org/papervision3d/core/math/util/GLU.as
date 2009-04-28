@@ -98,6 +98,23 @@ package org.papervision3d.core.math.util
 		    return true;			
 		}
 		
+		public static function ortho(m :Array, left:Number, right:Number, top:Number, bottom:Number, zNear:Number, zFar:Number) : Boolean {
+			var tx :Number = (right + left) / (right - left);
+			var ty :Number = (top + bottom) / (top - bottom);
+			var tz :Number = (zFar+zNear) / (zFar-zNear);
+			
+			makeIdentity(m);
+			
+			m[0] = 2 / (right - left);
+			m[5] = 2 / (top - bottom);
+			m[10] = -2 / (zFar-zNear);
+			m[12] = tx;
+			m[13] = ty;
+			m[14] = -tz;
+
+			return true;
+		}
+		
 		public static function perspective(m :Array, fovy : Number, aspect : Number, zNear : Number, zFar : Number) : Boolean {
     		var sine :Number, cotangent :Number, deltaZ :Number;
     		var radians :Number = (fovy / 2) * (Math.PI / 180);
@@ -119,6 +136,14 @@ package org.papervision3d.core.math.util
 		    m[15] = 0;
 		    
 		    return true;
+		}
+		
+		public static function scale(m : Array, sx : Number, sy : Number, sz : Number) : void
+		{
+			makeIdentity(m);
+			m[0] = sx;
+			m[5] = sy;
+			m[10] = sz;
 		}
 		
 		public static function unProject(winx:Number, winy:Number, winz:Number, 
