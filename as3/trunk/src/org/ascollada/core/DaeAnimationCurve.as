@@ -73,6 +73,7 @@ package org.ascollada.core
 		 */
 		public function DaeAnimationCurve( keys:Array = null, keyValues:Array = null ):void
 		{			
+			super(null, null);
 			this.keys = keys || new Array();
 			this.keyValues = keyValues || new Array();
 			this.interpolations = new Array();
