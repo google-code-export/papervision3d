@@ -24,8 +24,8 @@
  */
  
  
-package org.ascollada.fx 
-{
+package org.ascollada.fx {
+	import org.ascollada.core.DaeDocument;	
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeEntity;
 	import org.ascollada.types.DaeColorOrTexture;
@@ -44,9 +44,9 @@ package org.ascollada.fx
 		 * @param	node
 		 * @return
 		 */
-		public function DaeBlinn( node:XML = null ):void
+		public function DaeBlinn( document:DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**
@@ -67,7 +67,7 @@ package org.ascollada.fx
 				switch( child.localName() )
 				{						
 					case ASCollada.DAE_SPECULAR_MATERIAL_PARAMETER:
-						this.specular = new DaeColorOrTexture( child );
+						this.specular = new DaeColorOrTexture(this.document, child);
 						break;
 						
 					case ASCollada.DAE_SHININESS_MATERIAL_PARAMETER:

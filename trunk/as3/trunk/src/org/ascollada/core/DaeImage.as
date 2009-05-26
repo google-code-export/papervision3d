@@ -38,21 +38,32 @@ package org.ascollada.core
 	public class DaeImage extends DaeEntity
 	{
 		/** */
-		public var init_from:String;
+		public var init_from : String;
 		
 		/** */
-		public var bitmapData:BitmapData;
+		public var bitmapData : BitmapData;
 		
 		/**
 		 * 
 		 */
-		public function DaeImage( node:XML = null )
+		public function DaeImage( document : DaeDocument, node:XML = null )
 		{
 			this.init_from = "";
 			
-			super( node );
+			super( document, node );
 		}
-		
+
+		override public function destroy() : void 
+		{
+			super.destroy();
+			
+			if(this.bitmapData)
+			{
+				this.bitmapData.dispose();
+				this.bitmapData = null;
+			}
+		}
+
 		/**
 		 * 
 		 * @param	node
@@ -71,7 +82,7 @@ package org.ascollada.core
 				switch( child.localName() )
 				{
 					case ASCollada.DAE_ASSET_ELEMENT:
-						this.asset = new DaeAsset( child );
+						this.asset = new DaeAsset(this.document, child);
 						break;
 					
 					case ASCollada.DAE_DATA_ELEMENT:

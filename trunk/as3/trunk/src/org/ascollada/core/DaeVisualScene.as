@@ -44,11 +44,11 @@ package org.ascollada.core {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeVisualScene( node:XML = null, yUp:uint = 1 ):void
+		public function DaeVisualScene( document:DaeDocument, node:XML = null, yUp:uint = 1 ):void
 		{
 			_yUp = yUp;
 			
-			super( node );
+			super( document, node );
 		}
 		
 		public function get endTime():Number
@@ -87,7 +87,7 @@ package org.ascollada.core {
 				throw new Error( "require at least 1 <node> element!" );
 				
 			for( var i:int = 0; i < nodeList.length(); i++ )
-				this.nodes.push( new DaeNode(nodeList[i], _yUp) );
+				this.nodes.push( new DaeNode(this.document, nodeList[i], _yUp) );
 				
 			var extraList:XMLList = getNodeList(node, ASCollada.DAE_EXTRA_ELEMENT);		
 			for each( var extraNode:XML in extraList )

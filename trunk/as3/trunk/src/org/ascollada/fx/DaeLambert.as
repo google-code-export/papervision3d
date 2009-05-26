@@ -25,6 +25,7 @@
  
  
 package org.ascollada.fx {
+	import org.ascollada.core.DaeDocument;	
 	import org.ascollada.ASCollada;
 	import org.ascollada.types.DaeColorOrTexture;	
 
@@ -41,9 +42,9 @@ package org.ascollada.fx {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeLambert( node:XML = null ):void
+		public function DaeLambert( document:DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**
@@ -64,11 +65,11 @@ package org.ascollada.fx {
 				switch( child.localName() )
 				{
 					case ASCollada.DAE_AMBIENT_MATERIAL_PARAMETER:
-						this.ambient = new DaeColorOrTexture( child );
+						this.ambient = new DaeColorOrTexture(this.document, child);
 						break;
 						
 					case ASCollada.DAE_DIFFUSE_MATERIAL_PARAMETER:
-						this.diffuse = new DaeColorOrTexture( child );
+						this.diffuse = new DaeColorOrTexture(this.document, child);
 						if( this.diffuse.texture )
 						{
 							

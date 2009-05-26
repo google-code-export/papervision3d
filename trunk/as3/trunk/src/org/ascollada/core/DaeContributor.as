@@ -45,9 +45,9 @@ package org.ascollada.core {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeContributor( node:XML = null ):void
+		public function DaeContributor( document : DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}	
 		
 		/**

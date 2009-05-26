@@ -37,9 +37,9 @@ package org.ascollada.core {
 		/**
 		 * 
 		 */
-		public function DaeInstanceNode( node:XML = null )
+		public function DaeInstanceNode( document:DaeDocument, node:XML = null )
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**

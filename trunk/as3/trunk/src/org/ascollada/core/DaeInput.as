@@ -49,9 +49,9 @@ package org.ascollada.core {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeInput( node:XML = null ):void
+		public function DaeInput( document : DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**

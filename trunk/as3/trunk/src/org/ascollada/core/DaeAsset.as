@@ -57,9 +57,9 @@ package org.ascollada.core {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeAsset( node:XML = null ):void
+		public function DaeAsset( document : DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**
@@ -122,11 +122,11 @@ package org.ascollada.core {
 			this.contributors = new Array();
 			var contribs:XMLList = getNodeList( asset, ASCollada.DAE_CONTRIBUTOR_ASSET_ELEMENT);
 			for each( var contributor:XML in contribs )
-				this.contributors.push( new DaeContributor(contributor) );
+				this.contributors.push( new DaeContributor(this.document, contributor) );
 				
 			if( !this.contributors.length )
 			{
-				var c:DaeContributor = new DaeContributor();
+				var c:DaeContributor = new DaeContributor(this.document);
 				c.author = "Tim Knip";
 				c.authoring_tool = "ASCollada";
 				c.comment = "";

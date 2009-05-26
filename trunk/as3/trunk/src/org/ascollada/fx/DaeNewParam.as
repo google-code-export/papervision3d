@@ -24,6 +24,7 @@
  */
  
 package org.ascollada.fx {
+	import org.ascollada.core.DaeDocument;	
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeEntity;
 	import org.ascollada.utils.Logger;	
@@ -40,9 +41,9 @@ package org.ascollada.fx {
 		 * 
 		 * @param	node
 		 */
-		public function DaeNewParam( node:XML = null )
+		public function DaeNewParam( document:DaeDocument, node:XML = null )
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**
@@ -69,12 +70,12 @@ package org.ascollada.fx {
 				{
 					case ASCollada.DAE_FXCMN_SURFACE_ELEMENT:
 						this.type = ASCollada.DAE_FXCMN_SURFACE_ELEMENT;
-						this.surface = new DaeSurface( child );
+						this.surface = new DaeSurface(this.document, child);
 						break;
 						
 					case ASCollada.DAE_FXCMN_SAMPLER2D_ELEMENT:
 						this.type = ASCollada.DAE_FXCMN_SAMPLER2D_ELEMENT;
-						this.sampler2D = new DaeSampler2D( child );
+						this.sampler2D = new DaeSampler2D(this.document, child);
 						break;
 						
 					default:

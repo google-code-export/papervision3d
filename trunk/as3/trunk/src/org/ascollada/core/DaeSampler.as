@@ -26,17 +26,35 @@
 package org.ascollada.core {
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeEntity;	
+	import org.ascollada.namespaces.collada;
 
 	/**
 	 * 
 	 */
 	public class DaeSampler extends DaeEntity
 	{	
+		use namespace collada;
+		
 		/**  */
 		public var type:String;
 		
 		/**  */
 		public var values:Array;
+		
+		/** */
+		public var input : DaeSource;
+		
+		/** */
+		public var output : DaeSource;
+		
+		/** */
+		public var interpolation : DaeSource;
+		
+		/** */
+		public var in_tangent : DaeSource;
+		
+		/** */
+		public var out_tangent : DaeSource;
 		
 		/**
 		 * 
@@ -44,11 +62,23 @@ package org.ascollada.core {
 		 *  
 		 * @return
 		 */
-		public function DaeSampler( node:XML ):void
+		public function DaeSampler( document:DaeDocument, node:XML ):void
 		{
-			super( node );
+			super( document, node );
 		}
-		
+
+		/**
+		 * 
+		 */
+		override public function destroy() : void {
+			super.destroy();
+			this.input = null;
+			this.output = null;
+			this.interpolation = null;
+			this.in_tangent = null;
+			this.out_tangent = null;
+		}
+
 		/**
 		 * 
 		 * @param	node
@@ -60,6 +90,39 @@ package org.ascollada.core {
 				throw new Error( "expected a '" + ASCollada.DAE_SAMPLER_ELEMENT + "' element" );
 				
 			super.read( node );
+			
+			var list : XMLList = node["input"];
+			var child : XML;
+			var input : DaeInput;
+			var num : int = list.length();
+			var i : int;
+			
+			for(i = 0; i < num; i++) {
+				child = list[i];
+				
+				input = new DaeInput(this.document, child);
+				
+				switch(input.semantic) {
+					case "INPUT":
+						this.input = this.document.sources[input.source];
+						break;
+					case "OUTPUT":
+						this.output = this.document.sources[input.source];
+						break;
+					case "INTERPOLATION":
+						this.interpolation = this.document.sources[input.source];
+						break;
+					case "IN_TANGENT":
+						this.in_tangent = this.document.sources[input.source];
+						break;
+					case "OUT_TANGENT":
+						this.out_tangent = this.document.sources[input.source];
+						break;
+					default:
+						trace("[DaeSampler] unhandled semantic: " + input.semantic);
+						break;			
+				}
+			}
 		}
 		
 	}

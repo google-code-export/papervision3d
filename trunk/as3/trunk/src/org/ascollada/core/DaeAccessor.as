@@ -52,9 +52,9 @@ package org.ascollada.core {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeAccessor( node:XML = null ):void
+		public function DaeAccessor( document : DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}	
 		
 		/**

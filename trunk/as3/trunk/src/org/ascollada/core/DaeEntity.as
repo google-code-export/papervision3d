@@ -24,6 +24,8 @@
  */
  
 package org.ascollada.core {
+	import flash.events.EventDispatcher;	
+	
 	import org.ascollada.ASCollada;
 	import org.ascollada.namespaces.*;
 	import org.ascollada.utils.StringUtil;	
@@ -31,8 +33,8 @@ package org.ascollada.core {
 	/**
 	 * 
 	 */
-	public class DaeEntity {
-		
+	public class DaeEntity extends EventDispatcher {
+
 		/** */
 		public var id:String;
 		
@@ -51,14 +53,26 @@ package org.ascollada.core {
 		/** */
 		public var async:Boolean;
 		
+		/** */
+		public var document : DaeDocument;
+
 		/**
 		 * 
 		 * @param	node
 		 */
-		public function DaeEntity( node:XML = null, async:Boolean = false ) {
+		public function DaeEntity( document : DaeDocument, node:XML = null, async:Boolean = false ) {
+			super();
+			this.document = document;
 			this.async = async;
 			if( node )
 				read( node );
+		}
+		
+		/**
+		 * 
+		 */
+		public function destroy() : void {
+			this.document = null;	
 		}
 		
 		/**
@@ -118,7 +132,11 @@ package org.ascollada.core {
 		public function getFloats( node:XML ):Array {
 			var arr:Array = getStrings( node );
 			for( var i:int = 0; i < arr.length; i++ )
-				arr[i] = parseFloat(arr[i]);
+			{
+				var s : String = arr[i];
+				s = s.replace(/,/, ".");
+				arr[i] = parseFloat(s);
+			}
 			return arr;
 		}
 		

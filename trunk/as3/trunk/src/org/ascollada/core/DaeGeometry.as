@@ -46,9 +46,9 @@ package org.ascollada.core
 		 * 
 		 * @param	node
 		 */
-		public function DaeGeometry( node:XML = null, async:Boolean = false )
+		public function DaeGeometry( document:DaeDocument, node:XML = null, async:Boolean = false )
 		{
-			super( node, async );
+			super( document, node, async );
 		}
 		
 		/**
@@ -83,17 +83,17 @@ package org.ascollada.core
 			
 			switch( meshNode.localName() ) 	{
 				case ASCollada.DAE_CONVEX_MESH_ELEMENT:
-					this.convex_mesh = new DaeConvexMesh( this, meshNode );
+					this.convex_mesh = new DaeConvexMesh(this.document, this, meshNode );
 					break;
 				case ASCollada.DAE_MESH_ELEMENT:
-					this.mesh = new DaeMesh( this, meshNode );
+					this.mesh = new DaeMesh(this.document, this, meshNode );
 					break;
 				case ASCollada.DAE_SPLINE_ELEMENT:
-					this.spline = new DaeSpline( meshNode );
+					this.spline = new DaeSpline(this.document, meshNode );
 					var lst:XMLList = getNodeList(node, ASCollada.DAE_SPLINE_ELEMENT);
 					var num:int = lst.length();
 					for( var i:int = 0; i < num; i++ )
-						this.splines.push(new DaeSpline(lst[i]));
+						this.splines.push(new DaeSpline(this.document, lst[i]));
 					break;
 				default:
 					break;

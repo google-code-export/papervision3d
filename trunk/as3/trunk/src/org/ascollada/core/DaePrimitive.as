@@ -54,9 +54,9 @@ package org.ascollada.core {
 		 * @param	node
 		 * @return
 		 */
-		public function DaePrimitive( mesh:DaeMesh, node:XML = null ):void {
+		public function DaePrimitive( document:DaeDocument, mesh:DaeMesh, node:XML = null ):void {
 			this.mesh = mesh;
-			super(node);
+			super(document, node);
 		}
 		
 		/** normals */
@@ -106,7 +106,7 @@ package org.ascollada.core {
 			
 			switch( String(parent.localName()) ) {
 				case ASCollada.DAE_MESH_ELEMENT:
-					switch(node.name().localName.toString())
+					switch(node.localName() as String)
 					{
 						case ASCollada.DAE_POLYGONS_ELEMENT:
 							parsePolygons(node);
@@ -135,26 +135,38 @@ package org.ascollada.core {
 			var inputs:Array = new Array();
 			var input:DaeInput;
 			var maxoffset:uint = 0;
-
+			var source : DaeSource;
+			
 			if( vcountNode is XML )
 			{
 				this.vcount = getInts( vcountNode );
 			}
 			for each( var inputNode:XML in inputList ) {
-				input = new DaeInput( inputNode );
+				input = new DaeInput(this.document, inputNode );
 				maxoffset = Math.max(maxoffset, input.offset + 1);
 				inputs.push( input );
+				
 				_inputs[ input ] = new Array();
+				
+				if(this.mesh.vertices.id == input.source)
+				{
+					this.document.sources[input.source] = this.mesh.vertices.source;
+				}
 			}
 			
 			for( var i:int = 0; i < p.length; i += maxoffset ) {
 				for each( input in inputs ) {
 					var idx:int = p[i + input.offset];
-					var values:Array = mesh.sources[input.source];
+					
+					source = this.document.sources[ input.source ];
+					
+					var values:Array = source.values;
 					
 					switch( input.semantic ) {
 						case "VERTEX":
 							_inputs[ input ].push( idx );
+							break;
+						case "NORMAL":
 							break;
 						default:
 							_inputs[ input ].push( values[idx] );
@@ -175,12 +187,18 @@ package org.ascollada.core {
 			
 			for(i = 0; i < inputList.length(); i++) 
 			{
-				input = new DaeInput(inputList[i]);
+				input = new DaeInput(this.document, inputList[i]);
 	
 				maxoffset = Math.max(maxoffset, input.offset + 1);
 				
 				inputs.push( input );
+				
 				_inputs[ input ] = new Array();
+				
+				if(this.mesh.vertices.id == input.source)
+				{
+					this.document.sources[input.source] = this.mesh.vertices.source;
+				}
 			}
 			
 			for each(var pNode:XML in pList) 
@@ -192,7 +210,7 @@ package org.ascollada.core {
 					for each(input in inputs) 
 					{
 						var idx:int = p[i + input.offset];
-						var values:Array = mesh.sources[input.source];
+						var values:Array = this.document.sources[input.source].values;
 						
 						switch( input.semantic ) {
 							case "VERTEX":
@@ -231,11 +249,11 @@ package org.ascollada.core {
 		 * @param	semantic
 		 * @return
 		 */
-		private function getFirstInput( semantic:String ):Array
+		public function getFirstInput( semantic:String ):Array
 		{
 			for( var input:* in _inputs ) 
 			{
-				if( input.semantic == semantic )
+				if( input["semantic"] == semantic )
 					return _inputs[ input ];
 			}
 			return null;
@@ -251,7 +269,7 @@ package org.ascollada.core {
 			if( getInputCount(semantic) == 1 )
 				return getFirstInput(semantic);
 			for( var input:* in _inputs ) {
-				if( input.semantic == semantic && input.setId == setID )
+				if( input["semantic"] == semantic && input["setId"] == setID )
 					return _inputs[ input ];
 			}
 			return new Array();
@@ -267,7 +285,7 @@ package org.ascollada.core {
 			var cnt:uint = 0;
 			for( var input:* in _inputs ) 
 			{
-				if( input.semantic == semantic )
+				if( input["semantic"] == semantic )
 					cnt++;
 			}
 			return cnt;
