@@ -32,17 +32,25 @@ package org.ascollada.core {
 	 */
 	public class DaeVertices extends DaeEntity {
 		
-		public var inputs:Object;
-		
+		public var source : DaeSource;
+
 		/**
 		 * 
 		 * @param	node
 		 * @return
 		 */
-		public function DaeVertices( node:XML = null ):void {
-			super(node);
+		public function DaeVertices( document:DaeDocument, node:XML = null ):void {
+			super(document, node);
 		}
-		
+
+		/**
+		 * 
+		 */
+		override public function destroy() : void {
+			super.destroy();
+			this.source = null;
+		}
+
 		/**
 		 * 
 		 * @return
@@ -52,16 +60,6 @@ package org.ascollada.core {
 				throw new Error( "expected a '" + ASCollada.DAE_VERTICES_ELEMENT + "' element" );
 			
 			super.read(node);
-			
-			this.inputs = new Object();
-			
-			var inputList:XMLList = getNodeList( node, ASCollada.DAE_INPUT_ELEMENT );
-			var numInputs:uint = inputList.length();
-			
-			for( var i:int = 0; i < numInputs; i++ ) {
-				var input:DaeInput = new DaeInput(inputList[i]);				
-				this.inputs[ input.semantic ] = input;
-			}
 		}
 	}
 }

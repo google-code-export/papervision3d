@@ -24,6 +24,7 @@
  */
  
 package org.ascollada.types {
+	import org.ascollada.core.DaeDocument;	
 	import org.ascollada.core.DaeEntity;
 	import org.ascollada.fx.DaeTexture;	
 
@@ -46,10 +47,10 @@ package org.ascollada.types {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeColorOrTexture( node:XML = null ):void
+		public function DaeColorOrTexture( document:DaeDocument, node:XML = null ):void
 		{
 			this.type = TYPE_COLOR;
-			super( node );
+			super( document, node );
 		}
 		
 		/**
@@ -77,7 +78,7 @@ package org.ascollada.types {
 					
 					case "texture":
 						this.type = TYPE_TEXTURE;
-						this.texture = new DaeTexture( child );
+						this.texture = new DaeTexture(this.document, child);
 						
 						return;
 						

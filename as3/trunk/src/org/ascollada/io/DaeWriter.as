@@ -66,10 +66,10 @@ package org.ascollada.io
 		{
 			if( !asset )
 			{
-				asset = new DaeAsset();
+				asset = new DaeAsset(null);
 				asset.contributors = new Array();
 				
-				var contributor:DaeContributor = new DaeContributor();
+				var contributor:DaeContributor = new DaeContributor(null);
 				contributor.author = "Tim Knip";
 				contributor.authoring_tool = "Papervision3D version " + Papervision3D.VERSION;
 				contributor.comment = "ExportTriangles=1;";
@@ -80,12 +80,12 @@ package org.ascollada.io
 			return asset.write(indent);
 		}
 		
-		private function writeSimpleEndElement( nodeName:String, indent:String = "" ):String
+		protected function writeSimpleEndElement( nodeName:String, indent:String = "" ):String
 		{
 			return indent + '</' + nodeName + '>\n';
 		}
 		
-		private function writeSimpleStartElement( nodeName:String, indent:String = "" ):String
+		protected function writeSimpleStartElement( nodeName:String, indent:String = "" ):String
 		{
 			return indent + '<' + nodeName + '>\n';
 		}

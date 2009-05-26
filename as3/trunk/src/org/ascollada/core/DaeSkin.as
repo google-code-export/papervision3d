@@ -61,9 +61,9 @@ package org.ascollada.core {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeSkin( node:XML = null ):void
+		public function DaeSkin( document:DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**
@@ -182,22 +182,22 @@ package org.ascollada.core {
 				throw new Error( "need exactly one <vertex_weights> element!" );
 			
 			var jointsList:XMLList = getNodeList(jointsNode, ASCollada.DAE_INPUT_ELEMENT);
-			var weights:DaeVertexWeights = new DaeVertexWeights( weightsNode );
+			var weights:DaeVertexWeights = new DaeVertexWeights(this.document, weightsNode );
 			
 			var srcNode:XML;
 			var input:DaeInput;
 			
 			// fetch sources for <joints>
 			var src:DaeSource;
-			var sources:Object = new Object();
+			//var sources:Object = new Object();
 			for each( var inputNode:XML in jointsList )
 			{
-				input = new DaeInput( inputNode );
+				input = new DaeInput(this.document, inputNode );
 				srcNode = getNodeById(node, ASCollada.DAE_SOURCE_ELEMENT, input.source);
 				if( !srcNode )
 					throw new Error( "source not found! (id='" + input.source + "')" );
 				
-				src = new DaeSource( srcNode );
+				src = new DaeSource(this.document, srcNode);
 				
 				switch( input.semantic )
 				{
@@ -229,7 +229,7 @@ package org.ascollada.core {
 				if( !srcNode )
 					throw new Error( "source not found! (id='" + input.source + "')" );
 					
-				src = new DaeSource( srcNode );
+				src = new DaeSource(this.document, srcNode);
 				
 				switch( input.semantic )
 				{	
@@ -283,7 +283,7 @@ package org.ascollada.core {
 		 * 
 		 * @param	blendWeights	the weights to normalize.
 		 */
-		private function normalizeBlendWeights( blendWeights:Array ):void
+		public function normalizeBlendWeights( blendWeights:Array ):void
 		{
 			var i:int, j:int;
 						

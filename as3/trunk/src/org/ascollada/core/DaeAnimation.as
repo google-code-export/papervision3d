@@ -27,20 +27,25 @@ package org.ascollada.core {
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeChannel;
 	import org.ascollada.core.DaeEntity;
-	import org.ascollada.core.DaeInput;
 	import org.ascollada.core.DaeSampler;
 	import org.ascollada.core.DaeSource;	
-
+	import org.ascollada.namespaces.collada;
+	import org.ascollada.types.DaeAddressSyntax;	
+	
 	/**
 	 * 
 	 */
 	public class DaeAnimation extends DaeEntity
 	{	
+		use namespace collada;
+		
 		/** channels */
 		public var channels:Array;
 		
-		// child animations
+		/** child animations */
 		public var animations:Array;
+		
+		private static var _newID : int = 0;
 		
 		/**
 		 * 
@@ -48,9 +53,9 @@ package org.ascollada.core {
 		 * 
 		 * @return
 		 */
-		public function DaeAnimation( node:XML = null ):void
+		public function DaeAnimation( document : DaeDocument, node:XML = null ):void
 		{			
-			super( node );
+			super( document, node );
 		}
 				
 		/**
@@ -62,75 +67,63 @@ package org.ascollada.core {
 		{				
 			this.animations = new Array();
 			this.channels = new Array();
+			var samplers : Array = new Array();
 			
 			if( node.localName() != ASCollada.DAE_ANIMATION_ELEMENT )
 				throw new Error( "expected a '" + ASCollada.DAE_ANIMATION_ELEMENT + "' element" );
 				
 			super.read( node );
 			
-			parseAnimation( node );
-		}
-		
-		/**
-		 * 
-		 * @param	animationNode
-		 * @return
-		 */
-		private function parseAnimation( node:XML ):void
-		{
-			var animationList:XMLList = getNodeList(node, ASCollada.DAE_ANIMATION_ELEMENT);
-			var channelList:XMLList = getNodeList(node, ASCollada.DAE_CHANNEL_ELEMENT);
-			var samplerList:XMLList = getNodeList(node, ASCollada.DAE_SAMPLER_ELEMENT);
+			this.id = (this.id && this.id.length) ? this.id : "animation_" + (_newID++);
+
+			node.@id = this.id;
 			
-			if( animationList.length() > 0 )
-			{
-				for each( var animationNode:XML in animationList )
-					this.animations.push( new DaeAnimation(animationNode) );
+			var list : XMLList = node.children();
+			var child : XML;
+			var num : int = list.length();
+			var i : int;
+			
+			for(i = 0; i < num; i++) {
+				child = list[i];
+				
+				switch(child.localName() as String) {
+					case "animation":
+						this.animations.push(new DaeAnimation(this.document, child));
+						break;
+					
+					case "channel":
+						this.channels.push(new DaeChannel(this.document, child));
+						break;
+					
+					case "sampler":
+						samplers.push(new DaeSampler(this.document, child));
+						break;
+								
+					default:
+						break;	
+				}
 			}
-			else if( channelList.length() == 0 )
-				throw new Error( "require at least one <channel> element!" );
 			
-			this.channels = new Array();
-			
-			for each( var channelNode:XML in channelList )
+			if(this.channels.length && this.channels.length == samplers.length) 
 			{
-				var channel:DaeChannel = new DaeChannel(channelNode);
-				
-				var samplerNode:XML = getNodeById(node, ASCollada.DAE_SAMPLER_ELEMENT, channel.source);
-				var inputList:XMLList = getNodeList(samplerNode,ASCollada.DAE_INPUT_ELEMENT);
-				
-				var numCurves:uint = 12;
-				
-				for each( var inputNode:XML in inputList )
-				{
-					var input:DaeInput = new DaeInput( inputNode );
-					var source:DaeSource = new DaeSource( getNodeById(node, ASCollada.DAE_SOURCE_ELEMENT, input.source) );
-						
-					var sampler:DaeSampler = new DaeSampler( samplerNode );
+				var tmp : Array = new Array();
+				for(i = 0; i < this.channels.length; i++) {
+					var channel : DaeChannel = this.channels[i];
 					
-					sampler.type = input.semantic;
-					sampler.values = source.values;
+					channel.sampler = samplers[i];
 					
-					switch( input.semantic )
+					if(channel.sampler.input && channel.sampler.input.values && 
+					   channel.sampler.input.values.length)
 					{
-						case "INTERPOLATION":
-							channel.interpolations = sampler.values;
-							break;
-							
-						case "INPUT":
-							channel.input = sampler.values;
-							break;
-							
-						case "OUTPUT":
-							channel.output = sampler.values;
-							break;
-							
-						default:
-							break;
+						tmp.push(channel);
+						
+						var animID : String = channel.syntax.targetID;
+						
+						this.document.animatables[animID] = this.document.animatables[animID] || new Array();
+						this.document.animatables[animID].push(channel);
 					}
 				}
-				
-				this.channels.push( channel );
+				this.channels = tmp;
 			}
 		}
 	}

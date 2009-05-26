@@ -39,9 +39,9 @@ package org.ascollada.core
 		
 		public var source:String;
 		
-		public var targets:Array;
+		public var targets : DaeSource;
 		
-		public var weights:Array;
+		public var weights : DaeSource;
 		
 		public var method:String;
 		
@@ -50,9 +50,9 @@ package org.ascollada.core
 		 * @param	node
 		 * @return
 		 */
-		public function DaeMorph( node:XML = null ):void
+		public function DaeMorph( document:DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**
@@ -80,28 +80,20 @@ package org.ascollada.core
 		
 			this.targets = this.weights = null;
 			
-			var sources:Object = new Object();
-			var sourceList:XMLList = getNodeList(node, ASCollada.DAE_SOURCE_ELEMENT);
-			for each( var sourceNode:XML in sourceList )
-			{
-				var source:DaeSource = new DaeSource(sourceNode);
-				sources[source.id] = source;
-			}
-			
 			var inputList:XMLList = getNodeList(targetNode, ASCollada.DAE_INPUT_ELEMENT);
 			
 			for each( var inputNode:XML in inputList )
 			{
-				var input:DaeInput = new DaeInput(inputNode);
+				var input:DaeInput = new DaeInput(this.document, inputNode);
 				
 				switch( input.semantic )
 				{
 					case ASCollada.DAE_TARGET_MORPH_INPUT:
-						this.targets = sources[input.source].values;
+						this.targets = this.document.sources[ input.source ];
 						break;
 						
 					case ASCollada.DAE_WEIGHT_MORPH_INPUT:
-						this.weights = sources[input.source].values;
+						this.weights = this.document.sources[ input.source ];
 						break;
 						
 					default:

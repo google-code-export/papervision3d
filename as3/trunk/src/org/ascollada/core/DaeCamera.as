@@ -53,9 +53,9 @@ package org.ascollada.core {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeCamera( node:XML ):void
+		public function DaeCamera( document : DaeDocument, node:XML ):void
 		{
-			super(node);
+			super(document, node);
 		}
 		
 		/**

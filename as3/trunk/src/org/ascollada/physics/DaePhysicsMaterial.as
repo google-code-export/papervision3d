@@ -24,6 +24,7 @@
  */
  
 package org.ascollada.physics {
+	import org.ascollada.core.DaeDocument;	
 	import org.ascollada.core.DaeEntity;	
 
 	/**
@@ -36,8 +37,8 @@ package org.ascollada.physics {
 		 * @param	node
 		 * @return
 		 */
-		public function DaePhysicsMaterial(node:XML = null):void {
-			super(node);
+		public function DaePhysicsMaterial(document:DaeDocument, node:XML = null):void {
+			super(document, node);
 		}
 		
 		/**

@@ -24,6 +24,7 @@
  */
  
 package org.ascollada.types {
+	import org.ascollada.core.DaeDocument;	
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeEntity;	
 
@@ -43,9 +44,9 @@ package org.ascollada.types {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeArray( node:XML = null ):void
+		public function DaeArray( document:DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**

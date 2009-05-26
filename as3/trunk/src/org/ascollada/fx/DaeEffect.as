@@ -23,8 +23,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.ascollada.fx
-{
+package org.ascollada.fx {
+	import org.ascollada.core.DaeDocument;	
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeEntity;
 	import org.ascollada.types.DaeColorOrTexture;
@@ -55,9 +55,9 @@ package org.ascollada.fx
 		 * @param	node
 		 * @return
 		 */
-		public function DaeEffect( node:XML = null ):void
+		public function DaeEffect( document:DaeDocument, node:XML = null ):void
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**
@@ -89,7 +89,7 @@ package org.ascollada.fx
 			var images:XMLList = getNodeList( profile, ASCollada.DAE_IMAGE_ELEMENT );
 			
 			// Creates a new parameter from a constrained set of
-			// types recognizable by all platforms � <float>,
+			// types recognizable by all platforms <float>,
 			// <float2>, <float3>, <float4>, <surface>, and
 			// <sampler2D>, with an additional semantic. 0 or more.
 			var newparams:XMLList = getNodeList( profile, ASCollada.DAE_FXCMN_NEWPARAM_ELEMENT );
@@ -111,7 +111,7 @@ package org.ascollada.fx
 			this.newparams = new Object();
 			for each( var paramNode:XML in newparams )
 			{
-				var p:DaeNewParam = new DaeNewParam( paramNode );
+				var p:DaeNewParam = new DaeNewParam(this.document, paramNode );
 				this.newparams[ p.type ] = p;
 			}
 			
@@ -123,29 +123,29 @@ package org.ascollada.fx
 			if( phong )
 			{
 				Logger.log( " => shader: phong" );
-				this.color = new DaePhong( phong );
+				this.color = new DaePhong(this.document, phong);
 			}
 			else if( lambert )
 			{
 				Logger.log( " => shader: lambert" );
-				this.color = new DaeLambert( lambert );
+				this.color = new DaeLambert(this.document, lambert);
 			}
 			else if( blinn )
 			{
 				Logger.log( " => shader: blinn" );
-				this.color = new DaeBlinn( blinn );
+				this.color = new DaeBlinn(this.document, blinn);
 			}
 			else if( constant )
 			{
 				Logger.log( " => shader: constant" );
-				this.color = new DaeConstant( constant );
+				this.color = new DaeConstant(this.document, constant );
 			}
 			
 			var surface:DaeNewParam = this.newparams[ASCollada.DAE_FXCMN_SURFACE_ELEMENT];
 			var sampler2D:DaeNewParam = this.newparams[ASCollada.DAE_FXCMN_SAMPLER2D_ELEMENT];
 			
 			var ph:DaeLambert = this.color as DaeLambert;
-			if( ph && ph.diffuse.type == DaeColorOrTexture.TYPE_TEXTURE && sampler2D && surface )
+			if( ph && ph.diffuse && ph.diffuse.type == DaeColorOrTexture.TYPE_TEXTURE && sampler2D && surface )
 			{
 				if( sampler2D.sid == ph.diffuse.texture.texture && sampler2D.sampler2D.source == surface.sid )
 				{						

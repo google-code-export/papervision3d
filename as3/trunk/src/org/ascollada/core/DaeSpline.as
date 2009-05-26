@@ -45,9 +45,9 @@ package org.ascollada.core {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeSpline( node:XML ):void
+		public function DaeSpline( document:DaeDocument, node:XML ):void
 		{
-			super( node );
+			super( document, node );
 		}
 		
 		/**
@@ -80,7 +80,7 @@ package org.ascollada.core {
 			
 			for each( inputNode in inputList )
 			{
-				input = new DaeInput( inputNode );
+				input = new DaeInput(this.document, inputNode );
 				
 				switch( input.semantic )
 				{
@@ -89,7 +89,7 @@ package org.ascollada.core {
 						sourceNode = getNodeById( node, ASCollada.DAE_SOURCE_ELEMENT, input.source);
 						if( !sourceNode )
 							throw new Error( "source with id=" + input.source + " not found!" );
-						source = new DaeSource( sourceNode[0] );
+						source = new DaeSource(this.document, sourceNode[0] );
 						this.vertices = source.values;
 						break;
 					

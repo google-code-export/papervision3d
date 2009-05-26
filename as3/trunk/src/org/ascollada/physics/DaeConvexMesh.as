@@ -24,7 +24,7 @@
  */
  
 package org.ascollada.physics {
-	
+	import org.ascollada.core.DaeDocument;	
 	import org.ascollada.ASCollada;
 	import org.ascollada.core.DaeGeometry;
 	import org.ascollada.core.DaeMesh;
@@ -43,8 +43,8 @@ package org.ascollada.physics {
 		 * @param	node
 		 * @return
 		 */
-		public function DaeConvexMesh(geometry:DaeGeometry, node:XML = null):void {
-			super(geometry, node);
+		public function DaeConvexMesh(document:DaeDocument, geometry:DaeGeometry, node:XML = null):void {
+			super(document, geometry, node);
 		}
 		
 		/**

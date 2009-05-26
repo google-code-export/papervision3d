@@ -57,10 +57,14 @@ package org.papervision3d.core.geom {
 			var mesh:TriangleMesh3D = new TriangleMesh3D(this.material, [], [], object.name);
 			
 			if(this.materials)
+			{
 				mesh.materials = this.materials.clone();
+			}
 				
 			if(object.geometry)
+			{
 				mesh.geometry = object.geometry.clone(mesh);
+			}
 				
 			mesh.copyTransform(this);
 			

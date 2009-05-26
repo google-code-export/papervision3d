@@ -43,16 +43,7 @@ package org.ascollada.core {
 		public var syntax:DaeAddressSyntax;
 		
 		/** */
-		public var input:Array;
-		
-		/** */
-		public var output:Array;
-		
-		/** */
-		public var interpolations:Array;
-		
-		/** */
-		public var curves:Array;
+		public var sampler : DaeSampler;
 		
 		/**
 		 * 
@@ -60,11 +51,9 @@ package org.ascollada.core {
 		 *  
 		 * @return
 		 */
-		public function DaeChannel( node:XML ):void
+		public function DaeChannel( document : DaeDocument, node:XML ):void
 		{
-			super( node );
-			
-			this.curves = new Array();
+			super( document, node );
 		}
 		
 		/**
@@ -82,20 +71,7 @@ package org.ascollada.core {
 			this.source = getAttribute(node, ASCollada.DAE_SOURCE_ATTRIBUTE);
 			this.target = getAttribute(node, ASCollada.DAE_TARGET_ATTRIBUTE);
 			
-			this.syntax = DaeAddressSyntax.parseAnimationTarget(this.target);
-		}
-		
-		/**
-		 * 
-		 * @param	dt
-		 */
-		public function update( dt:Number ):Array
-		{
-			if( !this.curves ) return null;
-			var arr:Array = new Array( this.curves.length );
-			for( var i:int = 0; i < this.curves.length; i++ )
-				arr[i] = this.curves[i].evaluate(dt);
-			return arr;
+			this.syntax = DaeAddressSyntax.parse(this.target);
 		}
 	}
 }
