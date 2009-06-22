@@ -91,7 +91,7 @@ package org.ascollada.core {
 				
 			super.read( node );
 			
-			var list : XMLList = node["input"];
+			var list : XMLList = node.input;
 			var child : XML;
 			var input : DaeInput;
 			var num : int = list.length();
