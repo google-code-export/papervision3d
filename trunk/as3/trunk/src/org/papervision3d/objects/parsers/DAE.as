@@ -1322,14 +1322,14 @@ package org.papervision3d.objects.parsers {	import org.papervision3d.core.anima
 				// Each line described by the mesh has two vertices. The first line is formed 
 				// from first and second vertices. The second line is formed from the third and fourth 
 				// vertices and so on.
-				case ASCollada.DAE_LINES_ELEMENT:
+				case ASCollada.DAE_LINES_ELEMENT:					/*
 					for(i = 0; i < daePrimitive.vertices.length; i += 2) 
 					{
 						v0 = geometry.vertices[ daePrimitive.vertices[i] ];
 						v1 = geometry.vertices[ daePrimitive.vertices[i+1] ];
 						t0 = hasUV ? texcoords[  i  ] : new NumberUV();
 						t1 = hasUV ? texcoords[ i+1 ] : new NumberUV();
-					}
+					}					 					 */
 					break;
 					
 				// polygon with *no* holes

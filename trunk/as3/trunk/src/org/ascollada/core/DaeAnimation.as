@@ -28,10 +28,8 @@ package org.ascollada.core {
 	import org.ascollada.core.DaeChannel;
 	import org.ascollada.core.DaeEntity;
 	import org.ascollada.core.DaeSampler;
-	import org.ascollada.core.DaeSource;	
 	import org.ascollada.namespaces.collada;
-	import org.ascollada.types.DaeAddressSyntax;	
-	
+
 	/**
 	 * 
 	 */
