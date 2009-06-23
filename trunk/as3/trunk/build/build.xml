@@ -1,81 +1,107 @@
 <!-- This Ant Build file is included for generating ASDocs and the Papervision3D.swc. Don't expect it to work "out of the box", but feel free to experiment -John Lindquist -->
 <!-- Special thanks to Ryan Taylor (http://www.boostworthy.com/blog/) for helping set this up -->
-<project name="Papervision3D ASDoc Generator" default="generateDocs" basedir="..">  
-	
-	<property name="windowtitle" 	value="Papervision3D Official Documentation"/>
-	<property name="maintitle" 		value="Papervision3D Official Documentation"/>
-	<property name="footer" 		value="http://blog.papervision3d.org"/>
-	
-    <property name="bindir"       	value="${basedir}/bin"                                  />
-    <property name="classesdir"   	value="${basedir}/src"                					/>
-    <property name="docsdir"      	value="${basedir}/docs"        							/>
-    
-	<property name="testdocsdir"    value="${basedir}/testdocs"        						/>
-    <property name="asdoctemplate"  value="${basedir}/asdoc/templates"  	/>
-	
-	
-	
-    <property name="flex3dir"     	value="D:/flexsdk"                      				/>
-    <property name="flex3bindir"  	value="${flex3dir}/bin"                                 />
-    <property name="flex3libsdir" 	value="${flex3dir}/frameworks/libs"                     />
-    <property name="asdoc"        	value="${flex3bindir}/asdoc.exe"                        />
-	<property name="compc"			value="${flex3bindir}/compc.exe"						/>
-	<tstamp prefix="dateStamp">
-	      <format property="date" pattern="MMM d yyyy" offset="-5" unit="hour"/>
-	</tstamp>
-	
-	<!-- Date stamp sytax ' - Last Updated - ''${dateStamp.date}' -->
 
-	
-	<target name="HelloWord"><echo>${dateStamp.date}</echo></target>
-	
- 	<target name="cleanDocs" description="Cleans out the documentation directory.">
- 		<echo>Cleaning out docs from '${docsdir}'...</echo>
- 		<delete includeemptydirs="true">
- 			<fileset dir="${docsdir}" includes="**/*"></fileset>
- 		</delete>
- 	</target>
-	
- 	<target name="cleanTestDocs" description="Cleans out the documentation directory.">
- 		<echo>Cleaning out docs from '${testdocsdir}'...</echo>
- 		<delete includeemptydirs="true">
- 			<fileset dir="${testdocsdir}" includes="**/*"></fileset>
- 		</delete>
- 	</target>
+<!--
+    How to use build.properties file:
 
-	<target name="generateDocs" description="Generates docs" depends="cleanDocs">
-		<echo>Generating documentation for '${docsdir}'...</echo>
-		<exec executable="${asdoc}">
-			<arg line="-source-path ${classesdir}"/>
-			<arg line="-doc-sources ${classesdir}"/>
-			<arg line="-window-title '${windowtitle}'"/>
-			<arg line="-main-title '${maintitle}'"/>
-			<arg line="-footer '${footer}'"/>
-			<arg line="-output '${docsdir}'"/>
-		</exec>
-	</target>
-	
-	<target name="generateTestDocs" description="Generates docs" depends="cleanTestDocs">
-			<echo>Generating test documentation for '${docsdir}'...</echo>
-			<exec executable="${asdoc}">
-				<arg line="-source-path ${classesdir}"/>
-				<arg line="-doc-sources ${classesdir}"/>
-				<arg line="-window-title '${windowtitle}'"/>
-				<arg line="-main-title '${maintitle}'"/>
-				<arg line="-footer '${footer}'"/>
-				<arg line="-output '${testdocsdir}'"/>
-				<arg line="-metadata.date '${dateStamp.date}'"/>
-				<arg line="-templates-path '${asdoctemplate}'"/>
-			</exec>
-		</target>
-	
-	<target name="generateSWC" description="Generates a swc of the Papervision3D library">
-		<echo>Generating swc using '${classesdir}'</echo>
-		<exec executable="${compc}">
-			<arg line="-source-path ${classesdir}"/>
-			<arg line="-output ${bindir}/Papervision3D.swc"/>
-			<arg line="-include-sources ${classesdir}"/>
-		</exec>
-	</target>
-	
+    Your checkout should include a build.template.properties file. This is where
+    variables that change from system to system are stored. Simply rename the file
+    to build.properties and place it in the same directory as your build.xml. When 
+    you run the build.xml it will automatically import the build.properties file.
+
+    Make sure you change the path of the Flex SDK and if you are on a PC you will need
+    to add ".exe" to the asdoc.exe and compc.exe properties.
+-->
+
+<!-- 
+    Modified 6/20/09 by Jesse Freeman
+
+    - Externalized flex3dir, asdoc.exe, compc.exe paths to make build easier to set up
+    across different platforms without having to modify the core build.xml.
+
+    - Modified the default target to call "compile" which includes, docs and swc.
+-->
+
+<project name="Papervision3D ASDoc Generator" default="compile" basedir="..">
+
+    <!-- import our build properties file -->
+    <property file="${basedir}/build/build.properties" />
+
+    <property name="windowtitle" value="Papervision3D Official Documentation" />
+    <property name="maintitle" value="Papervision3D Official Documentation" />
+    <property name="footer" value="http://blog.papervision3d.org" />
+
+    <property name="bindir" value="${basedir}/bin" />
+    <property name="classesdir" value="${basedir}/src" />
+    <property name="docsdir" value="${basedir}/docs" />
+
+    <property name="testdocsdir" value="${basedir}/testdocs" />
+    <property name="asdoctemplate" value="${basedir}/asdoc/templates" />
+
+
+    <property name="flex3bindir" value="${flex3dir}/bin" />
+    <property name="flex3libsdir" value="${flex3dir}/frameworks/libs" />
+    <property name="asdoc" value="${flex3bindir}/${asdoc.exe}" />
+    <property name="compc" value="${flex3bindir}/${compc.exe}" />
+
+    <tstamp prefix="dateStamp">
+        <format property="date" pattern="MMM d yyyy" offset="-5" unit="hour" />
+    </tstamp>
+
+    <target name="compile" description="Creates swc and docs">
+        <antcall target="generateSWC" description="Generates a swc of the Papervision3D library" />
+        <antcall target="generateDocs" description="Generates docs" />
+    </target>
+
+    <target name="cleanDocs" description="Cleans out the documentation directory.">
+        <echo>Cleaning out docs from '${docsdir}'...</echo>
+        <delete includeemptydirs="true">
+            <fileset dir="${docsdir}" includes="**/*">
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="cleanTestDocs" description="Cleans out the documentation directory.">
+        <echo>Cleaning out docs from '${testdocsdir}'...</echo>
+        <delete includeemptydirs="true">
+            <fileset dir="${testdocsdir}" includes="**/*">
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="generateDocs" description="Generates docs" depends="cleanDocs">
+        <echo>Generating documentation for '${docsdir}'...</echo>
+        <exec executable="${asdoc}">
+            <arg line="-source-path ${classesdir}" />
+            <arg line="-doc-sources ${classesdir}" />
+            <arg line="-window-title '${windowtitle}'" />
+            <arg line="-main-title '${maintitle}'" />
+            <arg line="-footer '${footer}'" />
+            <arg line="-output '${docsdir}'" />
+        </exec>
+    </target>
+
+    <target name="generateTestDocs" description="Generates docs" depends="cleanTestDocs">
+        <echo>Generating test documentation for '${docsdir}'...</echo>
+        <exec executable="${asdoc}">
+            <arg line="-source-path ${classesdir}" />
+            <arg line="-doc-sources ${classesdir}" />
+            <arg line="-window-title '${windowtitle}'" />
+            <arg line="-main-title '${maintitle}'" />
+            <arg line="-footer '${footer}'" />
+            <arg line="-output '${testdocsdir}'" />
+            <arg line="-metadata.date '${dateStamp.date}'" />
+            <arg line="-templates-path '${asdoctemplate}'" />
+        </exec>
+    </target>
+
+    <target name="generateSWC" description="Generates a swc of the Papervision3D library">
+        <echo>Generating swc using '${classesdir}'</echo>
+        <exec executable="${compc}">
+            <arg line="-source-path ${classesdir}" />
+            <arg line="-output ${bindir}/Papervision3D.swc" />
+            <arg line="-include-sources ${classesdir}" />
+        </exec>
+    </target>
+
 </project>
