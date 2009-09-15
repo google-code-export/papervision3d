@@ -39,7 +39,7 @@ package org.papervision3d.objects.special {
 			createParticles(particleSize);
 		}
 		
-		private function createParticles(size:Number):void
+		protected function createParticles(size:Number):void
 		{
 			var width2  :Number = fieldWidth /2;
 			var height2 :Number = fieldHeight /2;
