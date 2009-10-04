@@ -1304,7 +1304,7 @@ package org.papervision3d.objects.parsers {	import org.papervision3d.core.anima
 			
 			// texture coords
 			for( i = 0; i < texCoordSet.length; i++ ) 
-			{
+			{				if( !texCoordSet[i] || texCoordSet[i].length < 2) continue;				
 				if(Papervision3D.useRIGHTHANDED)
 				{
 					texcoords.push(new NumberUV(1.0-texCoordSet[i][0], texCoordSet[i][1]));
@@ -1315,8 +1315,7 @@ package org.papervision3d.objects.parsers {	import org.papervision3d.core.anima
 				}
 			}
 			
-			hasUV = (texcoords.length == daePrimitive.vertices.length);
-			
+			hasUV = (texcoords.length == daePrimitive.vertices.length);			
 			switch(daePrimitive.type)
 			{
 				// Each line described by the mesh has two vertices. The first line is formed 
