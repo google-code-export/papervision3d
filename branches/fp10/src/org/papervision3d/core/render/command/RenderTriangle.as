@@ -4,12 +4,6 @@
 	/**
 	 * @Author Ralph Hauwert
 	 */
-	import flash.display.BitmapData;
-	import flash.display.Graphics;
-	import flash.display.Sprite;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3DInstance;
 	import org.papervision3d.core.math.Matrix3D;
@@ -20,7 +14,15 @@
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.materials.BitmapMaterial;
-	import org.papervision3d.materials.MovieMaterial;	
+	import org.papervision3d.materials.MovieMaterial;
+
+	import flash.display.BitmapData;
+	import flash.display.Graphics;
+	import flash.display.GraphicsTrianglePath;
+	import flash.display.IGraphicsData;
+	import flash.display.Sprite;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
 
 	public class RenderTriangle extends RenderableListItem implements IRenderListItem
 	{
@@ -50,6 +52,14 @@
 		//for creating new RT from store.  See TriangleMesh3D createDrawTriangle
 		public var create:Function;
 		
+		
+		//fp 10 stuff
+		public var verticesFP10:Vector.<Number> = new Vector.<Number>();  
+		public var indicesFP10:Vector.<int> = Vector.<int>([0,1,2]); 
+		private var gtp: GraphicsTrianglePath;
+		public var graphicData:Vector.<IGraphicsData>;
+		
+		
 		public function RenderTriangle(triangle:Triangle3D):void
 		{
 			this.triangle = triangle;
@@ -67,7 +77,20 @@
 			
 			this.renderer = triangle.material;
 			
+			graphicData = new Vector.<IGraphicsData>();
+			gtp = new GraphicsTrianglePath(verticesFP10, indicesFP10, triangle.uvtData);
+			graphicData[0] = gtp;
+			
 			update();
+		}
+		
+		public function updateFP10Render() : void {
+			verticesFP10[0] = v0.x; 
+			verticesFP10[1] = v0.y; 
+			verticesFP10[2] = v1.x; 
+			verticesFP10[3] = v1.y; 
+			verticesFP10[4] = v2.x; 
+			verticesFP10[5] = v2.y; 
 		}
 		
 		
