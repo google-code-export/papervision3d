@@ -120,7 +120,6 @@ package org.papervision3d.core.geom.renderables {
 		public var renderCommand:RenderTriangle;
 		
 		private static var _totalFaces:Number = 0;
-		public var uvtData : Vector.<Number>;
 
 		/**
 		* The Face3D constructor lets you create linear textured or solid colour triangles.
@@ -133,7 +132,7 @@ package org.papervision3d.core.geom.renderables {
 		{
 			this.instance = do3dInstance;
 			
-			uvtData = new Vector.<Number>();
+			
 			//Setup this instance
 			//face3DInstance = new Triangle3DInstance(this, do3dInstance);
 			
@@ -225,16 +224,6 @@ package org.papervision3d.core.geom.renderables {
 				uv0 = NumberUV(uvs[0]);
 				uv1 = NumberUV(uvs[1]);
 				uv2 = NumberUV(uvs[2]);
-				
-				uvtData[0] = uv0.u;
-				uvtData[1] = uv0.v;
-				uvtData[2] = 0;
-				uvtData[3] = uv1.u;
-				uvtData[4] = uv1.v;
-				uvtData[5] = 0;
-				uvtData[6] = uv2.u;
-				uvtData[7] = uv2.v;
-				uvtData[8] = 0;
 			}
 			_uvArray = uvs;
 		}
