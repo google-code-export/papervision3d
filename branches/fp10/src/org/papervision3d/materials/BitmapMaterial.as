@@ -8,13 +8,11 @@
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.draw.ITriangleDrawer;
 	import org.papervision3d.materials.utils.PrecisionMode;
-	import org.papervision3d.materials.utils.RenderRecStorage;
 
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
 	import flash.display.GraphicsTrianglePath;
 	import flash.display.IGraphicsData;
-	import flash.display.TriangleCulling;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -33,13 +31,7 @@
 		protected static var hitRect:Rectangle = new Rectangle();
 		
 		
-		protected var renderRecStorage:Array;
-		protected var focus:Number = 200;
 		protected var _precise:Boolean;
-		protected var _precision:int = 8;
-		protected var _perPixelPrecision:int = 8;
-		public var minimumRenderSize:Number = 4;
-		
 		protected var _texture :Object;
 		
 		/**
@@ -86,7 +78,6 @@
 			// if we have an asset passed in, this means we're the subclass, not the super.  Set the texture, let the fun begin.
 			if( asset ) texture = asset;
 			this.precise = precise;
-			createRenderRecStorage();
 			
 			
 			//fp 10 stuff
@@ -99,13 +90,6 @@
 			graphicData[0] = gtp;
 		}
 		
-		protected function createRenderRecStorage():void
-		{
-			this.renderRecStorage = new Array();
-			for(var a:int = 0; a<=100; a++){
-				this.renderRecStorage[a] = new RenderRecStorage();
-			}	
-		}
 		
 		/**
 		* Resets the mapping coordinates. Use when the texture has been resized.
@@ -554,34 +538,6 @@
 			return _precise;
 		}
 		
-		/**
-		 * If the material is rendering with @see precise to true, this sets tesselation per pixel ratio.
-		 */
-		public function set precision(precision:int):void
-		{
-			_precision = precision;
-		}
-		
-		public function get precision():int
-		{
-			return _precision;
-		}
-		
-		/**
-		 * If the material is rendering with @see precise to true, this sets tesselation per pixel ratio.
-		 * 
-		 * corrected to set per pixel precision exactly.
-		 */
-		public function set pixelPrecision(precision:int):void
-		{
-			_precision = precision*precision*1.4;
-			_perPixelPrecision = precision;
-		}
-		
-		public function get pixelPrecision():int
-		{
-			return _perPixelPrecision;
-		}
 		
 		/**
 		* A texture object.
@@ -616,7 +572,6 @@
 			if(bitmap){
 				bitmap.dispose();
 			}
-			this.renderRecStorage = null;
 		}
 			
 	}
