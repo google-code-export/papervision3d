@@ -1,5 +1,26 @@
 ﻿package org.papervision3d.materials {
-	import org.papervision3d.Papervision3D;	import org.papervision3d.core.geom.renderables.Triangle3D;	import org.papervision3d.core.geom.renderables.Vertex3DInstance;	import org.papervision3d.core.log.PaperLogger;	import org.papervision3d.core.material.TriangleMaterial;	import org.papervision3d.core.proto.MaterialObject3D;	import org.papervision3d.core.render.command.RenderTriangle;	import org.papervision3d.core.render.data.RenderSessionData;	import org.papervision3d.core.render.draw.ITriangleDrawer;	import org.papervision3d.materials.utils.PrecisionMode;	import org.papervision3d.materials.utils.RenderRecStorage;	import flash.display.BitmapData;	import flash.display.Graphics;	import flash.geom.Matrix;	import flash.geom.Point;	import flash.geom.Rectangle;	import flash.utils.Dictionary;	/**
+	import org.papervision3d.Papervision3D;
+	import org.papervision3d.core.geom.renderables.Triangle3D;
+	import org.papervision3d.core.log.PaperLogger;
+	import org.papervision3d.core.material.TriangleMaterial;
+	import org.papervision3d.core.proto.MaterialObject3D;
+	import org.papervision3d.core.render.command.RenderTriangle;
+	import org.papervision3d.core.render.data.RenderSessionData;
+	import org.papervision3d.core.render.draw.ITriangleDrawer;
+	import org.papervision3d.materials.utils.PrecisionMode;
+	import org.papervision3d.materials.utils.RenderRecStorage;
+
+	import flash.display.BitmapData;
+	import flash.display.Graphics;
+	import flash.display.GraphicsTrianglePath;
+	import flash.display.IGraphicsData;
+	import flash.display.TriangleCulling;
+	import flash.geom.Matrix;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	import flash.utils.Dictionary;
+
+	/**
 	 * The BitmapMaterial class creates a texture from a BitmapData object.
 	*
 	* Materials collect data about how objects appear when rendered.
@@ -44,6 +65,16 @@
 		*/
 		protected static var _localMatrix:Matrix = new Matrix();
 		
+		
+		
+		//fp 10 stuff
+		public var verticesFP10:Vector.<Number> = new Vector.<Number>(6 , true);  
+		public var indicesFP10:Vector.<int> = new Vector.<int>(3 , true); 
+		private var gtp: GraphicsTrianglePath;
+		public var graphicData:Vector.<IGraphicsData>;
+		public var uvtData : Vector.<Number> = new Vector.<Number>(9 , true);
+		
+		
 		/**
 		* The BitmapMaterial class creates a texture from a BitmapData object.
 		*
@@ -56,6 +87,16 @@
 			if( asset ) texture = asset;
 			this.precise = precise;
 			createRenderRecStorage();
+			
+			
+			//fp 10 stuff
+			indicesFP10[0] = 0;
+			indicesFP10[1] = 1;
+			indicesFP10[2] = 2;
+			
+			graphicData = new Vector.<IGraphicsData>();
+			gtp = new GraphicsTrianglePath(verticesFP10, indicesFP10, uvtData);
+			graphicData[0] = gtp;
 		}
 		
 		protected function createRenderRecStorage():void
@@ -81,15 +122,42 @@
 		private var x1:Number;
 		private var y1:Number;
 		private var x2:Number;
-		private var y2:Number;		private var fl : Number;		private var uvt : Vector.<Number>;
-		/**
+		private var y2:Number;		private var fl : Number;		/**
 		 *  drawTriangle
 		 */
 		override public function drawTriangle(tri:RenderTriangle, graphics:Graphics, renderSessionData:RenderSessionData, altBitmap:BitmapData = null, altUV:Matrix = null):void
 		{
-		//	trace("at drawing triangle???");
+			if(_precise){
+				//Thanks to Alan Pinstein
+				verticesFP10[0] = tri.v0.x; 
+				verticesFP10[1] = tri.v0.y; 
+				verticesFP10[2] = tri.v1.x; 
+				verticesFP10[3] = tri.v1.y; 
+				verticesFP10[4] = tri.v2.x; 
+				verticesFP10[5] = tri.v2.y; 
+				                  
+				fl = renderSessionData.camera.focus; 
+				
+				uvtData[0] = tri.triangle.uv0.u * maxU;
+				uvtData[1] = 1- tri.triangle.uv0.v * maxV;
+				uvtData[2] = fl/(fl+tri.v0.z);
+				uvtData[3] = tri.triangle.uv1.u * maxU;
+				uvtData[4] = 1- tri.triangle.uv1.v * maxV;
+				uvtData[5] = fl/(fl+tri.v1.z);
+				uvtData[6] = tri.triangle.uv2.u * maxU;
+				uvtData[7] = 1- tri.triangle.uv2.v * maxV;
+				uvtData[8] = fl/(fl+tri.v2.z);
+				
+				graphics.beginBitmapFill(bitmap, null, tiled,   smooth); 
+				graphics.drawGraphicsData(graphicData);
+				graphics.endFill(); 
+				renderSessionData.renderStatistics.triangles++; 
+				
+				return;
+			}
+			
 			_triMap = altUV ? altUV : (uvMatrices[tri] || transformUVRT(tri));
-			if(!_precise || !_triMap){
+			if(_triMap){
 				if( lineAlpha )
 					graphics.lineStyle( lineThickness, lineColor, lineAlpha );
 				if( bitmap )
@@ -128,12 +196,9 @@
 				if( lineAlpha )
 					graphics.lineStyle();
 				renderSessionData.renderStatistics.triangles++;
-			}else{
-				if(bitmap){
-					 tri.updateFP10Render();					                  					fl = renderSessionData.camera.focus; 					
-					//Thanks Alan Pinstein					uvt = tri.triangle.uvtData;					uvt[2] = fl/ (fl+tri.v0.z);					uvt[5] = fl/ (fl+tri.v1.z);					uvt[8] = fl/ (fl+tri.v2.z);															graphics.beginBitmapFill(bitmap, null, tiled,   smooth); 					graphics.drawGraphicsData(tri.graphicData);					graphics.endFill(); 					renderSessionData.renderStatistics.triangles++; 				}
 			}
 		}
+		
 		
 		/**
 		* Applies the updated UV texture mapping values to the triangle. This is required to speed up rendering.

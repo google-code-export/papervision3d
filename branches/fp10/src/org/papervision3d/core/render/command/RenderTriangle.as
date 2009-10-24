@@ -53,11 +53,6 @@
 		public var create:Function;
 		
 		
-		//fp 10 stuff
-		public var verticesFP10:Vector.<Number> = new Vector.<Number>();  
-		public var indicesFP10:Vector.<int> = Vector.<int>([0,1,2]); 
-		private var gtp: GraphicsTrianglePath;
-		public var graphicData:Vector.<IGraphicsData>;
 		
 		
 		public function RenderTriangle(triangle:Triangle3D):void
@@ -77,22 +72,9 @@
 			
 			this.renderer = triangle.material;
 			
-			graphicData = new Vector.<IGraphicsData>();
-			gtp = new GraphicsTrianglePath(verticesFP10, indicesFP10, triangle.uvtData);
-			graphicData[0] = gtp;
 			
 			update();
 		}
-		
-		public function updateFP10Render() : void {
-			verticesFP10[0] = v0.x; 
-			verticesFP10[1] = v0.y; 
-			verticesFP10[2] = v1.x; 
-			verticesFP10[3] = v1.y; 
-			verticesFP10[4] = v2.x; 
-			verticesFP10[5] = v2.y; 
-		}
-		
 		
 		
 		override public function render(renderSessionData:RenderSessionData, graphics:Graphics):void
