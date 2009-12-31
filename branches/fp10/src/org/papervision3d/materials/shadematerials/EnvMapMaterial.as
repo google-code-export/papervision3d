@@ -45,10 +45,10 @@ package org.papervision3d.materials.shadematerials
 			super();
 			this.light = light;
 			this.lightMap = lightMap;
-			if(!backenvmap){
+			if(!backEnvMap){
 				this.backenvmap = new BitmapData(1,1,false, ambientColor);
 			}else{
-				this.backenvmap = backenvmap;
+				this.backenvmap = backEnvMap;
 			}
 		}
 		
