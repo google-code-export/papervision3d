@@ -1,4 +1,4 @@
-package org.papervision3d.view.layer {
+﻿package org.papervision3d.view.layer {
 	import flash.display.Graphics;
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
@@ -64,7 +64,7 @@ package org.papervision3d.view.layer {
 		}
 		
 		public function removeDisplayObject3D(do3d:DisplayObject3D):void{
-			displayObjects[do3d] = null;
+			displayObjects[do3d] = null;			for each (var child : DisplayObject3D in do3d)			{				removeDisplayObject3D(child); 			}
 			dispatchEvent(new ViewportLayerEvent(ViewportLayerEvent.CHILD_REMOVED, do3d, this));
 		}
 		
@@ -278,7 +278,7 @@ package org.papervision3d.view.layer {
 			orderLayers();
 		}
 		
-		protected function orderLayers():void{
+		protected function orderLayers():void{						if(sortMode==ViewportLayerSortMode.NONE) return; 			
 			for(var i:int = 0;i<childLayers.length;i++)
 			{
 				var layer : ViewportLayer = childLayers[i]; 
