@@ -1,12 +1,15 @@
 package org.papervision3d.core.animation.channel {
-	import org.papervision3d.core.animation.key.CurveKey3D;	
-	import org.papervision3d.core.animation.curve.Curve3D;	
+	import org.papervision3d.core.animation.curve.Curve3D;
+	import org.papervision3d.core.animation.key.CurveKey3D;
+	import org.papervision3d.objects.DisplayObject3D;	
 	
 	/**
 	 * @author Tim Knip / floorplanner.com
 	 */
 	public class Channel3D 
 	{
+		public var target:DisplayObject3D;
+		
 		/** */
 		public var startTime : Number;
 		

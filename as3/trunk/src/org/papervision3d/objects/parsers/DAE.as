@@ -661,7 +661,7 @@ package org.papervision3d.objects.parsers {	import org.papervision3d.core.anima
 				}
 				
 				if(c) 
-				{
+				{					c.target = object;
 					multiChannel.addChannel(c);
 				} 
 			}
@@ -674,11 +674,11 @@ package org.papervision3d.objects.parsers {	import org.papervision3d.core.anima
 				var matrixChannel : MatrixChannel3D = multiChannel.bake(numSamples);
 				
 				this._animation.addChannel(matrixChannel);
-				
+								matrixChannel.target = object;
 				matrixChannel.transform = object.transform;
 			} 
 			else
-			{
+			{				multiChannel.target = object;
 				this._animation.addChannel(multiChannel);
 			}
 		}
