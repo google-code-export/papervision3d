@@ -73,10 +73,12 @@ package org.papervision3d.objects.primitives {
 		* <p/>
 		* @param	segmentsH	[optional] - Number of segments vertically. Defaults to 6.
 		* <p/>
+		* @param	name		[optional] - Name for the object.
+		* <p/>
 		*/
-		public function Sphere( material:MaterialObject3D=null, radius:Number=100, segmentsW:int=8, segmentsH:int=6 )
+		public function Sphere( material:MaterialObject3D=null, radius:Number=100, segmentsW:int=8, segmentsH:int=6, name:String=null )
 		{
-			super( material, new Array(), new Array(), null );
+			super( material, new Array(), new Array(), name );
 	
 			this.segmentsW = Math.max( MIN_SEGMENTSW, segmentsW || DEFAULT_SEGMENTSW); // Defaults to 8
 			this.segmentsH = Math.max( MIN_SEGMENTSH, segmentsH || DEFAULT_SEGMENTSH); // Defaults to 6
