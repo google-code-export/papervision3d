@@ -142,5 +142,13 @@ package org.papervision3d.core.animation.channel {
 				endTime = Math.max(endTime, endKey.input);
 			}
 		}
+		
+		/**
+		 * Curves.
+		 */ 
+		public function get curves():Array
+		{
+			return _curves;
+		}
 	}
 }
