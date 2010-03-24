@@ -76,7 +76,7 @@ package org.papervision3d.objects.parsers.mocap
 		{
 			material = material || new WireframeMaterial(0xff0000);
 			
-			return new Sphere(material, 2, 3, 2, name);	
+			return new Sphere(material, 4, 3, 2, name);	
 		} 
 		
 		/**
@@ -283,9 +283,9 @@ package org.papervision3d.objects.parsers.mocap
 				var toRadians:Number = Math.PI / 180
 				var curve:Curve3D;
 				
-				matrix.calculateMultiply(matrix, Matrix3D.rotationMatrix(0, 1, 0, ry * toRadians));
-				matrix.calculateMultiply(matrix, Matrix3D.rotationMatrix(1, 0, 0, rx * toRadians));
-				matrix.calculateMultiply(matrix, Matrix3D.rotationMatrix(0, 0, 1, rz * toRadians));
+				matrix.calculateMultiply(Matrix3D.rotationMatrix(0, 1, 0, ry * toRadians), matrix);
+				matrix.calculateMultiply(Matrix3D.rotationMatrix(1, 0, 0, rx * toRadians), matrix);
+				matrix.calculateMultiply(Matrix3D.rotationMatrix(0, 0, 1, rz * toRadians), matrix);
 				matrix.calculateMultiply(Matrix3D.translationMatrix(tx, ty, tz), matrix);
 				
 				var values:Array = [
