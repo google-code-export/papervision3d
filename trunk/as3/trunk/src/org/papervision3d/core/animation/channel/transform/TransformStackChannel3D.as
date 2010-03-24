@@ -130,7 +130,7 @@ package org.papervision3d.core.animation.channel.transform {
 			}
 		}
 
-		override protected function updateStartAndEndTime() : void 
+		override public function updateStartAndEndTime() : void 
 		{
 			var channel : TransformChannel3D;
 			var i : int;

@@ -116,7 +116,7 @@ package org.papervision3d.core.animation.channel {
 			}
 		}
 		
-		protected function updateStartAndEndTime() : void
+		public function updateStartAndEndTime() : void
 		{
 			var curve : Curve3D;
 			
