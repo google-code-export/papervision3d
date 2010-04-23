@@ -233,7 +233,7 @@
 		
 		protected function handleMouseOver(DO3D:DisplayObject3D):void
 		{
-			if( hasMouseMoved() ) dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER, DO3D);
+			dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_OVER, DO3D);
 		}
 		
 		/**
@@ -243,7 +243,6 @@
 		 */		
 		protected function handleMouseOut(DO3D:DisplayObject3D):void
 		{
-			if( !hasMouseMoved() ) return;
 			
 			if( DO3D ) 
 			{
@@ -279,16 +278,17 @@
 		protected function handleEnterFrame(e:Event):void
 		{		
 			var mousemoved:Boolean = hasMouseMoved();
-			
 			if(mousemoved || _viewportRendered) 
 			{
 				
 				updateRenderHitData();
 				_viewportRendered = false; 
 				
+				
 				if( e is IVirtualMouseEvent ) return;
 				if( virtualMouse && renderHitData )
 				{
+					
 					// locate the material's movie
 					var mat:MovieMaterial = currentMaterial as MovieMaterial;
 					
@@ -303,8 +303,11 @@
 					if( virtualMouse.container ) virtualMouse.setLocation(renderHitData.u, renderHitData.v);
 					
 					// update the position mouse3D
-					if( Mouse3D.enabled && renderHitData && renderHitData.hasHit ) mouse3D.updatePosition(renderHitData);
-					
+					if( Mouse3D.enabled && renderHitData && renderHitData.hasHit ) 
+					{
+						mouse3D.updatePosition(renderHitData);
+							
+					}
 					dispatchObjectEvent(InteractiveScene3DEvent.OBJECT_MOVE, currentDisplayObject3D);
 				}
 				else if( renderHitData && renderHitData.hasHit )
