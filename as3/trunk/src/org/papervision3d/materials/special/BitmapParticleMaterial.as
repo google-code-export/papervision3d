@@ -42,17 +42,15 @@
 			if(bitmap is BitmapData) 
 			{
 				
-				particleBitmap = new ParticleBitmap(bitmap as BitmapData)
-				{
-					particleBitmap.scaleX = particleBitmap.scaleY = scale; 
-				}	
+				particleBitmap = new ParticleBitmap(bitmap as BitmapData);
+				particleBitmap.scaleX = particleBitmap.scaleY = scale; 
+					
 						
 				
 				particleBitmap.offsetX = offsetx;
 				particleBitmap.offsetY = offsety;
 			}	
-			else 
-			if(bitmap is ParticleBitmap)
+			else if(bitmap is ParticleBitmap)
 			{
 				particleBitmap = bitmap as ParticleBitmap; 
 				
@@ -71,7 +69,7 @@
 		 
 		override public function drawParticle(particle:Particle, graphics:Graphics, renderSessionData:RenderSessionData):void
 		{
-			var newscale : Number = particle.renderScale*particle.size;
+			var newscale : Number = particle.renderScale * particle.size;
 			
 			var cullingrect:Rectangle = renderSessionData.viewPort.cullingRectangle;
 			
@@ -79,18 +77,25 @@
 
 			graphics.beginBitmapFill(particleBitmap.bitmap, particle.drawMatrix, false, smooth);
 			if(particle.rotationZ==0)
+			{
 				graphics.drawRect(renderRect.x, renderRect.y, renderRect.width, renderRect.height);
+			}
 			else
 			{
 				var p1 : Number2D = new Number2D(particleBitmap.offsetX, particleBitmap.offsetY); 
-				var p2 : Number2D = new Number2D(particleBitmap.offsetX+particleBitmap.width, particleBitmap.offsetY); 
-				var p3 : Number2D = new Number2D(particleBitmap.offsetX+particleBitmap.width, particleBitmap.offsetY+particleBitmap.height); 
+				var p2 : Number2D = new Number2D(particleBitmap.offsetX + particleBitmap.width, particleBitmap.offsetY); 
+				var p3 : Number2D = new Number2D(particleBitmap.offsetX + particleBitmap.width, particleBitmap.offsetY+particleBitmap.height); 
 				var p4 : Number2D = new Number2D(particleBitmap.offsetX, particleBitmap.offsetY+particleBitmap.height); 
 				
-				p1.multiplyEq(newscale); 
-				p2.multiplyEq(newscale); 
-				p3.multiplyEq(newscale); 
-				p4.multiplyEq(newscale); 
+				p1.x *= (particleBitmap.scaleX * newscale); 
+				p1.y *= (particleBitmap.scaleY * newscale); 
+				p2.x *= (particleBitmap.scaleX * newscale); 
+				p2.y *= (particleBitmap.scaleY * newscale); 
+				p3.x *= (particleBitmap.scaleX * newscale); 
+				p3.y *= (particleBitmap.scaleY * newscale); 
+				p4.x *= (particleBitmap.scaleX * newscale); 
+				p4.y *= (particleBitmap.scaleY * newscale); 
+				
 				p1.rotate(particle.rotationZ); 
 				p2.rotate(particle.rotationZ); 
 				p3.rotate(particle.rotationZ); 
@@ -100,7 +105,7 @@
 				p2.plusEq(pos); 
 				p3.plusEq(pos); 
 				p4.plusEq(pos); 
-				
+
 				graphics.moveTo(p1.x, p1.y); 
 				graphics.lineTo(p2.x, p2.y); 
 				graphics.lineTo(p3.x, p3.y); 
@@ -135,7 +140,7 @@
 		{
 			
 			var renderrect:Rectangle = particle.renderRect; 
-			var newscale : Number = particle.renderScale*particle.size;
+			var newscale : Number = particle.renderScale * particle.size;
 			
 			var osx:Number = particleBitmap.offsetX * newscale;
 			var osy:Number = particleBitmap.offsetY * newscale;
@@ -157,20 +162,16 @@
 				
 			if(particle.rotationZ!=0) 
 			{	
-				drawMatrix.scale(renderrect.width/particleBitmap.width, renderrect.height/particleBitmap.height); 
-				drawMatrix.translate(osx, osy); 
-			
+				drawMatrix.translate(particleBitmap.offsetX, particleBitmap.offsetY); 
 				drawMatrix.rotate(particle.rotationZ * Number3D.toRADIANS); 
 				
-				//drawMatrix.translate(osx, osy); 
-				
-				
+				drawMatrix.scale(renderrect.width/particleBitmap.width, renderrect.height/particleBitmap.height); 
 				drawMatrix.translate(vertex.x, vertex.y); 
-
 		
 			}
 			else
 			{
+				
 				drawMatrix.scale(renderrect.width/particleBitmap.width, renderrect.height/particleBitmap.height); 
 				drawMatrix.translate(renderrect.left, renderrect.top); 
 			}
