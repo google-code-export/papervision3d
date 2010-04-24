@@ -6,7 +6,7 @@ package org.papervision3d.materials.special
 	import org.papervision3d.core.geom.renderables.Particle;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.core.render.material.IUpdateBeforeMaterial;	
-
+	
 	/**
 	 * @author Seb Lee-Delisle
 	 * 
@@ -17,7 +17,7 @@ package org.papervision3d.materials.special
 	public class MovieParticleMaterial extends BitmapParticleMaterial implements IUpdateBeforeMaterial //, IUpdateAfterMaterial
 	{
 		
-	
+		
 		// TODO create object to store bitmap and spriterectdata (and USECOUNT!!!) for each type of bitmap
 		public static var bitmapLibrary : Dictionary = new Dictionary(true); // add usecount to ParticleBitmap
 		
@@ -26,19 +26,21 @@ package org.papervision3d.materials.special
 		//public var createUnique : Boolean = false; 
 		
 		/**
-		* The MovieClip that is used as a texture.
-		*/
+		 * The MovieClip that is used as a texture.
+		 */
 		public var movie :DisplayObject;
-
+		
 		/**
-		* A Boolean value that determines whether the MovieClip is transparent. The default value is true, which, 
-		* although slower, is usually what you need for particles.
-		*/
+		 * A Boolean value that determines whether the MovieClip is transparent. The default value is true, which, 
+		 * although slower, is usually what you need for particles.
+		 */
 		public var movieTransparent :Boolean;
 		
 		public var animated : Boolean; 
 		public var actualSize : Boolean = false; 
-	
+		
+		private var bitmapUpdated : Boolean = false;
+		
 		
 		// __________________________________________________ NEW
 		
@@ -54,7 +56,7 @@ package org.papervision3d.materials.special
 		 * @param createUnique	If true, we'll make a bitmap especially for use with this instance of the material, otherwise we'll use a cached version (if there is one)
 		 * 
 		 */
-
+		
 		public function MovieParticleMaterial(displayobject: DisplayObject, transparent:Boolean = true, animated : Boolean = false)
 		{
 			
@@ -72,18 +74,21 @@ package org.papervision3d.materials.special
 		
 		public function updateParticleBitmap(scale : Number = 1, posX : Number=0, posY : Number=0) : void
 		{
+			if(bitmapUpdated) return; 
+			
 			if(particleBitmap)				
 				particleBitmap.create(movie, scale, movieTransparent);
 			else
 				particleBitmap = new ParticleBitmap(movie, scale, false, movieTransparent);
 			
+			bitmapUpdated = true; 
 		}
 		
 		override public function updateRenderRect(particle: Particle) : void
 		{
 			
 			
-	
+			
 			if(actualSize)
 			{
 				updateParticleBitmap(particle.renderScale*particle.size, particle.vertex3D.vertex3DInstance.x, particle.vertex3D.vertex3DInstance.y); 
@@ -100,14 +105,13 @@ package org.papervision3d.materials.special
 			if(actualSize) 
 			{
 				//particle.drawMatrix.translate(-(particle.vertex3D.vertex3DInstance.x%1), -(particle.vertex3D.vertex3DInstance.y%1)); 
-		
+				
 			}
 		}
 		
 		public function updateBeforeRender(renderSessionData:RenderSessionData):void
 		{
-			
-			
+			bitmapUpdated = false; 
 		}
 		
 		

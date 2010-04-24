@@ -1,4 +1,6 @@
 package org.papervision3d.core.render.project {
+	import org.papervision3d.core.proto.DisplayObjectContainer3D;
+	import org.papervision3d.core.proto.SceneObject3D;
 	import org.papervision3d.core.render.data.RenderSessionData;
 	import org.papervision3d.objects.DisplayObject3D;	
 
@@ -85,12 +87,29 @@ package org.papervision3d.core.render.project {
 			//Collect everything from the object
 			object.cullTest = test;
 			
-			if(object.parent)
+			if(object.parent) // && (isObjectInScene(object,renderSessionData.scene)))
 				object.project(object.parent as DisplayObject3D, renderSessionData);
-			else
+			else 
 				object.project(renderSessionData.camera, renderSessionData);
 			
 		}
+		
+		// code to check in future - should fix the issue where parent objects aren't being rendered 
+		// due to selective rendering with "renderer.renderLayers"
+		
+		protected function isObjectInScene(object : DisplayObject3D, scene:SceneObject3D) : Boolean
+		{
+			while(object.parent)
+			{
+				var container : DisplayObjectContainer3D = object.parent; 
+				if(!object.visible) return false; 
+				if((container is SceneObject3D) && (SceneObject3D(container) == scene))
+					return true; 
+				object = container as DisplayObject3D; 
+			}
+			return false; 
+		}
+		
 		
 	}
 }
