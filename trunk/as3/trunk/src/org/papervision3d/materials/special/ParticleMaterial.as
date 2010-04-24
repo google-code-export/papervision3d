@@ -23,6 +23,7 @@ package org.papervision3d.materials.special
 		public static var SHAPE_SQUARE:int = 0; 
 		public static var SHAPE_CIRCLE:int = 1;
 				public var shape : int; 
+		// TODO! Make this a getter / setter so we can automatically update the bitmap scale for bitmap particle materials
 		public var scale : Number ;
 		public function ParticleMaterial(color:Number, alpha:Number, shape:int = 0, scale: Number = 1 )
 		{
